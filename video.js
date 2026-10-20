@@ -29,7 +29,8 @@
     }
     function listText(title,vs,chkey,cur){var L=document.getElementById('vid-list');if(!L)return;
       var pls=chkey?(d.playlists||[]).filter(function(x){return x.channel===chkey}):[];
-      var h=(pls.length?'<div class="vseg" role="group" aria-label="Jump to"><button type="button" data-j="vl-videos" aria-pressed="true">Videos</button><button type="button" data-j="vl-pls" aria-pressed="false">Playlists</button></div>':'')+
+      var cn=(d.chnames||{})[chkey]||'',back=cur&&chkey?'<nav class="vback"><a href="/video/'+esc(chkey)+'/">\u2190 '+(cn?'Back to '+esc(cn)+' videos':'Back to channel videos')+'</a><a href="/video/#playlists">All playlists</a></nav>':'';
+      var h=back+(pls.length?'<div class="vseg" role="group" aria-label="Jump to"><button type="button" data-j="vl-videos" aria-pressed="true">Videos</button><button type="button" data-j="vl-pls" aria-pressed="false">Playlists</button></div>':'')+
         '<h2 id="vl-videos">'+esc(title)+'</h2><ul>'+vs.map(function(v){return'<li><a class="vli" data-v="'+esc(v.v)+'" href="'+esc(wurl(v,v.c,v.t))+'">'+esc(v.t)+'</a><span class="wm">'+esc(v.n||'')+(v.d?' · '+ago(v.d):'')+'</span></li>'}).join('')+'</ul>';
       if(pls.length)h+='<h2 id="vl-pls">Channel playlists</h2><ul class="vpls">'+pls.map(function(x){var on=cur&&x.id===cur;return'<li><a'+(on?' class="vnowp" aria-current="page"':'')+' href="/video/pl-'+esc(x.id.toLowerCase())+'/">'+esc(x.name)+'</a></li>'}).join('')+'</ul>';
       L.innerHTML=h;
