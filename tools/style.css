@@ -440,3 +440,9 @@ nav.wrap a[data-n="9"]:hover,nav.wrap a[data-n="9"].hov{color:#6a3d9a;border-col
 .mobnav .mrow button[aria-pressed=true]{background:var(--sc,var(--btn));border-color:var(--sc,var(--btn))}
 .newsleftcol>h2,.newstopics>h2{color:var(--sc,inherit)}
 @media (prefers-color-scheme:dark){.secnav h2 a,.newstopics .nhead[aria-expanded=true],.secnav summary,.secnav li a:hover,.secnav a[aria-current=page],.newsleftcol>h2{color:var(--scd,var(--acc))}.secnav details{border-top-color:var(--scd,var(--line))}.secnav a[aria-current=page]{border-left-color:var(--scd,var(--acc))}.newstopics .nmode button[aria-pressed=true],.newstopics .nsub button[aria-pressed=true]{background:var(--scd,var(--acc));color:#10213a;border-color:var(--scd,var(--acc))}}
+
+.tltile.cover{position:relative}.tltile.cover .zh{position:absolute;top:0;bottom:0;border:0;background:transparent;cursor:zoom-in;padding:0}.tltile.cover .zl{left:0}.tltile.cover .zr{right:0}
+.tltile.cover .zh:hover,.tltile.cover .zh:focus-visible{background:rgba(31,98,196,.12);outline:2px solid var(--acc);outline-offset:-2px}
+.zoomov{position:fixed;inset:0;z-index:1000;background:rgba(8,14,26,.88);display:flex;align-items:center;justify-content:center;padding:20px;cursor:zoom-out}
+.zoomov img{max-width:100%;max-height:100%;object-fit:contain;background:#fff;border-radius:4px}
+.zoomov .zx{position:absolute;top:12px;right:16px;font-size:1.4rem;background:rgba(255,255,255,.15);color:#fff;border:0;border-radius:99px;width:40px;height:40px;cursor:pointer}

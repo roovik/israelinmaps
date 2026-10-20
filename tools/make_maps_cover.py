@@ -37,6 +37,11 @@ svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="800" view
 <text x="{70+cw+60}" y="610" font-size="30" font-family="system-ui,sans-serif" fill="#3a4a63">Thirty-three maps</text><text x="{70+cw+60}" y="650" font-size="30" font-family="system-ui,sans-serif" fill="#3a4a63">from the patriarchs to today</text>
 </g></svg>'''
 with sync_playwright() as pw:
-    b = pw.chromium.launch(); p = b.new_page(viewport={'width': 1280, 'height': 800}); p.set_content(f'<body style="margin:0">{svg}</body>')
+    b = pw.chromium.launch(); p = b.new_page(viewport={'width': 1280, 'height': 800}, device_scale_factor=2); p.set_content(f'<body style="margin:0">{svg}</body>')
     p.screenshot(path='/tmp/maps-cover.png'); b.close()
-Image.open('/tmp/maps-cover.png').convert('RGB').resize((960, 600), Image.LANCZOS).save(f'{root}/tools/maps-cover.webp', quality=82)
+full = Image.open('/tmp/maps-cover.png').convert('RGB')
+full.resize((960, 600), Image.LANCZOS).save(f'{root}/tools/maps-cover.webp', quality=82)
+cut = 2 * (70 + cw + 30)
+full.crop((0, 0, cut, 1600)).save(f'{root}/tools/maps-cover-left.webp', quality=84)
+full.crop((cut, 0, 2560, 1600)).save(f'{root}/tools/maps-cover-right.webp', quality=84)
+open(f'{root}/tools/maps-cover-split.txt', 'w').write(str(round(cut / 2560 * 100, 2)))

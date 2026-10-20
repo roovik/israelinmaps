@@ -313,7 +313,7 @@ def layout(title, body, desc='', path='/', og=None, cls='', nd=False):
 <main id="main" class="wrap">{body}</main>
 <footer><div class="wrap"><p>Israel NOWlej: news, views, maps, timelines, charts and media on the Holy Land.</p>
 <p>&copy; 2003 to 2026 Richard J. Koret. All rights reserved. Page images are shown for reference with the book <i>Israel NOWlej</i> by Richard J. Koret. <a href="/about/">How to use this site and cite it</a></p></div></footer>
-<script src="/site.js" defer></script><script src="/share.js" defer></script><script src="/ticker.js" defer></script>{'<script src="/ads.js" defer></script><script src="/news.js" defer></script>' if news_js else ''}{'<script src="/subnav.js" defer></script>'}{'<script src="/entryedit.js" defer></script>' if path.startswith('/g/') else ''}{'<script src="/video.js" defer></script>' if path.startswith('/video/') or path.startswith('/g/') else ''}{'<script src="/entry.js" defer></script>' if path.startswith('/g/') else ''}{'<script src="/glossary.js" defer></script>' if path == '/glossary/' else ''}{'<script src="/source.js" defer></script>' if path.startswith('/sources/') and path != '/sources/' else ''}{'<script src="/admin.js" defer></script>' if path == '/admin/video/' else ''}{'<script src="/tlnav.js" defer></script>' if path.startswith('/timelines/') and path != '/timelines/' else ''}{'<script src="/admin_entry.js" defer></script>' if path == '/admin/entry/' else ''}</body></html>'''
+<script src="/site.js" defer></script><script src="/share.js" defer></script><script src="/ticker.js" defer></script>{'<script src="/ads.js" defer></script><script src="/news.js" defer></script>' if news_js else ''}{'<script src="/subnav.js" defer></script>'}{'<script src="/entryedit.js" defer></script>' if path.startswith('/g/') else ''}{'<script src="/video.js" defer></script>' if path.startswith('/video/') or path.startswith('/g/') else ''}{'<script src="/entry.js" defer></script>' if path.startswith('/g/') else ''}{'<script src="/glossary.js" defer></script>' if path == '/glossary/' else ''}{'<script src="/zoom.js" defer></script>' if path == '/maps/' else ''}{'<script src="/source.js" defer></script>' if path.startswith('/sources/') and path != '/sources/' else ''}{'<script src="/admin.js" defer></script>' if path == '/admin/video/' else ''}{'<script src="/tlnav.js" defer></script>' if path.startswith('/timelines/') and path != '/timelines/' else ''}{'<script src="/admin_entry.js" defer></script>' if path == '/admin/entry/' else ''}</body></html>'''
 
 def write(path, content):
     fp = os.path.join(OUT, path.lstrip('/'))
@@ -614,7 +614,8 @@ def hub(path, title, intro, groups, crumb=None):
 
 def items(prefix, pred=lambda r: True): return [r for r in rows if r['prefix'] == prefix and pred(r)]
 def map_hub():
-    os.makedirs(os.path.join(OUT, 'img', 't'), exist_ok=True); shutil.copy(os.path.join(ROOT, 'tools', 'maps-cover.webp'), os.path.join(OUT, 'img', 't', 'maps-cover.webp'))
+    os.makedirs(os.path.join(OUT, 'img', 't'), exist_ok=True); [shutil.copy(os.path.join(ROOT, 'tools', f_), os.path.join(OUT, 'img', 't', f_)) for f_ in ('maps-cover.webp', 'maps-cover-left.webp', 'maps-cover-right.webp')]
+    split_ = open(os.path.join(ROOT, 'tools', 'maps-cover-split.txt')).read().strip()
     from PIL import Image as _I
     def th(r):
         nm = 'mapf-' + r['id'].lower(); fn = os.path.join(OUT, 'img', 't', nm + '.webp'); os.makedirs(os.path.dirname(fn), exist_ok=True)
@@ -632,7 +633,7 @@ def map_hub():
     hist = [r for r in rows if r['prefix'] == 'MAP' and int(r['num']) < 30]
     size_ = [r for r in rows if r['prefix'] == 'MAP' and int(r['num']) >= 30]
     b = '<p class="crumb"><a href="/">Home</a> / Maps</p><h1>Maps</h1><p class="small">Thirty-three maps of the land from the patriarchs to today. Select a map to open it.</p>'
-    b += '<h2>Historical Maps</h2><div class="tlmosaic wide"><div class="tltile cover"><img src="/img/t/maps-cover.webp" alt="Israel&#8217;s Story in Maps: thirty-three maps from the patriarchs to today" width="960" height="600"></div>' + ''.join(tile(r, 'w') for r in hist) + '</div>'
+    b += '<h2>Historical Maps</h2><div class="tlmosaic wide"><div class="tltile cover"><img src="/img/t/maps-cover.webp" alt="Israel&#8217;s Story in Maps: thirty-three maps from the patriarchs to today" width="960" height="600"><button type="button" class="zh zl" style="width:' + split_ + '%" data-zoom="/img/t/maps-cover-left.webp" aria-label="Enlarge the map"></button><button type="button" class="zh zr" style="left:' + split_ + '%" data-zoom="/img/t/maps-cover-right.webp" aria-label="Enlarge the title page"></button></div>' + ''.join(tile(r, 'w') for r in hist) + '</div>'
     b += '<h2>Size Comparisons</h2><div class="tlmosaic">' + ''.join(tile(r, 'p') for r in size_) + '</div>'
     write('/maps/', layout('Maps', chan('maps', b, '/maps/'), 'Thirty-three maps of the land from the patriarchs to today. Every map has its own address, such as israelinmaps.com/map-002.', '/maps/', '/img/p004.webp'))
 map_hub()
@@ -853,6 +854,7 @@ shutil.copy(os.path.join(ROOT, 'tools', 'video.js'), os.path.join(OUT, 'video.js
 shutil.copy(os.path.join(ROOT, 'tools', 'entry.js'), os.path.join(OUT, 'entry.js'))
 shutil.copy(os.path.join(ROOT, 'tools', 'entryedit.js'), os.path.join(OUT, 'entryedit.js'))
 shutil.copy(os.path.join(ROOT, 'tools', 'share.js'), os.path.join(OUT, 'share.js'))
+shutil.copy(os.path.join(ROOT, 'tools', 'zoom.js'), os.path.join(OUT, 'zoom.js'))
 shutil.copy(os.path.join(ROOT, 'tools', 'admin.js'), os.path.join(OUT, 'admin.js'))
 shutil.copy(os.path.join(ROOT, 'tools', 'tlnav.js'), os.path.join(OUT, 'tlnav.js'))
 shutil.copy(os.path.join(ROOT, 'tools', 'admin_entry.js'), os.path.join(OUT, 'admin_entry.js'))
