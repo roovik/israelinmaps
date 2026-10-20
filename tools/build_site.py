@@ -532,9 +532,12 @@ write('/', layout('Israel Mosaic', home, '', '/', '/img/p006.webp', cls='home'))
 news = '''<p class="crumb"><a href="/">Home</a> / News</p><h1>In the News</h1>
 <p class="lead">Headlines from public news feeds, matched to the glossary. Each item links to its publisher.</p>
 <div class="newsgrid"><div class="newsmain">
+<div class="nfilter" id="news-filter" aria-label="Filter by source"></div>
+<div class="nchan" id="news-channels" hidden></div>
 <p class="ngl"><label><input type="checkbox" id="news-glonly"> Only stories that mention a glossary entry</label></p>
-<div class="ngrid3" id="news-grid"><p>Loading the latest headlines.</p></div></div>
-<aside class="newsside" aria-label="Latest headlines by source"><h2>Latest by source</h2><div id="news-widget"></div></aside></div>
+<div class="ngrid3" id="news-grid"><p>Loading the latest headlines.</p></div>
+<h2 id="news-more-title" class="nmt" hidden>More headlines</h2><ul class="hlist" id="news-more"></ul></div>
+<aside class="newsside" aria-label="Latest headlines"><div id="news-latest"></div><h2>By source</h2><div id="news-widget"></div></aside></div>
 <p class="small" id="news-status"></p>'''
 write('/news/', layout('News', news, 'Headlines from public news feeds about Israel, linked to the Israel Mosaic glossary.', '/news/', cls='newspg'))
 gjson = []

@@ -1,13 +1,26 @@
 // Israel Mosaic news worker. Serves /api/news from public RSS and Atom feeds.
 // Static pages are served by the assets binding. Only /api/* runs this code first.
-const FEEDS = [
-  { id: 'toi', site: 'https://www.timesofisrael.com/', name: 'The Times of Israel', url: 'https://www.timesofisrael.com/feed/' },
-  { id: 'jpost', site: 'https://www.jpost.com/', name: 'The Jerusalem Post', url: 'https://www.jpost.com/rss/rssfeedsfrontpage.aspx' },
-  { id: 'ynet', site: 'https://www.ynetnews.com/', name: 'Ynetnews', url: 'https://www.ynetnews.com/Integration/StoryRss3082.xml' },
-  { id: 'jns', site: 'https://www.jns.org/', name: 'JNS', url: 'https://www.jns.org/feed/' },
-  { id: 'insider', site: 'https://israelinsider.org/', name: 'Israel Insider', url: 'https://israel.nowlej.com/feed/' },
-  { id: 'israelhayom', site: 'https://www.israelhayom.com/', name: 'Israel Hayom', url: 'https://www.israelhayom.com/feed/' },
+const JP = 'https://www.jpost.com/rss/';
+const SOURCES = [
+  { id: 'toi', name: 'The Times of Israel', site: 'https://www.timesofisrael.com/', url: 'https://www.timesofisrael.com/feed/' },
+  { id: 'jpost', name: 'The Jerusalem Post', site: 'https://www.jpost.com/', url: JP + 'rssfeedsfrontpage.aspx', channels: [
+    ['News', [['Homepage', 'rssfeedsfrontpage.aspx'], ['Breaking News', 'rssfeedsheadlines.aspx'], ['All News', 'rssallnews'], ['Israel News', 'rssfeedsisraelnews.aspx'], ['Jerusalem', 'rssfeedsjerusalem.aspx'], ['Trending', 'rssfeedsnotjustnews.aspx']]],
+    ['Security', [['Israel-Hamas War', 'israel-hamas-war'], ['Gaza', 'rssfeedsgaza.aspx'], ['Terrorism', 'rssfeedsislamicterrorism'], ['Defense and Tech', 'rssfeeddefense-and-tech'], ['Iran', 'rssfeedsiran'], ['Arab-Israeli Conflict', 'rssfeedsarabisraeliconflict.aspx']]],
+    ['Politics and Diplomacy', [['Israel Politics', 'rssfeedspoliticsdiplomacy.aspx'], ['Israel Election 2026', 'rssfeedisraelelection2026'], ['Benjamin Netanyahu', 'rssfeedsbenjaminnetanyahu'], ['Middle East', 'rssfeedsmiddleeastnews.aspx'], ['World News', 'rssfeedsinternational'], ['US Politics', 'rssfeedsamerican-politics'], ['Ukraine-Russia War', 'rssukrainerussiawar']]],
+    ['Business and Technology', [['Business and Innovation', 'rssbusinessandinnovation'], ['Tech and Start-Ups', 'rsstechandstartups'], ['Banking and Finance', 'rssbankingandfinance'], ['Energy and Infrastructure', 'rssenergyandinfrastructure'], ['Real Estate', 'rssrealestate'], ['Inside Israeli Innovation', 'rssinsideisraeliinnovation']]],
+    ['Culture', [['Culture News', 'rssfeedsculture.aspx'], ['Music', 'rssmusic'], ['Visual Arts', 'rssvisualarts'], ['Literature and Poetry', 'rssliteratureandpoetry'], ['Theatre', 'rsstheatre'], ['Dance', 'rssdance'], ['Culinary', 'rssculinary'], ['Travel', 'rsstravel'], ['Sports', 'rssfeedssports.aspx']]],
+    ['Society and Faith', [['Antisemitism', 'rssfeedsantisemitism'], ['Diaspora', 'rssfeedsdiaspora.aspx'], ['Aliyah', 'rssfeedsaliyah.aspx'], ['Judaism', 'rssfeedsjudaism'], ['Jewish Holidays', 'rssfeedsjewishholidays'], ['Torah Portion', 'rssfeedstorahportion'], ['Christian World', 'rssfeedchristianworld.aspx']]],
+    ['Science and History', [['Science', 'rssscience'], ['Health and Wellness', 'rsshealth-and-wellness'], ['Environment and Climate', 'rssenvironment'], ['Archaeology', 'rssarchaeology'], ['History', 'rssfeedhistory']]],
+    ['Opinion', [['Opinion', 'rssfeedsopinion.aspx'], ['Experts Opinion', 'rssfeedsexperts.aspx']]],
+  ] },
+  { id: 'ynet', name: 'Ynetnews', site: 'https://www.ynetnews.com/', url: 'https://www.ynetnews.com/Integration/StoryRss3082.xml' },
+  { id: 'jns', name: 'JNS', site: 'https://www.jns.org/', url: 'https://www.jns.org/feed/' },
+  { id: 'insider', name: 'Israel Insider', site: 'https://israelinsider.org/', url: 'https://israel.nowlej.com/feed/' },
+  { id: 'israelhayom', name: 'Israel Hayom', site: 'https://www.israelhayom.com/', url: 'https://www.israelhayom.com/feed/' },
 ];
+function chanId(g, n) { return (g + '-' + n).toLowerCase().replace(/[^a-z0-9]+/g, '-'); }
+for (const s of SOURCES) if (s.channels) s.groups = s.channels.map(([g, list]) => ({ group: g, list: list.map(([n, p]) => ({ id: chanId(g, n), name: n, url: JP + p })) }));
+const FEEDS = SOURCES.map(s => ({ id: s.id, name: s.name, site: s.site, url: s.url }));
 const PER_FEED = 12, TOTAL = 72, TIMEOUT = 8000, MAX_AGE_DAYS = 10;
 
 const ENT = { amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: ' ', rsquo: '’', lsquo: '‘', rdquo: '”', ldquo: '“', hellip: '…', ndash: '–', mdash: '—' };
@@ -107,9 +120,16 @@ export default {
       }));
       return new Response(JSON.stringify(out, null, 1), { headers: { 'Content-Type': 'application/json; charset=utf-8' } });
     }
+    const sp = url.searchParams.get('s'), cp = url.searchParams.get('c');
+    if (sp && cp) {
+      const src = SOURCES.find(s => s.id === sp), ch = src && src.groups && src.groups.flatMap(g => g.list).find(c => c.id === cp);
+      if (!ch) return new Response('{"error":"unknown channel"}', { status: 404, headers: { 'Content-Type': 'application/json' } });
+      const r = await load({ id: src.id, name: src.name, site: src.site, url: ch.url });
+      return new Response(JSON.stringify({ updated: new Date().toISOString(), source: src.id, channel: { id: ch.id, name: ch.name }, ok: r.ok, error: r.error, items: r.items }), { headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'public, max-age=600', 'Access-Control-Allow-Origin': '*' } });
+    }
     const results = await Promise.all(FEEDS.map(load));
     const items = results.flatMap(r => r.items).sort((a, b) => (b.d || '').localeCompare(a.d || '')).slice(0, TOTAL);
-    const body = JSON.stringify({ updated: new Date().toISOString(), sources: results.map(r => ({ id: r.feed.id, name: r.feed.name, site: r.feed.site, ok: r.ok, count: r.items.length, error: r.error, img: !!r.img })), items });
+    const body = JSON.stringify({ updated: new Date().toISOString(), sources: results.map(r => ({ id: r.feed.id, name: r.feed.name, site: r.feed.site, groups: (SOURCES.find(s => s.id === r.feed.id) || {}).groups ? SOURCES.find(s => s.id === r.feed.id).groups.map(g => ({ group: g.group, list: g.list.map(c => ({ id: c.id, name: c.name })) })) : null, ok: r.ok, count: r.items.length, error: r.error, img: !!r.img })), items });
     return new Response(body, { headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'public, max-age=600', 'Access-Control-Allow-Origin': '*' } });
   },
 };
