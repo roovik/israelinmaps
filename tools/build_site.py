@@ -298,7 +298,7 @@ def layout(title, body, desc='', path='/', og=None, cls='', nd=False):
 <main id="main" class="wrap">{body}</main>
 <footer><div class="wrap"><p>Israel NOWlej: news, views, maps, timelines, charts and media on the Holy Land.</p>
 <p>&copy; 2003 to 2026 Richard J. Koret. All rights reserved. Page images are shown for reference with the book <i>Israel Mosaic</i> by Richard J. Koret. <a href="/about/">How to use this site and cite it</a></p></div></footer>
-<script src="/site.js" defer></script><script src="/ticker.js" defer></script>{'<script src="/ads.js" defer></script><script src="/news.js" defer></script>' if news_js else ''}{'<script src="/subnav.js" defer></script>'}{'<script src="/video.js" defer></script>' if path == '/video/' or path.startswith('/g/') else ''}{'<script src="/glossary.js" defer></script>' if path == '/glossary/' else ''}{'<script src="/source.js" defer></script>' if path.startswith('/sources/') and path != '/sources/' else ''}</body></html>'''
+<script src="/site.js" defer></script><script src="/ticker.js" defer></script>{'<script src="/ads.js" defer></script><script src="/news.js" defer></script>' if news_js else ''}{'<script src="/subnav.js" defer></script>'}{'<script src="/video.js" defer></script>' if path == '/video/' or path.startswith('/g/') else ''}{'<script src="/entry.js" defer></script>' if path.startswith('/g/') else ''}{'<script src="/glossary.js" defer></script>' if path == '/glossary/' else ''}{'<script src="/source.js" defer></script>' if path.startswith('/sources/') and path != '/sources/' else ''}</body></html>'''
 
 def write(path, content):
     fp = os.path.join(OUT, path.lstrip('/'))
@@ -488,6 +488,18 @@ def item_page(r):
 for r in rows: item_page(r)
 
 # ---------------------------------------------------------------- glossary pages
+ENTRYCFG = json.load(open(os.path.join(ROOT, 'entries.json')))
+def _nt(t): return re.sub(r'[^a-z0-9 ]+', ' ', unicodedata.normalize('NFKD', t).lower()).split()
+def gl_related(g):
+    nm = _nt(g['name'])
+    if not nm or (len(nm) < 2 and len(nm[0]) < 5): return ''
+    hits = []
+    for r in rows:
+        if r['prefix'] not in ('MAP', 'TL', 'TBL', 'RNK', 'DEM', 'TOP') and r['prefix'] not in TOUR and r['prefix'] not in FLORA: continue
+        tw = _nt(r['title'])
+        if any(tw[x:x + len(nm)] == nm for x in range(len(tw) - len(nm) + 1)): hits.append(r)
+    if not hits: return ''
+    return '<h3>In the book and on this site</h3>' + tcards(hits[:4])
 def gl_pageimg(g):
     pg = g['pg']
     return (f'<div class="pages single wide"><a href="/img/p{pg:03d}.webp"><img src="/img/p{pg:03d}.webp" width="1200" height="1500" alt="Glossary page {pg} of the book Israel Mosaic, with the entry {E(g["title"])}" loading="lazy"></a></div>'
@@ -495,7 +507,7 @@ def gl_pageimg(g):
 def gl_video(g, sl):
     pins = VCFG.get('pinned', {}).get(sl, [])
     cards_ = ''.join(f'<a class="tcard vcard" data-v="{E(p["v"])}" href="https://www.youtube.com/watch?v={E(p["v"])}" rel="noopener"><span class="timg"><img src="https://i.ytimg.com/vi/{E(p["v"])}/mqdefault.jpg" alt="" loading="lazy"><span class="vplay">&#9654;</span></span><span class="tb"><b>{E(p.get("t", ""))}</b></span></a>' for p in pins)
-    return f'<section id="gl-video" data-slug="{sl}" data-name="{E(g["title"] if g.get("title") else g["name"])}"{"" if pins else " hidden"}><h2>Video</h2><div class="tgrid">{cards_}</div></section>'
+    return f'<section id="e-video" data-slug="{sl}" data-name="{E(g["title"] if g.get("title") else g["name"])}"{"" if pins else " hidden"}><h2>Video</h2><div class="tgrid">{cards_}</div></section>'
 bycat = {}
 def gl_page(g):
     sl = g['slug']
@@ -513,17 +525,24 @@ def gl_page(g):
     cat = E(g['cat'].title().replace(' And ', ' and ')) if g['cat'] else ''
     see = see_html(g); app = app_html(g)
     plain = re.sub(r'<[^>]+>', '', b)
-    body = f'''<p class="crumb"><a href="/">Home</a> / <a href="/glossary/">Glossary</a></p>
-<article class="gl"><header class="ih"><span class="id">GLOSSARY · book page {g["pg"]}</span><h1>{E(g["title"])} {he}</h1><p class="meta">{cat}</p></header>
-<p class="lead">{b}</p>
-{f'<p><b>See also</b> {see}</p>' if see else ''}{f'<p><b>Appears in</b> {app}</p>' if app else ''}
-<p class="small"><a href="/gl-{g["pg"]}">This entry is on book page {g["pg"]}</a> of the glossary.</p>
-{gl_pageimg(g)}{gl_video(g, sl)}<section id="gl-news" data-slug="{sl}" hidden><h2>In the news</h2><div class="ngrid"></div><ul class="hlist"></ul><p class="small">Headlines and links from public news feeds. <a href="/news/">All news</a>.</p></section></article>'''
+    rel_ = gl_related(g)
+    wk = ENTRYCFG.get('wiki', {}).get(sl, g['title'])
+    srcs_ = f'<li>The book <i>Israel Mosaic</i> by Richard J. Koret, glossary, page {g["pg"]}.</li>'
+    body = f"""<article class="gl"><header class="ih"><span class="id">NOWlej · book page {g["pg"]}</span><h1>{E(g["title"])} {he}</h1><p class="meta">{cat}</p></header>
+<nav class="esec" id="esec" aria-label="On this page"><a href="#e-summary">Summary</a><a href="#e-video" data-s="e-video" hidden>Video</a><a href="#e-images" data-s="e-images" hidden>Images</a><a href="#e-related">Related</a><a href="#e-sources">Sources</a></nav>
+<section id="e-summary"><h2>Summary</h2><p class="lead">{b}</p>
+<div id="e-wiki" data-wiki="{E(wk) if wk else ''}" hidden></div>
+{gl_pageimg(g)}</section>
+{gl_video(g, sl)}
+<section id="e-images" hidden data-name="{E(wk) if wk else ''}"><h2>Images</h2><div class="egal" id="e-gal"></div><p class="small">Photographs from Wikimedia Commons, with the author and license shown on each.</p></section>
+<section id="e-related"><h2>Related</h2>
+{f'<p><b>See also</b> {see}</p>' if see else ''}{f'<p><b>Appears in</b> {app}</p>' if app else ''}{rel_}
+<div id="gl-news" data-slug="{sl}" hidden><h3>In the news</h3><div class="ngrid"></div><ul class="hlist"></ul><p class="small">Headlines and links from public news feeds. <a href="/news/">All news</a>.</p></div></section>
+<section id="e-sources"><h2>Sources</h2><ul class="esrc" id="e-src">{srcs_}</ul></section></article>"""
     write(f'/g/{sl}/', layout(g['title'], chan('glossary', body, '/glossary/'), plain[:155], f'/g/{sl}/'))
     search.append({'t': g['title'] + (f' {g["he"]}' if g['he'] else ''), 'u': f'/g/{sl}/', 'k': 'GLOSSARY', 's': cat, 'x': plain[:300]})
     bycat.setdefault(g['cat'] or 'OTHER', []).append(g)
 
-for g in G: gl_page(g)
 
 
 # ---------------------------------------------------------------- hubs
@@ -581,6 +600,8 @@ for p in ['NEG', 'DSE', 'JUS', 'GAL', 'GOL', 'MED', 'TAJ', 'JHL', 'JRS', 'SHF']:
 hub('/tour/', 'A Taste of Israel', 'A tour of the sites of Israel in ten regions, from the Negev to the Golan. Each region and each stop has its own address.', tour_groups)
 fl = [(byid[p + '-00']['title'], [r for r in rows if r['prefix'] == p]) for p in ['TRE', 'WFL', 'WLD', 'BRD', 'MIG']]
 hub('/flora/', 'Flora and Fauna', 'Trees, wildflowers, wildlife and birds of Israel, including the migrating birds.', fl)
+
+for g in G: gl_page(g)
 
 # ---------------------------------------------------------------- video page
 vb = '<h1>Video</h1><div class="vtop" id="vid-top" hidden></div><div id="vid-root"><p>Loading videos.</p></div>'
@@ -726,6 +747,7 @@ shutil.copy(os.path.join(ROOT, 'tools', 'ads.js'), os.path.join(OUT, 'ads.js'))
 shutil.copy(os.path.join(ROOT, 'tools', 'source.js'), os.path.join(OUT, 'source.js'))
 shutil.copy(os.path.join(ROOT, 'tools', 'subnav.js'), os.path.join(OUT, 'subnav.js'))
 shutil.copy(os.path.join(ROOT, 'tools', 'video.js'), os.path.join(OUT, 'video.js'))
+shutil.copy(os.path.join(ROOT, 'tools', 'entry.js'), os.path.join(OUT, 'entry.js'))
 shutil.copy(os.path.join(ROOT, 'tools', 'glossary.js'), os.path.join(OUT, 'glossary.js'))
 # ---------------------------------------------------------------- data, assets, redirects, sitemap
 for e_ in search:

@@ -7,3 +7,4 @@ worker.js
 node_modules
 .wrangler
 video.json
+entries.json

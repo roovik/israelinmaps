@@ -8,7 +8,7 @@
     if(host){host.innerHTML=embed(v);host.hidden=false;host.scrollIntoView({behavior:'smooth',block:'nearest'})}
     else{var im=a.querySelector('.timg');im.innerHTML=embed(v);im.className='timg vlive'}}
   document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a.vcard');if(!a||e.metaKey||e.ctrlKey||e.shiftKey||e.button)return;e.preventDefault();play(a)});
-  var root=document.getElementById('vid-root'),gl=document.getElementById('gl-video');
+  var root=document.getElementById('vid-root'),gl=document.getElementById('e-video');
   if(!root&&!gl)return;
   fetch('/api/videos').then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){
     var chs=d.channels||[];

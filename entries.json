@@ -1,0 +1,10 @@
+{
+  "_note": "Per-entry overrides for NOWlej pages. wiki: slug -> Wikipedia article title to use, or false to show no Wikipedia summary or images for that entry.",
+  "wiki": {
+    "judea-and-samaria": false,
+    "israel": "Israel",
+    "cana": "Cana",
+    "reim": false,
+    "ofakim": "Ofakim"
+  }
+}
