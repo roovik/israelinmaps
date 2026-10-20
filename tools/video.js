@@ -30,16 +30,13 @@
     function listText(title,vs,chkey,cur){var L=document.getElementById('vid-list');if(!L)return;
       var pls=chkey?(d.playlists||[]).filter(function(x){return x.channel===chkey}):[];
       var seg='';
-      if(pls.length||cur){seg=cur?'<div class="vseg" role="group" aria-label="Go to"><a href="/video/'+esc(chkey)+'/">Videos</a><a href="/video/#playlists">Playlists</a></div>'
-        :'<div class="vseg" role="group" aria-label="Jump to"><button type="button" data-j="vl-videos" aria-pressed="true">Videos</button><button type="button" data-j="vl-pls" aria-pressed="false">Playlists</button></div>'}
+      if(chkey&&(pls.length||cur)){seg='<div class="vseg" role="group" aria-label="Go to"><a href="/video/'+esc(chkey)+'/#ch-videos">Videos</a><a href="/video/'+esc(chkey)+'/#playlists">Playlists</a></div>'}
       var h=seg+
         '<h2 id="vl-videos">'+esc(title)+'</h2><ul>'+vs.map(function(v){return'<li><a class="vli" data-v="'+esc(v.v)+'" href="'+esc(wurl(v,v.c,v.t))+'">'+esc(v.t)+'</a><span class="wm">'+esc(v.n||'')+(v.d?' · '+ago(v.d):'')+'</span></li>'}).join('')+'</ul>';
       if(pls.length)h+='<h2 id="vl-pls">Channel playlists</h2><ul class="vpls">'+pls.map(function(x){var on=cur&&x.id===cur;return'<li><a'+(on?' class="vnowp" aria-current="page"':'')+' href="/video/pl-'+esc(x.id.toLowerCase())+'/">'+esc(x.name)+'</a></li>'}).join('')+'</ul>';
       L.innerHTML=h;
-      [].forEach.call(L.querySelectorAll('.vseg button'),function(b){b.addEventListener('click',function(){
-        [].forEach.call(L.querySelectorAll('.vseg button'),function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});
-        var t=document.getElementById(b.getAttribute('data-j'));if(t)t.scrollIntoView({behavior:'smooth',block:'start'})})})
-      if(!cur&&location.hash==='#vl-pls'){var bt=L.querySelector('.vseg button[data-j=vl-pls]'),t2=document.getElementById('vl-pls');if(bt&&t2){[].forEach.call(L.querySelectorAll('.vseg button'),function(x){x.setAttribute('aria-pressed',x===bt?'true':'false')});setTimeout(function(){t2.scrollIntoView({block:'start'})},300)}}}
+      [].forEach.call(L.querySelectorAll('.vseg a'),function(a){a.addEventListener('click',function(e){var u=a.getAttribute('href').split('#'),t=document.getElementById(u[1]);if(t&&location.pathname===u[0]){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'})}})})
+    }
     function context(c,vid,titleEl,box){
       var byv={};c.videos.forEach(function(v){byv[v.v]=v});
       var now=document.createElement('div');now.className='vnow';host.parentNode.insertBefore(now,host.nextSibling);
@@ -49,11 +46,14 @@
         now.innerHTML='<p class="small">'+esc(c.name)+' \u00b7 '+ago(v.d)+'</p>'+(v.x?'<p>'+esc(v.x)+'</p>':'');
         [].forEach.call(document.querySelectorAll('.vcard,.vli'),function(a){a.classList.toggle('vnowp',a.getAttribute('data-v')===v.v)});
         try{history.replaceState(null,'','?v='+encodeURIComponent(v.v))}catch(x){}}
-      var pls=chs.filter(function(x){return x.kind==='playlist'&&x.channel&&x.channel===String(c.key).toLowerCase()&&x!==c});
-      box.innerHTML='<h2>'+(titleEl?'More from ':'Recent from ')+esc(c.name)+'</h2><div class="tgrid">'+c.videos.map(card).join('')+'</div>'+(pls.length?'<h2>Playlists from '+esc(c.name)+'</h2><ul class="vpl">'+pls.map(function(x){return'<li><a href="/video/'+esc(sl(x))+'/">'+esc(x.name)+' Playlist</a> <small>'+x.videos.length+' videos</small></li>'}).join('')+'</ul>':'');
+      var ck=c.kind==='playlist'?(c.channel||''):String(c.key).toLowerCase();
+      var mpl=ck?(d.playlists||[]).filter(function(x){return x.channel===ck}):[];
+      var cn=(d.chnames||{})[ck]||c.name;
+      box.innerHTML='<h2 id="ch-videos">'+(c.kind==='playlist'?'Videos in this playlist':(titleEl?'More from ':'Recent from ')+esc(c.name))+'</h2><div class="tgrid">'+c.videos.map(card).join('')+'</div>'+(mpl.length?'<h2 id="playlists">Playlists from '+esc(cn)+'</h2><ul class="vpl">'+mpl.map(function(x){var on=c.kind==='playlist'&&x.id===c.key;return'<li><a'+(on?' class="vnowp"':'')+' href="/video/pl-'+esc(x.id.toLowerCase())+'/">'+esc(x.name)+'</a></li>'}).join('')+'</ul>':'');
       CTX=function(id){setP(id,true);host.scrollIntoView({behavior:'smooth',block:'nearest'})};
       listText(c.kind==='playlist'?'Playlist videos':'Recent channel videos',c.videos,c.kind==='playlist'?(c.channel||''):String(c.key).toLowerCase(),c.kind==='playlist'?c.key:'');
-      setP(vid&&byv[vid]?vid:c.videos[0].v,!!(vid&&byv[vid]));
+      var hh=location.hash;setP(vid&&byv[vid]?vid:c.videos[0].v,!!(vid&&byv[vid]));
+      if(hh){var ht=document.getElementById(hh.slice(1));if(ht)setTimeout(function(){ht.scrollIntoView({block:'start'})},200)}
     }
     if(chp){
       var key=chp.getAttribute('data-key'),c=chs.filter(function(x){return sl(x)===key})[0];if(!c&&plId&&chs[0])c=chs[0];
