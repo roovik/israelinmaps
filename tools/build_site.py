@@ -521,7 +521,7 @@ def curated_wiki(sl, wk):
     c = CUR.get('wikipedia', {}).get(sl)
     if not c: return f'<div id="e-wiki" data-wiki="{E(wk) if wk else ''}" hidden></div>'
     ps = ''.join(f'<p>{E(x.strip())}</p>' for x in c['text'].split('\n') if x.strip())
-    return (f'<div id="e-wiki" data-wiki="{E(c["article"])}" data-fixed="1"><h3>From Wikipedia</h3>{ps}<p class="small">Adapted from <a href="{E(c["url"])}" rel="noopener">Wikipedia</a> (revision {c["rev"]}), licensed <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="noopener">CC BY-SA 4.0</a>. Edited by Israel NOWlej.</p></div>')
+    return (f'<div id="e-wiki" data-wiki="{E(c["article"])}" data-fixed="1">{ps}<p class="small">This entry has been adapted from diverse sources, potentially including Wikipedia and other encyclopedias and information resources, and edited by Israel NOWlej. Source attributions appear under Sources below.</p></div>')
 def gl_page(g):
     sl = g['slug']
     if g.get('cf'):
@@ -541,12 +541,14 @@ def gl_page(g):
     rel_ = gl_related(g)
     wk = ENTRYCFG.get('wiki', {}).get(sl, g['title'])
     srcs_ = f'<li>The book <i>Israel Mosaic</i> by Richard J. Koret, glossary, page {g["pg"]}.</li>'
+    _c = CUR.get('wikipedia', {}).get(sl)
+    if _c: srcs_ += f'<li>Text adapted in part from <a href="{E(_c["url"])}" rel="noopener">{E(_c["article"])}</a> (revision {_c["rev"]}), <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="noopener">CC BY-SA 4.0</a>.</li>'
     body = f"""<article class="gl"><header class="ih"><span class="id">NOWlej · book page {g["pg"]}</span><h1>{E(g["title"])} {he}</h1><p class="meta">{cat}</p></header>
-<p class="lead edef" id="e-def">{b}<a class="econt" href="#e-summary"{'' if CUR.get('wikipedia', {}).get(sl) else ' hidden'}>Continue to the Wikipedia text &#9656;</a></p>
-<nav class="esec" id="esec" aria-label="On this page"><a href="#e-images" data-s="e-images" hidden>Images</a><a href="#e-video" data-s="e-video" hidden>Video</a><a href="#e-summary" data-s="e-summary"{'' if CUR.get('wikipedia', {}).get(sl) else ' hidden'}>Summary</a><a href="#e-related">Related</a><a href="#e-sources">Sources</a></nav>
+<p class="lead edef" id="e-def">{b}<a class="econt" href="#e-summary"{'' if CUR.get('wikipedia', {}).get(sl) else ' hidden'}>Continue &#9656;</a></p>
+<nav class="esec" id="esec" aria-label="On this page"><a href="#e-images" data-s="e-images" hidden>Images</a><a href="#e-video" data-s="e-video" hidden>Video</a><a href="#e-summary" data-s="e-summary"{'' if CUR.get('wikipedia', {}).get(sl) else ' hidden'}>More NOWlej</a><a href="#e-related">Related</a><a href="#e-sources">Sources</a></nav>
 <section id="e-images" hidden data-name="{E(wk) if wk else ''}"{(" data-files='" + E(json.dumps(CUR.get('images', {}).get(sl, []))).replace("'", "&#39;") + "'") if CUR.get('images', {}).get(sl) else ''}><div class="egal" id="e-gal"></div><p class="small">Photographs from Wikimedia Commons. Click an image to enlarge it. Author and license are shown with each.</p></section>
 {gl_video(g, sl)}
-<section id="e-summary"{'' if CUR.get('wikipedia', {}).get(sl) else ' hidden'}><h2>Summary</h2>
+<section id="e-summary"{'' if CUR.get('wikipedia', {}).get(sl) else ' hidden'}><h2>MORE NOWLEJ</h2>
 {curated_wiki(sl, wk)}</section>
 <section id="e-related"><h2>Related</h2>
 {f'<p><b>See also</b> {see}</p>' if see else ''}{f'<p><b>Appears in</b> {app}</p>' if app else ''}{rel_}
