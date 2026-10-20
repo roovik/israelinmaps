@@ -17,7 +17,7 @@ def slugify(s):
 
 def nbsp(t): return t.replace('\xa0', ' ').replace('­', '')
 
-GENERATED = ['maps', 'timelines', 'tables', 'population', 'demographics', 'rankings', 'top-ten', 'tour', 'flora', 'g', 'glossary', 'index', 'size', 'about', 'search', 'news', 'views', 'charts', 'media', 'sources']
+GENERATED = ['maps', 'timelines', 'tables', 'population', 'demographics', 'rankings', 'top-ten', 'tour', 'flora', 'g', 'glossary', 'index', 'size', 'about', 'search', 'news', 'views', 'video', 'subscribe', 'signin', 'charts', 'media', 'sources']
 for d_ in GENERATED:
     shutil.rmtree(os.path.join(OUT, d_), ignore_errors=True)
 shutil.rmtree(os.path.join(OUT, 'img', 's'), ignore_errors=True)
