@@ -531,7 +531,6 @@ write('/', layout('Israel Mosaic', home, '', '/', '/img/p006.webp', cls='home'))
 
 news = '''<div class="ticker" id="news-ticker" aria-label="Latest headlines" hidden></div><p class="crumb"><a href="/">Home</a> / News</p><h1>In the News</h1>
 <p class="lead">Headlines from public news feeds, from the last seven days, matched to the glossary. Each item links to its publisher.</p>
-<div class="nfilter" id="news-filter" aria-label="Choose sources"></div>
 <div class="newsgrid"><nav class="newstopics" id="news-topics" aria-label="Topics and sources"></nav><div class="newsmain">
 <p class="ngl"><label><input type="checkbox" id="news-glonly"> Only stories that mention a glossary entry</label></p>
 <div class="ngrid3" id="news-grid"><p>Loading the latest headlines.</p></div>

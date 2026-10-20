@@ -102,3 +102,8 @@ body.newspg .wrap{max-width:1280px}
 .newstopics .nhead{border:0;border-radius:0;background:none;display:block;padding:9px 18px 9px 2px;font-weight:600}
 .newstopics .nhead[aria-expanded=true]{color:var(--acc);background:none}
 .newstopics .nsub button{display:flex}
+
+.nmode{display:flex;margin-bottom:10px;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.newstopics .nmode button{flex:1;border:0;border-radius:0;background:var(--card);color:inherit;font:inherit;font-size:.8rem;font-weight:600;padding:7px 4px;cursor:pointer;display:block;text-align:center}
+.newstopics .nmode button[aria-pressed=true]{background:var(--acc);color:#fff}
+.nsub.top{padding-top:2px}

@@ -36,12 +36,10 @@
       ];
       function topics(items){items.forEach(function(it){var t=it.t+' '+it.x;it.tp=TOPICS.filter(function(x){return x[2].test(t)}).map(function(x){return x[0]})})}
       topics(data.items);
-      var fil=document.getElementById('news-filter'),tpn=document.getElementById('news-topics'),g2=document.getElementById('news-glonly'),
+      var tpn=document.getElementById('news-topics'),g2=document.getElementById('news-glonly'),
           more=document.getElementById('news-more'),mt=document.getElementById('news-more-title'),wid=document.getElementById('news-widget'),latest=document.getElementById('news-latest'),st=document.getElementById('news-status');
-      var state={src:{},brk:false,tp:null,sub:{},ch:null,open:{}},cache={},alive={};
+      var state={mode:'sources',src:null,sub:null,tp:null,ch:null},cache={},alive={};
       var good=data.sources.filter(function(s){return s.ok});
-      fil.innerHTML='<button data-f="all" aria-pressed="true">All sources</button><button data-f="breaking" aria-pressed="false" class="brk">Breaking</button>';
-      function chosen(){return Object.keys(state.src)}
       function isBrk(i){return i.d&&(Date.now()-new Date(i.d).getTime()<=3*3600*1000||/\b(breaking|live)\b/i.test(i.t))}
       // vertical ticker, one story at a time
       var dated=data.items.filter(function(i){return i.d}).slice(0,12);
@@ -54,7 +52,7 @@
         tk.addEventListener('focusin',function(){paused=true});tk.addEventListener('focusout',function(){paused=false});
         if(els.length>1)setInterval(function(){if(paused||document.hidden)return;var o=els[cur];cur=(cur+1)%els.length;var n=els[cur];o.className='tki out';n.className='tki on';setTimeout(function(){if(o!==els[cur])o.className='tki'},700)},5000);
       }
-      latest.innerHTML='<section class="wsrc wlatest"><h3>Latest news</h3><ul>'+dated.map(function(i){return'<li><a href="'+esc(i.u)+'" rel="noopener">'+esc(i.t)+'</a><span class="wm"><a href="'+esc((byId[i.s]||{}).site||'#')+'" rel="noopener">'+esc(i.src)+'</a> · <time>'+when(i.d)+'</time></span></li>'}).join('')+'</ul></section>';
+      latest.innerHTML='<section class="wsrc wlatest"><h3>Latest news</h3><ul>'+dated.slice(0,5).map(function(i){return'<li><a href="'+esc(i.u)+'" rel="noopener">'+esc(i.t)+'</a><span class="wm"><a href="'+esc((byId[i.s]||{}).site||'#')+'" rel="noopener">'+esc(i.src)+'</a> · <time>'+when(i.d)+'</time></span></li>'}).join('')+'</ul></section>';
       wid.innerHTML=data.sources.map(function(s){
         var its=data.items.filter(function(i){return i.s===s.id}).slice(0,6);
         if(!s.ok||!its.length)return'';
@@ -79,64 +77,59 @@
       function srcItems(id){return data.items.filter(function(i){return i.s===id})}
       function topicBtns(items,cur,attr){return TOPICS.map(function(x){var n=items.filter(function(i){return i.tp&&i.tp.indexOf(x[0])>-1}).length;return n?'<button '+attr+'="'+x[0]+'" aria-pressed="'+(cur===x[0])+'">'+x[1]+' <i>'+n+'</i></button>':''}).join('')}
       function drawNav(){
-        var h='<div class="nsec"><button class="nhead" data-h="topics" aria-expanded="'+!!state.open.topics+'">Topics</button>';
-        if(state.open.topics)h+='<div class="nsub">'+topicBtns(base(true),state.tp,'data-t')+'</div>';
-        h+='</div>';
-        good.forEach(function(s){
-          var on=!!state.src[s.id];
-          h+='<div class="nsec"><button class="nhead" data-h="'+s.id+'" aria-expanded="'+on+'">'+esc(s.name)+'</button>';
-          if(on){
-            var lg=null;if(s.groups){probe(s);lg=liveGroups(s)}
-            if(s.groups&&!lg)h+='<div class="nsub"><p class="chl">Checking channels.</p></div>';
-            else if(lg&&lg.length)h+='<div class="nsub">'+lg.map(function(g){return(lg.length>1?'<p class="chl">'+esc(g.group)+'</p>':'')+g.list.map(function(c){return'<button data-s="'+s.id+'" data-c="'+c.id+'" aria-pressed="'+(state.ch===s.id+'/'+c.id)+'">'+esc(c.name)+'</button>'}).join('')}).join('')+'</div>';
-            else{var tb=topicBtns(srcItems(s.id),state.sub[s.id],'data-s="'+s.id+'" data-k');h+='<div class="nsub">'+(tb||'<p class="chl">No topic matches yet.</p>')+'</div>'}
-          }
-          h+='</div>';
-        });
+        var h='<div class="nmode" role="group" aria-label="Browse by"><button data-m="sources" aria-pressed="'+(state.mode==='sources')+'">Sources</button><button data-m="topics" aria-pressed="'+(state.mode==='topics')+'">Topics</button></div>';
+        if(state.mode==='topics'){
+          h+='<div class="nsub top"><button data-t="" aria-pressed="'+(!state.tp)+'">All topics</button>'+topicBtns(data.items,state.tp,'data-t')+'</div>';
+        }else{
+          good.forEach(function(s){
+            var on=state.src===s.id;
+            h+='<div class="nsec"><button class="nhead" data-h="'+s.id+'" aria-expanded="'+on+'">'+esc(s.name)+'</button>';
+            if(on){
+              var lg=null;if(s.groups){probe(s);lg=liveGroups(s)}
+              var all='<button data-a="1" aria-pressed="'+(!state.sub&&!state.ch)+'">All topics</button>';
+              if(s.groups&&!lg)h+='<div class="nsub">'+all+'<p class="chl">Checking channels.</p></div>';
+              else if(lg&&lg.length)h+='<div class="nsub">'+all+lg.map(function(g){return(lg.length>1?'<p class="chl">'+esc(g.group)+'</p>':'')+g.list.map(function(c){return'<button data-s="'+s.id+'" data-c="'+c.id+'" aria-pressed="'+(state.ch===s.id+'/'+c.id)+'">'+esc(c.name)+'</button>'}).join('')}).join('')+'</div>';
+              else h+='<div class="nsub">'+all+topicBtns(srcItems(s.id),state.sub,'data-k')+'</div>';
+            }
+            h+='</div>';
+          });
+        }
         tpn.innerHTML=h;
       }
-      function base(noTopic){
-        var items=data.items,c=chosen();
-        if(c.length)items=items.filter(function(i){return state.src[i.s]});
-        if(state.brk)items=items.filter(isBrk);
-        return items;
-      }
       function paint(items,note){
-        var list=items.filter(function(i){return(!state.tp||(i.tp&&i.tp.indexOf(state.tp)>-1))&&(!g2.checked||i.g.length)});
+        var list=items.filter(function(i){return!g2.checked||i.g.length});
         var cards=list.filter(full),rest=list.filter(function(i){return!full(i)});
-        if(state.brk){cards=[];rest=list}
         grid.innerHTML=cards.length?cards.map(card).join(''):(rest.length?'':'<p>'+(note||'Nothing matches right now.')+'</p>');
         more.innerHTML=rest.map(row).join('');
-        mt.hidden=!rest.length;mt.textContent=state.brk?'Breaking and latest, headlines only':'More headlines';
+        mt.hidden=!rest.length;mt.textContent='More headlines';
       }
       function render(){
         drawNav();
-        if(state.ch){
+        if(state.mode==='sources'&&state.ch){
           var sid=state.ch.split('/')[0],cid=state.ch.split('/')[1],key=state.ch;
           grid.innerHTML='<p>Loading.</p>';more.innerHTML='';mt.hidden=true;
           var show=function(d){if(state.ch!==key)return;
             if(!d.ok){grid.innerHTML='<p>'+esc(d.channel.name)+' has no recent stories right now.</p>';return}
-            tag(d.items);topics(d.items);paint(state.brk?d.items.filter(isBrk):d.items)};
+            tag(d.items);topics(d.items);paint(d.items)};
           if(cache[key])return show(cache[key]);
           fetch('/api/news?s='+encodeURIComponent(sid)+'&c='+encodeURIComponent(cid)).then(function(r){return r.json()}).then(function(d){cache[key]=d;show(d)}).catch(function(){grid.innerHTML='<p>That channel could not be loaded right now.</p>'});
           return;
         }
-        var items=base().filter(function(i){var k=state.sub[i.s];return!k||(i.tp&&i.tp.indexOf(k)>-1)});
-        paint(items,state.brk?'No breaking stories in the last three hours.':null);
+        var items=data.items;
+        if(state.mode==='topics'){if(state.tp)items=items.filter(function(i){return i.tp&&i.tp.indexOf(state.tp)>-1})}
+        else if(state.src){items=items.filter(function(i){return i.s===state.src});if(state.sub)items=items.filter(function(i){return i.tp&&i.tp.indexOf(state.sub)>-1})}
+        paint(items);
       }
-      function sync(){[].forEach.call(fil.children,function(x){var f=x.getAttribute('data-f');x.setAttribute('aria-pressed',f==='all'?(!chosen().length&&!state.brk):state.brk)})}
-      fil.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;var f=b.getAttribute('data-f');
-        if(f==='all'){state.src={};state.brk=false;state.sub={};state.ch=null}else state.brk=!state.brk;
-        sync();render()});
       tpn.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;
+        if(b.hasAttribute('data-m')){state.mode=b.getAttribute('data-m');state.src=null;state.sub=null;state.ch=null;state.tp=null;render();return}
         var h=b.getAttribute('data-h');
-        if(h){if(h==='topics')state.open.topics=!state.open.topics;else{if(state.src[h]){delete state.src[h];delete state.sub[h];if(state.ch&&state.ch.split('/')[0]===h)state.ch=null}else state.src[h]=1}sync();render();return}
-        if(b.hasAttribute('data-c')){var k=b.getAttribute('data-s')+'/'+b.getAttribute('data-c');state.ch=state.ch===k?null:k;render();return}
-        if(b.hasAttribute('data-k')){var s2=b.getAttribute('data-s'),k2=b.getAttribute('data-k');state.sub[s2]=state.sub[s2]===k2?null:k2;render();return}
-        if(b.hasAttribute('data-t')){var t=b.getAttribute('data-t');state.tp=state.tp===t?null:t;render()}
+        if(h){state.src=state.src===h?null:h;state.sub=null;state.ch=null;render();return}
+        if(b.hasAttribute('data-a')){state.sub=null;state.ch=null;render();return}
+        if(b.hasAttribute('data-c')){var k=b.getAttribute('data-s')+'/'+b.getAttribute('data-c');state.ch=state.ch===k?null:k;state.sub=null;render();return}
+        if(b.hasAttribute('data-k')){var k2=b.getAttribute('data-k');state.sub=state.sub===k2?null:k2;state.ch=null;render();return}
+        if(b.hasAttribute('data-t')){var t=b.getAttribute('data-t')||null;state.tp=state.tp===t?null:t;render()}
       });
       g2.addEventListener('change',render);
-      state.open.topics=!(window.matchMedia&&matchMedia('(max-width:640px)').matches);
       render();
     }
     if(box){
