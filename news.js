@@ -1,8 +1,11 @@
 (function(){
   var grid=document.getElementById('news-grid'),box=document.getElementById('gl-news');
   var item=document.getElementById('news-item');
+  var VQ=((grid&&grid.getAttribute('data-api'))||'').indexOf('views=1')>-1?'&views=1':'';
+  var W=VQ?'views':(item&&item.querySelector('[data-word=views]')?'views':'news');
+  if(item&&W==='views')VQ='&views=1';
   if(!grid&&!box&&!item)return;
-  if(item&&!grid)grid=document.createElement('div');
+  if(item&&!grid){grid=document.createElement('div');if(W==='views')grid.setAttribute('data-api','/api/news?views=1&v=2')}
   var STOP={'israel':1,'eli':1,'paul':1,'cana':1,'ariel':1,'zion':1,'saul':1,'jacob':1};
   function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
   function ago(iso){if(!iso)return'';var s=(Date.now()-new Date(iso))/1000;if(s<3600)return Math.max(1,Math.round(s/60))+' min ago';if(s<86400)return Math.round(s/3600)+' h ago';if(s<604800)return Math.round(s/86400)+' days ago';return new Date(iso).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}
@@ -15,8 +18,8 @@
   function chips(it,lab){return it.g.length?'<p class="chips">'+(lab?'In the glossary: ':'')+it.g.map(function(g){return'<a href="/g/'+g[0]+'/">'+esc(g[1])+'</a>'}).join(' ')+'</p>':''}
   function card(it){
     var img='<img src="'+esc(it.i)+'" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.parentNode.classList.add(\'noimg\');this.remove()">';
-    return'<article class="ncard"><a class="nimg" href="'+esc(iu(it))+'" rel="noopener" tabindex="-1" aria-hidden="true">'+img+'</a><div class="nb"><p class="nmeta"><b>'+esc(it.src)+'</b>'+(it.d?' · '+ago(it.d):'')+'</p><h3><a href="'+esc(iu(it))+'">'+esc(it.t)+'</a></h3><p>'+esc(it.x)+'</p>'+chips(it,true)+'</div></article>'}
-  function hitem(it){return'<div class="hi"><p class="nmeta"><b>'+esc(it.src)+'</b>'+(it.d?' \u00b7 '+ago(it.d):'')+'</p><h3><a href="'+esc(iu(it))+'">'+esc(it.t)+'</a></h3>'+chips(it,false)+'</div>'}
+    return'<article class="ncard"><a class="nimg" href="'+esc(iu(it))+'" rel="noopener" tabindex="-1" aria-hidden="true">'+img+'</a><div class="nb"><p class="nmeta"><b>'+esc(it.src)+'</b>'+(it.kind?' \u00b7 '+esc(it.kind):'')+(it.d?' · '+ago(it.d):'')+'</p><h3><a href="'+esc(iu(it))+'">'+esc(it.t)+'</a></h3><p>'+esc(it.x)+'</p>'+chips(it,true)+'</div></article>'}
+  function hitem(it){return'<div class="hi"><p class="nmeta"><b>'+esc(it.src)+'</b>'+(it.kind?' \u00b7 '+esc(it.kind):'')+(it.d?' \u00b7 '+ago(it.d):'')+'</p><h3><a href="'+esc(iu(it))+'">'+esc(it.t)+'</a></h3>'+chips(it,false)+'</div>'}
   function hcards(list){var o=[];for(var i=0;i<list.length;i+=3)o.push('<article class="ncard hcard"><div class="nb">'+list.slice(i,i+3).map(hitem).join('')+'</div></article>');return o.join('')}
   function holes(el){
     [].forEach.call(el.querySelectorAll('.hole'),function(h){h.remove()});
@@ -69,7 +72,7 @@
         tk.addEventListener('focusin',function(){paused=true});tk.addEventListener('focusout',function(){paused=false});
         if(els.length>1)setInterval(function(){if(paused||document.hidden)return;var o=els[cur];cur=(cur+1)%els.length;var n=els[cur];o.className='tki out';n.className='tki on';setTimeout(function(){if(o!==els[cur])o.className='tki'},700)},5000);
       }
-      latest.innerHTML='<section class="wsrc wlatest"><h3>Latest news</h3><ul>'+dated.slice(0,5).map(function(i){return'<li><a href="'+esc(iu(i))+'">'+esc(i.t)+'</a><span class="wm"><a href="'+esc((byId[i.s]||{}).site||'#')+'" rel="noopener">'+esc(i.src)+'</a> · <time>'+when(i.d)+'</time></span></li>'}).join('')+'</ul></section>';
+      latest.innerHTML='<section class="wsrc wlatest"><h3>Latest '+W+'</h3><ul>'+dated.slice(0,5).map(function(i){return'<li><a href="'+esc(iu(i))+'">'+esc(i.t)+'</a><span class="wm"><a href="'+esc((byId[i.s]||{}).site||'#')+'" rel="noopener">'+esc(i.src)+'</a> · <time>'+when(i.d)+'</time></span></li>'}).join('')+'</ul></section>';
       wid.innerHTML=data.sources.map(function(s){
         var its=data.items.filter(function(i){return i.s===s.id}).slice(0,6);
         if(!s.ok||!its.length)return'';
@@ -80,10 +83,10 @@
       // left navigation: Topics (keyword, all sources) then one open/close section per source
       function probe(s){
         if(alive[s.id])return;
-        var key='nlive2-'+s.id;
+        var key='nlive2-'+s.id+VQ;
         try{var c=JSON.parse(sessionStorage.getItem(key)||'null');if(c&&Date.now()-c.t<6*3600*1000){alive[s.id]={ok:c.ok};return}}catch(e){}
         alive[s.id]={loading:true};
-        Promise.all(s.groups.map(function(g){return fetch('/api/news?s='+encodeURIComponent(s.id)+'&probe='+encodeURIComponent(g.group)).then(function(r){return r.json()}).catch(function(){return{channels:[]}})})).then(function(a){
+        Promise.all(s.groups.map(function(g){return fetch('/api/news?s='+encodeURIComponent(s.id)+'&probe='+encodeURIComponent(g.group)+VQ).then(function(r){return r.json()}).catch(function(){return{channels:[]}})})).then(function(a){
           var ok={};a.forEach(function(r){(r.channels||[]).forEach(function(c){if(c.ok&&c.count>0)ok[c.id]=c.count})});
           alive[s.id]={ok:ok};try{sessionStorage.setItem(key,JSON.stringify({t:Date.now(),ok:ok}))}catch(e){}
           drawNav();

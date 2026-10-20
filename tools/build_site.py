@@ -17,10 +17,11 @@ def slugify(s):
 
 def nbsp(t): return t.replace('\xa0', ' ').replace('­', '')
 
-GENERATED = ['maps', 'timelines', 'tables', 'population', 'demographics', 'rankings', 'top-ten', 'tour', 'flora', 'g', 'glossary', 'index', 'size', 'about', 'search', 'news']
+GENERATED = ['maps', 'timelines', 'tables', 'population', 'demographics', 'rankings', 'top-ten', 'tour', 'flora', 'g', 'glossary', 'index', 'size', 'about', 'search', 'news', 'views', 'charts', 'media', 'sources']
 for d_ in GENERATED:
     shutil.rmtree(os.path.join(OUT, d_), ignore_errors=True)
 shutil.rmtree(os.path.join(OUT, 'img', 's'), ignore_errors=True)
+shutil.rmtree(os.path.join(OUT, 'img', 't'), ignore_errors=True)
 # ---------------------------------------------------------------- identifiers
 rows = list(csv.DictReader(open(IDS, encoding='utf-8')))
 for r in rows:
@@ -454,13 +455,43 @@ for L, lst in letters.items():
 write('/glossary/', layout('Glossary', gh, 'The Israel Mosaic glossary: 407 entries on people, places, events, works and buildings.', '/glossary/'))
 
 # ---------------------------------------------------------------- hubs
-def hub(path, title, intro, groups):
+THUMB_W, THUMB_H = 480, 360
+def make_thumb(r):
+    fn = os.path.join(OUT, 'img', 't', r['id'].lower() + '.webp')
+    if os.path.exists(fn): return '/img/t/' + r['id'].lower() + '.webp'
+    os.makedirs(os.path.dirname(fn), exist_ok=True)
+    srcs = []
+    sp_ = os.path.join(OUT, 'img', 's', r['id'].lower() + '.webp')
+    if os.path.exists(sp_): srcs = [sp_]
+    else: srcs = [os.path.join(OUT, 'img', f'p{p:03d}.webp') for p in r['pages'][:2]]
+    ims = [Image.open(s_).convert('RGB') for s_ in srcs if os.path.exists(s_)]
+    if not ims: return ''
+    h = max(i.height for i in ims)
+    comp = Image.new('RGB', (sum(i.width for i in ims), h), (255, 255, 255))
+    x = 0
+    for i in ims: comp.paste(i, (x, 0)); x += i.width
+    sc = min((THUMB_W - 16) / comp.width, (THUMB_H - 16) / comp.height)
+    comp = comp.resize((max(1, int(comp.width * sc)), max(1, int(comp.height * sc))), Image.LANCZOS)
+    canvas = Image.new('RGB', (THUMB_W, THUMB_H), (238, 243, 250))
+    canvas.paste(comp, ((THUMB_W - comp.width) // 2, (THUMB_H - comp.height) // 2))
+    canvas.save(fn, quality=72)
+    return '/img/t/' + r['id'].lower() + '.webp'
+
+def tcards(items_):
+    o = '<div class="tgrid">'
+    for k in items_:
+        th = make_thumb(k)
+        pgs = k['pages']; pt = f'p. {pgs[0]}' if len(pgs) == 1 else f'pp. {pgs[0]} to {pgs[-1]}'
+        o += (f'<a class="tcard" href="{k["url"]}"><span class="timg">' + (f'<img src="{th}" alt="" width="{THUMB_W}" height="{THUMB_H}" loading="lazy">' if th else '') +
+              f'</span><span class="tb"><span class="tid">{k["id"]}</span><b>{E(k["title"])}</b><span class="tp">{pt}</span></span></a>')
+    return o + '</div>'
+
+def hub(path, title, intro, groups, crumb=None):
     b = f'<p class="crumb"><a href="/">Home</a> / {E(title)}</p><h1>{E(title)}</h1><p class="lead">{intro}</p>'
-    for gt, items in groups:
+    for gt, items_ in groups:
         if gt: b += f'<h2>{E(gt)}</h2>'
-        b += '<ul class="idlist">' + ''.join(
-            f'<li><a href="{k["url"]}"><b>{k["id"]}</b> {E(k["title"])}</a><span>p. {k["pfirst"]}</span></li>' for k in items) + '</ul>'
-    write(path, layout(title, b, intro, path))
+        b += tcards(items_)
+    write(path, layout(title, b, intro, path, f'/img/p{groups[0][1][0]["pages"][0]:03d}.webp' if groups and groups[0][1] else None))
 
 def items(prefix, pred=lambda r: True): return [r for r in rows if r['prefix'] == prefix and pred(r)]
 hub('/maps/', 'Maps', 'Thirty-three maps of the land from the patriarchs to today. Every map has its own address, such as israelinmaps.com/map-002.',
@@ -542,16 +573,16 @@ news = '''<div class="adtop"><div class="adslot" data-slot="page-top" data-sizes
 <div class="adslot adwide" data-slot="page-bottom" data-sizes="970x250|728x90|320x100"></div>'''
 write('/news/', layout('News', news, 'Headlines from public news feeds about Israel, linked to the Israel Mosaic glossary.', '/news/', cls='newspg'))
 write('/news/item-template/', layout('@@TITLE@@', '<div class="adtop"><div class="adslot" data-slot="page-top" data-sizes="970x90|728x90|320x50"></div><div class="adslot" data-slot="top-right" data-sizes="320x100"></div></div><div class="newspage"><div class="newsleft"><div class="ticker" id="news-ticker" aria-label="Latest headlines" hidden></div><div class="newsgrid"><div class="newsleftcol"><nav class="newstopics" id="news-topics" aria-label="Topics and sources"></nav><div class="adslot" data-slot="left" data-sizes="tower"></div></div><div class="newsmain"><div class="adslot" data-slot="lb-top" data-sizes="728x90|320x100"></div><div id="news-item">@@BODY@@</div><div class="adslot" data-slot="lb-bottom" data-sizes="728x90|320x50"></div></div></div></div><aside class="newsside" aria-label="Latest headlines"><div class="adslot" data-slot="aside-top" data-sizes="320x100"></div><div id="news-latest"></div><h2>By source</h2><div id="news-widget"></div></aside></div><p class="small" id="news-status"></p><div class="adslot adwide" data-slot="page-bottom" data-sizes="970x250|728x90|320x100"></div>', '@@DESC@@', '/news/item/@@K@@/', cls='newspg', nd=True))
-views_html = news.replace('/ News</p><h1>In the News</h1>', '/ Views</p><h1>Views</h1>').replace('<p class="lead">Headlines from public news feeds, from the last seven days, matched to the glossary. Each item links to its publisher.</p>', '<p class="lead">Opinion and analysis from public news feeds, from the last seven days, matched to the glossary. Each item links to its publisher.</p>').replace('id="news-grid"', 'id="news-grid" data-api="/api/news?views=1&v=2"')
-write('/views/', layout('Views', views_html, 'Opinion and analysis from Israeli news sources, linked to the glossary.', '/views/', cls='newspg'))
+views_html = news.replace('/ News</p><h1>In the News</h1>', '/ Views</p><h1>Views</h1>').replace('<p class="lead">Headlines from public news feeds, from the last seven days, matched to the glossary. Each item links to its publisher.</p>', '<p class="lead">Op-eds, editorials and blogs from public feeds, from the last seven days, matched to the glossary. Each item links to its publisher.</p>').replace('id="news-grid"', 'id="news-grid" data-api="/api/news?views=1&v=2"')
+write('/views/', layout('Views', views_html, 'Op-eds, editorials and blogs from Israeli news sources, linked to the glossary.', '/views/', cls='newspg'))
 
 def card_hub(path, title, intro, cards_):
     b = f'<p class="crumb"><a href="/">Home</a> / {E(title)}</p><h1>{E(title)}</h1><p class="lead">{intro}</p><div class="cards">' + ''.join(f'<a class="card" href="{u}"><b>{E(t)}</b><span>{E(d)}</span></a>' for u, t, d in cards_) + '</div>'
     write(path, layout(title, b, intro, path))
-card_hub('/charts/', 'Charts', 'Rankings, population graphics, top ten lists, size comparisons and reference tables.',
-         [('/rankings/', 'Rankings', '17 rankings'), ('/demographics/', 'Demographics', '13 graphics'), ('/top-ten/', 'Top Ten Lists', '6 lists'), ('/size/', 'Size Comparisons', 'Israel beside other places'), ('/tables/', 'Tables', '5 reference tables')])
-card_hub('/media/', 'Media', 'A photographic tour of the land and the plants and animals of Israel.',
-         [('/tour/', 'A Taste of Israel', '10 regions, 71 stops'), ('/flora/', 'Flora and Fauna', '5 sections, 60 entries')])
+hub('/charts/', 'Charts', 'Rankings, population graphics, top ten lists, size comparisons and reference tables.',
+    [('Rankings', items('RNK')), ('Demographics', items('DEM')), ('Top Ten Lists', items('TOP')), ('Size Comparisons', [r for r in rows if hub_of(r)[0] == '/size/']), ('Tables', items('TBL'))])
+hub('/media/', 'Media', 'A photographic tour of the land and the plants and animals of Israel.',
+    [('A Taste of Israel', [byid[p + '-00'] for p in ['NEG', 'DSE', 'JUS', 'GAL', 'GOL', 'MED', 'TAJ', 'JHL', 'JRS', 'SHF']]), ('Flora and Fauna', [byid[p + '-00'] for p in ['TRE', 'WFL', 'WLD', 'BRD', 'MIG']])])
 src_list = [('The Times of Israel', 'https://www.timesofisrael.com/'), ('The Jerusalem Post', 'https://www.jpost.com/'), ('Ynetnews', 'https://www.ynetnews.com/'), ('Haaretz', 'https://www.haaretz.com/'), ('JNS', 'https://www.jns.org/'), ('Israel Insider', 'https://israelinsider.org/'), ('Israel Hayom', 'https://www.israelhayom.com/')]
 sb2 = '<p class="crumb"><a href="/">Home</a> / Sources</p><h1>Sources</h1><p class="lead">News and views on this site come from the public feeds of these publishers. Each story page shows a short excerpt and links to the publisher for the full story.</p><ul class="idlist">' + ''.join(f'<li><a href="{u}" rel="noopener">{E(n_)}</a><span>{u.split("//")[1].rstrip("/")}</span></li>' for n_, u in src_list) + '</ul><h2>The Book</h2><ul class="idlist"><li><a href="/index/">Index</a><span>Find any name or place in the book</span></li><li><a href="/about/">How to use this site and cite it</a><span>Addresses, IDs and hubs</span></li></ul>'
 write('/sources/', layout('Sources', sb2, 'The publishers whose public feeds supply the news and views on this site.', '/sources/'))

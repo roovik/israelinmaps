@@ -33,6 +33,22 @@ const SOURCES = [
 ];
 function chanId(g, n) { return (g + '-' + n).toLowerCase().replace(/[^a-z0-9]+/g, '-'); }
 for (const s of SOURCES) if (s.channels) s.groups = s.channels.map(([g, list]) => ({ group: g, list: list.map(([n, p]) => ({ id: chanId(g, n), name: n, url: /^https?:/.test(p) ? p : (s.base || JP) + p })) }));
+// Views: opinion feeds, each channel is one of Op-Ed, Editorial or Blog
+const VDEF = {
+  toi: [['Op-Ed', 'https://www.timesofisrael.com/opinion/feed/'], ['Blog', 'https://blogs.timesofisrael.com/feed/']],
+  jpost: [['Op-Ed', JP + 'rssfeedsopinion.aspx'], ['Editorial', JP + 'rssfeedseditorial.aspx']],
+  ynet: [['Op-Ed', 'https://www.ynetnews.com/Integration/StoryRss3084.xml']],
+  haaretz: [['Op-Ed', 'https://www.haaretz.com/srv/opinion-rss'], ['Editorial', 'https://www.haaretz.com/srv/editorial-rss']],
+  jns: [['Op-Ed', 'https://www.jns.org/opinion.rss']],
+  israelhayom: [['Op-Ed', 'https://www.israelhayom.com/opinions/feed/'], ['Editorial', 'https://www.israelhayom.com/category/editorial/feed/']],
+};
+function vid(kind) { return 'v-' + kind.toLowerCase().replace(/[^a-z0-9]+/g, '-'); }
+const VSRC = SOURCES.filter(s => VDEF[s.id]).map(s => ({ id: s.id, name: s.name, site: s.site, groups: [{ group: 'Views', list: VDEF[s.id].map(([k, u]) => ({ id: vid(k), name: k, url: u })) }] }));
+function findChannel(src, cid) {
+  if (!src || !cid) return null;
+  if (cid.startsWith('v-')) { const v = VSRC.find(x => x.id === src.id); return v ? v.groups[0].list.find(c => c.id === cid) || null : null; }
+  return src.groups ? src.groups.flatMap(g => g.list).find(c => c.id === cid) || null : null;
+}
 const FEEDS = SOURCES.map(s => ({ id: s.id, name: s.name, site: s.site, url: s.url }));
 const PER_FEED = 40, TOTAL = 400, TIMEOUT = 8000, MAX_AGE_DAYS = 7;
 
@@ -145,7 +161,7 @@ async function itemPage(request, env, k, sp, cp) {
   const src = SOURCES.find(x => x.id === sp);
   let item = null, status = 200;
   if (src) {
-    const ch = cp && src.groups && src.groups.flatMap(g => g.list).find(c => c.id === cp);
+    const ch = cp ? findChannel(src, cp) : null;
     if (!cp || ch) {
       const r = await load({ id: src.id, name: src.name, site: src.site, url: ch ? ch.url : src.url });
       item = r.items.find(i => i.k === k) || null;
@@ -167,7 +183,8 @@ async function itemPage(request, env, k, sp, cp) {
     } catch { }
     const when = item.d ? new Date(item.d).toLocaleString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Jerusalem' }) : '';
     title = item.t; desc = (item.f || item.x || item.t).slice(0, 200);
-    body = '<p class="crumb"><a href="/">Home</a> / <a href="/news/">News</a> / Feed item</p>'
+    const vw = !!(cp && cp.startsWith('v-'));
+    body = '<span data-word="' + (vw ? 'views' : 'news') + '" hidden></span><p class="crumb"><a href="/">Home</a> / <a href="' + (vw ? '/views/">Views' : '/news/">News') + '</a> / Feed item</p>'
       + '<article class="fitem"><h1>' + H(item.t) + '</h1>'
       + '<p class="fmeta"><a href="' + H(src.site) + '" rel="noopener">' + H(src.name) + '</a>' + (when ? ' · ' + when : '') + '</p>'
       + (item.i ? '<img class="fimg" src="' + H(item.i) + '" alt="" referrerpolicy="no-referrer" onerror="this.remove()">' : '')
@@ -196,32 +213,29 @@ export default {
       }));
       return new Response(JSON.stringify(out, null, 1), { headers: { 'Content-Type': 'application/json; charset=utf-8' } });
     }
-    if (url.searchParams.get('views')) {
-      const want = [['jpost', 'opinion-opinion'], ['jpost', 'opinion-experts-opinion'], ['ynet', 'ynetnews-opinion'], ['haaretz', 'culture-and-ideas-opinion'], ['jns', 'jns-opinion'], ['israelhayom', 'life-and-ideas-analysis']];
-      const rs = await Promise.all(want.map(async ([sid, cid]) => {
-        const src = SOURCES.find(x => x.id === sid), ch = src.groups.flatMap(g => g.list).find(c => c.id === cid);
-        const r = await load({ id: src.id, name: src.name, site: src.site, url: ch.url });
-        r.items.forEach(i => { i.ch = cid; });
-        return { src, r };
-      }));
-      const items = rs.flatMap(x => x.r.items).map(({ f, ...rest }) => rest).sort((a, b) => (b.d || '').localeCompare(a.d || '')).slice(0, 200);
-      const seen = {}, sources = [];
-      rs.forEach(({ src, r }) => { if (!seen[src.id]) { seen[src.id] = { id: src.id, name: src.name, site: src.site, groups: null, ok: false, count: 0, error: '' }; sources.push(seen[src.id]); } if (r.ok) { seen[src.id].ok = true; seen[src.id].count += r.items.length; } });
+    const sp = url.searchParams.get('s'), cp = url.searchParams.get('c');
+    if (url.searchParams.get('views') && !sp) {
+      const rs = await Promise.all(VSRC.flatMap(v => v.groups[0].list.map(async c => {
+        const r = await load({ id: v.id, name: v.name, site: v.site, url: c.url });
+        r.items.forEach(i => { i.ch = c.id; i.kind = c.name; });
+        return { v, r };
+      })));
+      const items = rs.flatMap(x => x.r.items).map(({ f, ...rest }) => rest).sort((a, b) => (b.d || '').localeCompare(a.d || '')).slice(0, 300);
+      const sources = VSRC.map(v => ({ id: v.id, name: v.name, site: v.site, groups: v.groups.map(g => ({ group: g.group, list: g.list.map(c => ({ id: c.id, name: c.name })) })), ok: rs.some(x => x.v.id === v.id && x.r.ok), count: rs.filter(x => x.v.id === v.id).reduce((n, x) => n + x.r.items.length, 0), error: '' }));
       return new Response(JSON.stringify({ updated: new Date().toISOString(), sources, items }), { headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'public, max-age=600', 'Access-Control-Allow-Origin': '*' } });
     }
-    const sp = url.searchParams.get('s'), cp = url.searchParams.get('c');
     if (sp && url.searchParams.get('probe')) {
       // which channels of a source have stories from the last 7 days. One group per call keeps subrequests low.
-      const src = SOURCES.find(s => s.id === sp), g = src && src.groups && src.groups.find(x => x.group === url.searchParams.get('probe'));
+      const src = url.searchParams.get('views') ? VSRC.find(s => s.id === sp) : SOURCES.find(s => s.id === sp), g = src && src.groups && src.groups.find(x => x.group === url.searchParams.get('probe'));
       if (!g) return new Response('{"error":"unknown group"}', { status: 404, headers: { 'Content-Type': 'application/json' } });
       const rs = await Promise.all(g.list.map(c => load({ id: src.id, name: src.name, site: src.site, url: c.url }).then(r => ({ id: c.id, ok: r.ok, count: r.items.length, newest: r.items.reduce((m, i) => (i.d && i.d > m ? i.d : m), '') }))));
       return new Response(JSON.stringify({ group: g.group, channels: rs }), { headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'public, max-age=3600', 'Access-Control-Allow-Origin': '*' } });
     }
     if (sp && cp) {
-      const src = SOURCES.find(s => s.id === sp), ch = src && src.groups && src.groups.flatMap(g => g.list).find(c => c.id === cp);
+      const src = SOURCES.find(s => s.id === sp), ch = findChannel(src, cp);
       if (!ch) return new Response('{"error":"unknown channel"}', { status: 404, headers: { 'Content-Type': 'application/json' } });
       const r = await load({ id: src.id, name: src.name, site: src.site, url: ch.url });
-      return new Response(JSON.stringify({ updated: new Date().toISOString(), source: src.id, channel: { id: ch.id, name: ch.name }, ok: r.ok, error: r.error, items: r.items.map(({ f, ...rest }) => rest) }), { headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'public, max-age=600', 'Access-Control-Allow-Origin': '*' } });
+      return new Response(JSON.stringify({ updated: new Date().toISOString(), source: src.id, channel: { id: ch.id, name: ch.name }, ok: r.ok, error: r.error, items: r.items.map(({ f, ...rest }) => ({ ...rest, ...(cp.startsWith('v-') ? { kind: ch.name } : {}) })) }), { headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'public, max-age=600', 'Access-Control-Allow-Origin': '*' } });
     }
     const results = await Promise.all(FEEDS.map(load));
     const items = results.flatMap(r => r.items).map(({ f, ...rest }) => rest).sort((a, b) => (b.d || '').localeCompare(a.d || '')).slice(0, TOTAL);
