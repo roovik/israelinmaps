@@ -5,6 +5,13 @@
   function mark(){var cur=location.pathname+location.hash;[].forEach.call(bar.querySelectorAll('a'),function(a){var h=a.getAttribute('href');a.className=(h===cur||(!location.hash&&h===location.pathname))?'on':''})}
   mark();window.addEventListener('hashchange',mark);
 
+  /* section colour for the vertical menus, matching the top menu rollover colours */
+  (function(){
+    var C={'/':['#1f62c4','#8fc2ff'],'/news':['#1f62c4','#8fc2ff'],'/views':['#1596ad','#4cc3d9'],'/video':['#c8541f','#ff9a6b'],'/media':['#6a3d9a','#c9a4f0'],'/tour':['#6a3d9a','#c9a4f0'],'/flora':['#6a3d9a','#c9a4f0'],'/maps':['#2e8b57','#6fd49a'],'/size':['#2e8b57','#6fd49a'],'/timelines':['#b36b00','#f6c545'],'/charts':['#1f62c4','#8fc2ff'],'/tables':['#1f62c4','#8fc2ff'],'/demographics':['#1f62c4','#8fc2ff'],'/rankings':['#1f62c4','#8fc2ff'],'/top-ten':['#1f62c4','#8fc2ff'],'/glossary':['#1596ad','#4cc3d9'],'/g':['#1596ad','#4cc3d9'],'/sources':['#c8541f','#ff9a6b'],'/about':['#6a3d9a','#c9a4f0']};
+    var seg='/'+location.pathname.split('/')[1],c=C[seg=='/'?'/':seg]||C['/'];
+    var r=document.documentElement.style;r.setProperty('--sc',c[0]);r.setProperty('--scd',c[1]);
+  })();
+
   /* Rolling over a top-level menu item previews its second-level menu */
   (function(){
     var nav=document.querySelector('header.top nav.wrap');if(!nav||!window.matchMedia||!matchMedia('(hover:hover)').matches)return;
