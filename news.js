@@ -85,7 +85,7 @@
         return s.groups.map(function(g){return{group:g.group,list:g.list.filter(function(c){return a.ok[c.id]})}}).filter(function(g){return g.list.length})}
       function srcItems(id){return data.items.filter(function(i){return i.s===id})}
       function topicBtns(items,cur,attr){return TOPICS.map(function(x){var n=items.filter(function(i){return i.tp&&i.tp.indexOf(x[0])>-1}).length;return n?'<button '+attr+'="'+x[0]+'" aria-pressed="'+(cur===x[0])+'">'+x[1]+' <i>'+n+'</i></button>':''}).join('')}
-      var MQ=window.matchMedia?matchMedia('(max-width:640px)'):{matches:false};
+      var MQ={get matches(){return!item}};
       function drawNavM(){
         var h='<div class="mrow" role="group" aria-label="Sources"><span class="mlab">Sources</span>'+good.map(function(s){return'<button data-ms="'+s.id+'" aria-pressed="'+(state.mode==='sources'&&state.src===s.id)+'">'+esc(s.name)+'</button>'}).join('')+'</div>';
         h+='<div class="mrow" role="group" aria-label="Topics"><span class="mlab">Topics</span><button data-mt="" aria-pressed="'+(state.mode==='topics'&&!state.tp)+'">All</button>'+topicBtns(data.items,state.mode==='topics'?state.tp:null,'data-mt')+'</div>';
@@ -117,6 +117,8 @@
         }
         tpn.innerHTML=h;
       }
+      (function(){var np=document.querySelector('.newspage'),lc=tpn.closest&&tpn.closest('.newsleftcol');if(!np||!lc||!grid||!grid.parentNode||item)return;
+        np.classList.add('noleft');lc.hidden=true;grid.parentNode.insertBefore(tpn,grid)})();
       var FOUR={haaretz:1,insider:1},g4el=null,g4h=null;
       function paint(items,note){
         var list=items.filter(function(i){return!g2.checked||i.g.length});

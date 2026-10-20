@@ -254,20 +254,20 @@ def app_html(g):
 
 # ---------------------------------------------------------------- templates
 CSS = open(os.path.join(ROOT, 'tools', 'style.css')).read()
-NAV = [('/', 'News'), ('/views/', 'Views'), ('/video/', 'Video'), ('/media/', 'Media'), ('/maps/', 'Maps'), ('/timelines/', 'Timelines'),
-       ('/charts/', 'Charts'), ('/glossary/', 'NOWlej'), ('/sources/', 'Sources'), ('/about/', 'About')]
+NAV = [('/', 'News'), ('/views/', 'Views'), ('/video/', 'Video'), ('/glossary/', 'NOWlej')]
 BASE = 'https://israelinmaps.com'
 
 VCFG = json.load(open(os.path.join(ROOT, 'video.json')))
 def vslug(c): return (c.get('handle') or c.get('id') or '').lower()
 def plslug(c): return 'pl-' + c['id'].lower()
 SUBNAV = {
- 'news': [('Security', '/news/#mode=topics&tp=security'), ('Diplomacy', '/news/#mode=topics&tp=diplomacy'), ('Politics', '/news/#mode=topics&tp=politics'), ('Technology', '/news/#mode=topics&tp=technology'), ('Business', '/news/#mode=topics&tp=business'), ('Culture', '/news/#mode=topics&tp=culture')],
- 'views': [('Op-Ed', '/views/#mode=topics&kind=Op-Ed'), ('Editorial', '/views/#mode=topics&kind=Editorial'), ('Blogs', '/views/#mode=topics&kind=Blog')],
+ 'news': [('Security', '/news/#mode=topics&tp=security'), ('Diplomacy', '/news/#mode=topics&tp=diplomacy'), ('Politics', '/news/#mode=topics&tp=politics'), ('Technology', '/news/#mode=topics&tp=technology'), ('Business', '/news/#mode=topics&tp=business')],
+ 'views': [('All Views', '/views/'), ('Op-Ed', '/views/#mode=topics&kind=Op-Ed'), ('Editorial', '/views/#mode=topics&kind=Editorial'), ('Blogs', '/views/#mode=topics&kind=Blog'), ('Sources', '/sources/')],
+ 'nowlej': [('Maps', '/maps/'), ('Timelines', '/timelines/'), ('Charts', '/charts/'), ('Media', '/media/'), ('A to Z', '/glossary/')],
  'maps': [('Historical Maps', '/maps/'), ('Size Comparisons', '/size/'), ('Israel Tour', '/tour/')],
  'charts': [('Rankings', '/rankings/'), ('Demographics', '/demographics/'), ('Top Ten', '/top-ten/'), ('Size Comparisons', '/size/'), ('Tables', '/tables/')],
  'media': [('A Taste of Israel', '/tour/'), ('Flora and Fauna', '/flora/')],
- 'video': [('Latest', '/video/#ch-latest')] + [(c['name'], f'/video/{vslug(c)}/') for c in VCFG['channels'][:7]],
+ 'video': [('Latest', '/video/#ch-latest')] + [(c['name'], f'/video/{vslug(c)}/') for c in VCFG['channels'][:4]],
  'glossary': [('People and Groups', '/glossary/#c=people-and-groups'), ('Places', '/glossary/#c=places'), ('Events', '/glossary/#c=events'), ('Buildings and Sites', '/glossary/#c=buildings-and-sites'), ('Works', '/glossary/#c=works')],
 }
 SHORT = {'Patriarchs to the First Kings': 'Patriarchs and Kings', 'Kings, Exile and Return': 'Exile and Return', 'Greeks, Hasmoneans and Romans': 'Greeks and Romans', 'Centuries of Foreign Rule': 'Foreign Rule', 'The Ottoman Land': 'Ottomans', 'Zionism Takes Shape': 'Zionism Takes Shape'}
@@ -281,22 +281,35 @@ def write_subnav_json():
     m = {}
     for u, t in NAV:
         k = u.strip('/').split('/')[0] or 'news'
-        k = {'glossary': 'glossary'}.get(k, k)
+        k = {'glossary': 'nowlej'}.get(k, k)
         m[u] = sec_links(k)
     write('/subnav.json', json.dumps(m))
+TOPSEC = {'': 'news', 'news': 'news', 'views': 'views', 'sources': 'views', 'video': 'video', 'maps': 'nowlej', 'timelines': 'nowlej', 'charts': 'nowlej', 'media': 'nowlej', 'glossary': 'nowlej', 'g': 'nowlej',
+          'tables': 'nowlej', 'demographics': 'nowlej', 'rankings': 'nowlej', 'top-ten': 'nowlej', 'size': 'nowlej', 'tour': 'nowlej', 'flora': 'nowlej'}
+TOPIDX = {'news': 0, 'views': 1, 'video': 2, 'nowlej': 3}
+CTX2 = {'maps': 'maps', 'timelines': 'timelines', 'charts': 'charts', 'tables': 'charts', 'demographics': 'charts', 'rankings': 'charts', 'top-ten': 'charts', 'size': 'charts',
+        'media': 'media', 'tour': 'media', 'flora': 'media', 'glossary': 'glossary', 'g': 'glossary'}
 def subnav_for(path):
     seg = path.strip('/').split('/')[0]
-    sec = {'': 'news', 'news': 'news', 'views': 'views', 'maps': 'maps', 'timelines': 'timelines', 'charts': 'charts', 'media': 'media', 'video': 'video', 'glossary': 'glossary', 'g': 'glossary',
-           'tables': 'charts', 'demographics': 'charts', 'rankings': 'charts', 'top-ten': 'charts', 'size': 'charts', 'tour': 'media', 'flora': 'media', 'sources': 'sources'}.get(seg, '')
-    links = sec_links(sec) if sec else []
-    trend = 'views' if sec == 'views' else ('news' if sec in ('news', 'sources', 'glossary') or seg == '' else '')
+    top = TOPSEC.get(seg, '')
+    links = sec_links(top) if top else []
+    if seg == 'sources' and path.strip('/') == 'sources': links = sec_links('views')
+    trend = 'views' if top == 'views' else ('news' if top == 'news' or seg == 'sources' else '')
+    idx = TOPIDX.get(top, '')
     html_ = ''.join(f'<a href="{u}">{E(t)}</a>' for t, u in links)
-    return f'<div class="wrap subnav" id="subnav" data-trend="{trend}"{"" if links else " hidden"}>{html_}<span class="trend" id="trend" hidden></span></div>'
+    out = f'<div class="wrap subnav" id="subnav" data-trend="{trend}"{" data-c=%d" % idx if idx != "" else ""}{"" if links else " hidden"}>{html_}<span class="trend" id="trend" hidden></span></div>'
+    c2 = CTX2.get(seg)
+    if c2:
+        l2 = sec_links(c2)
+        out += f'<div class="wrap subnav sub2" id="subnav2"{" data-c=%d" % idx if idx != "" else ""}>' + ''.join(f'<a href="{u}">{E(t)}</a>' for t, u in l2) + '</div>'
+    return out
 
 def layout(title, body, desc='', path='/', og=None, cls='', nd=False):
     if 'class="newspage' in body and 'newspg' not in cls: cls = (cls + ' newspg').strip()
     news_js = 'class="newspage' in body or path in ('/news/', '/views/') or path.startswith('/g/') or path.startswith('/news/item/')
-    nav = ''.join(f'<a href="{u}" data-n="{i}">{t}</a>' for i, (u, t) in enumerate(NAV))
+    _seg = path.strip('/').split('/')[0]
+    _cur = TOPIDX.get(TOPSEC.get(_seg, ''), -1)
+    nav = ''.join(f'<a href="{u}" data-n="{i}"{" class=\"cur\" aria-current=\"true\"" if i == _cur else ""}>{t}</a>' for i, (u, t) in enumerate(NAV))
     full = f'{title} | Israel NOWlej' if title != 'Israel NOWlej' else 'Israel NOWlej'
     d = desc or 'Know the Story of the Jewish Land in Maps, Timelines, Charts, and Graphics. Living edition of the book Israel NOWlej.'
     img = f'<meta property="og:image" content="{BASE}{og}">' if og else ''
@@ -308,7 +321,7 @@ def layout(title, body, desc='', path='/', og=None, cls='', nd=False):
 <link rel="stylesheet" href="/style.css"></head>
 <body class="{cls}"><a class="skip" href="#main">Skip to content</a>
 <header class="top"><div class="wrap bar"><a class="brand" href="/" aria-label="Israel NOWlej, home"><img src="/logo.svg" alt="Israel NOWlej" width="160" height="52"></a><div class="ticker" id="news-ticker" aria-label="Latest headlines" hidden></div>
-<div class="rcol"><div class="acct"><a class="subbtn" href="/subscribe/">Subscribe</a><a class="signin" href="/signin/">Sign in</a></div><form class="sf" action="/search/" role="search"><input name="q" type="search" placeholder="Search maps, people, places, IDs" aria-label="Search"><button>Search</button></form></div></div>
+<div class="rcol"><div class="acct"><a class="subbtn" href="/subscribe/">Subscribe</a><a class="signin" href="/signin/">Sign in</a><a class="signin" href="/sources/">Sources</a><a class="signin" href="/about/">About</a></div><form class="sf" action="/search/" role="search"><input name="q" type="search" placeholder="Search maps, people, places, IDs" aria-label="Search"><button>Search</button></form></div></div>
 <nav class="wrap" aria-label="Sections">{nav}</nav>{subnav_for(path)}</header>
 <main id="main" class="wrap">{body}</main>
 <footer><div class="wrap"><p>Israel NOWlej: news, views, maps, timelines, charts and media on the Holy Land.</p>

@@ -453,3 +453,41 @@ html,body{overflow-x:hidden;max-width:100%}
 .adslot,.adslot *{max-width:100%}
 .subnav{max-width:100vw}
 }
+
+/* ===== mosaic tile buttons: square corners, tight fit ===== */
+:root{--t1:#1f62c4;--t2:#0e7490;--t3:#c8541f;--t4:#6a3d9a;--t5:#2e8b57;--t6:#a8650a;--t7:#a21c3c}
+/* top menu: four tiles */
+header.top nav.wrap{display:flex;flex-wrap:wrap;gap:3px;padding-bottom:8px;font-size:1rem}
+header.top nav.wrap a{border:0;border-radius:0;padding:9px 22px;color:#fff;font-weight:700;letter-spacing:.02em;text-decoration:none;transition:filter .12s,transform .12s}
+header.top nav.wrap a[data-n="0"]{background:var(--t1)}header.top nav.wrap a[data-n="1"]{background:var(--t2)}header.top nav.wrap a[data-n="2"]{background:var(--t3)}header.top nav.wrap a[data-n="3"]{background:var(--t4)}
+header.top nav.wrap a:hover,header.top nav.wrap a.hov{color:#fff;filter:brightness(1.18);border:0}
+header.top nav.wrap a.cur{box-shadow:inset 0 -5px 0 #fff,0 0 0 2px currentColor}
+/* second and third level rows: tiles tinted from the section colour */
+.subnav{border-top:0;display:flex;flex-wrap:wrap;gap:3px;align-items:center;padding:6px 16px}
+.subnav a{border:0;border-radius:0;padding:6px 14px;font-weight:600;color:#fff;background:var(--sc,#1f62c4);text-decoration:none}
+.subnav[data-c="0"]{--sc:var(--t1)}.subnav[data-c="1"]{--sc:var(--t2)}.subnav[data-c="2"]{--sc:var(--t3)}.subnav[data-c="3"]{--sc:var(--t4)}
+.subnav a:nth-child(2n){filter:brightness(1.1)}.subnav a:nth-child(3n){filter:brightness(.92)}
+.subnav a:hover,.subnav a.on{text-decoration:none;color:#fff;filter:brightness(1.25);border:0;box-shadow:inset 0 -4px 0 #fff}
+.subnav.sub2{padding-top:0}.subnav.sub2 a{font-size:.8rem;padding:4px 11px;background:color-mix(in srgb,var(--sc,#1f62c4) 22%,var(--card));color:var(--fg);filter:none}
+.subnav.sub2 a:hover,.subnav.sub2 a.on{background:var(--sc,#1f62c4);color:#fff;filter:none;box-shadow:none}
+.subnav .trend{margin-left:auto}.subnav .tag{border-radius:0}
+header.top .acct a.signin{font-size:.8rem}
+/* sources and topics rows */
+.newstopics.mobnav{display:flex;flex-direction:column;gap:6px;position:static;margin:4px 0 12px}
+.mobnav .mrow{display:flex;flex-wrap:wrap;gap:3px;align-items:center;padding:0;overflow:visible}
+.mobnav .mlab{flex:none;font:700 .68rem system-ui,sans-serif;text-transform:uppercase;letter-spacing:.08em;color:var(--mut);padding-right:6px;min-width:62px}
+.mobnav .mrow button{border:0;border-radius:0;padding:7px 14px;color:#fff;font:600 .85rem system-ui,sans-serif;cursor:pointer;background:var(--t1)}
+.mobnav .mrow button:nth-of-type(7n+2){background:var(--t2)}.mobnav .mrow button:nth-of-type(7n+3){background:var(--t3)}.mobnav .mrow button:nth-of-type(7n+4){background:var(--t4)}.mobnav .mrow button:nth-of-type(7n+5){background:var(--t5)}.mobnav .mrow button:nth-of-type(7n+6){background:var(--t6)}.mobnav .mrow button:nth-of-type(7n){background:var(--t7)}
+.mobnav .mrow button i{opacity:.85;margin-left:4px}
+.mobnav .mrow button:hover{filter:brightness(1.18)}
+.mobnav .mrow button[aria-pressed=true]{filter:none;box-shadow:inset 0 -5px 0 #fff;outline:2px solid var(--fg);outline-offset:-2px}
+.newspage.noleft{grid-template-columns:minmax(0,1fr) 320px}
+.newspage.noleft>.newsleftcol[hidden]{display:none}
+.newspage.noleft>.adslot[data-slot=page-top]{grid-column:1/-1}
+.newspage.noleft>.newsleft{grid-column:1;grid-row:2}.newspage.noleft>.newsside{grid-column:2;grid-row:2}
+@media (max-width:1000px){.newspage.noleft{grid-template-columns:minmax(0,1fr)}.newspage.noleft>.newsleft,.newspage.noleft>.newsside{grid-column:1;grid-row:auto}}
+@media (max-width:640px){
+header.top nav.wrap a{flex:1 1 22%;text-align:center;padding:9px 6px;font-size:.95rem}
+.mobnav .mrow{flex-wrap:nowrap;overflow-x:auto}.mobnav .mrow button{flex:none;white-space:nowrap}
+.subnav{flex-wrap:nowrap;overflow-x:auto}.subnav a{flex:none}
+}
