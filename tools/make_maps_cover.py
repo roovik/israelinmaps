@@ -24,24 +24,30 @@ cw = int(ch * crop.width / crop.height)
 svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="800" viewBox="0 0 1280 800">
 <rect width="1280" height="800" fill="#f6efdd"/>
 <rect x="0" y="0" width="1280" height="800" fill="#10294a"/>
-<rect x="24" y="48" width="1232" height="704" rx="10" fill="#fbf6e9"/>
+<rect x="64" y="48" width="1152" height="704" rx="10" fill="#fbf6e9"/>
 {band(14)}{band(764)}
-<image href="data:image/jpeg;base64,{b64}" x="70" y="70" width="{cw}" height="{ch}" preserveAspectRatio="xMidYMid meet"/>
-<rect x="70" y="70" width="{cw}" height="{ch}" fill="none" stroke="#10294a" stroke-width="3"/>
+<g>
+<rect x="0" y="0" width="52" height="800" fill="#1f62c4"/><rect x="0" y="0" width="52" height="266" fill="#1f62c4"/><rect x="0" y="266" width="52" height="268" fill="#1596ad"/><rect x="0" y="534" width="52" height="266" fill="#e9a113"/>
+<rect x="1228" y="0" width="52" height="266" fill="#c8541f"/><rect x="1228" y="266" width="52" height="268" fill="#2e8b57"/><rect x="1228" y="534" width="52" height="266" fill="#6a3d9a"/>
+<text transform="translate(34 400) rotate(-90)" text-anchor="middle" font-family="system-ui,sans-serif" font-weight="700" font-size="26" letter-spacing="9" fill="#fff" stroke="#10294a" stroke-width="3" paint-order="stroke">ISRAEL NOWLEJ</text>
+<text transform="translate(1246 400) rotate(90)" text-anchor="middle" font-family="system-ui,sans-serif" font-weight="700" font-size="24" letter-spacing="7" fill="#fff" stroke="#10294a" stroke-width="3" paint-order="stroke">STORY IN MAPS</text>
+</g>
+<image href="data:image/jpeg;base64,{b64}" x="100" y="70" width="{cw}" height="{ch}" preserveAspectRatio="xMidYMid meet"/>
+<rect x="100" y="70" width="{cw}" height="{ch}" fill="none" stroke="#10294a" stroke-width="3"/>
 <g font-family="Georgia,'Times New Roman',serif" fill="#10294a">
-<text x="{70+cw+60}" y="250" font-size="30" font-family="system-ui,sans-serif" letter-spacing="6" fill="#b36b00" font-weight="700">ISRAEL NOWLEJ</text>
-<text x="{70+cw+60}" y="340" font-size="84" font-weight="700">Israel&#8217;s</text>
-<text x="{70+cw+60}" y="430" font-size="84" font-weight="700">Story</text>
-<text x="{70+cw+60}" y="520" font-size="84" font-weight="700">in Maps</text>
-<rect x="{70+cw+60}" y="548" width="220" height="8" fill="#1f62c4"/><rect x="{70+cw+280}" y="548" width="110" height="8" fill="#1596ad"/><rect x="{70+cw+390}" y="548" width="110" height="8" fill="#e9a113"/>
-<text x="{70+cw+60}" y="610" font-size="30" font-family="system-ui,sans-serif" fill="#3a4a63">Thirty-three maps</text><text x="{70+cw+60}" y="650" font-size="30" font-family="system-ui,sans-serif" fill="#3a4a63">from the patriarchs to today</text>
+<text x="{100+cw+60}" y="250" font-size="30" font-family="system-ui,sans-serif" letter-spacing="6" fill="#b36b00" font-weight="700">ISRAEL NOWLEJ</text>
+<text x="{100+cw+60}" y="340" font-size="84" font-weight="700">Israel&#8217;s</text>
+<text x="{100+cw+60}" y="430" font-size="84" font-weight="700">Story</text>
+<text x="{100+cw+60}" y="520" font-size="84" font-weight="700">in Maps</text>
+<rect x="{100+cw+60}" y="548" width="220" height="8" fill="#1f62c4"/><rect x="{100+cw+280}" y="548" width="110" height="8" fill="#1596ad"/><rect x="{100+cw+390}" y="548" width="110" height="8" fill="#e9a113"/>
+<text x="{100+cw+60}" y="610" font-size="30" font-family="system-ui,sans-serif" fill="#3a4a63">Thirty-three maps</text><text x="{100+cw+60}" y="650" font-size="30" font-family="system-ui,sans-serif" fill="#3a4a63">from the patriarchs to today</text>
 </g></svg>'''
 with sync_playwright() as pw:
     b = pw.chromium.launch(); p = b.new_page(viewport={'width': 1280, 'height': 800}, device_scale_factor=2); p.set_content(f'<body style="margin:0">{svg}</body>')
     p.screenshot(path='/tmp/maps-cover.png'); b.close()
 full = Image.open('/tmp/maps-cover.png').convert('RGB')
 full.resize((960, 600), Image.LANCZOS).save(f'{root}/tools/maps-cover.webp', quality=82)
-cut = 2 * (70 + cw + 30)
+cut = 2 * (100 + cw + 30)
 full.crop((0, 0, cut, 1600)).save(f'{root}/tools/maps-cover-left.webp', quality=84)
 full.crop((cut, 0, 2560, 1600)).save(f'{root}/tools/maps-cover-right.webp', quality=84)
 open(f'{root}/tools/maps-cover-split.txt', 'w').write(str(round(cut / 2560 * 100, 2)))

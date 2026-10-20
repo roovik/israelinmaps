@@ -5,15 +5,6 @@
   function mark(){var cur=location.pathname+location.hash;[].forEach.call(bar.querySelectorAll('a'),function(a){var h=a.getAttribute('href');a.className=(h===cur||(!location.hash&&h===location.pathname))?'on':''})}
   mark();window.addEventListener('hashchange',mark);
 
-  /* coloured vertical titles on the left and right edges */
-  (function(){
-    if(/^\/admin\//.test(location.pathname))return;
-    var links=[].slice.call(document.querySelectorAll('header.top nav.wrap a')),seg='/'+location.pathname.split('/')[1],name='Israel NOWlej';
-    var map={'/':'News','/news':'News','/views':'Views','/video':'Video','/media':'Media','/tour':'Media','/flora':'Media','/maps':'Maps','/size':'Maps','/timelines':'Timelines','/charts':'Charts','/tables':'Charts','/demographics':'Charts','/rankings':'Charts','/top-ten':'Charts','/glossary':'NOWlej','/g':'NOWlej','/sources':'Sources','/about':'About','/search':'Search'};
-    if(map[seg])name=map[seg];
-    function mk(c,t){var d=document.createElement('div');d.className='edge '+c;d.setAttribute('aria-hidden','true');d.innerHTML='<span>'+t+'</span>';document.body.appendChild(d)}
-    mk('el',name);mk('er','Know the Story of the Jewish Land');
-  })();
 
   /* section colour for the vertical menus, matching the top menu rollover colours */
   (function(){
