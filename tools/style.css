@@ -107,3 +107,9 @@ body.newspg .wrap{max-width:1280px}
 .newstopics .nmode button{flex:1;border:0;border-radius:0;background:var(--card);color:inherit;font:inherit;font-size:.8rem;font-weight:600;padding:7px 4px;cursor:pointer;display:block;text-align:center}
 .newstopics .nmode button[aria-pressed=true]{background:var(--acc);color:#fff}
 .nsub.top{padding-top:2px}
+
+.newspage{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:28px;align-items:start}
+.newsleft{min-width:0}
+.newsgrid{grid-template-columns:170px minmax(0,1fr)}
+@media (max-width:1000px){.newspage{grid-template-columns:1fr}.newsside{position:static}}
+@media (max-width:640px){.newsgrid{grid-template-columns:1fr}}
