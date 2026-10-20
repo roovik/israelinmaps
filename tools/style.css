@@ -413,3 +413,5 @@ nav.wrap a[data-n="9"]:hover,nav.wrap a[data-n="9"].hov{color:#6a3d9a;border-col
 .tltile b{display:block;font:600 .72rem/1.25 system-ui,sans-serif;padding:5px 6px 6px}
 .tltile:hover,.tltile:focus{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.18);border-color:var(--acc)}
 @media (max-width:640px){.tlmosaic{grid-template-columns:repeat(3,1fr)}}
+/* widget column: source names and headline titles one point smaller */
+.wsrc h3{font-size:.875rem}.wsrc li{font-size:.81rem}.newsside h3{font-size:.875rem}
