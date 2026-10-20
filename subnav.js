@@ -5,6 +5,16 @@
   function mark(){var cur=location.pathname+location.hash;[].forEach.call(bar.querySelectorAll('a'),function(a){var h=a.getAttribute('href');a.className=(h===cur||(!location.hash&&h===location.pathname))?'on':''})}
   mark();window.addEventListener('hashchange',mark);
 
+  /* coloured vertical titles on the left and right edges */
+  (function(){
+    if(/^\/admin\//.test(location.pathname))return;
+    var links=[].slice.call(document.querySelectorAll('header.top nav.wrap a')),seg='/'+location.pathname.split('/')[1],name='Israel NOWlej';
+    var map={'/':'News','/news':'News','/views':'Views','/video':'Video','/media':'Media','/tour':'Media','/flora':'Media','/maps':'Maps','/size':'Maps','/timelines':'Timelines','/charts':'Charts','/tables':'Charts','/demographics':'Charts','/rankings':'Charts','/top-ten':'Charts','/glossary':'NOWlej','/g':'NOWlej','/sources':'Sources','/about':'About','/search':'Search'};
+    if(map[seg])name=map[seg];
+    function mk(c,t){var d=document.createElement('div');d.className='edge '+c;d.setAttribute('aria-hidden','true');d.innerHTML='<span>'+t+'</span>';document.body.appendChild(d)}
+    mk('el',name);mk('er','Know the Story of the Jewish Land');
+  })();
+
   /* section colour for the vertical menus, matching the top menu rollover colours */
   (function(){
     var C={'/':['#1f62c4','#8fc2ff'],'/news':['#1f62c4','#8fc2ff'],'/views':['#1596ad','#4cc3d9'],'/video':['#c8541f','#ff9a6b'],'/media':['#6a3d9a','#c9a4f0'],'/tour':['#6a3d9a','#c9a4f0'],'/flora':['#6a3d9a','#c9a4f0'],'/maps':['#2e8b57','#6fd49a'],'/size':['#2e8b57','#6fd49a'],'/timelines':['#b36b00','#f6c545'],'/charts':['#1f62c4','#8fc2ff'],'/tables':['#1f62c4','#8fc2ff'],'/demographics':['#1f62c4','#8fc2ff'],'/rankings':['#1f62c4','#8fc2ff'],'/top-ten':['#1f62c4','#8fc2ff'],'/glossary':['#1596ad','#4cc3d9'],'/g':['#1596ad','#4cc3d9'],'/sources':['#c8541f','#ff9a6b'],'/about':['#6a3d9a','#c9a4f0']};
