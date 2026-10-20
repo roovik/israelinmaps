@@ -16,6 +16,17 @@
   function card(it){
     var img='<img src="'+esc(it.i)+'" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.parentNode.classList.add(\'noimg\');this.remove()">';
     return'<article class="ncard"><a class="nimg" href="'+esc(iu(it))+'" rel="noopener" tabindex="-1" aria-hidden="true">'+img+'</a><div class="nb"><p class="nmeta"><b>'+esc(it.src)+'</b>'+(it.d?' · '+ago(it.d):'')+'</p><h3><a href="'+esc(iu(it))+'">'+esc(it.t)+'</a></h3><p>'+esc(it.x)+'</p>'+chips(it,true)+'</div></article>'}
+  function hitem(it){return'<div class="hi"><p class="nmeta"><b>'+esc(it.src)+'</b>'+(it.d?' \u00b7 '+ago(it.d):'')+'</p><h3><a href="'+esc(iu(it))+'">'+esc(it.t)+'</a></h3>'+chips(it,false)+'</div>'}
+  function hcards(list){var o=[];for(var i=0;i<list.length;i+=3)o.push('<article class="ncard hcard"><div class="nb">'+list.slice(i,i+3).map(hitem).join('')+'</div></article>');return o.join('')}
+  function holes(el){
+    [].forEach.call(el.querySelectorAll('.hole'),function(h){h.remove()});
+    var cells=el.children.length;if(!cells||el.firstElementChild.tagName==='P')return;
+    var cols=getComputedStyle(el).gridTemplateColumns.split(' ').length,rem=cells%cols;
+    if(cols<2||!rem)return;
+    for(var k=0;k<cols-rem;k++){var d=document.createElement('div');d.className='adslot hole';d.setAttribute('data-slot','cell');d.setAttribute('data-sizes','cell');el.appendChild(d)}
+    if(window.IMAds)IMAds.fill(el);
+  }
+  var holeEls=[];window.addEventListener('resize',function(){holeEls.forEach(function(e){if(document.body.contains(e))holes(e)})});
   function row(it){return'<li><span class="nmeta"><b>'+esc(it.src)+'</b>'+(it.d?' · '+ago(it.d):'')+'</span> <a href="'+esc(iu(it))+'">'+esc(it.t)+'</a>'+chips(it,false)+'</li>'}
 
   Promise.all([fetch('/api/news?v=2').then(function(r){if(!r.ok)throw 0;return r.json()}),fetch('/glossary.json').then(function(r){return r.json()})]).then(function(a){
@@ -106,8 +117,10 @@
         var list=items.filter(function(i){return!g2.checked||i.g.length});
         var cards=list.filter(full).slice(0,60),rest=list.filter(function(i){return!full(i)}).slice(0,80);
         grid.innerHTML=cards.length?cards.map(card).join(''):(rest.length?'':'<p>'+(note||'Nothing matches right now.')+'</p>');
-        more.innerHTML=rest.map(row).join('');
+        more.innerHTML=hcards(rest);
         mt.hidden=!rest.length;mt.textContent='More headlines';
+        if(holeEls.indexOf(grid)<0)holeEls.push(grid);if(holeEls.indexOf(more)<0)holeEls.push(more);
+        holes(grid);holes(more);
       }
       function go(){var q=new URLSearchParams();['mode','src','sub','tp','ch'].forEach(function(k){if(state[k])q.set(k,state[k])});location.href='/news/#'+q.toString()}
       function applyHash(){try{var q=new URLSearchParams(location.hash.slice(1));['mode','src','sub','tp','ch'].forEach(function(k){if(q.get(k))state[k]=q.get(k)})}catch(e){}}

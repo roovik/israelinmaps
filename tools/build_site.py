@@ -535,7 +535,7 @@ news = '''<div class="adtop"><div class="adslot" data-slot="page-top" data-sizes
 <div class="adslot" data-slot="lb-top" data-sizes="728x90|320x100"></div>
 <p class="ngl"><label><input type="checkbox" id="news-glonly"> Only stories that mention a glossary entry</label></p>
 <div class="ngrid3" id="news-grid"><p>Loading the latest headlines.</p></div>
-<h2 id="news-more-title" class="nmt" hidden>More headlines</h2><ul class="hlist" id="news-more"></ul>
+<h2 id="news-more-title" class="nmt" hidden>More headlines</h2><div class="ngrid3 hgrid" id="news-more"></div>
 <div class="adslot" data-slot="lb-bottom" data-sizes="728x90|320x50"></div></div></div></div>
 <aside class="newsside" aria-label="Latest headlines"><div class="adslot" data-slot="aside-top" data-sizes="320x100"></div><div id="news-latest"></div><h2>By source</h2><div id="news-widget"></div></aside></div>
 <p class="small" id="news-status"></p>

@@ -162,3 +162,10 @@ body.newspg .wrap{max-width:1440px}
 .adtop{align-items:stretch}
 @media (max-width:1000px){.adslot[data-slot=aside-top]{display:flex;justify-content:center}}
 .adslot[data-slot=page-top],.adslot[data-slot^=lb]{background:var(--hl);border-radius:8px;padding:5px;box-sizing:border-box}
+
+.hcard .nb{display:flex;flex-direction:column;gap:0;padding:0 14px}
+.hcard .hi{padding:12px 0;border-bottom:1px solid var(--line)}.hcard .hi:last-child{border-bottom:0}
+.hcard .hi h3{font-size:1rem;margin:2px 0 4px;min-height:0}
+.hgrid{margin-top:8px}
+.adslot.hole{margin:0;display:flex}
+.s-cell{width:100%;height:100%;min-height:240px;margin:0}.s-cell .adin{flex-direction:column;width:100%}.s-cell .adm{width:100%;height:150px}.s-cell .adx{padding:10px 12px;justify-content:flex-start}
