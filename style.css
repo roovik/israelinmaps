@@ -425,3 +425,6 @@ nav.wrap a[data-n="9"]:hover,nav.wrap a[data-n="9"].hov{color:#6a3d9a;border-col
 .mobnav .mrow button[aria-pressed=true]{background:var(--btn);color:#fff;border-color:var(--btn)}
 .mobnav .mrow button i{font-style:normal;opacity:.7;font-size:.72rem;margin-left:3px}
 }
+
+.tlmosaic.wide{grid-template-columns:repeat(3,1fr)}.tlmosaic.wide .tltile img{aspect-ratio:8/5}
+@media (max-width:640px){.tlmosaic.wide{grid-template-columns:1fr 1fr}}

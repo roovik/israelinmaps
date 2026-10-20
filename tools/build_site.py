@@ -613,12 +613,32 @@ def hub(path, title, intro, groups, crumb=None):
     write(path, layout(title, chan(SECKEY[path], b, path), intro, path, f'/img/p{groups[0][1][0]["pages"][0]:03d}.webp' if groups and groups[0][1] else None))
 
 def items(prefix, pred=lambda r: True): return [r for r in rows if r['prefix'] == prefix and pred(r)]
-hub('/maps/', 'Maps', 'Thirty-three maps of the land from the patriarchs to today. Every map has its own address, such as israelinmaps.com/map-002.',
-    [('Historical Maps', [r for r in rows if r['prefix'] == 'MAP' and int(r['num']) < 30]), ('Size Comparisons', [r for r in rows if r['prefix'] == 'MAP' and int(r['num']) >= 30])])
+def map_hub():
+    from PIL import Image as _I
+    def th(r):
+        nm = 'mapf-' + r['id'].lower(); fn = os.path.join(OUT, 'img', 't', nm + '.webp'); os.makedirs(os.path.dirname(fn), exist_ok=True)
+        if not os.path.exists(fn):
+            ims = [_I.open(os.path.join(OUT, 'img', f'p{pg:03d}.webp')).convert('RGB') for pg in r['pages'][:2]]
+            comp = _I.new('RGB', (sum(i.width for i in ims), max(i.height for i in ims)), (255, 255, 255)); x = 0
+            for i in ims: comp.paste(i, (x, 0)); x += i.width
+            W_ = 640 if len(ims) == 2 else 420
+            comp = comp.resize((W_, int(comp.height * W_ / comp.width)), _I.LANCZOS); comp.save(fn, quality=74)
+            r['_tw'] = (comp.width, comp.height)
+        return '/img/t/' + nm + '.webp'
+    def tile(r, cls):
+        src = th(r); w_, h_ = (640, 400) if len(r['pages']) >= 2 else (420, 525)
+        return f'<a class="tltile" href="{r["url"]}" title="{E(r["title"])}"><img src="{src}" alt="{E(r["title"])}" width="{w_}" height="{h_}" loading="lazy"></a>'
+    hist = [r for r in rows if r['prefix'] == 'MAP' and int(r['num']) < 30]
+    size_ = [r for r in rows if r['prefix'] == 'MAP' and int(r['num']) >= 30]
+    b = '<p class="crumb"><a href="/">Home</a> / Maps</p><h1>Maps</h1><p class="small">Thirty-three maps of the land from the patriarchs to today. Select a map to open it.</p>'
+    b += '<h2>Historical Maps</h2><div class="tlmosaic wide">' + ''.join(tile(r, 'w') for r in hist) + '</div>'
+    b += '<h2>Size Comparisons</h2><div class="tlmosaic">' + ''.join(tile(r, 'p') for r in size_) + '</div>'
+    write('/maps/', layout('Maps', chan('maps', b, '/maps/'), 'Thirty-three maps of the land from the patriarchs to today. Every map has its own address, such as israelinmaps.com/map-002.', '/maps/', '/img/p004.webp'))
+map_hub()
 def tl_hub():
     from PIL import Image as _I
     def th(pg, nm):
-        fn = os.path.join(OUT, 'img', 't', nm + '.webp')
+        fn = os.path.join(OUT, 'img', 't', nm + '.webp'); os.makedirs(os.path.dirname(fn), exist_ok=True)
         if not os.path.exists(fn):
             im = _I.open(os.path.join(OUT, 'img', f'p{pg:03d}.webp')).convert('RGB')
             im = im.resize((420, int(im.height * 420 / im.width)), _I.LANCZOS); im.save(fn, quality=74)
