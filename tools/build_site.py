@@ -500,9 +500,10 @@ def item_page(r):
         sec = byid[f'{r["prefix"]}-00']
         region = f'<p class="crumb2">Part of <a href="{sec["url"]}">{E(sec["title"])}</a> ({sec["id"]})</p>'
     kind = r['type']
+    plain_ = SECKEY.get(hub) in ('maps', 'timelines', 'charts')
     body = f'''<p class="crumb"><a href="/">Home</a> / <a href="{hub}">{E(hubt)}</a></p>
-<article><header class="ih"><span class="id">{r["id"]}</span><h1>{E(r["title"])}</h1>
-<p class="meta">{E(kind)} · {E(r["section"])} · {ptxt}</p>{region}</header>
+<article><header class="ih">{"" if plain_ else f'<span class="id">{r["id"]}</span>'}<h1>{E(r["title"])}</h1>
+<p class="meta">{E(kind)} · {E(r["section"])}{"" if plain_ else f" · {ptxt}"}</p>{region}</header>
 {stn_html(r, st)}
 <div class="cite"><p><b>Cite this page</b></p><p class="citeline" id="cite">{E(cit)}</p><button type="button" class="copy" data-copy="{E(cit)}">Copy citation</button>
 <p class="small">Short address: <a href="{r["short"]}">israelinmaps.com{r["short"]}</a></p></div>
@@ -622,7 +623,9 @@ def hub(path, title, intro, groups, crumb=None):
     b = f'<p class="crumb"><a href="/">Home</a> / {E(title)}</p><h1>{E(title)}</h1>'
     for gt, items_ in groups:
         if gt: b += f'<h2>{E(gt)}</h2>'
-        b += tcards(items_)
+        tc_ = tcards(items_)
+        if SECKEY[path] == 'charts': tc_ = re.sub(r'<span class="(?:tid|tp)">.*?</span>', '', tc_)
+        b += tc_
     write(path, layout(title, chan(SECKEY[path], b, path), intro, path, f'/img/p{groups[0][1][0]["pages"][0]:03d}.webp' if groups and groups[0][1] else None))
 
 def items(prefix, pred=lambda r: True): return [r for r in rows if r['prefix'] == prefix and pred(r)]

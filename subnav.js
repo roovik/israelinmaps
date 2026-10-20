@@ -2,7 +2,7 @@
   var bar=document.getElementById('subnav');if(!bar)return;
   var sec=bar.getAttribute('data-trend');
   function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
-  function mark(){var cur=location.pathname+location.hash;[].forEach.call(bar.querySelectorAll('a'),function(a){var h=a.getAttribute('href');a.className=(h===cur||(!location.hash&&h===location.pathname))?'on':''})}
+  function mark(){var cur=location.pathname+location.hash;[].forEach.call(document.querySelectorAll('.subnav a'),function(a){var h=a.getAttribute('href');a.className=(h===cur||(!location.hash&&h===location.pathname))?'on':''})}
   mark();window.addEventListener('hashchange',mark);
 
 
