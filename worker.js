@@ -124,7 +124,9 @@ function parse(xml, feed) {
     if (!/^https?:\/\//i.test(link)) { const alt = b.match(/<link\b[^>]*rel="alternate"[^>]*href="([^"]+)"/i); link = alt ? decode(alt[1]) : link; }
     if (!title || !/^https?:\/\//i.test(link)) continue;
     const d = text(tag(b, 'pubDate') || tag(b, 'published') || tag(b, 'updated') || tag(b, 'dc:date'));
-    const t = d ? new Date(d) : null;
+    let t = d ? new Date(d) : null;
+    // Some feeds stamp Israel local time as UTC, so items appear to be in the future. Shift back by whole hours.
+    if (t && !isNaN(t)) { const ahead = t.getTime() - Date.now(); if (ahead > 5 * 60000 && ahead < 6 * 3600000) t = new Date(t.getTime() - Math.ceil((ahead - 5 * 60000) / 3600000) * 3600000); }
     const desc = tag(b, 'description') || tag(b, 'summary') || tag(b, 'content:encoded') || tag(b, 'content');
     const full = text(tag(b, 'content:encoded')), short = text(desc);
     const best = clean(full.length > short.length ? full : short, title, 5) || clean(short, title, 5);
