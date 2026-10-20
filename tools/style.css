@@ -189,3 +189,5 @@ body.newspg main{padding-top:5px}
 .newsside{margin-top:0}
 @media (max-width:1000px){.newspage{grid-template-columns:170px minmax(0,1fr)}.newsside{grid-column:1/-1}}
 @media (max-width:640px){.newspage{grid-template-columns:1fr}.newsleft{display:contents}.newspage .ticker{order:1}.newspage .crumb{order:2}.newspage .titlerow{order:3}.newspage .lead{order:4}.newsleftcol{order:5}.newspage .newsmain{order:6}.newsside{order:7;grid-column:auto}}
+
+.adslot[data-slot=page-top]{margin:0 0 10px}
