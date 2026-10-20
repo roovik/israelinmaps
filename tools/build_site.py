@@ -759,7 +759,7 @@ ab_ = ('<h1>Video curation</h1><p class="small">Private working page. Candidates
        '<div id="adm-list"></div><div id="adm-out" hidden><h2>Approved list</h2><p class="small">Copy this and send it to Claude, or add it to <code>video.json</code>.</p><textarea id="adm-ta" rows="14" readonly></textarea><p><button type="button" id="adm-copy" class="admgo">Copy</button></p></div></div>')
 _bt = json.load(open(os.path.join(ROOT, 'tools', 'batches.json')))
 _gb = {g['slug']: g for g in G}
-write('/admin/batches.json', json.dumps([{'id': b['id'], 'name': b['name'], 'entries': [{'slug': x, 'title': (_gb[x].get('title') or _gb[x]['name'])} for x in b['slugs'] if x in _gb]} for b in _bt['batches']], ensure_ascii=False))
+write('/admin/batches.json', json.dumps([{'id': b['id'], 'name': b['name'], 'entries': [{'slug': x, 'title': (_gb[x].get('title') or _gb[x]['name']), 'text': re.sub(r'<[^>]+>', '', body_html(_gb[x])).strip()} for x in b['slugs'] if x in _gb]} for b in _bt['batches']], ensure_ascii=False))
 ae_ = ('<h1>Entry workbench</h1><p class="small">Private working page. One place to edit the text, approve images and approve video for each NOWlej entry. <a href="/admin/video/">Video curation</a></p>'
        '<div class="adm"><div class="admbar"><label>Term <select id="ae-ent"><option value="">Choose a term</option></select></label><a id="ae-open" href="#" hidden target="_blank">Open the live page</a>'
        '<span class="vseg" role="group" aria-label="Part" id="ae-tabs"><button type="button" data-t="text" aria-pressed="true">Text</button><button type="button" data-t="images" aria-pressed="false">Images</button><button type="button" data-t="video" aria-pressed="false">Video</button></span>'
