@@ -435,7 +435,7 @@ def gl_page(g):
 <p class="lead">{b}</p>
 {f'<p><b>See also</b> {see}</p>' if see else ''}{f'<p><b>Appears in</b> {app}</p>' if app else ''}
 <p class="small"><a href="/gl-{g["pg"]}">This entry is on book page {g["pg"]}</a> of the glossary.</p>
-<section id="gl-news" data-slug="{sl}" hidden><h2>In the news</h2><div class="ngrid"></div><p class="small">Headlines and links from public news feeds. <a href="/news/">All news</a>.</p></section></article>'''
+<section id="gl-news" data-slug="{sl}" hidden><h2>In the news</h2><div class="ngrid"></div><ul class="hlist"></ul><p class="small">Headlines and links from public news feeds. <a href="/news/">All news</a>.</p></section></article>'''
     write(f'/g/{sl}/', layout(g['title'], body, plain[:155], f'/g/{sl}/'))
     search.append({'t': g['title'] + (f' {g["he"]}' if g['he'] else ''), 'u': f'/g/{sl}/', 'k': 'GLOSSARY', 's': cat, 'x': plain[:300]})
     bycat.setdefault(g['cat'] or 'OTHER', []).append(g)
@@ -534,6 +534,7 @@ news = '''<p class="crumb"><a href="/">Home</a> / News</p><h1>In the News</h1>
 <div class="nfilter" id="news-filter" aria-label="Filter by source"></div>
 <p class="ngl"><label><input type="checkbox" id="news-glonly"> Only stories that mention a glossary entry</label></p>
 <div class="ngrid" id="news-grid"><p>Loading the latest headlines.</p></div>
+<h2 id="hl-title" hidden>More headlines</h2><ul class="hlist" id="news-list"></ul>
 <p class="small" id="news-status"></p>'''
 write('/news/', layout('News', news, 'Headlines from public news feeds about Israel, linked to the Israel Mosaic glossary.', '/news/'))
 gjson = []

@@ -32,6 +32,15 @@ function snippet(s, max = 190) {
   const cut = s.slice(0, max).replace(/\s+\S*$/, '');
   return cut + '…';
 }
+function blurb(x, title) {
+  x = x.replace(/The post .{0,200}? appeared first on .*$/i, '').replace(/\[(?:\u2026|&hellip;|\.\.\.)\]/g, '').replace(/\b(?:Continue reading|Read more|Click here)\b.*$/i, '').replace(/\s+/g, ' ').trim();
+  if (x.length < 50 || x.split(' ').length < 8) return '';
+  if (/[<>{}]|&#|&[a-z]+;|https?:\/\//i.test(x)) return '';
+  const a = x.toLowerCase().slice(0, 40), b = title.toLowerCase().slice(0, 40);
+  if (a === b || x.toLowerCase() === title.toLowerCase()) return '';
+  if (!/[a-z]{3}/.test(x) || (x.match(/[A-Z]/g) || []).length > x.length * 0.4) return '';
+  return snippet(x);
+}
 function image(block) {
   const raw = unwrap(block);
   let u = attr(block, 'media:thumbnail', 'url') || attr(block, 'media:content', 'url');
@@ -53,7 +62,7 @@ function parse(xml, feed) {
     const d = text(tag(b, 'pubDate') || tag(b, 'published') || tag(b, 'updated') || tag(b, 'dc:date'));
     const t = d ? new Date(d) : null;
     const desc = tag(b, 'description') || tag(b, 'summary') || tag(b, 'content:encoded') || tag(b, 'content');
-    items.push({ s: feed.id, src: feed.name, t: title, u: link, d: t && !isNaN(t) ? t.toISOString() : null, x: snippet(text(desc).replace(new RegExp('^' + title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\s*'), '')), i: image(b) });
+    items.push({ s: feed.id, src: feed.name, t: title, u: link, d: t && !isNaN(t) ? t.toISOString() : null, x: blurb(text(desc), title), i: image(b) });
   }
   return items;
 }
@@ -64,7 +73,8 @@ async function load(feed) {
     const r = await fetch(feed.url, { signal: ctl.signal, headers: { 'User-Agent': 'IsraelMosaicNews/1.0 (+https://israelinmaps.com/news/)', Accept: 'application/rss+xml, application/atom+xml, application/xml, text/xml, */*' }, cf: { cacheTtl: 1800, cacheEverything: true } });
     if (!r.ok) return { feed, ok: false, error: 'HTTP ' + r.status, items: [] };
     const items = parse(await r.text(), feed);
-    return { feed, ok: items.length > 0, error: items.length ? '' : 'no items found', items };
+    const withImg = items.filter(i => i.i).length;
+    return { feed, ok: items.length > 0, error: items.length ? '' : 'no items found', items, img: items.length > 0 && withImg / items.length >= 0.5 };
   } catch (e) {
     return { feed, ok: false, error: String(e && e.name === 'AbortError' ? 'timeout' : e), items: [] };
   } finally { clearTimeout(timer); }
@@ -75,7 +85,7 @@ export default {
     if (url.pathname !== '/api/news') return env.ASSETS.fetch(request);
     const results = await Promise.all(FEEDS.map(load));
     const items = results.flatMap(r => r.items).sort((a, b) => (b.d || '').localeCompare(a.d || '')).slice(0, TOTAL);
-    const body = JSON.stringify({ updated: new Date().toISOString(), sources: results.map(r => ({ id: r.feed.id, name: r.feed.name, ok: r.ok, count: r.items.length, error: r.error })), items });
+    const body = JSON.stringify({ updated: new Date().toISOString(), sources: results.map(r => ({ id: r.feed.id, name: r.feed.name, ok: r.ok, count: r.items.length, error: r.error, img: !!r.img })), items });
     return new Response(body, { headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'public, max-age=600', 'Access-Control-Allow-Origin': '*' } });
   },
 };

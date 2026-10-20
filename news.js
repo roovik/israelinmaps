@@ -15,12 +15,17 @@
       var img=it.i?'<img src="'+esc(it.i)+'" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.parentNode.classList.add(\'noimg\');this.remove()">':'';
       var chips=showG&&it.g.length?'<p class="chips">In the glossary: '+it.g.map(function(g){return'<a href="/g/'+g[0]+'/">'+esc(g[1])+'</a>'}).join(' ')+'</p>':'';
       return'<article class="ncard'+(it.i?'':' noimg')+'"><a class="nimg" href="'+esc(it.u)+'" rel="noopener" tabindex="-1" aria-hidden="true">'+img+'</a><div class="nb"><p class="nmeta"><b>'+esc(it.src)+'</b> · '+ago(it.d)+'</p><h3><a href="'+esc(it.u)+'" rel="noopener">'+esc(it.t)+'</a></h3><p>'+esc(it.x)+'</p>'+chips+'</div></article>'}
+    var imgSrc={};data.sources.forEach(function(s){imgSrc[s.id]=s.img});
+    function row(it){return'<li><span class="nmeta"><b>'+esc(it.src)+'</b> · '+ago(it.d)+'</span> <a href="'+esc(it.u)+'" rel="noopener">'+esc(it.t)+'</a>'+(it.g.length?' <span class="chips">'+it.g.map(function(g){return'<a href="/g/'+g[0]+'/">'+esc(g[1])+'</a>'}).join(' ')+'</span>':'')+'</li>'}
     if(grid){
       var f=document.getElementById('news-filter'),cur='all';
       f.innerHTML='<button data-s="all" aria-pressed="true">All</button>'+data.sources.filter(function(s){return s.ok}).map(function(s){return'<button data-s="'+s.id+'" aria-pressed="false">'+esc(s.name)+'</button>'}).join('');
       var g2=document.getElementById('news-glonly');
       function draw(){var list=data.items.filter(function(i){return(cur==='all'||i.s===cur)&&(!g2.checked||i.g.length)});
-        grid.innerHTML=list.length?list.map(function(i){return card(i,true)}).join(''):'<p>Nothing matches that filter right now.</p>'}
+        var c=list.filter(function(i){return imgSrc[i.s]}),h=list.filter(function(i){return!imgSrc[i.s]});
+        grid.innerHTML=c.length?c.map(function(i){return card(i,true)}).join(''):(h.length?'':'<p>Nothing matches that filter right now.</p>');
+        var hl=document.getElementById('news-list'),ht=document.getElementById('hl-title');
+        hl.innerHTML=h.map(row).join('');ht.hidden=!h.length}
       f.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;cur=b.getAttribute('data-s');[].forEach.call(f.children,function(x){x.setAttribute('aria-pressed',x===b)});draw()});
       g2.addEventListener('change',draw);draw();
       var st=document.getElementById('news-status');
@@ -29,7 +34,7 @@
     if(box){
       var slug=box.getAttribute('data-slug');
       var l=data.items.filter(function(i){return i.g.some(function(g){return g[0]===slug})}).slice(0,4);
-      if(l.length){box.querySelector('.ngrid').innerHTML=l.map(function(i){return card(i,false)}).join('');box.hidden=false}
+      if(l.length){box.querySelector('.ngrid').innerHTML=l.filter(function(i){return imgSrc[i.s]}).map(function(i){return card(i,false)}).join('');var hh=l.filter(function(i){return!imgSrc[i.s]});if(hh.length)box.querySelector('.hlist').innerHTML=hh.map(row).join('');box.hidden=false}
     }
   }).catch(function(){var st=document.getElementById('news-status');if(st)st.textContent='The news feed could not be loaded right now. Please try again later.';if(grid)grid.innerHTML=''});
 })();
