@@ -51,6 +51,8 @@
       if(tk&&dated.length){
         tk.innerHTML=dated.map(function(i,n){return'<a class="tki'+(n?'':' on')+'" href="'+esc(iu(i))+'"><span class="tkt">'+(isBrk(i)?'<b>Breaking</b> ':'')+esc(i.t)+'</span><span class="tkm">'+esc(i.src)+' · '+when(i.d)+'</span></a>'}).join('');
         tk.hidden=false;
+        function fit(){var m=0;[].forEach.call(tk.children,function(e){var h=0;[].forEach.call(e.children,function(c){h+=c.offsetHeight});if(h>m)m=h});tk.style.height=(m+16)+'px'}
+        fit();window.addEventListener('resize',fit);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fit);
         var cur=0,paused=false,els=tk.children;
         tk.addEventListener('mouseenter',function(){paused=true});tk.addEventListener('mouseleave',function(){paused=false});
         tk.addEventListener('focusin',function(){paused=true});tk.addEventListener('focusout',function(){paused=false});
