@@ -354,7 +354,7 @@ def sec_groups(sk):
         return 'Media', '/media/', [('A Taste of Israel', '/tour/', [(byid[x + '-00']['url'], byid[x + '-00']['title']) for x in ['NEG', 'DSE', 'JUS', 'GAL', 'GOL', 'MED', 'TAJ', 'JHL', 'JRS', 'SHF']]),
                                     ('Flora and Fauna', '/flora/', [(byid[x + '-00']['url'], byid[x + '-00']['title']) for x in ['TRE', 'WFL', 'WLD', 'BRD', 'MIG']])]
     if sk == 'video':
-        return 'Video', '/video/', [('Channels', None, [('/video/#ch-latest', 'Latest')] + [(f'/video/{vslug(c)}/', c['name'] + ' Videos') for c in VCFG['channels']])] + ([('Playlists', None, [('/video/#playlists', 'All playlists')])] if VCFG.get('playlists') else [])
+        return 'Video', '/video/', [('Channels', None, [('/video/#ch-latest', 'Latest')] + [(f'/video/{vslug(c)}/', c['name']) for c in VCFG['channels']])] + ([('Playlists', None, [('/video/#playlists', 'All playlists')])] if VCFG.get('playlists') else [])
     if sk == 'glossary':
         ls = sorted({key(g['name'])[0].upper() for g in G})
         return 'NOWlej', '/glossary/', [('A to Z', None, [(f'/glossary/#l{L}', L) for L in ls])]
