@@ -178,3 +178,8 @@ body.newspg .wrap{max-width:1440px}
 .tb b{font-size:.98rem;line-height:1.25}.tid{font-size:.72rem;letter-spacing:.05em;color:var(--mut)}.tp{font-size:.78rem;color:var(--mut)}
 @media (max-width:860px){.tgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:520px){.tgrid{grid-template-columns:1fr}}
+
+.titlerow{display:flex;flex-wrap:wrap;align-items:center;gap:8px 24px;margin:6px 0 4px}
+.titlerow h1{margin:0;flex:none}
+.titlerow .adslot[data-slot=page-top]{flex:1 1 340px;min-width:0;margin:0}
+.adslot[data-slot=aside-top]{display:flex!important;justify-content:center;margin:0 0 12px}

@@ -20,7 +20,7 @@
     return el;
   }
   function pick(s){
-    var list=(s.getAttribute('data-sizes')||'300x250').split('|'),w=s.clientWidth;
+    var cs=getComputedStyle(s),list=(s.getAttribute('data-sizes')||'300x250').split('|'),w=s.clientWidth-(parseFloat(cs.paddingLeft)||0)-(parseFloat(cs.paddingRight)||0);
     if(list[0]==='tower'||list[0]==='cell')return list[0];
     if(!w)return null;
     for(var i=0;i<list.length;i++)if(parseInt(list[i],10)<=w)return list[i];
