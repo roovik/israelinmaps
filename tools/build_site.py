@@ -260,6 +260,7 @@ BASE = 'https://israelinmaps.com'
 
 VCFG = json.load(open(os.path.join(ROOT, 'video.json')))
 def vslug(c): return (c.get('handle') or c.get('id') or '').lower()
+def plslug(c): return 'pl-' + c['id'].lower()
 SUBNAV = {
  'news': [('Security', '/news/#mode=topics&tp=security'), ('Diplomacy', '/news/#mode=topics&tp=diplomacy'), ('Politics', '/news/#mode=topics&tp=politics'), ('Technology', '/news/#mode=topics&tp=technology'), ('Business', '/news/#mode=topics&tp=business'), ('Culture', '/news/#mode=topics&tp=culture')],
  'views': [('Op-Ed', '/views/#mode=topics&kind=Op-Ed'), ('Editorial', '/views/#mode=topics&kind=Editorial'), ('Blogs', '/views/#mode=topics&kind=Blog')],
@@ -353,7 +354,7 @@ def sec_groups(sk):
         return 'Media', '/media/', [('A Taste of Israel', '/tour/', [(byid[x + '-00']['url'], byid[x + '-00']['title']) for x in ['NEG', 'DSE', 'JUS', 'GAL', 'GOL', 'MED', 'TAJ', 'JHL', 'JRS', 'SHF']]),
                                     ('Flora and Fauna', '/flora/', [(byid[x + '-00']['url'], byid[x + '-00']['title']) for x in ['TRE', 'WFL', 'WLD', 'BRD', 'MIG']])]
     if sk == 'video':
-        return 'Video', '/video/', [('Channels', None, [('/video/#ch-latest', 'Latest')] + [(f'/video/{vslug(c)}/', c['name']) for c in VCFG['channels']])]
+        return 'Video', '/video/', [('Channels', None, [('/video/#ch-latest', 'Latest')] + [(f'/video/{vslug(c)}/', c['name'] + ' Videos') for c in VCFG['channels']])] + ([('Playlists', None, [(f'/video/{plslug(c)}/', c['name'] + ' Playlist') for c in VCFG.get('playlists', [])])] if VCFG.get('playlists') else [])
     if sk == 'glossary':
         ls = sorted({key(g['name'])[0].upper() for g in G})
         return 'NOWlej', '/glossary/', [('A to Z', None, [(f'/glossary/#l{L}', L) for L in ls])]
@@ -373,12 +374,13 @@ def secnav(sk, active=''):
 
 def chan(sk, body, active='', views=False):
     wd = 'views' if views else 'news'
+    vside = sk == 'video'
     body = re.sub(r'<p class="crumb">.*?</p>', '', body, count=1)
     return (f'<div class="newspage"><div class="adslot" data-slot="page-top" data-sizes="728x90|320x50"></div>'
             f'<div class="newsleftcol">{secnav(sk, active)}<div class="adslot" data-slot="left" data-sizes="tower"></div></div>'
             f'<div class="newsleft"><div class="newsmain">{body}<div class="adslot" data-slot="lb-bottom" data-sizes="728x90|320x50"></div></div></div>'
-            f'<aside class="newsside" aria-label="Latest {wd}"><div class="adslot" data-slot="aside-top" data-sizes="320x100"></div><span id="news-side" data-word="{wd}" hidden></span><div id="news-latest"></div><h2>By source</h2><div id="news-widget"></div></aside></div>'
-            f'<p class="small" id="news-status"></p><div class="adslot adwide" data-slot="page-bottom" data-sizes="970x250|728x90|320x100"></div>')
+            f'<aside class="newsside" aria-label="Latest {wd}"><div class="adslot" data-slot="aside-top" data-sizes="320x100"></div>{'<div id="vid-list" class="vlist"></div>' if vside else f'<span id="news-side" data-word="{wd}" hidden></span><div id="news-latest"></div><h2>By source</h2><div id="news-widget"></div>'}</aside></div>'
+            f'{"" if vside else "<p class=\"small\" id=\"news-status\"></p>"}<div class="adslot adwide" data-slot="page-bottom" data-sizes="970x250|728x90|320x100"></div>')
 
 def neighbors(r):
     p = r['prefix']
@@ -608,7 +610,10 @@ for g in G: gl_page(g)
 vb = '<h1>Video</h1><div class="vtop" id="vid-top" hidden></div><div id="vid-root"><p>Loading videos.</p></div>'
 for c_ in VCFG['channels']:
     sl_ = vslug(c_)
-    write(f'/video/{sl_}/', layout(c_['name'], chan('video', f'<h1>{E(c_["name"])}</h1><div class="vtop" id="vid-top" hidden></div><div id="vid-chan" data-key="{E(sl_)}"><p>Loading videos.</p></div>', f'/video/{sl_}/'), f'Videos from {c_["name"]}.', f'/video/{sl_}/'))
+    write(f'/video/{sl_}/', layout(c_['name'] + ' Videos', chan('video', f'<h1>{E(c_["name"])} Videos</h1><div class="vtop" id="vid-top" hidden></div><div id="vid-chan" data-key="{E(sl_)}"><p>Loading videos.</p></div>', f'/video/{sl_}/'), f'Videos from {c_["name"]}.', f'/video/{sl_}/'))
+for c_ in VCFG.get('playlists', []):
+    sl_ = plslug(c_)
+    write(f'/video/{sl_}/', layout(c_['name'] + ' Playlist', chan('video', f'<h1>{E(c_["name"])} Playlist</h1><div class="vtop" id="vid-top" hidden></div><div id="vid-chan" data-key="{E(sl_)}"><p>Loading videos.</p></div>', f'/video/{sl_}/'), f'Playlist: {c_["name"]}.', f'/video/{sl_}/'))
 write('/video/watch/', layout('Watch', chan('video', '<h1 id="vw-title">Video</h1><div class="vtop" id="vid-top" hidden></div><div id="vid-watch"></div>', '/video/'), 'Watch a video.', '/video/watch/', nd=True))
 write('/video/', layout('Video', chan('video', vb, '/video/'), 'Curated video from whitelisted channels, with a player and a gallery for each.', '/video/'))
 

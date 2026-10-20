@@ -1,19 +1,54 @@
 {
-  "_note": "Whitelist (channels, playlists), blacklist (blockVideos, blockWords) and permanent pins for the Video tab and NOWlej entries. Handles in this starter list are unverified: the worker skips any it cannot resolve. /api/videos?debug=1 shows what resolved. Add an explicit 'id' (UC... channel id) to skip the lookup.",
+  "_note": "Whitelist (channels, playlists), blacklist (blockVideos, blockWords) and permanent pins for the Video tab and NOWlej entries. Handles in this starter list are unverified: the worker skips any it cannot resolve. /api/videos?debug=1 shows what resolved. Add an explicit 'id' (UC... channel id) to skip the lookup. Playlists: {\"id\":\"PL...\",\"name\":\"...\",\"channel\":\"handle (optional, lists it on that channel page)\"}. A playlist can belong to any channel, including ones not on the channel whitelist.",
   "channels": [
-    { "handle": "IDF", "name": "Israel Defense Forces" },
-    { "handle": "IsraelMFA", "name": "Israel Ministry of Foreign Affairs" },
-    { "handle": "StandWithUs", "name": "StandWithUs" },
-    { "handle": "HonestReporting", "name": "HonestReporting" },
-    { "handle": "i24NEWS_EN", "name": "i24NEWS English" },
-    { "handle": "AIPAC", "name": "AIPAC" },
-    { "handle": "UnitedWithIsrael", "name": "United with Israel" },
-    { "handle": "TheJerusalemPost", "name": "The Jerusalem Post" },
-    { "handle": "timesofisrael", "name": "The Times of Israel" }
+    {
+      "handle": "IDF",
+      "name": "Israel Defense Forces"
+    },
+    {
+      "handle": "IsraelMFA",
+      "name": "Israel Ministry of Foreign Affairs"
+    },
+    {
+      "handle": "StandWithUs",
+      "name": "StandWithUs"
+    },
+    {
+      "handle": "HonestReporting",
+      "name": "HonestReporting"
+    },
+    {
+      "handle": "i24NEWS_EN",
+      "name": "i24NEWS English"
+    },
+    {
+      "handle": "AIPAC",
+      "name": "AIPAC"
+    },
+    {
+      "handle": "UnitedWithIsrael",
+      "name": "United with Israel"
+    },
+    {
+      "handle": "TheJerusalemPost",
+      "name": "The Jerusalem Post"
+    },
+    {
+      "handle": "timesofisrael",
+      "name": "The Times of Israel"
+    }
   ],
   "playlists": [],
   "blockVideos": [],
   "blockWords": [],
   "pinned": {},
-  "discover": ["Israel history documentary", "Jerusalem history", "Zionism explained", "Israel archaeology", "Israel innovation", "Holy Land tour", "Israel pro-Israel advocacy"]
+  "discover": [
+    "Israel history documentary",
+    "Jerusalem history",
+    "Zionism explained",
+    "Israel archaeology",
+    "Israel innovation",
+    "Holy Land tour",
+    "Israel pro-Israel advocacy"
+  ]
 }

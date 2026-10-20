@@ -231,7 +231,7 @@ async function loadVideoSource(c, kind) {
     const r = await fetch(fu, { headers: YT_UA, cf: { cacheTtl: 900, cacheEverything: true } });
     if (!r.ok) return { key, name: c.name, ok: false, error: 'HTTP ' + r.status, videos: [] };
     const videos = vparse(await r.text()).filter(x => !vblocked(x)).slice(0, 15);
-    return { key, name: c.name, id, kind, url: kind === 'playlist' ? 'https://www.youtube.com/playlist?list=' + id : 'https://www.youtube.com/channel/' + id, ok: videos.length > 0, error: videos.length ? '' : 'no videos', videos };
+    return { key, name: c.name, id, kind, channel: (c.channel || '').toLowerCase(), url: kind === 'playlist' ? 'https://www.youtube.com/playlist?list=' + id : 'https://www.youtube.com/channel/' + id, ok: videos.length > 0, error: videos.length ? '' : 'no videos', videos };
   } catch (e) { return { key, name: c.name, ok: false, error: String(e), videos: [] }; }
 }
 async function videoApi(url, env) {

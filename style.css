@@ -296,3 +296,7 @@ article.gl section{margin-top:22px}article.gl section>h2{font-size:1.25rem;borde
 .egal figcaption{font-family:system-ui,sans-serif;font-size:.72rem;color:var(--mut);margin-top:3px}
 .esrc{font-size:.9rem;padding-left:18px}
 .vcard.vnowp{outline:2px solid var(--acc)}.vnow{margin:8px 0 4px}
+.vlist{margin-top:8px;font-family:system-ui,sans-serif}.vlist h2{font-size:1rem;margin:0 0 6px;border-bottom:1px solid var(--line);padding-bottom:4px}
+.vlist ul{list-style:none;margin:0;padding:0}.vlist li{padding:7px 0;border-bottom:1px solid var(--line);font-size:.88rem;line-height:1.3}
+.vlist a{color:inherit;text-decoration:none;font-weight:600}.vlist a:hover{color:var(--acc)}.vlist a.vnowp{color:var(--acc)}
+.vlist .wm{display:block;color:var(--mut);font-size:.75rem;margin-top:2px}
