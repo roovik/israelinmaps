@@ -129,6 +129,16 @@
         if(!fnote){fnote=document.createElement('p');fnote.className='nfilt small';grid.parentNode.insertBefore(fnote,grid)}
         var lab=state.mode==='topics'&&(state.q||state.kind)?(state.q||state.kind):'';
         fnote.hidden=!lab;fnote.innerHTML=lab?'Showing: <b>'+esc(lab)+'</b> <a href="'+(W==='views'?'/views/':'/news/')+'" data-clr="1">Clear</a>':'';
+        if(!item){
+          var parts=[],tl=function(k){var t=TOPICS.filter(function(x){return x[0]===k})[0];return t?t[1]:''};
+          if(state.mode==='sources'){
+            if(state.ch){var sid0=state.ch.split('/')[0],cid0=state.ch.split('/')[1],sc=byId[sid0];parts.push(sc?sc.name:'');
+              if(sc&&sc.groups)sc.groups.forEach(function(g){g.list.forEach(function(c){if(c.id===cid0)parts.push(c.name)})})}
+            else if(state.src){parts.push((byId[state.src]||{}).name||'');if(state.sub)parts.push(tl(state.sub))}
+          }else{if(state.tp)parts.push(tl(state.tp));if(state.q)parts.push(state.q);if(state.kind)parts.push(state.kind)}
+          var hd=parts.filter(Boolean).join(' ')+(parts.filter(Boolean).length?' ':'')+(W==='views'?'Views':'News'),h1=document.querySelector('.newsleft h1');
+          if(h1)h1.textContent=hd;document.title=hd+' | Israel NOWlej';
+        }
         if(item){go();return}
         if(state.mode==='sources'&&state.ch){
           var sid=state.ch.split('/')[0],cid=state.ch.split('/')[1],key=state.ch;
