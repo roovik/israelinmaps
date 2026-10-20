@@ -276,7 +276,7 @@ def layout(title, body, desc='', path='/', og=None, cls='', nd=False):
 <main id="main" class="wrap">{body}</main>
 <footer><div class="wrap"><p>Israel Mosaic: Maps, Graphs, Timelines, Images, and Knowledge of the Holy Land. By Richard J. Koret.</p>
 <p>&copy; 2003 to 2026 Richard J. Koret. All rights reserved. Page images are shown for reference with the book. <a href="/about/">How to use this site and cite it</a></p></div></footer>
-<script src="/site.js" defer></script>{'<script src="/news.js" defer></script>' if news_js else ''}</body></html>'''
+<script src="/site.js" defer></script>{'<script src="/ads.js" defer></script><script src="/news.js" defer></script>' if news_js else ''}</body></html>'''
 
 def write(path, content):
     fp = os.path.join(OUT, path.lstrip('/'))
@@ -531,14 +531,16 @@ write('/', layout('Israel Mosaic', home, '', '/', '/img/p006.webp', cls='home'))
 
 news = '''<div class="newspage"><div class="newsleft"><div class="ticker" id="news-ticker" aria-label="Latest headlines" hidden></div><p class="crumb"><a href="/">Home</a> / News</p><h1>In the News</h1>
 <p class="lead">Headlines from public news feeds, from the last seven days, matched to the glossary. Each item links to its publisher.</p>
-<div class="newsgrid"><nav class="newstopics" id="news-topics" aria-label="Topics and sources"></nav><div class="newsmain">
+<div class="newsgrid"><div class="newsleftcol"><nav class="newstopics" id="news-topics" aria-label="Topics and sources"></nav><div class="adslot" data-slot="left"></div></div><div class="newsmain">
+<div class="adslot" data-slot="lb-top"></div>
 <p class="ngl"><label><input type="checkbox" id="news-glonly"> Only stories that mention a glossary entry</label></p>
 <div class="ngrid3" id="news-grid"><p>Loading the latest headlines.</p></div>
-<h2 id="news-more-title" class="nmt" hidden>More headlines</h2><ul class="hlist" id="news-more"></ul></div></div></div>
+<h2 id="news-more-title" class="nmt" hidden>More headlines</h2><ul class="hlist" id="news-more"></ul>
+<div class="adslot" data-slot="lb-bottom"></div></div></div></div>
 <aside class="newsside" aria-label="Latest headlines"><div id="news-latest"></div><h2>By source</h2><div id="news-widget"></div></aside></div>
 <p class="small" id="news-status"></p>'''
 write('/news/', layout('News', news, 'Headlines from public news feeds about Israel, linked to the Israel Mosaic glossary.', '/news/', cls='newspg'))
-write('/news/item-template/', layout('@@TITLE@@', '<div class="newspage"><div class="newsleft"><div class="ticker" id="news-ticker" aria-label="Latest headlines" hidden></div><div class="newsgrid"><nav class="newstopics" id="news-topics" aria-label="Topics and sources"></nav><div class="newsmain" id="news-item">@@BODY@@</div></div></div><aside class="newsside" aria-label="Latest headlines"><div id="news-latest"></div><h2>By source</h2><div id="news-widget"></div></aside></div><p class="small" id="news-status"></p>', '@@DESC@@', '/news/item/@@K@@/', cls='newspg', nd=True))
+write('/news/item-template/', layout('@@TITLE@@', '<div class="newspage"><div class="newsleft"><div class="ticker" id="news-ticker" aria-label="Latest headlines" hidden></div><div class="newsgrid"><div class="newsleftcol"><nav class="newstopics" id="news-topics" aria-label="Topics and sources"></nav><div class="adslot" data-slot="left"></div></div><div class="newsmain"><div class="adslot" data-slot="lb-top"></div><div id="news-item">@@BODY@@</div><div class="adslot" data-slot="lb-bottom"></div></div></div></div><aside class="newsside" aria-label="Latest headlines"><div id="news-latest"></div><h2>By source</h2><div id="news-widget"></div></aside></div><p class="small" id="news-status"></p>', '@@DESC@@', '/news/item/@@K@@/', cls='newspg', nd=True))
 gjson = []
 for g in G:
     if g.get('cf'):
@@ -554,6 +556,7 @@ for t, sl, terms in gjson:
         if x not in e[2] and ', ' not in x: e[2].append(x)
 write('/glossary.json', json.dumps(list(merged.values()), ensure_ascii=False, separators=(',', ':')))
 shutil.copy(os.path.join(ROOT, 'tools', 'news.js'), os.path.join(OUT, 'news.js'))
+shutil.copy(os.path.join(ROOT, 'tools', 'ads.js'), os.path.join(OUT, 'ads.js'))
 # ---------------------------------------------------------------- data, assets, redirects, sitemap
 write('/search.json', json.dumps(search, ensure_ascii=False, separators=(',', ':')))
 shutil.copy(os.path.join(ROOT, 'tools', 'style.css'), os.path.join(OUT, 'style.css'))

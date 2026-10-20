@@ -60,7 +60,7 @@
       wid.innerHTML=data.sources.map(function(s){
         var its=data.items.filter(function(i){return i.s===s.id}).slice(0,6);
         if(!s.ok||!its.length)return'';
-        return'<section class="wsrc"><h3><a href="'+esc(s.site||'#')+'" rel="noopener">'+esc(s.name)+'</a></h3><ul>'+its.map(function(i){return'<li><a href="'+esc(iu(i))+'">'+esc(i.t)+'</a>'+(i.d?'<time>'+when(i.d)+'</time>':'')+'</li>'}).join('')+'</ul></section>'}).join('');
+        return'<section class="wsrc"><h3><a href="'+esc(s.site||'#')+'" rel="noopener">'+esc(s.name)+'</a></h3><ul>'+its.map(function(i){return'<li><a href="'+esc(iu(i))+'">'+esc(i.t)+'</a>'+(i.d?'<time>'+when(i.d)+'</time>':'')+'</li>'}).join('')+'</ul></section>'}).filter(Boolean).join('<div class="adslot" data-slot="right"></div>');if(window.IMAds)IMAds.fill(wid);
       var bad=data.sources.filter(function(s){return!s.ok});
       st.textContent='Updated '+new Date(data.updated).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})+'.'+(bad.length?' Unavailable now: '+bad.map(function(s){return s.name}).join(', ')+'.':'');
 

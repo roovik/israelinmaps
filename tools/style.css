@@ -120,3 +120,27 @@ body.newspg .wrap{max-width:1280px}
 .fx{font-size:1.15rem;line-height:1.6}
 .fgo{margin:22px 0 10px}
 .fbtn{display:inline-block;background:var(--acc);color:#fff;text-decoration:none;font-family:system-ui,sans-serif;font-weight:600;padding:10px 16px;border-radius:8px}
+
+.newsleftcol{position:sticky;top:12px;align-self:start}
+.newsleftcol .newstopics{position:static}
+.ad{position:relative;border:1px solid var(--line);border-radius:10px;background:var(--card);font-family:system-ui,sans-serif;overflow:hidden}
+.adl{position:absolute;top:5px;right:8px;font-size:.62rem;text-transform:uppercase;letter-spacing:.06em;color:var(--mut);z-index:1}
+.adin{display:flex;color:inherit;text-decoration:none;gap:12px}
+.adm{display:block;flex:none;object-fit:cover}
+.adx{display:flex;flex-direction:column;gap:4px;min-width:0}
+.adx b{font-size:.95rem}
+.adx span{font-size:.8rem;color:var(--mut);line-height:1.4}
+.adc{font-style:normal;font-size:.78rem;font-weight:600;color:var(--acc)}
+.adt{display:flex;align-items:center;justify-content:center;text-align:center;padding:8px;color:#f6efe0}
+.adt b{font-family:Georgia,serif;font-size:.95rem;line-height:1.15}
+.adt-a{background:#1f3b66}.adt-b{background:#8a4b2a}.adt-c{background:repeating-linear-gradient(45deg,#e9e6dd,#e9e6dd 8px,#f2efe7 8px,#f2efe7 16px);color:var(--mut)}
+.ad-cpm .adx b{font-size:.9rem}
+.ad-lb{margin:0 0 16px}.ad-lb .adin{align-items:center;padding:10px 70px 10px 10px;min-height:90px}.ad-lb .adm{width:56px;height:70px;border-radius:4px}
+.ad-lb .adx{flex:1}
+.adslot[data-slot=lb-bottom]{margin-top:18px}
+.ad-rect{margin:16px 0}.ad-rect .adin{flex-direction:column;gap:8px;padding:0 0 12px}.ad-rect .adm{width:100%;height:150px}.ad-rect .adx{padding:0 12px}
+.ad-rect .adm[src]{object-position:top}
+.ad-tower{margin:16px 0 0}.ad-tower .adin{flex-direction:column;gap:6px;padding:0 0 10px}.ad-tower .adm{width:100%;height:120px}.ad-tower .adx{padding:0 8px}
+.ad-tower .adl{background:var(--card);padding:0 4px;border-radius:3px;top:4px;right:4px}.ad-rect .adl{background:var(--card);padding:0 4px;border-radius:3px}
+@media (max-width:640px){.newsleftcol{position:static}.adslot[data-slot=left]{display:none}.ad-lb .adin{padding-right:10px;padding-top:22px}}
+.ad-lb .adt{padding:4px}.ad-lb .adt b{font-size:.56rem;line-height:1.1}
