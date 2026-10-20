@@ -16,10 +16,11 @@
   function tag(items){items.forEach(function(it){var txt=it.t+' '+it.x,seen={},m=[];
     terms.forEach(function(t,i){if(m.length<3&&!seen[t[1]]&&res[i].test(txt)){seen[t[1]]=1;m.push([t[1],t[2]])}});it.g=m})}
   function chips(it,lab){return it.g.length?'<p class="chips">'+(lab?'In the glossary: ':'')+it.g.map(function(g){return'<a href="/g/'+g[0]+'/">'+esc(g[1])+'</a>'}).join(' ')+'</p>':''}
+  function meta(it){return'<p class="nmeta"><b>'+esc(it.src)+(it.kind?' \u00b7 '+esc(it.kind):'')+'</b>'+(it.d?'<span>'+ago(it.d)+'</span>':'')+'</p>'}
   function card(it){
     var img='<img src="'+esc(it.i)+'" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.parentNode.classList.add(\'noimg\');this.remove()">';
-    return'<article class="ncard"><a class="nimg" href="'+esc(iu(it))+'" rel="noopener" tabindex="-1" aria-hidden="true">'+img+'</a><div class="nb"><p class="nmeta"><b>'+esc(it.src)+'</b>'+(it.kind?' \u00b7 '+esc(it.kind):'')+(it.d?' · '+ago(it.d):'')+'</p><h3><a href="'+esc(iu(it))+'">'+esc(it.t)+'</a></h3><p>'+esc(it.x)+'</p>'+chips(it,true)+'</div></article>'}
-  function hitem(it){return'<div class="hi"><p class="nmeta"><b>'+esc(it.src)+'</b>'+(it.kind?' \u00b7 '+esc(it.kind):'')+(it.d?' \u00b7 '+ago(it.d):'')+'</p><h3><a href="'+esc(iu(it))+'">'+esc(it.t)+'</a></h3>'+chips(it,false)+'</div>'}
+    return'<article class="ncard"><a class="nimg" href="'+esc(iu(it))+'" rel="noopener" tabindex="-1" aria-hidden="true">'+img+'</a><div class="nb"><h3><a href="'+esc(iu(it))+'">'+esc(it.t)+'</a></h3>'+meta(it)+chips(it,true)+'</div></article>'}
+  function hitem(it){return'<div class="hi"><h3><a href="'+esc(iu(it))+'">'+esc(it.t)+'</a></h3>'+meta(it)+chips(it,false)+'</div>'}
   function hcards(list){var o=[];for(var i=0;i<list.length;i+=3)o.push('<article class="ncard hcard"><div class="nb">'+list.slice(i,i+3).map(hitem).join('')+'</div></article>');return o.join('')}
   function holes(el){
     [].forEach.call(el.querySelectorAll('.hole'),function(h){h.remove()});

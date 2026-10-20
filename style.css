@@ -300,3 +300,7 @@ article.gl section{margin-top:22px}article.gl section>h2{font-size:1.25rem;borde
 .vlist ul{list-style:none;margin:0;padding:0}.vlist li{padding:7px 0;border-bottom:1px solid var(--line);font-size:.88rem;line-height:1.3}
 .vlist a{color:inherit;text-decoration:none;font-weight:600}.vlist a:hover{color:var(--acc)}.vlist a.vnowp{color:var(--acc)}
 .vlist .wm{display:block;color:var(--mut);font-size:.75rem;margin-top:2px}
+/* news cards: no blurbs, smaller headline, meta below on two lines */
+.nb h3{font-size:.97rem;margin:0 0 4px}.hcard .hi h3{font-size:.92rem}.ngrid4 .nb h3{font-size:.87rem}
+.nb .nmeta{margin:0 0 6px;line-height:1.35}.nb .nmeta b,.nb .nmeta span{display:block;font-weight:600}.nb .nmeta span{font-weight:400;text-transform:none;letter-spacing:0}
+.ngrid3 .nb h3,.ngrid4 .nb h3{min-height:0}.hcard .hi .nmeta{margin-bottom:8px}
