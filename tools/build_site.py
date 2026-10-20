@@ -2,7 +2,7 @@
 """Israel Mosaic website generator.
 Usage: python3 -I tools/build_site.py <interior.pdf> <master.pdf> <identifiers.csv> <qr-table.csv> <entries_raw.json> <outdir>
 Reads the book PDF text, the identifiers table and the glossary, and writes a static site."""
-import sys, os, re, csv, json, html, shutil, unicodedata
+import urllib.parse, sys, os, re, csv, json, html, shutil, unicodedata
 import pymupdf
 
 PDF, MASTER, IDS, QR, IDXJSON, OUT = sys.argv[1:7]
@@ -259,13 +259,14 @@ NAV = [('/', 'Home'), ('/news/', 'News'), ('/views/', 'Views'), ('/video/', 'Vid
 BASE = 'https://israelinmaps.com'
 
 VCFG = json.load(open(os.path.join(ROOT, 'video.json')))
+def vslug(c): return (c.get('handle') or c.get('id') or '').lower()
 SUBNAV = {
  'news': [('Security', '/news/#mode=topics&tp=security'), ('Diplomacy', '/news/#mode=topics&tp=diplomacy'), ('Politics', '/news/#mode=topics&tp=politics'), ('Technology', '/news/#mode=topics&tp=technology'), ('Business', '/news/#mode=topics&tp=business'), ('Culture', '/news/#mode=topics&tp=culture')],
  'views': [('Op-Ed', '/views/#mode=topics&kind=Op-Ed'), ('Editorial', '/views/#mode=topics&kind=Editorial'), ('Blogs', '/views/#mode=topics&kind=Blog')],
  'maps': [('Historical Maps', '/maps/'), ('Size Comparisons', '/size/')],
  'charts': [('Rankings', '/rankings/'), ('Demographics', '/demographics/'), ('Top Ten', '/top-ten/'), ('Size Comparisons', '/size/'), ('Tables', '/tables/')],
  'media': [('A Taste of Israel', '/tour/'), ('Flora and Fauna', '/flora/')],
- 'video': [('Latest', '/video/#ch-latest')] + [(c['name'], f'/video/#ch-{c.get("handle") or c.get("id")}') for c in VCFG['channels'][:7]],
+ 'video': [('Latest', '/video/#ch-latest')] + [(c['name'], f'/video/{vslug(c)}/') for c in VCFG['channels'][:7]],
  'glossary': [('People and Groups', '/glossary/#c=people-and-groups'), ('Places', '/glossary/#c=places'), ('Events', '/glossary/#c=events'), ('Buildings and Sites', '/glossary/#c=buildings-and-sites'), ('Works', '/glossary/#c=works')],
 }
 def subnav_for(path):
@@ -298,7 +299,7 @@ def layout(title, body, desc='', path='/', og=None, cls='', nd=False):
 <main id="main" class="wrap">{body}</main>
 <footer><div class="wrap"><p>Israel NOWlej: news, views, maps, timelines, charts and media on the Holy Land.</p>
 <p>&copy; 2003 to 2026 Richard J. Koret. All rights reserved. Page images are shown for reference with the book <i>Israel Mosaic</i> by Richard J. Koret. <a href="/about/">How to use this site and cite it</a></p></div></footer>
-<script src="/site.js" defer></script><script src="/ticker.js" defer></script>{'<script src="/ads.js" defer></script><script src="/news.js" defer></script>' if news_js else ''}{'<script src="/subnav.js" defer></script>'}{'<script src="/video.js" defer></script>' if path == '/video/' or path.startswith('/g/') else ''}{'<script src="/entry.js" defer></script>' if path.startswith('/g/') else ''}{'<script src="/glossary.js" defer></script>' if path == '/glossary/' else ''}{'<script src="/source.js" defer></script>' if path.startswith('/sources/') and path != '/sources/' else ''}</body></html>'''
+<script src="/site.js" defer></script><script src="/ticker.js" defer></script>{'<script src="/ads.js" defer></script><script src="/news.js" defer></script>' if news_js else ''}{'<script src="/subnav.js" defer></script>'}{'<script src="/video.js" defer></script>' if path.startswith('/video/') or path.startswith('/g/') else ''}{'<script src="/entry.js" defer></script>' if path.startswith('/g/') else ''}{'<script src="/glossary.js" defer></script>' if path == '/glossary/' else ''}{'<script src="/source.js" defer></script>' if path.startswith('/sources/') and path != '/sources/' else ''}</body></html>'''
 
 def write(path, content):
     fp = os.path.join(OUT, path.lstrip('/'))
@@ -352,7 +353,7 @@ def sec_groups(sk):
         return 'Media', '/media/', [('A Taste of Israel', '/tour/', [(byid[x + '-00']['url'], byid[x + '-00']['title']) for x in ['NEG', 'DSE', 'JUS', 'GAL', 'GOL', 'MED', 'TAJ', 'JHL', 'JRS', 'SHF']]),
                                     ('Flora and Fauna', '/flora/', [(byid[x + '-00']['url'], byid[x + '-00']['title']) for x in ['TRE', 'WFL', 'WLD', 'BRD', 'MIG']])]
     if sk == 'video':
-        return 'Video', '/video/', [('Channels', None, [('/video/#ch-latest', 'Latest')] + [(f'/video/#ch-{c.get("handle") or c.get("id")}', c['name']) for c in VCFG['channels']])]
+        return 'Video', '/video/', [('Channels', None, [('/video/#ch-latest', 'Latest')] + [(f'/video/{vslug(c)}/', c['name']) for c in VCFG['channels']])]
     if sk == 'glossary':
         ls = sorted({key(g['name'])[0].upper() for g in G})
         return 'NOWlej', '/glossary/', [('A to Z', None, [(f'/glossary/#l{L}', L) for L in ls])]
@@ -506,7 +507,7 @@ def gl_pageimg(g):
             f'<p class="small">From the book <i>Israel Mosaic</i>, page {pg}.</p>')
 def gl_video(g, sl):
     pins = VCFG.get('pinned', {}).get(sl, [])
-    cards_ = ''.join(f'<a class="tcard vcard" data-v="{E(p["v"])}" href="https://www.youtube.com/watch?v={E(p["v"])}" rel="noopener"><span class="timg"><img src="https://i.ytimg.com/vi/{E(p["v"])}/mqdefault.jpg" alt="" loading="lazy"><span class="vplay">&#9654;</span></span><span class="tb"><b>{E(p.get("t", ""))}</b></span></a>' for p in pins)
+    cards_ = ''.join(f'<a class="tcard vcard" data-v="{E(p["v"])}" href="/video/watch/?v={E(p["v"])}&amp;t={E(urllib.parse.quote(p.get("t", "")))}"><span class="timg"><img src="https://i.ytimg.com/vi/{E(p["v"])}/mqdefault.jpg" alt="" loading="lazy"><span class="vplay">&#9654;</span></span><span class="tb"><b>{E(p.get("t", ""))}</b></span></a>' for p in pins)
     return f'<section id="e-video" data-slug="{sl}" data-name="{E(g["title"] if g.get("title") else g["name"])}"{"" if pins else " hidden"}><h2>Video</h2><div class="tgrid">{cards_}</div></section>'
 bycat = {}
 def gl_page(g):
@@ -605,6 +606,10 @@ for g in G: gl_page(g)
 
 # ---------------------------------------------------------------- video page
 vb = '<h1>Video</h1><div class="vtop" id="vid-top" hidden></div><div id="vid-root"><p>Loading videos.</p></div>'
+for c_ in VCFG['channels']:
+    sl_ = vslug(c_)
+    write(f'/video/{sl_}/', layout(c_['name'], chan('video', f'<h1>{E(c_["name"])}</h1><div class="vtop" id="vid-top" hidden></div><div id="vid-chan" data-key="{E(sl_)}"><p>Loading videos.</p></div>', f'/video/{sl_}/'), f'Videos from {c_["name"]}.', f'/video/{sl_}/'))
+write('/video/watch/', layout('Watch', chan('video', '<h1 id="vw-title">Video</h1><div class="vtop" id="vid-top" hidden></div><div id="vid-watch"></div>', '/video/'), 'Watch a video.', '/video/watch/', nd=True))
 write('/video/', layout('Video', chan('video', vb, '/video/'), 'Curated video from whitelisted channels, with a player and a gallery for each.', '/video/'))
 
 # ---------------------------------------------------------------- glossary hub (cards)
