@@ -6,8 +6,8 @@ root = sys.argv[1]
 im = Image.open(f'{root}/img/p004.webp').convert('RGB')
 W, H = im.size
 from PIL import ImageDraw
-sea = im.getpixel((int(W * .10), int(H * .50)))
-ImageDraw.Draw(im).rectangle((int(W * .105), int(H * .20), int(W * .31), int(H * .37)), fill=sea)  # hide the legend: the cover is illustrative
+sea = im.getpixel((int(W * .085), int(H * .30)))
+ImageDraw.Draw(im).rectangle((int(W * .093), int(H * .24), int(W * .327), int(H * .465)), fill=sea)  # hide the legend: the cover is illustrative
 crop = im.crop((int(W * .075), int(H * .105), int(W * .915), int(H * .875)))
 buf = io.BytesIO(); crop.save(buf, 'JPEG', quality=88); b64 = base64.b64encode(buf.getvalue()).decode()
 def hexc(h, s, l):
