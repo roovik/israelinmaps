@@ -183,3 +183,9 @@ body.newspg .wrap{max-width:1440px}
 .titlerow h1{margin:0;flex:none}
 .titlerow .adslot[data-slot=page-top]{flex:1 1 340px;min-width:0;margin:0}
 .adslot[data-slot=aside-top]{display:flex!important;justify-content:center;margin:0 0 12px}
+
+body.newspg main{padding-top:5px}
+.newspage{grid-template-columns:170px minmax(0,1fr) 320px}
+.newsside{margin-top:0}
+@media (max-width:1000px){.newspage{grid-template-columns:170px minmax(0,1fr)}.newsside{grid-column:1/-1}}
+@media (max-width:640px){.newspage{grid-template-columns:1fr}.newsleft{display:contents}.newspage .ticker{order:1}.newspage .crumb{order:2}.newspage .titlerow{order:3}.newspage .lead{order:4}.newsleftcol{order:5}.newspage .newsmain{order:6}.newsside{order:7;grid-column:auto}}
