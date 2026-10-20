@@ -538,6 +538,7 @@ news = '''<div class="newspage"><div class="newsleft"><div class="ticker" id="ne
 <aside class="newsside" aria-label="Latest headlines"><div id="news-latest"></div><h2>By source</h2><div id="news-widget"></div></aside></div>
 <p class="small" id="news-status"></p>'''
 write('/news/', layout('News', news, 'Headlines from public news feeds about Israel, linked to the Israel Mosaic glossary.', '/news/', cls='newspg'))
+write('/news/item-template/', layout('@@TITLE@@', '@@BODY@@', '@@DESC@@', '/news/item/@@K@@/', cls='itempg', nd=True))
 gjson = []
 for g in G:
     if g.get('cf'):

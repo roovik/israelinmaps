@@ -62,14 +62,31 @@ function snippet(s, max = 190) {
   const cut = s.slice(0, max).replace(/\s+\S*$/, '');
   return cut + '…';
 }
-function blurb(x, title) {
-  x = x.replace(/The post .{0,200}? appeared first on .*$/i, '').replace(/\[(?:\u2026|&hellip;|\.\.\.)\]/g, '').replace(/\b(?:Continue reading|Read more|Click here)\b.*$/i, '').replace(/\s+/g, ' ').trim();
-  if (x.length < 50 || x.split(' ').length < 8) return '';
+function clean(x, title, minWords = 8) {
+  x = x.replace(/The post .{0,200}? appeared first on .*$/i, '').replace(/\[(?:…|&hellip;|\.\.\.)\]/g, '').replace(/\b(?:Continue reading|Read more|Click here)\b.*$/i, '').replace(/\s+/g, ' ').trim();
+  if (x.length < 50 || x.split(' ').length < minWords) return '';
   if (/[<>{}]|&#|&[a-z]+;|https?:\/\//i.test(x)) return '';
   const a = x.toLowerCase().slice(0, 40), b = title.toLowerCase().slice(0, 40);
   if (a === b || x.toLowerCase() === title.toLowerCase()) return '';
   if (!/[a-z]{3}/.test(x) || (x.match(/[A-Z]/g) || []).length > x.length * 0.4) return '';
-  return snippet(x);
+  return x;
+}
+function blurb(x, title) { const c = clean(x, title); return c ? snippet(c) : ''; }
+// up to 100 words, ending on a sentence when one falls in the last 40 words
+function words100(x) {
+  const w = x.split(' ');
+  if (w.length <= 100) return x;
+  let cut = w.slice(0, 100).join(' ');
+  const m = cut.match(/^([\s\S]*[.!?]["”’)]?)\s+\S+(?:\s+\S+){0,39}$/);
+  if (m && m[1].split(' ').length >= 55) return m[1];
+  return cut.replace(/[,;:]$/, '') + '…';
+}
+function hashId(str) {
+  let h1 = 0xdeadbeef, h2 = 0x41c6ce57;
+  for (let i = 0; i < str.length; i++) { const c = str.charCodeAt(i); h1 = Math.imul(h1 ^ c, 2654435761); h2 = Math.imul(h2 ^ c, 1597334677); }
+  h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+  h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+  return (4294967296 * (2097151 & h2) + (h1 >>> 0)).toString(36);
 }
 function image(block) {
   const raw = decode(unwrap(block)) + ' ' + unwrap(block);
@@ -92,7 +109,9 @@ function parse(xml, feed) {
     const d = text(tag(b, 'pubDate') || tag(b, 'published') || tag(b, 'updated') || tag(b, 'dc:date'));
     const t = d ? new Date(d) : null;
     const desc = tag(b, 'description') || tag(b, 'summary') || tag(b, 'content:encoded') || tag(b, 'content');
-    items.push({ s: feed.id, src: feed.name, t: title, u: link, d: t && !isNaN(t) && t.getFullYear() >= 2005 ? t.toISOString() : null, x: blurb(text(desc), title), i: image(b) });
+    const full = text(tag(b, 'content:encoded')), short = text(desc);
+    const best = clean(full.length > short.length ? full : short, title, 5) || clean(short, title, 5);
+    items.push({ s: feed.id, src: feed.name, t: title, u: link, k: hashId(link), d: t && !isNaN(t) && t.getFullYear() >= 2005 ? t.toISOString() : null, x: blurb(short, title), i: image(b), f: best ? words100(best) : '' });
   }
   return items;
 }
@@ -118,9 +137,52 @@ async function load(feed) {
     return { feed, ok: false, error: String(e && e.name === 'AbortError' ? 'timeout' : e), items: [] };
   } finally { clearTimeout(timer); }
 }
+
+const H = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+async function itemPage(request, env, k, sp, cp) {
+  const origin = new URL(request.url).origin;
+  const tpl = await (await env.ASSETS.fetch(new Request(origin + '/news/item-template/'))).text();
+  const src = SOURCES.find(x => x.id === sp);
+  let item = null, status = 200;
+  if (src) {
+    const ch = cp && src.groups && src.groups.flatMap(g => g.list).find(c => c.id === cp);
+    if (!cp || ch) {
+      const r = await load({ id: src.id, name: src.name, site: src.site, url: ch ? ch.url : src.url });
+      item = r.items.find(i => i.k === k) || null;
+    }
+  }
+  let title, desc, body;
+  if (!item) {
+    status = 404; title = 'This story is no longer available'; desc = 'News items stay on Israel Mosaic for seven days.';
+    body = '<p class="crumb"><a href="/">Home</a> / <a href="/news/">News</a></p><h1>This story is no longer available</h1><p>News items stay on this site for seven days. <a href="/news/">Back to the latest news</a>.</p>';
+  } else {
+    let gl = [];
+    try {
+      const g = await (await env.ASSETS.fetch(new Request(origin + '/glossary.json'))).json();
+      const txt = item.t + ' ' + (item.f || item.x), seen = {}, terms = [];
+      g.forEach(e => e[2].forEach(t => { if (t.length > 3 && !/^(israel|eli|paul|cana|ariel|zion|saul|jacob)$/i.test(t)) terms.push([t, e[1], e[0]]); }));
+      terms.sort((a, b) => b[0].length - a[0].length);
+      for (const t of terms) { if (gl.length >= 5) break; if (seen[t[2]]) continue; if (new RegExp('(^|[^A-Za-z])' + t[0].replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '(?![A-Za-z])').test(txt)) { seen[t[2]] = 1; gl.push([t[2], t[1]]); } }
+    } catch { }
+    const when = item.d ? new Date(item.d).toLocaleString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Jerusalem' }) : '';
+    title = item.t; desc = (item.f || item.x || item.t).slice(0, 200);
+    body = '<p class="crumb"><a href="/">Home</a> / <a href="/news/">News</a> / Feed item</p>'
+      + '<article class="fitem"><h1>' + H(item.t) + '</h1>'
+      + '<p class="fmeta"><a href="' + H(src.site) + '" rel="noopener">' + H(src.name) + '</a>' + (when ? ' · ' + when : '') + '</p>'
+      + (item.i ? '<img class="fimg" src="' + H(item.i) + '" alt="" referrerpolicy="no-referrer" onerror="this.remove()">' : '')
+      + (item.f ? '<p class="fx">' + H(item.f) + '</p>' : '<p class="fx">' + H(src.name) + ' shares only the headline of this story.</p>')
+      + (gl.length ? '<p class="chips">In the glossary: ' + gl.map(g => '<a href="/g/' + H(g[0]) + '/">' + H(g[1]) + '</a>').join(' ') + '</p>' : '')
+      + '<p class="fgo"><a class="fbtn" href="' + H(item.u) + '" rel="noopener nofollow">Read the full story at ' + H(src.name) + '</a></p>'
+      + '<p class="small">This page will disappear after 7 days.</p></article>';
+  }
+  const html = tpl.split('@@TITLE@@').join(H(title)).split('@@DESC@@').join(H(desc)).split('@@K@@').join(H(k)).split('@@BODY@@').join(body);
+  return new Response(html, { status, headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': status === 200 ? 'public, max-age=900' : 'no-store', 'X-Robots-Tag': 'noindex' } });
+}
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+    const im = url.pathname.match(/^\/news\/item\/([a-z0-9]+)\/?$/);
+    if (im) return itemPage(request, env, im[1], url.searchParams.get('s'), url.searchParams.get('c'));
     if (url.pathname !== '/api/news') return env.ASSETS.fetch(request);
     if (url.searchParams.get('debug')) {
       const out = await Promise.all(FEEDS.map(async f => {
@@ -145,10 +207,10 @@ export default {
       const src = SOURCES.find(s => s.id === sp), ch = src && src.groups && src.groups.flatMap(g => g.list).find(c => c.id === cp);
       if (!ch) return new Response('{"error":"unknown channel"}', { status: 404, headers: { 'Content-Type': 'application/json' } });
       const r = await load({ id: src.id, name: src.name, site: src.site, url: ch.url });
-      return new Response(JSON.stringify({ updated: new Date().toISOString(), source: src.id, channel: { id: ch.id, name: ch.name }, ok: r.ok, error: r.error, items: r.items }), { headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'public, max-age=600', 'Access-Control-Allow-Origin': '*' } });
+      return new Response(JSON.stringify({ updated: new Date().toISOString(), source: src.id, channel: { id: ch.id, name: ch.name }, ok: r.ok, error: r.error, items: r.items.map(({ f, ...rest }) => rest) }), { headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'public, max-age=600', 'Access-Control-Allow-Origin': '*' } });
     }
     const results = await Promise.all(FEEDS.map(load));
-    const items = results.flatMap(r => r.items).sort((a, b) => (b.d || '').localeCompare(a.d || '')).slice(0, TOTAL);
+    const items = results.flatMap(r => r.items).map(({ f, ...rest }) => rest).sort((a, b) => (b.d || '').localeCompare(a.d || '')).slice(0, TOTAL);
     const body = JSON.stringify({ updated: new Date().toISOString(), sources: results.map(r => ({ id: r.feed.id, name: r.feed.name, site: r.feed.site, groups: (SOURCES.find(s => s.id === r.feed.id) || {}).groups ? SOURCES.find(s => s.id === r.feed.id).groups.map(g => ({ group: g.group, list: g.list.map(c => ({ id: c.id, name: c.name })) })) : null, ok: r.ok, count: r.items.length, error: r.error, img: !!r.img })), items });
     return new Response(body, { headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'public, max-age=600', 'Access-Control-Allow-Origin': '*' } });
   },

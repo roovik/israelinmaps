@@ -5,6 +5,7 @@
   function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
   function ago(iso){if(!iso)return'';var s=(Date.now()-new Date(iso))/1000;if(s<3600)return Math.max(1,Math.round(s/60))+' min ago';if(s<86400)return Math.round(s/3600)+' h ago';if(s<604800)return Math.round(s/86400)+' days ago';return new Date(iso).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}
   function when(iso){return iso?new Date(iso).toLocaleString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}):''}
+  function iu(it){return'/news/item/'+it.k+'/?s='+encodeURIComponent(it.s)+(it.ch?'&c='+encodeURIComponent(it.ch):'')}
   function full(it){return it.i&&it.x}
   var terms=[],res=[];
   function tag(items){items.forEach(function(it){var txt=it.t+' '+it.x,seen={},m=[];
@@ -12,8 +13,8 @@
   function chips(it,lab){return it.g.length?'<p class="chips">'+(lab?'In the glossary: ':'')+it.g.map(function(g){return'<a href="/g/'+g[0]+'/">'+esc(g[1])+'</a>'}).join(' ')+'</p>':''}
   function card(it){
     var img='<img src="'+esc(it.i)+'" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.parentNode.classList.add(\'noimg\');this.remove()">';
-    return'<article class="ncard"><a class="nimg" href="'+esc(it.u)+'" rel="noopener" tabindex="-1" aria-hidden="true">'+img+'</a><div class="nb"><p class="nmeta"><b>'+esc(it.src)+'</b>'+(it.d?' · '+ago(it.d):'')+'</p><h3><a href="'+esc(it.u)+'" rel="noopener">'+esc(it.t)+'</a></h3><p>'+esc(it.x)+'</p>'+chips(it,true)+'</div></article>'}
-  function row(it){return'<li><span class="nmeta"><b>'+esc(it.src)+'</b>'+(it.d?' · '+ago(it.d):'')+'</span> <a href="'+esc(it.u)+'" rel="noopener">'+esc(it.t)+'</a>'+chips(it,false)+'</li>'}
+    return'<article class="ncard"><a class="nimg" href="'+esc(iu(it))+'" rel="noopener" tabindex="-1" aria-hidden="true">'+img+'</a><div class="nb"><p class="nmeta"><b>'+esc(it.src)+'</b>'+(it.d?' · '+ago(it.d):'')+'</p><h3><a href="'+esc(iu(it))+'">'+esc(it.t)+'</a></h3><p>'+esc(it.x)+'</p>'+chips(it,true)+'</div></article>'}
+  function row(it){return'<li><span class="nmeta"><b>'+esc(it.src)+'</b>'+(it.d?' · '+ago(it.d):'')+'</span> <a href="'+esc(iu(it))+'">'+esc(it.t)+'</a>'+chips(it,false)+'</li>'}
 
   Promise.all([fetch('/api/news').then(function(r){if(!r.ok)throw 0;return r.json()}),fetch('/glossary.json').then(function(r){return r.json()})]).then(function(a){
     var data=a[0],gl=a[1];
@@ -45,18 +46,18 @@
       var dated=data.items.filter(function(i){return i.d}).slice(0,12);
       var tk=document.getElementById('news-ticker');
       if(tk&&dated.length){
-        tk.innerHTML=dated.map(function(i,n){return'<a class="tki'+(n?'':' on')+'" href="'+esc(i.u)+'" rel="noopener"><span class="tkt">'+(isBrk(i)?'<b>Breaking</b> ':'')+esc(i.t)+'</span><span class="tkm">'+esc(i.src)+' · '+when(i.d)+'</span></a>'}).join('');
+        tk.innerHTML=dated.map(function(i,n){return'<a class="tki'+(n?'':' on')+'" href="'+esc(iu(i))+'"><span class="tkt">'+(isBrk(i)?'<b>Breaking</b> ':'')+esc(i.t)+'</span><span class="tkm">'+esc(i.src)+' · '+when(i.d)+'</span></a>'}).join('');
         tk.hidden=false;
         var cur=0,paused=false,els=tk.children;
         tk.addEventListener('mouseenter',function(){paused=true});tk.addEventListener('mouseleave',function(){paused=false});
         tk.addEventListener('focusin',function(){paused=true});tk.addEventListener('focusout',function(){paused=false});
         if(els.length>1)setInterval(function(){if(paused||document.hidden)return;var o=els[cur];cur=(cur+1)%els.length;var n=els[cur];o.className='tki out';n.className='tki on';setTimeout(function(){if(o!==els[cur])o.className='tki'},700)},5000);
       }
-      latest.innerHTML='<section class="wsrc wlatest"><h3>Latest news</h3><ul>'+dated.slice(0,5).map(function(i){return'<li><a href="'+esc(i.u)+'" rel="noopener">'+esc(i.t)+'</a><span class="wm"><a href="'+esc((byId[i.s]||{}).site||'#')+'" rel="noopener">'+esc(i.src)+'</a> · <time>'+when(i.d)+'</time></span></li>'}).join('')+'</ul></section>';
+      latest.innerHTML='<section class="wsrc wlatest"><h3>Latest news</h3><ul>'+dated.slice(0,5).map(function(i){return'<li><a href="'+esc(iu(i))+'">'+esc(i.t)+'</a><span class="wm"><a href="'+esc((byId[i.s]||{}).site||'#')+'" rel="noopener">'+esc(i.src)+'</a> · <time>'+when(i.d)+'</time></span></li>'}).join('')+'</ul></section>';
       wid.innerHTML=data.sources.map(function(s){
         var its=data.items.filter(function(i){return i.s===s.id}).slice(0,6);
         if(!s.ok||!its.length)return'';
-        return'<section class="wsrc"><h3><a href="'+esc(s.site||'#')+'" rel="noopener">'+esc(s.name)+'</a></h3><ul>'+its.map(function(i){return'<li><a href="'+esc(i.u)+'" rel="noopener">'+esc(i.t)+'</a>'+(i.d?'<time>'+when(i.d)+'</time>':'')+'</li>'}).join('')+'</ul></section>'}).join('');
+        return'<section class="wsrc"><h3><a href="'+esc(s.site||'#')+'" rel="noopener">'+esc(s.name)+'</a></h3><ul>'+its.map(function(i){return'<li><a href="'+esc(iu(i))+'">'+esc(i.t)+'</a>'+(i.d?'<time>'+when(i.d)+'</time>':'')+'</li>'}).join('')+'</ul></section>'}).join('');
       var bad=data.sources.filter(function(s){return!s.ok});
       st.textContent='Updated '+new Date(data.updated).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})+'.'+(bad.length?' Unavailable now: '+bad.map(function(s){return s.name}).join(', ')+'.':'');
 
@@ -110,7 +111,7 @@
           grid.innerHTML='<p>Loading.</p>';more.innerHTML='';mt.hidden=true;
           var show=function(d){if(state.ch!==key)return;
             if(!d.ok){grid.innerHTML='<p>'+esc(d.channel.name)+' has no recent stories right now.</p>';return}
-            tag(d.items);topics(d.items);paint(d.items)};
+            d.items.forEach(function(i){i.ch=cid});tag(d.items);topics(d.items);paint(d.items)};
           if(cache[key])return show(cache[key]);
           fetch('/api/news?s='+encodeURIComponent(sid)+'&c='+encodeURIComponent(cid)).then(function(r){return r.json()}).then(function(d){cache[key]=d;show(d)}).catch(function(){grid.innerHTML='<p>That channel could not be loaded right now.</p>'});
           return;
