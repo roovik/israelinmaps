@@ -254,8 +254,8 @@ def app_html(g):
 
 # ---------------------------------------------------------------- templates
 CSS = open(os.path.join(ROOT, 'tools', 'style.css')).read()
-NAV = [('/', 'Home'), ('/news/', 'News'), ('/views/', 'Views'), ('/video/', 'Video'), ('/media/', 'Media'), ('/maps/', 'Maps'), ('/timelines/', 'Timelines'),
-       ('/charts/', 'Charts'), ('/glossary/', 'NOWlej'), ('/sources/', 'Sources')]
+NAV = [('/', 'News'), ('/views/', 'Views'), ('/video/', 'Video'), ('/media/', 'Media'), ('/maps/', 'Maps'), ('/timelines/', 'Timelines'),
+       ('/charts/', 'Charts'), ('/glossary/', 'NOWlej'), ('/sources/', 'Sources'), ('/about/', 'About')]
 BASE = 'https://israelinmaps.com'
 
 VCFG = json.load(open(os.path.join(ROOT, 'video.json')))
@@ -687,7 +687,6 @@ about = '''<p class="crumb"><a href="/">Home</a> / About</p><h1>How to Use This 
 for pth_, ttl_, txt_ in [('/subscribe/', 'Subscribe', 'Subscriptions are coming soon. They will bring a daily digest of the news and views on this site.'),
                          ('/signin/', 'Sign in', 'Accounts are coming soon. For now the whole site is open to read without signing in.')]:
     write(pth_, layout(ttl_, chan('sources', f'<h1>{ttl_}</h1><p>{txt_}</p>'), ttl_ + ' to Israel NOWlej.', pth_, nd=True))
-write('/about/', layout('How to Use This Site', chan('sources', about, '/about/'), 'Addresses, IDs, hubs and how to cite a page of the book Israel Mosaic.', '/about/'))
 
 sb = '''<h1>Search</h1><form class="sf big" action="/search/" role="search"><input id="q" name="q" type="search" placeholder="Try map-002, Masada, Rabin, olive" aria-label="Search" autofocus><button>Search</button></form>
 <p class="small">Searches live news and views, maps, timelines, charts, media and the glossary.</p><ul class="results" id="results"></ul>'''
@@ -702,12 +701,14 @@ home_cards = [('/maps/', 'Maps', '33 maps'), ('/timelines/', 'Timelines', '19 ti
               ('/tables/', 'Tables', '5 reference tables'), ('/tour/', 'A Taste of Israel', '10 regions, 71 stops'), ('/flora/', 'Flora and Fauna', '5 sections, 60 entries'),
               ('/glossary/', 'Glossary', '407 entries'), ('/index/', 'Index', 'Find any name or place')]
 cards = ''.join(f'<a class="card" href="{u}"><b>{t}</b><span>{d}</span></a>' for u, t, d in home_cards)
-home = f'''<section class="hero"><h1>Israel <b>NOWlej</b></h1><p class="sub">News, Views, Maps, Timelines, Charts and Knowledge of the Holy Land</p>
+home = f'''<section class="hero"><h1>About Israel <b>NOWlej</b></h1><p class="sub">News, Views, Maps, Timelines, Charts and Knowledge of the Holy Land</p>
 <p class="lead">The site of the book <i>Israel Mosaic</i>. Every map, chart, timeline and list in the book has its own page here, with a permanent ID you can type, cite or scan.</p>
 <form class="sf big" action="/search/" role="search"><input name="q" type="search" placeholder="Search, or type an ID such as MAP-002" aria-label="Search"><button>Search</button></form></section>
 <div class="cards">{cards}</div>
-<p class="small">New here? <a href="/about/">How the addresses and citations work</a>.</p>'''
-write('/', layout('Israel NOWlej', home, '', '/', '/img/p006.webp', cls='home'))
+'''
+
+home = home + '<hr>' + about.replace('<p class="crumb"><a href="/">Home</a> / About</p>', '').replace('<h1>How to Use This Site</h1>', '<h2>How to use this site</h2>')
+write('/about/', layout('About Israel NOWlej', home, 'About Israel NOWlej, and how the addresses, IDs and citations from the book Israel Mosaic work.', '/about/', '/img/p006.webp', cls='home'))
 
 news = '''<div class="newspage"><div class="adslot" data-slot="page-top" data-sizes="728x90|320x50"></div><div class="newsleftcol"><nav class="newstopics" id="news-topics" aria-label="Topics and sources"></nav><div class="adslot" data-slot="left" data-sizes="tower"></div></div><div class="newsleft"><h1>News</h1>
 <div class="newsmain">
@@ -719,6 +720,7 @@ news = '''<div class="newspage"><div class="adslot" data-slot="page-top" data-si
 <p class="small" id="news-status"></p>
 <div class="adslot adwide" data-slot="page-bottom" data-sizes="970x250|728x90|320x100"></div>'''
 write('/news/', layout('News', news, 'Headlines from public news feeds about Israel, linked to the glossary.', '/news/', cls='newspg'))
+write('/', layout('Israel NOWlej', news, 'Headlines from public news feeds about Israel, with views, video, maps, timelines and a glossary.', '/', '/img/p006.webp', cls='newspg'))
 write('/news/item-template/', layout('@@TITLE@@', '<div class="newspage"><div class="adslot" data-slot="page-top" data-sizes="728x90|320x50"></div><div class="newsleftcol"><nav class="newstopics" id="news-topics" aria-label="Topics and sources"></nav><div class="adslot" data-slot="left" data-sizes="tower"></div></div><div class="newsleft"><div class="newsmain"><div id="news-item">@@BODY@@</div><div class="adslot" data-slot="lb-bottom" data-sizes="728x90|320x50"></div></div></div><aside class="newsside" aria-label="Latest headlines"><div class="adslot" data-slot="aside-top" data-sizes="320x100"></div><div id="news-latest"></div><h2>By source</h2><div id="news-widget"></div></aside></div><p class="small" id="news-status"></p><div class="adslot adwide" data-slot="page-bottom" data-sizes="970x250|728x90|320x100"></div>', '@@DESC@@', '/news/item/@@K@@/', cls='newspg', nd=True))
 views_html = news.replace('<h1>News</h1>', '<h1>Views</h1>').replace('id="news-grid"', 'id="news-grid" data-api="/api/news?views=1&v=2"')
 write('/views/', layout('Views', views_html, 'Op-eds, editorials and blogs from Israeli news sources, linked to the glossary.', '/views/', cls='newspg'))
