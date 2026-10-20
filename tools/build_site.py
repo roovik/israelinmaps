@@ -389,7 +389,7 @@ def secnav(sk, active=''):
     title, hub_u, groups = sec_groups(sk)
     total = sum(len(g[2]) for g in groups)
     cur = ' aria-current="page"'
-    o = f'<nav class="newstopics secnav" aria-label="In this section">' + ('' if sk == 'video' else f'<h2><a href="{hub_u}"{cur if active == hub_u else ""}>{E(title)}</a></h2>')
+    o = f'<nav class="newstopics secnav{" az" if groups and groups[0][0] == "A to Z" else ""}" aria-label="In this section">' + ('' if sk == 'video' else f'<h2><a href="{hub_u}"{cur if active == hub_u else ""}>{E(title)}</a></h2>')
     for gt, gu, lst in groups:
         op = total <= 40 or any(u == active for u, _ in lst) or active == gu
         lk = f'<a href="{gu}">{E(gt)}</a>' if gu else E(gt)

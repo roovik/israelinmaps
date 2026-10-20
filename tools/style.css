@@ -510,3 +510,14 @@ body .bar,body.newspg .bar{display:flex!important;flex-wrap:wrap;align-items:cen
 .bar .sf{order:1;flex:1 1 100%;width:100%;display:flex}.bar .sf input{flex:1;min-width:0;width:auto}
 .bar .ticker,body.newspg .bar .ticker{order:2;flex:1 1 100%;margin:0}
 }
+/* phones and tablets: side navigation never pushes the content down */
+@media (max-width:900px){
+.newspage:not(.aboutpg) .newsleftcol{display:none}
+.newspage:not(.aboutpg) .newsleftcol:has(.secnav.az){display:block;margin:0;padding:0}
+.secnav.az h2,.secnav.az summary,.newsleftcol:has(.secnav.az) .adslot{display:none}
+.secnav.az details{display:block;border:0;padding:0}
+.secnav.az ul{display:flex;gap:3px;overflow-x:auto;margin:0;padding:0 0 4px;list-style:none;-webkit-overflow-scrolling:touch}
+.secnav.az li{flex:none}
+.secnav.az li a{display:block;min-width:34px;text-align:center;padding:7px 8px;background:var(--t4);color:#fff;font-weight:600;text-decoration:none}
+}
+@media (max-width:900px){p.az#gaz{display:none}}
