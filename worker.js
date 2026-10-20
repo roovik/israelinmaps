@@ -18,7 +18,11 @@ function decode(s) {
   });
 }
 function unwrap(s) { return s.replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, '$1'); }
-function text(s) { return decode(unwrap(s || '').replace(/<[^>]*>/g, ' ')).replace(/\s+/g, ' ').trim(); }
+function text(s) {
+  let t = decode(unwrap(s || ''));
+  for (let i = 0; i < 2; i++) t = decode(t.replace(/<(script|style)[\s\S]*?<\/\1>/gi, ' ').replace(/<[^>]*>/g, ' '));
+  return t.replace(/\s+/g, ' ').trim();
+}
 function tag(block, name) {
   const m = block.match(new RegExp('<' + name + '(?:\\s[^>]*)?>([\\s\\S]*?)</' + name + '>', 'i'));
   return m ? m[1] : '';
@@ -42,7 +46,7 @@ function blurb(x, title) {
   return snippet(x);
 }
 function image(block) {
-  const raw = unwrap(block);
+  const raw = decode(unwrap(block)) + ' ' + unwrap(block);
   let u = attr(block, 'media:thumbnail', 'url') || attr(block, 'media:content', 'url');
   if (!u) { const m = block.match(/<enclosure\b[^>]*>/i); if (m && /image/i.test(m[0])) { const x = m[0].match(/url="([^"]+)"/i); if (x) u = decode(x[1]); } }
   if (!u) { const m = raw.match(/<img\b[^>]*\ssrc=["']([^"']+)["']/i); if (m) u = decode(m[1]); }
@@ -83,6 +87,17 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
     if (url.pathname !== '/api/news') return env.ASSETS.fetch(request);
+    if (url.searchParams.get('debug')) {
+      const out = await Promise.all(FEEDS.map(async f => {
+        try {
+          const r = await fetch(f.url, { headers: { 'User-Agent': 'IsraelMosaicNews/1.0' } });
+          const xml = await r.text();
+          const m = xml.match(/<(item|entry)\b[\s\S]*?<\/\1>/i);
+          return { id: f.id, status: r.status, type: r.headers.get('content-type'), firstItemRaw: m ? m[0].slice(0, 1800) : xml.slice(0, 600), parsed: parse(xml, f).slice(0, 2) };
+        } catch (e) { return { id: f.id, error: String(e) }; }
+      }));
+      return new Response(JSON.stringify(out, null, 1), { headers: { 'Content-Type': 'application/json; charset=utf-8' } });
+    }
     const results = await Promise.all(FEEDS.map(load));
     const items = results.flatMap(r => r.items).sort((a, b) => (b.d || '').localeCompare(a.d || '')).slice(0, TOTAL);
     const body = JSON.stringify({ updated: new Date().toISOString(), sources: results.map(r => ({ id: r.feed.id, name: r.feed.name, ok: r.ok, count: r.items.length, error: r.error, img: !!r.img })), items });
