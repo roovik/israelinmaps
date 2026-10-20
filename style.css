@@ -384,3 +384,20 @@ nav a:hover,nav a[aria-current],nav a.on{color:var(--gold);color:#b36b00}
 @media (prefers-color-scheme:dark){nav a:hover,nav a[aria-current],nav a.on{color:var(--gold)}}
 main h1{position:relative;padding-bottom:10px}main h1::after{content:"";position:absolute;left:0;bottom:0;width:72px;height:5px;border-radius:3px;background:linear-gradient(90deg,#1f62c4 0 33%,#1596ad 33% 66%,#e9a113 66%)}
 .subbtn{background:var(--gold)!important;color:#2a1d00!important;border-color:var(--gold)!important}
+
+/* rollover colours for the menus */
+nav.wrap a{border-bottom:3px solid transparent;padding-bottom:2px;transition:color .12s,border-color .12s}
+nav.wrap a[data-n="0"]:hover,nav.wrap a[data-n="0"].hov{color:#1f62c4;border-color:#1f62c4}
+nav.wrap a[data-n="1"]:hover,nav.wrap a[data-n="1"].hov{color:#1596ad;border-color:#1596ad}
+nav.wrap a[data-n="2"]:hover,nav.wrap a[data-n="2"].hov{color:#c8541f;border-color:#c8541f}
+nav.wrap a[data-n="3"]:hover,nav.wrap a[data-n="3"].hov{color:#6a3d9a;border-color:#6a3d9a}
+nav.wrap a[data-n="4"]:hover,nav.wrap a[data-n="4"].hov{color:#2e8b57;border-color:#2e8b57}
+nav.wrap a[data-n="5"]:hover,nav.wrap a[data-n="5"].hov{color:#b36b00;border-color:#e9a113}
+nav.wrap a[data-n="6"]:hover,nav.wrap a[data-n="6"].hov{color:#1f62c4;border-color:#1f62c4}
+nav.wrap a[data-n="7"]:hover,nav.wrap a[data-n="7"].hov{color:#1596ad;border-color:#1596ad}
+nav.wrap a[data-n="8"]:hover,nav.wrap a[data-n="8"].hov{color:#c8541f;border-color:#c8541f}
+nav.wrap a[data-n="9"]:hover,nav.wrap a[data-n="9"].hov{color:#6a3d9a;border-color:#6a3d9a}
+.subnav{border-top:3px solid var(--sc,var(--line));transition:border-color .12s}
+.subnav[data-c="0"],.subnav[data-c="6"]{--sc:#1f62c4}.subnav[data-c="1"],.subnav[data-c="7"]{--sc:#1596ad}.subnav[data-c="2"],.subnav[data-c="8"]{--sc:#c8541f}.subnav[data-c="3"],.subnav[data-c="9"]{--sc:#6a3d9a}.subnav[data-c="4"]{--sc:#2e8b57}.subnav[data-c="5"]{--sc:#e9a113}
+.subnav.prev a:hover{color:var(--sc);text-decoration:underline}.subnav.prev .trend{display:none}
+@media (prefers-color-scheme:dark){nav.wrap a[data-n="0"]:hover,nav.wrap a[data-n="6"]:hover{color:#8fc2ff}nav.wrap a[data-n="3"]:hover,nav.wrap a[data-n="9"]:hover{color:#c9a4f0}nav.wrap a[data-n="2"]:hover,nav.wrap a[data-n="8"]:hover{color:#ff9a6b}nav.wrap a[data-n="4"]:hover{color:#6fd49a}nav.wrap a[data-n="5"]:hover{color:#f6c545}}

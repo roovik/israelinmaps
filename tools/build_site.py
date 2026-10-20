@@ -264,18 +264,31 @@ def plslug(c): return 'pl-' + c['id'].lower()
 SUBNAV = {
  'news': [('Security', '/news/#mode=topics&tp=security'), ('Diplomacy', '/news/#mode=topics&tp=diplomacy'), ('Politics', '/news/#mode=topics&tp=politics'), ('Technology', '/news/#mode=topics&tp=technology'), ('Business', '/news/#mode=topics&tp=business'), ('Culture', '/news/#mode=topics&tp=culture')],
  'views': [('Op-Ed', '/views/#mode=topics&kind=Op-Ed'), ('Editorial', '/views/#mode=topics&kind=Editorial'), ('Blogs', '/views/#mode=topics&kind=Blog')],
- 'maps': [('Historical Maps', '/maps/'), ('Size Comparisons', '/size/')],
+ 'maps': [('Historical Maps', '/maps/'), ('Size Comparisons', '/size/'), ('Israel Tour', '/tour/')],
  'charts': [('Rankings', '/rankings/'), ('Demographics', '/demographics/'), ('Top Ten', '/top-ten/'), ('Size Comparisons', '/size/'), ('Tables', '/tables/')],
  'media': [('A Taste of Israel', '/tour/'), ('Flora and Fauna', '/flora/')],
  'video': [('Latest', '/video/#ch-latest')] + [(c['name'], f'/video/{vslug(c)}/') for c in VCFG['channels'][:7]],
  'glossary': [('People and Groups', '/glossary/#c=people-and-groups'), ('Places', '/glossary/#c=places'), ('Events', '/glossary/#c=events'), ('Buildings and Sites', '/glossary/#c=buildings-and-sites'), ('Works', '/glossary/#c=works')],
 }
+SHORT = {'Patriarchs to the First Kings': 'Patriarchs and Kings', 'Kings, Exile and Return': 'Exile and Return', 'Greeks, Hasmoneans and Romans': 'Greeks and Romans', 'Centuries of Foreign Rule': 'Foreign Rule', 'The Ottoman Land': 'Ottomans', 'Zionism Takes Shape': 'Zionism Takes Shape'}
+def tl_links():
+    return [(SHORT.get(r['title'], r['title'].replace('The ', '')), r['url']) for r in rows if r['prefix'] == 'TL']
+def sec_links(sec):
+    if sec == 'timelines': return tl_links()
+    if sec == 'sources': return [(n_, f'/sources/{i_}/') for i_, n_, _, _ in SRC]
+    return SUBNAV.get(sec, [])
+def write_subnav_json():
+    m = {}
+    for u, t in NAV:
+        k = u.strip('/').split('/')[0] or 'news'
+        k = {'glossary': 'glossary'}.get(k, k)
+        m[u] = sec_links(k)
+    write('/subnav.json', json.dumps(m))
 def subnav_for(path):
     seg = path.strip('/').split('/')[0]
-    sec = {'': 'news', 'news': 'news', 'views': 'views', 'maps': 'maps', 'timelines': '', 'charts': 'charts', 'media': 'media', 'video': 'video', 'glossary': 'glossary', 'g': 'glossary',
+    sec = {'': 'news', 'news': 'news', 'views': 'views', 'maps': 'maps', 'timelines': 'timelines', 'charts': 'charts', 'media': 'media', 'video': 'video', 'glossary': 'glossary', 'g': 'glossary',
            'tables': 'charts', 'demographics': 'charts', 'rankings': 'charts', 'top-ten': 'charts', 'size': 'charts', 'tour': 'media', 'flora': 'media', 'sources': 'sources'}.get(seg, '')
-    if seg == 'sources': links = [(n_, f'/sources/{i_}/') for i_, n_, _, _ in SRC]
-    else: links = SUBNAV.get(sec, [])
+    links = sec_links(sec) if sec else []
     trend = 'views' if sec == 'views' else ('news' if sec in ('news', 'sources', 'glossary') or seg == '' else '')
     html_ = ''.join(f'<a href="{u}">{E(t)}</a>' for t, u in links)
     return f'<div class="wrap subnav" id="subnav" data-trend="{trend}"{"" if links else " hidden"}>{html_}<span class="trend" id="trend" hidden></span></div>'
@@ -283,7 +296,7 @@ def subnav_for(path):
 def layout(title, body, desc='', path='/', og=None, cls='', nd=False):
     if 'class="newspage"' in body and 'newspg' not in cls: cls = (cls + ' newspg').strip()
     news_js = 'class="newspage"' in body or path in ('/news/', '/views/') or path.startswith('/g/') or path.startswith('/news/item/')
-    nav = ''.join(f'<a href="{u}">{t}</a>' for u, t in NAV)
+    nav = ''.join(f'<a href="{u}" data-n="{i}">{t}</a>' for i, (u, t) in enumerate(NAV))
     full = f'{title} | Israel NOWlej' if title != 'Israel NOWlej' else 'Israel NOWlej'
     d = desc or 'Know the Story of the Jewish Land in Maps, Timelines, Charts, and Graphics. Living edition of the book Israel NOWlej.'
     img = f'<meta property="og:image" content="{BASE}{og}">' if og else ''
@@ -854,3 +867,5 @@ for _d, _s, _fs in os.walk(OUT):
             _p = os.path.join(_d, _f); _t = open(_p, encoding='utf-8').read()
             _n = _re.sub(r'((?:src|href)="/[A-Za-z_]+\.(?:js|css))"', r'\1?v=' + _v + '"', _t)
             if _n != _t: open(_p, 'w', encoding='utf-8').write(_n)
+
+write_subnav_json()
