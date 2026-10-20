@@ -285,7 +285,7 @@ def layout(title, body, desc='', path='/', og=None, cls='', nd=False):
     news_js = 'class="newspage"' in body or path in ('/news/', '/views/') or path.startswith('/g/') or path.startswith('/news/item/')
     nav = ''.join(f'<a href="{u}">{t}</a>' for u, t in NAV)
     full = f'{title} | Israel NOWlej' if title != 'Israel NOWlej' else 'Israel NOWlej'
-    d = desc or 'Maps, graphs, timelines, images, and knowledge of the Holy Land. Companion to the book Israel Mosaic.'
+    d = desc or 'Know the Story of the Jewish Land in Maps, Timelines, Charts, and Graphics. Living edition of the book Israel NOWlej.'
     img = f'<meta property="og:image" content="{BASE}{og}">' if og else ''
     robots = '<meta name="robots" content="noindex">' if nd else ''
     return f'''<!doctype html>
@@ -299,7 +299,7 @@ def layout(title, body, desc='', path='/', og=None, cls='', nd=False):
 <nav class="wrap" aria-label="Sections">{nav}</nav>{subnav_for(path)}</header>
 <main id="main" class="wrap">{body}</main>
 <footer><div class="wrap"><p>Israel NOWlej: news, views, maps, timelines, charts and media on the Holy Land.</p>
-<p>&copy; 2003 to 2026 Richard J. Koret. All rights reserved. Page images are shown for reference with the book <i>Israel Mosaic</i> by Richard J. Koret. <a href="/about/">How to use this site and cite it</a></p></div></footer>
+<p>&copy; 2003 to 2026 Richard J. Koret. All rights reserved. Page images are shown for reference with the book <i>Israel NOWlej</i> by Richard J. Koret. <a href="/about/">How to use this site and cite it</a></p></div></footer>
 <script src="/site.js" defer></script><script src="/share.js" defer></script><script src="/ticker.js" defer></script>{'<script src="/ads.js" defer></script><script src="/news.js" defer></script>' if news_js else ''}{'<script src="/subnav.js" defer></script>'}{'<script src="/entryedit.js" defer></script>' if path.startswith('/g/') else ''}{'<script src="/video.js" defer></script>' if path.startswith('/video/') or path.startswith('/g/') else ''}{'<script src="/entry.js" defer></script>' if path.startswith('/g/') else ''}{'<script src="/glossary.js" defer></script>' if path == '/glossary/' else ''}{'<script src="/source.js" defer></script>' if path.startswith('/sources/') and path != '/sources/' else ''}{'<script src="/admin.js" defer></script>' if path == '/admin/video/' else ''}{'<script src="/tlnav.js" defer></script>' if path.startswith('/timelines/') and path != '/timelines/' else ''}{'<script src="/admin_entry.js" defer></script>' if path == '/admin/entry/' else ''}</body></html>'''
 
 def write(path, content):
@@ -311,7 +311,7 @@ def write(path, content):
 def citation(r):
     pg = r['pages']
     p = f'p. {pg[0]}' if len(pg) == 1 else f'pp. {pg[0]} to {pg[-1]}'
-    return f'Israel Mosaic (2027), {r["id"]}, {p}, israelinmaps.com/{r["id"].lower()}'
+    return f'Israel NOWlej (2027), {r["id"]}, {p}, israelinmaps.com/{r["id"].lower()}'
 
 TYPEWORD = {'MAP': 'Map', 'TL': 'Timeline', 'TBL': 'Table', 'POP': 'Infographic', 'DEM': 'Demographics', 'RNK': 'Ranking', 'TOP': 'Top Ten list'}
 def ordered_group(r):
@@ -484,7 +484,7 @@ def item_page(r):
 <nav class="pn" aria-label="Previous and next">{pn}</nav>
 <details class="txt"><summary>Text of this page</summary>{text}</details>
 <p class="small">Corrections: none recorded. This is the current version. The 2027 print edition copy is at <a href="/2027{r["short"]}">israelinmaps.com/2027{r["short"]}</a>.</p></article>'''
-    desc = f'{r["title"]} ({r["id"]}), {kind.lower()} from the book Israel Mosaic, page {pg[0]}.'
+    desc = f'{r["title"]} ({r["id"]}), {kind.lower()} from the book Israel NOWlej, page {pg[0]}.'
     write(r['url'], layout(r['title'], chan(SECKEY[hub], body, r['url']), desc, r['url'], f'/img/p{pg[0]:03d}.webp', cls='tlfull' if r['prefix'] == 'TL' else ''))
     search.append({'t': r['title'], 'u': r['url'], 'k': r['id'], 's': r['section'], 'x': (' '.join(st[0]) if st else ' '.join(paras))[:600]})
 
@@ -505,8 +505,8 @@ def gl_related(g):
     return '<h3>In the book and on this site</h3>' + tcards(hits[:4])
 def gl_pageimg(g):
     pg = g['pg']
-    return (f'<div class="pages single wide"><a href="/img/p{pg:03d}.webp"><img src="/img/p{pg:03d}.webp" width="1200" height="1500" alt="Glossary page {pg} of the book Israel Mosaic, with the entry {E(g["title"])}" loading="lazy"></a></div>'
-            f'<p class="small">From the book <i>Israel Mosaic</i>, page {pg}.</p>')
+    return (f'<div class="pages single wide"><a href="/img/p{pg:03d}.webp"><img src="/img/p{pg:03d}.webp" width="1200" height="1500" alt="Glossary page {pg} of the book Israel NOWlej, with the entry {E(g["title"])}" loading="lazy"></a></div>'
+            f'<p class="small">From the book <i>Israel NOWlej</i>, page {pg}.</p>')
 def gl_video(g, sl):
     pins = VCFG.get('pinned', {}).get(sl, [])
     eps = VCFG.get('entryPlaylists', {}).get(sl, [])
@@ -540,7 +540,7 @@ def gl_page(g):
     plain = re.sub(r'<[^>]+>', '', b)
     rel_ = gl_related(g)
     wk = ENTRYCFG.get('wiki', {}).get(sl, g['title'])
-    srcs_ = f'<li>The book <i>Israel Mosaic</i> by Richard J. Koret, glossary, page {g["pg"]}.</li>'
+    srcs_ = f'<li>The book <i>Israel NOWlej</i> by Richard J. Koret, glossary, page {g["pg"]}.</li>'
     _c = CUR.get('wikipedia', {}).get(sl)
     if _c: srcs_ += f'<li>Text adapted in part from <a href="{E(_c["url"])}" rel="noopener">{E(_c["article"])}</a> (revision {_c["rev"]}), <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="noopener">CC BY-SA 4.0</a>.</li>'
     body = f"""<article class="gl"><header class="ih"><span class="id">NOWlej · book page {g["pg"]}</span><h1>{E(g["title"])} {he}</h1><p class="meta">{cat}</p></header>
@@ -686,17 +686,17 @@ for e in idx:
     he = f' <span class="he" lang="he" dir="rtl">{E(e["he"])}</span>' if e.get('he') else ''
     ib += f'<li><b>{E(e["head"])}</b>{he} {pgs}</li>'
 ib += '</ul>'
-write('/index/', layout('Index', chan('sources', ib, '/index/'), 'Index of the book Israel Mosaic.', '/index/'))
+write('/index/', layout('Index', chan('sources', ib, '/index/'), 'Index of the book Israel NOWlej.', '/index/'))
 
 # ---------------------------------------------------------------- about, search, 404, home
 about = '''<p class="crumb"><a href="/">Home</a> / About</p><h1>How to Use This Site</h1>
 <p class="lead">Every item in the book has one permanent ID, for example MAP-002 or TL-004. The ID is the address.</p>
 <h2>Addresses</h2><p>Type <b>israelinmaps.com/map-002</b> in any browser. It redirects to the full page, <b>israelinmaps.com/maps/002/zion-terrain</b>. If a title is ever corrected the full address may change. The ID and the short address never change.</p>
 <h2>Hubs</h2><p>A bare prefix opens the whole group: /map, /tl, /tbl, /dem, /rnk, /top, /size, /tour, /flora, /gl. The glossary is at /glossary and the book index at /index.</p>
-<h2>Cite a page</h2><p>Each page shows a citation line and a Copy citation button, for example: Israel Mosaic (2027), MAP-002, p. 6, israelinmaps.com/map-002. The ID is enough for any later edition. The page number fits the 2027 print edition only.</p>
+<h2>Cite a page</h2><p>Each page shows a citation line and a Copy citation button, for example: Israel NOWlej (2027), MAP-002, p. 6, israelinmaps.com/map-002. The ID is enough for any later edition. The page number fits the 2027 print edition only.</p>
 <h2>Editions</h2><p>The short address always shows the current version. Each edition also keeps a frozen copy, for example /2027/map-002, so a citation from the 2027 book can be checked against what the book showed. Corrections are listed on the page with a date.</p>
 <h2>Scanning a code</h2><p>Each code in the book encodes the same short address. If a code is damaged, type the address printed beside it.</p>
-<h2>About the book</h2><p>Israel Mosaic: Maps, Graphs, Timelines, Images, and Knowledge of the Holy Land, by Richard J. Koret. This site is the companion to the book. Some illustrations in the book are marked as AI generated.</p>'''
+<h2>About the book</h2><p>Israel NOWlej: Know the Story of the Jewish Land in Maps, Timelines, Charts, and Graphics, by Richard J. Koret. This site is the companion to the book. Some illustrations in the book are marked as AI generated.</p>'''
 for pth_, ttl_, txt_ in [('/subscribe/', 'Subscribe', 'Subscriptions are coming soon. They will bring a daily digest of the news and views on this site.'),
                          ('/signin/', 'Sign in', 'Accounts are coming soon. For now the whole site is open to read without signing in.')]:
     write(pth_, layout(ttl_, chan('sources', f'<h1>{ttl_}</h1><p>{txt_}</p>'), ttl_ + ' to Israel NOWlej.', pth_, nd=True))
@@ -721,7 +721,7 @@ _gb2 = {g['slug']: g for g in G}
 _fl = ''.join(f'<li><a href="/g/{x}/">{E(t)}</a></li>' for x, t in _feat if x in _gb2)
 cards = ''.join(f'<a class="card" href="{u}"><b>{t}</b><span>{d}</span></a>' for u, t, d in home_cards)
 about_text = ('<h1>About Israel <b>NOWlej</b></h1>'
-  '<p class="lead">Israel NOWlej is a growing, curated guide to Israel: its land, its history, its people and its news. It began as the companion to the book <i>Israel Mosaic</i> by Richard J. Koret. Every map, timeline, chart and glossary entry in the book has a permanent page here with its own ID, so a reader can scan the code in the print edition or type the address and arrive at the same place.</p>'
+  '<p class="lead">Israel NOWlej is a growing, curated guide to Israel: its land, its history, its people and its news. The site is the living edition of the book <i>Israel NOWlej: Know the Story of the Jewish Land in Maps, Timelines, Charts, and Graphics</i> by Richard J. Koret. Every map, timeline, chart and glossary entry in the book has a permanent page here with its own ID, so a reader can scan the code in the print edition or type the address and arrive at the same place.</p>'
   '<p>Around that foundation the site adds what a printed page cannot. A daily stream of news and views from Israeli and international publishers. Video chosen from credible channels. And for each topic a single NOWlej page that brings together a summary, images, video, related reading and the sources behind them.</p>'
   '<p>The aim is a guide that is trustworthy and unhurried. Sources are named, image and text licenses are shown, and an editor approves what is featured.</p>'
   '<form class="sf big" action="/search/" role="search"><input name="q" type="search" placeholder="Search, or type an ID such as MAP-002" aria-label="Search"><button>Search</button></form>')
@@ -730,7 +730,7 @@ home = (f'<div class="newspage aboutpg"><div class="newsleftcol"><h2>From the bo
         + about.replace('<p class="crumb"><a href="/">Home</a> / About</p>', '').replace('<h1>How to Use This Site</h1>', '<h2>How to use this site</h2>') +
         f'</div></div><aside class="newsside" aria-label="Featured"><h2>Featured entries</h2><ul class="hlist">{_fl}</ul><p class="small"><a href="/glossary/">All 407 NOWlej entries</a></p>'
         f'<span id="news-side" data-word="news" hidden></span><div id="news-latest"></div></aside></div><p class="small" id="news-status"></p>')
-write('/about/', layout('About Israel NOWlej', home, 'About Israel NOWlej, and how the addresses, IDs and citations from the book Israel Mosaic work.', '/about/', '/img/p006.webp', cls=''))
+write('/about/', layout('About Israel NOWlej', home, 'About Israel NOWlej, and how the addresses, IDs and citations from the book Israel NOWlej work.', '/about/', '/img/p006.webp', cls=''))
 
 news = '''<div class="newspage"><div class="adslot" data-slot="page-top" data-sizes="728x90|320x50"></div><div class="newsleftcol"><nav class="newstopics" id="news-topics" aria-label="Topics and sources"></nav><div class="adslot" data-slot="left" data-sizes="tower"></div></div><div class="newsleft"><h1>News</h1>
 <div class="newsmain">
@@ -754,7 +754,7 @@ hub('/charts/', 'Charts', 'Rankings, population graphics, top ten lists, size co
     [('Rankings', items('RNK')), ('Demographics', items('DEM')), ('Top Ten Lists', items('TOP')), ('Size Comparisons', [r for r in rows if hub_of(r)[0] == '/size/']), ('Tables', items('TBL'))])
 hub('/media/', 'Media', 'A photographic tour of the land and the plants and animals of Israel.',
     [('A Taste of Israel', [byid[p + '-00'] for p in ['NEG', 'DSE', 'JUS', 'GAL', 'GOL', 'MED', 'TAJ', 'JHL', 'JRS', 'SHF']]), ('Flora and Fauna', [byid[p + '-00'] for p in ['TRE', 'WFL', 'WLD', 'BRD', 'MIG']])])
-sb2 = '<h1>Sources</h1><p class="small">Each source has its own page here with its latest news and views.</p><ul class="idlist">' + ''.join(f'<li><a href="/sources/{i_}/">{E(n_)}</a><span>{E(d_)}</span></li>' for i_, n_, u_, d_ in SRC) + '</ul><h2>The Book</h2><ul class="idlist"><li><a href="/index/">Index</a><span>Find any name or place in the book Israel Mosaic</span></li><li><a href="/about/">How to use this site and cite it</a><span>Addresses, IDs and hubs</span></li></ul>'
+sb2 = '<h1>Sources</h1><p class="small">Each source has its own page here with its latest news and views.</p><ul class="idlist">' + ''.join(f'<li><a href="/sources/{i_}/">{E(n_)}</a><span>{E(d_)}</span></li>' for i_, n_, u_, d_ in SRC) + '</ul><h2>The Book</h2><ul class="idlist"><li><a href="/index/">Index</a><span>Find any name or place in the book Israel NOWlej</span></li><li><a href="/about/">How to use this site and cite it</a><span>Addresses, IDs and hubs</span></li></ul>'
 write('/sources/', layout('Sources', chan('sources', sb2, '/sources/'), 'The publishers whose public feeds supply the news and views on this site.', '/sources/'))
 for i_, n_, u_, d_ in SRC:
     vc_ = {'jpost': 'thejerusalem_post', 'toi': 'timesofisrael'}.get(i_, '')
