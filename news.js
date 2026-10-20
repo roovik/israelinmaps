@@ -14,9 +14,9 @@
     function card(it,showG){
       var img=it.i?'<img src="'+esc(it.i)+'" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.parentNode.classList.add(\'noimg\');this.remove()">':'';
       var chips=showG&&it.g.length?'<p class="chips">In the glossary: '+it.g.map(function(g){return'<a href="/g/'+g[0]+'/">'+esc(g[1])+'</a>'}).join(' ')+'</p>':'';
-      return'<article class="ncard'+(it.i?'':' noimg')+'"><a class="nimg" href="'+esc(it.u)+'" rel="noopener" tabindex="-1" aria-hidden="true">'+img+'</a><div class="nb"><p class="nmeta"><b>'+esc(it.src)+'</b> · '+ago(it.d)+'</p><h3><a href="'+esc(it.u)+'" rel="noopener">'+esc(it.t)+'</a></h3><p>'+esc(it.x)+'</p>'+chips+'</div></article>'}
+      return'<article class="ncard'+(it.i?'':' noimg')+'"><a class="nimg" href="'+esc(it.u)+'" rel="noopener" tabindex="-1" aria-hidden="true">'+img+'</a><div class="nb"><p class="nmeta"><b>'+esc(it.src)+'</b>'+(it.d?' · '+ago(it.d):'')+'</p><h3><a href="'+esc(it.u)+'" rel="noopener">'+esc(it.t)+'</a></h3><p>'+esc(it.x)+'</p>'+chips+'</div></article>'}
     function full(it){return it.i&&it.x}
-    function row(it){return'<li><span class="nmeta"><b>'+esc(it.src)+'</b> · '+ago(it.d)+'</span> <a href="'+esc(it.u)+'" rel="noopener">'+esc(it.t)+'</a>'+(it.g.length?' <span class="chips">'+it.g.map(function(g){return'<a href="/g/'+g[0]+'/">'+esc(g[1])+'</a>'}).join(' ')+'</span>':'')+'</li>'}
+    function row(it){return'<li><span class="nmeta"><b>'+esc(it.src)+'</b>'+(it.d?' · '+ago(it.d):'')+'</span> <a href="'+esc(it.u)+'" rel="noopener">'+esc(it.t)+'</a>'+(it.g.length?' <span class="chips">'+it.g.map(function(g){return'<a href="/g/'+g[0]+'/">'+esc(g[1])+'</a>'}).join(' ')+'</span>':'')+'</li>'}
     function when(iso){if(!iso)return'';return new Date(iso).toLocaleString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}
     if(grid){
       var g2=document.getElementById('news-glonly'),wid=document.getElementById('news-widget');

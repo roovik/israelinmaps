@@ -5,6 +5,7 @@ const FEEDS = [
   { id: 'jpost', site: 'https://www.jpost.com/', name: 'The Jerusalem Post', url: 'https://www.jpost.com/rss/rssfeedsfrontpage.aspx' },
   { id: 'ynet', site: 'https://www.ynetnews.com/', name: 'Ynetnews', url: 'https://www.ynetnews.com/Integration/StoryRss3082.xml' },
   { id: 'jns', site: 'https://www.jns.org/', name: 'JNS', url: 'https://www.jns.org/feed/' },
+  { id: 'insider', site: 'https://israelinsider.org/', name: 'Israel Insider', url: 'https://israel.nowlej.com/feed/' },
   { id: 'israelhayom', site: 'https://www.israelhayom.com/', name: 'Israel Hayom', url: 'https://www.israelhayom.com/feed/' },
 ];
 const PER_FEED = 12, TOTAL = 72, TIMEOUT = 8000, MAX_AGE_DAYS = 10;
@@ -65,7 +66,7 @@ function parse(xml, feed) {
     const d = text(tag(b, 'pubDate') || tag(b, 'published') || tag(b, 'updated') || tag(b, 'dc:date'));
     const t = d ? new Date(d) : null;
     const desc = tag(b, 'description') || tag(b, 'summary') || tag(b, 'content:encoded') || tag(b, 'content');
-    items.push({ s: feed.id, src: feed.name, t: title, u: link, d: t && !isNaN(t) ? t.toISOString() : null, x: blurb(text(desc), title), i: image(b) });
+    items.push({ s: feed.id, src: feed.name, t: title, u: link, d: t && !isNaN(t) && t.getFullYear() >= 2005 ? t.toISOString() : null, x: blurb(text(desc), title), i: image(b) });
   }
   return items;
 }
