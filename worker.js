@@ -250,6 +250,40 @@ async function loadVideoSource(c, kind, diag) {
 }
 async function videoApi(url, env) {
   const hdr = { 'Content-Type': 'application/json; charset=utf-8', 'Access-Control-Allow-Origin': '*' };
+  if (url.searchParams.get('review')) {
+    // curation helper: enriched channel or playlist candidates with provenance. Needs YT_KEY.
+    if (!env.YT_KEY) return new Response(JSON.stringify({ error: 'Set the YT_KEY secret first.' }), { status: 400, headers: hdr });
+    const dec = t => String(t || '').replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+    const yt = async (path) => { const r = await fetch('https://www.googleapis.com/youtube/v3/' + path + '&key=' + env.YT_KEY, { cf: { cacheTtl: 21600, cacheEverything: true } }); return r.json(); };
+    const q = (url.searchParams.get('q') || '').slice(0, 120), mode = url.searchParams.get('review');
+    const knownCh = new Set((VCFG.channels || []).map(c => c.id).filter(Boolean)), knownPl = new Set((VCFG.playlists || []).map(p => p.id));
+    const chInfo = async ids => {
+      const out = {}; ids = [...new Set(ids)].slice(0, 50); if (!ids.length) return out;
+      const d = await yt('channels?part=snippet,statistics&maxResults=50&id=' + ids.join(','));
+      (d.items || []).forEach(i => { out[i.id] = { id: i.id, name: dec(i.snippet.title), handle: i.snippet.customUrl || '', desc: dec(i.snippet.description).slice(0, 320), country: i.snippet.country || '', created: i.snippet.publishedAt, subs: i.statistics.hiddenSubscriberCount ? null : Number(i.statistics.subscriberCount || 0), videos: Number(i.statistics.videoCount || 0), views: Number(i.statistics.viewCount || 0) }; });
+      return out;
+    };
+    try {
+      if (mode === 'playlists') {
+        const d = await yt('search?part=snippet&type=playlist&maxResults=25&relevanceLanguage=en&q=' + encodeURIComponent(q));
+        const ids = (d.items || []).map(i => i.id.playlistId);
+        const pd = ids.length ? await yt('playlists?part=snippet,contentDetails&maxResults=50&id=' + ids.join(',')) : { items: [] };
+        const chs = await chInfo((pd.items || []).map(i => i.snippet.channelId));
+        const list = (pd.items || []).map(i => ({ id: i.id, name: dec(i.snippet.title), desc: dec(i.snippet.description).slice(0, 240), items: i.contentDetails.itemCount, created: i.snippet.publishedAt, channel: chs[i.snippet.channelId] || { id: i.snippet.channelId, name: dec(i.snippet.channelTitle) }, known: knownPl.has(i.id) }));
+        return new Response(JSON.stringify({ kind: 'playlists', q, candidates: list }), { headers: hdr });
+      }
+      const tally = {}, qs = q ? [q] : (VCFG.discover || []).slice(0, 6);
+      await Promise.all(qs.map(async qq => {
+        const [v, c] = await Promise.all([yt('search?part=snippet&type=video&maxResults=25&relevanceLanguage=en&safeSearch=moderate&q=' + encodeURIComponent(qq)), yt('search?part=snippet&type=channel&maxResults=10&relevanceLanguage=en&q=' + encodeURIComponent(qq))]);
+        (v.items || []).forEach(i => { const t = tally[i.snippet.channelId] || (tally[i.snippet.channelId] = { hits: 0, samples: [] }); t.hits++; if (t.samples.length < 3) t.samples.push({ v: i.id.videoId, t: dec(i.snippet.title) }); });
+        (c.items || []).forEach(i => { tally[i.snippet.channelId] = tally[i.snippet.channelId] || { hits: 0, samples: [] }; tally[i.snippet.channelId].hits += 2; });
+      }));
+      const top = Object.entries(tally).sort((a, b) => b[1].hits - a[1].hits).slice(0, 30).map(e => e[0]);
+      const chs = await chInfo(top);
+      const list = top.filter(id => chs[id]).map(id => ({ ...chs[id], hits: tally[id].hits, samples: tally[id].samples, known: knownCh.has(id) }));
+      return new Response(JSON.stringify({ kind: 'channels', q, candidates: list }), { headers: hdr });
+    } catch (e) { return new Response(JSON.stringify({ error: String(e) }), { status: 502, headers: hdr }); }
+  }
   if (url.searchParams.get('discover')) {
     // suggest new channels for the whitelist; needs an API key set as the YT_KEY secret
     if (!env.YT_KEY) return new Response(JSON.stringify({ error: 'Set the YT_KEY secret to use discovery.' }), { status: 400, headers: hdr });
