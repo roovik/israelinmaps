@@ -239,3 +239,12 @@ body.newspg .bar .sf{width:100%}body.newspg .bar .sf input{flex:1;width:auto}
 .acct a{color:inherit;text-decoration:none}.acct .signin:hover{text-decoration:underline}
 .acct .subbtn{background:var(--acc);color:#fff;padding:3px 12px;border-radius:5px;font-weight:600}
 .rcol .sf{width:100%}
+/* four-column option (Haaretz, Israel Insider) */
+.ngrid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.ngrid4 .ncard{height:100%}.ngrid4 .nimg{aspect-ratio:1/1}.ngrid4 .nb h3{font-size:.95rem;min-height:3.9em}
+.ngrid4 .nb>p:not(.nmeta):not(.chips){display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;font-size:.85rem}
+.ngrid4 .nb{display:flex;flex-direction:column;flex:1}.ngrid4 .chips{margin-top:auto!important}
+.tgrid.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media (max-width:1000px){.ngrid4,.tgrid.g4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.ngrid4,.tgrid.g4{grid-template-columns:1fr}}
+.newspage .newsmain .tgrid.g4{grid-template-columns:repeat(4,minmax(0,1fr))}@media (max-width:1000px){.newspage .newsmain .tgrid.g4{grid-template-columns:repeat(2,minmax(0,1fr))}}@media (max-width:560px){.newspage .newsmain .tgrid.g4{grid-template-columns:1fr}}
