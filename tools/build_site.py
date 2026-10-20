@@ -300,7 +300,7 @@ def layout(title, body, desc='', path='/', og=None, cls='', nd=False):
 <main id="main" class="wrap">{body}</main>
 <footer><div class="wrap"><p>Israel NOWlej: news, views, maps, timelines, charts and media on the Holy Land.</p>
 <p>&copy; 2003 to 2026 Richard J. Koret. All rights reserved. Page images are shown for reference with the book <i>Israel Mosaic</i> by Richard J. Koret. <a href="/about/">How to use this site and cite it</a></p></div></footer>
-<script src="/site.js" defer></script><script src="/ticker.js" defer></script>{'<script src="/ads.js" defer></script><script src="/news.js" defer></script>' if news_js else ''}{'<script src="/subnav.js" defer></script>'}{'<script src="/video.js" defer></script>' if path.startswith('/video/') or path.startswith('/g/') else ''}{'<script src="/entry.js" defer></script>' if path.startswith('/g/') else ''}{'<script src="/glossary.js" defer></script>' if path == '/glossary/' else ''}{'<script src="/source.js" defer></script>' if path.startswith('/sources/') and path != '/sources/' else ''}{'<script src="/admin.js" defer></script>' if path == '/admin/video/' else ''}{'<script src="/admin_entry.js" defer></script>' if path == '/admin/entry/' else ''}</body></html>'''
+<script src="/site.js" defer></script><script src="/ticker.js" defer></script>{'<script src="/ads.js" defer></script><script src="/news.js" defer></script>' if news_js else ''}{'<script src="/subnav.js" defer></script>'}{'<script src="/entryedit.js" defer></script>' if path.startswith('/g/') else ''}{'<script src="/video.js" defer></script>' if path.startswith('/video/') or path.startswith('/g/') else ''}{'<script src="/entry.js" defer></script>' if path.startswith('/g/') else ''}{'<script src="/glossary.js" defer></script>' if path == '/glossary/' else ''}{'<script src="/source.js" defer></script>' if path.startswith('/sources/') and path != '/sources/' else ''}{'<script src="/admin.js" defer></script>' if path == '/admin/video/' else ''}{'<script src="/admin_entry.js" defer></script>' if path == '/admin/entry/' else ''}</body></html>'''
 
 def write(path, content):
     fp = os.path.join(OUT, path.lstrip('/'))
@@ -800,6 +800,7 @@ shutil.copy(os.path.join(ROOT, 'tools', 'source.js'), os.path.join(OUT, 'source.
 shutil.copy(os.path.join(ROOT, 'tools', 'subnav.js'), os.path.join(OUT, 'subnav.js'))
 shutil.copy(os.path.join(ROOT, 'tools', 'video.js'), os.path.join(OUT, 'video.js'))
 shutil.copy(os.path.join(ROOT, 'tools', 'entry.js'), os.path.join(OUT, 'entry.js'))
+shutil.copy(os.path.join(ROOT, 'tools', 'entryedit.js'), os.path.join(OUT, 'entryedit.js'))
 shutil.copy(os.path.join(ROOT, 'tools', 'admin.js'), os.path.join(OUT, 'admin.js'))
 shutil.copy(os.path.join(ROOT, 'tools', 'admin_entry.js'), os.path.join(OUT, 'admin_entry.js'))
 shutil.copy(os.path.join(ROOT, 'tools', 'glossary.js'), os.path.join(OUT, 'glossary.js'))

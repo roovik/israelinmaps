@@ -248,6 +248,40 @@ async function loadVideoSource(c, kind, diag) {
     return out;
   } catch (e) { return stale(String(e)); }
 }
+async function entryApi(request, url, env) {
+  const hdr = { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' };
+  const slug = (url.searchParams.get('slug') || '').toLowerCase();
+  if (!/^[a-z0-9-]{1,80}$/.test(slug)) return new Response('{"error":"bad slug"}', { status: 400, headers: hdr });
+  if (request.method === 'GET') {
+    if (!env.ENTRIES) return new Response('{}', { headers: hdr });
+    const v = await env.ENTRIES.get('e:' + slug);
+    return new Response(v || '{}', { headers: hdr });
+  }
+  if (request.method !== 'PUT' && request.method !== 'POST') return new Response('{"error":"method"}', { status: 405, headers: hdr });
+  if (!env.ENTRIES || !env.ADMIN_KEY) return new Response('{"error":"Saving is not set up yet. It needs the ENTRIES storage and the ADMIN_KEY secret."}', { status: 501, headers: hdr });
+  const key = request.headers.get('x-admin-key') || '';
+  if (key.length !== env.ADMIN_KEY.length || key !== env.ADMIN_KEY) return new Response('{"error":"Wrong admin key."}', { status: 401, headers: hdr });
+  let b; try { b = await request.json(); } catch { return new Response('{"error":"bad json"}', { status: 400, headers: hdr }); }
+  const clean = {
+    images: (Array.isArray(b.images) ? b.images : []).map(x => String(x).slice(0, 300)).filter(x => /^File:/.test(x)).slice(0, 24),
+    videos: (Array.isArray(b.videos) ? b.videos : []).map(x => ({ v: String(x.v || '').slice(0, 20), t: String(x.t || '').slice(0, 200) })).filter(x => /^[A-Za-z0-9_-]{11}$/.test(x.v)).slice(0, 60),
+    playlists: (Array.isArray(b.playlists) ? b.playlists : []).map(x => ({ id: String(x.id || '').slice(0, 60), name: String(x.name || '').slice(0, 200), by: String(x.by || '').slice(0, 100) })).filter(x => /^PL[A-Za-z0-9_-]{8,60}$/.test(x.id)).slice(0, 40),
+    updated: new Date().toISOString()
+  };
+  await env.ENTRIES.put('e:' + slug, JSON.stringify(clean));
+  return new Response(JSON.stringify({ ok: true, saved: clean }), { headers: hdr });
+}
+async function ytTitle(url) {
+  const hdr = { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'public, max-age=86400' };
+  const v = url.searchParams.get('v') || '';
+  if (!/^[A-Za-z0-9_-]{11}$/.test(v)) return new Response('{"error":"bad id"}', { status: 400, headers: hdr });
+  try {
+    const r = await fetch('https://www.youtube.com/oembed?format=json&url=' + encodeURIComponent('https://www.youtube.com/watch?v=' + v));
+    if (!r.ok) throw 0;
+    const d = await r.json();
+    return new Response(JSON.stringify({ v, t: d.title || '', by: d.author_name || '' }), { headers: hdr });
+  } catch { return new Response('{"error":"not found"}', { status: 404, headers: hdr }); }
+}
 async function videoApi(url, env) {
   const hdr = { 'Content-Type': 'application/json; charset=utf-8', 'Access-Control-Allow-Origin': '*' };
   if (url.searchParams.get('review')) {
@@ -346,6 +380,8 @@ export default {
     const im = url.pathname.match(/^\/news\/item\/([a-z0-9]+)\/?$/);
     if (im) return itemPage(request, env, im[1], url.searchParams.get('s'), url.searchParams.get('c'));
     if (url.pathname === '/api/videos') return videoApi(url, env);
+    if (url.pathname === '/api/entry') return entryApi(request, url, env);
+    if (url.pathname === '/api/yt-title') return ytTitle(url);
     if (url.pathname !== '/api/news') return env.ASSETS.fetch(request);
     if (url.searchParams.get('debug')) {
       const out = await Promise.all(FEEDS.map(async f => {

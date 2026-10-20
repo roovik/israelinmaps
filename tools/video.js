@@ -1,4 +1,4 @@
-(function(){
+(function(){(window.NOWOV||Promise.resolve()).then(function(){
   function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
   function ago(iso){if(!iso)return'';var s=(Date.now()-new Date(iso))/1000;if(s<86400)return'today';if(s<2*86400)return'yesterday';if(s<30*86400)return Math.round(s/86400)+' days ago';if(s<365*86400)return Math.round(s/(30*86400))+' months ago';return Math.round(s/(365*86400))+' years ago'}
   function embed(v,auto){return'<iframe src="https://www.youtube-nocookie.com/embed/'+encodeURIComponent(v)+'?rel=0'+(auto?'&autoplay=1':'')+'" title="Video player" allow="accelerometer; autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>'}
@@ -98,4 +98,4 @@
       if(mp.length){var eb=gl.querySelector('.epl');if(eb)eb.innerHTML='<h3>Playlists</h3><ul class="vpl">'+mp.slice(0,6).map(function(x){return'<li><a href="/video/pl-'+esc(x.id.toLowerCase())+'/">'+esc(x.name)+'</a> <small>'+esc(cn[x.channel]||'')+'</small></li>'}).join('')+'</ul>';gl.hidden=false}
     }
   }).catch(function(){});
-})();
+});})();
