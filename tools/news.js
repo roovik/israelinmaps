@@ -29,7 +29,7 @@
   var holeEls=[];window.addEventListener('resize',function(){holeEls.forEach(function(e){if(document.body.contains(e))holes(e)})});
   function row(it){return'<li><span class="nmeta"><b>'+esc(it.src)+'</b>'+(it.d?' · '+ago(it.d):'')+'</span> <a href="'+esc(iu(it))+'">'+esc(it.t)+'</a>'+chips(it,false)+'</li>'}
 
-  Promise.all([fetch('/api/news?v=2').then(function(r){if(!r.ok)throw 0;return r.json()}),fetch('/glossary.json').then(function(r){return r.json()})]).then(function(a){
+  Promise.all([fetch((grid&&grid.getAttribute('data-api'))||'/api/news?v=2').then(function(r){if(!r.ok)throw 0;return r.json()}),fetch('/glossary.json').then(function(r){return r.json()})]).then(function(a){
     var data=a[0],gl=a[1];
     gl.forEach(function(g){g[2].forEach(function(t){if(t.length>3&&!STOP[t.toLowerCase()])terms.push([t,g[1],g[0]])})});
     terms.sort(function(x,y){return y[0].length-x[0].length});

@@ -253,12 +253,12 @@ def app_html(g):
 
 # ---------------------------------------------------------------- templates
 CSS = open(os.path.join(ROOT, 'tools', 'style.css')).read()
-NAV = [('/maps/', 'Maps'), ('/timelines/', 'Timelines'), ('/rankings/', 'Rankings'), ('/demographics/', 'Demographics'),
-       ('/top-ten/', 'Top Ten'), ('/tour/', 'Tour'), ('/flora/', 'Flora and Fauna'), ('/news/', 'News'), ('/glossary/', 'Glossary'), ('/index/', 'Index')]
+NAV = [('/', 'Home'), ('/news/', 'News'), ('/views/', 'Views'), ('/media/', 'Media'), ('/maps/', 'Maps'), ('/timelines/', 'Timelines'),
+       ('/charts/', 'Charts'), ('/glossary/', 'Glossary'), ('/sources/', 'Sources')]
 BASE = 'https://israelinmaps.com'
 
 def layout(title, body, desc='', path='/', og=None, cls='', nd=False):
-    news_js = path == '/news/' or path.startswith('/g/') or path.startswith('/news/item/')
+    news_js = path in ('/news/', '/views/') or path.startswith('/g/') or path.startswith('/news/item/')
     nav = ''.join(f'<a href="{u}">{t}</a>' for u, t in NAV)
     full = f'{title} | Israel Mosaic' if title != 'Israel Mosaic' else 'Israel Mosaic'
     d = desc or 'Maps, graphs, timelines, images, and knowledge of the Holy Land. The companion site to the book Israel Mosaic.'
@@ -270,7 +270,7 @@ def layout(title, body, desc='', path='/', og=None, cls='', nd=False):
 <link rel="canonical" href="{BASE}{path}"><meta property="og:title" content="{E(full)}"><meta property="og:description" content="{E(d)}">{img}{robots}
 <link rel="stylesheet" href="/style.css"></head>
 <body class="{cls}"><a class="skip" href="#main">Skip to content</a>
-<header class="top"><div class="wrap bar"><a class="brand" href="/">Israel <b>Mosaic</b></a>
+<header class="top"><div class="wrap bar"><a class="brand" href="/">Israel <b>NOWlej</b></a>
 <form class="sf" action="/search/" role="search"><input name="q" type="search" placeholder="Search maps, people, places, IDs" aria-label="Search"><button>Search</button></form></div>
 <nav class="wrap" aria-label="Sections">{nav}</nav></header>
 <main id="main" class="wrap">{body}</main>
@@ -542,6 +542,19 @@ news = '''<div class="adtop"><div class="adslot" data-slot="page-top" data-sizes
 <div class="adslot adwide" data-slot="page-bottom" data-sizes="970x250|728x90|320x100"></div>'''
 write('/news/', layout('News', news, 'Headlines from public news feeds about Israel, linked to the Israel Mosaic glossary.', '/news/', cls='newspg'))
 write('/news/item-template/', layout('@@TITLE@@', '<div class="adtop"><div class="adslot" data-slot="page-top" data-sizes="970x90|728x90|320x50"></div><div class="adslot" data-slot="top-right" data-sizes="320x100"></div></div><div class="newspage"><div class="newsleft"><div class="ticker" id="news-ticker" aria-label="Latest headlines" hidden></div><div class="newsgrid"><div class="newsleftcol"><nav class="newstopics" id="news-topics" aria-label="Topics and sources"></nav><div class="adslot" data-slot="left" data-sizes="tower"></div></div><div class="newsmain"><div class="adslot" data-slot="lb-top" data-sizes="728x90|320x100"></div><div id="news-item">@@BODY@@</div><div class="adslot" data-slot="lb-bottom" data-sizes="728x90|320x50"></div></div></div></div><aside class="newsside" aria-label="Latest headlines"><div class="adslot" data-slot="aside-top" data-sizes="320x100"></div><div id="news-latest"></div><h2>By source</h2><div id="news-widget"></div></aside></div><p class="small" id="news-status"></p><div class="adslot adwide" data-slot="page-bottom" data-sizes="970x250|728x90|320x100"></div>', '@@DESC@@', '/news/item/@@K@@/', cls='newspg', nd=True))
+views_html = news.replace('/ News</p><h1>In the News</h1>', '/ Views</p><h1>Views</h1>').replace('<p class="lead">Headlines from public news feeds, from the last seven days, matched to the glossary. Each item links to its publisher.</p>', '<p class="lead">Opinion and analysis from public news feeds, from the last seven days, matched to the glossary. Each item links to its publisher.</p>').replace('id="news-grid"', 'id="news-grid" data-api="/api/news?views=1&v=2"')
+write('/views/', layout('Views', views_html, 'Opinion and analysis from Israeli news sources, linked to the glossary.', '/views/', cls='newspg'))
+
+def card_hub(path, title, intro, cards_):
+    b = f'<p class="crumb"><a href="/">Home</a> / {E(title)}</p><h1>{E(title)}</h1><p class="lead">{intro}</p><div class="cards">' + ''.join(f'<a class="card" href="{u}"><b>{E(t)}</b><span>{E(d)}</span></a>' for u, t, d in cards_) + '</div>'
+    write(path, layout(title, b, intro, path))
+card_hub('/charts/', 'Charts', 'Rankings, population graphics, top ten lists, size comparisons and reference tables.',
+         [('/rankings/', 'Rankings', '17 rankings'), ('/demographics/', 'Demographics', '13 graphics'), ('/top-ten/', 'Top Ten Lists', '6 lists'), ('/size/', 'Size Comparisons', 'Israel beside other places'), ('/tables/', 'Tables', '5 reference tables')])
+card_hub('/media/', 'Media', 'A photographic tour of the land and the plants and animals of Israel.',
+         [('/tour/', 'A Taste of Israel', '10 regions, 71 stops'), ('/flora/', 'Flora and Fauna', '5 sections, 60 entries')])
+src_list = [('The Times of Israel', 'https://www.timesofisrael.com/'), ('The Jerusalem Post', 'https://www.jpost.com/'), ('Ynetnews', 'https://www.ynetnews.com/'), ('Haaretz', 'https://www.haaretz.com/'), ('JNS', 'https://www.jns.org/'), ('Israel Insider', 'https://israelinsider.org/'), ('Israel Hayom', 'https://www.israelhayom.com/')]
+sb2 = '<p class="crumb"><a href="/">Home</a> / Sources</p><h1>Sources</h1><p class="lead">News and views on this site come from the public feeds of these publishers. Each story page shows a short excerpt and links to the publisher for the full story.</p><ul class="idlist">' + ''.join(f'<li><a href="{u}" rel="noopener">{E(n_)}</a><span>{u.split("//")[1].rstrip("/")}</span></li>' for n_, u in src_list) + '</ul><h2>The Book</h2><ul class="idlist"><li><a href="/index/">Index</a><span>Find any name or place in the book</span></li><li><a href="/about/">How to use this site and cite it</a><span>Addresses, IDs and hubs</span></li></ul>'
+write('/sources/', layout('Sources', sb2, 'The publishers whose public feeds supply the news and views on this site.', '/sources/'))
 gjson = []
 for g in G:
     if g.get('cf'):
@@ -563,7 +576,7 @@ write('/search.json', json.dumps(search, ensure_ascii=False, separators=(',', ':
 shutil.copy(os.path.join(ROOT, 'tools', 'style.css'), os.path.join(OUT, 'style.css'))
 shutil.copy(os.path.join(ROOT, 'tools', 'site.js'), os.path.join(OUT, 'site.js'))
 open(os.path.join(OUT, 'robots.txt'), 'w').write(f'User-agent: *\nAllow: /\nSitemap: {BASE}/sitemap.xml\n')
-allurls = ['/', '/about/', '/news/', '/glossary/', '/index/', '/maps/', '/timelines/', '/tables/', '/demographics/', '/rankings/', '/top-ten/', '/size/', '/tour/', '/flora/'] + [r['url'] for r in rows] + [f'/g/{g["slug"]}/' for g in G]
+allurls = ['/', '/about/', '/news/', '/views/', '/media/', '/charts/', '/sources/', '/glossary/', '/index/', '/maps/', '/timelines/', '/tables/', '/demographics/', '/rankings/', '/top-ten/', '/size/', '/tour/', '/flora/'] + [r['url'] for r in rows] + [f'/g/{g["slug"]}/' for g in G]
 open(os.path.join(OUT, 'sitemap.xml'), 'w').write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + ''.join(f'<url><loc>{BASE}{u}</loc></url>\n' for u in allurls) + '</urlset>\n')
 
 red = []

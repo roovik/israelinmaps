@@ -196,6 +196,19 @@ export default {
       }));
       return new Response(JSON.stringify(out, null, 1), { headers: { 'Content-Type': 'application/json; charset=utf-8' } });
     }
+    if (url.searchParams.get('views')) {
+      const want = [['jpost', 'opinion-opinion'], ['jpost', 'opinion-experts-opinion'], ['ynet', 'ynetnews-opinion'], ['haaretz', 'culture-and-ideas-opinion'], ['jns', 'jns-opinion'], ['israelhayom', 'life-and-ideas-analysis']];
+      const rs = await Promise.all(want.map(async ([sid, cid]) => {
+        const src = SOURCES.find(x => x.id === sid), ch = src.groups.flatMap(g => g.list).find(c => c.id === cid);
+        const r = await load({ id: src.id, name: src.name, site: src.site, url: ch.url });
+        r.items.forEach(i => { i.ch = cid; });
+        return { src, r };
+      }));
+      const items = rs.flatMap(x => x.r.items).map(({ f, ...rest }) => rest).sort((a, b) => (b.d || '').localeCompare(a.d || '')).slice(0, 200);
+      const seen = {}, sources = [];
+      rs.forEach(({ src, r }) => { if (!seen[src.id]) { seen[src.id] = { id: src.id, name: src.name, site: src.site, groups: null, ok: false, count: 0, error: '' }; sources.push(seen[src.id]); } if (r.ok) { seen[src.id].ok = true; seen[src.id].count += r.items.length; } });
+      return new Response(JSON.stringify({ updated: new Date().toISOString(), sources, items }), { headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'public, max-age=600', 'Access-Control-Allow-Origin': '*' } });
+    }
     const sp = url.searchParams.get('s'), cp = url.searchParams.get('c');
     if (sp && url.searchParams.get('probe')) {
       // which channels of a source have stories from the last 7 days. One group per call keeps subrequests low.
