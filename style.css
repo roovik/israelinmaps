@@ -1,5 +1,5 @@
-:root{--btn:#1d4f91;--bg:#fbfaf7;--fg:#1d2330;--mut:#5b6474;--line:#d9d6cc;--acc:#1d4f91;--card:#fff;--hl:#eef3fa}
-@media (prefers-color-scheme:dark){:root{--bg:#12161d;--fg:#e8e6df;--mut:#a3abba;--line:#2c3442;--acc:#8fb8f0;--card:#1a2029;--hl:#1f2a3b}}
+:root{--btn:#1f62c4;--bg:#fffaf0;--fg:#1d2330;--mut:#566074;--line:#e6dcc4;--acc:#1f62c4;--card:#fff;--hl:#e8f2ff;--gold:#e9a113;--teal:#1596ad}
+@media (prefers-color-scheme:dark){:root{--bg:#101b2e;--fg:#f0ece0;--mut:#b3bdd0;--line:#2f4262;--acc:#8fc2ff;--card:#172640;--hl:#1c3050;--gold:#f6c545;--teal:#4cc3d9}}
 *{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--fg);font:17px/1.6 Georgia,"Times New Roman",serif}
 a{color:var(--acc)}h1,h2,h3,.brand,nav,.id,.meta,button,.card span,.small,.pn span{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
@@ -376,3 +376,11 @@ body.tlfull .pages.single{max-width:none}
 .share a[data-sh],.share button{background:var(--btn);color:#fff;border:0;border-radius:6px;padding:4px 10px;text-decoration:none;font:inherit;font-size:.8rem;cursor:pointer}.share .sho{flex-basis:100%}.share .sho a{color:inherit}
 .sharepg{max-width:1200px;margin:24px auto;padding:12px 16px;border-top:1px solid var(--line)}
 .brand img{display:block;height:52px;width:auto}
+
+/* brighter palette drawn from the logo tiles */
+header.top{border-bottom:0;position:relative;background:var(--card)}
+header.top::after{content:"";display:block;height:6px;background:repeating-linear-gradient(90deg,#1f62c4 0 36px,#1596ad 36px 72px,#e9a113 72px 108px,#c8541f 108px 144px,#2e8b57 144px 180px,#6a3d9a 180px 216px)}
+nav a:hover,nav a[aria-current],nav a.on{color:var(--gold);color:#b36b00}
+@media (prefers-color-scheme:dark){nav a:hover,nav a[aria-current],nav a.on{color:var(--gold)}}
+main h1{position:relative;padding-bottom:10px}main h1::after{content:"";position:absolute;left:0;bottom:0;width:72px;height:5px;border-radius:3px;background:linear-gradient(90deg,#1f62c4 0 33%,#1596ad 33% 66%,#e9a113 66%)}
+.subbtn{background:var(--gold)!important;color:#2a1d00!important;border-color:var(--gold)!important}
