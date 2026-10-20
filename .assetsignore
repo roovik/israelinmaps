@@ -8,3 +8,4 @@ node_modules
 .wrangler
 video.json
 entries.json
+curated.json

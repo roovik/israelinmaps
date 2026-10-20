@@ -350,11 +350,79 @@
    "id": "PLnR6FOcOvFdN3ylVA9COSfnn814kS5OrN",
    "name": "Religion and Holidays",
    "channel": "timesofisrael"
+  },
+  {
+   "id": "PLNyPzPued08Sk5_2FDT87IVizTaL7zNGm",
+   "name": "Zionism and Anti-Zionism: The History of Two Opposing Ideas",
+   "channel": ""
+  },
+  {
+   "id": "PL5t6MX1yyt3mastJyyRHRl-8ELqa7E4gL",
+   "name": "Zionism - Israel",
+   "channel": ""
+  },
+  {
+   "id": "PL9nWYwrg9cSz79aEP-4BPoFqpwtq6cjrs",
+   "name": "Pilar of fire - History of Zionism and Israel",
+   "channel": ""
+  },
+  {
+   "id": "PLA1wbU3-rIKv5XPfpoS4Yp0JROCcOFpVh",
+   "name": "Israel & Zionism",
+   "channel": ""
+  },
+  {
+   "id": "PLDQlWgovQkNHbgSBB9eEZ40r8SrZciERQ",
+   "name": "Israel & Zionism (Lizzie87)",
+   "channel": ""
   }
  ],
  "blockVideos": [],
  "blockWords": [],
- "pinned": {},
+ "pinned": {
+  "zionism": [
+   {
+    "v": "N2zYYQCYUvY",
+    "t": "What is Zionism? | History of Israel Explained | Unpacked"
+   },
+   {
+    "v": "vMOSXiJ2JKY",
+    "t": "What IS Zionism? | Unpacked"
+   },
+   {
+    "v": "q1CSWbyBcF0",
+    "t": "What is Zionism?"
+   },
+   {
+    "v": "aKELq9Jdc0k",
+    "t": "Israel-Palestine: The Modern Conflict Explained"
+   },
+   {
+    "v": "xz_OBHCdtDQ",
+    "t": "What Is Zionism? Part 1: Jews Return to Palestine"
+   },
+   {
+    "v": "cWkp2vpVlhE",
+    "t": "The FORBIDDEN History Of Zionism"
+   },
+   {
+    "v": "SrUiS2G4Lms",
+    "t": "Zionism: Why All the Controversy? | 5-Minute Videos"
+   },
+   {
+    "v": "yB3K0Wk6sJU",
+    "t": "How Israel Was Created"
+   },
+   {
+    "v": "9S7ClAL6laM",
+    "t": "A History of Israel, Zionism & Jews IN 3 MINUTES - Naftali Bennett"
+   },
+   {
+    "v": "xU7hzHVcIas",
+    "t": "Zionism and the Rise of Antisemitism"
+   }
+  ]
+ },
  "discover": [
   "Israel history documentary",
   "Jerusalem history",
@@ -363,5 +431,34 @@
   "Israel innovation",
   "Holy Land tour",
   "Israel pro-Israel advocacy"
- ]
+ ],
+ "entryPlaylists": {
+  "zionism": [
+   {
+    "id": "PLNyPzPued08Sk5_2FDT87IVizTaL7zNGm",
+    "name": "Zionism and Anti-Zionism: The History of Two Opposing Ideas",
+    "by": "Tikvah"
+   },
+   {
+    "id": "PL5t6MX1yyt3mastJyyRHRl-8ELqa7E4gL",
+    "name": "Zionism - Israel",
+    "by": "Eli Ram"
+   },
+   {
+    "id": "PL9nWYwrg9cSz79aEP-4BPoFqpwtq6cjrs",
+    "name": "Pilar of fire - History of Zionism and Israel",
+    "by": "Nobody"
+   },
+   {
+    "id": "PLA1wbU3-rIKv5XPfpoS4Yp0JROCcOFpVh",
+    "name": "Israel & Zionism",
+    "by": "Am Shalom School"
+   },
+   {
+    "id": "PLDQlWgovQkNHbgSBB9eEZ40r8SrZciERQ",
+    "name": "Israel & Zionism (Lizzie87)",
+    "by": "Lizzie87"
+   }
+  ]
+ }
 }
