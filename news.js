@@ -19,8 +19,8 @@
   function meta(it){return'<p class="nmeta"><b>'+esc(it.src)+(it.kind?' \u00b7 '+esc(it.kind):'')+'</b>'+(it.d?'<span>'+ago(it.d)+'</span>':'')+'</p>'}
   function card(it){
     var img='<img src="'+esc(it.i)+'" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.parentNode.classList.add(\'noimg\');this.remove()">';
-    return'<article class="ncard"><a class="nimg" href="'+esc(iu(it))+'" rel="noopener" tabindex="-1" aria-hidden="true">'+img+'</a><div class="nb"><h3><a href="'+esc(iu(it))+'">'+esc(it.t)+'</a></h3>'+meta(it)+chips(it,true)+'</div></article>'}
-  function hitem(it){return'<div class="hi"><h3><a href="'+esc(iu(it))+'">'+esc(it.t)+'</a></h3>'+meta(it)+chips(it,false)+'</div>'}
+    return'<article class="ncard"><a class="nimg" href="'+esc(iu(it))+'" rel="noopener" tabindex="-1" aria-hidden="true">'+img+'</a><div class="nb"><h3><a href="'+esc(iu(it))+'">'+esc(it.t)+'</a></h3>'+meta(it)+'</div></article>'}
+  function hitem(it){return'<div class="hi"><h3><a href="'+esc(iu(it))+'">'+esc(it.t)+'</a></h3>'+meta(it)+'</div>'}
   function hcards(list){var o=[];for(var i=0;i<list.length;i+=3)o.push('<article class="ncard hcard"><div class="nb">'+list.slice(i,i+3).map(hitem).join('')+'</div></article>');return o.join('')}
   function holes(el){
     [].forEach.call(el.querySelectorAll('.hole'),function(h){h.remove()});
