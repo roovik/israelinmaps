@@ -428,3 +428,4 @@ nav.wrap a[data-n="9"]:hover,nav.wrap a[data-n="9"].hov{color:#6a3d9a;border-col
 
 .tlmosaic.wide{grid-template-columns:repeat(3,1fr)}.tlmosaic.wide .tltile img{aspect-ratio:8/5}
 @media (max-width:640px){.tlmosaic.wide{grid-template-columns:1fr 1fr}}
+.tltile.cover:hover{transform:none;box-shadow:none;border-color:var(--line)}.tltile.cover img{aspect-ratio:8/5}

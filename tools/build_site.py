@@ -614,6 +614,7 @@ def hub(path, title, intro, groups, crumb=None):
 
 def items(prefix, pred=lambda r: True): return [r for r in rows if r['prefix'] == prefix and pred(r)]
 def map_hub():
+    os.makedirs(os.path.join(OUT, 'img', 't'), exist_ok=True); shutil.copy(os.path.join(ROOT, 'tools', 'maps-cover.webp'), os.path.join(OUT, 'img', 't', 'maps-cover.webp'))
     from PIL import Image as _I
     def th(r):
         nm = 'mapf-' + r['id'].lower(); fn = os.path.join(OUT, 'img', 't', nm + '.webp'); os.makedirs(os.path.dirname(fn), exist_ok=True)
@@ -631,7 +632,7 @@ def map_hub():
     hist = [r for r in rows if r['prefix'] == 'MAP' and int(r['num']) < 30]
     size_ = [r for r in rows if r['prefix'] == 'MAP' and int(r['num']) >= 30]
     b = '<p class="crumb"><a href="/">Home</a> / Maps</p><h1>Maps</h1><p class="small">Thirty-three maps of the land from the patriarchs to today. Select a map to open it.</p>'
-    b += '<h2>Historical Maps</h2><div class="tlmosaic wide">' + ''.join(tile(r, 'w') for r in hist) + '</div>'
+    b += '<h2>Historical Maps</h2><div class="tlmosaic wide"><div class="tltile cover"><img src="/img/t/maps-cover.webp" alt="Israel&#8217;s Story in Maps: thirty-three maps from the patriarchs to today" width="960" height="600"></div>' + ''.join(tile(r, 'w') for r in hist) + '</div>'
     b += '<h2>Size Comparisons</h2><div class="tlmosaic">' + ''.join(tile(r, 'p') for r in size_) + '</div>'
     write('/maps/', layout('Maps', chan('maps', b, '/maps/'), 'Thirty-three maps of the land from the patriarchs to today. Every map has its own address, such as israelinmaps.com/map-002.', '/maps/', '/img/p004.webp'))
 map_hub()
