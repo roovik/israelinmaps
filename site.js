@@ -16,7 +16,7 @@
   var live={News:[],Views:[]};
   function getLive(name,url){fetch(url).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){
     live[name]=(d.items||[]).filter(function(i){return!i.d||Date.now()-new Date(i.d)<=7*864e5}).map(function(i){
-      return{t:i.t,u:i.k?'/news/item/'+i.k+'/?s='+encodeURIComponent(i.s)+(i.ch?'&c='+encodeURIComponent(i.ch):''):i.u,k:i.src,s:i.d?new Date(i.d).toLocaleDateString('en-GB',{day:'numeric',month:'short'}):'',x:i.x||''}});
+      return{t:i.t,u:i.k?'/news/item/'+i.k+'/?s='+encodeURIComponent(i.s)+(i.ch?'&c='+encodeURIComponent(i.ch):''):i.u,i:i.i||'',k:i.src,s:i.d?new Date(i.d).toLocaleDateString('en-GB',{day:'numeric',month:'short'}):'',x:i.x||''}});
     if(window.__run)window.__run()}).catch(function(){})}
   getLive('News','/api/news?v=2');getLive('Views','/api/news?views=1&v=2');
   var SEC=[['News'],['Views'],['Maps'],['Timelines'],['Charts'],['Media'],['Glossary'],['Other']];
@@ -43,7 +43,9 @@
         l.sort(function(a,b){return b[0]-a[0]});
         var h=document.createElement('li');h.className='rsec';h.id='r-'+n;h.innerHTML='<h2>'+n+' <small>'+l.length+'</small></h2>';res.appendChild(h);jump.push('<a href="#r-'+n+'">'+n+' ('+l.length+')</a>');
         l.slice(0,n==='News'||n==='Views'?12:30).forEach(function(p){var d=p[1];var li=document.createElement('li');var a=document.createElement('a');a.href=d.u;a.textContent=d.t;
-          var sm=document.createElement('small');sm.textContent=d.k+(d.s?' · '+d.s:'');li.appendChild(a);li.appendChild(sm);res.appendChild(li)})});
+          var sm=document.createElement('small');sm.textContent=d.k+(d.s?' · '+d.s:'');var tx=document.createElement('span');tx.className='rtx';tx.appendChild(a);tx.appendChild(sm);
+          if(d.i){var im=document.createElement('img');im.src=d.i;im.alt='';im.loading='lazy';im.referrerPolicy='no-referrer';im.onerror=function(){im.remove()};var al=document.createElement('a');al.className='rth';al.href=d.u;al.tabIndex=-1;al.setAttribute('aria-hidden','true');al.appendChild(im);li.appendChild(al)}
+          li.appendChild(tx);res.appendChild(li)})});
       if(any){var j=document.createElement('li');j.className='rjump';j.innerHTML=jump.join(' ');res.insertBefore(j,res.firstChild)}
       else res.innerHTML='<li>Nothing found. Try one word, or an ID such as MAP-002.</li>'
     }

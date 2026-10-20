@@ -661,6 +661,10 @@ shutil.copy(os.path.join(ROOT, 'tools', 'ticker.js'), os.path.join(OUT, 'ticker.
 shutil.copy(os.path.join(ROOT, 'tools', 'ads.js'), os.path.join(OUT, 'ads.js'))
 shutil.copy(os.path.join(ROOT, 'tools', 'source.js'), os.path.join(OUT, 'source.js'))
 # ---------------------------------------------------------------- data, assets, redirects, sitemap
+for e_ in search:
+    if e_['k'] in byid:
+        th_ = make_thumb(byid[e_['k']])
+        if th_: e_['i'] = th_
 write('/search.json', json.dumps(search, ensure_ascii=False, separators=(',', ':')))
 shutil.copy(os.path.join(ROOT, 'tools', 'style.css'), os.path.join(OUT, 'style.css'))
 shutil.copy(os.path.join(ROOT, 'tools', 'site.js'), os.path.join(OUT, 'site.js'))
