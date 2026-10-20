@@ -262,8 +262,8 @@ def layout(title, body, desc='', path='/', og=None, cls='', nd=False):
     if 'class="newspage"' in body and 'newspg' not in cls: cls = (cls + ' newspg').strip()
     news_js = 'class="newspage"' in body or path in ('/news/', '/views/') or path.startswith('/g/') or path.startswith('/news/item/')
     nav = ''.join(f'<a href="{u}">{t}</a>' for u, t in NAV)
-    full = f'{title} | Israel Mosaic' if title != 'Israel Mosaic' else 'Israel Mosaic'
-    d = desc or 'Maps, graphs, timelines, images, and knowledge of the Holy Land. The companion site to the book Israel Mosaic.'
+    full = f'{title} | Israel NOWlej' if title != 'Israel NOWlej' else 'Israel NOWlej'
+    d = desc or 'Maps, graphs, timelines, images, and knowledge of the Holy Land. Companion to the book Israel Mosaic.'
     img = f'<meta property="og:image" content="{BASE}{og}">' if og else ''
     robots = '<meta name="robots" content="noindex">' if nd else ''
     return f'''<!doctype html>
@@ -276,8 +276,8 @@ def layout(title, body, desc='', path='/', og=None, cls='', nd=False):
 <form class="sf" action="/search/" role="search"><input name="q" type="search" placeholder="Search maps, people, places, IDs" aria-label="Search"><button>Search</button></form></div>
 <nav class="wrap" aria-label="Sections">{nav}</nav></header>
 <main id="main" class="wrap">{body}</main>
-<footer><div class="wrap"><p>Israel Mosaic: Maps, Graphs, Timelines, Images, and Knowledge of the Holy Land. By Richard J. Koret.</p>
-<p>&copy; 2003 to 2026 Richard J. Koret. All rights reserved. Page images are shown for reference with the book. <a href="/about/">How to use this site and cite it</a></p></div></footer>
+<footer><div class="wrap"><p>Israel NOWlej: news, views, maps, timelines, charts and media on the Holy Land.</p>
+<p>&copy; 2003 to 2026 Richard J. Koret. All rights reserved. Page images are shown for reference with the book <i>Israel Mosaic</i> by Richard J. Koret. <a href="/about/">How to use this site and cite it</a></p></div></footer>
 <script src="/site.js" defer></script><script src="/ticker.js" defer></script>{'<script src="/ads.js" defer></script><script src="/news.js" defer></script>' if news_js else ''}</body></html>'''
 
 def write(path, content):
@@ -450,7 +450,7 @@ def item_page(r):
 <nav class="pn" aria-label="Previous and next">{pn}</nav>
 <details class="txt"><summary>Text of this page</summary>{text}</details>
 <p class="small">Corrections: none recorded. This is the current version. The 2027 print edition copy is at <a href="/2027{r["short"]}">israelinmaps.com/2027{r["short"]}</a>.</p></article>'''
-    desc = f'{r["title"]} ({r["id"]}), {kind.lower()} from Israel Mosaic, book page {pg[0]}.'
+    desc = f'{r["title"]} ({r["id"]}), {kind.lower()} from the book Israel Mosaic, page {pg[0]}.'
     write(r['url'], layout(r['title'], chan(SECKEY[hub], body, r['url']), desc, r['url'], f'/img/p{pg[0]:03d}.webp'))
     search.append({'t': r['title'], 'u': r['url'], 'k': r['id'], 's': r['section'], 'x': (' '.join(st[0]) if st else ' '.join(paras))[:600]})
 
@@ -495,7 +495,7 @@ gh += '<p class="az">' + ' '.join(f'<a href="#l{L}">{L}</a>' for L in letters) +
 for L, lst in letters.items():
     gh += f'<h2 id="l{L}">{L}</h2><ul class="glist">' + ''.join(
         f'<li><a href="/g/{g["slug"]}/">{E(g["name"])}</a>' + (f' <span class="he" lang="he" dir="rtl">{E(g["he"])}</span>' if g['he'] else '') + (f' <i>{E("cf. " + g["cf"])}</i>' if g.get('cf') else '') + '</li>' for g in lst) + '</ul>'
-write('/glossary/', layout('Glossary', chan('glossary', gh, '/glossary/'), 'The Israel Mosaic glossary: 407 entries on people, places, events, works and buildings.', '/glossary/'))
+write('/glossary/', layout('Glossary', chan('glossary', gh, '/glossary/'), 'The glossary: 407 entries on people, places, events, works and buildings.', '/glossary/'))
 
 # ---------------------------------------------------------------- hubs
 THUMB_W, THUMB_H = 480, 360
@@ -581,11 +581,11 @@ about = '''<p class="crumb"><a href="/">Home</a> / About</p><h1>How to Use This 
 <h2>Editions</h2><p>The short address always shows the current version. Each edition also keeps a frozen copy, for example /2027/map-002, so a citation from the 2027 book can be checked against what the book showed. Corrections are listed on the page with a date.</p>
 <h2>Scanning a code</h2><p>Each code in the book encodes the same short address. If a code is damaged, type the address printed beside it.</p>
 <h2>About the book</h2><p>Israel Mosaic: Maps, Graphs, Timelines, Images, and Knowledge of the Holy Land, by Richard J. Koret. This site is the companion to the book. Some illustrations in the book are marked as AI generated.</p>'''
-write('/about/', layout('How to Use This Site', chan('sources', about, '/about/'), 'Addresses, IDs, hubs and how to cite a page of Israel Mosaic.', '/about/'))
+write('/about/', layout('How to Use This Site', chan('sources', about, '/about/'), 'Addresses, IDs, hubs and how to cite a page of the book Israel Mosaic.', '/about/'))
 
 sb = '''<h1>Search</h1><form class="sf big" action="/search/" role="search"><input id="q" name="q" type="search" placeholder="Try map-002, Masada, Rabin, olive" aria-label="Search" autofocus><button>Search</button></form>
-<p class="small">Searches titles, IDs, glossary entries and page text.</p><ul class="results" id="results"></ul>'''
-write('/search/', layout('Search', sb, 'Search Israel Mosaic.', '/search/', nd=True))
+<p class="small">Searches live news and views, maps, timelines, charts, media and the glossary.</p><ul class="results" id="results"></ul>'''
+write('/search/', layout('Search', chan('sources', sb), 'Search news, views, maps, timelines, charts, media and the glossary.', '/search/', nd=True))
 nf = '''<h1>That address is not here</h1><p class="lead">It may be a typing slip or an ID from a later edition. Search for it below, or browse from the home page.</p>
 <form class="sf big" action="/search/" role="search"><input id="q" name="q" type="search" aria-label="Search" placeholder="Search maps, people, places, IDs"><button>Search</button></form>
 <ul class="results" id="results"></ul><p><a href="/">Go to the home page</a></p>'''
@@ -596,12 +596,12 @@ home_cards = [('/maps/', 'Maps', '33 maps'), ('/timelines/', 'Timelines', '19 ti
               ('/tables/', 'Tables', '5 reference tables'), ('/tour/', 'A Taste of Israel', '10 regions, 71 stops'), ('/flora/', 'Flora and Fauna', '5 sections, 60 entries'),
               ('/glossary/', 'Glossary', '407 entries'), ('/index/', 'Index', 'Find any name or place')]
 cards = ''.join(f'<a class="card" href="{u}"><b>{t}</b><span>{d}</span></a>' for u, t, d in home_cards)
-home = f'''<section class="hero"><h1>Israel <b>Mosaic</b></h1><p class="sub">Maps, Graphs, Timelines, Images, and Knowledge of the Holy Land</p>
-<p class="lead">The companion site to the book. Every map, chart, timeline and list in the book has its own page here, with a permanent ID you can type, cite or scan.</p>
+home = f'''<section class="hero"><h1>Israel <b>NOWlej</b></h1><p class="sub">News, Views, Maps, Timelines, Charts and Knowledge of the Holy Land</p>
+<p class="lead">The site of the book <i>Israel Mosaic</i>. Every map, chart, timeline and list in the book has its own page here, with a permanent ID you can type, cite or scan.</p>
 <form class="sf big" action="/search/" role="search"><input name="q" type="search" placeholder="Search, or type an ID such as MAP-002" aria-label="Search"><button>Search</button></form></section>
 <div class="cards">{cards}</div>
 <p class="small">New here? <a href="/about/">How the addresses and citations work</a>.</p>'''
-write('/', layout('Israel Mosaic', home, '', '/', '/img/p006.webp', cls='home'))
+write('/', layout('Israel NOWlej', home, '', '/', '/img/p006.webp', cls='home'))
 
 news = '''<div class="newspage"><div class="adslot" data-slot="page-top" data-sizes="728x90|320x50"></div><div class="newsleftcol"><nav class="newstopics" id="news-topics" aria-label="Topics and sources"></nav><div class="adslot" data-slot="left" data-sizes="tower"></div></div><div class="newsleft"><p class="crumb"><a href="/">Home</a> / News</p><h1>News</h1>
 <div class="newsmain">
@@ -613,7 +613,7 @@ news = '''<div class="newspage"><div class="adslot" data-slot="page-top" data-si
 <aside class="newsside" aria-label="Latest headlines"><div class="adslot" data-slot="aside-top" data-sizes="320x100"></div><div id="news-latest"></div><h2>By source</h2><div id="news-widget"></div></aside></div>
 <p class="small" id="news-status"></p>
 <div class="adslot adwide" data-slot="page-bottom" data-sizes="970x250|728x90|320x100"></div>'''
-write('/news/', layout('News', news, 'Headlines from public news feeds about Israel, linked to the Israel Mosaic glossary.', '/news/', cls='newspg'))
+write('/news/', layout('News', news, 'Headlines from public news feeds about Israel, linked to the glossary.', '/news/', cls='newspg'))
 write('/news/item-template/', layout('@@TITLE@@', '<div class="newspage"><div class="adslot" data-slot="page-top" data-sizes="728x90|320x50"></div><div class="newsleftcol"><nav class="newstopics" id="news-topics" aria-label="Topics and sources"></nav><div class="adslot" data-slot="left" data-sizes="tower"></div></div><div class="newsleft"><div class="newsmain"><div id="news-item">@@BODY@@</div><div class="adslot" data-slot="lb-bottom" data-sizes="728x90|320x50"></div></div></div><aside class="newsside" aria-label="Latest headlines"><div class="adslot" data-slot="aside-top" data-sizes="320x100"></div><div id="news-latest"></div><h2>By source</h2><div id="news-widget"></div></aside></div><p class="small" id="news-status"></p><div class="adslot adwide" data-slot="page-bottom" data-sizes="970x250|728x90|320x100"></div>', '@@DESC@@', '/news/item/@@K@@/', cls='newspg', nd=True))
 views_html = news.replace('/ News</p>', '/ Views</p>').replace('<h1>News</h1>', '<h1>Views</h1>').replace('id="news-grid"', 'id="news-grid" data-api="/api/news?views=1&v=2"')
 write('/views/', layout('Views', views_html, 'Op-eds, editorials and blogs from Israeli news sources, linked to the glossary.', '/views/', cls='newspg'))

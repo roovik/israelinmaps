@@ -170,7 +170,7 @@ async function itemPage(request, env, k, sp, cp) {
   }
   let title, desc, body;
   if (!item) {
-    status = 404; title = 'This story is no longer available'; desc = 'News items stay on Israel Mosaic for seven days.';
+    status = 404; title = 'This story is no longer available'; desc = 'News items stay on Israel NOWlej for seven days.';
     body = '<p class="crumb"><a href="/">Home</a> / <a href="/news/">News</a></p><h1>This story is no longer available</h1><p>News items stay on this site for seven days. <a href="/news/">Back to the latest news</a>.</p>';
   } else {
     let gl = [];

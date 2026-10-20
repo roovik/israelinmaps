@@ -231,3 +231,5 @@ body.newspg .bar .sf{width:100%}body.newspg .bar .sf input{flex:1;width:auto}
 .secnav a[aria-current=page]{color:var(--acc);font-weight:600;border-left:3px solid var(--acc);padding-left:5px}
 .newspage .newsmain .tgrid{grid-template-columns:repeat(auto-fill,minmax(190px,1fr))}
 @media (max-width:640px){.secnav{max-height:none}.secnav details:not([open]) ul{display:none}}
+.results .rsec{margin-top:14px;list-style:none}.results .rsec h2{font-size:1.1rem;margin:0;border-bottom:1px solid var(--line);padding-bottom:3px}.results .rsec small{opacity:.6;font-weight:400}
+.results .rjump{list-style:none;display:flex;gap:12px;flex-wrap:wrap;font-family:system-ui,sans-serif;font-size:.85rem}
