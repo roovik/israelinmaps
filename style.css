@@ -161,3 +161,4 @@ body.newspg .wrap{max-width:1440px}
 .adslot[data-slot^=lb] .ad,.adslot[data-slot=page-bottom] .ad{margin:0}
 .adtop{align-items:stretch}
 @media (max-width:1000px){.adslot[data-slot=aside-top]{display:flex;justify-content:center}}
+.adslot[data-slot=page-top],.adslot[data-slot^=lb]{background:var(--hl);border-radius:8px;padding:5px;box-sizing:border-box}
