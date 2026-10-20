@@ -98,7 +98,7 @@
       }
       function paint(items,note){
         var list=items.filter(function(i){return!g2.checked||i.g.length});
-        var cards=list.filter(full),rest=list.filter(function(i){return!full(i)});
+        var cards=list.filter(full).slice(0,60),rest=list.filter(function(i){return!full(i)}).slice(0,80);
         grid.innerHTML=cards.length?cards.map(card).join(''):(rest.length?'':'<p>'+(note||'Nothing matches right now.')+'</p>');
         more.innerHTML=rest.map(row).join('');
         mt.hidden=!rest.length;mt.textContent='More headlines';
