@@ -542,7 +542,7 @@ def R(src, dst, code=301):
         red.append((src.upper(), dst, code))
 for r in rows:
     R(r['short'], r['url'])
-    R('/2027' + r['short'], r['url'], 200)
+    R('/2027' + r['short'], r['url'], 301)
     # no-hyphen and slash variants people type
     R('/' + r['id'].lower().replace('-', ''), r['url'])
 HUBS = {'/map': '/maps/', '/tl': '/timelines/', '/tbl': '/tables/', '/dem': '/demographics/', '/rnk': '/rankings/', '/top': '/top-ten/',
