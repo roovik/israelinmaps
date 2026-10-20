@@ -254,7 +254,7 @@ def app_html(g):
 
 # ---------------------------------------------------------------- templates
 CSS = open(os.path.join(ROOT, 'tools', 'style.css')).read()
-NAV = [('/', 'News'), ('/views/', 'Views'), ('/video/', 'Video'), ('/glossary/', 'NOWlej')]
+NAV = [('/', 'News'), ('/views/', 'Views'), ('/video/', 'Video'), ('/glossary/', 'NOWlej'), ('/sources/', 'Sources')]
 BASE = 'https://israelinmaps.com'
 
 VCFG = json.load(open(os.path.join(ROOT, 'video.json')))
@@ -262,7 +262,7 @@ def vslug(c): return (c.get('handle') or c.get('id') or '').lower()
 def plslug(c): return 'pl-' + c['id'].lower()
 SUBNAV = {
  'news': [('Security', '/news/#mode=topics&tp=security'), ('Diplomacy', '/news/#mode=topics&tp=diplomacy'), ('Politics', '/news/#mode=topics&tp=politics'), ('Technology', '/news/#mode=topics&tp=technology'), ('Business', '/news/#mode=topics&tp=business')],
- 'views': [('All Views', '/views/'), ('Op-Ed', '/views/#mode=topics&kind=Op-Ed'), ('Editorial', '/views/#mode=topics&kind=Editorial'), ('Blogs', '/views/#mode=topics&kind=Blog'), ('Sources', '/sources/')],
+ 'views': [('All Views', '/views/'), ('Op-Ed', '/views/#mode=topics&kind=Op-Ed'), ('Editorial', '/views/#mode=topics&kind=Editorial'), ('Blogs', '/views/#mode=topics&kind=Blog')],
  'nowlej': [('Maps', '/maps/'), ('Timelines', '/timelines/'), ('Charts', '/charts/'), ('Media', '/media/'), ('A to Z', '/glossary/')],
  'maps': [('Historical Maps', '/maps/'), ('Size Comparisons', '/size/'), ('Israel Tour', '/tour/')],
  'charts': [('Rankings', '/rankings/'), ('Demographics', '/demographics/'), ('Top Ten', '/top-ten/'), ('Size Comparisons', '/size/'), ('Tables', '/tables/')],
@@ -284,16 +284,15 @@ def write_subnav_json():
         k = {'glossary': 'nowlej'}.get(k, k)
         m[u] = sec_links(k)
     write('/subnav.json', json.dumps(m))
-TOPSEC = {'': 'news', 'news': 'news', 'views': 'views', 'sources': 'views', 'video': 'video', 'maps': 'nowlej', 'timelines': 'nowlej', 'charts': 'nowlej', 'media': 'nowlej', 'glossary': 'nowlej', 'g': 'nowlej',
+TOPSEC = {'': 'news', 'news': 'news', 'views': 'views', 'sources': 'sources', 'video': 'video', 'maps': 'nowlej', 'timelines': 'nowlej', 'charts': 'nowlej', 'media': 'nowlej', 'glossary': 'nowlej', 'g': 'nowlej',
           'tables': 'nowlej', 'demographics': 'nowlej', 'rankings': 'nowlej', 'top-ten': 'nowlej', 'size': 'nowlej', 'tour': 'nowlej', 'flora': 'nowlej'}
-TOPIDX = {'news': 0, 'views': 1, 'video': 2, 'nowlej': 3}
+TOPIDX = {'news': 0, 'views': 1, 'video': 2, 'nowlej': 3, 'sources': 4}
 CTX2 = {'maps': 'maps', 'timelines': 'timelines', 'charts': 'charts', 'tables': 'charts', 'demographics': 'charts', 'rankings': 'charts', 'top-ten': 'charts', 'size': 'charts',
         'media': 'media', 'tour': 'media', 'flora': 'media', 'glossary': 'glossary', 'g': 'glossary'}
 def subnav_for(path):
     seg = path.strip('/').split('/')[0]
     top = TOPSEC.get(seg, '')
     links = sec_links(top) if top else []
-    if seg == 'sources' and path.strip('/') == 'sources': links = sec_links('views')
     trend = 'views' if top == 'views' else ('news' if top == 'news' or seg == 'sources' else '')
     idx = TOPIDX.get(top, '')
     html_ = ''.join(f'<a href="{u}">{E(t)}</a>' for t, u in links)
@@ -321,7 +320,7 @@ def layout(title, body, desc='', path='/', og=None, cls='', nd=False):
 <link rel="stylesheet" href="/style.css"></head>
 <body class="{cls}"><a class="skip" href="#main">Skip to content</a>
 <header class="top"><div class="wrap bar"><a class="brand" href="/" aria-label="Israel NOWlej, home"><img src="/logo.svg" alt="Israel NOWlej" width="160" height="52"></a><div class="ticker" id="news-ticker" aria-label="Latest headlines" hidden></div>
-<div class="rcol"><div class="acct"><a class="subbtn" href="/subscribe/">Subscribe</a><a class="signin" href="/signin/">Sign in</a><a class="signin" href="/sources/">Sources</a><a class="signin" href="/about/">About</a></div><form class="sf" action="/search/" role="search"><input name="q" type="search" placeholder="Search maps, people, places, IDs" aria-label="Search"><button>Search</button></form></div></div>
+<div class="rcol"><div class="acct"><a class="subbtn" href="/subscribe/">Subscribe</a><a class="signin" href="/signin/">Sign in</a><a class="signin" href="/about/">About</a></div><form class="sf" action="/search/" role="search"><input name="q" type="search" placeholder="Search maps, people, places, IDs" aria-label="Search"><button>Search</button></form></div></div>
 <nav class="wrap" aria-label="Sections">{nav}</nav>{subnav_for(path)}</header>
 <main id="main" class="wrap">{body}</main>
 <footer><div class="wrap"><p>Israel NOWlej: news, views, maps, timelines, charts and media on the Holy Land.</p>

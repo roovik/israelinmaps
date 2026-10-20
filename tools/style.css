@@ -487,7 +487,8 @@ header.top .acct a.signin{font-size:.8rem}
 .newspage.noleft>.newsleft{grid-column:1;grid-row:2}.newspage.noleft>.newsside{grid-column:2;grid-row:2}
 @media (max-width:1000px){.newspage.noleft{grid-template-columns:minmax(0,1fr)}.newspage.noleft>.newsleft,.newspage.noleft>.newsside{grid-column:1;grid-row:auto}}
 @media (max-width:640px){
-header.top nav.wrap a{flex:1 1 22%;text-align:center;padding:9px 6px;font-size:.95rem}
+header.top nav.wrap a{flex:1 1 0;min-width:0;text-align:center;padding:9px 2px;font-size:.82rem}
 .mobnav .mrow{flex-wrap:nowrap;overflow-x:auto}.mobnav .mrow button{flex:none;white-space:nowrap}
 .subnav{flex-wrap:nowrap;overflow-x:auto}.subnav a{flex:none}
 }
+header.top nav.wrap a[data-n="4"]{background:var(--t5)}.subnav[data-c="4"]{--sc:var(--t5)}
