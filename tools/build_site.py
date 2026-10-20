@@ -529,11 +529,11 @@ home = f'''<section class="hero"><h1>Israel <b>Mosaic</b></h1><p class="sub">Map
 <p class="small">New here? <a href="/about/">How the addresses and citations work</a>.</p>'''
 write('/', layout('Israel Mosaic', home, '', '/', '/img/p006.webp', cls='home'))
 
-news = '''<div class="ticker" id="news-ticker" aria-label="Latest headlines ticker" hidden></div><p class="crumb"><a href="/">Home</a> / News</p><h1>In the News</h1>
-<p class="lead">Headlines from public news feeds, matched to the glossary. Each item links to its publisher.</p>
-<div class="newsgrid"><div class="newsmain">
-<div class="nfilter" id="news-filter" aria-label="Filter by source"></div>
+news = '''<div class="ticker" id="news-ticker" aria-label="Latest headlines" hidden></div><p class="crumb"><a href="/">Home</a> / News</p><h1>In the News</h1>
+<p class="lead">Headlines from public news feeds, from the last seven days, matched to the glossary. Each item links to its publisher.</p>
+<div class="nfilter" id="news-filter" aria-label="Choose sources"></div>
 <div class="nchan" id="news-channels" hidden></div>
+<div class="newsgrid"><nav class="newstopics" id="news-topics" aria-label="Topics"></nav><div class="newsmain">
 <p class="ngl"><label><input type="checkbox" id="news-glonly"> Only stories that mention a glossary entry</label></p>
 <div class="ngrid3" id="news-grid"><p>Loading the latest headlines.</p></div>
 <h2 id="news-more-title" class="nmt" hidden>More headlines</h2><ul class="hlist" id="news-more"></ul></div>

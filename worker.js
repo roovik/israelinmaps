@@ -21,7 +21,7 @@ const SOURCES = [
 function chanId(g, n) { return (g + '-' + n).toLowerCase().replace(/[^a-z0-9]+/g, '-'); }
 for (const s of SOURCES) if (s.channels) s.groups = s.channels.map(([g, list]) => ({ group: g, list: list.map(([n, p]) => ({ id: chanId(g, n), name: n, url: JP + p })) }));
 const FEEDS = SOURCES.map(s => ({ id: s.id, name: s.name, site: s.site, url: s.url }));
-const PER_FEED = 12, TOTAL = 72, TIMEOUT = 8000, MAX_AGE_DAYS = 10;
+const PER_FEED = 12, TOTAL = 72, TIMEOUT = 8000, MAX_AGE_DAYS = 7;
 
 const ENT = { amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: ' ', rsquo: '’', lsquo: '‘', rdquo: '”', ldquo: '“', hellip: '…', ndash: '–', mdash: '—' };
 function decode(s) {
@@ -121,6 +121,13 @@ export default {
       return new Response(JSON.stringify(out, null, 1), { headers: { 'Content-Type': 'application/json; charset=utf-8' } });
     }
     const sp = url.searchParams.get('s'), cp = url.searchParams.get('c');
+    if (sp && url.searchParams.get('probe')) {
+      // which channels of a source have stories from the last 7 days. One group per call keeps subrequests low.
+      const src = SOURCES.find(s => s.id === sp), g = src && src.groups && src.groups.find(x => x.group === url.searchParams.get('probe'));
+      if (!g) return new Response('{"error":"unknown group"}', { status: 404, headers: { 'Content-Type': 'application/json' } });
+      const rs = await Promise.all(g.list.map(c => load({ id: src.id, name: src.name, site: src.site, url: c.url }).then(r => ({ id: c.id, ok: r.ok, count: r.items.length, newest: r.items.reduce((m, i) => (i.d && i.d > m ? i.d : m), '') }))));
+      return new Response(JSON.stringify({ group: g.group, channels: rs }), { headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'public, max-age=3600', 'Access-Control-Allow-Origin': '*' } });
+    }
     if (sp && cp) {
       const src = SOURCES.find(s => s.id === sp), ch = src && src.groups && src.groups.flatMap(g => g.list).find(c => c.id === cp);
       if (!ch) return new Response('{"error":"unknown channel"}', { status: 404, headers: { 'Content-Type': 'application/json' } });
