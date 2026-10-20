@@ -73,6 +73,8 @@
       chs.forEach(function(c){c.videos.forEach(function(v){if(!have[v.v]&&re.test(v.t))found2.push(v)})});
       found2.sort(function(a,b){return(b.d||'').localeCompare(a.d||'')});
       if(found2.length){gl.querySelector('.tgrid').insertAdjacentHTML('beforeend',found2.slice(0,3).map(card).join(''));gl.hidden=false}
+      var mp=(d.playlists||[]).filter(function(x){return re.test(x.name)}),cn=d.chnames||{};
+      if(mp.length){var eb=gl.querySelector('.epl');if(eb)eb.innerHTML='<h3>Playlists</h3><ul class="vpl">'+mp.slice(0,6).map(function(x){return'<li><a href="/video/pl-'+esc(x.id.toLowerCase())+'/">'+esc(x.name)+'</a> <small>'+esc(cn[x.channel]||'')+'</small></li>'}).join('')+'</ul>';gl.hidden=false}
     }
   }).catch(function(){});
 })();

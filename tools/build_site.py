@@ -510,14 +510,14 @@ def gl_pageimg(g):
 def gl_video(g, sl):
     pins = VCFG.get('pinned', {}).get(sl, [])
     cards_ = ''.join(f'<a class="tcard vcard" data-v="{E(p["v"])}" href="/video/watch/?v={E(p["v"])}&amp;t={E(urllib.parse.quote(p.get("t", "")))}"><span class="timg"><img src="https://i.ytimg.com/vi/{E(p["v"])}/mqdefault.jpg" alt="" loading="lazy"><span class="vplay">&#9654;</span></span><span class="tb"><b>{E(p.get("t", ""))}</b></span></a>' for p in pins)
-    return f'<section id="e-video" data-slug="{sl}" data-name="{E(g["title"] if g.get("title") else g["name"])}"{"" if pins else " hidden"}><h2>Video</h2><div class="tgrid">{cards_}</div></section>'
+    return f'<section id="e-video" data-slug="{sl}" data-name="{E(g["title"] if g.get("title") else g["name"])}"{"" if pins else " hidden"}><h2>Video</h2><div class="tgrid">{cards_}</div><div class="epl"></div></section>'
 bycat = {}
 def gl_page(g):
     sl = g['slug']
     if g.get('cf'):
         tgt = resolve(g['cf'])
         link = f'<a href="/g/{tgt}/">{E(invert(g["cf"]))}</a>' if tgt else E(g['cf'])
-        body = f'<article><h1>{E(g["title"])}</h1><p class="lead">See {link}.</p>{gl_pageimg(g)}</article>'
+        body = f'<article><h1>{E(g["title"])}</h1><p class="lead">See {link}.</p></article>'
         write(f'/g/{sl}/', layout(g['title'], chan('glossary', body, '/glossary/'), f'{g["title"]}: see {g["cf"]}.', f'/g/{sl}/'))
         search.append({'t': g['title'], 'u': f'/g/{sl}/', 'k': 'GLOSSARY', 's': 'see ' + g['cf'], 'x': ''})
         return
@@ -534,8 +534,7 @@ def gl_page(g):
     body = f"""<article class="gl"><header class="ih"><span class="id">NOWlej · book page {g["pg"]}</span><h1>{E(g["title"])} {he}</h1><p class="meta">{cat}</p></header>
 <nav class="esec" id="esec" aria-label="On this page"><a href="#e-summary">Summary</a><a href="#e-video" data-s="e-video" hidden>Video</a><a href="#e-images" data-s="e-images" hidden>Images</a><a href="#e-related">Related</a><a href="#e-sources">Sources</a></nav>
 <section id="e-summary"><h2>Summary</h2><p class="lead">{b}</p>
-<div id="e-wiki" data-wiki="{E(wk) if wk else ''}" hidden></div>
-{gl_pageimg(g)}</section>
+<div id="e-wiki" data-wiki="{E(wk) if wk else ''}" hidden></div></section>
 {gl_video(g, sl)}
 <section id="e-images" hidden data-name="{E(wk) if wk else ''}"><h2>Images</h2><div class="egal" id="e-gal"></div><p class="small">Photographs from Wikimedia Commons, with the author and license shown on each.</p></section>
 <section id="e-related"><h2>Related</h2>
