@@ -21,10 +21,15 @@
     function play(id,auto){if(!id)return;pl.innerHTML=embed(id,auto);pl.hidden=false;now=id;mark()}
     function mark(){[].forEach.call(document.querySelectorAll('#vid-list a.vli,#e-video a.vcard'),function(a){a.classList.toggle('vnowp',a.getAttribute('data-v')===now)})}
     function thumbs(){var T=gl.querySelector('.vthumbs');if(T)T.innerHTML=pins.slice(0,6).map(function(v){return card({v:v.v,t:v.t||'Video'})}).join('');mark()}
-    function draw(){thumbs();if(!L)return;
+    var PT={};try{PT=JSON.parse(sessionStorage.getItem('plthumbs')||'{}')}catch(e){}
+    function plName(x){return x.name&&!/^PL[\w-]{12,}$/.test(x.name)?x.name:'Playlist'}
+    function plCard(x){var v=PT[x.id];return'<a class="plcard'+(x.id===act?' vnowp':'')+'" data-pl="'+esc(x.id)+'" href="/video/'+esc(x.slug)+'/"><span class="timg">'+(v?'<img src="https://i.ytimg.com/vi/'+esc(v)+'/mqdefault.jpg" alt="" loading="lazy">':'<span class="plph"></span>')+'<span class="vplay">\u25B6</span></span><span class="tb"><b>'+esc(plName(x))+'</b>'+(x.by?'<span class="tid">'+esc(x.by)+'</span>':'')+'</span></a><a class="vpop" href="/video/'+esc(x.slug)+'/" title="Open this playlist in a new window" aria-label="Open this playlist in a new window">\u2197</a>'}
+    function plThumbs(){var T=gl.querySelector('.plthumbs');if(!T&&pls.length){T=document.createElement('div');T.className='vthumbs plthumbs';var a=gl.querySelector('.vthumbs');a.parentNode.insertBefore(T,a.nextSibling)}if(T)T.innerHTML=pls.map(function(x){return'<div class="plwrap">'+plCard(x)+'</div>'}).join('')}
+    function loadPT(){pls.filter(function(x){return!PT[x.id]}).forEach(function(x){fetch('/api/videos?playlist='+encodeURIComponent(x.id)).then(function(r){return r.ok?r.json():null}).then(function(d){var c=d&&(d.channels||[])[0];if(c&&c.videos&&c.videos.length){PT[x.id]=c.videos[0].v;try{sessionStorage.setItem('plthumbs',JSON.stringify(PT))}catch(e){}draw()}}).catch(function(){})})}
+    function draw(){thumbs();plThumbs();if(!L)return;
       var h='<div class="vseg" role="group" aria-label="Go to"><button type="button" data-b="v" aria-pressed="'+(mode==='v')+'">Videos</button>'+(pls.length?'<button type="button" data-b="p" aria-pressed="'+(mode==='p')+'">Playlists</button>':'')+'</div>';
       h+='<h2 id="vl-videos">'+esc(ttl)+'</h2><ul>'+list.map(function(v){return'<li><a class="vli" data-v="'+esc(v.v)+'" href="/video/watch/?v='+encodeURIComponent(v.v)+'&t='+encodeURIComponent(v.t||'')+'">'+esc(v.t||'Video')+'</a></li>'}).join('')+'</ul>';
-      if(pls.length)h+='<h2 id="vl-pls">Playlists</h2><ul class="vpls">'+pls.map(function(x){return'<li><a'+(x.id===act?' class="vnowp" aria-current="true"':'')+' data-pl="'+esc(x.id)+'" href="/video/'+esc(x.slug)+'/">'+esc(x.name)+'</a>'+(x.by?' <small>'+esc(x.by)+'</small>':'')+' <a class="vpop" href="/video/'+esc(x.slug)+'/" title="Open this playlist in a new window" aria-label="Open this playlist in a new window">\u2197</a></li>'}).join('')+'</ul>';
+      if(pls.length)h+='<h2 id="vl-pls">Playlists</h2><ul class="vpls plc">'+pls.map(function(x){return'<li>'+plCard(x)+'</li>'}).join('')+'</ul>';
       L.innerHTML=h;mark()}
     var plp=document.getElementById('e-plplayer'),plname='';
     function plSrc(vid,auto){return'https://www.youtube-nocookie.com/embed/'+(vid?encodeURIComponent(vid):'videoseries')+'?list='+encodeURIComponent(act)+'&rel=0'+(auto?'&autoplay=1':'')}
@@ -32,14 +37,14 @@
     function closePl(){act='';mode='v';list=pins;ttl='Videos on this topic';if(plp){plp.hidden=true;plp.innerHTML=''}draw()}
     if(plp)plp.addEventListener('click',function(e){if(e.target.closest('.plx'))closePl()});
     EVP=function(id){if(act){showPl(id,true);plp.scrollIntoView({behavior:'smooth',block:'nearest'})}else{play(id,true);pl.scrollIntoView({behavior:'smooth',block:'nearest'})}};
+    [gl,L].forEach(function(H){if(H)H.addEventListener('click',function(e){var a=e.target.closest('a[data-pl]');if(a&&!e.metaKey&&!e.ctrlKey&&H.contains(a)){e.preventDefault();var x=a.getAttribute('data-pl');var m=pls.filter(function(q){return q.id===x})[0];openPl(x,m?plName(m):'Playlist')}})});
+    function openPl(id,nm){act=id;plname=nm;mode='v';ttl='Playlist: '+nm;list=[];draw();showPl('',false);plp.scrollIntoView({behavior:'smooth',block:'nearest'});
+      fetch('/api/videos?playlist='+encodeURIComponent(id)).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){var c=(d.channels||[])[0];if(!c||!c.videos.length)throw 0;if(act!==id)return;list=c.videos.map(function(v){return{v:v.v,t:v.t}});draw()}).catch(function(){})}
     if(L){L.addEventListener('click',function(e){
       var b=e.target.closest('button[data-b]');
       if(b){if(b.getAttribute('data-b')==='v'){closePl();L.scrollTop=0;window.scrollTo({top:L.getBoundingClientRect().top+window.pageYOffset-80,behavior:'smooth'})}else{mode='p';draw();var t=document.getElementById('vl-pls');if(t)t.scrollIntoView({behavior:'smooth',block:'start'})}return}
-      var a=e.target.closest('a[data-pl]');if(!a||e.metaKey||e.ctrlKey)return;e.preventDefault();var id=a.getAttribute('data-pl'),nm=a.textContent;
-      act=id;plname=nm;mode='v';ttl='Playlist: '+nm;list=[];draw();showPl('',false);plp.scrollIntoView({behavior:'smooth',block:'nearest'});
-      fetch('/api/videos?playlist='+encodeURIComponent(id)).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){var c=(d.channels||[])[0];if(!c||!c.videos.length)throw 0;
-        if(act!==id)return;list=c.videos.map(function(v){return{v:v.v,t:v.t}});draw()}).catch(function(){if(act===id)L.insertAdjacentHTML('afterbegin','<p class="small">The video list for that playlist could not be loaded. The player still works.</p>')})})}
-    draw();if(pins.length)play(pins[0].v,false);else pl.hidden=true;
+      })}
+    draw();loadPT();if(pins.length)play(pins[0].v,false);else pl.hidden=true;
     if(pins.length)return;
   }
   var plId=chp?chp.getAttribute('data-pl')||'':'';
