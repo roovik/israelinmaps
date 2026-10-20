@@ -444,3 +444,12 @@ nav.wrap a[data-n="9"]:hover,nav.wrap a[data-n="9"].hov{color:#6a3d9a;border-col
 .newspage.noleft>.adslot[data-slot=page-top]{grid-column:1/-1}
 .newspage.noleft>.newsleft{grid-column:1;grid-row:2}.newspage.noleft>.newsside{grid-column:2;grid-row:2}
 @media (max-width:1000px){.newspage.noleft{grid-template-columns:1fr}.newspage.noleft>.newsleft,.newspage.noleft>.newsside{grid-column:1;grid-row:auto}}
+/* phones: long chip rows scroll inside their own box and never widen the page */
+@media (max-width:640px){
+html,body{overflow-x:hidden;max-width:100%}
+.newspage{grid-template-columns:minmax(0,1fr)!important}
+.newspage>*,.newsleftcol,.newstopics,.newsmain,.newsleft{min-width:0;max-width:100%}
+.mobnav .mrow{max-width:100%}
+.adslot,.adslot *{max-width:100%}
+.subnav{max-width:100vw}
+}
