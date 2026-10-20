@@ -60,11 +60,11 @@
       var good=data.sources.filter(function(s){return s.ok});
       function isBrk(i){return i.d&&(Date.now()-new Date(i.d).getTime()<=3*3600*1000||/\b(breaking|live)\b/i.test(i.t))}
       var dated=data.items.filter(function(i){return i.d}).slice(0,12);
-      latest.innerHTML='<section class="wsrc wlatest"><h3>Latest '+W+'</h3><ul>'+dated.slice(0,5).map(function(i){return'<li><a href="'+esc(iu(i))+'">'+esc(i.t)+'</a><span class="wm"><a href="'+esc((byId[i.s]||{}).site||'#')+'" rel="noopener">'+esc(i.src)+'</a> · <time>'+when(i.d)+'</time></span></li>'}).join('')+'</ul></section>';
+      latest.innerHTML='<section class="wsrc wlatest"><h3>Latest '+W+'</h3><ul>'+dated.slice(0,5).map(function(i){return'<li><a href="'+esc(iu(i))+'">'+esc(i.t)+'</a><span class="wm"><a href="/sources/'+esc(i.s)+'/">'+esc(i.src)+'</a> · <time>'+when(i.d)+'</time></span></li>'}).join('')+'</ul></section>';
       wid.innerHTML=data.sources.map(function(s){
         var its=data.items.filter(function(i){return i.s===s.id}).slice(0,6);
         if(!s.ok||!its.length)return'';
-        return'<section class="wsrc"><h3><a href="'+esc(s.site||'#')+'" rel="noopener">'+esc(s.name)+'</a></h3><ul>'+its.map(function(i){return'<li><a href="'+esc(iu(i))+'">'+esc(i.t)+'</a>'+(i.d?'<time>'+when(i.d)+'</time>':'')+'</li>'}).join('')+'</ul></section>'}).filter(Boolean).join('<div class="adslot" data-slot="right"></div>');if(window.IMAds)IMAds.fill(wid);
+        return'<section class="wsrc"><h3><a href="/sources/'+esc(s.id)+'/">'+esc(s.name)+'</a></h3><ul>'+its.map(function(i){return'<li><a href="'+esc(iu(i))+'">'+esc(i.t)+'</a>'+(i.d?'<time>'+when(i.d)+'</time>':'')+'</li>'}).join('')+'</ul></section>'}).filter(Boolean).join('<div class="adslot" data-slot="right"></div>');if(window.IMAds)IMAds.fill(wid);
       var bad=data.sources.filter(function(s){return!s.ok});
       st.textContent='Updated '+new Date(data.updated).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})+'.'+(bad.length?' Unavailable now: '+bad.map(function(s){return s.name}).join(', ')+'.':'');
 

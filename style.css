@@ -233,3 +233,9 @@ body.newspg .bar .sf{width:100%}body.newspg .bar .sf input{flex:1;width:auto}
 @media (max-width:640px){.secnav{max-height:none}.secnav details:not([open]) ul{display:none}}
 .results .rsec{margin-top:14px;list-style:none}.results .rsec h2{font-size:1.1rem;margin:0;border-bottom:1px solid var(--line);padding-bottom:3px}.results .rsec small{opacity:.6;font-weight:400}
 .results .rjump{list-style:none;display:flex;gap:12px;flex-wrap:wrap;font-family:system-ui,sans-serif;font-size:.85rem}
+/* header account links */
+.rcol{display:flex;flex-direction:column;align-items:flex-end;gap:5px}
+.acct{display:flex;gap:10px;align-items:center;font-family:system-ui,sans-serif;font-size:.8rem}
+.acct a{color:inherit;text-decoration:none}.acct .signin:hover{text-decoration:underline}
+.acct .subbtn{background:var(--acc);color:#fff;padding:3px 12px;border-radius:5px;font-weight:600}
+.rcol .sf{width:100%}

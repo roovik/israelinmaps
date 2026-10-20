@@ -273,12 +273,12 @@ def layout(title, body, desc='', path='/', og=None, cls='', nd=False):
 <link rel="stylesheet" href="/style.css"></head>
 <body class="{cls}"><a class="skip" href="#main">Skip to content</a>
 <header class="top"><div class="wrap bar"><a class="brand" href="/">Israel <b>NOWlej</b></a><div class="ticker" id="news-ticker" aria-label="Latest headlines" hidden></div>
-<form class="sf" action="/search/" role="search"><input name="q" type="search" placeholder="Search maps, people, places, IDs" aria-label="Search"><button>Search</button></form></div>
+<div class="rcol"><div class="acct"><a class="subbtn" href="/subscribe/">Subscribe</a><a class="signin" href="/signin/">Sign in</a></div><form class="sf" action="/search/" role="search"><input name="q" type="search" placeholder="Search maps, people, places, IDs" aria-label="Search"><button>Search</button></form></div></div>
 <nav class="wrap" aria-label="Sections">{nav}</nav></header>
 <main id="main" class="wrap">{body}</main>
 <footer><div class="wrap"><p>Israel NOWlej: news, views, maps, timelines, charts and media on the Holy Land.</p>
 <p>&copy; 2003 to 2026 Richard J. Koret. All rights reserved. Page images are shown for reference with the book <i>Israel Mosaic</i> by Richard J. Koret. <a href="/about/">How to use this site and cite it</a></p></div></footer>
-<script src="/site.js" defer></script><script src="/ticker.js" defer></script>{'<script src="/ads.js" defer></script><script src="/news.js" defer></script>' if news_js else ''}</body></html>'''
+<script src="/site.js" defer></script><script src="/ticker.js" defer></script>{'<script src="/ads.js" defer></script><script src="/news.js" defer></script>' if news_js else ''}{'<script src="/source.js" defer></script>' if path.startswith('/sources/') and path != '/sources/' else ''}</body></html>'''
 
 def write(path, content):
     fp = os.path.join(OUT, path.lstrip('/'))
@@ -306,6 +306,14 @@ def hub_of(r):
     if p in TOUR: return ('/tour/', 'A Taste of Israel')
     return ('/flora/', 'Flora and Fauna')
 
+SRC = [('toi', 'The Times of Israel', 'https://www.timesofisrael.com/', 'An Israeli English-language news site covering Israel, the Middle East and the Jewish world, with a large opinion and blogs section.'),
+       ('jpost', 'The Jerusalem Post', 'https://www.jpost.com/', 'An Israeli English-language daily with reporting on Israel, the region and Jewish communities, plus opinion and analysis.'),
+       ('ynet', 'Ynetnews', 'https://www.ynetnews.com/', 'The English edition of Ynet, the news site of the Yedioth Ahronoth group.'),
+       ('haaretz', 'Haaretz', 'https://www.haaretz.com/', 'The English edition of the Israeli daily Haaretz, with news, analysis and opinion.'),
+       ('jns', 'JNS', 'https://www.jns.org/', 'Jewish News Syndicate, a news service on Israel, the Middle East and Jewish communities worldwide.'),
+       ('insider', 'Israel Insider', 'https://israelinsider.org/', 'An Israeli news and commentary site, now published through NOWlej.'),
+       ('israelhayom', 'Israel Hayom', 'https://www.israelhayom.com/', 'The English edition of the Israeli daily Israel Hayom.')]
+SRCNAME = {a: b for a, b, _, _ in SRC}
 SECKEY = {'/charts/': 'charts', '/media/': 'media', '/maps/': 'maps', '/timelines/': 'timelines', '/tables/': 'charts', '/demographics/': 'charts', '/rankings/': 'charts', '/top-ten/': 'charts', '/size/': 'charts', '/tour/': 'media', '/flora/': 'media'}
 def sec_groups(sk):
     R_ = lambda pre: [r for r in rows if r['prefix'] == pre]
@@ -326,7 +334,7 @@ def sec_groups(sk):
     if sk == 'glossary':
         ls = sorted({key(g['name'])[0].upper() for g in G})
         return 'Glossary', '/glossary/', [('A to Z', None, [(f'/glossary/#l{L}', L) for L in ls])]
-    return 'Sources', '/sources/', [('Sources and the book', None, [('/sources/', 'News sources'), ('/index/', 'Index'), ('/about/', 'How to use this site')])]
+    return 'Sources', '/sources/', [('Sources and the book', None, [('/sources/', 'All sources')] + [(f'/sources/{i_}/', n_) for i_, n_, _, _ in SRC] + [('/index/', 'Index'), ('/about/', 'How to use this site')])]
 
 def secnav(sk, active=''):
     title, hub_u, groups = sec_groups(sk)
@@ -582,6 +590,9 @@ about = '''<p class="crumb"><a href="/">Home</a> / About</p><h1>How to Use This 
 <h2>Editions</h2><p>The short address always shows the current version. Each edition also keeps a frozen copy, for example /2027/map-002, so a citation from the 2027 book can be checked against what the book showed. Corrections are listed on the page with a date.</p>
 <h2>Scanning a code</h2><p>Each code in the book encodes the same short address. If a code is damaged, type the address printed beside it.</p>
 <h2>About the book</h2><p>Israel Mosaic: Maps, Graphs, Timelines, Images, and Knowledge of the Holy Land, by Richard J. Koret. This site is the companion to the book. Some illustrations in the book are marked as AI generated.</p>'''
+for pth_, ttl_, txt_ in [('/subscribe/', 'Subscribe', 'Subscriptions are coming soon. They will bring a daily digest of the news and views on this site.'),
+                         ('/signin/', 'Sign in', 'Accounts are coming soon. For now the whole site is open to read without signing in.')]:
+    write(pth_, layout(ttl_, chan('sources', f'<h1>{ttl_}</h1><p>{txt_}</p>'), ttl_ + ' to Israel NOWlej.', pth_, nd=True))
 write('/about/', layout('How to Use This Site', chan('sources', about, '/about/'), 'Addresses, IDs, hubs and how to cite a page of the book Israel Mosaic.', '/about/'))
 
 sb = '''<h1>Search</h1><form class="sf big" action="/search/" role="search"><input id="q" name="q" type="search" placeholder="Try map-002, Masada, Rabin, olive" aria-label="Search" autofocus><button>Search</button></form>
@@ -625,9 +636,12 @@ hub('/charts/', 'Charts', 'Rankings, population graphics, top ten lists, size co
     [('Rankings', items('RNK')), ('Demographics', items('DEM')), ('Top Ten Lists', items('TOP')), ('Size Comparisons', [r for r in rows if hub_of(r)[0] == '/size/']), ('Tables', items('TBL'))])
 hub('/media/', 'Media', 'A photographic tour of the land and the plants and animals of Israel.',
     [('A Taste of Israel', [byid[p + '-00'] for p in ['NEG', 'DSE', 'JUS', 'GAL', 'GOL', 'MED', 'TAJ', 'JHL', 'JRS', 'SHF']]), ('Flora and Fauna', [byid[p + '-00'] for p in ['TRE', 'WFL', 'WLD', 'BRD', 'MIG']])])
-src_list = [('The Times of Israel', 'https://www.timesofisrael.com/'), ('The Jerusalem Post', 'https://www.jpost.com/'), ('Ynetnews', 'https://www.ynetnews.com/'), ('Haaretz', 'https://www.haaretz.com/'), ('JNS', 'https://www.jns.org/'), ('Israel Insider', 'https://israelinsider.org/'), ('Israel Hayom', 'https://www.israelhayom.com/')]
-sb2 = '<p class="crumb"><a href="/">Home</a> / Sources</p><h1>Sources</h1><ul class="idlist">' + ''.join(f'<li><a href="{u}" rel="noopener">{E(n_)}</a><span>{u.split("//")[1].rstrip("/")}</span></li>' for n_, u in src_list) + '</ul><h2>The Book</h2><ul class="idlist"><li><a href="/index/">Index</a><span>Find any name or place in the book</span></li><li><a href="/about/">How to use this site and cite it</a><span>Addresses, IDs and hubs</span></li></ul>'
+sb2 = '<h1>Sources</h1><p class="small">Each source has its own page here with its latest news and views.</p><ul class="idlist">' + ''.join(f'<li><a href="/sources/{i_}/">{E(n_)}</a><span>{E(d_)}</span></li>' for i_, n_, u_, d_ in SRC) + '</ul><h2>The Book</h2><ul class="idlist"><li><a href="/index/">Index</a><span>Find any name or place in the book Israel Mosaic</span></li><li><a href="/about/">How to use this site and cite it</a><span>Addresses, IDs and hubs</span></li></ul>'
 write('/sources/', layout('Sources', chan('sources', sb2, '/sources/'), 'The publishers whose public feeds supply the news and views on this site.', '/sources/'))
+for i_, n_, u_, d_ in SRC:
+    b_ = (f'<h1>{E(n_)}</h1><p>{E(d_)}</p><p class="small"><a href="{u_}" rel="noopener">Visit {E(n_)}</a> (external site)</p><p class="small" id="src-count"></p>'
+          f'<div id="src-page" data-src="{i_}"></div><h2>Latest news</h2><div class="tgrid" id="src-news"><p>Loading.</p></div><h2>Latest views</h2><div class="tgrid" id="src-views"><p>Loading.</p></div>')
+    write(f'/sources/{i_}/', layout(n_, chan('sources', b_, f'/sources/{i_}/'), f'Latest news and views from {n_}.', f'/sources/{i_}/'))
 gjson = []
 for g in G:
     if g.get('cf'):
@@ -645,12 +659,13 @@ write('/glossary.json', json.dumps(list(merged.values()), ensure_ascii=False, se
 shutil.copy(os.path.join(ROOT, 'tools', 'news.js'), os.path.join(OUT, 'news.js'))
 shutil.copy(os.path.join(ROOT, 'tools', 'ticker.js'), os.path.join(OUT, 'ticker.js'))
 shutil.copy(os.path.join(ROOT, 'tools', 'ads.js'), os.path.join(OUT, 'ads.js'))
+shutil.copy(os.path.join(ROOT, 'tools', 'source.js'), os.path.join(OUT, 'source.js'))
 # ---------------------------------------------------------------- data, assets, redirects, sitemap
 write('/search.json', json.dumps(search, ensure_ascii=False, separators=(',', ':')))
 shutil.copy(os.path.join(ROOT, 'tools', 'style.css'), os.path.join(OUT, 'style.css'))
 shutil.copy(os.path.join(ROOT, 'tools', 'site.js'), os.path.join(OUT, 'site.js'))
 open(os.path.join(OUT, 'robots.txt'), 'w').write(f'User-agent: *\nAllow: /\nSitemap: {BASE}/sitemap.xml\n')
-allurls = ['/', '/about/', '/news/', '/views/', '/media/', '/charts/', '/sources/', '/glossary/', '/index/', '/maps/', '/timelines/', '/tables/', '/demographics/', '/rankings/', '/top-ten/', '/size/', '/tour/', '/flora/'] + [r['url'] for r in rows] + [f'/g/{g["slug"]}/' for g in G]
+allurls = ['/', '/about/', '/news/', '/views/', '/media/', '/charts/', '/sources/', '/subscribe/', '/signin/', '/glossary/', '/index/', '/maps/', '/timelines/', '/tables/', '/demographics/', '/rankings/', '/top-ten/', '/size/', '/tour/', '/flora/'] + [r['url'] for r in rows] + [f'/g/{g["slug"]}/' for g in G]
 open(os.path.join(OUT, 'sitemap.xml'), 'w').write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + ''.join(f'<url><loc>{BASE}{u}</loc></url>\n' for u in allurls) + '</urlset>\n')
 
 red = []
