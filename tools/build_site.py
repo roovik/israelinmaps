@@ -514,7 +514,7 @@ def gl_video(g, sl):
     ej = E(json.dumps([{'id': x['id'], 'name': x['name'], 'by': x.get('by', ''), 'slug': plslug(x)} for x in eps], ensure_ascii=False))
     cards_ = ''
     return (f'<section id="e-video" data-slug="{sl}" data-name="{E(g["title"] if g.get("title") else g["name"])}" data-pins="{pj}" data-pls="{ej}"{"" if (pins or eps) else " hidden"}>'
-            f'<div class="vtop" id="e-player"></div><div class="vthumbs"></div><div class="tgrid"></div><div class="epl"></div></section>')
+            f'<div class="vtop" id="e-player"></div><div class="vthumbs"></div><div class="vtop plp" id="e-plplayer" hidden></div><div class="tgrid"></div><div class="epl"></div></section>')
 bycat = {}
 CUR = json.load(open(os.path.join(ROOT, 'curated.json'))) if os.path.exists(os.path.join(ROOT, 'curated.json')) else {}
 def curated_wiki(sl, wk):
