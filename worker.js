@@ -1,5 +1,6 @@
 // Israel Mosaic news worker. Serves /api/news from public RSS and Atom feeds.
 // Static pages are served by the assets binding. Only /api/* runs this code first.
+import VCFG from './video.json';
 const JP = 'https://www.jpost.com/rss/';
 const SOURCES = [
   { id: 'toi', name: 'The Times of Israel', site: 'https://www.timesofisrael.com/', url: 'https://www.timesofisrael.com/feed/' },
@@ -196,11 +197,72 @@ async function itemPage(request, env, k, sp, cp) {
   const html = tpl.split('@@TITLE@@').join(H(title)).split('@@DESC@@').join(H(desc)).split('@@K@@').join(H(k)).split('@@BODY@@').join(body);
   return new Response(html, { status, headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': status === 200 ? 'public, max-age=900' : 'no-store', 'X-Robots-Tag': 'noindex' } });
 }
+// ---------------------------------------------------------------- video: whitelisted channels and playlists
+const YT_UA = { 'User-Agent': 'Mozilla/5.0 (compatible; IsraelNOWlej/1.0; +https://israelinmaps.com/video/)', 'Accept-Language': 'en' };
+async function resolveChannel(c) {
+  if (c.id) return c.id;
+  try {
+    const r = await fetch('https://www.youtube.com/@' + encodeURIComponent(c.handle), { headers: YT_UA, cf: { cacheTtl: 86400, cacheEverything: true } });
+    if (!r.ok) return '';
+    const t = await r.text();
+    const m = t.match(/"(?:channelId|externalId)":"(UC[\w-]{22})"/) || t.match(/channel\/(UC[\w-]{22})/);
+    return m ? m[1] : '';
+  } catch { return ''; }
+}
+function vparse(xml) {
+  const out = [];
+  for (const m of xml.matchAll(/<entry>[\s\S]*?<\/entry>/g)) {
+    const b = m[0], v = text(tag(b, 'yt:videoId'));
+    if (!v) continue;
+    out.push({ v, t: text(tag(b, 'title')), d: text(tag(b, 'published')), x: text(tag(b, 'media:description')).slice(0, 220) });
+  }
+  return out;
+}
+function vblocked(x) {
+  const bw = (VCFG.blockWords || []).map(w => w.toLowerCase());
+  return (VCFG.blockVideos || []).includes(x.v) || bw.some(w => (x.t + ' ' + x.x).toLowerCase().includes(w));
+}
+async function loadVideoSource(c, kind) {
+  const id = kind === 'playlist' ? c.id : await resolveChannel(c);
+  const key = kind === 'playlist' ? c.id : (c.handle || c.id);
+  if (!id) return { key, name: c.name, ok: false, error: 'could not resolve', videos: [] };
+  const fu = 'https://www.youtube.com/feeds/videos.xml?' + (kind === 'playlist' ? 'playlist_id=' : 'channel_id=') + id;
+  try {
+    const r = await fetch(fu, { headers: YT_UA, cf: { cacheTtl: 900, cacheEverything: true } });
+    if (!r.ok) return { key, name: c.name, ok: false, error: 'HTTP ' + r.status, videos: [] };
+    const videos = vparse(await r.text()).filter(x => !vblocked(x)).slice(0, 15);
+    return { key, name: c.name, id, kind, url: kind === 'playlist' ? 'https://www.youtube.com/playlist?list=' + id : 'https://www.youtube.com/channel/' + id, ok: videos.length > 0, error: videos.length ? '' : 'no videos', videos };
+  } catch (e) { return { key, name: c.name, ok: false, error: String(e), videos: [] }; }
+}
+async function videoApi(url, env) {
+  const hdr = { 'Content-Type': 'application/json; charset=utf-8', 'Access-Control-Allow-Origin': '*' };
+  if (url.searchParams.get('discover')) {
+    // suggest new channels for the whitelist; needs an API key set as the YT_KEY secret
+    if (!env.YT_KEY) return new Response(JSON.stringify({ error: 'Set the YT_KEY secret to use discovery.' }), { status: 400, headers: hdr });
+    const have = new Set((VCFG.channels || []).map(c => (c.handle || '').toLowerCase()));
+    const tally = {};
+    await Promise.all((VCFG.discover || []).map(async q => {
+      try {
+        const r = await fetch('https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=15&relevanceLanguage=en&safeSearch=moderate&q=' + encodeURIComponent(q) + '&key=' + env.YT_KEY, { cf: { cacheTtl: 21600, cacheEverything: true } });
+        const d = await r.json();
+        (d.items || []).forEach(i => { const c = tally[i.snippet.channelId] || (tally[i.snippet.channelId] = { id: i.snippet.channelId, name: i.snippet.channelTitle, hits: 0, samples: [] }); c.hits++; if (c.samples.length < 3) c.samples.push(i.snippet.title); });
+      } catch {}
+    }));
+    const known = new Set((VCFG.channels || []).map(c => c.id).filter(Boolean));
+    const list = Object.values(tally).filter(c => !known.has(c.id)).sort((a, b) => b.hits - a.hits).slice(0, 30);
+    return new Response(JSON.stringify({ note: 'Candidates only. Add the good ones to video.json; nothing here is shown on the site.', candidates: list }), { headers: { ...hdr, 'Cache-Control': 'public, max-age=3600' } });
+  }
+  const src = await Promise.all([...(VCFG.channels || []).map(c => loadVideoSource(c, 'channel')), ...(VCFG.playlists || []).map(c => loadVideoSource(c, 'playlist'))]);
+  if (url.searchParams.get('debug')) return new Response(JSON.stringify(src.map(({ videos, ...r }) => ({ ...r, count: videos.length })), null, 1), { headers: hdr });
+  return new Response(JSON.stringify({ updated: new Date().toISOString(), channels: src.filter(s => s.ok) }), { headers: { ...hdr, 'Cache-Control': 'public, max-age=900' } });
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
     const im = url.pathname.match(/^\/news\/item\/([a-z0-9]+)\/?$/);
     if (im) return itemPage(request, env, im[1], url.searchParams.get('s'), url.searchParams.get('c'));
+    if (url.pathname === '/api/videos') return videoApi(url, env);
     if (url.pathname !== '/api/news') return env.ASSETS.fetch(request);
     if (url.searchParams.get('debug')) {
       const out = await Promise.all(FEEDS.map(async f => {

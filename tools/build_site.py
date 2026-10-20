@@ -254,21 +254,23 @@ def app_html(g):
 
 # ---------------------------------------------------------------- templates
 CSS = open(os.path.join(ROOT, 'tools', 'style.css')).read()
-NAV = [('/', 'Home'), ('/news/', 'News'), ('/views/', 'Views'), ('/media/', 'Media'), ('/maps/', 'Maps'), ('/timelines/', 'Timelines'),
-       ('/charts/', 'Charts'), ('/glossary/', 'Glossary'), ('/sources/', 'Sources')]
+NAV = [('/', 'Home'), ('/news/', 'News'), ('/views/', 'Views'), ('/video/', 'Video'), ('/media/', 'Media'), ('/maps/', 'Maps'), ('/timelines/', 'Timelines'),
+       ('/charts/', 'Charts'), ('/glossary/', 'NOWlej'), ('/sources/', 'Sources')]
 BASE = 'https://israelinmaps.com'
 
+VCFG = json.load(open(os.path.join(ROOT, 'video.json')))
 SUBNAV = {
  'news': [('Security', '/news/#mode=topics&tp=security'), ('Diplomacy', '/news/#mode=topics&tp=diplomacy'), ('Politics', '/news/#mode=topics&tp=politics'), ('Technology', '/news/#mode=topics&tp=technology'), ('Business', '/news/#mode=topics&tp=business'), ('Culture', '/news/#mode=topics&tp=culture')],
  'views': [('Op-Ed', '/views/#mode=topics&kind=Op-Ed'), ('Editorial', '/views/#mode=topics&kind=Editorial'), ('Blogs', '/views/#mode=topics&kind=Blog')],
  'maps': [('Historical Maps', '/maps/'), ('Size Comparisons', '/size/')],
  'charts': [('Rankings', '/rankings/'), ('Demographics', '/demographics/'), ('Top Ten', '/top-ten/'), ('Size Comparisons', '/size/'), ('Tables', '/tables/')],
  'media': [('A Taste of Israel', '/tour/'), ('Flora and Fauna', '/flora/')],
+ 'video': [('Latest', '/video/#ch-latest')] + [(c['name'], f'/video/#ch-{c.get("handle") or c.get("id")}') for c in VCFG['channels'][:7]],
  'glossary': [('People and Groups', '/glossary/#c=people-and-groups'), ('Places', '/glossary/#c=places'), ('Events', '/glossary/#c=events'), ('Buildings and Sites', '/glossary/#c=buildings-and-sites'), ('Works', '/glossary/#c=works')],
 }
 def subnav_for(path):
     seg = path.strip('/').split('/')[0]
-    sec = {'': 'news', 'news': 'news', 'views': 'views', 'maps': 'maps', 'timelines': '', 'charts': 'charts', 'media': 'media', 'glossary': 'glossary', 'g': 'glossary',
+    sec = {'': 'news', 'news': 'news', 'views': 'views', 'maps': 'maps', 'timelines': '', 'charts': 'charts', 'media': 'media', 'video': 'video', 'glossary': 'glossary', 'g': 'glossary',
            'tables': 'charts', 'demographics': 'charts', 'rankings': 'charts', 'top-ten': 'charts', 'size': 'charts', 'tour': 'media', 'flora': 'media', 'sources': 'sources'}.get(seg, '')
     if seg == 'sources': links = [(n_, f'/sources/{i_}/') for i_, n_, _, _ in SRC]
     else: links = SUBNAV.get(sec, [])
@@ -296,7 +298,7 @@ def layout(title, body, desc='', path='/', og=None, cls='', nd=False):
 <main id="main" class="wrap">{body}</main>
 <footer><div class="wrap"><p>Israel NOWlej: news, views, maps, timelines, charts and media on the Holy Land.</p>
 <p>&copy; 2003 to 2026 Richard J. Koret. All rights reserved. Page images are shown for reference with the book <i>Israel Mosaic</i> by Richard J. Koret. <a href="/about/">How to use this site and cite it</a></p></div></footer>
-<script src="/site.js" defer></script><script src="/ticker.js" defer></script>{'<script src="/ads.js" defer></script><script src="/news.js" defer></script>' if news_js else ''}{'<script src="/subnav.js" defer></script>'}{'<script src="/glossary.js" defer></script>' if path == '/glossary/' else ''}{'<script src="/source.js" defer></script>' if path.startswith('/sources/') and path != '/sources/' else ''}</body></html>'''
+<script src="/site.js" defer></script><script src="/ticker.js" defer></script>{'<script src="/ads.js" defer></script><script src="/news.js" defer></script>' if news_js else ''}{'<script src="/subnav.js" defer></script>'}{'<script src="/video.js" defer></script>' if path == '/video/' or path.startswith('/g/') else ''}{'<script src="/glossary.js" defer></script>' if path == '/glossary/' else ''}{'<script src="/source.js" defer></script>' if path.startswith('/sources/') and path != '/sources/' else ''}</body></html>'''
 
 def write(path, content):
     fp = os.path.join(OUT, path.lstrip('/'))
@@ -349,9 +351,11 @@ def sec_groups(sk):
     if sk == 'media':
         return 'Media', '/media/', [('A Taste of Israel', '/tour/', [(byid[x + '-00']['url'], byid[x + '-00']['title']) for x in ['NEG', 'DSE', 'JUS', 'GAL', 'GOL', 'MED', 'TAJ', 'JHL', 'JRS', 'SHF']]),
                                     ('Flora and Fauna', '/flora/', [(byid[x + '-00']['url'], byid[x + '-00']['title']) for x in ['TRE', 'WFL', 'WLD', 'BRD', 'MIG']])]
+    if sk == 'video':
+        return 'Video', '/video/', [('Channels', None, [('/video/#ch-latest', 'Latest')] + [(f'/video/#ch-{c.get("handle") or c.get("id")}', c['name']) for c in VCFG['channels']])]
     if sk == 'glossary':
         ls = sorted({key(g['name'])[0].upper() for g in G})
-        return 'Glossary', '/glossary/', [('A to Z', None, [(f'/glossary/#l{L}', L) for L in ls])]
+        return 'NOWlej', '/glossary/', [('A to Z', None, [(f'/glossary/#l{L}', L) for L in ls])]
     return 'Sources', '/sources/', [('Sources and the book', None, [('/sources/', 'All sources')] + [(f'/sources/{i_}/', n_) for i_, n_, _, _ in SRC] + [('/index/', 'Index'), ('/about/', 'How to use this site')])]
 
 def secnav(sk, active=''):
@@ -484,6 +488,10 @@ def item_page(r):
 for r in rows: item_page(r)
 
 # ---------------------------------------------------------------- glossary pages
+def gl_video(g, sl):
+    pins = VCFG.get('pinned', {}).get(sl, [])
+    cards_ = ''.join(f'<a class="tcard vcard" data-v="{E(p["v"])}" href="https://www.youtube.com/watch?v={E(p["v"])}" rel="noopener"><span class="timg"><img src="https://i.ytimg.com/vi/{E(p["v"])}/mqdefault.jpg" alt="" loading="lazy"><span class="vplay">&#9654;</span></span><span class="tb"><b>{E(p.get("t", ""))}</b></span></a>' for p in pins)
+    return f'<section id="gl-video" data-slug="{sl}" data-name="{E(g["title"] if g.get("title") else g["name"])}"{"" if pins else " hidden"}><h2>Video</h2><div class="tgrid">{cards_}</div></section>'
 bycat = {}
 def gl_page(g):
     sl = g['slug']
@@ -506,7 +514,7 @@ def gl_page(g):
 <p class="lead">{b}</p>
 {f'<p><b>See also</b> {see}</p>' if see else ''}{f'<p><b>Appears in</b> {app}</p>' if app else ''}
 <p class="small"><a href="/gl-{g["pg"]}">This entry is on book page {g["pg"]}</a> of the glossary.</p>
-<section id="gl-news" data-slug="{sl}" hidden><h2>In the news</h2><div class="ngrid"></div><ul class="hlist"></ul><p class="small">Headlines and links from public news feeds. <a href="/news/">All news</a>.</p></section></article>'''
+{gl_video(g, sl)}<section id="gl-news" data-slug="{sl}" hidden><h2>In the news</h2><div class="ngrid"></div><ul class="hlist"></ul><p class="small">Headlines and links from public news feeds. <a href="/news/">All news</a>.</p></section></article>'''
     write(f'/g/{sl}/', layout(g['title'], chan('glossary', body, '/glossary/'), plain[:155], f'/g/{sl}/'))
     search.append({'t': g['title'] + (f' {g["he"]}' if g['he'] else ''), 'u': f'/g/{sl}/', 'k': 'GLOSSARY', 's': cat, 'x': plain[:300]})
     bycat.setdefault(g['cat'] or 'OTHER', []).append(g)
@@ -570,6 +578,10 @@ hub('/tour/', 'A Taste of Israel', 'A tour of the sites of Israel in ten regions
 fl = [(byid[p + '-00']['title'], [r for r in rows if r['prefix'] == p]) for p in ['TRE', 'WFL', 'WLD', 'BRD', 'MIG']]
 hub('/flora/', 'Flora and Fauna', 'Trees, wildflowers, wildlife and birds of Israel, including the migrating birds.', fl)
 
+# ---------------------------------------------------------------- video page
+vb = '<h1>Video</h1><div class="vtop" id="vid-top" hidden></div><div id="vid-root"><p>Loading videos.</p></div>'
+write('/video/', layout('Video', chan('video', vb, '/video/'), 'Curated video from whitelisted channels, with a player and a gallery for each.', '/video/'))
+
 # ---------------------------------------------------------------- glossary hub (cards)
 def catname(g): return (g['cat'].title().replace(' And ', ' and ') if g['cat'] else 'Other')
 def catslug(c): return re.sub(r'[^a-z]+', '-', c.lower()).strip('-')
@@ -587,8 +599,8 @@ def gl_thumb(g):
 glcards = [g for g in G if not g.get('cf')]
 cats = {}
 for g in glcards: cats[catname(g)] = cats.get(catname(g), 0) + 1
-gh = '<h1>Glossary</h1>'
-gh += '<div class="gfilter"><input id="gq" type="search" placeholder="Filter the glossary" aria-label="Filter the glossary"><div class="gcats" id="gcats"><button type="button" data-c="" aria-pressed="true">All <i>' + str(len(glcards)) + '</i></button>' + ''.join(f'<button type="button" data-c="{catslug(c)}" aria-pressed="false">{E(c)} <i>{n}</i></button>' for c, n in sorted(cats.items(), key=lambda x: -x[1])) + '</div>'
+gh = '<h1>NOWlej</h1>'
+gh += '<div class="gfilter"><input id="gq" type="search" placeholder="Filter people, places, events" aria-label="Filter"><div class="gcats" id="gcats"><button type="button" data-c="" aria-pressed="true">All <i>' + str(len(glcards)) + '</i></button>' + ''.join(f'<button type="button" data-c="{catslug(c)}" aria-pressed="false">{E(c)} <i>{n}</i></button>' for c, n in sorted(cats.items(), key=lambda x: -x[1])) + '</div>'
 letters = {}
 for g in sorted(glcards, key=lambda g: key(g['name'])):
     letters.setdefault(key(g['name'])[0].upper(), []).append(g)
@@ -608,7 +620,7 @@ for L, lst in letters.items():
                f'<span class="gb"><span class="gcat c-{cs}">{E(cn)}</span><b>{E(g["name"])}</b>{he_}<span class="gd">{E(d_)}</span></span></a>')
     gh += '</div></section>'
 print('glossary cards', len(glcards), 'with related thumbnail', nthumb)
-write('/glossary/', layout('Glossary', chan('glossary', gh, '/glossary/'), 'The glossary: 407 entries on people, places, events, works and buildings.', '/glossary/'))
+write('/glossary/', layout('NOWlej', chan('glossary', gh, '/glossary/'), 'NOWlej: 407 entries on people, places, events, works and buildings.', '/glossary/'))
 
 # ---------------------------------------------------------------- index page
 idx = json.load(open(IDXJSON))
@@ -709,6 +721,7 @@ shutil.copy(os.path.join(ROOT, 'tools', 'ticker.js'), os.path.join(OUT, 'ticker.
 shutil.copy(os.path.join(ROOT, 'tools', 'ads.js'), os.path.join(OUT, 'ads.js'))
 shutil.copy(os.path.join(ROOT, 'tools', 'source.js'), os.path.join(OUT, 'source.js'))
 shutil.copy(os.path.join(ROOT, 'tools', 'subnav.js'), os.path.join(OUT, 'subnav.js'))
+shutil.copy(os.path.join(ROOT, 'tools', 'video.js'), os.path.join(OUT, 'video.js'))
 shutil.copy(os.path.join(ROOT, 'tools', 'glossary.js'), os.path.join(OUT, 'glossary.js'))
 # ---------------------------------------------------------------- data, assets, redirects, sitemap
 for e_ in search:
@@ -719,7 +732,7 @@ write('/search.json', json.dumps(search, ensure_ascii=False, separators=(',', ':
 shutil.copy(os.path.join(ROOT, 'tools', 'style.css'), os.path.join(OUT, 'style.css'))
 shutil.copy(os.path.join(ROOT, 'tools', 'site.js'), os.path.join(OUT, 'site.js'))
 open(os.path.join(OUT, 'robots.txt'), 'w').write(f'User-agent: *\nAllow: /\nSitemap: {BASE}/sitemap.xml\n')
-allurls = ['/', '/about/', '/news/', '/views/', '/media/', '/charts/', '/sources/', '/subscribe/', '/signin/', '/glossary/', '/index/', '/maps/', '/timelines/', '/tables/', '/demographics/', '/rankings/', '/top-ten/', '/size/', '/tour/', '/flora/'] + [r['url'] for r in rows] + [f'/g/{g["slug"]}/' for g in G]
+allurls = ['/', '/about/', '/news/', '/views/', '/video/', '/media/', '/charts/', '/sources/', '/subscribe/', '/signin/', '/glossary/', '/index/', '/maps/', '/timelines/', '/tables/', '/demographics/', '/rankings/', '/top-ten/', '/size/', '/tour/', '/flora/'] + [r['url'] for r in rows] + [f'/g/{g["slug"]}/' for g in G]
 open(os.path.join(OUT, 'sitemap.xml'), 'w').write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + ''.join(f'<url><loc>{BASE}{u}</loc></url>\n' for u in allurls) + '</urlset>\n')
 
 red = []

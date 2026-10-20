@@ -6,3 +6,4 @@ wrangler.jsonc
 worker.js
 node_modules
 .wrangler
+video.json

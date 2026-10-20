@@ -19,11 +19,11 @@
       return{t:i.t,u:i.k?'/news/item/'+i.k+'/?s='+encodeURIComponent(i.s)+(i.ch?'&c='+encodeURIComponent(i.ch):''):i.u,i:i.i||'',k:i.src,s:i.d?new Date(i.d).toLocaleDateString('en-GB',{day:'numeric',month:'short'}):'',x:i.x||''}});
     if(window.__run)window.__run()}).catch(function(){})}
   getLive('News','/api/news?v=2');getLive('Views','/api/news?views=1&v=2');
-  var SEC=[['News'],['Views'],['Maps'],['Timelines'],['Charts'],['Media'],['Glossary'],['Other']];
+  var SEC=[['News'],['Views'],['Maps'],['Timelines'],['Charts'],['Media'],['NOWlej'],['Other']];
   function secOf(u){var f=u.split('/')[1];
     if(f==='maps')return'Maps';if(f==='timelines')return'Timelines';
     if(['tables','demographics','rankings','top-ten','size','population'].indexOf(f)>-1)return'Charts';
-    if(f==='tour'||f==='flora')return'Media';if(f==='g'||f==='glossary')return'Glossary';return'Other'}
+    if(f==='tour'||f==='flora')return'Media';if(f==='g'||f==='glossary')return'NOWlej';return'Other'}
   fetch('/search.json').then(function(r){return r.json()}).then(function(data){
     function score(d,term,words,idq){
       var t=norm(d.t),x=norm(d.x||''),k=norm(d.k||''),sc=0;
