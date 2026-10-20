@@ -488,6 +488,10 @@ def item_page(r):
 for r in rows: item_page(r)
 
 # ---------------------------------------------------------------- glossary pages
+def gl_pageimg(g):
+    pg = g['pg']
+    return (f'<div class="pages single wide"><a href="/img/p{pg:03d}.webp"><img src="/img/p{pg:03d}.webp" width="1200" height="1500" alt="Glossary page {pg} of the book Israel Mosaic, with the entry {E(g["title"])}" loading="lazy"></a></div>'
+            f'<p class="small">From the book <i>Israel Mosaic</i>, page {pg}.</p>')
 def gl_video(g, sl):
     pins = VCFG.get('pinned', {}).get(sl, [])
     cards_ = ''.join(f'<a class="tcard vcard" data-v="{E(p["v"])}" href="https://www.youtube.com/watch?v={E(p["v"])}" rel="noopener"><span class="timg"><img src="https://i.ytimg.com/vi/{E(p["v"])}/mqdefault.jpg" alt="" loading="lazy"><span class="vplay">&#9654;</span></span><span class="tb"><b>{E(p.get("t", ""))}</b></span></a>' for p in pins)
@@ -498,7 +502,7 @@ def gl_page(g):
     if g.get('cf'):
         tgt = resolve(g['cf'])
         link = f'<a href="/g/{tgt}/">{E(invert(g["cf"]))}</a>' if tgt else E(g['cf'])
-        body = f'<p class="crumb"><a href="/">Home</a> / <a href="/glossary/">Glossary</a></p><article><h1>{E(g["title"])}</h1><p class="lead">See {link}.</p></article>'
+        body = f'<article><h1>{E(g["title"])}</h1><p class="lead">See {link}.</p>{gl_pageimg(g)}</article>'
         write(f'/g/{sl}/', layout(g['title'], chan('glossary', body, '/glossary/'), f'{g["title"]}: see {g["cf"]}.', f'/g/{sl}/'))
         search.append({'t': g['title'], 'u': f'/g/{sl}/', 'k': 'GLOSSARY', 's': 'see ' + g['cf'], 'x': ''})
         return
@@ -514,7 +518,7 @@ def gl_page(g):
 <p class="lead">{b}</p>
 {f'<p><b>See also</b> {see}</p>' if see else ''}{f'<p><b>Appears in</b> {app}</p>' if app else ''}
 <p class="small"><a href="/gl-{g["pg"]}">This entry is on book page {g["pg"]}</a> of the glossary.</p>
-{gl_video(g, sl)}<section id="gl-news" data-slug="{sl}" hidden><h2>In the news</h2><div class="ngrid"></div><ul class="hlist"></ul><p class="small">Headlines and links from public news feeds. <a href="/news/">All news</a>.</p></section></article>'''
+{gl_pageimg(g)}{gl_video(g, sl)}<section id="gl-news" data-slug="{sl}" hidden><h2>In the news</h2><div class="ngrid"></div><ul class="hlist"></ul><p class="small">Headlines and links from public news feeds. <a href="/news/">All news</a>.</p></section></article>'''
     write(f'/g/{sl}/', layout(g['title'], chan('glossary', body, '/glossary/'), plain[:155], f'/g/{sl}/'))
     search.append({'t': g['title'] + (f' {g["he"]}' if g['he'] else ''), 'u': f'/g/{sl}/', 'k': 'GLOSSARY', 's': cat, 'x': plain[:300]})
     bycat.setdefault(g['cat'] or 'OTHER', []).append(g)
