@@ -7,7 +7,7 @@
   var host=document.getElementById('vid-top'),onWatch=!!document.getElementById('vid-watch'),onChan=!!document.getElementById('vid-chan'),CTX=null,EVP=null;
   document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a.vcard,a.vli');if(!a||e.metaKey||e.ctrlKey||e.shiftKey||e.button)return;
     var v=a.getAttribute('data-v');if(a.classList.contains('vli')&&!(onWatch||onChan)&&host){/* main page: let the link open the channel context */}
-    if(EVP&&a.closest('#vid-list')){e.preventDefault();EVP(v)}
+    if(EVP&&a.closest('#vid-list,#e-video')){e.preventDefault();EVP(v)}
     else if((onWatch||onChan)&&CTX){e.preventDefault();CTX(v)}
     else if(a.closest('#e-video')){e.preventDefault();var im=a.querySelector('.timg');im.innerHTML=embed(v,true);im.className='timg vlive'}});
   var root=document.getElementById('vid-root'),chp=document.getElementById('vid-chan'),wt=document.getElementById('vid-watch'),gl=document.getElementById('e-video');
@@ -18,8 +18,9 @@
     var pins=JSON.parse(gl.getAttribute('data-pins')||'[]'),pls=JSON.parse(gl.getAttribute('data-pls')||'[]'),L=document.getElementById('vid-list'),pl=document.getElementById('e-player'),list=pins,ttl='Videos on this topic',act='',now='',mode='v';
     gl.hidden=false;var tg=gl.querySelector('.tgrid');if(tg)tg.hidden=true;
     function play(id,auto){if(!id)return;pl.innerHTML=embed(id,auto);pl.hidden=false;now=id;mark()}
-    function mark(){if(!L)return;[].forEach.call(L.querySelectorAll('a.vli'),function(a){a.classList.toggle('vnowp',a.getAttribute('data-v')===now)})}
-    function draw(){if(!L)return;
+    function mark(){[].forEach.call(document.querySelectorAll('#vid-list a.vli,#e-video a.vcard'),function(a){a.classList.toggle('vnowp',a.getAttribute('data-v')===now)})}
+    function thumbs(){var T=gl.querySelector('.vthumbs');if(T)T.innerHTML=list.slice(0,6).map(function(v){return card({v:v.v,t:v.t||'Video'})}).join('');mark()}
+    function draw(){thumbs();if(!L)return;
       var h='<div class="vseg" role="group" aria-label="Go to"><button type="button" data-b="v" aria-pressed="'+(mode==='v')+'">Videos</button>'+(pls.length?'<button type="button" data-b="p" aria-pressed="'+(mode==='p')+'">Playlists</button>':'')+'</div>';
       h+='<h2 id="vl-videos">'+esc(ttl)+'</h2><ul>'+list.map(function(v){return'<li><a class="vli" data-v="'+esc(v.v)+'" href="/video/watch/?v='+encodeURIComponent(v.v)+'&t='+encodeURIComponent(v.t||'')+'">'+esc(v.t||'Video')+'</a></li>'}).join('')+'</ul>';
       if(pls.length)h+='<h2 id="vl-pls">Playlists</h2><ul class="vpls">'+pls.map(function(x){return'<li><a'+(x.id===act?' class="vnowp" aria-current="true"':'')+' data-pl="'+esc(x.id)+'" href="/video/'+esc(x.slug)+'/">'+esc(x.name)+'</a>'+(x.by?' <small>'+esc(x.by)+'</small>':'')+'</li>'}).join('')+'</ul>';

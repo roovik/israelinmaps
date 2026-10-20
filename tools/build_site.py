@@ -514,7 +514,7 @@ def gl_video(g, sl):
     ej = E(json.dumps([{'id': x['id'], 'name': x['name'], 'by': x.get('by', ''), 'slug': plslug(x)} for x in eps], ensure_ascii=False))
     cards_ = ''
     return (f'<section id="e-video" data-slug="{sl}" data-name="{E(g["title"] if g.get("title") else g["name"])}" data-pins="{pj}" data-pls="{ej}"{"" if (pins or eps) else " hidden"}>'
-            f'<div class="vtop" id="e-player"></div><div class="tgrid"></div><div class="epl"></div></section>')
+            f'<div class="vtop" id="e-player"></div><div class="vthumbs"></div><div class="tgrid"></div><div class="epl"></div></section>')
 bycat = {}
 CUR = json.load(open(os.path.join(ROOT, 'curated.json'))) if os.path.exists(os.path.join(ROOT, 'curated.json')) else {}
 def curated_wiki(sl, wk):
@@ -542,10 +542,11 @@ def gl_page(g):
     wk = ENTRYCFG.get('wiki', {}).get(sl, g['title'])
     srcs_ = f'<li>The book <i>Israel Mosaic</i> by Richard J. Koret, glossary, page {g["pg"]}.</li>'
     body = f"""<article class="gl"><header class="ih"><span class="id">NOWlej · book page {g["pg"]}</span><h1>{E(g["title"])} {he}</h1><p class="meta">{cat}</p></header>
-<nav class="esec" id="esec" aria-label="On this page"><a href="#e-images" data-s="e-images" hidden>Images</a><a href="#e-video" data-s="e-video" hidden>Video</a><a href="#e-summary">Summary</a><a href="#e-related">Related</a><a href="#e-sources">Sources</a></nav>
+<p class="lead edef" id="e-def">{b}<a class="econt" href="#e-summary"{'' if CUR.get('wikipedia', {}).get(sl) else ' hidden'}>Continue to the Wikipedia text &#9656;</a></p>
+<nav class="esec" id="esec" aria-label="On this page"><a href="#e-images" data-s="e-images" hidden>Images</a><a href="#e-video" data-s="e-video" hidden>Video</a><a href="#e-summary" data-s="e-summary"{'' if CUR.get('wikipedia', {}).get(sl) else ' hidden'}>Summary</a><a href="#e-related">Related</a><a href="#e-sources">Sources</a></nav>
 <section id="e-images" hidden data-name="{E(wk) if wk else ''}"{(" data-files='" + E(json.dumps(CUR.get('images', {}).get(sl, []))).replace("'", "&#39;") + "'") if CUR.get('images', {}).get(sl) else ''}><div class="egal" id="e-gal"></div><p class="small">Photographs from Wikimedia Commons. Click an image to enlarge it. Author and license are shown with each.</p></section>
 {gl_video(g, sl)}
-<section id="e-summary"><h2>Summary</h2><p class="lead">{b}</p>
+<section id="e-summary"{'' if CUR.get('wikipedia', {}).get(sl) else ' hidden'}><h2>Summary</h2>
 {curated_wiki(sl, wk)}</section>
 <section id="e-related"><h2>Related</h2>
 {f'<p><b>See also</b> {see}</p>' if see else ''}{f'<p><b>Appears in</b> {app}</p>' if app else ''}{rel_}
