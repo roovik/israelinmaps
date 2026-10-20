@@ -278,7 +278,7 @@ def layout(title, body, desc='', path='/', og=None, cls='', nd=False):
 <main id="main" class="wrap">{body}</main>
 <footer><div class="wrap"><p>Israel NOWlej: news, views, maps, timelines, charts and media on the Holy Land.</p>
 <p>&copy; 2003 to 2026 Richard J. Koret. All rights reserved. Page images are shown for reference with the book <i>Israel Mosaic</i> by Richard J. Koret. <a href="/about/">How to use this site and cite it</a></p></div></footer>
-<script src="/site.js" defer></script><script src="/ticker.js" defer></script>{'<script src="/ads.js" defer></script><script src="/news.js" defer></script>' if news_js else ''}{'<script src="/source.js" defer></script>' if path.startswith('/sources/') and path != '/sources/' else ''}</body></html>'''
+<script src="/site.js" defer></script><script src="/ticker.js" defer></script>{'<script src="/ads.js" defer></script><script src="/news.js" defer></script>' if news_js else ''}{'<script src="/glossary.js" defer></script>' if path == '/glossary/' else ''}{'<script src="/source.js" defer></script>' if path.startswith('/sources/') and path != '/sources/' else ''}</body></html>'''
 
 def write(path, content):
     fp = os.path.join(OUT, path.lstrip('/'))
@@ -495,16 +495,6 @@ def gl_page(g):
 
 for g in G: gl_page(g)
 
-# glossary hub
-letters = {}
-for g in sorted(G, key=lambda g: key(g['name'])):
-    letters.setdefault(key(g['name'])[0].upper(), []).append(g)
-gh = '<p class="crumb"><a href="/">Home</a> / Glossary</p><h1>Glossary</h1>'
-gh += '<p class="az">' + ' '.join(f'<a href="#l{L}">{L}</a>' for L in letters) + '</p>'
-for L, lst in letters.items():
-    gh += f'<h2 id="l{L}">{L}</h2><ul class="glist">' + ''.join(
-        f'<li><a href="/g/{g["slug"]}/">{E(g["name"])}</a>' + (f' <span class="he" lang="he" dir="rtl">{E(g["he"])}</span>' if g['he'] else '') + (f' <i>{E("cf. " + g["cf"])}</i>' if g.get('cf') else '') + '</li>' for g in lst) + '</ul>'
-write('/glossary/', layout('Glossary', chan('glossary', gh, '/glossary/'), 'The glossary: 407 entries on people, places, events, works and buildings.', '/glossary/'))
 
 # ---------------------------------------------------------------- hubs
 THUMB_W, THUMB_H = 480, 360
@@ -561,6 +551,46 @@ for p in ['NEG', 'DSE', 'JUS', 'GAL', 'GOL', 'MED', 'TAJ', 'JHL', 'JRS', 'SHF']:
 hub('/tour/', 'A Taste of Israel', 'A tour of the sites of Israel in ten regions, from the Negev to the Golan. Each region and each stop has its own address.', tour_groups)
 fl = [(byid[p + '-00']['title'], [r for r in rows if r['prefix'] == p]) for p in ['TRE', 'WFL', 'WLD', 'BRD', 'MIG']]
 hub('/flora/', 'Flora and Fauna', 'Trees, wildflowers, wildlife and birds of Israel, including the migrating birds.', fl)
+
+# ---------------------------------------------------------------- glossary hub (cards)
+def catname(g): return (g['cat'].title().replace(' And ', ' and ') if g['cat'] else 'Other')
+def catslug(c): return re.sub(r'[^a-z]+', '-', c.lower()).strip('-')
+def norm_(t): return re.sub(r'[^a-z0-9 ]+', ' ', unicodedata.normalize('NFKD', t).lower()).split()
+thumb_items = [r for r in rows if r['prefix'] in ('MAP', 'TL') or r['prefix'] in TOUR or r['prefix'] in FLORA]
+def gl_thumb(g):
+    nm = norm_(g['name'])
+    if not nm: return None
+    best = None
+    for r in thumb_items:
+        tw = norm_(r['title'])
+        if tw == nm: return r
+        if best is None and (len(nm) >= 2 or len(' '.join(nm)) >= 6) and any(tw[x:x + len(nm)] == nm for x in range(len(tw) - len(nm) + 1)): best = r
+    return best
+glcards = [g for g in G if not g.get('cf')]
+cats = {}
+for g in glcards: cats[catname(g)] = cats.get(catname(g), 0) + 1
+gh = '<h1>Glossary</h1>'
+gh += '<div class="gfilter"><input id="gq" type="search" placeholder="Filter the glossary" aria-label="Filter the glossary"><div class="gcats" id="gcats"><button type="button" data-c="" aria-pressed="true">All <i>' + str(len(glcards)) + '</i></button>' + ''.join(f'<button type="button" data-c="{catslug(c)}" aria-pressed="false">{E(c)} <i>{n}</i></button>' for c, n in sorted(cats.items(), key=lambda x: -x[1])) + '</div>'
+letters = {}
+for g in sorted(glcards, key=lambda g: key(g['name'])):
+    letters.setdefault(key(g['name'])[0].upper(), []).append(g)
+gh += '<p class="az" id="gaz">' + ' '.join(f'<a href="#l{L}">{L}</a>' for L in letters) + '</p></div><p class="small" id="gcount"></p>'
+nthumb = 0
+for L, lst in letters.items():
+    gh += f'<section class="gsec" data-l="{L}"><h2 id="l{L}">{L}</h2><div class="ggrid">'
+    for g in lst:
+        b_ = re.sub(r'<[^>]+>', '', body_html(g)).strip()
+        d_ = (b_[:120].rsplit(' ', 1)[0] + '...') if len(b_) > 120 else b_
+        cn = catname(g); cs = catslug(cn)
+        tr = gl_thumb(g); th = make_thumb(tr) if tr else None
+        if th: nthumb += 1
+        img = (f'<img src="{th}" alt="" width="{THUMB_W}" height="{THUMB_H}" loading="lazy">' if th else f'<span class="tile c-{cs}"><b>{E(key(g["name"])[0].upper())}</b><small>{E(cn)}</small></span>')
+        he_ = f'<span class="he" lang="he" dir="rtl">{E(g["he"])}</span>' if g['he'] else ''
+        gh += (f'<a class="gcard" href="/g/{g["slug"]}/" data-c="{cs}" data-n="{E((g["name"] + " " + g["he"] + " " + d_).lower())}"><span class="gimg">{img}</span>'
+               f'<span class="gb"><span class="gcat c-{cs}">{E(cn)}</span><b>{E(g["name"])}</b>{he_}<span class="gd">{E(d_)}</span></span></a>')
+    gh += '</div></section>'
+print('glossary cards', len(glcards), 'with related thumbnail', nthumb)
+write('/glossary/', layout('Glossary', chan('glossary', gh, '/glossary/'), 'The glossary: 407 entries on people, places, events, works and buildings.', '/glossary/'))
 
 # ---------------------------------------------------------------- index page
 idx = json.load(open(IDXJSON))
@@ -660,6 +690,7 @@ shutil.copy(os.path.join(ROOT, 'tools', 'news.js'), os.path.join(OUT, 'news.js')
 shutil.copy(os.path.join(ROOT, 'tools', 'ticker.js'), os.path.join(OUT, 'ticker.js'))
 shutil.copy(os.path.join(ROOT, 'tools', 'ads.js'), os.path.join(OUT, 'ads.js'))
 shutil.copy(os.path.join(ROOT, 'tools', 'source.js'), os.path.join(OUT, 'source.js'))
+shutil.copy(os.path.join(ROOT, 'tools', 'glossary.js'), os.path.join(OUT, 'glossary.js'))
 # ---------------------------------------------------------------- data, assets, redirects, sitemap
 for e_ in search:
     if e_['k'] in byid:
