@@ -372,9 +372,9 @@ def secnav(sk, active=''):
             f'<li><a href="{u}"{cur if u == active else ""}>{E(t)}</a></li>' for u, t in lst) + '</ul></details>'
     return o + '</nav>'
 
-def chan(sk, body, active='', views=False):
+def chan(sk, body, active='', views=False, vl=False):
     wd = 'views' if views else 'news'
-    vside = sk == 'video'
+    vside = sk == 'video' or vl
     body = re.sub(r'<p class="crumb">.*?</p>', '', body, count=1)
     return (f'<div class="newspage"><div class="adslot" data-slot="page-top" data-sizes="728x90|320x50"></div>'
             f'<div class="newsleftcol">{secnav(sk, active)}<div class="adslot" data-slot="left" data-sizes="tower"></div></div>'
@@ -509,10 +509,12 @@ def gl_pageimg(g):
             f'<p class="small">From the book <i>Israel Mosaic</i>, page {pg}.</p>')
 def gl_video(g, sl):
     pins = VCFG.get('pinned', {}).get(sl, [])
-    cards_ = ''.join(f'<a class="tcard vcard" data-v="{E(p["v"])}" href="/video/watch/?v={E(p["v"])}&amp;t={E(urllib.parse.quote(p.get("t", "")))}"><span class="timg"><img src="https://i.ytimg.com/vi/{E(p["v"])}/mqdefault.jpg" alt="" loading="lazy"><span class="vplay">&#9654;</span></span><span class="tb"><b>{E(p.get("t", ""))}</b></span></a>' for p in pins)
     eps = VCFG.get('entryPlaylists', {}).get(sl, [])
-    epl_ = ('<h3>Playlists</h3><ul class="vpl">' + ''.join(f'<li><a href="/video/{plslug(x)}/">{E(x["name"])}</a> <small>{E(x.get("by", ""))}</small></li>' for x in eps) + '</ul>') if eps else ''
-    return f'<section id="e-video" data-slug="{sl}" data-name="{E(g["title"] if g.get("title") else g["name"])}"{"" if (pins or eps) else " hidden"}><h2>Video</h2><div class="tgrid">{cards_}</div><div class="epl">{epl_}</div></section>'
+    pj = E(json.dumps([{'v': p['v'], 't': p.get('t', '')} for p in pins], ensure_ascii=False))
+    ej = E(json.dumps([{'id': x['id'], 'name': x['name'], 'by': x.get('by', ''), 'slug': plslug(x)} for x in eps], ensure_ascii=False))
+    cards_ = ''
+    return (f'<section id="e-video" data-slug="{sl}" data-name="{E(g["title"] if g.get("title") else g["name"])}" data-pins="{pj}" data-pls="{ej}"{"" if (pins or eps) else " hidden"}>'
+            f'<div class="vtop" id="e-player"></div><div class="tgrid"></div><div class="epl"></div></section>')
 bycat = {}
 CUR = json.load(open(os.path.join(ROOT, 'curated.json'))) if os.path.exists(os.path.join(ROOT, 'curated.json')) else {}
 def curated_wiki(sl, wk):
@@ -540,16 +542,16 @@ def gl_page(g):
     wk = ENTRYCFG.get('wiki', {}).get(sl, g['title'])
     srcs_ = f'<li>The book <i>Israel Mosaic</i> by Richard J. Koret, glossary, page {g["pg"]}.</li>'
     body = f"""<article class="gl"><header class="ih"><span class="id">NOWlej · book page {g["pg"]}</span><h1>{E(g["title"])} {he}</h1><p class="meta">{cat}</p></header>
-<nav class="esec" id="esec" aria-label="On this page"><a href="#e-summary">Summary</a><a href="#e-video" data-s="e-video" hidden>Video</a><a href="#e-images" data-s="e-images" hidden>Images</a><a href="#e-related">Related</a><a href="#e-sources">Sources</a></nav>
+<nav class="esec" id="esec" aria-label="On this page"><a href="#e-images" data-s="e-images" hidden>Images</a><a href="#e-video" data-s="e-video" hidden>Video</a><a href="#e-summary">Summary</a><a href="#e-related">Related</a><a href="#e-sources">Sources</a></nav>
+<section id="e-images" hidden data-name="{E(wk) if wk else ''}"{(" data-files='" + E(json.dumps(CUR.get('images', {}).get(sl, []))).replace("'", "&#39;") + "'") if CUR.get('images', {}).get(sl) else ''}><div class="egal" id="e-gal"></div><p class="small">Photographs from Wikimedia Commons. Click an image to enlarge it. Author and license are shown with each.</p></section>
+{gl_video(g, sl)}
 <section id="e-summary"><h2>Summary</h2><p class="lead">{b}</p>
 {curated_wiki(sl, wk)}</section>
-{gl_video(g, sl)}
-<section id="e-images" hidden data-name="{E(wk) if wk else ''}"{(" data-files='" + E(json.dumps(CUR.get('images', {}).get(sl, []))).replace("'", "&#39;") + "'") if CUR.get('images', {}).get(sl) else ''}><h2>Images</h2><div class="egal" id="e-gal"></div><p class="small">Photographs from Wikimedia Commons, with the author and license shown on each.</p></section>
 <section id="e-related"><h2>Related</h2>
 {f'<p><b>See also</b> {see}</p>' if see else ''}{f'<p><b>Appears in</b> {app}</p>' if app else ''}{rel_}
 <div id="gl-news" data-slug="{sl}" hidden><h3>In the news</h3><div class="ngrid"></div><ul class="hlist"></ul><p class="small">Headlines and links from public news feeds. <a href="/news/">All news</a>.</p></div></section>
 <section id="e-sources"><h2>Sources</h2><ul class="esrc" id="e-src">{srcs_}</ul></section></article>"""
-    write(f'/g/{sl}/', layout(g['title'], chan('glossary', body, '/glossary/'), plain[:155], f'/g/{sl}/'))
+    write(f'/g/{sl}/', layout(g['title'], chan('glossary', body, '/glossary/', vl=bool(VCFG.get('pinned', {}).get(sl) or VCFG.get('entryPlaylists', {}).get(sl))), plain[:155], f'/g/{sl}/'))
     search.append({'t': g['title'] + (f' {g["he"]}' if g['he'] else ''), 'u': f'/g/{sl}/', 'k': 'GLOSSARY', 's': cat, 'x': plain[:300]})
     bycat.setdefault(g['cat'] or 'OTHER', []).append(g)
 
