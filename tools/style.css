@@ -364,3 +364,5 @@ body.tlfull .pages.single{max-width:none}
 .vthumbs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:10px 0}.vthumbs .vcard{display:block;text-decoration:none}.vthumbs .vcard.vnowp{outline:2px solid var(--btn);border-radius:8px}
 .vthumbs .tcard .tb{padding:6px 8px}.vthumbs .tcard .tb b{font-size:.78rem;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.vthumbs .tid{display:none}
 @media(max-width:640px){.vthumbs{grid-template-columns:repeat(2,1fr)}}
+.vpls li a,.vlist li a{white-space:normal;overflow-wrap:anywhere}.vpop{font:600 .85rem system-ui,sans-serif;text-decoration:none;margin-left:.25rem;border:1px solid var(--line);border-radius:4px;padding:0 5px}
+.edpanel textarea.edt{resize:vertical;line-height:1.3;padding:4px 6px;border:1px solid var(--line);border-radius:5px;background:var(--card);color:var(--fg);font:inherit}

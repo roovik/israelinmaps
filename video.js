@@ -5,7 +5,8 @@
   function wurl(v,c,t){return'/video/watch/?v='+encodeURIComponent(v.v)+(c?'&c='+encodeURIComponent(c):'')+(t?'&t='+encodeURIComponent(t):'')}
   function card(v){return'<a class="tcard vcard" data-v="'+esc(v.v)+'" href="'+esc(wurl(v,v.c,v.t))+'"><span class="timg"><img src="https://i.ytimg.com/vi/'+esc(v.v)+'/mqdefault.jpg" alt="" loading="lazy"><span class="vplay">▶</span></span><span class="tb"><span class="tid">'+esc(v.n||'')+(v.n&&v.d?' · ':'')+ago(v.d)+'</span><b>'+esc(v.t)+'</b></span></a>'}
   var host=document.getElementById('vid-top'),onWatch=!!document.getElementById('vid-watch'),onChan=!!document.getElementById('vid-chan'),CTX=null,EVP=null;
-  document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a.vcard,a.vli');if(!a||e.metaKey||e.ctrlKey||e.shiftKey||e.button)return;
+  document.addEventListener('click',function(e){var pp=e.target.closest&&e.target.closest('a.vpop');if(pp&&!e.metaKey&&!e.ctrlKey&&!e.shiftKey){e.preventDefault();var w=window.open(pp.getAttribute('href'),'nowlej_player','popup=yes,width=1000,height=720,resizable=yes,scrollbars=yes');if(!w)location.href=pp.getAttribute('href');return}
+    var a=e.target.closest&&e.target.closest('a.vcard,a.vli');if(!a||e.metaKey||e.ctrlKey||e.shiftKey||e.button)return;
     var v=a.getAttribute('data-v');if(a.classList.contains('vli')&&!(onWatch||onChan)&&host){/* main page: let the link open the channel context */}
     if(EVP&&a.closest('#vid-list,#e-video')){e.preventDefault();EVP(v)}
     else if((onWatch||onChan)&&CTX){e.preventDefault();CTX(v)}
@@ -23,7 +24,7 @@
     function draw(){thumbs();if(!L)return;
       var h='<div class="vseg" role="group" aria-label="Go to"><button type="button" data-b="v" aria-pressed="'+(mode==='v')+'">Videos</button>'+(pls.length?'<button type="button" data-b="p" aria-pressed="'+(mode==='p')+'">Playlists</button>':'')+'</div>';
       h+='<h2 id="vl-videos">'+esc(ttl)+'</h2><ul>'+list.map(function(v){return'<li><a class="vli" data-v="'+esc(v.v)+'" href="/video/watch/?v='+encodeURIComponent(v.v)+'&t='+encodeURIComponent(v.t||'')+'">'+esc(v.t||'Video')+'</a></li>'}).join('')+'</ul>';
-      if(pls.length)h+='<h2 id="vl-pls">Playlists</h2><ul class="vpls">'+pls.map(function(x){return'<li><a'+(x.id===act?' class="vnowp" aria-current="true"':'')+' data-pl="'+esc(x.id)+'" href="/video/'+esc(x.slug)+'/">'+esc(x.name)+'</a>'+(x.by?' <small>'+esc(x.by)+'</small>':'')+'</li>'}).join('')+'</ul>';
+      if(pls.length)h+='<h2 id="vl-pls">Playlists</h2><ul class="vpls">'+pls.map(function(x){return'<li><a'+(x.id===act?' class="vnowp" aria-current="true"':'')+' data-pl="'+esc(x.id)+'" href="/video/'+esc(x.slug)+'/">'+esc(x.name)+'</a>'+(x.by?' <small>'+esc(x.by)+'</small>':'')+' <a class="vpop" href="/video/'+esc(x.slug)+'/" title="Open this playlist in a new window" aria-label="Open this playlist in a new window">\u2197</a></li>'}).join('')+'</ul>';
       L.innerHTML=h;mark()}
     EVP=function(id){play(id,true);pl.scrollIntoView({behavior:'smooth',block:'nearest'})};
     if(L){L.addEventListener('click',function(e){
@@ -55,7 +56,7 @@
       if(chkey&&(pls.length||cur)){seg='<div class="vseg" role="group" aria-label="Go to"><a href="/video/'+esc(chkey)+'/#ch-videos">Videos</a><a href="/video/'+esc(chkey)+'/#playlists">Playlists</a></div>'}
       var h=seg+
         '<h2 id="vl-videos">'+esc(title)+'</h2><ul>'+vs.map(function(v){return'<li><a class="vli" data-v="'+esc(v.v)+'" href="'+esc(wurl(v,v.c,v.t))+'">'+esc(v.t)+'</a><span class="wm">'+esc(v.n||'')+(v.d?' · '+ago(v.d):'')+'</span></li>'}).join('')+'</ul>';
-      if(pls.length)h+='<h2 id="vl-pls">Channel playlists</h2><ul class="vpls">'+pls.map(function(x){var on=cur&&x.id===cur;return'<li><a'+(on?' class="vnowp" aria-current="page"':'')+' href="/video/pl-'+esc(x.id.toLowerCase())+'/">'+esc(x.name)+'</a></li>'}).join('')+'</ul>';
+      if(pls.length)h+='<h2 id="vl-pls">Channel playlists</h2><ul class="vpls">'+pls.map(function(x){var on=cur&&x.id===cur;return'<li><a'+(on?' class="vnowp" aria-current="page"':'')+' href="/video/pl-'+esc(x.id.toLowerCase())+'/">'+esc(x.name)+'</a> <a class="vpop" href="/video/pl-'+esc(x.id.toLowerCase())+'/" title="Open this playlist in a new window" aria-label="Open this playlist in a new window">\u2197</a></li>'}).join('')+'</ul>';
       L.innerHTML=h;
       [].forEach.call(L.querySelectorAll('.vseg a'),function(a){a.addEventListener('click',function(e){var u=a.getAttribute('href').split('#'),t=document.getElementById(u[1]);if(t&&location.pathname===u[0]){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'})}})})
     }
