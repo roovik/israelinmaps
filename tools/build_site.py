@@ -529,7 +529,7 @@ home = f'''<section class="hero"><h1>Israel <b>Mosaic</b></h1><p class="sub">Map
 <p class="small">New here? <a href="/about/">How the addresses and citations work</a>.</p>'''
 write('/', layout('Israel Mosaic', home, '', '/', '/img/p006.webp', cls='home'))
 
-news = '''<p class="crumb"><a href="/">Home</a> / News</p><h1>In the News</h1>
+news = '''<div class="ticker" id="news-ticker" aria-label="Latest headlines ticker" hidden></div><p class="crumb"><a href="/">Home</a> / News</p><h1>In the News</h1>
 <p class="lead">Headlines from public news feeds, matched to the glossary. Each item links to its publisher.</p>
 <div class="newsgrid"><div class="newsmain">
 <div class="nfilter" id="news-filter" aria-label="Filter by source"></div>

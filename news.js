@@ -32,6 +32,8 @@
 
       // widget: latest across sources, then per source
       var dated=data.items.filter(function(i){return i.d}).slice(0,12);
+      var tk=document.getElementById('news-ticker');
+      if(tk&&dated.length){var cut3=Date.now()-3*3600*1000;var tl=dated.slice(0,14).map(function(i){var b=new Date(i.d).getTime()>=cut3||/\b(breaking|live)\b/i.test(i.t);return'<a href="'+esc(i.u)+'" rel="noopener">'+(b?'<b>Breaking</b> ':'')+esc(i.t)+' <span>'+esc(i.src)+' · '+when(i.d)+'</span></a>'}).join('');tk.innerHTML='<div class="tkin"><div class="tktrack">'+tl+tl+'</div></div>';tk.hidden=false}
       latest.innerHTML='<section class="wsrc wlatest"><h3>Latest news</h3><ul>'+dated.map(function(i){return'<li><a href="'+esc(i.u)+'" rel="noopener">'+esc(i.t)+'</a><span class="wm"><a href="'+esc((byId[i.s]||{}).site||'#')+'" rel="noopener">'+esc(i.src)+'</a> · <time>'+when(i.d)+'</time></span></li>'}).join('')+'</ul></section>';
       wid.innerHTML=data.sources.map(function(s){
         var its=data.items.filter(function(i){return i.s===s.id}).slice(0,6);
