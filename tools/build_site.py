@@ -615,7 +615,21 @@ def hub(path, title, intro, groups, crumb=None):
 def items(prefix, pred=lambda r: True): return [r for r in rows if r['prefix'] == prefix and pred(r)]
 hub('/maps/', 'Maps', 'Thirty-three maps of the land from the patriarchs to today. Every map has its own address, such as israelinmaps.com/map-002.',
     [('Historical Maps', [r for r in rows if r['prefix'] == 'MAP' and int(r['num']) < 30]), ('Size Comparisons', [r for r in rows if r['prefix'] == 'MAP' and int(r['num']) >= 30])])
-hub('/timelines/', 'Timelines', 'Nineteen timelines from the patriarchs to the present.', [('', items('TL'))])
+def tl_hub():
+    from PIL import Image as _I
+    def th(pg, nm):
+        fn = os.path.join(OUT, 'img', 't', nm + '.webp')
+        if not os.path.exists(fn):
+            im = _I.open(os.path.join(OUT, 'img', f'p{pg:03d}.webp')).convert('RGB')
+            im = im.resize((300, int(im.height * 300 / im.width)), _I.LANCZOS); im.save(fn, quality=74)
+        return f'/img/t/{nm}.webp'
+    def tile(href, img, title):
+        return (f'<a class="tltile" href="{href}"><img src="{img}" alt="{E(title)}" width="300" height="375" loading="lazy"><b>{E(title)}</b></a>')
+    o = tile('/img/p109.webp', th(109, 'tl-glance'), 'Four Thousand Years at a Glance')
+    for k in items('TL'): o += tile(k['url'], th(k['pages'][0], 'tlf-' + k['id'].lower()), k['title'])
+    b = '<p class="crumb"><a href="/">Home</a> / Timelines</p><h1>Timelines</h1><p class="small">Four thousand years at a glance, then one page for each period. Select a page to open it.</p><div class="tlmosaic">' + o + '</div>'
+    write('/timelines/', layout('Timelines', chan('timelines', b, '/timelines/'), 'Nineteen timelines from the patriarchs to the present.', '/timelines/', '/img/p109.webp'))
+tl_hub()
 hub('/tables/', 'Tables', 'Reference tables: Israel compared in numbers, Knesset elections, prime ministers, wars and operations, and summits and territorial changes.', [('', items('TBL'))])
 hub('/demographics/', 'Demographics', 'Population, religion, language, fertility and other graphics.', [('', items('DEM'))])
 hub('/rankings/', 'Israel Rankings', 'How Israel compares with the Arab League, Iran and Europe, and with the world.', [('', items('RNK'))])

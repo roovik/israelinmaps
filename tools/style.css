@@ -406,3 +406,10 @@ nav.wrap a[data-n="9"]:hover,nav.wrap a[data-n="9"].hov{color:#6a3d9a;border-col
 .ticker .tki{align-items:flex-start;text-align:left}.tkt{font-size:1rem}.tkm{font-size:.84rem}
 .bar .ticker{height:4em!important}
 .tkm em{font-style:normal;font-weight:700;text-transform:uppercase;letter-spacing:.05em;font-size:.72rem;color:var(--acc)}
+
+.tlmosaic{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:12px 0}
+.tltile{display:block;text-decoration:none;color:inherit;background:var(--card);border:1px solid var(--line);border-radius:6px;overflow:hidden;transition:transform .12s,box-shadow .12s}
+.tltile img{display:block;width:100%;height:auto;aspect-ratio:4/5;object-fit:contain;background:#fff}
+.tltile b{display:block;font:600 .72rem/1.25 system-ui,sans-serif;padding:5px 6px 6px}
+.tltile:hover,.tltile:focus{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.18);border-color:var(--acc)}
+@media (max-width:640px){.tlmosaic{grid-template-columns:repeat(3,1fr)}}
