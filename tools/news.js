@@ -1,8 +1,8 @@
 (function(){
   var grid=document.getElementById('news-grid'),box=document.getElementById('gl-news');
-  var item=document.getElementById('news-item');
+  var item=document.getElementById('news-item')||document.getElementById('news-side');
   var VQ=((grid&&grid.getAttribute('data-api'))||'').indexOf('views=1')>-1?'&views=1':'';
-  var W=VQ?'views':(item&&item.querySelector('[data-word=views]')?'views':'news');
+  var W=VQ?'views':(item&&(item.getAttribute('data-word')==='views'||item.querySelector('[data-word=views]'))?'views':'news');
   if(item&&W==='views')VQ='&views=1';
   if(!grid&&!box&&!item)return;
   if(item&&!grid){grid=document.createElement('div');if(W==='views')grid.setAttribute('data-api','/api/news?views=1&v=2')}
@@ -53,7 +53,7 @@
       ];
       function topics(items){items.forEach(function(it){var t=it.t+' '+it.x;it.tp=TOPICS.filter(function(x){return x[2].test(t)}).map(function(x){return x[0]})})}
       topics(data.items);
-      var tpn=document.getElementById('news-topics'),g2=document.getElementById('news-glonly'),
+      var tpn=document.getElementById('news-topics')||document.createElement('div'),g2=document.getElementById('news-glonly'),
           more=document.getElementById('news-more'),mt=document.getElementById('news-more-title'),wid=document.getElementById('news-widget'),latest=document.getElementById('news-latest'),st=document.getElementById('news-status');
       if(item){g2=document.createElement('input');more=document.createElement('ul');mt=document.createElement('h2')}
       var state={mode:'sources',src:null,sub:null,tp:null,ch:null},cache={},alive={};

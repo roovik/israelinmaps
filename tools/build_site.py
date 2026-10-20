@@ -259,7 +259,8 @@ NAV = [('/', 'Home'), ('/news/', 'News'), ('/views/', 'Views'), ('/media/', 'Med
 BASE = 'https://israelinmaps.com'
 
 def layout(title, body, desc='', path='/', og=None, cls='', nd=False):
-    news_js = path in ('/news/', '/views/') or path.startswith('/g/') or path.startswith('/news/item/')
+    if 'class="newspage"' in body and 'newspg' not in cls: cls = (cls + ' newspg').strip()
+    news_js = 'class="newspage"' in body or path in ('/news/', '/views/') or path.startswith('/g/') or path.startswith('/news/item/')
     nav = ''.join(f'<a href="{u}">{t}</a>' for u, t in NAV)
     full = f'{title} | Israel Mosaic' if title != 'Israel Mosaic' else 'Israel Mosaic'
     d = desc or 'Maps, graphs, timelines, images, and knowledge of the Holy Land. The companion site to the book Israel Mosaic.'
@@ -304,6 +305,48 @@ def hub_of(r):
     if p in SECT: return (f'/{SECT[p][0]}/', SECT[p][2]) if p != 'POP' else ('/size/', 'Size Comparisons')
     if p in TOUR: return ('/tour/', 'A Taste of Israel')
     return ('/flora/', 'Flora and Fauna')
+
+SECKEY = {'/charts/': 'charts', '/media/': 'media', '/maps/': 'maps', '/timelines/': 'timelines', '/tables/': 'charts', '/demographics/': 'charts', '/rankings/': 'charts', '/top-ten/': 'charts', '/size/': 'charts', '/tour/': 'media', '/flora/': 'media'}
+def sec_groups(sk):
+    R_ = lambda pre: [r for r in rows if r['prefix'] == pre]
+    if sk == 'maps':
+        return 'Maps', '/maps/', [('Historical Maps', None, [(r['url'], r['title']) for r in rows if r['prefix'] == 'MAP' and int(r['num']) < 30]),
+                                  ('Size Comparisons', '/size/', [(r['url'], r['title']) for r in rows if r['prefix'] == 'MAP' and int(r['num']) >= 30])]
+    if sk == 'timelines':
+        return 'Timelines', '/timelines/', [('All timelines', None, [(r['url'], r['title']) for r in R_('TL')])]
+    if sk == 'charts':
+        gs = []
+        for t, u, lst in [('Rankings', '/rankings/', R_('RNK')), ('Demographics', '/demographics/', R_('DEM')), ('Top Ten Lists', '/top-ten/', R_('TOP')),
+                          ('Size Comparisons', '/size/', [r for r in rows if hub_of(r)[0] == '/size/']), ('Tables', '/tables/', [r for r in R_('TBL') if hub_of(r)[0] != '/size/'])]:
+            gs.append((t, u, [(r['url'], r['title']) for r in lst]))
+        return 'Charts', '/charts/', gs
+    if sk == 'media':
+        return 'Media', '/media/', [('A Taste of Israel', '/tour/', [(byid[x + '-00']['url'], byid[x + '-00']['title']) for x in ['NEG', 'DSE', 'JUS', 'GAL', 'GOL', 'MED', 'TAJ', 'JHL', 'JRS', 'SHF']]),
+                                    ('Flora and Fauna', '/flora/', [(byid[x + '-00']['url'], byid[x + '-00']['title']) for x in ['TRE', 'WFL', 'WLD', 'BRD', 'MIG']])]
+    if sk == 'glossary':
+        ls = sorted({key(g['name'])[0].upper() for g in G})
+        return 'Glossary', '/glossary/', [('A to Z', None, [(f'/glossary/#l{L}', L) for L in ls])]
+    return 'Sources', '/sources/', [('Sources and the book', None, [('/sources/', 'News sources'), ('/index/', 'Index'), ('/about/', 'How to use this site')])]
+
+def secnav(sk, active=''):
+    title, hub_u, groups = sec_groups(sk)
+    total = sum(len(g[2]) for g in groups)
+    cur = ' aria-current="page"'
+    o = f'<nav class="newstopics secnav" aria-label="In this section"><h2><a href="{hub_u}"{cur if active == hub_u else ""}>{E(title)}</a></h2>'
+    for gt, gu, lst in groups:
+        op = total <= 40 or any(u == active for u, _ in lst) or active == gu
+        lk = f'<a href="{gu}">{E(gt)}</a>' if gu else E(gt)
+        o += f'<details{" open" if op else ""}><summary>{lk}</summary><ul>' + ''.join(
+            f'<li><a href="{u}"{cur if u == active else ""}>{E(t)}</a></li>' for u, t in lst) + '</ul></details>'
+    return o + '</nav>'
+
+def chan(sk, body, active='', views=False):
+    wd = 'views' if views else 'news'
+    return (f'<div class="newspage"><div class="adslot" data-slot="page-top" data-sizes="728x90|320x50"></div>'
+            f'<div class="newsleftcol">{secnav(sk, active)}<div class="adslot" data-slot="left" data-sizes="tower"></div></div>'
+            f'<div class="newsleft"><div class="newsmain">{body}<div class="adslot" data-slot="lb-bottom" data-sizes="728x90|320x50"></div></div></div>'
+            f'<aside class="newsside" aria-label="Latest {wd}"><div class="adslot" data-slot="aside-top" data-sizes="320x100"></div><span id="news-side" data-word="{wd}" hidden></span><div id="news-latest"></div><h2>By source</h2><div id="news-widget"></div></aside></div>'
+            f'<p class="small" id="news-status"></p><div class="adslot adwide" data-slot="page-bottom" data-sizes="970x250|728x90|320x100"></div>')
 
 def neighbors(r):
     p = r['prefix']
@@ -408,7 +451,7 @@ def item_page(r):
 <details class="txt"><summary>Text of this page</summary>{text}</details>
 <p class="small">Corrections: none recorded. This is the current version. The 2027 print edition copy is at <a href="/2027{r["short"]}">israelinmaps.com/2027{r["short"]}</a>.</p></article>'''
     desc = f'{r["title"]} ({r["id"]}), {kind.lower()} from Israel Mosaic, book page {pg[0]}.'
-    write(r['url'], layout(r['title'], body, desc, r['url'], f'/img/p{pg[0]:03d}.webp'))
+    write(r['url'], layout(r['title'], chan(SECKEY[hub], body, r['url']), desc, r['url'], f'/img/p{pg[0]:03d}.webp'))
     search.append({'t': r['title'], 'u': r['url'], 'k': r['id'], 's': r['section'], 'x': (' '.join(st[0]) if st else ' '.join(paras))[:600]})
 
 for r in rows: item_page(r)
@@ -421,7 +464,7 @@ def gl_page(g):
         tgt = resolve(g['cf'])
         link = f'<a href="/g/{tgt}/">{E(invert(g["cf"]))}</a>' if tgt else E(g['cf'])
         body = f'<p class="crumb"><a href="/">Home</a> / <a href="/glossary/">Glossary</a></p><article><h1>{E(g["title"])}</h1><p class="lead">See {link}.</p></article>'
-        write(f'/g/{sl}/', layout(g['title'], body, f'{g["title"]}: see {g["cf"]}.', f'/g/{sl}/'))
+        write(f'/g/{sl}/', layout(g['title'], chan('glossary', body, '/glossary/'), f'{g["title"]}: see {g["cf"]}.', f'/g/{sl}/'))
         search.append({'t': g['title'], 'u': f'/g/{sl}/', 'k': 'GLOSSARY', 's': 'see ' + g['cf'], 'x': ''})
         return
     b = body_html(g)
@@ -437,7 +480,7 @@ def gl_page(g):
 {f'<p><b>See also</b> {see}</p>' if see else ''}{f'<p><b>Appears in</b> {app}</p>' if app else ''}
 <p class="small"><a href="/gl-{g["pg"]}">This entry is on book page {g["pg"]}</a> of the glossary.</p>
 <section id="gl-news" data-slug="{sl}" hidden><h2>In the news</h2><div class="ngrid"></div><ul class="hlist"></ul><p class="small">Headlines and links from public news feeds. <a href="/news/">All news</a>.</p></section></article>'''
-    write(f'/g/{sl}/', layout(g['title'], body, plain[:155], f'/g/{sl}/'))
+    write(f'/g/{sl}/', layout(g['title'], chan('glossary', body, '/glossary/'), plain[:155], f'/g/{sl}/'))
     search.append({'t': g['title'] + (f' {g["he"]}' if g['he'] else ''), 'u': f'/g/{sl}/', 'k': 'GLOSSARY', 's': cat, 'x': plain[:300]})
     bycat.setdefault(g['cat'] or 'OTHER', []).append(g)
 
@@ -452,7 +495,7 @@ gh += '<p class="az">' + ' '.join(f'<a href="#l{L}">{L}</a>' for L in letters) +
 for L, lst in letters.items():
     gh += f'<h2 id="l{L}">{L}</h2><ul class="glist">' + ''.join(
         f'<li><a href="/g/{g["slug"]}/">{E(g["name"])}</a>' + (f' <span class="he" lang="he" dir="rtl">{E(g["he"])}</span>' if g['he'] else '') + (f' <i>{E("cf. " + g["cf"])}</i>' if g.get('cf') else '') + '</li>' for g in lst) + '</ul>'
-write('/glossary/', layout('Glossary', gh, 'The Israel Mosaic glossary: 407 entries on people, places, events, works and buildings.', '/glossary/'))
+write('/glossary/', layout('Glossary', chan('glossary', gh, '/glossary/'), 'The Israel Mosaic glossary: 407 entries on people, places, events, works and buildings.', '/glossary/'))
 
 # ---------------------------------------------------------------- hubs
 THUMB_W, THUMB_H = 480, 360
@@ -491,7 +534,7 @@ def hub(path, title, intro, groups, crumb=None):
     for gt, items_ in groups:
         if gt: b += f'<h2>{E(gt)}</h2>'
         b += tcards(items_)
-    write(path, layout(title, b, intro, path, f'/img/p{groups[0][1][0]["pages"][0]:03d}.webp' if groups and groups[0][1] else None))
+    write(path, layout(title, chan(SECKEY[path], b, path), intro, path, f'/img/p{groups[0][1][0]["pages"][0]:03d}.webp' if groups and groups[0][1] else None))
 
 def items(prefix, pred=lambda r: True): return [r for r in rows if r['prefix'] == prefix and pred(r)]
 hub('/maps/', 'Maps', 'Thirty-three maps of the land from the patriarchs to today. Every map has its own address, such as israelinmaps.com/map-002.',
@@ -527,7 +570,7 @@ for e in idx:
     he = f' <span class="he" lang="he" dir="rtl">{E(e["he"])}</span>' if e.get('he') else ''
     ib += f'<li><b>{E(e["head"])}</b>{he} {pgs}</li>'
 ib += '</ul>'
-write('/index/', layout('Index', ib, 'Index of the book Israel Mosaic.', '/index/'))
+write('/index/', layout('Index', chan('sources', ib, '/index/'), 'Index of the book Israel Mosaic.', '/index/'))
 
 # ---------------------------------------------------------------- about, search, 404, home
 about = '''<p class="crumb"><a href="/">Home</a> / About</p><h1>How to Use This Site</h1>
@@ -538,7 +581,7 @@ about = '''<p class="crumb"><a href="/">Home</a> / About</p><h1>How to Use This 
 <h2>Editions</h2><p>The short address always shows the current version. Each edition also keeps a frozen copy, for example /2027/map-002, so a citation from the 2027 book can be checked against what the book showed. Corrections are listed on the page with a date.</p>
 <h2>Scanning a code</h2><p>Each code in the book encodes the same short address. If a code is damaged, type the address printed beside it.</p>
 <h2>About the book</h2><p>Israel Mosaic: Maps, Graphs, Timelines, Images, and Knowledge of the Holy Land, by Richard J. Koret. This site is the companion to the book. Some illustrations in the book are marked as AI generated.</p>'''
-write('/about/', layout('How to Use This Site', about, 'Addresses, IDs, hubs and how to cite a page of Israel Mosaic.', '/about/'))
+write('/about/', layout('How to Use This Site', chan('sources', about, '/about/'), 'Addresses, IDs, hubs and how to cite a page of Israel Mosaic.', '/about/'))
 
 sb = '''<h1>Search</h1><form class="sf big" action="/search/" role="search"><input id="q" name="q" type="search" placeholder="Try map-002, Masada, Rabin, olive" aria-label="Search" autofocus><button>Search</button></form>
 <p class="small">Searches titles, IDs, glossary entries and page text.</p><ul class="results" id="results"></ul>'''
@@ -584,7 +627,7 @@ hub('/media/', 'Media', 'A photographic tour of the land and the plants and anim
     [('A Taste of Israel', [byid[p + '-00'] for p in ['NEG', 'DSE', 'JUS', 'GAL', 'GOL', 'MED', 'TAJ', 'JHL', 'JRS', 'SHF']]), ('Flora and Fauna', [byid[p + '-00'] for p in ['TRE', 'WFL', 'WLD', 'BRD', 'MIG']])])
 src_list = [('The Times of Israel', 'https://www.timesofisrael.com/'), ('The Jerusalem Post', 'https://www.jpost.com/'), ('Ynetnews', 'https://www.ynetnews.com/'), ('Haaretz', 'https://www.haaretz.com/'), ('JNS', 'https://www.jns.org/'), ('Israel Insider', 'https://israelinsider.org/'), ('Israel Hayom', 'https://www.israelhayom.com/')]
 sb2 = '<p class="crumb"><a href="/">Home</a> / Sources</p><h1>Sources</h1><ul class="idlist">' + ''.join(f'<li><a href="{u}" rel="noopener">{E(n_)}</a><span>{u.split("//")[1].rstrip("/")}</span></li>' for n_, u in src_list) + '</ul><h2>The Book</h2><ul class="idlist"><li><a href="/index/">Index</a><span>Find any name or place in the book</span></li><li><a href="/about/">How to use this site and cite it</a><span>Addresses, IDs and hubs</span></li></ul>'
-write('/sources/', layout('Sources', sb2, 'The publishers whose public feeds supply the news and views on this site.', '/sources/'))
+write('/sources/', layout('Sources', chan('sources', sb2, '/sources/'), 'The publishers whose public feeds supply the news and views on this site.', '/sources/'))
 gjson = []
 for g in G:
     if g.get('cf'):
