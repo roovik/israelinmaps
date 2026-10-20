@@ -308,3 +308,4 @@ article.gl section{margin-top:22px}article.gl section>h2{font-size:1.25rem;borde
 .vseg{display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;margin-bottom:10px;position:sticky;top:0;background:var(--card);z-index:2}
 .vseg button{flex:1;border:0;background:var(--card);color:inherit;font:inherit;font-size:.78rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;padding:7px 4px;cursor:pointer}
 .vseg button[aria-pressed=true]{background:var(--acc);color:#fff}
+body.newspg .bar .ticker{max-width:none}
