@@ -454,9 +454,9 @@ nav.wrap a[data-n="9"]:hover,nav.wrap a[data-n="9"].hov{color:#6a3d9a;border-col
 
 /* vertical edge titles */
 .edge{display:none}
-@media (min-width:1180px){
-body{padding-left:34px;padding-right:34px}
-.edge{display:flex;position:fixed;top:0;bottom:0;width:34px;align-items:center;justify-content:center;z-index:5;background:var(--sc,#1f62c4);color:#fff;pointer-events:none;overflow:hidden}
+@media (min-width:600px){
+body{padding-left:30px;padding-right:30px}
+.edge{display:flex;position:fixed;top:0;bottom:0;width:30px;align-items:center;justify-content:center;z-index:5;background:var(--sc,#1f62c4);color:#fff;pointer-events:none;overflow:hidden}
 .edge.el{left:0}.edge.er{right:0;background:linear-gradient(180deg,#1f62c4 0 20%,#1596ad 20% 40%,#e9a113 40% 60%,#c8541f 60% 80%,#2e8b57 80%)}
 .edge span{writing-mode:vertical-rl;white-space:nowrap;font:700 .8rem system-ui,sans-serif;letter-spacing:.32em;text-transform:uppercase}
 .edge.el span{transform:rotate(180deg);font-size:.95rem}
