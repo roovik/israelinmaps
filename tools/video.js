@@ -55,8 +55,8 @@
       if(!chs.length){root.innerHTML='<p>No videos are available right now.</p>';return}
       var all=[];chs.forEach(function(c){all=all.concat(c.videos)});
       all.sort(function(a,b){return(b.d||'').localeCompare(a.d||'')});
-      host.innerHTML=embed(all[0].v,false);host.hidden=false;listText('Latest videos',all.slice(0,20));
-      var h='<h2 id="ch-latest">Latest</h2><div class="tgrid">'+all.slice(0,12).map(card).join('')+'</div>';
+      host.innerHTML=embed(all[0].v,false);host.hidden=false;listText('Videos',all.slice(0,20));
+      var h='';
       chs.forEach(function(c){h+='<section class="vch"><h2><a href="/video/'+esc(sl(c))+'/">'+esc(lab(c))+'</a></h2><div class="tgrid">'+c.videos.slice(0,8).map(card).join('')+'</div><p class="small"><a href="/video/'+esc(sl(c))+'/">All videos from '+esc(c.name)+'</a></p></section>'});
       if((d.playlists||[]).length){h+='<h2 id="playlists">Playlists</h2>';chs.forEach(function(c){var pls=d.playlists.filter(function(x){return x.channel===String(c.key).toLowerCase()});if(pls.length)h+='<h3>'+esc(c.name)+'</h3><ul class="vpl">'+pls.map(function(x){return'<li><a href="/video/pl-'+esc(x.id.toLowerCase())+'/">'+esc(x.name)+'</a></li>'}).join('')+'</ul>'})}
       root.innerHTML=h;
