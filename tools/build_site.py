@@ -529,18 +529,19 @@ home = f'''<section class="hero"><h1>Israel <b>Mosaic</b></h1><p class="sub">Map
 <p class="small">New here? <a href="/about/">How the addresses and citations work</a>.</p>'''
 write('/', layout('Israel Mosaic', home, '', '/', '/img/p006.webp', cls='home'))
 
-news = '''<div class="newspage"><div class="newsleft"><div class="ticker" id="news-ticker" aria-label="Latest headlines" hidden></div><p class="crumb"><a href="/">Home</a> / News</p><h1>In the News</h1>
+news = '''<div class="adslot adwide" data-slot="page-top" data-sizes="970x90|728x90|320x50"></div><div class="newspage"><div class="newsleft"><div class="ticker" id="news-ticker" aria-label="Latest headlines" hidden></div><p class="crumb"><a href="/">Home</a> / News</p><h1>In the News</h1>
 <p class="lead">Headlines from public news feeds, from the last seven days, matched to the glossary. Each item links to its publisher.</p>
-<div class="newsgrid"><div class="newsleftcol"><nav class="newstopics" id="news-topics" aria-label="Topics and sources"></nav><div class="adslot" data-slot="left"></div></div><div class="newsmain">
-<div class="adslot" data-slot="lb-top"></div>
+<div class="newsgrid"><div class="newsleftcol"><nav class="newstopics" id="news-topics" aria-label="Topics and sources"></nav><div class="adslot" data-slot="left" data-sizes="tower"></div></div><div class="newsmain">
+<div class="adslot" data-slot="lb-top" data-sizes="728x90|320x100"></div>
 <p class="ngl"><label><input type="checkbox" id="news-glonly"> Only stories that mention a glossary entry</label></p>
 <div class="ngrid3" id="news-grid"><p>Loading the latest headlines.</p></div>
 <h2 id="news-more-title" class="nmt" hidden>More headlines</h2><ul class="hlist" id="news-more"></ul>
-<div class="adslot" data-slot="lb-bottom"></div></div></div></div>
+<div class="adslot" data-slot="lb-bottom" data-sizes="728x90|320x50"></div></div></div></div>
 <aside class="newsside" aria-label="Latest headlines"><div id="news-latest"></div><h2>By source</h2><div id="news-widget"></div></aside></div>
-<p class="small" id="news-status"></p>'''
+<p class="small" id="news-status"></p>
+<div class="adslot adwide" data-slot="page-bottom" data-sizes="970x250|728x90|320x100"></div>'''
 write('/news/', layout('News', news, 'Headlines from public news feeds about Israel, linked to the Israel Mosaic glossary.', '/news/', cls='newspg'))
-write('/news/item-template/', layout('@@TITLE@@', '<div class="newspage"><div class="newsleft"><div class="ticker" id="news-ticker" aria-label="Latest headlines" hidden></div><div class="newsgrid"><div class="newsleftcol"><nav class="newstopics" id="news-topics" aria-label="Topics and sources"></nav><div class="adslot" data-slot="left"></div></div><div class="newsmain"><div class="adslot" data-slot="lb-top"></div><div id="news-item">@@BODY@@</div><div class="adslot" data-slot="lb-bottom"></div></div></div></div><aside class="newsside" aria-label="Latest headlines"><div id="news-latest"></div><h2>By source</h2><div id="news-widget"></div></aside></div><p class="small" id="news-status"></p>', '@@DESC@@', '/news/item/@@K@@/', cls='newspg', nd=True))
+write('/news/item-template/', layout('@@TITLE@@', '<div class="adslot adwide" data-slot="page-top" data-sizes="970x90|728x90|320x50"></div><div class="newspage"><div class="newsleft"><div class="ticker" id="news-ticker" aria-label="Latest headlines" hidden></div><div class="newsgrid"><div class="newsleftcol"><nav class="newstopics" id="news-topics" aria-label="Topics and sources"></nav><div class="adslot" data-slot="left" data-sizes="tower"></div></div><div class="newsmain"><div class="adslot" data-slot="lb-top" data-sizes="728x90|320x100"></div><div id="news-item">@@BODY@@</div><div class="adslot" data-slot="lb-bottom" data-sizes="728x90|320x50"></div></div></div></div><aside class="newsside" aria-label="Latest headlines"><div id="news-latest"></div><h2>By source</h2><div id="news-widget"></div></aside></div><p class="small" id="news-status"></p><div class="adslot adwide" data-slot="page-bottom" data-sizes="970x250|728x90|320x100"></div>', '@@DESC@@', '/news/item/@@K@@/', cls='newspg', nd=True))
 gjson = []
 for g in G:
     if g.get('cf'):
