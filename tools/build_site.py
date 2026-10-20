@@ -447,7 +447,7 @@ for g in G: gl_page(g)
 letters = {}
 for g in sorted(G, key=lambda g: key(g['name'])):
     letters.setdefault(key(g['name'])[0].upper(), []).append(g)
-gh = '<p class="crumb"><a href="/">Home</a> / Glossary</p><h1>Glossary</h1><p class="lead">People, places, events, works and buildings in the maps and timelines. Entries are on book pages 173 to 209.</p>'
+gh = '<p class="crumb"><a href="/">Home</a> / Glossary</p><h1>Glossary</h1>'
 gh += '<p class="az">' + ' '.join(f'<a href="#l{L}">{L}</a>' for L in letters) + '</p>'
 for L, lst in letters.items():
     gh += f'<h2 id="l{L}">{L}</h2><ul class="glist">' + ''.join(
@@ -487,7 +487,7 @@ def tcards(items_):
     return o + '</div>'
 
 def hub(path, title, intro, groups, crumb=None):
-    b = f'<p class="crumb"><a href="/">Home</a> / {E(title)}</p><h1>{E(title)}</h1><p class="lead">{intro}</p>'
+    b = f'<p class="crumb"><a href="/">Home</a> / {E(title)}</p><h1>{E(title)}</h1>'
     for gt, items_ in groups:
         if gt: b += f'<h2>{E(gt)}</h2>'
         b += tcards(items_)
@@ -521,7 +521,7 @@ def plink(p):
         return f'<a href="{pageitem[p]["url"]}">{p}</a>'
     if 173 <= p <= 209: return f'<a href="/gl-{p}">{p}</a>'
     return str(p)
-ib = '<p class="crumb"><a href="/">Home</a> / Index</p><h1>Index</h1><p class="lead">The book index. Page numbers link to the item on that page.</p><ul class="ix">'
+ib = '<p class="crumb"><a href="/">Home</a> / Index</p><h1>Index</h1><ul class="ix">'
 for e in idx:
     pgs = ', '.join(plink(p) for p in e.get('pages', []))
     he = f' <span class="he" lang="he" dir="rtl">{E(e["he"])}</span>' if e.get('he') else ''
@@ -560,8 +560,7 @@ home = f'''<section class="hero"><h1>Israel <b>Mosaic</b></h1><p class="sub">Map
 <p class="small">New here? <a href="/about/">How the addresses and citations work</a>.</p>'''
 write('/', layout('Israel Mosaic', home, '', '/', '/img/p006.webp', cls='home'))
 
-news = '''<div class="newspage"><div class="adslot" data-slot="page-top" data-sizes="728x90|320x50"></div><div class="newsleftcol"><nav class="newstopics" id="news-topics" aria-label="Topics and sources"></nav><div class="adslot" data-slot="left" data-sizes="tower"></div></div><div class="newsleft"><p class="crumb"><a href="/">Home</a> / News</p><h1>In the News</h1>
-<p class="lead">Headlines from public news feeds, from the last seven days, matched to the glossary. Each item links to its publisher.</p>
+news = '''<div class="newspage"><div class="adslot" data-slot="page-top" data-sizes="728x90|320x50"></div><div class="newsleftcol"><nav class="newstopics" id="news-topics" aria-label="Topics and sources"></nav><div class="adslot" data-slot="left" data-sizes="tower"></div></div><div class="newsleft"><p class="crumb"><a href="/">Home</a> / News</p><h1>News</h1>
 <div class="newsmain">
 
 <p class="ngl"><label><input type="checkbox" id="news-glonly"> Only stories that mention a glossary entry</label></p>
@@ -573,7 +572,7 @@ news = '''<div class="newspage"><div class="adslot" data-slot="page-top" data-si
 <div class="adslot adwide" data-slot="page-bottom" data-sizes="970x250|728x90|320x100"></div>'''
 write('/news/', layout('News', news, 'Headlines from public news feeds about Israel, linked to the Israel Mosaic glossary.', '/news/', cls='newspg'))
 write('/news/item-template/', layout('@@TITLE@@', '<div class="newspage"><div class="adslot" data-slot="page-top" data-sizes="728x90|320x50"></div><div class="newsleftcol"><nav class="newstopics" id="news-topics" aria-label="Topics and sources"></nav><div class="adslot" data-slot="left" data-sizes="tower"></div></div><div class="newsleft"><div class="newsmain"><div id="news-item">@@BODY@@</div><div class="adslot" data-slot="lb-bottom" data-sizes="728x90|320x50"></div></div></div><aside class="newsside" aria-label="Latest headlines"><div class="adslot" data-slot="aside-top" data-sizes="320x100"></div><div id="news-latest"></div><h2>By source</h2><div id="news-widget"></div></aside></div><p class="small" id="news-status"></p><div class="adslot adwide" data-slot="page-bottom" data-sizes="970x250|728x90|320x100"></div>', '@@DESC@@', '/news/item/@@K@@/', cls='newspg', nd=True))
-views_html = news.replace('/ News</p>', '/ Views</p>').replace('<h1>In the News</h1>', '<h1>Views</h1>').replace('<p class="lead">Headlines from public news feeds, from the last seven days, matched to the glossary. Each item links to its publisher.</p>', '<p class="lead">Op-eds, editorials and blogs from public feeds, from the last seven days, matched to the glossary. Each item links to its publisher.</p>').replace('id="news-grid"', 'id="news-grid" data-api="/api/news?views=1&v=2"')
+views_html = news.replace('/ News</p>', '/ Views</p>').replace('<h1>News</h1>', '<h1>Views</h1>').replace('id="news-grid"', 'id="news-grid" data-api="/api/news?views=1&v=2"')
 write('/views/', layout('Views', views_html, 'Op-eds, editorials and blogs from Israeli news sources, linked to the glossary.', '/views/', cls='newspg'))
 
 def card_hub(path, title, intro, cards_):
@@ -584,7 +583,7 @@ hub('/charts/', 'Charts', 'Rankings, population graphics, top ten lists, size co
 hub('/media/', 'Media', 'A photographic tour of the land and the plants and animals of Israel.',
     [('A Taste of Israel', [byid[p + '-00'] for p in ['NEG', 'DSE', 'JUS', 'GAL', 'GOL', 'MED', 'TAJ', 'JHL', 'JRS', 'SHF']]), ('Flora and Fauna', [byid[p + '-00'] for p in ['TRE', 'WFL', 'WLD', 'BRD', 'MIG']])])
 src_list = [('The Times of Israel', 'https://www.timesofisrael.com/'), ('The Jerusalem Post', 'https://www.jpost.com/'), ('Ynetnews', 'https://www.ynetnews.com/'), ('Haaretz', 'https://www.haaretz.com/'), ('JNS', 'https://www.jns.org/'), ('Israel Insider', 'https://israelinsider.org/'), ('Israel Hayom', 'https://www.israelhayom.com/')]
-sb2 = '<p class="crumb"><a href="/">Home</a> / Sources</p><h1>Sources</h1><p class="lead">News and views on this site come from the public feeds of these publishers. Each story page shows a short excerpt and links to the publisher for the full story.</p><ul class="idlist">' + ''.join(f'<li><a href="{u}" rel="noopener">{E(n_)}</a><span>{u.split("//")[1].rstrip("/")}</span></li>' for n_, u in src_list) + '</ul><h2>The Book</h2><ul class="idlist"><li><a href="/index/">Index</a><span>Find any name or place in the book</span></li><li><a href="/about/">How to use this site and cite it</a><span>Addresses, IDs and hubs</span></li></ul>'
+sb2 = '<p class="crumb"><a href="/">Home</a> / Sources</p><h1>Sources</h1><ul class="idlist">' + ''.join(f'<li><a href="{u}" rel="noopener">{E(n_)}</a><span>{u.split("//")[1].rstrip("/")}</span></li>' for n_, u in src_list) + '</ul><h2>The Book</h2><ul class="idlist"><li><a href="/index/">Index</a><span>Find any name or place in the book</span></li><li><a href="/about/">How to use this site and cite it</a><span>Addresses, IDs and hubs</span></li></ul>'
 write('/sources/', layout('Sources', sb2, 'The publishers whose public feeds supply the news and views on this site.', '/sources/'))
 gjson = []
 for g in G:
