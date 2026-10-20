@@ -294,8 +294,8 @@ def subnav_for(path):
     return f'<div class="wrap subnav" id="subnav" data-trend="{trend}"{"" if links else " hidden"}>{html_}<span class="trend" id="trend" hidden></span></div>'
 
 def layout(title, body, desc='', path='/', og=None, cls='', nd=False):
-    if 'class="newspage"' in body and 'newspg' not in cls: cls = (cls + ' newspg').strip()
-    news_js = 'class="newspage"' in body or path in ('/news/', '/views/') or path.startswith('/g/') or path.startswith('/news/item/')
+    if 'class="newspage' in body and 'newspg' not in cls: cls = (cls + ' newspg').strip()
+    news_js = 'class="newspage' in body or path in ('/news/', '/views/') or path.startswith('/g/') or path.startswith('/news/item/')
     nav = ''.join(f'<a href="{u}" data-n="{i}">{t}</a>' for i, (u, t) in enumerate(NAV))
     full = f'{title} | Israel NOWlej' if title != 'Israel NOWlej' else 'Israel NOWlej'
     d = desc or 'Know the Story of the Jewish Land in Maps, Timelines, Charts, and Graphics. Living edition of the book Israel NOWlej.'
@@ -389,8 +389,9 @@ def chan(sk, body, active='', views=False, vl=False):
     wd = 'views' if views else 'news'
     vside = sk == 'video' or vl
     body = re.sub(r'<p class="crumb">.*?</p>', '', body, count=1)
-    return (f'<div class="newspage"><div class="adslot" data-slot="page-top" data-sizes="728x90|320x50"></div>'
-            f'<div class="newsleftcol">{secnav(sk, active)}<div class="adslot" data-slot="left" data-sizes="tower"></div></div>'
+    noleft = sk in ('maps', 'timelines', 'charts')
+    return (f'<div class="newspage{" noleft" if noleft else ""}"><div class="adslot" data-slot="page-top" data-sizes="728x90|320x50"></div>'
+            + ('' if noleft else f'<div class="newsleftcol">{secnav(sk, active)}<div class="adslot" data-slot="left" data-sizes="tower"></div></div>') +
             f'<div class="newsleft"><div class="newsmain">{body}<div class="adslot" data-slot="lb-bottom" data-sizes="728x90|320x50"></div></div></div>'
             f'<aside class="newsside" aria-label="Latest {wd}"><div class="adslot" data-slot="aside-top" data-sizes="320x100"></div>{'<div id="vid-list" class="vlist"></div>' if vside else f'<span id="news-side" data-word="{wd}" hidden></span><div id="news-latest"></div><h2>By source</h2><div id="news-widget"></div>'}</aside></div>'
             f'{"" if vside else "<p class=\"small\" id=\"news-status\"></p>"}<div class="adslot adwide" data-slot="page-bottom" data-sizes="970x250|728x90|320x100"></div>')
