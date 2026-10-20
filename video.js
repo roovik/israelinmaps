@@ -4,10 +4,10 @@
   function embed(v,auto){return'<iframe src="https://www.youtube-nocookie.com/embed/'+encodeURIComponent(v)+'?rel=0'+(auto?'&autoplay=1':'')+'" title="Video player" allow="accelerometer; autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>'}
   function wurl(v,c,t){return'/video/watch/?v='+encodeURIComponent(v.v)+(c?'&c='+encodeURIComponent(c):'')+(t?'&t='+encodeURIComponent(t):'')}
   function card(v){return'<a class="tcard vcard" data-v="'+esc(v.v)+'" href="'+esc(wurl(v,v.c,v.t))+'"><span class="timg"><img src="https://i.ytimg.com/vi/'+esc(v.v)+'/mqdefault.jpg" alt="" loading="lazy"><span class="vplay">▶</span></span><span class="tb"><span class="tid">'+esc(v.n||'')+(v.n&&v.d?' · ':'')+ago(v.d)+'</span><b>'+esc(v.t)+'</b></span></a>'}
-  var host=document.getElementById('vid-top'),onWatch=!!document.getElementById('vid-watch');
-  document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a.vcard');if(!a||e.metaKey||e.ctrlKey||e.shiftKey||e.button||onWatch)return;
+  var host=document.getElementById('vid-top'),onWatch=!!document.getElementById('vid-watch'),onChan=!!document.getElementById('vid-chan'),CTX=null;
+  document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a.vcard');if(!a||e.metaKey||e.ctrlKey||e.shiftKey||e.button)return;
     var v=a.getAttribute('data-v');
-    if(host){e.preventDefault();host.innerHTML=embed(v,true);host.hidden=false;host.scrollIntoView({behavior:'smooth',block:'nearest'})}
+    if((onWatch||onChan)&&CTX){e.preventDefault();CTX(v)}
     else if(a.closest('#e-video')){e.preventDefault();var im=a.querySelector('.timg');im.innerHTML=embed(v,true);im.className='timg vlive'}});
   var root=document.getElementById('vid-root'),chp=document.getElementById('vid-chan'),wt=document.getElementById('vid-watch'),gl=document.getElementById('e-video');
   if(!root&&!chp&&!wt&&!gl)return;
@@ -25,19 +25,29 @@
       chs.forEach(function(c){h+='<section class="vch"><h2><a href="/video/'+esc(sl(c))+'/">'+esc(c.name)+'</a></h2><div class="tgrid">'+c.videos.slice(0,8).map(card).join('')+'</div><p class="small"><a href="/video/'+esc(sl(c))+'/">All videos from '+esc(c.name)+'</a></p></section>'});
       root.innerHTML=h;
     }
+    function context(c,vid,titleEl,box){
+      var byv={};c.videos.forEach(function(v){byv[v.v]=v});
+      var now=document.createElement('div');now.className='vnow';host.parentNode.insertBefore(now,host.nextSibling);
+      function setP(id,auto){var v=byv[id]||c.videos[0];
+        host.innerHTML=embed(v.v,auto);host.hidden=false;
+        if(titleEl)titleEl.textContent=v.t;document.title=v.t+' | Israel NOWlej';
+        now.innerHTML='<p class="small">'+esc(c.name)+' \u00b7 '+ago(v.d)+'</p>'+(v.x?'<p>'+esc(v.x)+'</p>':'');
+        [].forEach.call(box.querySelectorAll('.vcard'),function(a){a.classList.toggle('vnowp',a.getAttribute('data-v')===v.v)});
+        try{history.replaceState(null,'','?v='+encodeURIComponent(v.v))}catch(x){}}
+      box.innerHTML='<h2>'+(titleEl?'More from ':'Recent from ')+esc(c.name)+'</h2><div class="tgrid">'+c.videos.map(card).join('')+'</div>';
+      CTX=function(id){setP(id,true);host.scrollIntoView({behavior:'smooth',block:'nearest'})};
+      setP(vid&&byv[vid]?vid:c.videos[0].v,!!(vid&&byv[vid]));
+    }
     if(chp){
       var key=chp.getAttribute('data-key'),c=chs.filter(function(x){return sl(x)===key})[0];
       if(!c){chp.innerHTML='<p>No videos from this channel are available right now.</p>';return}
-      host.innerHTML=embed(c.videos[0].v,false);host.hidden=false;
-      chp.innerHTML='<div class="tgrid">'+c.videos.map(card).join('')+'</div>';
+      context(c,P.get('v'),null,chp);
     }
     if(wt){
-      var vid=P.get('v'),found=null,fc=null;chs.forEach(function(c){c.videos.forEach(function(v){if(v.v===vid){found=v;fc=c}})});
-      var h2='';
-      if(found){document.getElementById('vw-title').textContent=found.t;document.title=found.t+' | Israel NOWlej';
-        h2='<p class="small">'+esc(found.n)+' · '+ago(found.d)+'</p>'+(found.x?'<p>'+esc(found.x)+'</p>':'')+'<p class="small"><a href="/video/'+esc(found.c)+'/">More from '+esc(found.n)+'</a></p><h2>More videos</h2><div class="tgrid">'+fc.videos.filter(function(v){return v.v!==vid}).slice(0,8).map(card).join('')+'</div>'}
-      else if(!P.get('t'))h2='<p><a href="/video/">Back to all videos</a></p>';
-      wt.innerHTML=h2;
+      var vid=P.get('v'),fc=null;chs.forEach(function(c){c.videos.forEach(function(v){if(v.v===vid)fc=c})});
+      var cc=(P.get('c')&&chs.filter(function(x){return sl(x)===P.get('c')})[0])||fc;
+      if(cc)context(cc,vid,document.getElementById('vw-title'),wt);
+      else if(!P.get('t'))wt.innerHTML='<p><a href="/video/">Back to all videos</a></p>';
     }
     if(gl){
       var name=(gl.getAttribute('data-name')||'').trim(),have={};[].forEach.call(gl.querySelectorAll('[data-v]'),function(a){have[a.getAttribute('data-v')]=1});

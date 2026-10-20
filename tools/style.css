@@ -295,3 +295,4 @@ article.gl section{margin-top:22px}article.gl section>h2{font-size:1.25rem;borde
 .egal{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}.egal figure{margin:0}.egal img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:8px;display:block;background:var(--hl)}
 .egal figcaption{font-family:system-ui,sans-serif;font-size:.72rem;color:var(--mut);margin-top:3px}
 .esrc{font-size:.9rem;padding-left:18px}
+.vcard.vnowp{outline:2px solid var(--acc)}.vnow{margin:8px 0 4px}
