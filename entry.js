@@ -25,11 +25,12 @@
     return fetch(q)
   }).then(function(r){if(!r||!r.ok)throw 0;return r.json()}).then(function(d){
     var pages=Object.keys((d.query||{}).pages||{}).map(function(k){return d.query.pages[k]}),out=[];
+    var fx2=document.getElementById('e-images').getAttribute('data-files');if(fx2){try{var ord=JSON.parse(fx2);pages.sort(function(a,b){return ord.indexOf(a.title)-ord.indexOf(b.title)})}catch(x){}}
     pages.forEach(function(p){var ii=p.imageinfo&&p.imageinfo[0];if(!ii||!ii.thumburl)return;var md=ii.extmetadata||{},lic=(md.LicenseShortName||{}).value||'',ok=/^(cc|public domain|pd|no restrictions)/i.test(lic);if(!ok)return;
       var artist=((md.Artist||{}).value||'').replace(/<[^>]*>/g,'').trim().slice(0,60);
       out.push('<figure><a class="lbx" href="'+esc(ii.thumburl.replace(/\/\d+px-/,'/1280px-'))+'" data-credit="'+esc((artist||'Wikimedia Commons')+' · '+lic)+'" data-page="'+esc(ii.descriptionurl)+'"><img src="'+esc(ii.thumburl)+'" alt="'+esc(p.title.replace(/^File:/,'').replace(/\.\w+$/,''))+'" loading="lazy"></a><figcaption>'+esc(artist||'Wikimedia Commons')+' · '+esc(lic)+'</figcaption></figure>')});
     if(!out.length)return;
-    document.getElementById('e-gal').innerHTML=out.slice(0,6).join('');document.getElementById('e-images').hidden=false;jump();
+    document.getElementById('e-gal').innerHTML=out.slice(0,6).join('');if(document.getElementById('e-images').getAttribute('data-files'))document.getElementById('e-gal').className+=' ranked';document.getElementById('e-images').hidden=false;jump();
     addSrc('Photographs: Wikimedia Commons, authors and licenses shown beside each image.')
   }).catch(function(){});
   document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a.lbx');if(!a||e.metaKey||e.ctrlKey)return;e.preventDefault();
