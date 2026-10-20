@@ -17,7 +17,7 @@ def slugify(s):
 
 def nbsp(t): return t.replace('\xa0', ' ').replace('­', '')
 
-GENERATED = ['maps', 'timelines', 'tables', 'population', 'demographics', 'rankings', 'top-ten', 'tour', 'flora', 'g', 'glossary', 'index', 'size', 'about', 'search']
+GENERATED = ['maps', 'timelines', 'tables', 'population', 'demographics', 'rankings', 'top-ten', 'tour', 'flora', 'g', 'glossary', 'index', 'size', 'about', 'search', 'news']
 for d_ in GENERATED:
     shutil.rmtree(os.path.join(OUT, d_), ignore_errors=True)
 shutil.rmtree(os.path.join(OUT, 'img', 's'), ignore_errors=True)
@@ -254,10 +254,11 @@ def app_html(g):
 # ---------------------------------------------------------------- templates
 CSS = open(os.path.join(ROOT, 'tools', 'style.css')).read()
 NAV = [('/maps/', 'Maps'), ('/timelines/', 'Timelines'), ('/rankings/', 'Rankings'), ('/demographics/', 'Demographics'),
-       ('/top-ten/', 'Top Ten'), ('/tour/', 'Tour'), ('/flora/', 'Flora and Fauna'), ('/glossary/', 'Glossary'), ('/index/', 'Index')]
+       ('/top-ten/', 'Top Ten'), ('/tour/', 'Tour'), ('/flora/', 'Flora and Fauna'), ('/news/', 'News'), ('/glossary/', 'Glossary'), ('/index/', 'Index')]
 BASE = 'https://israelinmaps.com'
 
 def layout(title, body, desc='', path='/', og=None, cls='', nd=False):
+    news_js = path == '/news/' or path.startswith('/g/')
     nav = ''.join(f'<a href="{u}">{t}</a>' for u, t in NAV)
     full = f'{title} | Israel Mosaic' if title != 'Israel Mosaic' else 'Israel Mosaic'
     d = desc or 'Maps, graphs, timelines, images, and knowledge of the Holy Land. The companion site to the book Israel Mosaic.'
@@ -275,7 +276,7 @@ def layout(title, body, desc='', path='/', og=None, cls='', nd=False):
 <main id="main" class="wrap">{body}</main>
 <footer><div class="wrap"><p>Israel Mosaic: Maps, Graphs, Timelines, Images, and Knowledge of the Holy Land. By Richard J. Koret.</p>
 <p>&copy; 2003 to 2026 Richard J. Koret. All rights reserved. Page images are shown for reference with the book. <a href="/about/">How to use this site and cite it</a></p></div></footer>
-<script src="/site.js" defer></script></body></html>'''
+<script src="/site.js" defer></script>{'<script src="/news.js" defer></script>' if news_js else ''}</body></html>'''
 
 def write(path, content):
     fp = os.path.join(OUT, path.lstrip('/'))
@@ -433,7 +434,8 @@ def gl_page(g):
 <article class="gl"><header class="ih"><span class="id">GLOSSARY · book page {g["pg"]}</span><h1>{E(g["title"])} {he}</h1><p class="meta">{cat}</p></header>
 <p class="lead">{b}</p>
 {f'<p><b>See also</b> {see}</p>' if see else ''}{f'<p><b>Appears in</b> {app}</p>' if app else ''}
-<p class="small"><a href="/gl-{g["pg"]}">This entry is on book page {g["pg"]}</a> of the glossary.</p></article>'''
+<p class="small"><a href="/gl-{g["pg"]}">This entry is on book page {g["pg"]}</a> of the glossary.</p>
+<section id="gl-news" data-slug="{sl}" hidden><h2>In the news</h2><div class="ngrid"></div><p class="small">Headlines and links from public news feeds. <a href="/news/">All news</a>.</p></section></article>'''
     write(f'/g/{sl}/', layout(g['title'], body, plain[:155], f'/g/{sl}/'))
     search.append({'t': g['title'] + (f' {g["he"]}' if g['he'] else ''), 'u': f'/g/{sl}/', 'k': 'GLOSSARY', 's': cat, 'x': plain[:300]})
     bycat.setdefault(g['cat'] or 'OTHER', []).append(g)
@@ -527,12 +529,34 @@ home = f'''<section class="hero"><h1>Israel <b>Mosaic</b></h1><p class="sub">Map
 <p class="small">New here? <a href="/about/">How the addresses and citations work</a>.</p>'''
 write('/', layout('Israel Mosaic', home, '', '/', '/img/p006.webp', cls='home'))
 
+news = '''<p class="crumb"><a href="/">Home</a> / News</p><h1>In the News</h1>
+<p class="lead">Headlines from public news feeds, matched to the glossary. Each card links to the publisher. We show only a headline, a short snippet and a link.</p>
+<div class="nfilter" id="news-filter" aria-label="Filter by source"></div>
+<p class="ngl"><label><input type="checkbox" id="news-glonly"> Only stories that mention a glossary entry</label></p>
+<div class="ngrid" id="news-grid"><p>Loading the latest headlines.</p></div>
+<p class="small" id="news-status"></p>'''
+write('/news/', layout('News', news, 'Headlines from public news feeds about Israel, linked to the Israel Mosaic glossary.', '/news/'))
+gjson = []
+for g in G:
+    if g.get('cf'):
+        tg = resolve(g['cf'])
+        if tg: gjson.append([g['title'], tg, [g['title'], g['name']]])
+    else:
+        gjson.append([g['title'], g['slug'], sorted({g['title'], g['name']} - {''})])
+# regroup so each slug has all its terms
+merged = {}
+for t, sl, terms in gjson:
+    e = merged.setdefault(sl, [used[sl]['title'], sl, []])
+    for x in terms:
+        if x not in e[2] and ', ' not in x: e[2].append(x)
+write('/glossary.json', json.dumps(list(merged.values()), ensure_ascii=False, separators=(',', ':')))
+shutil.copy(os.path.join(ROOT, 'tools', 'news.js'), os.path.join(OUT, 'news.js'))
 # ---------------------------------------------------------------- data, assets, redirects, sitemap
 write('/search.json', json.dumps(search, ensure_ascii=False, separators=(',', ':')))
 shutil.copy(os.path.join(ROOT, 'tools', 'style.css'), os.path.join(OUT, 'style.css'))
 shutil.copy(os.path.join(ROOT, 'tools', 'site.js'), os.path.join(OUT, 'site.js'))
 open(os.path.join(OUT, 'robots.txt'), 'w').write(f'User-agent: *\nAllow: /\nSitemap: {BASE}/sitemap.xml\n')
-allurls = ['/', '/about/', '/glossary/', '/index/', '/maps/', '/timelines/', '/tables/', '/demographics/', '/rankings/', '/top-ten/', '/size/', '/tour/', '/flora/'] + [r['url'] for r in rows] + [f'/g/{g["slug"]}/' for g in G]
+allurls = ['/', '/about/', '/news/', '/glossary/', '/index/', '/maps/', '/timelines/', '/tables/', '/demographics/', '/rankings/', '/top-ten/', '/size/', '/tour/', '/flora/'] + [r['url'] for r in rows] + [f'/g/{g["slug"]}/' for g in G]
 open(os.path.join(OUT, 'sitemap.xml'), 'w').write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + ''.join(f'<url><loc>{BASE}{u}</loc></url>\n' for u in allurls) + '</urlset>\n')
 
 red = []
@@ -548,7 +572,7 @@ for r in rows:
 HUBS = {'/map': '/maps/', '/tl': '/timelines/', '/tbl': '/tables/', '/dem': '/demographics/', '/rnk': '/rankings/', '/top': '/top-ten/',
         '/size': '/size/', '/tour': '/tour/', '/flora': '/flora/', '/gl': '/glossary/', '/pop': '/size/', '/timeline': '/timelines/',
         '/index': '/index/', '/glossary': '/glossary/', '/maps': '/maps/', '/timelines': '/timelines/', '/rankings': '/rankings/',
-        '/demographics': '/demographics/', '/tables': '/tables/', '/top-ten': '/top-ten/', '/about': '/about/', '/search': '/search/'}
+        '/demographics': '/demographics/', '/tables': '/tables/', '/news': '/news/', '/top-ten': '/top-ten/', '/about': '/about/', '/search': '/search/'}
 for s, d in HUBS.items():
     if s == d.rstrip('/'):
         red.append((s.upper(), d, 301)); continue
