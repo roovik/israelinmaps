@@ -108,7 +108,7 @@ body.newspg .wrap{max-width:1440px}
 .newstopics .nmode button[aria-pressed=true]{background:var(--acc);color:#fff}
 .nsub.top{padding-top:2px}
 
-.newspage{display:grid;grid-template-columns:minmax(0,1fr) 332px;gap:28px;align-items:start}
+.newspage{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:28px;align-items:start}
 .newsleft{min-width:0}
 .newsgrid{grid-template-columns:170px minmax(0,1fr)}
 @media (max-width:1000px){.newspage{grid-template-columns:1fr}.newsside{position:static}}
@@ -150,8 +150,14 @@ body.newspg .wrap{max-width:1440px}
 .ad-lb .adt{padding:4px}.ad-lb .adt b{font-size:.56rem;line-height:1.1}
 
 
-.adtop{display:grid;grid-template-columns:minmax(0,1fr) 332px;gap:28px;align-items:start;margin:10px 0}
+.adtop{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:28px;align-items:start;margin:10px 0}
 .adtop .adslot{margin:0}.adtop .adslot[data-slot=page-top] .ad{margin:0}
 .adslot[data-slot=aside-top]{display:none;margin:0 0 12px}
 @media (max-width:1000px){.adtop{grid-template-columns:1fr}.adslot[data-slot=top-right]{display:none}.adslot[data-slot=aside-top]{display:block}}
-.adslot[data-slot^=lb] .ad{margin-left:0}
+
+.newsside{padding:6px 9px 10px}
+.adslot[data-slot=page-top],.adslot[data-slot=top-right],.adslot[data-slot^=lb],.adslot[data-slot=page-bottom]{display:flex;justify-content:center;align-items:center}
+.adtop .adslot[data-slot=page-top] .ad,.adtop .adslot[data-slot=top-right] .ad{margin:0}
+.adslot[data-slot^=lb] .ad,.adslot[data-slot=page-bottom] .ad{margin:0}
+.adtop{align-items:stretch}
+@media (max-width:1000px){.adslot[data-slot=aside-top]{display:flex;justify-content:center}}
