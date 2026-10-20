@@ -1,27 +1,3 @@
 # israelinmaps
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Israel Mosaic</title>
-<meta name="description" content="Israel Mosaic: maps, graphs, timelines, images, and knowledge of the Holy Land. The companion site is launching soon.">
-<style>
-  :root { --navy:#163250; --gray:#59616b; --bg:#ffffff; }
-  @media (prefers-color-scheme: dark) { :root { --navy:#dbe7f3; --gray:#a4adb8; --bg:#10151b; } }
-  html,body { margin:0; background:var(--bg); }
-  body { font-family: Georgia, "Times New Roman", serif; color:var(--navy); min-height:100vh; display:flex; align-items:center; justify-content:center; padding:0 16px; box-sizing:border-box; }
-  main { max-width:34rem; text-align:center; }
-  h1 { font-size:2.4rem; margin:0 0 .4rem; }
-  p { font-family: system-ui, sans-serif; line-height:1.55; color:var(--gray); margin:.6rem 0; }
-  .sub { font-family: Georgia, serif; font-style:italic; }
-</style>
-</head>
-<body>
-<main>
-  <h1>Israel Mosaic</h1>
-  <p class="sub">Maps, Graphs, Timelines, Images, and Knowledge of the Holy Land</p>
-  <p>The companion site for the book is launching soon. Every map, chart and timeline in the book will have its own page here.</p>
-</main>
-</body>
-</html>
+
+Static site for Israel Mosaic (israelinmaps.com), served by Cloudflare Pages from this repository.
