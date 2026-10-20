@@ -211,3 +211,10 @@ body.newspg main{padding-top:5px}
 .adslot[data-slot=page-top] .ad{margin:0}
 .newspage>.newsleftcol{grid-column:1;grid-row:1/3}
 @media (max-width:640px){.newspage>.adslot[data-slot=page-top]{grid-column:auto;grid-row:auto}.newspage>.newsleftcol{grid-column:auto;grid-row:auto}}
+
+.bar .ticker{max-width:728px;margin:0 auto}
+@media (min-width:1001px){
+body.newspg .bar{display:grid;grid-template-columns:170px minmax(0,1fr) 320px;gap:28px;align-items:center}
+body.newspg .bar .ticker{justify-self:center;width:100%;margin:0}
+body.newspg .bar .sf{width:100%}body.newspg .bar .sf input{flex:1;width:auto}
+}
