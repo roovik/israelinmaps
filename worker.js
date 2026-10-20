@@ -149,6 +149,7 @@ async function itemPage(request, env, k, sp, cp) {
     if (!cp || ch) {
       const r = await load({ id: src.id, name: src.name, site: src.site, url: ch ? ch.url : src.url });
       item = r.items.find(i => i.k === k) || null;
+      if (new URL(request.url).searchParams.get('debug')) return new Response(JSON.stringify({ asked: k, source: src.id, channel: cp || null, feedUrl: ch ? ch.url : src.url, ok: r.ok, error: r.error, count: r.items.length, keys: r.items.slice(0, 5).map(i => [i.k, i.t.slice(0, 50)]) }, null, 1), { headers: { 'Content-Type': 'application/json' } });
     }
   }
   let title, desc, body;
