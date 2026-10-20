@@ -701,14 +701,23 @@ home_cards = [('/maps/', 'Maps', '33 maps'), ('/timelines/', 'Timelines', '19 ti
               ('/tables/', 'Tables', '5 reference tables'), ('/tour/', 'A Taste of Israel', '10 regions, 71 stops'), ('/flora/', 'Flora and Fauna', '5 sections, 60 entries'),
               ('/glossary/', 'Glossary', '407 entries'), ('/index/', 'Index', 'Find any name or place')]
 cards = ''.join(f'<a class="card" href="{u}"><b>{t}</b><span>{d}</span></a>' for u, t, d in home_cards)
-home = f'''<section class="hero"><h1>About Israel <b>NOWlej</b></h1><p class="sub">News, Views, Maps, Timelines, Charts and Knowledge of the Holy Land</p>
-<p class="lead">The site of the book <i>Israel Mosaic</i>. Every map, chart, timeline and list in the book has its own page here, with a permanent ID you can type, cite or scan.</p>
-<form class="sf big" action="/search/" role="search"><input name="q" type="search" placeholder="Search, or type an ID such as MAP-002" aria-label="Search"><button>Search</button></form></section>
-<div class="cards">{cards}</div>
-'''
-
-home = home + '<hr>' + about.replace('<p class="crumb"><a href="/">Home</a> / About</p>', '').replace('<h1>How to Use This Site</h1>', '<h2>How to use this site</h2>')
-write('/about/', layout('About Israel NOWlej', home, 'About Israel NOWlej, and how the addresses, IDs and citations from the book Israel Mosaic work.', '/about/', '/img/p006.webp', cls='home'))
+_pick = lambda pre: [r for r in rows if r['prefix'] == pre][:1]
+_rep = _pick('MAP') + _pick('TL') + _pick('RNK') + _pick('TOP')
+_feat = [('masada', 'Masada'), ('iron-dome', 'Iron Dome'), ('abraham-accords', 'Abraham Accords'), ('dead-sea-scrolls', 'Dead Sea Scrolls'), ('theodor-herzl', 'Theodor Herzl'), ('jerusalem', 'Jerusalem')]
+_gb2 = {g['slug']: g for g in G}
+_fl = ''.join(f'<li><a href="/g/{x}/">{E(t)}</a></li>' for x, t in _feat if x in _gb2)
+cards = ''.join(f'<a class="card" href="{u}"><b>{t}</b><span>{d}</span></a>' for u, t, d in home_cards)
+about_text = ('<h1>About Israel <b>NOWlej</b></h1>'
+  '<p class="lead">Israel NOWlej is a growing, curated guide to Israel: its land, its history, its people and its news. It began as the companion to the book <i>Israel Mosaic</i> by Richard J. Koret. Every map, timeline, chart and glossary entry in the book has a permanent page here with its own ID, so a reader can scan the code in the print edition or type the address and arrive at the same place.</p>'
+  '<p>Around that foundation the site adds what a printed page cannot. A daily stream of news and views from Israeli and international publishers. Video chosen from credible channels. And for each topic a single NOWlej page that brings together a summary, images, video, related reading and the sources behind them.</p>'
+  '<p>The aim is a guide that is trustworthy and unhurried. Sources are named, image and text licenses are shown, and an editor approves what is featured.</p>'
+  '<form class="sf big" action="/search/" role="search"><input name="q" type="search" placeholder="Search, or type an ID such as MAP-002" aria-label="Search"><button>Search</button></form>')
+home = (f'<div class="newspage aboutpg"><div class="newsleftcol"><h2>From the book</h2>{tcards(_rep)}<p class="small">Each page of the book has a web page like these.</p></div>'
+        f'<div class="newsleft"><div class="newsmain">{about_text}<h2>Explore</h2><div class="cards">{cards}</div><hr>'
+        + about.replace('<p class="crumb"><a href="/">Home</a> / About</p>', '').replace('<h1>How to Use This Site</h1>', '<h2>How to use this site</h2>') +
+        f'</div></div><aside class="newsside" aria-label="Featured"><h2>Featured entries</h2><ul class="hlist">{_fl}</ul><p class="small"><a href="/glossary/">All 407 NOWlej entries</a></p>'
+        f'<span id="news-side" data-word="news" hidden></span><div id="news-latest"></div></aside></div><p class="small" id="news-status"></p>')
+write('/about/', layout('About Israel NOWlej', home, 'About Israel NOWlej, and how the addresses, IDs and citations from the book Israel Mosaic work.', '/about/', '/img/p006.webp', cls=''))
 
 news = '''<div class="newspage"><div class="adslot" data-slot="page-top" data-sizes="728x90|320x50"></div><div class="newsleftcol"><nav class="newstopics" id="news-topics" aria-label="Topics and sources"></nav><div class="adslot" data-slot="left" data-sizes="tower"></div></div><div class="newsleft"><h1>News</h1>
 <div class="newsmain">
