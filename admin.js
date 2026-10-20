@@ -41,8 +41,9 @@
   document.getElementById('adm-go').addEventListener('click',go);
   document.getElementById('adm-q').addEventListener('keydown',function(e){if(e.key==='Enter')go()});
   var ent=document.getElementById('adm-ent'),B=[];
-  fetch('/admin/batches.json').then(function(r){return r.json()}).then(function(b){B=b;b.forEach(function(x){var g=document.createElement('optgroup');g.label=x.name;x.entries.forEach(function(en){var o=document.createElement('option');o.value=en.slug;o.textContent=en.title;g.appendChild(o)});ent.appendChild(g)});prog()}).catch(function(){});
+  fetch('/admin/batches.json').then(function(r){return r.json()}).then(function(b){B=b;b.forEach(function(x){var g=document.createElement('optgroup');g.label=x.name;x.entries.forEach(function(en){var o=document.createElement('option');o.value=en.slug;o.textContent=en.title;g.appendChild(o)});ent.appendChild(g)});prog();if(qe){ent.value=qe;ent.dispatchEvent(new Event('change'))}}).catch(function(){});
   function prog(){var n=0,t=0;B.forEach(function(b){b.entries.forEach(function(en){t++;if(Object.keys(dec).some(function(k){return dec[k].e===en.slug&&dec[k].s==='yes'}))n++})});var p=document.getElementById('adm-prog');if(p&&t)p.textContent=n+' of '+t+' entries have an approved video.'}
+  var qe=new URLSearchParams(location.search).get('e');
   ent.addEventListener('change',function(){var o=ent.options[ent.selectedIndex];if(!ent.value)return;document.getElementById('adm-q').value=o.textContent+(/^(Israel|Iran|Gaza)$/.test(o.textContent)?'':' Israel');go()});
   var seen={};
   document.getElementById('adm-exp').addEventListener('click',function(){

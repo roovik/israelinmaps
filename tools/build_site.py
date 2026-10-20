@@ -300,7 +300,7 @@ def layout(title, body, desc='', path='/', og=None, cls='', nd=False):
 <main id="main" class="wrap">{body}</main>
 <footer><div class="wrap"><p>Israel NOWlej: news, views, maps, timelines, charts and media on the Holy Land.</p>
 <p>&copy; 2003 to 2026 Richard J. Koret. All rights reserved. Page images are shown for reference with the book <i>Israel Mosaic</i> by Richard J. Koret. <a href="/about/">How to use this site and cite it</a></p></div></footer>
-<script src="/site.js" defer></script><script src="/ticker.js" defer></script>{'<script src="/ads.js" defer></script><script src="/news.js" defer></script>' if news_js else ''}{'<script src="/subnav.js" defer></script>'}{'<script src="/video.js" defer></script>' if path.startswith('/video/') or path.startswith('/g/') else ''}{'<script src="/entry.js" defer></script>' if path.startswith('/g/') else ''}{'<script src="/glossary.js" defer></script>' if path == '/glossary/' else ''}{'<script src="/source.js" defer></script>' if path.startswith('/sources/') and path != '/sources/' else ''}{'<script src="/admin.js" defer></script>' if path == '/admin/video/' else ''}</body></html>'''
+<script src="/site.js" defer></script><script src="/ticker.js" defer></script>{'<script src="/ads.js" defer></script><script src="/news.js" defer></script>' if news_js else ''}{'<script src="/subnav.js" defer></script>'}{'<script src="/video.js" defer></script>' if path.startswith('/video/') or path.startswith('/g/') else ''}{'<script src="/entry.js" defer></script>' if path.startswith('/g/') else ''}{'<script src="/glossary.js" defer></script>' if path == '/glossary/' else ''}{'<script src="/source.js" defer></script>' if path.startswith('/sources/') and path != '/sources/' else ''}{'<script src="/admin.js" defer></script>' if path == '/admin/video/' else ''}{'<script src="/admin_entry.js" defer></script>' if path == '/admin/entry/' else ''}</body></html>'''
 
 def write(path, content):
     fp = os.path.join(OUT, path.lstrip('/'))
@@ -750,7 +750,7 @@ for i_, n_, u_, d_ in SRC:
     b_ = (f'<h1 id="src-h1" data-name="{E(n_)}">{E(n_)}</h1>{tabs_}<p>{E(d_)}</p><p class="small"><a href="{u_}" rel="noopener">Visit {E(n_)}</a> (external site)</p><p class="small" id="src-count"></p>'
           f'<div id="src-page" data-src="{i_}"></div><section id="src-nsec"><h2>Latest news</h2><div class="tgrid" id="src-news"><p>Loading.</p></div></section><section id="src-vsec"><h2>Latest views</h2><div class="tgrid" id="src-views"><p>Loading.</p></div></section>')
     write(f'/sources/{i_}/', layout(n_, chan('sources', b_, f'/sources/{i_}/'), f'Latest news and views from {n_}.', f'/sources/{i_}/'))
-ab_ = ('<h1>Video curation</h1><p class="small">Private working page. Candidates come from YouTube search and are shown only to help you decide. Nothing here changes the site until the exported list is added to <code>video.json</code>.</p>'
+ab_ = ('<h1>Video curation</h1><p class="small">Private working page. Candidates come from YouTube search and are shown only to help you decide. Nothing here changes the site until the exported list is added to <code>video.json</code>. <a href="/admin/entry/">Entry workbench</a></p>'
        '<div class="adm"><div class="admbar"><label>Entry <select id="adm-ent"><option value="">(free search)</option></select></label><span id="adm-prog" class="small"></span></div><div class="admbar"><label>Look for <input id="adm-q" type="search" placeholder="e.g. Abraham Accords" size="28"></label>'
        '<span class="vseg" role="group" aria-label="Type"><button type="button" data-k="channels" aria-pressed="true">Channels</button><button type="button" data-k="playlists" aria-pressed="false">Playlists</button><button type="button" data-k="videos" aria-pressed="false">Videos</button></span>'
        '<button type="button" id="adm-go" class="admgo">Search</button><span id="adm-st" class="small"></span></div>'
@@ -760,6 +760,13 @@ ab_ = ('<h1>Video curation</h1><p class="small">Private working page. Candidates
 _bt = json.load(open(os.path.join(ROOT, 'tools', 'batches.json')))
 _gb = {g['slug']: g for g in G}
 write('/admin/batches.json', json.dumps([{'id': b['id'], 'name': b['name'], 'entries': [{'slug': x, 'title': (_gb[x].get('title') or _gb[x]['name'])} for x in b['slugs'] if x in _gb]} for b in _bt['batches']], ensure_ascii=False))
+ae_ = ('<h1>Entry workbench</h1><p class="small">Private working page. One place to edit the text, approve images and approve video for each NOWlej entry. <a href="/admin/video/">Video curation</a></p>'
+       '<div class="adm"><div class="admbar"><label>Term <select id="ae-ent"><option value="">Choose a term</option></select></label><a id="ae-open" href="#" hidden target="_blank">Open the live page</a>'
+       '<span class="vseg" role="group" aria-label="Part" id="ae-tabs"><button type="button" data-t="text" aria-pressed="true">Text</button><button type="button" data-t="images" aria-pressed="false">Images</button><button type="button" data-t="video" aria-pressed="false">Video</button></span>'
+       '<button type="button" class="admgo" id="ae-exp">Export finished work</button></div>'
+       '<div id="ae-pane"><p>Choose a term above.</p></div><div id="ae-lb" hidden class="aelbo"></div>'
+       '<div id="ae-out" hidden><h2>Finished work</h2><p class="small">Copy this and send it to Claude.</p><textarea id="ae-ta" rows="14" readonly></textarea><p><button type="button" class="admgo" id="ae-copy">Copy</button></p></div></div>')
+write('/admin/entry/', layout('Entry workbench', ae_, 'Private editing page.', '/admin/entry/', cls='', nd=True))
 write('/admin/video/', layout('Video curation', ab_, 'Private curation page.', '/admin/video/', cls='', nd=True))
 gjson = []
 for g in G:
@@ -783,6 +790,7 @@ shutil.copy(os.path.join(ROOT, 'tools', 'subnav.js'), os.path.join(OUT, 'subnav.
 shutil.copy(os.path.join(ROOT, 'tools', 'video.js'), os.path.join(OUT, 'video.js'))
 shutil.copy(os.path.join(ROOT, 'tools', 'entry.js'), os.path.join(OUT, 'entry.js'))
 shutil.copy(os.path.join(ROOT, 'tools', 'admin.js'), os.path.join(OUT, 'admin.js'))
+shutil.copy(os.path.join(ROOT, 'tools', 'admin_entry.js'), os.path.join(OUT, 'admin_entry.js'))
 shutil.copy(os.path.join(ROOT, 'tools', 'glossary.js'), os.path.join(OUT, 'glossary.js'))
 # ---------------------------------------------------------------- data, assets, redirects, sitemap
 for e_ in search:
