@@ -285,10 +285,17 @@ async function videoApi(url, env) {
     } catch (e) { return new Response(JSON.stringify({ error: String(e) }), { status: 502, headers: hdr }); }
     return new Response(JSON.stringify({ note: 'Candidates only. Copy the good ones into the playlists list in video.json.', candidates: out }, null, 1), { headers: hdr });
   }
+  const pl = url.searchParams.get('playlist');
+  if (pl) {
+    const c = (VCFG.playlists || []).find(x => x.id === pl);
+    if (!c) return new Response(JSON.stringify({ channels: [] }), { status: 404, headers: hdr });
+    const r = await loadVideoSource(c, 'playlist');
+    return new Response(JSON.stringify({ updated: new Date().toISOString(), channels: r.ok ? [r] : [], playlists: (VCFG.playlists || []).map(({ id, name, channel }) => ({ id, name, channel: (channel || '').toLowerCase() })) }), { headers: { ...hdr, 'Cache-Control': 'public, max-age=900' } });
+  }
   const dbg = !!url.searchParams.get('debug');
-  const src = await Promise.all([...(VCFG.channels || []).map(c => loadVideoSource(c, 'channel', dbg)), ...(VCFG.playlists || []).map(c => loadVideoSource(c, 'playlist', dbg))]);
+  const src = await Promise.all((VCFG.channels || []).map(c => loadVideoSource(c, 'channel', dbg)));
   if (dbg) return new Response(JSON.stringify(src.map(({ videos, ...r }) => ({ ...r, count: videos.length })), null, 1), { headers: hdr });
-  return new Response(JSON.stringify({ updated: new Date().toISOString(), channels: src.filter(s => s.ok) }), { headers: { ...hdr, 'Cache-Control': 'public, max-age=900' } });
+  return new Response(JSON.stringify({ updated: new Date().toISOString(), channels: src.filter(s => s.ok), playlists: (VCFG.playlists || []).map(({ id, name, channel }) => ({ id, name, channel: (channel || '').toLowerCase() })) }), { headers: { ...hdr, 'Cache-Control': 'public, max-age=900' } });
 }
 
 export default {

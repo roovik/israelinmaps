@@ -13,7 +13,8 @@
   if(!root&&!chp&&!wt&&!gl)return;
   var P=new URLSearchParams(location.search);
   if(wt&&P.get('v')){host.innerHTML=embed(P.get('v'),true);host.hidden=false;if(P.get('t'))document.getElementById('vw-title').textContent=P.get('t')}
-  fetch('/api/videos').then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){
+  var plId=chp?chp.getAttribute('data-pl')||'':'';
+  fetch(plId?'/api/videos?playlist='+encodeURIComponent(plId):'/api/videos').then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){
     var chs=d.channels||[];function sl(c){return(c.kind==='playlist'?'pl-':'')+String(c.key).toLowerCase()}function lab(c){return c.name+(c.kind==='playlist'?' Playlist':' Videos')}
     chs.forEach(function(c){c.videos.forEach(function(v){v.c=sl(c);v.n=c.name})});
     if(root){
@@ -22,12 +23,13 @@
       all.sort(function(a,b){return(b.d||'').localeCompare(a.d||'')});
       host.innerHTML=embed(all[0].v,false);host.hidden=false;listText('Latest videos',all.slice(0,20));
       var h='<h2 id="ch-latest">Latest</h2><div class="tgrid">'+all.slice(0,12).map(card).join('')+'</div>';
-      [false,true].forEach(function(pl){var any=chs.filter(function(c){return(c.kind==='playlist')===pl});if(pl&&any.length)h+='<h2 class="vsec">Playlists</h2>';
-        any.forEach(function(c){h+='<section class="vch"><h2><a href="/video/'+esc(sl(c))+'/">'+esc(lab(c))+'</a></h2><div class="tgrid">'+c.videos.slice(0,8).map(card).join('')+'</div><p class="small"><a href="/video/'+esc(sl(c))+'/">See all</a></p></section>'})});
+      chs.forEach(function(c){h+='<section class="vch"><h2><a href="/video/'+esc(sl(c))+'/">'+esc(lab(c))+'</a></h2><div class="tgrid">'+c.videos.slice(0,8).map(card).join('')+'</div><p class="small"><a href="/video/'+esc(sl(c))+'/">All videos from '+esc(c.name)+'</a></p></section>'});
+      if((d.playlists||[]).length){h+='<h2 id="playlists">Playlists</h2>';chs.forEach(function(c){var pls=d.playlists.filter(function(x){return x.channel===String(c.key).toLowerCase()});if(pls.length)h+='<h3>'+esc(c.name)+'</h3><ul class="vpl">'+pls.map(function(x){return'<li><a href="/video/pl-'+esc(x.id.toLowerCase())+'/">'+esc(x.name)+'</a></li>'}).join('')+'</ul>'})}
       root.innerHTML=h;
     }
-    function listText(title,vs){var L=document.getElementById('vid-list');if(!L)return;
-      L.innerHTML='<h2>'+esc(title)+'</h2><ul>'+vs.map(function(v){return'<li><a class="vli" data-v="'+esc(v.v)+'" href="'+esc(wurl(v,v.c,v.t))+'">'+esc(v.t)+'</a><span class="wm">'+esc(v.n||'')+(v.d?' \u00b7 '+ago(v.d):'')+'</span></li>'}).join('')+'</ul>'}
+    function listText(title,vs,chkey){var L=document.getElementById('vid-list');if(!L)return;
+      var pls=(d.playlists||[]).filter(function(x){return x.channel===chkey});
+      L.innerHTML='<h2>'+esc(title)+'</h2><ul>'+vs.map(function(v){return'<li><a class="vli" data-v="'+esc(v.v)+'" href="'+esc(wurl(v,v.c,v.t))+'">'+esc(v.t)+'</a><span class="wm">'+esc(v.n||'')+(v.d?' \u00b7 '+ago(v.d):'')+'</span></li>'}).join('')+'</ul>'+(pls.length?'<h2>Playlists</h2><ul class="vpls">'+pls.map(function(x){return'<li><a href="/video/pl-'+esc(x.id.toLowerCase())+'/">'+esc(x.name)+'</a></li>'}).join('')+'</ul>':'')}
     function context(c,vid,titleEl,box){
       var byv={};c.videos.forEach(function(v){byv[v.v]=v});
       var now=document.createElement('div');now.className='vnow';host.parentNode.insertBefore(now,host.nextSibling);
@@ -40,11 +42,11 @@
       var pls=chs.filter(function(x){return x.kind==='playlist'&&x.channel&&x.channel===String(c.key).toLowerCase()&&x!==c});
       box.innerHTML='<h2>'+(titleEl?'More from ':'Recent from ')+esc(c.name)+'</h2><div class="tgrid">'+c.videos.map(card).join('')+'</div>'+(pls.length?'<h2>Playlists from '+esc(c.name)+'</h2><ul class="vpl">'+pls.map(function(x){return'<li><a href="/video/'+esc(sl(x))+'/">'+esc(x.name)+' Playlist</a> <small>'+x.videos.length+' videos</small></li>'}).join('')+'</ul>':'');
       CTX=function(id){setP(id,true);host.scrollIntoView({behavior:'smooth',block:'nearest'})};
-      listText('Videos in '+c.name,c.videos);
+      listText('Videos in '+c.name,c.videos,c.kind==='playlist'?(c.channel||''):String(c.key).toLowerCase());
       setP(vid&&byv[vid]?vid:c.videos[0].v,!!(vid&&byv[vid]));
     }
     if(chp){
-      var key=chp.getAttribute('data-key'),c=chs.filter(function(x){return sl(x)===key})[0];
+      var key=chp.getAttribute('data-key'),c=chs.filter(function(x){return sl(x)===key})[0];if(!c&&plId&&chs[0])c=chs[0];
       if(!c){chp.innerHTML='<p>No videos from this channel are available right now.</p>';return}
       context(c,P.get('v'),null,chp);
     }

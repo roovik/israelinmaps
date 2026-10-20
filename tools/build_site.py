@@ -354,7 +354,7 @@ def sec_groups(sk):
         return 'Media', '/media/', [('A Taste of Israel', '/tour/', [(byid[x + '-00']['url'], byid[x + '-00']['title']) for x in ['NEG', 'DSE', 'JUS', 'GAL', 'GOL', 'MED', 'TAJ', 'JHL', 'JRS', 'SHF']]),
                                     ('Flora and Fauna', '/flora/', [(byid[x + '-00']['url'], byid[x + '-00']['title']) for x in ['TRE', 'WFL', 'WLD', 'BRD', 'MIG']])]
     if sk == 'video':
-        return 'Video', '/video/', [('Channels', None, [('/video/#ch-latest', 'Latest')] + [(f'/video/{vslug(c)}/', c['name'] + ' Videos') for c in VCFG['channels']])] + ([('Playlists', None, [(f'/video/{plslug(c)}/', c['name'] + ' Playlist') for c in VCFG.get('playlists', [])])] if VCFG.get('playlists') else [])
+        return 'Video', '/video/', [('Channels', None, [('/video/#ch-latest', 'Latest')] + [(f'/video/{vslug(c)}/', c['name'] + ' Videos') for c in VCFG['channels']])] + ([('Playlists', None, [('/video/#playlists', 'All playlists')])] if VCFG.get('playlists') else [])
     if sk == 'glossary':
         ls = sorted({key(g['name'])[0].upper() for g in G})
         return 'NOWlej', '/glossary/', [('A to Z', None, [(f'/glossary/#l{L}', L) for L in ls])]
@@ -613,7 +613,7 @@ for c_ in VCFG['channels']:
     write(f'/video/{sl_}/', layout(c_['name'] + ' Videos', chan('video', f'<h1>{E(c_["name"])} Videos</h1><div class="vtop" id="vid-top" hidden></div><div id="vid-chan" data-key="{E(sl_)}"><p>Loading videos.</p></div>', f'/video/{sl_}/'), f'Videos from {c_["name"]}.', f'/video/{sl_}/'))
 for c_ in VCFG.get('playlists', []):
     sl_ = plslug(c_)
-    write(f'/video/{sl_}/', layout(c_['name'] + ' Playlist', chan('video', f'<h1>{E(c_["name"])} Playlist</h1><div class="vtop" id="vid-top" hidden></div><div id="vid-chan" data-key="{E(sl_)}"><p>Loading videos.</p></div>', f'/video/{sl_}/'), f'Playlist: {c_["name"]}.', f'/video/{sl_}/'))
+    write(f'/video/{sl_}/', layout(c_['name'] + ' Playlist', chan('video', f'<h1>{E(c_["name"])} Playlist</h1><div class="vtop" id="vid-top" hidden></div><div id="vid-chan" data-key="{E(sl_)}" data-pl="{E(c_["id"])}"><p>Loading videos.</p></div>', f'/video/{sl_}/'), f'Playlist: {c_["name"]}.', f'/video/{sl_}/'))
 write('/video/watch/', layout('Watch', chan('video', '<h1 id="vw-title">Video</h1><div class="vtop" id="vid-top" hidden></div><div id="vid-watch"></div>', '/video/'), 'Watch a video.', '/video/watch/', nd=True))
 write('/video/', layout('Video', chan('video', vb, '/video/'), 'Curated video from whitelisted channels, with a player and a gallery for each.', '/video/'))
 

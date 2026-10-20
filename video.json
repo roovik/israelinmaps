@@ -1,54 +1,367 @@
 {
-  "_note": "Whitelist (channels, playlists), blacklist (blockVideos, blockWords) and permanent pins for the Video tab and NOWlej entries. Handles in this starter list are unverified: the worker skips any it cannot resolve. /api/videos?debug=1 shows what resolved. Add an explicit 'id' (UC... channel id) to skip the lookup. Playlists: {\"id\":\"PL...\",\"name\":\"...\",\"channel\":\"handle (optional, lists it on that channel page)\"}. A playlist can belong to any channel, including ones not on the channel whitelist.",
-  "channels": [
-    {
-      "handle": "IDF",
-      "name": "Israel Defense Forces"
-    },
-    {
-      "handle": "IsraelMFA",
-      "name": "Israel Ministry of Foreign Affairs"
-    },
-    {
-      "handle": "StandWithUs",
-      "name": "StandWithUs"
-    },
-    {
-      "handle": "HonestReporting",
-      "name": "HonestReporting"
-    },
-    {
-      "handle": "i24NEWS_EN",
-      "name": "i24NEWS English"
-    },
-    {
-      "handle": "AIPAC",
-      "name": "AIPAC"
-    },
-    {
-      "handle": "UnitedWithIsrael",
-      "name": "United with Israel"
-    },
-    {
-      "handle": "TheJerusalemPost",
-      "name": "The Jerusalem Post"
-    },
-    {
-      "handle": "timesofisrael",
-      "name": "The Times of Israel"
-    }
-  ],
-  "playlists": [],
-  "blockVideos": [],
-  "blockWords": [],
-  "pinned": {},
-  "discover": [
-    "Israel history documentary",
-    "Jerusalem history",
-    "Zionism explained",
-    "Israel archaeology",
-    "Israel innovation",
-    "Holy Land tour",
-    "Israel pro-Israel advocacy"
-  ]
+ "_note": "Channels and playlists here were checked by hand in a browser on 20 Oct 2026. Playlists are listed under their channel in the right column of the Video pages and open on their own pages. A playlist can belong to any channel, even one not whitelisted. Add blockVideos (video ids) or blockWords (title words) to hide items. United with Israel has no verified channel yet.",
+ "channels": [
+  {
+   "handle": "IsraelDefenseForces",
+   "id": "UCawNWlihdgaycQpO3zi-jYg",
+   "name": "Israel Defense Forces",
+   "check": "Please verify. Evidence: channel about page links to x.com/IDF; you confirmed this is the right IDF channel"
+  },
+  {
+   "handle": "IsraelMFA",
+   "id": "UC6zZ6ROUfiMqSRrsMQamlhA",
+   "name": "Israel Ministry of Foreign Affairs",
+   "check": "Please verify. Evidence: about page links to twitter.com/israelmfa"
+  },
+  {
+   "handle": "StandWithUs",
+   "id": "UCfmSignFWkk1lw4015hCyyQ",
+   "name": "StandWithUs",
+   "check": "Please verify. Evidence: about page links to linktr.ee/stand_with_us"
+  },
+  {
+   "handle": "HonestReportingVideo",
+   "id": "UCxb2M5GmklFJxkRbH3pGM4Q",
+   "name": "HonestReporting",
+   "check": "Please verify. Evidence: about page links to linktr.ee/honestreporting"
+  },
+  {
+   "handle": "i24NEWS_EN",
+   "id": "UCvHDpsWKADrDia0c99X37vg",
+   "name": "i24NEWS English",
+   "check": "Please verify. Evidence: about page links to i24news.tv/en"
+  },
+  {
+   "handle": "AIPAC",
+   "id": "UCxG28n8wj0thZukIZ56-9uQ",
+   "name": "AIPAC",
+   "check": "Please verify. Evidence: about page links to aipac.org pages and twitter.com/AIPAC"
+  },
+  {
+   "handle": "TheJerusalem_Post",
+   "id": "UCLLLdCANnMAdMyrXdYbSlxg",
+   "name": "The Jerusalem Post",
+   "check": "Please verify. Evidence: about page links to jpost.com and facebook.com/TheJerusalemPost"
+  },
+  {
+   "handle": "timesofisrael",
+   "id": "UCKM3VQFIITaRegPDkLlLeKA",
+   "name": "The Times of Israel",
+   "check": "Please verify. Evidence: about page links to timesofisrael.com"
+  }
+ ],
+ "playlists": [
+  {
+   "id": "PLObnKQho8o8PEvjrcyulkWgjbG0A2NM98",
+   "name": "Operation Roaring Lion",
+   "channel": "israeldefenseforces"
+  },
+  {
+   "id": "PLObnKQho8o8O7mLG5BqCUokOOGyIFlSl4",
+   "name": "Operation Rising Lion",
+   "channel": "israeldefenseforces"
+  },
+  {
+   "id": "PLObnKQho8o8Pjsgw5HH9HvZ0ujucfR0M5",
+   "name": "Humanitarian Aid",
+   "channel": "israeldefenseforces"
+  },
+  {
+   "id": "PLObnKQho8o8PpSzS-N6-m9ZHPdaGvEgSf",
+   "name": "Bringing Them Home",
+   "channel": "israeldefenseforces"
+  },
+  {
+   "id": "PLObnKQho8o8OV_tiCVpNpKFPU_ccNl0s1",
+   "name": "5 Stories of Israeli Grief",
+   "channel": "israeldefenseforces"
+  },
+  {
+   "id": "PLObnKQho8o8NIb_9DO3x4-FnS6UaVioK6",
+   "name": "Operation Iron Shield",
+   "channel": "israeldefenseforces"
+  },
+  {
+   "id": "PLObnKQho8o8PEHsnoxBXgUgJJXXI3AJHs",
+   "name": "Targeted Operations: Hospitals in Gaza",
+   "channel": "israeldefenseforces"
+  },
+  {
+   "id": "PLObnKQho8o8McLVlczAE3WiSwvAFyak9_",
+   "name": "Hamas Unfiltered",
+   "channel": "israeldefenseforces"
+  },
+  {
+   "id": "PLbw5mtV2rmNc",
+   "name": "October 7",
+   "channel": "israelmfa"
+  },
+  {
+   "id": "PLVWsHVeg71cG9JNNeWyojjnq12kGzZX8r",
+   "name": "Israel: Culture",
+   "channel": "israelmfa"
+  },
+  {
+   "id": "PLVWsHVeg71cEaT6PAvs-veSblhWbyYFp3",
+   "name": "Lebanon and Hezbollah",
+   "channel": "israelmfa"
+  },
+  {
+   "id": "PLVWsHVeg71cFZ0PCtbhnggX3cxjChM6Ax",
+   "name": "Stop Iran Now",
+   "channel": "israelmfa"
+  },
+  {
+   "id": "PLVWsHVeg71cGh32L4XsB7h0tKg5ehpJJM",
+   "name": "Hostages Held by Hamas",
+   "channel": "israelmfa"
+  },
+  {
+   "id": "PLZGtg0mfDIh0",
+   "name": "UNmask the UN",
+   "channel": "israelmfa"
+  },
+  {
+   "id": "PLqxFcGGWntc-2Ae3v6F4uozqbbM3U1eqa",
+   "name": "StandWithUs Conference 2026",
+   "channel": "standwithus"
+  },
+  {
+   "id": "PLqxFcGGWntc_iX9qnm4134EA3Sp5D_ofX",
+   "name": "War With Iran",
+   "channel": "standwithus"
+  },
+  {
+   "id": "PLqxFcGGWntc_5FgSa1zX0hJUVvcD7JP7D",
+   "name": "Hezbollah and the Iranian Regime",
+   "channel": "standwithus"
+  },
+  {
+   "id": "PLqxFcGGWntc-8LyXOD0ELipb-l6vMQA2e",
+   "name": "Israel in Focus",
+   "channel": "standwithus"
+  },
+  {
+   "id": "PLqxFcGGWntc_QaU4FSER-uR26F5HNpuFV",
+   "name": "Jewish Pride",
+   "channel": "standwithus"
+  },
+  {
+   "id": "PLqxFcGGWntc-KQ1pnOs25kPldQI0fFCT7",
+   "name": "Israel in Archaeology",
+   "channel": "standwithus"
+  },
+  {
+   "id": "PLqxFcGGWntc_kTSDCQtrT-4hqtwmjyktQ",
+   "name": "In Focus Interview",
+   "channel": "standwithus"
+  },
+  {
+   "id": "PLLuF-lEHTGTxt9rEk0nbon92YW5KWebRu",
+   "name": "Israel: Written in Stone",
+   "channel": "honestreportingvideo"
+  },
+  {
+   "id": "PLLuF-lEHTGTzeSMmvnQhTXsPjOAT0no9z",
+   "name": "Iran",
+   "channel": "honestreportingvideo"
+  },
+  {
+   "id": "PLLuF-lEHTGTwcjOgVqbfsQIE1dhk4wVLO",
+   "name": "Media",
+   "channel": "honestreportingvideo"
+  },
+  {
+   "id": "PLLuF-lEHTGTyBlAM9EIYPoSGGxm5HcfPH",
+   "name": "Hamas",
+   "channel": "honestreportingvideo"
+  },
+  {
+   "id": "PLLuF-lEHTGTwaxqLAu_ARypd27KFyFY_c",
+   "name": "Narratives",
+   "channel": "honestreportingvideo"
+  },
+  {
+   "id": "PLLuF-lEHTGTwk2IkZmLVNi9TT3yNgUNX7",
+   "name": "Hezbollah",
+   "channel": "honestreportingvideo"
+  },
+  {
+   "id": "PLLuF-lEHTGTx5hIggLXaG9hhWZbRPbErQ",
+   "name": "HR in a Minute",
+   "channel": "honestreportingvideo"
+  },
+  {
+   "id": "PLLuF-lEHTGTwQ_sLoa-NBS9sF_--Q4U8U",
+   "name": "Red Lines: 8 Categories of Media Bias",
+   "channel": "honestreportingvideo"
+  },
+  {
+   "id": "PLU7A1Okoyk6U",
+   "name": "Israel Out Loud",
+   "channel": "i24news_en"
+  },
+  {
+   "id": "PLA64DU5vB1dY",
+   "name": "IsraEats",
+   "channel": "i24news_en"
+  },
+  {
+   "id": "PLxnSgwbAmIte7ORAnGrCw6fEjqgG9hO-b",
+   "name": "Opinionated",
+   "channel": "i24news_en"
+  },
+  {
+   "id": "PLxnSgwbAmItdrPJNL3HWEc2Q4OLKjTR_G",
+   "name": "Innov'Nation",
+   "channel": "i24news_en"
+  },
+  {
+   "id": "PLxnSgwbAmItfiVDHPIO15nEBgC_YxsXmN",
+   "name": "Global Eye",
+   "channel": "i24news_en"
+  },
+  {
+   "id": "PLxnSgwbAmItflzqZr7Z-mrF6eeh2Gi2sm",
+   "name": "Jewish World Weekly",
+   "channel": "i24news_en"
+  },
+  {
+   "id": "PLxnSgwbAmItcSmzyqP_mu6VGC5UFqjzzt",
+   "name": "Middle East Now",
+   "channel": "i24news_en"
+  },
+  {
+   "id": "PLxnSgwbAmItc1MGHbZqY53vqVTr_Z4fIf",
+   "name": "The Rundown",
+   "channel": "i24news_en"
+  },
+  {
+   "id": "PLGrpphaV_cl2aKx203fhM52OpnvC1CsyR",
+   "name": "This Is Israel",
+   "channel": "aipac"
+  },
+  {
+   "id": "PLGrpphaV_cl0yz1NzyxqIfp4Hktex3hQo",
+   "name": "America and Israel: Confronting the Iranian Regime",
+   "channel": "aipac"
+  },
+  {
+   "id": "PLGrpphaV_cl2MT-C3Rpp2GL4GwLsW-HJA",
+   "name": "AIPAC Congressional Summit 2026",
+   "channel": "aipac"
+  },
+  {
+   "id": "PLGrpphaV_cl0AkdtKIPOvQtoQntM6VWod",
+   "name": "Israel Innovates, Americans Benefit",
+   "channel": "aipac"
+  },
+  {
+   "id": "PLGrpphaV_cl3if_znliHUJ5nBJxRjMfGt",
+   "name": "U.S. Support for Israel",
+   "channel": "aipac"
+  },
+  {
+   "id": "PLGrpphaV_cl3hEXNDJ3ewtg5aqB5xy864",
+   "name": "Remembering October 7",
+   "channel": "aipac"
+  },
+  {
+   "id": "PLbXejpxwLrMk",
+   "name": "The Jerusalem Playlist",
+   "channel": "thejerusalem_post"
+  },
+  {
+   "id": "PLajQaF9zvcRqtc9LbBqdLPWmB29WgcmUK",
+   "name": "Interviews",
+   "channel": "thejerusalem_post"
+  },
+  {
+   "id": "PLajQaF9zvcRol6bMofm418A7L69ueBhiO",
+   "name": "In the News",
+   "channel": "thejerusalem_post"
+  },
+  {
+   "id": "PLajQaF9zvcRr1JP_WKeK3zocIHadiuscm",
+   "name": "Remembrance Day",
+   "channel": "thejerusalem_post"
+  },
+  {
+   "id": "PLajQaF9zvcRp83lD4ld58nmHAaSnIT7aM",
+   "name": "Scratching the Surface",
+   "channel": "thejerusalem_post"
+  },
+  {
+   "id": "PLajQaF9zvcRqIcPRr4o0p8k_UNU5XL4u3",
+   "name": "The Jerusalem Dispatch",
+   "channel": "thejerusalem_post"
+  },
+  {
+   "id": "PLajQaF9zvcRoXK_ebFuhHBGsdMW3_f2WD",
+   "name": "Business and Innovation",
+   "channel": "thejerusalem_post"
+  },
+  {
+   "id": "PLWdP-woTlyNg",
+   "name": "ToI Live",
+   "channel": "timesofisrael"
+  },
+  {
+   "id": "PLDgh7TeN8ZsE",
+   "name": "Peoples of Israel",
+   "channel": "timesofisrael"
+  },
+  {
+   "id": "PLnR6FOcOvFdO3c-Euy73Zk0SsgwMIP1vr",
+   "name": "Here's The Thing",
+   "channel": "timesofisrael"
+  },
+  {
+   "id": "PLnR6FOcOvFdPfMQwJIvbvU1yuUnXs1oS9",
+   "name": "DocuNation",
+   "channel": "timesofisrael"
+  },
+  {
+   "id": "PLnR6FOcOvFdN5x569AFGzpC7deJR157oS",
+   "name": "Through the Land",
+   "channel": "timesofisrael"
+  },
+  {
+   "id": "PLnR6FOcOvFdOEyG3ZqkFe4s-APRzJo8hI",
+   "name": "Times of War",
+   "channel": "timesofisrael"
+  },
+  {
+   "id": "PLnR6FOcOvFdNm2k2L8hvlRkIirikcsd-g",
+   "name": "State of Jerusalem",
+   "channel": "timesofisrael"
+  },
+  {
+   "id": "PLnR6FOcOvFdOcqSgHFWE16mRAyc8ELG8a",
+   "name": "Behind the Headlines",
+   "channel": "timesofisrael"
+  },
+  {
+   "id": "PLnR6FOcOvFdPQt_lD-5sn4m1_bBRZlgEN",
+   "name": "Israel in 360",
+   "channel": "timesofisrael"
+  },
+  {
+   "id": "PLnR6FOcOvFdN3ylVA9COSfnn814kS5OrN",
+   "name": "Religion and Holidays",
+   "channel": "timesofisrael"
+  }
+ ],
+ "blockVideos": [],
+ "blockWords": [],
+ "pinned": {},
+ "discover": [
+  "Israel history documentary",
+  "Jerusalem history",
+  "Zionism explained",
+  "Israel archaeology",
+  "Israel innovation",
+  "Holy Land tour",
+  "Israel pro-Israel advocacy"
+ ]
 }
