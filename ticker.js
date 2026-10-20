@@ -8,7 +8,7 @@
   fetch('/api/news?v=2').then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(data){
     var week=7*864e5,dated=data.items.filter(function(i){return i.d&&Date.now()-new Date(i.d)<=week}).slice(0,12);
     if(!dated.length)return;
-    tk.innerHTML=dated.map(function(i,n){return'<a class="tki'+(n?'':' on')+'" href="'+esc(iu(i))+'"><span class="tkt">'+esc(i.t)+'</span><span class="tkm">'+esc(i.src)+' · '+when(i.d)+'</span></a>'}).join('');
+    tk.innerHTML=dated.map(function(i,n){return'<a class="tki'+(n?'':' on')+'" href="'+esc(iu(i))+'"><span class="tkt">'+esc(i.t)+'</span><span class="tkm"><em>Latest</em> · '+esc(i.src)+' · '+when(i.d)+'</span></a>'}).join('');
     tk.hidden=false;
     function fit(){var m=0;[].forEach.call(tk.children,function(e){var h=0;[].forEach.call(e.children,function(c){h+=c.offsetHeight});if(h>m)m=h});tk.style.height=(m+16)+'px'}
     fit();window.addEventListener('resize',fit);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fit);

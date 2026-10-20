@@ -405,3 +405,4 @@ nav.wrap a[data-n="9"]:hover,nav.wrap a[data-n="9"].hov{color:#6a3d9a;border-col
 .bar .ticker,body.newspg .bar .ticker{margin:0 auto 0 0;justify-self:start}
 .ticker .tki{align-items:flex-start;text-align:left}.tkt{font-size:1rem}.tkm{font-size:.84rem}
 .bar .ticker{height:4em!important}
+.tkm em{font-style:normal;font-weight:700;text-transform:uppercase;letter-spacing:.05em;font-size:.72rem;color:var(--acc)}
