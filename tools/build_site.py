@@ -291,10 +291,10 @@ def layout(title, body, desc='', path='/', og=None, cls='', nd=False):
     return f'''<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{E(full)}</title><meta name="description" content="{E(d)}">
-<link rel="canonical" href="{BASE}{path}"><meta property="og:title" content="{E(full)}"><meta property="og:description" content="{E(d)}">{img}{robots}
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="canonical" href="{BASE}{path}"><meta property="og:title" content="{E(full)}"><meta property="og:description" content="{E(d)}">{img}{robots}
 <link rel="stylesheet" href="/style.css"></head>
 <body class="{cls}"><a class="skip" href="#main">Skip to content</a>
-<header class="top"><div class="wrap bar"><a class="brand" href="/">Israel <b>NOWlej</b></a><div class="ticker" id="news-ticker" aria-label="Latest headlines" hidden></div>
+<header class="top"><div class="wrap bar"><a class="brand" href="/" aria-label="Israel NOWlej, home"><img src="/logo.svg" alt="Israel NOWlej" width="160" height="52"></a><div class="ticker" id="news-ticker" aria-label="Latest headlines" hidden></div>
 <div class="rcol"><div class="acct"><a class="subbtn" href="/subscribe/">Subscribe</a><a class="signin" href="/signin/">Sign in</a></div><form class="sf" action="/search/" role="search"><input name="q" type="search" placeholder="Search maps, people, places, IDs" aria-label="Search"><button>Search</button></form></div></div>
 <nav class="wrap" aria-label="Sections">{nav}</nav>{subnav_for(path)}</header>
 <main id="main" class="wrap">{body}</main>
