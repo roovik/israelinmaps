@@ -1,11 +1,11 @@
 // Israel Mosaic news worker. Serves /api/news from public RSS and Atom feeds.
 // Static pages are served by the assets binding. Only /api/* runs this code first.
 const FEEDS = [
-  { id: 'toi', name: 'The Times of Israel', url: 'https://www.timesofisrael.com/feed/' },
-  { id: 'jpost', name: 'The Jerusalem Post', url: 'https://www.jpost.com/rss/rssfeedsfrontpage.aspx' },
-  { id: 'ynet', name: 'Ynetnews', url: 'https://www.ynetnews.com/Integration/StoryRss3082.xml' },
-  { id: 'jns', name: 'JNS', url: 'https://www.jns.org/feed/' },
-  { id: 'israelhayom', name: 'Israel Hayom', url: 'https://www.israelhayom.com/feed/' },
+  { id: 'toi', site: 'https://www.timesofisrael.com/', name: 'The Times of Israel', url: 'https://www.timesofisrael.com/feed/' },
+  { id: 'jpost', site: 'https://www.jpost.com/', name: 'The Jerusalem Post', url: 'https://www.jpost.com/rss/rssfeedsfrontpage.aspx' },
+  { id: 'ynet', site: 'https://www.ynetnews.com/', name: 'Ynetnews', url: 'https://www.ynetnews.com/Integration/StoryRss3082.xml' },
+  { id: 'jns', site: 'https://www.jns.org/', name: 'JNS', url: 'https://www.jns.org/feed/' },
+  { id: 'israelhayom', site: 'https://www.israelhayom.com/', name: 'Israel Hayom', url: 'https://www.israelhayom.com/feed/' },
 ];
 const PER_FEED = 12, TOTAL = 72, TIMEOUT = 8000, MAX_AGE_DAYS = 10;
 
@@ -108,7 +108,7 @@ export default {
     }
     const results = await Promise.all(FEEDS.map(load));
     const items = results.flatMap(r => r.items).sort((a, b) => (b.d || '').localeCompare(a.d || '')).slice(0, TOTAL);
-    const body = JSON.stringify({ updated: new Date().toISOString(), sources: results.map(r => ({ id: r.feed.id, name: r.feed.name, ok: r.ok, count: r.items.length, error: r.error, img: !!r.img })), items });
+    const body = JSON.stringify({ updated: new Date().toISOString(), sources: results.map(r => ({ id: r.feed.id, name: r.feed.name, site: r.feed.site, ok: r.ok, count: r.items.length, error: r.error, img: !!r.img })), items });
     return new Response(body, { headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'public, max-age=600', 'Access-Control-Allow-Origin': '*' } });
   },
 };
