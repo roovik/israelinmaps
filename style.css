@@ -415,3 +415,13 @@ nav.wrap a[data-n="9"]:hover,nav.wrap a[data-n="9"].hov{color:#6a3d9a;border-col
 @media (max-width:640px){.tlmosaic{grid-template-columns:repeat(3,1fr)}}
 /* widget column: source names and headline titles one point smaller */
 .wsrc h3{font-size:.875rem}.wsrc li{font-size:.81rem}.newsside h3{font-size:.875rem}
+
+/* mobile: Sources and Topics as horizontal scrolling rows */
+@media (max-width:640px){
+.newstopics.mobnav{display:flex;flex-direction:column;gap:6px;position:static;overflow:visible}
+.mobnav .mrow{display:flex;gap:6px;overflow-x:auto;align-items:center;padding:2px 0 6px;-webkit-overflow-scrolling:touch;scrollbar-width:thin}
+.mobnav .mlab{flex:none;font:700 .68rem system-ui,sans-serif;text-transform:uppercase;letter-spacing:.06em;color:var(--mut);padding-right:2px}
+.mobnav .mrow button{flex:none;white-space:nowrap;display:block;text-align:center;font:inherit;font-size:.82rem;padding:6px 12px;border:1px solid var(--line);border-radius:99px;background:var(--card);color:inherit;cursor:pointer}
+.mobnav .mrow button[aria-pressed=true]{background:var(--btn);color:#fff;border-color:var(--btn)}
+.mobnav .mrow button i{font-style:normal;opacity:.7;font-size:.72rem;margin-left:3px}
+}

@@ -85,7 +85,19 @@
         return s.groups.map(function(g){return{group:g.group,list:g.list.filter(function(c){return a.ok[c.id]})}}).filter(function(g){return g.list.length})}
       function srcItems(id){return data.items.filter(function(i){return i.s===id})}
       function topicBtns(items,cur,attr){return TOPICS.map(function(x){var n=items.filter(function(i){return i.tp&&i.tp.indexOf(x[0])>-1}).length;return n?'<button '+attr+'="'+x[0]+'" aria-pressed="'+(cur===x[0])+'">'+x[1]+' <i>'+n+'</i></button>':''}).join('')}
+      var MQ=window.matchMedia?matchMedia('(max-width:640px)'):{matches:false};
+      function drawNavM(){
+        var h='<div class="mrow" role="group" aria-label="Sources"><span class="mlab">Sources</span>'+good.map(function(s){return'<button data-ms="'+s.id+'" aria-pressed="'+(state.mode==='sources'&&state.src===s.id)+'">'+esc(s.name)+'</button>'}).join('')+'</div>';
+        h+='<div class="mrow" role="group" aria-label="Topics"><span class="mlab">Topics</span><button data-mt="" aria-pressed="'+(state.mode==='topics'&&!state.tp)+'">All</button>'+topicBtns(data.items,state.mode==='topics'?state.tp:null,'data-mt')+'</div>';
+        if(state.mode==='sources'&&state.src){
+          var s0=byId[state.src];
+          if(s0){var lg=null;if(s0.groups){probe(s0);lg=liveGroups(s0)}
+            h+='<div class="mrow" role="group" aria-label="'+esc(s0.name)+' sections"><span class="mlab">'+esc(s0.name)+'</span><button data-a="1" aria-pressed="'+(!state.sub&&!state.ch)+'">All</button>'+(lg&&lg.length?lg.map(function(g){return g.list.map(function(c){return'<button data-s="'+s0.id+'" data-c="'+c.id+'" aria-pressed="'+(state.ch===s0.id+'/'+c.id)+'">'+esc(c.name)+'</button>'}).join('')}).join(''):topicBtns(srcItems(s0.id),state.sub,'data-k'))+'</div>'}
+        }
+        tpn.innerHTML=h;tpn.classList.add('mobnav')}
       function drawNav(){
+        if(MQ.matches){drawNavM();return}
+        tpn.classList.remove('mobnav');
         var h='<div class="nmode" role="group" aria-label="Browse by"><button data-m="sources" aria-pressed="'+(state.mode==='sources')+'">Sources</button><button data-m="topics" aria-pressed="'+(state.mode==='topics')+'">Topics</button></div>';
         if(state.mode==='topics'){
           h+='<div class="nsub top"><button data-t="" aria-pressed="'+(!state.tp)+'">All topics</button>'+topicBtns(data.items,state.tp,'data-t')+'</div>';
@@ -158,6 +170,8 @@
         paint(items);
       }
       tpn.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;
+        if(b.hasAttribute('data-ms')){var ms=b.getAttribute('data-ms'),was=state.mode==='sources'&&state.src===ms;state.mode='sources';state.src=was?null:ms;state.sub=null;state.ch=null;state.tp=null;state.q=null;state.kind=null;render();return}
+        if(b.hasAttribute('data-mt')){var mt0=b.getAttribute('data-mt')||null;state.mode='topics';state.src=null;state.sub=null;state.ch=null;state.q=null;state.kind=null;state.tp=state.tp===mt0?null:mt0;render();return}
         if(b.hasAttribute('data-m')){state.mode=b.getAttribute('data-m');state.src=null;state.sub=null;state.ch=null;state.tp=null;state.q=null;state.kind=null;render();return}
         var h=b.getAttribute('data-h');
         if(h){state.src=state.src===h?null:h;state.sub=null;state.ch=null;render();return}
@@ -167,6 +181,7 @@
         if(b.hasAttribute('data-t')){var t=b.getAttribute('data-t')||null;state.tp=state.tp===t?null:t;render()}
       });
       g2.addEventListener('change',render);
+      if(MQ.addEventListener)MQ.addEventListener('change',function(){drawNav()});
       if(item)drawNav();else{applyHash();render();
         window.addEventListener('hashchange',function(){state={mode:'sources',src:null,sub:null,tp:null,ch:null,q:null,kind:null};applyHash();render()});
         document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[data-clr]');if(a){e.preventDefault();history.pushState(null,'',location.pathname);state={mode:'sources',src:null,sub:null,tp:null,ch:null,q:null,kind:null};render()}})}
