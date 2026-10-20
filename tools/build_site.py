@@ -258,7 +258,7 @@ NAV = [('/maps/', 'Maps'), ('/timelines/', 'Timelines'), ('/rankings/', 'Ranking
 BASE = 'https://israelinmaps.com'
 
 def layout(title, body, desc='', path='/', og=None, cls='', nd=False):
-    news_js = path == '/news/' or path.startswith('/g/')
+    news_js = path == '/news/' or path.startswith('/g/') or path.startswith('/news/item/')
     nav = ''.join(f'<a href="{u}">{t}</a>' for u, t in NAV)
     full = f'{title} | Israel Mosaic' if title != 'Israel Mosaic' else 'Israel Mosaic'
     d = desc or 'Maps, graphs, timelines, images, and knowledge of the Holy Land. The companion site to the book Israel Mosaic.'
@@ -538,7 +538,7 @@ news = '''<div class="newspage"><div class="newsleft"><div class="ticker" id="ne
 <aside class="newsside" aria-label="Latest headlines"><div id="news-latest"></div><h2>By source</h2><div id="news-widget"></div></aside></div>
 <p class="small" id="news-status"></p>'''
 write('/news/', layout('News', news, 'Headlines from public news feeds about Israel, linked to the Israel Mosaic glossary.', '/news/', cls='newspg'))
-write('/news/item-template/', layout('@@TITLE@@', '@@BODY@@', '@@DESC@@', '/news/item/@@K@@/', cls='itempg', nd=True))
+write('/news/item-template/', layout('@@TITLE@@', '<div class="newspage"><div class="newsleft"><div class="ticker" id="news-ticker" aria-label="Latest headlines" hidden></div><div class="newsgrid"><nav class="newstopics" id="news-topics" aria-label="Topics and sources"></nav><div class="newsmain" id="news-item">@@BODY@@</div></div></div><aside class="newsside" aria-label="Latest headlines"><div id="news-latest"></div><h2>By source</h2><div id="news-widget"></div></aside></div><p class="small" id="news-status"></p>', '@@DESC@@', '/news/item/@@K@@/', cls='newspg', nd=True))
 gjson = []
 for g in G:
     if g.get('cf'):
