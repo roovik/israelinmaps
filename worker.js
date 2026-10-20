@@ -198,16 +198,24 @@ async function itemPage(request, env, k, sp, cp) {
   return new Response(html, { status, headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': status === 200 ? 'public, max-age=900' : 'no-store', 'X-Robots-Tag': 'noindex' } });
 }
 // ---------------------------------------------------------------- video: whitelisted channels and playlists
-const YT_UA = { 'User-Agent': 'Mozilla/5.0 (compatible; IsraelNOWlej/1.0; +https://israelinmaps.com/video/)', 'Accept-Language': 'en' };
-async function resolveChannel(c) {
+const YT_UA = { 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36', 'Accept-Language': 'en-US,en;q=0.9', Cookie: 'CONSENT=YES+1; SOCS=CAI' };
+// small last-good store in the edge cache, so one bad fetch does not blank a channel
+async function memGet(k) { try { const r = await caches.default.match(new Request('https://cache.local/' + k)); return r ? await r.json() : null; } catch { return null; } }
+async function memPut(k, v, ttl) { try { await caches.default.put(new Request('https://cache.local/' + k), new Response(JSON.stringify(v), { headers: { 'Cache-Control': 'max-age=' + ttl } })); } catch {} }
+async function resolveChannel(c, diag) {
   if (c.id) return c.id;
-  try {
-    const r = await fetch('https://www.youtube.com/@' + encodeURIComponent(c.handle), { headers: YT_UA, cf: { cacheTtl: 86400, cacheEverything: true } });
-    if (!r.ok) return '';
-    const t = await r.text();
-    const m = t.match(/"(?:channelId|externalId)":"(UC[\w-]{22})"/) || t.match(/channel\/(UC[\w-]{22})/);
-    return m ? m[1] : '';
-  } catch { return ''; }
+  const known = await memGet('chid/' + c.handle);
+  if (known && known.id) return known.id;
+  for (const path of ['', '/about', '/videos']) {
+    try {
+      const r = await fetch('https://www.youtube.com/@' + encodeURIComponent(c.handle) + path, { headers: YT_UA, redirect: 'follow' });
+      const t = r.ok ? await r.text() : '';
+      if (diag) diag.push({ path, status: r.status, bytes: t.length, consent: /consent\.youtube\.com|Before you continue/i.test(t) });
+      const m = t.match(/"(?:channelId|externalId|browseId)":"(UC[\w-]{22})"/) || t.match(/rel="canonical" href="https:\/\/www\.youtube\.com\/channel\/(UC[\w-]{22})"/) || t.match(/channel\/(UC[\w-]{22})/);
+      if (m) { await memPut('chid/' + c.handle, { id: m[1] }, 30 * 86400); return m[1]; }
+    } catch (e) { if (diag) diag.push({ path, error: String(e) }); }
+  }
+  return '';
 }
 function vparse(xml) {
   const out = [];
@@ -222,17 +230,23 @@ function vblocked(x) {
   const bw = (VCFG.blockWords || []).map(w => w.toLowerCase());
   return (VCFG.blockVideos || []).includes(x.v) || bw.some(w => (x.t + ' ' + x.x).toLowerCase().includes(w));
 }
-async function loadVideoSource(c, kind) {
-  const id = kind === 'playlist' ? c.id : await resolveChannel(c);
+async function loadVideoSource(c, kind, diag) {
   const key = kind === 'playlist' ? c.id : (c.handle || c.id);
-  if (!id) return { key, name: c.name, ok: false, error: 'could not resolve', videos: [] };
+  const d = diag ? [] : null;
+  const id = kind === 'playlist' ? c.id : await resolveChannel(c, d);
+  const mk = 'vsrc/' + kind + '/' + key;
+  const stale = async why => { const o = await memGet(mk); return o ? { ...o, stale: true, error: why } : { key, name: c.name, ok: false, error: why, videos: [], diag: d }; };
+  if (!id) return stale('could not resolve channel id');
   const fu = 'https://www.youtube.com/feeds/videos.xml?' + (kind === 'playlist' ? 'playlist_id=' : 'channel_id=') + id;
   try {
-    const r = await fetch(fu, { headers: YT_UA, cf: { cacheTtl: 900, cacheEverything: true } });
-    if (!r.ok) return { key, name: c.name, ok: false, error: 'HTTP ' + r.status, videos: [] };
+    const r = await fetch(fu, { headers: YT_UA });
+    if (!r.ok) return stale('feed HTTP ' + r.status);
     const videos = vparse(await r.text()).filter(x => !vblocked(x)).slice(0, 15);
-    return { key, name: c.name, id, kind, channel: (c.channel || '').toLowerCase(), url: kind === 'playlist' ? 'https://www.youtube.com/playlist?list=' + id : 'https://www.youtube.com/channel/' + id, ok: videos.length > 0, error: videos.length ? '' : 'no videos', videos };
-  } catch (e) { return { key, name: c.name, ok: false, error: String(e), videos: [] }; }
+    if (!videos.length) return stale('feed had no videos');
+    const out = { key, name: c.name, id, kind, channel: (c.channel || '').toLowerCase(), url: kind === 'playlist' ? 'https://www.youtube.com/playlist?list=' + id : 'https://www.youtube.com/channel/' + id, ok: true, error: '', videos };
+    await memPut(mk, out, 7 * 86400);
+    return out;
+  } catch (e) { return stale(String(e)); }
 }
 async function videoApi(url, env) {
   const hdr = { 'Content-Type': 'application/json; charset=utf-8', 'Access-Control-Allow-Origin': '*' };
@@ -252,8 +266,28 @@ async function videoApi(url, env) {
     const list = Object.values(tally).filter(c => !known.has(c.id)).sort((a, b) => b.hits - a.hits).slice(0, 30);
     return new Response(JSON.stringify({ note: 'Candidates only. Add the good ones to video.json; nothing here is shown on the site.', candidates: list }), { headers: { ...hdr, 'Cache-Control': 'public, max-age=3600' } });
   }
-  const src = await Promise.all([...(VCFG.channels || []).map(c => loadVideoSource(c, 'channel')), ...(VCFG.playlists || []).map(c => loadVideoSource(c, 'playlist'))]);
-  if (url.searchParams.get('debug')) return new Response(JSON.stringify(src.map(({ videos, ...r }) => ({ ...r, count: videos.length })), null, 1), { headers: hdr });
+  if (url.searchParams.get('playlists') || url.searchParams.get('find')) {
+    // suggest playlists: ?playlists=handle lists a channel's playlists, ?find=phrase searches playlists. Needs YT_KEY.
+    if (!env.YT_KEY) return new Response(JSON.stringify({ error: 'Set the YT_KEY secret to use playlist discovery.' }), { status: 400, headers: hdr });
+    const out = [];
+    try {
+      if (url.searchParams.get('find')) {
+        const r = await fetch('https://www.googleapis.com/youtube/v3/search?part=snippet&type=playlist&maxResults=25&relevanceLanguage=en&q=' + encodeURIComponent(url.searchParams.get('find')) + '&key=' + env.YT_KEY, { cf: { cacheTtl: 21600, cacheEverything: true } });
+        (await r.json()).items?.forEach(i => out.push({ id: i.id.playlistId, name: i.snippet.title, channel: i.snippet.channelTitle }));
+      } else {
+        const h = url.searchParams.get('playlists');
+        const ch = (VCFG.channels || []).find(c => (c.handle || '').toLowerCase() === h.toLowerCase());
+        const cid = ch ? await resolveChannel(ch) : '';
+        if (!cid) return new Response(JSON.stringify({ error: 'channel not found in video.json or could not be resolved' }), { status: 404, headers: hdr });
+        const r = await fetch('https://www.googleapis.com/youtube/v3/playlists?part=snippet,contentDetails&maxResults=50&channelId=' + cid + '&key=' + env.YT_KEY, { cf: { cacheTtl: 21600, cacheEverything: true } });
+        (await r.json()).items?.forEach(i => out.push({ id: i.id, name: i.snippet.title, channel: h, videos: i.contentDetails.itemCount }));
+      }
+    } catch (e) { return new Response(JSON.stringify({ error: String(e) }), { status: 502, headers: hdr }); }
+    return new Response(JSON.stringify({ note: 'Candidates only. Copy the good ones into the playlists list in video.json.', candidates: out }, null, 1), { headers: hdr });
+  }
+  const dbg = !!url.searchParams.get('debug');
+  const src = await Promise.all([...(VCFG.channels || []).map(c => loadVideoSource(c, 'channel', dbg)), ...(VCFG.playlists || []).map(c => loadVideoSource(c, 'playlist', dbg))]);
+  if (dbg) return new Response(JSON.stringify(src.map(({ videos, ...r }) => ({ ...r, count: videos.length })), null, 1), { headers: hdr });
   return new Response(JSON.stringify({ updated: new Date().toISOString(), channels: src.filter(s => s.ok) }), { headers: { ...hdr, 'Cache-Control': 'public, max-age=900' } });
 }
 
