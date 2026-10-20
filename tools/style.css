@@ -403,7 +403,7 @@ nav.wrap a[data-n="9"]:hover,nav.wrap a[data-n="9"].hov{color:#6a3d9a;border-col
 @media (prefers-color-scheme:dark){nav.wrap a[data-n="0"]:hover,nav.wrap a[data-n="6"]:hover{color:#8fc2ff}nav.wrap a[data-n="3"]:hover,nav.wrap a[data-n="9"]:hover{color:#c9a4f0}nav.wrap a[data-n="2"]:hover,nav.wrap a[data-n="8"]:hover{color:#ff9a6b}nav.wrap a[data-n="4"]:hover{color:#6fd49a}nav.wrap a[data-n="5"]:hover{color:#f6c545}}
 /* ticker: no red label, flush left, larger type */
 .bar .ticker,body.newspg .bar .ticker{margin:0 auto 0 0;justify-self:start}
-.ticker .tki{align-items:flex-start;text-align:left}.tkt{font-size:1rem}.tkm{font-size:.84rem}
+.ticker .tki{align-items:flex-start;text-align:left}.tkt{font-size:.94rem}.tkm{font-size:.84rem}
 .bar .ticker{height:4em!important}
 .tkm em{font-style:normal;font-weight:700;text-transform:uppercase;letter-spacing:.05em;font-size:.72rem;color:var(--acc)}
 
