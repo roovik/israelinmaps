@@ -304,3 +304,7 @@ article.gl section{margin-top:22px}article.gl section>h2{font-size:1.25rem;borde
 .nb h3{font-size:.97rem;margin:0 0 4px}.hcard .hi h3{font-size:.92rem}.ngrid4 .nb h3{font-size:.87rem}
 .nb .nmeta{margin:0 0 6px;line-height:1.35}.nb .nmeta b,.nb .nmeta span{display:block;font-weight:600}.nb .nmeta span{font-weight:400;text-transform:none;letter-spacing:0}
 .ngrid3 .nb h3,.ngrid4 .nb h3{min-height:0}.hcard .hi .nmeta{margin-bottom:8px}
+.vlist h2{text-transform:uppercase;letter-spacing:.05em;font-size:.8rem;color:var(--mut)}.vlist h2:not(:first-child){margin-top:18px}
+.vseg{display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;margin-bottom:10px;position:sticky;top:0;background:var(--card);z-index:2}
+.vseg button{flex:1;border:0;background:var(--card);color:inherit;font:inherit;font-size:.78rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;padding:7px 4px;cursor:pointer}
+.vseg button[aria-pressed=true]{background:var(--acc);color:#fff}

@@ -27,9 +27,15 @@
       if((d.playlists||[]).length){h+='<h2 id="playlists">Playlists</h2>';chs.forEach(function(c){var pls=d.playlists.filter(function(x){return x.channel===String(c.key).toLowerCase()});if(pls.length)h+='<h3>'+esc(c.name)+'</h3><ul class="vpl">'+pls.map(function(x){return'<li><a href="/video/pl-'+esc(x.id.toLowerCase())+'/">'+esc(x.name)+'</a></li>'}).join('')+'</ul>'})}
       root.innerHTML=h;
     }
-    function listText(title,vs,chkey){var L=document.getElementById('vid-list');if(!L)return;
-      var pls=(d.playlists||[]).filter(function(x){return x.channel===chkey});
-      L.innerHTML='<h2>'+esc(title)+'</h2><ul>'+vs.map(function(v){return'<li><a class="vli" data-v="'+esc(v.v)+'" href="'+esc(wurl(v,v.c,v.t))+'">'+esc(v.t)+'</a><span class="wm">'+esc(v.n||'')+(v.d?' \u00b7 '+ago(v.d):'')+'</span></li>'}).join('')+'</ul>'+(pls.length?'<h2>Playlists</h2><ul class="vpls">'+pls.map(function(x){return'<li><a href="/video/pl-'+esc(x.id.toLowerCase())+'/">'+esc(x.name)+'</a></li>'}).join('')+'</ul>':'')}
+    function listText(title,vs,chkey,cur){var L=document.getElementById('vid-list');if(!L)return;
+      var pls=chkey?(d.playlists||[]).filter(function(x){return x.channel===chkey}):[];
+      var h=(pls.length?'<div class="vseg" role="group" aria-label="Jump to"><button type="button" data-j="vl-videos" aria-pressed="true">Videos</button><button type="button" data-j="vl-pls" aria-pressed="false">Playlists</button></div>':'')+
+        '<h2 id="vl-videos">'+esc(title)+'</h2><ul>'+vs.map(function(v){return'<li><a class="vli" data-v="'+esc(v.v)+'" href="'+esc(wurl(v,v.c,v.t))+'">'+esc(v.t)+'</a><span class="wm">'+esc(v.n||'')+(v.d?' · '+ago(v.d):'')+'</span></li>'}).join('')+'</ul>';
+      if(pls.length)h+='<h2 id="vl-pls">Channel playlists</h2><ul class="vpls">'+pls.map(function(x){var on=cur&&x.id===cur;return'<li><a'+(on?' class="vnowp" aria-current="page"':'')+' href="/video/pl-'+esc(x.id.toLowerCase())+'/">'+esc(x.name)+'</a></li>'}).join('')+'</ul>';
+      L.innerHTML=h;
+      [].forEach.call(L.querySelectorAll('.vseg button'),function(b){b.addEventListener('click',function(){
+        [].forEach.call(L.querySelectorAll('.vseg button'),function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});
+        var t=document.getElementById(b.getAttribute('data-j'));if(t)t.scrollIntoView({behavior:'smooth',block:'start'})})})}
     function context(c,vid,titleEl,box){
       var byv={};c.videos.forEach(function(v){byv[v.v]=v});
       var now=document.createElement('div');now.className='vnow';host.parentNode.insertBefore(now,host.nextSibling);
@@ -42,7 +48,7 @@
       var pls=chs.filter(function(x){return x.kind==='playlist'&&x.channel&&x.channel===String(c.key).toLowerCase()&&x!==c});
       box.innerHTML='<h2>'+(titleEl?'More from ':'Recent from ')+esc(c.name)+'</h2><div class="tgrid">'+c.videos.map(card).join('')+'</div>'+(pls.length?'<h2>Playlists from '+esc(c.name)+'</h2><ul class="vpl">'+pls.map(function(x){return'<li><a href="/video/'+esc(sl(x))+'/">'+esc(x.name)+' Playlist</a> <small>'+x.videos.length+' videos</small></li>'}).join('')+'</ul>':'');
       CTX=function(id){setP(id,true);host.scrollIntoView({behavior:'smooth',block:'nearest'})};
-      listText('Videos in '+c.name,c.videos,c.kind==='playlist'?(c.channel||''):String(c.key).toLowerCase());
+      listText(c.kind==='playlist'?'Playlist videos':'Recent channel videos',c.videos,c.kind==='playlist'?(c.channel||''):String(c.key).toLowerCase(),c.kind==='playlist'?c.key:'');
       setP(vid&&byv[vid]?vid:c.videos[0].v,!!(vid&&byv[vid]));
     }
     if(chp){
