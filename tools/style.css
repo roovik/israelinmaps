@@ -191,3 +191,7 @@ body.newspg main{padding-top:5px}
 @media (max-width:640px){.newspage{grid-template-columns:1fr}.newsleft{display:contents}.newspage .ticker{order:1}.newspage .crumb{order:2}.newspage .titlerow{order:3}.newspage .lead{order:4}.newsleftcol{order:5}.newspage .newsmain{order:6}.newsside{order:7;grid-column:auto}}
 
 .adslot[data-slot=page-top]{margin:0 0 10px}
+
+.bar .ticker{flex:1 1 320px;min-width:0;margin:0;order:0}
+.bar .brand{order:-1}
+@media (max-width:760px){.bar .ticker{flex-basis:100%;order:3}}

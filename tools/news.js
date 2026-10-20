@@ -59,19 +59,7 @@
       var state={mode:'sources',src:null,sub:null,tp:null,ch:null},cache={},alive={};
       var good=data.sources.filter(function(s){return s.ok});
       function isBrk(i){return i.d&&(Date.now()-new Date(i.d).getTime()<=3*3600*1000||/\b(breaking|live)\b/i.test(i.t))}
-      // vertical ticker, one story at a time
       var dated=data.items.filter(function(i){return i.d}).slice(0,12);
-      var tk=document.getElementById('news-ticker');
-      if(tk&&dated.length){
-        tk.innerHTML=dated.map(function(i,n){return'<a class="tki'+(n?'':' on')+'" href="'+esc(iu(i))+'"><span class="tkt">'+(isBrk(i)?'<b>Breaking</b> ':'')+esc(i.t)+'</span><span class="tkm">'+esc(i.src)+' · '+when(i.d)+'</span></a>'}).join('');
-        tk.hidden=false;
-        function fit(){var m=0;[].forEach.call(tk.children,function(e){var h=0;[].forEach.call(e.children,function(c){h+=c.offsetHeight});if(h>m)m=h});tk.style.height=(m+16)+'px'}
-        fit();window.addEventListener('resize',fit);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fit);
-        var cur=0,paused=false,els=tk.children;
-        tk.addEventListener('mouseenter',function(){paused=true});tk.addEventListener('mouseleave',function(){paused=false});
-        tk.addEventListener('focusin',function(){paused=true});tk.addEventListener('focusout',function(){paused=false});
-        if(els.length>1)setInterval(function(){if(paused||document.hidden)return;var o=els[cur];cur=(cur+1)%els.length;var n=els[cur];o.className='tki out';n.className='tki on';setTimeout(function(){if(o!==els[cur])o.className='tki'},700)},5000);
-      }
       latest.innerHTML='<section class="wsrc wlatest"><h3>Latest '+W+'</h3><ul>'+dated.slice(0,5).map(function(i){return'<li><a href="'+esc(iu(i))+'">'+esc(i.t)+'</a><span class="wm"><a href="'+esc((byId[i.s]||{}).site||'#')+'" rel="noopener">'+esc(i.src)+'</a> · <time>'+when(i.d)+'</time></span></li>'}).join('')+'</ul></section>';
       wid.innerHTML=data.sources.map(function(s){
         var its=data.items.filter(function(i){return i.s===s.id}).slice(0,6);

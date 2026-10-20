@@ -271,13 +271,13 @@ def layout(title, body, desc='', path='/', og=None, cls='', nd=False):
 <link rel="canonical" href="{BASE}{path}"><meta property="og:title" content="{E(full)}"><meta property="og:description" content="{E(d)}">{img}{robots}
 <link rel="stylesheet" href="/style.css"></head>
 <body class="{cls}"><a class="skip" href="#main">Skip to content</a>
-<header class="top"><div class="wrap bar"><a class="brand" href="/">Israel <b>NOWlej</b></a>
+<header class="top"><div class="wrap bar"><a class="brand" href="/">Israel <b>NOWlej</b></a><div class="ticker" id="news-ticker" aria-label="Latest headlines" hidden></div>
 <form class="sf" action="/search/" role="search"><input name="q" type="search" placeholder="Search maps, people, places, IDs" aria-label="Search"><button>Search</button></form></div>
 <nav class="wrap" aria-label="Sections">{nav}</nav></header>
 <main id="main" class="wrap">{body}</main>
 <footer><div class="wrap"><p>Israel Mosaic: Maps, Graphs, Timelines, Images, and Knowledge of the Holy Land. By Richard J. Koret.</p>
 <p>&copy; 2003 to 2026 Richard J. Koret. All rights reserved. Page images are shown for reference with the book. <a href="/about/">How to use this site and cite it</a></p></div></footer>
-<script src="/site.js" defer></script>{'<script src="/ads.js" defer></script><script src="/news.js" defer></script>' if news_js else ''}</body></html>'''
+<script src="/site.js" defer></script><script src="/ticker.js" defer></script>{'<script src="/ads.js" defer></script><script src="/news.js" defer></script>' if news_js else ''}</body></html>'''
 
 def write(path, content):
     fp = os.path.join(OUT, path.lstrip('/'))
@@ -560,7 +560,7 @@ home = f'''<section class="hero"><h1>Israel <b>Mosaic</b></h1><p class="sub">Map
 <p class="small">New here? <a href="/about/">How the addresses and citations work</a>.</p>'''
 write('/', layout('Israel Mosaic', home, '', '/', '/img/p006.webp', cls='home'))
 
-news = '''<div class="adslot" data-slot="page-top" data-sizes="970x90|728x90|320x50"></div><div class="newspage"><div class="newsleftcol"><nav class="newstopics" id="news-topics" aria-label="Topics and sources"></nav><div class="adslot" data-slot="left" data-sizes="tower"></div></div><div class="newsleft"><div class="ticker" id="news-ticker" aria-label="Latest headlines" hidden></div><p class="crumb"><a href="/">Home</a> / News</p><h1>In the News</h1>
+news = '''<div class="adslot" data-slot="page-top" data-sizes="970x90|728x90|320x50"></div><div class="newspage"><div class="newsleftcol"><nav class="newstopics" id="news-topics" aria-label="Topics and sources"></nav><div class="adslot" data-slot="left" data-sizes="tower"></div></div><div class="newsleft"><p class="crumb"><a href="/">Home</a> / News</p><h1>In the News</h1>
 <p class="lead">Headlines from public news feeds, from the last seven days, matched to the glossary. Each item links to its publisher.</p>
 <div class="newsmain">
 <div class="adslot" data-slot="lb-top" data-sizes="728x90|320x100"></div>
@@ -572,7 +572,7 @@ news = '''<div class="adslot" data-slot="page-top" data-sizes="970x90|728x90|320
 <p class="small" id="news-status"></p>
 <div class="adslot adwide" data-slot="page-bottom" data-sizes="970x250|728x90|320x100"></div>'''
 write('/news/', layout('News', news, 'Headlines from public news feeds about Israel, linked to the Israel Mosaic glossary.', '/news/', cls='newspg'))
-write('/news/item-template/', layout('@@TITLE@@', '<div class="adslot" data-slot="page-top" data-sizes="970x90|728x90|320x50"></div><div class="newspage"><div class="newsleftcol"><nav class="newstopics" id="news-topics" aria-label="Topics and sources"></nav><div class="adslot" data-slot="left" data-sizes="tower"></div></div><div class="newsleft"><div class="ticker" id="news-ticker" aria-label="Latest headlines" hidden></div><div class="newsmain"><div class="adslot" data-slot="lb-top" data-sizes="728x90|320x100"></div><div id="news-item">@@BODY@@</div><div class="adslot" data-slot="lb-bottom" data-sizes="728x90|320x50"></div></div></div><aside class="newsside" aria-label="Latest headlines"><div class="adslot" data-slot="aside-top" data-sizes="320x100"></div><div id="news-latest"></div><h2>By source</h2><div id="news-widget"></div></aside></div><p class="small" id="news-status"></p><div class="adslot adwide" data-slot="page-bottom" data-sizes="970x250|728x90|320x100"></div>', '@@DESC@@', '/news/item/@@K@@/', cls='newspg', nd=True))
+write('/news/item-template/', layout('@@TITLE@@', '<div class="adslot" data-slot="page-top" data-sizes="970x90|728x90|320x50"></div><div class="newspage"><div class="newsleftcol"><nav class="newstopics" id="news-topics" aria-label="Topics and sources"></nav><div class="adslot" data-slot="left" data-sizes="tower"></div></div><div class="newsleft"><div class="newsmain"><div class="adslot" data-slot="lb-top" data-sizes="728x90|320x100"></div><div id="news-item">@@BODY@@</div><div class="adslot" data-slot="lb-bottom" data-sizes="728x90|320x50"></div></div></div><aside class="newsside" aria-label="Latest headlines"><div class="adslot" data-slot="aside-top" data-sizes="320x100"></div><div id="news-latest"></div><h2>By source</h2><div id="news-widget"></div></aside></div><p class="small" id="news-status"></p><div class="adslot adwide" data-slot="page-bottom" data-sizes="970x250|728x90|320x100"></div>', '@@DESC@@', '/news/item/@@K@@/', cls='newspg', nd=True))
 views_html = news.replace('/ News</p>', '/ Views</p>').replace('<h1>In the News</h1>', '<h1>Views</h1>').replace('<p class="lead">Headlines from public news feeds, from the last seven days, matched to the glossary. Each item links to its publisher.</p>', '<p class="lead">Op-eds, editorials and blogs from public feeds, from the last seven days, matched to the glossary. Each item links to its publisher.</p>').replace('id="news-grid"', 'id="news-grid" data-api="/api/news?views=1&v=2"')
 write('/views/', layout('Views', views_html, 'Op-eds, editorials and blogs from Israeli news sources, linked to the glossary.', '/views/', cls='newspg'))
 
@@ -601,6 +601,7 @@ for t, sl, terms in gjson:
         if x not in e[2] and ', ' not in x: e[2].append(x)
 write('/glossary.json', json.dumps(list(merged.values()), ensure_ascii=False, separators=(',', ':')))
 shutil.copy(os.path.join(ROOT, 'tools', 'news.js'), os.path.join(OUT, 'news.js'))
+shutil.copy(os.path.join(ROOT, 'tools', 'ticker.js'), os.path.join(OUT, 'ticker.js'))
 shutil.copy(os.path.join(ROOT, 'tools', 'ads.js'), os.path.join(OUT, 'ads.js'))
 # ---------------------------------------------------------------- data, assets, redirects, sitemap
 write('/search.json', json.dumps(search, ensure_ascii=False, separators=(',', ':')))
