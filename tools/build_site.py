@@ -621,10 +621,10 @@ def tl_hub():
         fn = os.path.join(OUT, 'img', 't', nm + '.webp')
         if not os.path.exists(fn):
             im = _I.open(os.path.join(OUT, 'img', f'p{pg:03d}.webp')).convert('RGB')
-            im = im.resize((300, int(im.height * 300 / im.width)), _I.LANCZOS); im.save(fn, quality=74)
+            im = im.resize((420, int(im.height * 420 / im.width)), _I.LANCZOS); im.save(fn, quality=74)
         return f'/img/t/{nm}.webp'
     def tile(href, img, title):
-        return (f'<a class="tltile" href="{href}"><img src="{img}" alt="{E(title)}" width="300" height="375" loading="lazy"><b>{E(title)}</b></a>')
+        return (f'<a class="tltile" href="{href}" title="{E(title)}"><img src="{img}" alt="{E(title)}" width="420" height="525" loading="lazy"></a>')
     o = tile('/img/p109.webp', th(109, 'tl-glance'), 'Four Thousand Years at a Glance')
     for k in items('TL'): o += tile(k['url'], th(k['pages'][0], 'tlf-' + k['id'].lower()), k['title'])
     b = '<p class="crumb"><a href="/">Home</a> / Timelines</p><h1>Timelines</h1><p class="small">Four thousand years at a glance, then one page for each period. Select a page to open it.</p><div class="tlmosaic">' + o + '</div>'
