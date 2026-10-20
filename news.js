@@ -36,14 +36,13 @@
       ];
       function topics(items){items.forEach(function(it){var t=it.t+' '+it.x;it.tp=TOPICS.filter(function(x){return x[2].test(t)}).map(function(x){return x[0]})})}
       topics(data.items);
-      var fil=document.getElementById('news-filter'),chw=document.getElementById('news-channels'),tpn=document.getElementById('news-topics'),g2=document.getElementById('news-glonly'),
+      var fil=document.getElementById('news-filter'),tpn=document.getElementById('news-topics'),g2=document.getElementById('news-glonly'),
           more=document.getElementById('news-more'),mt=document.getElementById('news-more-title'),wid=document.getElementById('news-widget'),latest=document.getElementById('news-latest'),st=document.getElementById('news-status');
-      var state={src:{},brk:false,tp:null,ch:null},cache={},alive=null;
+      var state={src:{},brk:false,tp:null,sub:{},ch:null,open:{}},cache={},alive={};
       var good=data.sources.filter(function(s){return s.ok});
-      fil.innerHTML='<button data-f="all" aria-pressed="true">All</button><button data-f="breaking" aria-pressed="false" class="brk">Breaking</button>'+good.map(function(s){return'<button data-f="'+s.id+'" aria-pressed="false">'+esc(s.name)+'</button>'}).join('');
+      fil.innerHTML='<button data-f="all" aria-pressed="true">All sources</button><button data-f="breaking" aria-pressed="false" class="brk">Breaking</button>';
       function chosen(){return Object.keys(state.src)}
       function isBrk(i){return i.d&&(Date.now()-new Date(i.d).getTime()<=3*3600*1000||/\b(breaking|live)\b/i.test(i.t))}
-
       // vertical ticker, one story at a time
       var dated=data.items.filter(function(i){return i.d}).slice(0,12);
       var tk=document.getElementById('news-ticker');
@@ -63,39 +62,46 @@
       var bad=data.sources.filter(function(s){return!s.ok});
       st.textContent='Updated '+new Date(data.updated).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})+'.'+(bad.length?' Unavailable now: '+bad.map(function(s){return s.name}).join(', ')+'.':'');
 
-      // channel matrix: only when one source with channels is chosen, and only channels with stories this week
-      function soloChannels(){var c=chosen();return c.length===1&&byId[c[0]]&&byId[c[0]].groups?byId[c[0]]:null}
+      // left navigation: Topics (keyword, all sources) then one open/close section per source
       function probe(s){
-        if(alive&&alive.id===s.id)return;
-        var key='nlive-'+s.id,t=0;
-        try{var c=JSON.parse(sessionStorage.getItem(key)||'null');if(c&&Date.now()-c.t<6*3600*1000){alive={id:s.id,ok:c.ok};return}}catch(e){}
-        alive={id:s.id,ok:null,loading:true};
+        if(alive[s.id])return;
+        var key='nlive2-'+s.id;
+        try{var c=JSON.parse(sessionStorage.getItem(key)||'null');if(c&&Date.now()-c.t<6*3600*1000){alive[s.id]={ok:c.ok};return}}catch(e){}
+        alive[s.id]={loading:true};
         Promise.all(s.groups.map(function(g){return fetch('/api/news?s='+encodeURIComponent(s.id)+'&probe='+encodeURIComponent(g.group)).then(function(r){return r.json()}).catch(function(){return{channels:[]}})})).then(function(a){
           var ok={};a.forEach(function(r){(r.channels||[]).forEach(function(c){if(c.ok&&c.count>0)ok[c.id]=c.count})});
-          alive={id:s.id,ok:ok};try{sessionStorage.setItem(key,JSON.stringify({t:Date.now(),ok:ok}))}catch(e){}
-          showChannels();
+          alive[s.id]={ok:ok};try{sessionStorage.setItem(key,JSON.stringify({t:Date.now(),ok:ok}))}catch(e){}
+          drawNav();
         });
       }
-      function showChannels(){
-        var s=soloChannels();
-        if(!s){chw.hidden=true;chw.innerHTML='';return}
-        probe(s);
-        if(!alive||alive.id!==s.id||alive.loading){chw.hidden=false;chw.innerHTML='<p class="chl">Checking which '+esc(s.name)+' channels have stories this week.</p>';return}
-        chw.hidden=false;
-        var h=s.groups.map(function(g){var l=g.list.filter(function(c){return alive.ok[c.id]});return l.length?'<div class="chg"><span>'+esc(g.group)+'</span>'+l.map(function(c){return'<button data-c="'+c.id+'" aria-pressed="'+(state.ch===c.id)+'">'+esc(c.name)+'</button>'}).join('')+'</div>':''}).join('');
-        chw.innerHTML='<p class="chl">Channels from '+esc(s.name)+' with stories in the last seven days</p>'+h;
+      function liveGroups(s){var a=alive[s.id];if(!s.groups||!a||a.loading)return null;
+        return s.groups.map(function(g){return{group:g.group,list:g.list.filter(function(c){return a.ok[c.id]})}}).filter(function(g){return g.list.length})}
+      function srcItems(id){return data.items.filter(function(i){return i.s===id})}
+      function topicBtns(items,cur,attr){return TOPICS.map(function(x){var n=items.filter(function(i){return i.tp&&i.tp.indexOf(x[0])>-1}).length;return n?'<button '+attr+'="'+x[0]+'" aria-pressed="'+(cur===x[0])+'">'+x[1]+' <i>'+n+'</i></button>':''}).join('')}
+      function drawNav(){
+        var h='<div class="nsec"><button class="nhead" data-h="topics" aria-expanded="'+!!state.open.topics+'">Topics</button>';
+        if(state.open.topics)h+='<div class="nsub">'+topicBtns(base(true),state.tp,'data-t')+'</div>';
+        h+='</div>';
+        good.forEach(function(s){
+          var on=!!state.src[s.id];
+          h+='<div class="nsec"><button class="nhead" data-h="'+s.id+'" aria-expanded="'+on+'">'+esc(s.name)+'</button>';
+          if(on){
+            var lg=null;if(s.groups){probe(s);lg=liveGroups(s)}
+            if(s.groups&&!lg)h+='<div class="nsub"><p class="chl">Checking channels.</p></div>';
+            else if(lg&&lg.length)h+='<div class="nsub">'+lg.map(function(g){return(lg.length>1?'<p class="chl">'+esc(g.group)+'</p>':'')+g.list.map(function(c){return'<button data-s="'+s.id+'" data-c="'+c.id+'" aria-pressed="'+(state.ch===s.id+'/'+c.id)+'">'+esc(c.name)+'</button>'}).join('')}).join('')+'</div>';
+            else{var tb=topicBtns(srcItems(s.id),state.sub[s.id],'data-s="'+s.id+'" data-k');h+='<div class="nsub">'+(tb||'<p class="chl">No topic matches yet.</p>')+'</div>'}
+          }
+          h+='</div>';
+        });
+        tpn.innerHTML=h;
       }
-      function base(){
+      function base(noTopic){
         var items=data.items,c=chosen();
         if(c.length)items=items.filter(function(i){return state.src[i.s]});
         if(state.brk)items=items.filter(isBrk);
         return items;
       }
-      function drawTopics(items){
-        tpn.innerHTML='<button data-t="" aria-pressed="'+(!state.tp)+'">All topics</button>'+TOPICS.map(function(x){var n=items.filter(function(i){return i.tp&&i.tp.indexOf(x[0])>-1}).length;return'<button data-t="'+x[0]+'" aria-pressed="'+(state.tp===x[0])+'"'+(n?'':' disabled')+'>'+x[1]+' <i>'+n+'</i></button>'}).join('');
-      }
       function paint(items,note){
-        drawTopics(items);
         var list=items.filter(function(i){return(!state.tp||(i.tp&&i.tp.indexOf(state.tp)>-1))&&(!g2.checked||i.g.length)});
         var cards=list.filter(full),rest=list.filter(function(i){return!full(i)});
         if(state.brk){cards=[];rest=list}
@@ -104,28 +110,33 @@
         mt.hidden=!rest.length;mt.textContent=state.brk?'Breaking and latest, headlines only':'More headlines';
       }
       function render(){
-        showChannels();
-        var s=soloChannels();
-        if(state.ch&&s){
-          var key=s.id+'/'+state.ch;
+        drawNav();
+        if(state.ch){
+          var sid=state.ch.split('/')[0],cid=state.ch.split('/')[1],key=state.ch;
           grid.innerHTML='<p>Loading.</p>';more.innerHTML='';mt.hidden=true;
-          var show=function(d){if(!state.ch||s.id+'/'+state.ch!==key)return;
+          var show=function(d){if(state.ch!==key)return;
             if(!d.ok){grid.innerHTML='<p>'+esc(d.channel.name)+' has no recent stories right now.</p>';return}
             tag(d.items);topics(d.items);paint(state.brk?d.items.filter(isBrk):d.items)};
           if(cache[key])return show(cache[key]);
-          fetch('/api/news?s='+encodeURIComponent(s.id)+'&c='+encodeURIComponent(state.ch)).then(function(r){return r.json()}).then(function(d){cache[key]=d;show(d)}).catch(function(){grid.innerHTML='<p>That channel could not be loaded right now.</p>'});
+          fetch('/api/news?s='+encodeURIComponent(sid)+'&c='+encodeURIComponent(cid)).then(function(r){return r.json()}).then(function(d){cache[key]=d;show(d)}).catch(function(){grid.innerHTML='<p>That channel could not be loaded right now.</p>'});
           return;
         }
-        state.ch=null;
-        paint(base(),state.brk?'No breaking stories in the last three hours.':null);
+        var items=base().filter(function(i){var k=state.sub[i.s];return!k||(i.tp&&i.tp.indexOf(k)>-1)});
+        paint(items,state.brk?'No breaking stories in the last three hours.':null);
       }
-      function sync(){[].forEach.call(fil.children,function(x){var f=x.getAttribute('data-f');x.setAttribute('aria-pressed',f==='all'?(!chosen().length&&!state.brk):f==='breaking'?state.brk:!!state.src[f])})}
+      function sync(){[].forEach.call(fil.children,function(x){var f=x.getAttribute('data-f');x.setAttribute('aria-pressed',f==='all'?(!chosen().length&&!state.brk):state.brk)})}
       fil.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;var f=b.getAttribute('data-f');
-        if(f==='all'){state.src={};state.brk=false}else if(f==='breaking')state.brk=!state.brk;else if(state.src[f])delete state.src[f];else state.src[f]=1;
-        state.ch=null;sync();render()});
-      tpn.addEventListener('click',function(e){var b=e.target.closest('button');if(!b||b.disabled)return;var t=b.getAttribute('data-t')||null;state.tp=state.tp===t?null:t;render()});
-      chw.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;var c=b.getAttribute('data-c');state.ch=state.ch===c?null:c;render()});
+        if(f==='all'){state.src={};state.brk=false;state.sub={};state.ch=null}else state.brk=!state.brk;
+        sync();render()});
+      tpn.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;
+        var h=b.getAttribute('data-h');
+        if(h){if(h==='topics')state.open.topics=!state.open.topics;else{if(state.src[h]){delete state.src[h];delete state.sub[h];if(state.ch&&state.ch.split('/')[0]===h)state.ch=null}else state.src[h]=1}sync();render();return}
+        if(b.hasAttribute('data-c')){var k=b.getAttribute('data-s')+'/'+b.getAttribute('data-c');state.ch=state.ch===k?null:k;render();return}
+        if(b.hasAttribute('data-k')){var s2=b.getAttribute('data-s'),k2=b.getAttribute('data-k');state.sub[s2]=state.sub[s2]===k2?null:k2;render();return}
+        if(b.hasAttribute('data-t')){var t=b.getAttribute('data-t');state.tp=state.tp===t?null:t;render()}
+      });
       g2.addEventListener('change',render);
+      state.open.topics=!(window.matchMedia&&matchMedia('(max-width:640px)').matches);
       render();
     }
     if(box){

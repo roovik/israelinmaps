@@ -3,7 +3,7 @@
 const JP = 'https://www.jpost.com/rss/';
 const SOURCES = [
   { id: 'toi', name: 'The Times of Israel', site: 'https://www.timesofisrael.com/', url: 'https://www.timesofisrael.com/feed/' },
-  { id: 'jpost', name: 'The Jerusalem Post', site: 'https://www.jpost.com/', url: JP + 'rssfeedsfrontpage.aspx', channels: [
+  { id: 'jpost', name: 'The Jerusalem Post', site: 'https://www.jpost.com/', url: JP + 'rssfeedsfrontpage.aspx', base: JP, channels: [
     ['News', [['Homepage', 'rssfeedsfrontpage.aspx'], ['Breaking News', 'rssfeedsheadlines.aspx'], ['All News', 'rssallnews'], ['Israel News', 'rssfeedsisraelnews.aspx'], ['Jerusalem', 'rssfeedsjerusalem.aspx'], ['Trending', 'rssfeedsnotjustnews.aspx']]],
     ['Security', [['Israel-Hamas War', 'israel-hamas-war'], ['Gaza', 'rssfeedsgaza.aspx'], ['Terrorism', 'rssfeedsislamicterrorism'], ['Defense and Tech', 'rssfeeddefense-and-tech'], ['Iran', 'rssfeedsiran'], ['Arab-Israeli Conflict', 'rssfeedsarabisraeliconflict.aspx']]],
     ['Politics and Diplomacy', [['Israel Politics', 'rssfeedspoliticsdiplomacy.aspx'], ['Israel Election 2026', 'rssfeedisraelelection2026'], ['Benjamin Netanyahu', 'rssfeedsbenjaminnetanyahu'], ['Middle East', 'rssfeedsmiddleeastnews.aspx'], ['World News', 'rssfeedsinternational'], ['US Politics', 'rssfeedsamerican-politics'], ['Ukraine-Russia War', 'rssukrainerussiawar']]],
@@ -13,13 +13,26 @@ const SOURCES = [
     ['Science and History', [['Science', 'rssscience'], ['Health and Wellness', 'rsshealth-and-wellness'], ['Environment and Climate', 'rssenvironment'], ['Archaeology', 'rssarchaeology'], ['History', 'rssfeedhistory']]],
     ['Opinion', [['Opinion', 'rssfeedsopinion.aspx'], ['Experts Opinion', 'rssfeedsexperts.aspx']]],
   ] },
-  { id: 'ynet', name: 'Ynetnews', site: 'https://www.ynetnews.com/', url: 'https://www.ynetnews.com/Integration/StoryRss3082.xml' },
-  { id: 'jns', name: 'JNS', site: 'https://www.jns.org/', url: 'https://www.jns.org/feed/' },
+  { id: 'ynet', name: 'Ynetnews', site: 'https://www.ynetnews.com/', url: 'https://www.ynetnews.com/Integration/StoryRss3082.xml', channels: [
+    ['Ynetnews', [['Breaking News', 'https://www.ynetnews.com/Integration/StoryRss3254.xml'], ['Opinion', 'https://www.ynetnews.com/Integration/StoryRss3084.xml'], ['Culture', 'https://www.ynetnews.com/Integration/StoryRss3086.xml'], ['Jewish Scene', 'https://www.ynetnews.com/Integration/StoryRss3443.xml']]],
+  ] },
+  { id: 'haaretz', name: 'Haaretz', site: 'https://www.haaretz.com/', url: 'https://www.haaretz.com/srv/haaretz-latest-headlines', base: 'https://www.haaretz.com/srv/', channels: [
+    ['News', [['Israel News', 'israel-news-rss'], ['Middle East', 'middle-east-news-rss'], ['World', 'world-news-rss'], ['U.S.', 'u.s.-news-rss'], ['Jewish World', 'jewish-world-rss']]],
+    ['Security and Business', [['Security and Aviation', 'security-&-aviation-rss'], ['Business', 'business-rss'], ['Technology', 'technology-news-rss']]],
+    ['Culture and Ideas', [['Opinion', 'opinion-rss'], ['Life and Culture', 'life-&-culture-rss'], ['Books', 'books-rss'], ['Food', 'food-rss'], ['Archaeology', 'archaeology-rss'], ['Science and Health', 'science-&-health-rss']]],
+  ] },
+  { id: 'jns', name: 'JNS', site: 'https://www.jns.org/', url: 'https://www.jns.org/feed/', base: 'https://www.jns.org/', channels: [
+    ['JNS', [['Israeli Society', 'israeli-society.rss'], ['Middle East', 'middle-east.rss'], ['Antisemitism', 'antisemitism.rss'], ['Israel News', 'israel-news.rss'], ['U.S. News', 'us-news.rss'], ['World News', 'world-news.rss'], ['Opinion', 'opinion.rss'], ['Jewish World', 'jewish-world.rss']]],
+  ] },
   { id: 'insider', name: 'Israel Insider', site: 'https://israelinsider.org/', url: 'https://israel.nowlej.com/feed/' },
-  { id: 'israelhayom', name: 'Israel Hayom', site: 'https://www.israelhayom.com/', url: 'https://www.israelhayom.com/feed/' },
+  { id: 'israelhayom', name: 'Israel Hayom', site: 'https://www.israelhayom.com/', url: 'https://www.israelhayom.com/feed/', base: 'https://www.israelhayom.com/category/', channels: [
+    ['News', [['Israel', 'news/israel/feed/'], ['Israel at War', 'news/israel/israel-at-war/feed/'], ['Middle East', 'news/middle-east/feed/'], ['United States', 'news/world-news/united-states/feed/']]],
+    ['Jewish World', [['Jewish World', 'jewish-world/feed/'], ['Antisemitism', 'jewish-world/antisemitism/feed/'], ['Archaeology', 'archaeology/feed/']]],
+    ['Life and Ideas', [['Culture', 'culture/feed/'], ['Food', 'lifestyle/food/feed/'], ['Travel', 'lifestyle/travel/feed/'], ['Analysis', 'analysis/feed/'], ['Explainer', 'explainer/feed/']]],
+  ] },
 ];
 function chanId(g, n) { return (g + '-' + n).toLowerCase().replace(/[^a-z0-9]+/g, '-'); }
-for (const s of SOURCES) if (s.channels) s.groups = s.channels.map(([g, list]) => ({ group: g, list: list.map(([n, p]) => ({ id: chanId(g, n), name: n, url: JP + p })) }));
+for (const s of SOURCES) if (s.channels) s.groups = s.channels.map(([g, list]) => ({ group: g, list: list.map(([n, p]) => ({ id: chanId(g, n), name: n, url: /^https?:/.test(p) ? p : (s.base || JP) + p })) }));
 const FEEDS = SOURCES.map(s => ({ id: s.id, name: s.name, site: s.site, url: s.url }));
 const PER_FEED = 12, TOTAL = 72, TIMEOUT = 8000, MAX_AGE_DAYS = 7;
 
