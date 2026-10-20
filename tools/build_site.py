@@ -740,12 +740,15 @@ for i_, n_, u_, d_ in SRC:
           f'<div id="src-page" data-src="{i_}"></div><section id="src-nsec"><h2>Latest news</h2><div class="tgrid" id="src-news"><p>Loading.</p></div></section><section id="src-vsec"><h2>Latest views</h2><div class="tgrid" id="src-views"><p>Loading.</p></div></section>')
     write(f'/sources/{i_}/', layout(n_, chan('sources', b_, f'/sources/{i_}/'), f'Latest news and views from {n_}.', f'/sources/{i_}/'))
 ab_ = ('<h1>Video curation</h1><p class="small">Private working page. Candidates come from YouTube search and are shown only to help you decide. Nothing here changes the site until the exported list is added to <code>video.json</code>.</p>'
-       '<div class="adm"><div class="admbar"><label>Look for <input id="adm-q" type="search" placeholder="e.g. Abraham Accords" size="28"></label>'
-       '<span class="vseg" role="group" aria-label="Type"><button type="button" data-k="channels" aria-pressed="true">Channels</button><button type="button" data-k="playlists" aria-pressed="false">Playlists</button></span>'
+       '<div class="adm"><div class="admbar"><label>Entry <select id="adm-ent"><option value="">(free search)</option></select></label><span id="adm-prog" class="small"></span></div><div class="admbar"><label>Look for <input id="adm-q" type="search" placeholder="e.g. Abraham Accords" size="28"></label>'
+       '<span class="vseg" role="group" aria-label="Type"><button type="button" data-k="channels" aria-pressed="true">Channels</button><button type="button" data-k="playlists" aria-pressed="false">Playlists</button><button type="button" data-k="videos" aria-pressed="false">Videos</button></span>'
        '<button type="button" id="adm-go" class="admgo">Search</button><span id="adm-st" class="small"></span></div>'
        '<div class="admbar"><span class="small">Show</span><span class="vseg" role="group" aria-label="Filter"><button type="button" data-f="" aria-pressed="true">All</button><button type="button" data-f="new" aria-pressed="false">Undecided</button><button type="button" data-f="yes" aria-pressed="false">Approved</button><button type="button" data-f="no" aria-pressed="false">Rejected</button></span>'
        '<button type="button" id="adm-exp" class="admgo">Export approved</button></div>'
        '<div id="adm-list"></div><div id="adm-out" hidden><h2>Approved list</h2><p class="small">Copy this and send it to Claude, or add it to <code>video.json</code>.</p><textarea id="adm-ta" rows="14" readonly></textarea><p><button type="button" id="adm-copy" class="admgo">Copy</button></p></div></div>')
+_bt = json.load(open(os.path.join(ROOT, 'tools', 'batches.json')))
+_gb = {g['slug']: g for g in G}
+write('/admin/batches.json', json.dumps([{'id': b['id'], 'name': b['name'], 'entries': [{'slug': x, 'title': (_gb[x].get('title') or _gb[x]['name'])} for x in b['slugs'] if x in _gb]} for b in _bt['batches']], ensure_ascii=False))
 write('/admin/video/', layout('Video curation', ab_, 'Private curation page.', '/admin/video/', cls='', nd=True))
 gjson = []
 for g in G:

@@ -323,3 +323,4 @@ body.newspg .bar .ticker{max-width:none}
 .aflag{color:#a33;font-size:.8rem;margin:.3rem 0}.adesc{margin:.3rem 0}.asmp{font-size:.82rem;margin:.4rem 0 0 1rem}
 .abtn{display:flex;gap:.5rem;margin-top:.6rem}.abtn button{border:1px solid var(--line,#d8d4c8);background:transparent;border-radius:6px;padding:6px 14px;font:inherit;font-size:.8rem;cursor:pointer}
 .abtn button[aria-pressed=true]{background:var(--acc,#1a4d8f);color:#fff}#adm-ta{width:100%;font:12px/1.4 monospace}
+.avid{display:flex;gap:12px;align-items:flex-start;margin:.4rem 0}.athumb{position:relative;display:block;flex:0 0 200px}.athumb img{width:100%;display:block;border-radius:5px}.athumb .vplay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:2rem;text-shadow:0 0 8px #000}.aplay{width:320px;height:180px;border:0;flex:0 0 320px}

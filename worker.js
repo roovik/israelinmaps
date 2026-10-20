@@ -264,6 +264,14 @@ async function videoApi(url, env) {
       return out;
     };
     try {
+      if (mode === 'videos') {
+        const d = await yt('search?part=snippet&type=video&maxResults=20&relevanceLanguage=en&safeSearch=moderate&q=' + encodeURIComponent(q));
+        const ids = (d.items || []).map(i => i.id.videoId);
+        const vd = ids.length ? await yt('videos?part=snippet,statistics,contentDetails&maxResults=50&id=' + ids.join(',')) : { items: [] };
+        const chs = await chInfo((vd.items || []).map(i => i.snippet.channelId));
+        const list = (vd.items || []).map(i => ({ id: i.id, name: dec(i.snippet.title), desc: dec(i.snippet.description).slice(0, 240), published: i.snippet.publishedAt, views: Number(i.statistics.viewCount || 0), dur: i.contentDetails.duration, channel: chs[i.snippet.channelId] || { id: i.snippet.channelId, name: dec(i.snippet.channelTitle) }, trusted: knownCh.has(i.snippet.channelId) })).sort((a, b) => (b.trusted - a.trusted));
+        return new Response(JSON.stringify({ kind: 'videos', q, candidates: list }), { headers: hdr });
+      }
       if (mode === 'playlists') {
         const d = await yt('search?part=snippet&type=playlist&maxResults=25&relevanceLanguage=en&q=' + encodeURIComponent(q));
         const ids = (d.items || []).map(i => i.id.playlistId);
