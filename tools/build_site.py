@@ -734,8 +734,11 @@ hub('/media/', 'Media', 'A photographic tour of the land and the plants and anim
 sb2 = '<h1>Sources</h1><p class="small">Each source has its own page here with its latest news and views.</p><ul class="idlist">' + ''.join(f'<li><a href="/sources/{i_}/">{E(n_)}</a><span>{E(d_)}</span></li>' for i_, n_, u_, d_ in SRC) + '</ul><h2>The Book</h2><ul class="idlist"><li><a href="/index/">Index</a><span>Find any name or place in the book Israel Mosaic</span></li><li><a href="/about/">How to use this site and cite it</a><span>Addresses, IDs and hubs</span></li></ul>'
 write('/sources/', layout('Sources', chan('sources', sb2, '/sources/'), 'The publishers whose public feeds supply the news and views on this site.', '/sources/'))
 for i_, n_, u_, d_ in SRC:
-    b_ = (f'<h1>{E(n_)}</h1><p>{E(d_)}</p><p class="small"><a href="{u_}" rel="noopener">Visit {E(n_)}</a> (external site)</p><p class="small" id="src-count"></p>'
-          f'<div id="src-page" data-src="{i_}"></div><h2>Latest news</h2><div class="tgrid" id="src-news"><p>Loading.</p></div><h2>Latest views</h2><div class="tgrid" id="src-views"><p>Loading.</p></div>')
+    vc_ = {'jpost': 'thejerusalem_post', 'toi': 'timesofisrael'}.get(i_, '')
+    tabs_ = (f'<nav class="srctabs" id="src-tabs" aria-label="{E(n_)}"><a href="/sources/{i_}/?show=news" data-show="news">News</a><a href="/sources/{i_}/?show=views" data-show="views">Views</a>'
+             + (f'<a href="/video/{vc_}/">Videos</a>' if vc_ else '') + f'<a href="/sources/{i_}/" data-show="">All</a></nav>')
+    b_ = (f'<h1 id="src-h1" data-name="{E(n_)}">{E(n_)}</h1>{tabs_}<p>{E(d_)}</p><p class="small"><a href="{u_}" rel="noopener">Visit {E(n_)}</a> (external site)</p><p class="small" id="src-count"></p>'
+          f'<div id="src-page" data-src="{i_}"></div><section id="src-nsec"><h2>Latest news</h2><div class="tgrid" id="src-news"><p>Loading.</p></div></section><section id="src-vsec"><h2>Latest views</h2><div class="tgrid" id="src-views"><p>Loading.</p></div></section>')
     write(f'/sources/{i_}/', layout(n_, chan('sources', b_, f'/sources/{i_}/'), f'Latest news and views from {n_}.', f'/sources/{i_}/'))
 gjson = []
 for g in G:
