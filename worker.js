@@ -188,7 +188,7 @@ async function itemPage(request, env, k, sp, cp) {
     title = item.t; desc = (item.f || item.x || item.t).slice(0, 200);
     const vw = !!(cp && cp.startsWith('v-'));
     body = '<span data-word="' + (vw ? 'views' : 'news') + '" hidden></span><p class="crumb"><a href="/">Home</a> / <a href="' + (vw ? '/views/">Views' : '/news/">News') + '</a> / Feed item</p>'
-      + '<article class="fitem"><h1>' + H(item.t) + '</h1>'
+      + '<article class="fitem" data-orig="' + H(item.u) + '"><h1>' + H(item.t) + '</h1>'
       + '<p class="fmeta"><a href="' + H(src.site) + '" rel="noopener">' + H(src.name) + '</a>' + (when ? ' · ' + when : '') + '</p>'
       + (item.i ? '<img class="fimg" src="' + H(item.i) + '" alt="" referrerpolicy="no-referrer" onerror="this.remove()">' : '')
       + (item.f ? '<p class="fx">' + H(item.f) + '</p>' : '<p class="fx">' + H(src.name) + ' shares only the headline of this story.</p>')
