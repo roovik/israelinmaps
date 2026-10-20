@@ -261,7 +261,7 @@ VCFG = json.load(open(os.path.join(ROOT, 'video.json')))
 def vslug(c): return (c.get('handle') or c.get('id') or '').lower()
 def plslug(c): return 'pl-' + c['id'].lower()
 SUBNAV = {
- 'news': [('Security', '/news/#mode=topics&tp=security'), ('Diplomacy', '/news/#mode=topics&tp=diplomacy'), ('Politics', '/news/#mode=topics&tp=politics'), ('Technology', '/news/#mode=topics&tp=technology'), ('Business', '/news/#mode=topics&tp=business')],
+ 'news': [('Security', '/news/#mode=topics&tp=security'), ('Diplomacy', '/news/#mode=topics&tp=diplomacy'), ('Politics', '/news/#mode=topics&tp=politics'), ('Tech', '/news/#mode=topics&tp=technology'), ('Business', '/news/#mode=topics&tp=business')],
  'views': [('All Views', '/views/'), ('Op-Ed', '/views/#mode=topics&kind=Op-Ed'), ('Editorial', '/views/#mode=topics&kind=Editorial'), ('Blogs', '/views/#mode=topics&kind=Blog')],
  'nowlej': [('Maps', '/maps/'), ('Timelines', '/timelines/'), ('Charts', '/charts/'), ('Media', '/media/'), ('A to Z', '/glossary/')],
  'maps': [('Historical Maps', '/maps/'), ('Size Comparisons', '/size/'), ('Israel Tour', '/tour/')],
@@ -275,7 +275,7 @@ def tl_links():
     return [(SHORT.get(r['title'], r['title'].replace('The ', '')), r['url']) for r in rows if r['prefix'] == 'TL']
 def sec_links(sec):
     if sec == 'timelines': return tl_links()
-    if sec == 'sources': return [(n_, f'/sources/{i_}/') for i_, n_, _, _ in SRC]
+    if sec == 'sources': return [({'toi': 'ToI', 'jpost': 'JPost', 'ynet': 'ynet', 'israelhayom': 'Hayom'}.get(i_, n_), f'/sources/{i_}/') for i_, n_, _, _ in SRC]
     return SUBNAV.get(sec, [])
 def write_subnav_json():
     m = {}

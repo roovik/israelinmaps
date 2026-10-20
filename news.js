@@ -48,7 +48,7 @@
         ['security','Security',/\b(idf|hamas|hezbollah|hizbullah|gaza|missiles?|rockets?|drones?|terror\w*|soldiers?|troops|airstrikes?|strikes?|war|military|army|defen[cs]e|houthis?|iran\w*|hostages?|shin bet|ceasefire|shooting|stabbing|police|attack\w*)\b/i],
         ['diplomacy','Diplomacy',/\b(diplomat\w*|ambassadors?|embass\w+|foreign minister|summit|normali[sz]\w*|abraham accords|united nations|un|security council|sanctions?|treaty|envoys?|talks|negotiat\w*|state department|saudi|egypt\w*|jordan\w*|turkey|turkish|qatar\w*|emirates|uae|european union|eu|icc|icj|recogni[sz]\w*)\b/i],
         ['politics','Politics',/\b(knesset|netanyahu|coalition|opposition|elections?|ministers?|likud|bennett|lapid|gantz|ben.gvir|smotrich|polls?|prime minister|president|supreme court|judicial|lawmakers?|trump|democrats?|republicans?)\b/i],
-        ['technology','Technology',/\b(tech\w*|start-?ups?|cyber\w*|ai|artificial intelligence|software|chips?|semiconductors?|innovation|robot\w*|quantum|satellites?|space|nvidia|google|microsoft|apple|meta|openai)\b/i],
+        ['technology','Tech',/\b(tech\w*|start-?ups?|cyber\w*|ai|artificial intelligence|software|chips?|semiconductors?|innovation|robot\w*|quantum|satellites?|space|nvidia|google|microsoft|apple|meta|openai)\b/i],
         ['business','Business',/\b(econom\w+|shekel|stocks?|tase|markets?|banks?|banking|inflation|interest rates?|bonds?|invest\w*|exports?|ipo|acquisitions?|acquir\w+|revenues?|billions?|tax\w*|budget|trade|real estate|housing|gdp|bank of israel|earnings)\b/i],
         ['culture','Culture',/\b(films?|movies?|festivals?|music\w*|concerts?|art|artists?|museums?|theat\w+|dance|books?|authors?|novels?|poet\w*|exhibit\w*|chefs?|restaurants?|food|cuisine|travel\w*|tourism|sports?|football|soccer|basketball|maccabi|hapoel|olympic\w*|eurovision|netflix|archaeolog\w+|history|heritage|holidays?|torah|synagogues?)\b/i]
       ];
@@ -85,14 +85,15 @@
         return s.groups.map(function(g){return{group:g.group,list:g.list.filter(function(c){return a.ok[c.id]})}}).filter(function(g){return g.list.length})}
       function srcItems(id){return data.items.filter(function(i){return i.s===id})}
       function topicBtns(items,cur,attr){return TOPICS.map(function(x){var n=items.filter(function(i){return i.tp&&i.tp.indexOf(x[0])>-1}).length;return n?'<button '+attr+'="'+x[0]+'" aria-pressed="'+(cur===x[0])+'">'+x[1]+' <i>'+n+'</i></button>':''}).join('')}
+      var AB={toi:'ToI',jpost:'JPost',ynet:'ynet',israelhayom:'Hayom'};function ab(x){return AB[x.id]||x.name}
       var MQ={get matches(){return!item}};
       function drawNavM(){
-        var h='<div class="mrow" role="group" aria-label="Sources"><span class="mlab">Sources</span>'+good.map(function(s){return'<button data-ms="'+s.id+'" aria-pressed="'+(state.mode==='sources'&&state.src===s.id)+'">'+esc(s.name)+'</button>'}).join('')+'</div>';
+        var h='<div class="mrow" role="group" aria-label="Sources"><span class="mlab">Sources</span>'+good.map(function(s){return'<button data-ms="'+s.id+'" aria-pressed="'+(state.mode==='sources'&&state.src===s.id)+'">'+esc(ab(s))+'</button>'}).join('')+'</div>';
         h+='<div class="mrow" role="group" aria-label="Topics"><span class="mlab">Topics</span><button data-mt="" aria-pressed="'+(state.mode==='topics'&&!state.tp)+'">All</button>'+topicBtns(data.items,state.mode==='topics'?state.tp:null,'data-mt')+'</div>';
         if(state.mode==='sources'&&state.src){
           var s0=byId[state.src];
           if(s0){var lg=null;if(s0.groups){probe(s0);lg=liveGroups(s0)}
-            h+='<div class="mrow" role="group" aria-label="'+esc(s0.name)+' sections"><span class="mlab">'+esc(s0.name)+'</span><button data-a="1" aria-pressed="'+(!state.sub&&!state.ch)+'">All</button>'+(lg&&lg.length?lg.map(function(g){return g.list.map(function(c){return'<button data-s="'+s0.id+'" data-c="'+c.id+'" aria-pressed="'+(state.ch===s0.id+'/'+c.id)+'">'+esc(c.name)+'</button>'}).join('')}).join(''):topicBtns(srcItems(s0.id),state.sub,'data-k'))+'</div>'}
+            h+='<div class="mrow" role="group" aria-label="'+esc(s0.name)+' sections"><span class="mlab">'+esc(ab(s0))+'</span><button data-a="1" aria-pressed="'+(!state.sub&&!state.ch)+'">All</button>'+(lg&&lg.length?lg.map(function(g){return g.list.map(function(c){return'<button data-s="'+s0.id+'" data-c="'+c.id+'" aria-pressed="'+(state.ch===s0.id+'/'+c.id)+'">'+esc(c.name)+'</button>'}).join('')}).join(''):topicBtns(srcItems(s0.id),state.sub,'data-k'))+'</div>'}
         }
         tpn.innerHTML=h;tpn.classList.add('mobnav')}
       function drawNav(){
@@ -104,7 +105,7 @@
         }else{
           good.forEach(function(s){
             var on=state.src===s.id;
-            h+='<div class="nsec"><button class="nhead" data-h="'+s.id+'" aria-expanded="'+on+'">'+esc(s.name)+'</button>';
+            h+='<div class="nsec"><button class="nhead" data-h="'+s.id+'" aria-expanded="'+on+'">'+esc(ab(s))+'</button>';
             if(on){
               var lg=null;if(s.groups){probe(s);lg=liveGroups(s)}
               var all='<button data-a="1" aria-pressed="'+(!state.sub&&!state.ch)+'">All topics</button>';
