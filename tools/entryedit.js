@@ -9,9 +9,9 @@
       if(o.playlists&&o.playlists.length)ev.setAttribute('data-pls',JSON.stringify(o.playlists.map(function(x){return{id:x.id,name:x.name,by:x.by||'',slug:'pl-'+x.id.toLowerCase()}})));
       if((o.videos&&o.videos.length||o.playlists&&o.playlists.length)&&!document.getElementById('vid-list')){var as=document.querySelector('aside.newsside');if(as){as.innerHTML='<div class="adslot" data-slot="aside-top" data-sizes="320x100"></div><div id="vid-list" class="vlist"></div>'}}}}
   window.NOWOV=fetch('/api/entry?slug='+encodeURIComponent(slug),{cache:'no-store'}).then(function(r){return r.ok?r.json():{}}).then(function(o){OV=o||{};apply(OV)}).catch(function(){});
-  var editing=/[?&]edit=1/.test(location.search);if(!editing)return;
-  /* ---------- edit panel ---------- */
   var KEY='';try{KEY=localStorage.getItem('nowkey')||''}catch(e){}
+  var editing=/[?&]edit=1/.test(location.search)||!!KEY;if(!editing)return;
+  /* ---------- edit panel ---------- */
   var D={images:[],videos:[],playlists:[]};
   function init(){var im=document.getElementById('e-images'),ev=document.getElementById('e-video');
     D.images=jparse(im&&im.getAttribute('data-files'),[]);
@@ -30,7 +30,7 @@
     h+='<h4>Images (first is the main image)</h4><ol>'+D.images.map(function(f,i){return row('<img src="https://commons.wikimedia.org/wiki/Special:FilePath/'+encodeURIComponent(f.replace(/^File:/,''))+'?width=80" alt=""><span class="edt">'+esc(f.replace(/^File:/,''))+'</span>','images',i,D.images.length)}).join('')+'</ol><div class="edadd"><input id="ed-ai" placeholder="Commons file name or page URL"><button type="button" id="ed-aib">Add image</button></div>';
     h+='<h4>Videos (first is preloaded)</h4><ol>'+D.videos.map(function(v,i){return row('<img src="https://i.ytimg.com/vi/'+esc(v.v)+'/default.jpg" alt=""><input class="edt" data-k="videos" data-i="'+i+'" value="'+esc(v.t||'')+'" aria-label="Title">','videos',i,D.videos.length)}).join('')+'</ol><div class="edadd"><input id="ed-av" placeholder="YouTube video ID or link"><button type="button" id="ed-avb">Add video</button></div>';
     h+='<h4>Playlists</h4><ol>'+D.playlists.map(function(p,i){return row('<input class="edt" data-k="playlists" data-i="'+i+'" value="'+esc(p.name||'')+'" aria-label="Name"><small>'+esc(p.id)+'</small>','playlists',i,D.playlists.length)}).join('')+'</ol><div class="edadd"><input id="ed-ap" placeholder="Playlist ID or link"><input id="ed-apn" placeholder="Name"><button type="button" id="ed-apb">Add playlist</button></div>';
-    h+='<div class="edsave"><label>Admin key <input id="ed-key" type="password" value="'+esc(KEY)+'" autocomplete="off"></label><button type="button" id="ed-save">Save and reload</button><span id="ed-st" class="small"></span></div>';
+    h+='<div class="edsave"><label>Admin key <input id="ed-key" type="password" value="'+esc(KEY)+'" autocomplete="off"></label><button type="button" id="ed-save">Save and reload</button><button type="button" id="ed-copy">Copy for Claude</button><span id="ed-st" class="small"></span></div>';
     box.innerHTML=h}
   box.addEventListener('input',function(e){var t=e.target;if(t.classList.contains('edt')&&t.getAttribute('data-k')){var k=t.getAttribute('data-k'),i=+t.getAttribute('data-i');if(k==='videos')D.videos[i].t=t.value;else D.playlists[i].name=t.value}});
   box.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;var st=document.getElementById('ed-st');
@@ -40,6 +40,7 @@
     if(b.id==='ed-avb'){var y=cyt(document.getElementById('ed-av').value);if(!y||!y.v){st.textContent='That is not a YouTube video ID or link.';return}
       st.textContent='Looking up the title.';fetch('/api/yt-title?v='+y.v).then(function(r){return r.json()}).then(function(d){D.videos.push({v:y.v,t:d.t||''});draw()}).catch(function(){D.videos.push({v:y.v,t:''});draw()});return}
     if(b.id==='ed-apb'){var q=cyt(document.getElementById('ed-ap').value);if(!q||!q.pl){st.textContent='That is not a playlist ID or link.';return}D.playlists.push({id:q.pl,name:document.getElementById('ed-apn').value||'Playlist',by:''});draw();return}
+    if(b.id==='ed-copy'){var tx=JSON.stringify({entry:slug,images:D.images,videos:D.videos,playlists:D.playlists},null,1);var ta=document.createElement('textarea');ta.value=tx;document.body.appendChild(ta);ta.select();var ok=false;try{ok=document.execCommand('copy')}catch(x){}ta.remove();st.textContent=ok?'Copied. Paste it into the chat.':'Could not copy.';return}
     if(b.id==='ed-save'){KEY=document.getElementById('ed-key').value;try{localStorage.setItem('nowkey',KEY)}catch(x){}
       st.textContent='Saving.';fetch('/api/entry?slug='+encodeURIComponent(slug),{method:'PUT',headers:{'Content-Type':'application/json','x-admin-key':KEY},body:JSON.stringify(D)}).then(function(r){return r.json()}).then(function(d){if(d.ok){st.textContent='Saved.';setTimeout(function(){location.reload()},400)}else st.textContent=d.error||'Could not save.'}).catch(function(){st.textContent='Could not save.'})}});
 })();

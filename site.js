@@ -53,3 +53,4 @@
     if(q)q.addEventListener('input',run);run();
   });
 })();
+;(function(){try{if(!localStorage.getItem('nowkey'))return;var f=document.querySelector('footer');if(!f)return;var a=document.createElement('p');a.className='small';a.innerHTML='<a href="/admin/entry/">Entry workbench</a> · <a href="/admin/video/">Video curation</a>';f.appendChild(a)}catch(e){}})();
