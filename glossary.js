@@ -8,5 +8,7 @@
     secs.forEach(function(s){var any=s.querySelector('.gcard:not([hidden])');s.hidden=!any;var a=az.querySelector('a[href="#l'+s.getAttribute('data-l')+'"]');if(a)a.style.opacity=any?'':'.3'});
     cnt.textContent=(t||cat)?shown+' of '+cards.length+' entries shown.':''}
   cats.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;cat=b.getAttribute('data-c');[].forEach.call(cats.children,function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});run()});
+  function fromHash(){var m=/[#&]c=([a-z-]+)/.exec(location.hash);cat=m?m[1]:'';[].forEach.call(cats.children,function(x){x.setAttribute('aria-pressed',x.getAttribute('data-c')===cat?'true':'false')});run()}
+  window.addEventListener('hashchange',fromHash);if(location.hash)fromHash();
   q.addEventListener('input',run);
 })();

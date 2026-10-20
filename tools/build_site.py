@@ -258,6 +258,24 @@ NAV = [('/', 'Home'), ('/news/', 'News'), ('/views/', 'Views'), ('/media/', 'Med
        ('/charts/', 'Charts'), ('/glossary/', 'Glossary'), ('/sources/', 'Sources')]
 BASE = 'https://israelinmaps.com'
 
+SUBNAV = {
+ 'news': [('Security', '/news/#mode=topics&tp=security'), ('Diplomacy', '/news/#mode=topics&tp=diplomacy'), ('Politics', '/news/#mode=topics&tp=politics'), ('Technology', '/news/#mode=topics&tp=technology'), ('Business', '/news/#mode=topics&tp=business'), ('Culture', '/news/#mode=topics&tp=culture')],
+ 'views': [('Op-Ed', '/views/#mode=topics&kind=Op-Ed'), ('Editorial', '/views/#mode=topics&kind=Editorial'), ('Blogs', '/views/#mode=topics&kind=Blog')],
+ 'maps': [('Historical Maps', '/maps/'), ('Size Comparisons', '/size/')],
+ 'charts': [('Rankings', '/rankings/'), ('Demographics', '/demographics/'), ('Top Ten', '/top-ten/'), ('Size Comparisons', '/size/'), ('Tables', '/tables/')],
+ 'media': [('A Taste of Israel', '/tour/'), ('Flora and Fauna', '/flora/')],
+ 'glossary': [('People and Groups', '/glossary/#c=people-and-groups'), ('Places', '/glossary/#c=places'), ('Events', '/glossary/#c=events'), ('Buildings and Sites', '/glossary/#c=buildings-and-sites'), ('Works', '/glossary/#c=works')],
+}
+def subnav_for(path):
+    seg = path.strip('/').split('/')[0]
+    sec = {'': 'news', 'news': 'news', 'views': 'views', 'maps': 'maps', 'timelines': '', 'charts': 'charts', 'media': 'media', 'glossary': 'glossary', 'g': 'glossary',
+           'tables': 'charts', 'demographics': 'charts', 'rankings': 'charts', 'top-ten': 'charts', 'size': 'charts', 'tour': 'media', 'flora': 'media', 'sources': 'sources'}.get(seg, '')
+    if seg == 'sources': links = [(n_, f'/sources/{i_}/') for i_, n_, _, _ in SRC]
+    else: links = SUBNAV.get(sec, [])
+    trend = 'views' if sec == 'views' else ('news' if sec in ('news', 'sources', 'glossary') or seg == '' else '')
+    html_ = ''.join(f'<a href="{u}">{E(t)}</a>' for t, u in links)
+    return f'<div class="wrap subnav" id="subnav" data-trend="{trend}"{"" if links else " hidden"}>{html_}<span class="trend" id="trend" hidden></span></div>'
+
 def layout(title, body, desc='', path='/', og=None, cls='', nd=False):
     if 'class="newspage"' in body and 'newspg' not in cls: cls = (cls + ' newspg').strip()
     news_js = 'class="newspage"' in body or path in ('/news/', '/views/') or path.startswith('/g/') or path.startswith('/news/item/')
@@ -274,11 +292,11 @@ def layout(title, body, desc='', path='/', og=None, cls='', nd=False):
 <body class="{cls}"><a class="skip" href="#main">Skip to content</a>
 <header class="top"><div class="wrap bar"><a class="brand" href="/">Israel <b>NOWlej</b></a><div class="ticker" id="news-ticker" aria-label="Latest headlines" hidden></div>
 <div class="rcol"><div class="acct"><a class="subbtn" href="/subscribe/">Subscribe</a><a class="signin" href="/signin/">Sign in</a></div><form class="sf" action="/search/" role="search"><input name="q" type="search" placeholder="Search maps, people, places, IDs" aria-label="Search"><button>Search</button></form></div></div>
-<nav class="wrap" aria-label="Sections">{nav}</nav></header>
+<nav class="wrap" aria-label="Sections">{nav}</nav>{subnav_for(path)}</header>
 <main id="main" class="wrap">{body}</main>
 <footer><div class="wrap"><p>Israel NOWlej: news, views, maps, timelines, charts and media on the Holy Land.</p>
 <p>&copy; 2003 to 2026 Richard J. Koret. All rights reserved. Page images are shown for reference with the book <i>Israel Mosaic</i> by Richard J. Koret. <a href="/about/">How to use this site and cite it</a></p></div></footer>
-<script src="/site.js" defer></script><script src="/ticker.js" defer></script>{'<script src="/ads.js" defer></script><script src="/news.js" defer></script>' if news_js else ''}{'<script src="/glossary.js" defer></script>' if path == '/glossary/' else ''}{'<script src="/source.js" defer></script>' if path.startswith('/sources/') and path != '/sources/' else ''}</body></html>'''
+<script src="/site.js" defer></script><script src="/ticker.js" defer></script>{'<script src="/ads.js" defer></script><script src="/news.js" defer></script>' if news_js else ''}{'<script src="/subnav.js" defer></script>'}{'<script src="/glossary.js" defer></script>' if path == '/glossary/' else ''}{'<script src="/source.js" defer></script>' if path.startswith('/sources/') and path != '/sources/' else ''}</body></html>'''
 
 def write(path, content):
     fp = os.path.join(OUT, path.lstrip('/'))
@@ -690,6 +708,7 @@ shutil.copy(os.path.join(ROOT, 'tools', 'news.js'), os.path.join(OUT, 'news.js')
 shutil.copy(os.path.join(ROOT, 'tools', 'ticker.js'), os.path.join(OUT, 'ticker.js'))
 shutil.copy(os.path.join(ROOT, 'tools', 'ads.js'), os.path.join(OUT, 'ads.js'))
 shutil.copy(os.path.join(ROOT, 'tools', 'source.js'), os.path.join(OUT, 'source.js'))
+shutil.copy(os.path.join(ROOT, 'tools', 'subnav.js'), os.path.join(OUT, 'subnav.js'))
 shutil.copy(os.path.join(ROOT, 'tools', 'glossary.js'), os.path.join(OUT, 'glossary.js'))
 # ---------------------------------------------------------------- data, assets, redirects, sitemap
 for e_ in search:
