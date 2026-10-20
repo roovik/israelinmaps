@@ -840,3 +840,14 @@ for p in range(173, 210): R(f'/gl-{p}', f'/g/{[g for g in G if g["pg"] == p][0][
 open(os.path.join(OUT, '_redirects'), 'w').write('\n'.join(f'{s} {d} {c}' for s, d, c in red) + '\n')
 print('items', len(rows), 'glossary', len(G), 'redirect rules', len(red), 'search', len(search))
 print('unresolved links', sum(unresolved.values()), sorted(unresolved.items(), key=lambda x: -x[1])[:40])
+
+# cache-bust assets: version every local script/stylesheet reference by content hash
+import hashlib, re as _re
+_v = hashlib.md5(b''.join(open(os.path.join(OUT, f), 'rb').read() for f in sorted(os.listdir(OUT)) if f.endswith(('.js', '.css')))).hexdigest()[:8]
+for _d, _s, _fs in os.walk(OUT):
+    if '.git' in _d or os.sep + 'tools' in _d: continue
+    for _f in _fs:
+        if _f.endswith('.html'):
+            _p = os.path.join(_d, _f); _t = open(_p, encoding='utf-8').read()
+            _n = _re.sub(r'((?:src|href)="/[A-Za-z_]+\.(?:js|css))"', r'\1?v=' + _v + '"', _t)
+            if _n != _t: open(_p, 'w', encoding='utf-8').write(_n)
