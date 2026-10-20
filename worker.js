@@ -2,13 +2,12 @@
 // Static pages are served by the assets binding. Only /api/* runs this code first.
 const FEEDS = [
   { id: 'toi', name: 'The Times of Israel', url: 'https://www.timesofisrael.com/feed/' },
-  { id: 'jpost', name: 'The Jerusalem Post', url: 'https://www.jpost.com/rss/rssfeedsheadlines.aspx' },
+  { id: 'jpost', name: 'The Jerusalem Post', url: 'https://www.jpost.com/rss/rssfeedsfrontpage.aspx' },
   { id: 'ynet', name: 'Ynetnews', url: 'https://www.ynetnews.com/Integration/StoryRss3082.xml' },
   { id: 'jns', name: 'JNS', url: 'https://www.jns.org/feed/' },
   { id: 'israelhayom', name: 'Israel Hayom', url: 'https://www.israelhayom.com/feed/' },
-  { id: 'insider', name: 'Israel Insider', url: 'https://israelinsider.org/feed/' },
 ];
-const PER_FEED = 12, TOTAL = 72, TIMEOUT = 8000;
+const PER_FEED = 12, TOTAL = 72, TIMEOUT = 8000, MAX_AGE_DAYS = 10;
 
 const ENT = { amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: ' ', rsquo: '’', lsquo: '‘', rdquo: '”', ldquo: '“', hellip: '…', ndash: '–', mdash: '—' };
 function decode(s) {
@@ -76,7 +75,16 @@ async function load(feed) {
   try {
     const r = await fetch(feed.url, { signal: ctl.signal, headers: { 'User-Agent': 'IsraelMosaicNews/1.0 (+https://israelinmaps.com/news/)', Accept: 'application/rss+xml, application/atom+xml, application/xml, text/xml, */*' }, cf: { cacheTtl: 1800, cacheEverything: true } });
     if (!r.ok) return { feed, ok: false, error: 'HTTP ' + r.status, items: [] };
-    const items = parse(await r.text(), feed);
+    const xml = await r.text();
+    if (!/<(rss|feed|rdf:RDF)\b/i.test(xml.slice(0, 2000))) return { feed, ok: false, error: 'not an RSS or Atom feed', items: [] };
+    let items = parse(xml, feed);
+    const cutoff = Date.now() - MAX_AGE_DAYS * 864e5;
+    const fresh = items.filter(i => !i.d || new Date(i.d).getTime() >= cutoff);
+    if (items.length && !fresh.length) return { feed, ok: false, error: 'no recent items', items: [] };
+    items = fresh;
+    // an image repeated across most items is a generic placeholder, not a thumbnail
+    const counts = {}; items.forEach(i => { if (i.i) counts[i.i] = (counts[i.i] || 0) + 1; });
+    items.forEach(i => { if (i.i && counts[i.i] > 2 && counts[i.i] / items.length > 0.5) i.i = ''; });
     const withImg = items.filter(i => i.i).length;
     return { feed, ok: items.length > 0, error: items.length ? '' : 'no items found', items, img: items.length > 0 && withImg / items.length >= 0.5 };
   } catch (e) {
