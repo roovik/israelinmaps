@@ -5,7 +5,7 @@
   var player=document.getElementById('v-player');
   function play(v){player.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/'+encodeURIComponent(v)+'?rel=0" title="Video player" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen loading="lazy"></iframe>';player.hidden=false}
   fetch('/api/voice?id='+encodeURIComponent(root.getAttribute('data-id'))).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){
-    var vs=d.videos||[];
+    var vs=d.videos||[];var ev=document.getElementById('e-video'),pp=d.podcasts||[];if(ev&&(vs.length||pp.length))ev.hidden=false;
     if(vs.length){
       play(vs[0].v);
       var c=document.getElementById('v-clips');c.hidden=false;
@@ -17,4 +17,13 @@
     var a=d.articles||[];document.querySelector('#v-articles ul').innerHTML=a.length?list(a):'<li>No articles are available from a public feed right now.</li>';
     if(!vs.length&&!a.length&&!p.length)document.querySelector('#v-articles ul').innerHTML='<li>The feeds for this page are being connected.</li>';
   }).catch(function(){document.querySelector('#v-articles ul').innerHTML='<li>This page could not load just now. Please try again soon.</li>'});
+})();
+(function(){
+  var ph=document.getElementById('who-ph');if(!ph)return;
+  var t=ph.getAttribute('data-wiki');if(!t)return;
+  fetch('https://en.wikipedia.org/api/rest_v1/page/summary/'+encodeURIComponent(t.replace(/ /g,'_'))+'?redirect=true').then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){
+    var u=d.thumbnail&&d.thumbnail.source;if(!u||d.type==='disambiguation')return;
+    var im=new Image();im.alt='';im.onload=function(){ph.classList.add('has');ph.innerHTML='';ph.appendChild(im);var c=document.createElement('small');c.textContent='Photo: Wikipedia';ph.appendChild(c)};
+    im.src=u.replace(/\/\d+px-/,'/480px-');
+  }).catch(function(){});
 })();

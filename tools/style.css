@@ -563,3 +563,15 @@ main h1{padding-bottom:7px}main h1::after{height:4px;width:56px}
 .vclip{display:flex;gap:10px;align-items:flex-start;width:100%;text-align:left;background:none;border:0;border-top:1px solid var(--line);padding:8px 0;cursor:pointer;color:inherit}
 .vclip img{flex:none;width:120px;height:68px;object-fit:cover;background:var(--hl)}.vclip span{display:block;font-family:system-ui,sans-serif;font-size:.88rem}.vclip i{display:block;font-style:normal;font-size:.74rem;color:var(--mut);margin-top:2px}
 @media (max-width:640px){.vtiles{grid-template-columns:1fr 1fr}.vtile{padding:10px}.vtile b{font-size:.88rem;margin:0}.vtile span{display:none}}
+/* Who's Who profile */
+.who .whohero{display:grid;grid-template-columns:200px minmax(0,1fr);gap:22px;align-items:start;margin:4px 0 10px}
+.whoph{position:relative;width:200px;height:200px;display:flex;align-items:center;justify-content:center;color:#fff;overflow:hidden;background:var(--t1);box-shadow:0 10px 24px -12px rgba(0,0,0,.45)}
+.whoph.t1{background:var(--t1)}.whoph.t2{background:var(--t2)}.whoph.t3{background:var(--t3)}.whoph.t4{background:var(--t4)}.whoph.t5{background:var(--t5)}
+.whoph::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.18) 0 25%,transparent 25% 50%,rgba(0,0,0,.12) 50% 75%,transparent 75%);background-size:40px 40px}
+.whoph .ini{position:relative;font:700 3.6rem/1 Georgia,serif;letter-spacing:.04em}
+.whoph img{position:relative;width:100%;height:100%;object-fit:cover;display:block}.whoph.org.has{background:#fff}.whoph.org img{object-fit:contain;padding:14px;box-sizing:border-box}
+.whoph small{position:absolute;right:6px;bottom:4px;font:.62rem system-ui,sans-serif;color:#fff;background:rgba(0,0,0,.45);padding:1px 5px}.whoph.org small{color:#444;background:rgba(255,255,255,.8)}
+.who .whotx h1{margin:4px 0 8px;font-size:2.2rem;line-height:1.1}.who .whotx .lead{font-size:1.12rem;line-height:1.55;margin:0 0 12px}
+.whobtn{display:flex;gap:8px;flex-wrap:wrap;margin:0}.vjump.alt{background:transparent;color:var(--t1);box-shadow:inset 0 0 0 2px var(--t1)}
+.who section>h2{border-top:4px solid var(--t2);padding-top:10px;margin-top:26px}
+@media (max-width:640px){.who .whohero{grid-template-columns:1fr;gap:12px}.whoph{width:100%;height:150px}.whoph .ini{font-size:3rem}.who .whotx h1{font-size:1.7rem}}
