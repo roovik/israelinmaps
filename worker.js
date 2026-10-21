@@ -162,9 +162,12 @@ const H = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;
 async function itemPage(request, env, k, sp, cp) {
   const origin = new URL(request.url).origin;
   const tpl = await (await env.ASSETS.fetch(new Request(origin + '/news/item-template/'))).text();
-  const src = SOURCES.find(x => x.id === sp);
-  let item = null, status = 200;
-  if (src) {
+  let src = SOURCES.find(x => x.id === sp);
+  let item = null, status = 200, archived = null;
+  if (env.ENTRIES && !src) {
+    try { const raw = await env.ENTRIES.get('va:' + k); if (raw) { archived = JSON.parse(raw); item = archived; src = { id: archived.s, name: archived.src, site: archived.site || archived.u }; } } catch { }
+  }
+  if (src && !archived) {
     const ch = cp ? findChannel(src, cp) : null;
     if (!cp || ch) {
       const r = await load({ id: src.id, name: src.name, site: src.site, url: ch ? ch.url : src.url });
@@ -187,15 +190,15 @@ async function itemPage(request, env, k, sp, cp) {
     } catch { }
     const when = item.d ? new Date(item.d).toLocaleString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Jerusalem' }) : '';
     title = item.t; desc = (item.f || item.x || item.t).slice(0, 200);
-    const vw = !!(cp && cp.startsWith('v-'));
-    body = '<span data-word="' + (vw ? 'views' : 'news') + '" hidden></span><p class="crumb"><a href="/">Home</a> / <a href="' + (vw ? '/views/">Views' : '/news/">News') + '</a> / Feed item</p>'
+    const vw = !!(cp && cp.startsWith('v-')) || !!archived;
+    body = '<span data-word="' + (vw ? 'views' : 'news') + '" hidden></span><p class="crumb"><a href="/">Home</a> / ' + (archived ? '<a href="/who/">Who&#8217;s Who</a> / <a href="/who/' + H(archived.vid) + '/">' + H(archived.src) + '</a>' : '<a href="' + (vw ? '/views/">Views' : '/news/">News') + '</a> / Feed item') + '</p>'
       + '<article class="fitem" data-orig="' + H(item.u) + '"><h1>' + H(item.t) + '</h1>'
       + '<p class="fmeta"><a href="' + H(src.site) + '" rel="noopener">' + H(src.name) + '</a>' + (when ? ' · ' + when : '') + '</p>'
       + (item.i ? '<img class="fimg" src="' + H(item.i) + '" alt="" referrerpolicy="no-referrer" onerror="this.remove()">' : '')
       + (item.f ? '<p class="fx">' + H(item.f) + '</p>' : '<p class="fx">' + H(src.name) + ' shares only the headline of this story.</p>')
       + (gl.length ? '<p class="chips">In the glossary: ' + gl.map(g => '<a href="/g/' + H(g[0]) + '/">' + H(g[1]) + '</a>').join(' ') + '</p>' : '')
       + '<p class="fgo"><a class="fbtn" href="' + H(item.u) + '" rel="noopener nofollow">Read the full story at ' + H(src.name) + '</a></p>'
-      + '<p class="small">This page will disappear after 7 days.</p></article>';
+      + (archived ? '<p class="small">Headline and a short excerpt, kept in the Israel NOWlej archive. Full text and copyright remain with the original publisher.</p></article>' : '<p class="small">This page will disappear after 7 days.</p></article>');
   }
   const html = tpl.split('@@TITLE@@').join(H(title)).split('@@DESC@@').join(H(desc)).split('@@K@@').join(H(k)).split('@@BODY@@').join(body);
   return new Response(html, { status, headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': status === 200 ? 'public, max-age=900' : 'no-store', 'X-Robots-Tag': 'noindex' } });
@@ -464,7 +467,7 @@ async function voiceApi(url, env) {
   const mk = 'voice/' + id, cached = diagOn ? null : await memGet(mk);
   if (cached) return new Response(JSON.stringify(cached), { headers: hdr });
   const feedUrls = (v.blog && v.blog.length) ? v.blog : (v.site ? await discoverFeeds(v.site, diag) : []);
-  const arts = (await Promise.all(feedUrls.map(u => load({ id: v.id, name: v.name, site: v.site || u, url: u, maxAge: 3650 })))).flatMap(r => r.items).map(({ f, ...rest }) => rest);
+  const arts = (await Promise.all(feedUrls.map(u => load({ id: v.id, name: v.name, site: v.site || u, url: u, maxAge: 3650 })))).flatMap(r => r.items);
   // coverage by and about the person: Google News search, credited to each publisher
   const gq = v.gq || v.name;
   const gnr = await load({ id: v.id, name: 'News', site: 'https://news.google.com/', url: 'https://news.google.com/rss/search?q=' + encodeURIComponent('"' + gq + '"') + '&hl=en-US&gl=US&ceid=US:en', maxAge: 3650 });
@@ -509,7 +512,15 @@ async function voiceApi(url, env) {
     sv.list.forEach(x => { if (!vids.some(y => y.v === x.v)) vids.push(x); });
   }
   arts.sort((a, b) => (b.d || '').localeCompare(a.d || '')); vids.sort((a, b) => (b.d || '').localeCompare(a.d || ''));
-  const out = { id, name: v.name, kind: v.kind, updated: new Date().toISOString(), articles: arts.slice(0, 30), news, podcasts: podArts.slice(0, 20), videos: vids.slice(0, 30), playlists: pls.slice(0, 24), feeds: feedUrls };
+  if (env && env.ENTRIES) {
+    for (const a of arts.slice(0, 30)) {
+      try {
+        const key = 'va:' + a.k;
+        if (!(await env.ENTRIES.get(key))) await env.ENTRIES.put(key, JSON.stringify({ k: a.k, t: a.t, u: a.u, d: a.d, f: a.f || '', x: a.x || '', i: a.i || '', s: v.id, vid: v.id, src: v.name, site: v.site || a.u }));
+      } catch { break; }
+    }
+  }
+  const out = { id, name: v.name, kind: v.kind, updated: new Date().toISOString(), articles: arts.slice(0, 30).map(({ f, ...rest }) => rest), news, podcasts: podArts.slice(0, 20), videos: vids.slice(0, 30), playlists: pls.slice(0, 24), feeds: feedUrls };
   if (diag) out.diag = diag; else await memPut(mk, out, 900);
   return new Response(JSON.stringify(out), { headers: diagOn ? { ...hdr, 'Cache-Control': 'no-store' } : hdr });
 }

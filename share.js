@@ -1,7 +1,7 @@
 /* Share row: email and social links that share the NOWlej page itself. */
 (function(){
   function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
-  function pageUrl(){return location.origin+location.pathname+location.search}
+  function pageUrl(){return location.origin+location.pathname+location.search+(/^#v=[\w-]{11}$/.test(location.hash)?location.hash:'')}
   function html(url,title,label,orig){
     var u=encodeURIComponent(url),t=encodeURIComponent(title),both=encodeURIComponent(title+' '+url);
     var L=[['Email','mailto:?subject='+t+'&body='+encodeURIComponent(title+'\n\n'+url)],
@@ -24,9 +24,10 @@
     if(/^\/admin\//.test(location.pathname))return;
     var title=(document.querySelector('h1')||{}).textContent||document.title;title=document.title||title;
     var orig=(document.querySelector('article[data-orig]')||{getAttribute:function(){return''}}).getAttribute('data-orig');
+    var wb=document.querySelector('.whobtn');if(wb&&wb.parentNode){var pr=mk(pageUrl(),title,'Share this profile');pr.classList.add('sharehero');wb.parentNode.appendChild(pr)}
     var f=document.querySelector('footer');
     if(f&&f.parentNode){var pg=mk(pageUrl(),title,'Share this page',orig);pg.classList.add('sharepg');f.parentNode.insertBefore(pg,f)}
-    ['e-player','e-plplayer','vid-top'].forEach(function(id){var el=document.getElementById(id);if(!el||!el.parentNode)return;
+    ['e-player','e-plplayer','vid-top','v-player'].forEach(function(id){var el=document.getElementById(id);if(!el||!el.parentNode)return;
       var r=mk(pageUrl(),title,id==='e-plplayer'?'Share this playlist page':'Share this video page');r.classList.add('sharev');el.parentNode.insertBefore(r,el.nextSibling);
       var sync=function(){r.hidden=el.hidden||!el.innerHTML.trim()};sync();new MutationObserver(sync).observe(el,{attributes:true,childList:true})})}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();

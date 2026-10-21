@@ -621,3 +621,6 @@ main h1{padding-bottom:7px}main h1::after{height:4px;width:56px}
 .wph.org img,.rwph.org img,.whoph.org img{object-position:50% 50%;object-fit:contain;padding:10px;box-sizing:border-box}
 .wph.icon img,.rwph.icon img,.whoph.icon img{object-fit:contain;object-position:50% 50%;padding:18%;box-sizing:border-box;image-rendering:auto}
 .vsub{list-style:none;border:0!important;padding:14px 0 0!important}.vsub h3{margin:0;font:700 .8rem system-ui,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:var(--t4)}
+.sharehero{margin-top:10px;padding:0;border:0;background:none}.orig{font-size:.75rem}
+.vjump[hidden]{display:none!important}
+.sharehero{gap:4px 5px}.sharehero .shl{display:none}.sharehero a[data-sh],.sharehero button{padding:3px 8px;font-size:.74rem}

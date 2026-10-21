@@ -5,7 +5,7 @@
   function when(d){if(!d)return'';var t=new Date(d);if(isNaN(t))return'';return t.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}
   var player=document.getElementById('v-player');
   function embed(src){player.innerHTML='<iframe src="'+src+'" title="Video player" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen loading="lazy"></iframe>';player.hidden=false}
-  function play(v){embed('https://www.youtube-nocookie.com/embed/'+encodeURIComponent(v)+'?rel=0')}
+  function play(v){embed('https://www.youtube-nocookie.com/embed/'+encodeURIComponent(v)+'?rel=0');try{history.replaceState(null,'','#v='+encodeURIComponent(v))}catch(e){}}
   function playList(id){embed('https://www.youtube-nocookie.com/embed/videoseries?list='+encodeURIComponent(id)+'&rel=0')}
   var tabs=document.getElementById('v-tabs'),clipsBox=document.getElementById('v-clips'),plBox=document.getElementById('v-playlists');
   function showTab(t){[].forEach.call(tabs.children,function(b){b.setAttribute('aria-pressed',b.getAttribute('data-t')===t)});clipsBox.hidden=t!=='videos'||!clipsBox.querySelector('li');plBox.hidden=t!=='playlists'}
@@ -15,7 +15,7 @@
     var vs=d.videos||[],pp=d.podcasts||[],pls=d.playlists||[];var ev=document.getElementById('e-video');
     if(ev&&(vs.length||pp.length||pls.length))ev.hidden=false;
     if(vs.length){
-      play(vs[0].v);document.getElementById('wb-vid').hidden=false;
+      var hv=/#v=([\w-]{11})/.exec(location.hash);play(hv?hv[1]:vs[0].v);document.getElementById('wb-vid').hidden=false;
       clipsBox.hidden=false;
       clipsBox.querySelector('ul').innerHTML=vs.map(function(x){return'<li><button type="button" class="vclip" data-v="'+esc(x.v)+'"><img src="https://i.ytimg.com/vi/'+esc(x.v)+'/mqdefault.jpg" alt="" width="320" height="180" loading="lazy"><span><b>'+esc(x.t)+'</b><i>'+esc(x.n||d.name)+(x.d?' · '+when(x.d):'')+'</i></span></button></li>'}).join('');
       clipsBox.addEventListener('click',function(e){var b=e.target.closest('.vclip');if(!b)return;play(b.getAttribute('data-v'));player.scrollIntoView({behavior:'smooth',block:'center'})});
@@ -26,7 +26,7 @@
       plBox.addEventListener('click',function(e){var b=e.target.closest('.vpl');if(!b)return;playList(b.getAttribute('data-l'));player.scrollIntoView({behavior:'smooth',block:'center'})});
     }
     if(!vs.length&&!pls.length)tabs.hidden=true;
-    function list(items){return items.map(function(a){return'<li><a href="'+esc(a.u)+'" rel="noopener" target="_blank"><b>'+esc(a.t)+'</b></a><span class="wm">'+esc(d.name)+(a.d?' · '+when(a.d):'')+'</span>'+(a.x?'<p>'+esc(a.x)+'</p>':'')+'</li>'}).join('')}
+    function list(items){return items.map(function(a){var h=a.k?'/news/item/'+esc(a.k)+'/':esc(a.u),ext=a.k?'':' rel="noopener" target="_blank"';return'<li><a href="'+h+'"'+ext+'><b>'+esc(a.t)+'</b></a><span class="wm">'+esc(d.name)+(a.d?' · '+when(a.d):'')+(a.k?' · <a class="orig" href="'+esc(a.u)+'" rel="noopener" target="_blank">Original</a>':'')+'</span>'+(a.x?'<p>'+esc(a.x)+'</p>':'')+'</li>'}).join('')}
     if(pp.length){var pe=document.getElementById('v-pods');pe.hidden=false;pe.querySelector('ul').innerHTML=list(pp)}
     var a=d.articles||[],nw=d.news||[];
     function nlist(items){return items.map(function(a){return'<li><a href="'+esc(a.u)+'" rel="noopener" target="_blank"><b>'+esc(a.t)+'</b></a><span class="wm">'+esc(a.src||'News')+(a.d?' · '+when(a.d):'')+'</span></li>'}).join('')}
