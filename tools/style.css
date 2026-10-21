@@ -684,3 +684,9 @@ header.top{margin-bottom:5px}
 .who .whohero .wdw>.edef{display:-webkit-box!important;-webkit-line-clamp:3!important;-webkit-box-orient:vertical;overflow:hidden;margin:8px 0 0}
 .who .whohero .wdw>.edef.open{display:block!important;-webkit-line-clamp:unset!important}
 .wcard .wdw .wd{margin-top:4px}
+/* second level menu: equal-width buttons spanning the full row, text centred */
+.subnav a{flex:1 1 0;min-width:0;text-align:center;overflow:hidden;text-overflow:ellipsis}
+.subnav .trend{display:none!important}
+@media (max-width:640px){.subnav a{flex:1 0 auto;padding-left:12px;padding-right:12px}}
+.subnav.prev a:hover,.subnav.prev a:focus{color:#fff;text-decoration:none}
+.subnav.sub2 a:hover{color:#fff}
