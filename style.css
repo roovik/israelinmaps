@@ -446,7 +446,7 @@ nav.wrap a[data-n="9"]:hover,nav.wrap a[data-n="9"].hov{color:#6a3d9a;border-col
 @media (max-width:1000px){.newspage.noleft{grid-template-columns:1fr}.newspage.noleft>.newsleft,.newspage.noleft>.newsside{grid-column:1;grid-row:auto}}
 /* phones: long chip rows scroll inside their own box and never widen the page */
 @media (max-width:640px){
-html,body{overflow-x:hidden;max-width:100%}
+html{overflow-x:hidden;max-width:100%}body{overflow-x:clip;max-width:100%}
 .newspage{grid-template-columns:minmax(0,1fr)!important}
 .newspage>*,.newsleftcol,.newstopics,.newsmain,.newsleft{min-width:0;max-width:100%}
 .mobnav .mrow{max-width:100%}
@@ -922,3 +922,5 @@ body .bar .ticker,body.newspg .bar .ticker{border:0!important;background:transpa
 .adslot,.adslot[data-slot],.adslot[data-slot=aside-top]{display:none!important}
 
 #plist{font-size:11pt}#plist option{font-weight:700}
+
+@media (max-width:640px){header.top{position:sticky;top:var(--pin,0px);z-index:40}}
