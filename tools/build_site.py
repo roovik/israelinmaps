@@ -797,7 +797,7 @@ home = (f'<div class="newspage aboutpg"><div class="newsleftcol"><h2>From the bo
         f'<span id="news-side" data-word="news" hidden></span><div id="news-latest"></div></aside></div><p class="small" id="news-status"></p>')
 
 # ---- voices: organizations and individuals
-VOICES_ = json.load(open(os.path.join(ROOT, 'voices.json')))['voices']
+VOICES_ = [v_ for v_ in json.load(open(os.path.join(ROOT, 'voices.json')))['voices'] if not v_.get('hidden')]
 def voices_pages():
     def tile(v):
         return f'<a class="vtile {v["kind"]}" href="/voices/{v["id"]}/"><b>{E(v["name"])}</b><span>{E(v["intro"].split(". ")[0])}.</span></a>'
