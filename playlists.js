@@ -9,8 +9,18 @@
     names=d.chnames||{};
     P=(d.playlists||[]).map(function(p){return{id:p.id,name:p.name,by:names[(p.channel||'').toLowerCase()]||p.by||''}});
     ps.innerHTML='<option value="">All Israel playlists</option>'+P.map(function(p,i){return'<option value="'+esc(p.id)+'">'+esc(p.name)+'</option>'}).join('');
-    run()
+    cdd();run()
   }).catch(function(){nn.textContent='The playlists could not be loaded right now. Please try again shortly.'});
+
+  var cd,cb,cl;
+  function cdd(){
+    if(!cd){cd=document.createElement('div');cd.className='cdd';cb=document.createElement('button');cb.type='button';cb.className='cdd-b';cb.setAttribute('aria-haspopup','listbox');cl=document.createElement('ul');cl.className='cdd-l';cl.hidden=true;cl.setAttribute('role','listbox');cd.appendChild(cb);cd.appendChild(cl);ps.parentNode.insertBefore(cd,ps);ps.classList.add('cdd-native');ps.setAttribute('aria-hidden','true');ps.tabIndex=-1;
+      cb.addEventListener('click',function(){cl.hidden=!cl.hidden});
+      document.addEventListener('click',function(e){if(!cd.contains(e.target))cl.hidden=true});
+      cl.addEventListener('click',function(e){var li=e.target.closest('li');if(!li)return;ps.value=li.getAttribute('data-v');cl.hidden=true;ps.focus();ps.dispatchEvent(new Event('change'));cdsync()})}
+    cl.innerHTML=P.length?'<li data-v="" role="option"><b>All Israel playlists</b></li>'+P.map(function(p){return'<li role="option" data-v="'+esc(p.id)+'"><b>'+esc(p.name)+'</b>'+(p.by?' <span>'+esc(p.by)+'</span>':'')+'</li>'}).join(''):'';
+    cdsync()}
+  function cdsync(){var o=ps.options[ps.selectedIndex];cb.innerHTML='<b>'+esc(o?o.textContent:'All Israel playlists')+'</b>'}
   function play(id,name){
     pl.hidden=false;pl.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/videoseries?list='+encodeURIComponent(id)+'&rel=0&autoplay=1&mute=1&playsinline=1&enablejsapi=1&origin='+encodeURIComponent(location.origin)+'" title="'+esc(name)+'" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>';
     var f=pl.firstChild;function cmd(n){try{f.contentWindow.postMessage(JSON.stringify({event:'command',func:n,args:[]}),'*')}catch(x){}}function go(){cmd('playVideo');cmd('unMute')}
@@ -25,6 +35,6 @@
     nn.textContent=list.length+(list.length===1?' playlist':' playlists');
     grid.innerHTML=list.map(function(p){return'<button type="button" class="pcard" data-id="'+esc(p.id)+'" data-n="'+esc(p.name)+'"><b>'+esc(p.name)+'</b><span>'+esc(p.by||'Playlist')+'</span><i>&#9654; Play</i></button>'}).join('')||'<p>No playlists match. Try another genre or keyword.</p>';
     if(sel&&list.length===1&&document.activeElement===ps)play(list[0].id,list[0].name)}
-  gs.addEventListener('change',run);ps.addEventListener('change',run);form.addEventListener('submit',function(e){e.preventDefault();run()});qi.addEventListener('input',run);
+  gs.addEventListener('change',run);ps.addEventListener('change',run);gs.addEventListener('change',cdsync);form.addEventListener('submit',function(e){e.preventDefault();run()});qi.addEventListener('input',run);
   grid.addEventListener('click',function(e){var b=e.target.closest('.pcard');if(!b)return;[].forEach.call(grid.querySelectorAll('.pcard.on'),function(x){x.classList.remove('on')});b.classList.add('on');play(b.getAttribute('data-id'),b.getAttribute('data-n'))});
 })();

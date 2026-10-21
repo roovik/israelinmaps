@@ -924,3 +924,8 @@ body .bar .ticker,body.newspg .bar .ticker{border:0!important;background:transpa
 #plist{font-size:11pt}#plist option{font-weight:700}
 
 @media (max-width:640px){header.top{position:sticky;top:var(--pin,0px);z-index:40}}
+
+#plist.cdd-native{position:absolute;opacity:0;pointer-events:none;width:1px;height:1px}
+.cdd{position:relative;min-width:0}.cdd-b{width:100%;text-align:left;font:inherit;font-size:11pt;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--fg);cursor:pointer;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cdd-l{position:absolute;z-index:30;left:0;right:0;top:100%;margin:2px 0 0;padding:4px 0;list-style:none;max-height:60vh;overflow:auto;background:var(--card);border:1px solid var(--line);border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,.18);font-size:11pt}
+.cdd-l li{padding:7px 10px;cursor:pointer;line-height:1.3}.cdd-l li:hover{background:var(--bg)}.cdd-l b{font-weight:700}.cdd-l span{font-weight:400;color:var(--mut)}.cdd-l[hidden]{display:none}
