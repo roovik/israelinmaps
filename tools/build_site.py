@@ -297,7 +297,7 @@ TOPSEC = {'': 'news', 'news': 'news', 'views': 'views', 'voices': 'views', 'who'
           'tables': 'nowlej', 'demographics': 'nowlej', 'rankings': 'nowlej', 'top-ten': 'nowlej', 'size': 'nowlej', 'tour': 'media', 'flora': 'media'}
 TOPIDX = {'news': 0, 'views': 1, 'media': 2, 'nowlej': 3, 'sources': 4}
 CTX2 = {'maps': 'maps', 'timelines': 'timelines', 'charts': 'charts', 'tables': 'charts', 'demographics': 'charts', 'rankings': 'charts', 'top-ten': 'charts', 'size': 'charts',
-        'who': 'who', 'video': 'video'}
+        'who': 'who', 'video': 'video', 'audio': 'audio'}
 def subnav_for(path):
     seg = path.strip('/').split('/')[0]
     top = TOPSEC.get(seg, '')
@@ -933,6 +933,7 @@ hot_pages()
 # ---- Media landing and Audio
 SHOWS_ = json.load(open(os.path.join(ROOT, 'voices.json'))).get('shows', [])
 AUD_ = [dict(v_, own=True) for v_ in SHOWS_] + [v_ for v_ in VOICES_ if v_.get('pods')]
+SUBNAV['audio'] = [(v_['name'], f'/audio/#s-{v_["id"]}') for v_ in AUD_]
 _aleft = ('<nav class="newstopics secnav wholist" aria-label="Audio shows"><h2><a href="/audio/">Audio</a></h2><h3>Shows</h3><ul>'
           + ''.join(f'<li><a href="#s-{v_["id"]}">{E(v_["name"])}</a></li>' for v_ in AUD_) + '</ul></nav>')
 def _ini(n):
