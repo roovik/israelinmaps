@@ -935,7 +935,13 @@ SHOWS_ = json.load(open(os.path.join(ROOT, 'voices.json'))).get('shows', [])
 AUD_ = [dict(v_, own=True) for v_ in SHOWS_] + [v_ for v_ in VOICES_ if v_.get('pods')]
 _aleft = ('<nav class="newstopics secnav wholist" aria-label="Audio shows"><h2><a href="/audio/">Audio</a></h2><h3>Shows</h3><ul>'
           + ''.join(f'<li><a href="#s-{v_["id"]}">{E(v_["name"])}</a></li>' for v_ in AUD_) + '</ul></nav>')
-_ab = ('<h1>Audio</h1><p class="small">Podcasts and audio shows from the people and organizations in Voices. Choose an episode to play it here. Episodes are credited to and link to their original shows.</p>'
+def _ini(n):
+    w_ = [x for x in re.sub(r'^The ', '', n.split(':')[0]).split() if x[:1].isalpha() and x.lower() not in ('of', 'the', 'with')]
+    return (w_[0][0] + (w_[1][0] if len(w_) > 1 else '')).upper()
+_apick = ('<nav class="apick" aria-label="Choose a show">' + ''.join(
+    f'<a href="#s-{v_["id"]}"><span class="apic c{i_ % 6}"' + ('' if v_.get('own') else f' data-who="{v_["id"]}"') + f'><span class="ini">{E(_ini(v_["name"]))}</span></span><span class="apn">{E(re.sub(r"^The ", "", v_["name"].split(":")[0].replace(" Daily Briefing", " Briefing")))}</span></a>'
+    for i_, v_ in enumerate(AUD_)) + '</nav>')
+_ab = ('<h1>Audio</h1>' + _apick + '<p class="small">Podcasts and audio shows from the people and organizations in Voices. Choose an episode to play it here. Episodes are credited to and link to their original shows.</p>'
        '<div class="atop" id="a-top" hidden><div class="anow" id="a-now"></div><audio id="a-audio" controls preload="none"></audio></div>'
        '<div id="a-shows">' + ''.join(f'<section class="ashow" id="s-{v_["id"]}" data-id="{v_["id"]}"><h2>{E(v_["name"]) if v_.get("own") else f'<a href="/who/{v_["id"]}/">{E(v_["name"])}</a>'}</h2><ul class="alist"><li>Loading.</li></ul></section>' for v_ in AUD_) + '</div>'
        '<p class="subcta">Know a podcast we should include? <a href="/submit/?type=nominee">Send us a nomination</a>.</p>')
