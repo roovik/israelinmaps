@@ -860,3 +860,27 @@ main h1{padding-bottom:0}main h1::after{display:none!important}
 @media (max-width:640px){.tcover{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.tcover .tcard .tb b{font-size:.9rem}}
 .tstart{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin:6px 0 4px}.tbtn{display:inline-block;background:#1f5fbf;color:#fff!important;text-decoration:none;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-weight:700;padding:11px 20px;border-radius:8px}
 .pn a.tnr{background:#1f5fbf;border-color:#1f5fbf;color:#fff}.pn a.tnr span{color:#dbe7ff}
+/* logo 3% smaller; ticker without frame, flush with the logo's left edge */
+@media (min-width:901px){.bar .brand img{height:58px;width:auto}.bar .ticker,body.newspg .bar .ticker{height:58px!important}.bar .rcol{height:58px}}
+@media (max-width:900px){body .bar .brand img{height:54px}body .bar .rcol{height:54px}}
+@media (max-width:380px){body .bar .brand img{height:44px}body .bar .rcol{height:44px}}
+body .bar .ticker,body.newspg .bar .ticker{border:0!important;background:transparent!important;border-radius:0!important;box-shadow:none!important}
+.bar .ticker .tki{padding-left:0!important;padding-right:0!important}
+/* News and Views filter bar */
+.fnav{display:block!important;margin:0 0 14px;position:static}
+.ffilter{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 10px;font-family:system-ui,sans-serif}
+.ffilter label{font-weight:700;font-size:.95rem}
+.ffilter select,.ffilter input{height:34px;box-sizing:border-box;padding:0 10px;border:1px solid #cfc6ae;border-radius:6px;background:#fffdf6;font:inherit;font-size:.9rem;color:var(--fg)}
+.ffilter select{max-width:48vw}.ffilter input{flex:1 1 160px;min-width:0}
+.ffilter button{height:34px;padding:0 16px;border:0;border-radius:6px;background:#2b2f38;color:#fff;font:inherit;font-size:.9rem;cursor:pointer}
+.fsrc{margin:4px 0 6px;padding-bottom:6px}
+.fsrc a{width:74px}.fsrc .apic{width:56px;height:56px;font-size:1rem}
+.fsrc .apic.all{background:#2b2f38}
+.fsrc a[aria-current=true] .apic{box-shadow:0 0 0 3px var(--acc);border-color:#fff}
+.fsrc a[aria-current=true] .apn{color:var(--fg);font-weight:700}
+.ftop{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 4px}
+.ftop button{font:inherit;font-family:system-ui,sans-serif;font-size:.82rem;padding:5px 12px;border:1px solid var(--line);border-radius:4px;background:transparent;color:var(--fg);cursor:pointer}
+.ftop button i{font-style:normal;opacity:.65;font-size:.75rem}
+.ftop button[aria-pressed=true]{background:var(--acc);border-color:var(--acc);color:#fff}
+@media (max-width:640px){.ftop{flex-wrap:nowrap;overflow-x:auto;white-space:nowrap}.ftop button{flex:none}}
+@media (max-width:640px){.ffilter{flex-wrap:nowrap;gap:6px}.ffilter select{max-width:34vw;flex:0 1 auto}.ffilter input{flex:1 1 60px}.ffilter button{padding:0 12px;flex:none}.ffilter label{font-size:.9rem}}
