@@ -4,27 +4,31 @@
   function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
   function when(d){if(!d)return'';var t=new Date(d);if(isNaN(t))return'';return t.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}
   var player=document.getElementById('v-player');
-  function play(v){player.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/'+encodeURIComponent(v)+'?rel=0" title="Video player" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen loading="lazy"></iframe>';player.hidden=false}
+  function embed(src){player.innerHTML='<iframe src="'+src+'" title="Video player" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen loading="lazy"></iframe>';player.hidden=false}
+  function play(v){embed('https://www.youtube-nocookie.com/embed/'+encodeURIComponent(v)+'?rel=0')}
+  function playList(id){embed('https://www.youtube-nocookie.com/embed/videoseries?list='+encodeURIComponent(id)+'&rel=0')}
+  var tabs=document.getElementById('v-tabs'),clipsBox=document.getElementById('v-clips'),plBox=document.getElementById('v-playlists');
+  function showTab(t){[].forEach.call(tabs.children,function(b){b.setAttribute('aria-pressed',b.getAttribute('data-t')===t)});clipsBox.hidden=t!=='videos'||!clipsBox.querySelector('li');plBox.hidden=t!=='playlists'}
+  tabs.addEventListener('click',function(e){var b=e.target.closest('button');if(b)showTab(b.getAttribute('data-t'))});
+  document.addEventListener('click',function(e){var a=e.target.closest('#wb-pl');if(a){showTab('playlists')}});
   fetch('/api/voice?id='+encodeURIComponent(root.getAttribute('data-id'))).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){
-    var vs=d.videos||[];var ev=document.getElementById('e-video'),pp=d.podcasts||[];if(ev&&(vs.length||pp.length))ev.hidden=false;
+    var vs=d.videos||[],pp=d.podcasts||[],pls=d.playlists||[];var ev=document.getElementById('e-video');
+    if(ev&&(vs.length||pp.length||pls.length))ev.hidden=false;
     if(vs.length){
-      play(vs[0].v);
-      var c=document.getElementById('v-clips');c.hidden=false;
-      c.querySelector('ul').innerHTML=vs.map(function(x,i){return'<li><button type="button" class="vclip" data-v="'+esc(x.v)+'"><img src="https://i.ytimg.com/vi/'+esc(x.v)+'/mqdefault.jpg" alt="" width="120" height="68" loading="lazy"><span><b>'+esc(x.t)+'</b><i>'+esc(x.n||d.name)+(x.d?' · '+when(x.d):'')+'</i></span></button></li>'}).join('');
-      c.addEventListener('click',function(e){var b=e.target.closest('.vclip');if(!b)return;play(b.getAttribute('data-v'));player.scrollIntoView({behavior:'smooth',block:'center'})});
+      play(vs[0].v);document.getElementById('wb-vid').hidden=false;
+      clipsBox.hidden=false;
+      clipsBox.querySelector('ul').innerHTML=vs.map(function(x){return'<li><button type="button" class="vclip" data-v="'+esc(x.v)+'"><img src="https://i.ytimg.com/vi/'+esc(x.v)+'/mqdefault.jpg" alt="" width="320" height="180" loading="lazy"><span><b>'+esc(x.t)+'</b><i>'+esc(x.n||d.name)+(x.d?' · '+when(x.d):'')+'</i></span></button></li>'}).join('');
+      clipsBox.addEventListener('click',function(e){var b=e.target.closest('.vclip');if(!b)return;play(b.getAttribute('data-v'));player.scrollIntoView({behavior:'smooth',block:'center'})});
+    } else tabs.querySelector('[data-t=videos]').hidden=true;
+    if(pls.length){
+      tabs.querySelector('[data-t=playlists]').hidden=false;document.getElementById('wb-pl').hidden=false;
+      plBox.querySelector('ul').innerHTML=pls.map(function(x){return'<li><button type="button" class="vclip vpl" data-l="'+esc(x.id)+'"><img src="'+esc(x.th)+'" alt="" width="320" height="180" loading="lazy"><span><b>'+esc(x.t)+'</b><i>Playlist · '+esc(x.n)+' videos</i></span></button></li>'}).join('');
+      plBox.addEventListener('click',function(e){var b=e.target.closest('.vpl');if(!b)return;playList(b.getAttribute('data-l'));player.scrollIntoView({behavior:'smooth',block:'center'})});
     }
-    function list(items,box){return items.map(function(a){return'<li><a href="'+esc(a.u)+'" rel="noopener" target="_blank"><b>'+esc(a.t)+'</b></a><span class="wm">'+esc(d.name)+(a.d?' · '+when(a.d):'')+'</span>'+(a.x?'<p>'+esc(a.x)+'</p>':'')+'</li>'}).join('')}
-    var p=d.podcasts||[];if(p.length){var pe=document.getElementById('v-pods');pe.hidden=false;pe.querySelector('ul').innerHTML=list(p)}
+    if(!vs.length&&!pls.length)tabs.hidden=true;
+    function list(items){return items.map(function(a){return'<li><a href="'+esc(a.u)+'" rel="noopener" target="_blank"><b>'+esc(a.t)+'</b></a><span class="wm">'+esc(d.name)+(a.d?' · '+when(a.d):'')+'</span>'+(a.x?'<p>'+esc(a.x)+'</p>':'')+'</li>'}).join('')}
+    if(pp.length){var pe=document.getElementById('v-pods');pe.hidden=false;pe.querySelector('ul').innerHTML=list(pp)}
     var a=d.articles||[];document.querySelector('#v-articles ul').innerHTML=a.length?list(a):'<li>No articles are available from a public feed right now.</li>';
-    if(!vs.length&&!a.length&&!p.length)document.querySelector('#v-articles ul').innerHTML='<li>The feeds for this page are being connected.</li>';
-  }).catch(function(){document.querySelector('#v-articles ul').innerHTML='<li>This page could not load just now. Please try again soon.</li>'});
-})();
-(function(){
-  var ph=document.getElementById('who-ph');if(!ph)return;
-  var t=ph.getAttribute('data-wiki');if(!t)return;
-  fetch('https://en.wikipedia.org/api/rest_v1/page/summary/'+encodeURIComponent(t.replace(/ /g,'_'))+'?redirect=true').then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){
-    var u=d.thumbnail&&d.thumbnail.source;if(!u||d.type==='disambiguation')return;
-    var im=new Image();im.alt='';im.onload=function(){ph.classList.add('has');ph.innerHTML='';ph.appendChild(im);var c=document.createElement('small');c.textContent='Photo: Wikipedia';ph.appendChild(c)};
-    im.src=u.replace(/\/\d+px-/,'/480px-');
-  }).catch(function(){});
+    if(!vs.length&&!a.length&&!pp.length)document.querySelector('#v-articles ul').innerHTML='<li>The feeds for this page are being connected.</li>';
+  }).catch(function(){tabs.hidden=true;document.querySelector('#v-articles ul').innerHTML='<li>This page could not load just now. Please try again soon.</li>'});
 })();

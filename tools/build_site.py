@@ -325,7 +325,7 @@ def layout(title, body, desc='', path='/', og=None, cls='', nd=False):
 <main id="main" class="wrap">{body}</main>
 <footer><div class="wrap"><p>Israel NOWlej: news, views, maps, timelines, charts and media on the Holy Land.</p>
 <p>&copy; 2003 to 2026 Richard J. Koret. All rights reserved. Page images are shown for reference with the book <i>Israel NOWlej</i> by Richard J. Koret. <a href="/about/">About this site, how to use it and cite it</a></p></div></footer>
-<script src="/site.js" defer></script><script src="/share.js" defer></script><script src="/ticker.js" defer></script>{'<script src="/ads.js" defer></script><script src="/news.js" defer></script>' if news_js else ''}{'<script src="/subnav.js" defer></script>'}{'<script src="/entryedit.js" defer></script>' if path.startswith('/g/') else ''}{'<script src="/video.js" defer></script>' if path.startswith('/video/') or path.startswith('/g/') else ''}{'<script src="/entry.js" defer></script>' if path.startswith('/g/') else ''}{'<script src="/glossary.js" defer></script>' if path == '/glossary/' else ''}{'<script src="/zoom.js" defer></script>' if path == '/maps/' else ''}{'<script src="/voices.js" defer></script>' if path.startswith('/who/') else ''}{'<script src="/entry.js" defer></script>' if path.startswith('/who/') and path != '/who/' else ''}{'<script src="/source.js" defer></script>' if path.startswith('/sources/') and path != '/sources/' else ''}{'<script src="/admin.js" defer></script>' if path == '/admin/video/' else ''}{'<script src="/tlnav.js" defer></script>' if path.startswith('/timelines/') and path != '/timelines/' else ''}{'<script src="/admin_entry.js" defer></script>' if path == '/admin/entry/' else ''}</body></html>'''
+<script src="/site.js" defer></script><script src="/share.js" defer></script><script src="/ticker.js" defer></script><script src="/whoimg.js" defer></script>{'<script src="/ads.js" defer></script><script src="/news.js" defer></script>' if news_js else ''}{'<script src="/subnav.js" defer></script>'}{'<script src="/entryedit.js" defer></script>' if path.startswith('/g/') else ''}{'<script src="/video.js" defer></script>' if path.startswith('/video/') or path.startswith('/g/') else ''}{'<script src="/entry.js" defer></script>' if path.startswith('/g/') else ''}{'<script src="/glossary.js" defer></script>' if path == '/glossary/' else ''}{'<script src="/zoom.js" defer></script>' if path == '/maps/' else ''}{'<script src="/voices.js" defer></script>' if path.startswith('/who/') else ''}{'<script src="/entry.js" defer></script>' if path.startswith('/who/') and path != '/who/' else ''}{'<script src="/source.js" defer></script>' if path.startswith('/sources/') and path != '/sources/' else ''}{'<script src="/admin.js" defer></script>' if path == '/admin/video/' else ''}{'<script src="/tlnav.js" defer></script>' if path.startswith('/timelines/') and path != '/timelines/' else ''}{'<script src="/admin_entry.js" defer></script>' if path == '/admin/entry/' else ''}</body></html>'''
 
 def write(path, content):
     fp = os.path.join(OUT, path.lstrip('/'))
@@ -695,7 +695,7 @@ write('/video/watch/', layout('Watch', chan('video', '<h1 id="vw-title">Video</h
 write('/video/', layout('Video', chan('video', vb, '/video/'), 'Curated video from whitelisted channels, with a player and a gallery for each.', '/video/'))
 
 # ---------------------------------------------------------------- glossary hub (cards)
-def catname(g): return (g['cat'].title().replace(' And ', ' and ') if g['cat'] else 'Other')
+def catname(g): return g.get('catname') or (g['cat'].title().replace(' And ', ' and ') if g['cat'] else 'Other')
 def catslug(c): return re.sub(r'[^a-z]+', '-', c.lower()).strip('-')
 def norm_(t): return re.sub(r'[^a-z0-9 ]+', ' ', unicodedata.normalize('NFKD', t).lower()).split()
 thumb_items = [r for r in rows if r['prefix'] in ('MAP', 'TL') or r['prefix'] in TOUR or r['prefix'] in FLORA]
@@ -709,6 +709,8 @@ def gl_thumb(g):
         if best is None and (len(nm) >= 2 or len(' '.join(nm)) >= 6) and any(tw[x:x + len(nm)] == nm for x in range(len(tw) - len(nm) + 1)): best = r
     return best
 glcards = [g for g in G if not g.get('cf')]
+_wh = [{'name': v_['name'], 'slug': v_['id'], 'he': '', 'cat': 'WHOS', 'catname': 'Who’s Who', 'href': f'/who/{v_["id"]}/', 'intro': v_['intro']} for v_ in json.load(open(os.path.join(ROOT, 'voices.json')))['voices'] if not v_.get('hidden')]
+glcards = glcards + _wh
 cats = {}
 for g in glcards: cats[catname(g)] = cats.get(catname(g), 0) + 1
 gh = '<h1>NOWlej</h1>'
@@ -721,18 +723,18 @@ nthumb = 0
 for L, lst in letters.items():
     gh += f'<section class="gsec" data-l="{L}"><h2 id="l{L}">{L}</h2><div class="ggrid">'
     for g in lst:
-        b_ = re.sub(r'<[^>]+>', '', body_html(g)).strip()
+        b_ = g['intro'] if g.get('href') else re.sub(r'<[^>]+>', '', body_html(g)).strip()
         d_ = (b_[:120].rsplit(' ', 1)[0] + '...') if len(b_) > 120 else b_
         cn = catname(g); cs = catslug(cn)
-        tr = gl_thumb(g); th = make_thumb(tr) if tr else None
+        tr = None if g.get('href') else gl_thumb(g); th = make_thumb(tr) if tr else None
         if th: nthumb += 1
-        img = (f'<img src="{th}" alt="" width="{THUMB_W}" height="{THUMB_H}" loading="lazy">' if th else f'<span class="tile c-{cs}"><b>{E(key(g["name"])[0].upper())}</b><small>{E(cn)}</small></span>')
+        img = (f'<img src="{th}" alt="" width="{THUMB_W}" height="{THUMB_H}" loading="lazy">' if th else f'<span class="tile c-{cs}"{(" data-who=\"" + g["slug"] + "\"") if g.get("href") else ""}><b>{E(key(g["name"])[0].upper())}</b><small>{E(cn)}</small></span>')
         he_ = f'<span class="he" lang="he" dir="rtl">{E(g["he"])}</span>' if g['he'] else ''
-        gh += (f'<a class="gcard" href="/g/{g["slug"]}/" data-c="{cs}" data-n="{E((g["name"] + " " + g["he"] + " " + d_).lower())}"><span class="gimg">{img}</span>'
+        gh += (f'<a class="gcard" href="{g.get("href") or "/g/" + g["slug"] + "/"}" data-c="{cs}" data-n="{E((g["name"] + " " + g["he"] + " " + d_).lower())}"><span class="gimg">{img}</span>'
                f'<span class="gb"><span class="gcat c-{cs}">{E(cn)}</span><b>{E(g["name"])}</b>{he_}<span class="gd">{E(d_)}</span></span></a>')
     gh += '</div></section>'
 print('glossary cards', len(glcards), 'with related thumbnail', nthumb)
-write('/glossary/', layout('NOWlej', chan('glossary', gh, '/glossary/'), 'NOWlej: 407 entries on people, places, events, works and buildings.', '/glossary/'))
+write('/glossary/', layout('NOWlej', chan('glossary', gh, '/glossary/'), 'NOWlej: entries on people, places, events, works, buildings and Who’s Who.', '/glossary/'))
 
 # ---------------------------------------------------------------- index page
 idx = json.load(open(IDXJSON))
@@ -817,7 +819,7 @@ def voices_pages():
         col = 't%d' % (1 + sum(map(ord, v['id'])) % 5)
         grp = 'idf' if v.get('group') == 'idf' else v['kind']
         hay = key(v['name'] + ' ' + v['intro'] + ' ' + v.get('tags', '') + ' ' + grp)
-        return (f'<a class="wcard" href="/who/{v["id"]}/" data-g="{grp}" data-h="{E(hay)}"><span class="wph {col}"><span>{E(ini)}</span></span>'
+        return (f'<a class="wcard" href="/who/{v["id"]}/" data-g="{grp}" data-h="{E(hay)}"><span class="wph {col}" data-who="{v["id"]}"><span>{E(ini)}</span></span>'
                 f'<span class="wtx"><b>{E(v["name"])}</b><i>{"Organization" if v["kind"] == "org" else ("IDF spokesperson" if grp == "idf" else "Individual")}</i>'
                 f'<span>{E(v.get("tags", "") or v["intro"].split(". ")[0])}</span></span></a>')
     wb = ('<h1>Who&#8217;s Who</h1><p class="small">Entries on the organizations and people who shape the conversation about Israel. Each has an introduction, images, video and podcasts, more background, and the latest articles.</p>'
@@ -831,13 +833,13 @@ def voices_pages():
         ini = ''.join(w_[0] for w_ in re.sub(r'^The ', '', v['name']).replace('-', ' ').split()[:2]).upper()
         col = 't%d' % (1 + sum(map(ord, v['id'])) % 5)
         site_ = f'<a class="vjump alt" href="{E(v["site"])}" rel="noopener" target="_blank">Official site</a>' if v.get('site') else ''
-        body = (f'<article class="gl who"><div class="whohero"><div class="whoph {col}{" org" if v["kind"] == "org" else ""}" id="who-ph" data-wiki="{E(wk)}"><span class="ini">{E(ini)}</span></div>'
+        body = (f'<article class="gl who"><div class="whohero"><div class="whoph {col}{" org" if v["kind"] == "org" else ""}" id="who-ph" data-who="{v["id"]}" data-wiki="{E(wk)}"><span class="ini">{E(ini)}</span></div>'
                 f'<div class="whotx"><span class="id">NOWlej · Who&#8217;s Who · {kind}</span><h1>{E(v["name"])}</h1>'
                 f'<p class="lead edef" id="e-def">{E(v["intro"])}<a class="econt" href="#e-summary" hidden>Continue &#9656;</a></p>'
-                f'<p class="whobtn"><a class="vjump" href="#v-articles">Jump to articles</a>{site_}</p></div></div>'
+                f'<p class="whobtn"><a class="vjump vb" id="wb-vid" href="#e-video" hidden>Videos</a><a class="vjump vb" id="wb-pl" href="#e-video" data-t="playlists" hidden>Playlists</a><a class="vjump" href="#v-articles">Articles</a>{site_}</p></div></div>'
                 '<nav class="esec" id="esec" aria-label="On this page"><a href="#e-images" data-s="e-images" hidden>Images</a><a href="#e-video" data-s="e-video" hidden>Video</a><a href="#e-summary" data-s="e-summary" hidden>More NOWlej</a><a href="#v-articles">Articles</a><a href="#e-related">Related</a><a href="#e-sources">Sources</a></nav>'
                 f'<section id="e-images" hidden data-name="{E(wk)}"><div class="egal" id="e-gal"></div><p class="small">Photographs from Wikimedia Commons. Click an image to enlarge it. Author and license are shown with each.</p></section>'
-                f'<section id="e-video" hidden><div id="voice-page" data-id="{v["id"]}"></div><div class="vtop" id="v-player" hidden></div><div id="v-clips" hidden><h2>Video</h2><ul class="vclips"></ul></div><div id="v-pods" hidden><h2>Podcast episodes</h2><ul class="vlist2"></ul></div></section>'
+                f'<section id="e-video" hidden><div id="voice-page" data-id="{v["id"]}"></div><div class="vtop" id="v-player" hidden></div><div class="vtabs" id="v-tabs" role="group" aria-label="Choose from"><button type="button" data-t="videos" aria-pressed="true">Videos</button><button type="button" data-t="playlists" aria-pressed="false" hidden>Playlists</button></div><div id="v-clips" hidden><ul class="vclips"></ul></div><div id="v-playlists" hidden><ul class="vpls2"></ul></div><div id="v-pods" hidden><h2>Podcast episodes</h2><ul class="vlist2"></ul></div></section>'
                 f'<section id="e-summary" hidden><h2>MORE NOWLEJ</h2><div id="e-wiki" data-wiki="{E(wk)}" hidden></div></section>'
                 f'<section id="e-related"><h2>Related</h2><p><b>See also</b> <a href="/who/">Who&#8217;s Who</a> · <a href="/voices/">Voices</a> · <a href="/glossary/">NOWlej A to Z</a></p></section>'
                 f'<section id="v-articles"><h2>Articles</h2><ul class="vlist2"><li>Loading.</li></ul></section>'
@@ -913,6 +915,7 @@ for t, sl, terms in gjson:
 write('/glossary.json', json.dumps(list(merged.values()), ensure_ascii=False, separators=(',', ':')))
 shutil.copy(os.path.join(ROOT, 'tools', 'news.js'), os.path.join(OUT, 'news.js'))
 shutil.copy(os.path.join(ROOT, 'tools', 'voices.js'), os.path.join(OUT, 'voices.js'))
+shutil.copy(os.path.join(ROOT, 'tools', 'whoimg.js'), os.path.join(OUT, 'whoimg.js'))
 shutil.copy(os.path.join(ROOT, 'tools', 'ticker.js'), os.path.join(OUT, 'ticker.js'))
 shutil.copy(os.path.join(ROOT, 'tools', 'ads.js'), os.path.join(OUT, 'ads.js'))
 shutil.copy(os.path.join(ROOT, 'tools', 'source.js'), os.path.join(OUT, 'source.js'))

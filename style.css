@@ -599,3 +599,20 @@ main h1{padding-bottom:7px}main h1::after{height:4px;width:56px}
 .vclip:hover b{text-decoration:underline}
 @media (max-width:1100px){.vclips{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media (max-width:640px){.vclips{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.tile.c-who-s-who{background:var(--t4)}.gcat.c-who-s-who{color:var(--t4)}
+/* Who's Who top area: portrait and text share one vertical band, buttons sit level with the bottom of the portrait */
+.who .whohero{align-items:stretch}
+.who .whotx{display:flex;flex-direction:column;justify-content:space-between;min-width:0}
+.who .whotx h1{margin:2px 0 6px;font-size:2rem}.who .whotx .lead{font-size:1rem;line-height:1.5;margin:0 0 10px}
+.whobtn{margin-top:auto}.vjump.vb{background:var(--t2)}
+.vtabs{display:flex;gap:4px;margin:8px 0 10px}.vtabs[hidden]{display:none}
+.vtabs button{font:600 .9rem system-ui,sans-serif;padding:8px 18px;border:0;border-radius:0;background:var(--t2);color:#fff;cursor:pointer}
+.vtabs button[hidden]{display:none}.vtabs button[aria-pressed=true]{background:#fff;color:var(--t2);box-shadow:inset 0 0 0 2px var(--t2),inset 0 -7px 0 var(--t2)}
+.vpls2{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px 10px}
+@media (max-width:1100px){.vpls2{grid-template-columns:repeat(3,minmax(0,1fr))}}@media (max-width:640px){.vpls2{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:640px){.who .whotx h1{font-size:1.6rem}.who .whohero{grid-template-columns:1fr}}
+/* headshots and logos replace initials when found */
+.wph.has,.rwph.has{background:#fff}.wph img,.rwph img{position:relative;width:100%;height:100%;object-fit:cover;object-position:50% 20%;display:block}
+.wph.org img,.rwph.org img{object-fit:contain;padding:6px;box-sizing:border-box}
+.tile.has{background:#fff}.tile img{width:100%;height:100%;object-fit:cover;object-position:50% 20%;display:block}
+.whoph.has small{position:absolute;right:6px;bottom:4px}

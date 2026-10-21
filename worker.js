@@ -417,6 +417,23 @@ async function discoverFeeds(site, diag) {
   if (good.length) await memPut(mk, { list: good }, 14 * 86400);
   return good;
 }
+async function whoImages() {
+  const hdr = { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'public, max-age=86400', 'Access-Control-Allow-Origin': '*' };
+  const known = await memGet('whoimg');
+  if (known) return new Response(JSON.stringify(known), { headers: hdr });
+  const vs = (VOICES.voices || []).filter(v => !v.hidden), out = {};
+  const titles = vs.map(v => (v.wiki || v.name).replace(/ /g, '_'));
+  try {
+    const r = await fetch('https://en.wikipedia.org/w/api.php?action=query&format=json&redirects=1&prop=pageimages&piprop=thumbnail&pithumbsize=320&titles=' + encodeURIComponent(titles.join('|')), { headers: { 'User-Agent': 'IsraelNOWlej/1.0 (+https://israelinmaps.com/)' } });
+    const j = await r.json(), q = j.query || {}, map = {};
+    (q.normalized || []).forEach(x => map[x.from] = x.to); (q.redirects || []).forEach(x => map[x.from] = x.to);
+    const byTitle = {}; Object.values(q.pages || {}).forEach(p => { if (p.thumbnail && p.thumbnail.source) byTitle[p.title] = p.thumbnail.source; });
+    vs.forEach((v, i) => { let t = titles[i].replace(/_/g, ' '); const a = map[titles[i]] || map[t] || t; const b = map[a] || a; const u = byTitle[b] || byTitle[a] || byTitle[t]; if (u) out[v.id] = u; });
+    out._o = vs.filter(v => v.kind === 'org').map(v => v.id);
+    if (Object.keys(out).length) await memPut('whoimg', out, 7 * 86400);
+  } catch {}
+  return new Response(JSON.stringify(out), { headers: hdr });
+}
 async function voiceApi(url, env) {
   const hdr = { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'public, max-age=900', 'Access-Control-Allow-Origin': '*' };
   const id = (url.searchParams.get('id') || '').toLowerCase(), diagOn = !!url.searchParams.get('diag');
@@ -428,8 +445,24 @@ async function voiceApi(url, env) {
   const feedUrls = (v.blog && v.blog.length) ? v.blog : (v.site ? await discoverFeeds(v.site, diag) : []);
   const arts = (await Promise.all(feedUrls.map(u => load({ id: v.id, name: v.name, site: v.site || u, url: u, maxAge: 3650 })))).flatMap(r => r.items).map(({ f, ...rest }) => rest);
   const podArts = (await Promise.all((v.pods || []).map(u => load({ id: v.id, name: v.name, site: v.site || u, url: u, maxAge: 3650 })))).flatMap(r => r.items).map(({ f, ...rest }) => rest);
-  const vids = [];
-  for (const h of (v.yt || [])) { const r = await loadVideoSource({ handle: h, name: v.name }, 'channel', diag); (r.videos || []).forEach(x => vids.push({ ...x, n: v.name })); if (diag) diag.push({ yt: h, ok: r.ok, error: r.error, count: (r.videos || []).length }); }
+  const vids = [], chanIds = [];
+  for (const h of (v.yt || [])) { const r = await loadVideoSource({ handle: h, name: v.name }, 'channel', diag); if (r.ok && r.id) chanIds.push(r.id); (r.videos || []).forEach(x => vids.push({ ...x, n: v.name })); if (diag) diag.push({ yt: h, ok: r.ok, error: r.error, count: (r.videos || []).length }); }
+  // playlists of the person's own channel (cached twelve hours)
+  const pls = [];
+  if (env && env.YT_KEY && chanIds.length) {
+    const cid = chanIds[0], pk = 'vpl/' + cid; let pv = diagOn ? null : await memGet(pk);
+    if (!pv) {
+      pv = { list: [] };
+      try {
+        const r = await fetch('https://www.googleapis.com/youtube/v3/playlists?part=snippet,contentDetails&maxResults=24&channelId=' + cid + '&key=' + env.YT_KEY);
+        const j = await r.json();
+        if (diag) diag.push({ playlists: cid, status: r.status, count: (j.items || []).length, error: j.error ? j.error.message : '' });
+        pv.list = (j.items || []).filter(x => x.contentDetails && x.contentDetails.itemCount > 1).map(x => ({ id: x.id, t: decode(x.snippet.title), n: x.contentDetails.itemCount, th: (x.snippet.thumbnails && (x.snippet.thumbnails.medium || x.snippet.thumbnails.default) || {}).url || '' }));
+        if (pv.list.length) await memPut(pk, pv, 12 * 3600);
+      } catch (e) { if (diag) diag.push({ playlists: cid, error: String(e) }); }
+    }
+    pls.push(...pv.list);
+  }
   // diagnostics only: suggest channels that match the name, never used automatically
   if (diagOn && env && env.YT_KEY && !vids.length) {
     try { const r = await fetch('https://www.googleapis.com/youtube/v3/search?part=snippet&type=channel&maxResults=3&q=' + encodeURIComponent(v.name) + '&key=' + env.YT_KEY); const j = await r.json(); diag.push({ suggestChannels: (j.items || []).map(x => ({ id: x.snippet.channelId, title: x.snippet.channelTitle })) }); } catch {}
@@ -450,7 +483,7 @@ async function voiceApi(url, env) {
     sv.list.forEach(x => { if (!vids.some(y => y.v === x.v)) vids.push(x); });
   }
   arts.sort((a, b) => (b.d || '').localeCompare(a.d || '')); vids.sort((a, b) => (b.d || '').localeCompare(a.d || ''));
-  const out = { id, name: v.name, kind: v.kind, updated: new Date().toISOString(), articles: arts.slice(0, 30), podcasts: podArts.slice(0, 20), videos: vids.slice(0, 30), feeds: feedUrls };
+  const out = { id, name: v.name, kind: v.kind, updated: new Date().toISOString(), articles: arts.slice(0, 30), podcasts: podArts.slice(0, 20), videos: vids.slice(0, 30), playlists: pls.slice(0, 24), feeds: feedUrls };
   if (diag) out.diag = diag; else await memPut(mk, out, 900);
   return new Response(JSON.stringify(out), { headers: diagOn ? { ...hdr, 'Cache-Control': 'no-store' } : hdr });
 }
@@ -462,6 +495,7 @@ export default {
     const im = url.pathname.match(/^\/news\/item\/([a-z0-9]+)\/?$/);
     if (im) return itemPage(request, env, im[1], url.searchParams.get('s'), url.searchParams.get('c'));
     if (url.pathname === '/api/videos') return videoApi(url, env);
+    if (url.pathname === '/api/whoimg') return whoImages();
     if (url.pathname === '/api/voice') return voiceApi(url, env);
     if (url.pathname === '/api/entry') return entryApi(request, url, env);
     if (url.pathname === '/api/yt-title') return ytTitle(url);
