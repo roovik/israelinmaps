@@ -57,3 +57,10 @@
 (function(){function m(){var n=document.querySelectorAll('header.top nav.wrap a');if(n.length<2)return;var a=n[0].getBoundingClientRect(),z=n[n.length-1].getBoundingClientRect();if(z.right>a.left)document.documentElement.style.setProperty('--navw',Math.round(z.right-a.left)+'px')}
  m();window.addEventListener('load',m);window.addEventListener('resize',m)})();
 ;(function(){var q=document.querySelector('.bar .sf input');if(q&&window.matchMedia('(max-width:900px)').matches)q.placeholder='Search'})();
+
+;(function(){var ds=document.querySelectorAll('.secnav details summary'),s=null;[].forEach.call(ds,function(x){if(x.textContent.trim()==='Channels'&&/^\/video\//.test(location.pathname))s=x});if(!s)return;
+var D={israeldefenseforces:'idf.il',israelmfa:'mfa.gov.il',standwithus:'standwithus.com',honestreportingvideo:'honestreporting.com',i24news_en:'i24news.tv',aipac:'aipac.org',thejerusalem_post:'jpost.com',timesofisrael:'timesofisrael.com',jns:'jns.org'};
+var ul=s.parentNode.querySelector('ul');if(!ul)return;ul.className='chgrid';
+[].forEach.call(ul.querySelectorAll('a'),function(a){var k=(a.getAttribute('href').split('/')[2]||''),t=a.textContent,sp=document.createElement('span');sp.textContent=t;a.textContent='';
+if(D[k]){var im=new Image();im.className='chi';im.width=44;im.height=44;im.alt='';im.loading='lazy';im.referrerPolicy='no-referrer';im.src='https://www.google.com/s2/favicons?sz=64&domain='+D[k];im.onerror=function(){im.style.visibility='hidden'};a.appendChild(im)}
+a.appendChild(sp)})})();
