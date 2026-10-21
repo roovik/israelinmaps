@@ -827,8 +827,8 @@ def voices_pages():
         grp = 'idf' if v.get('group') == 'idf' else v['kind']
         hay = key(v['name'] + ' ' + v['intro'] + ' ' + v.get('tags', '') + ' ' + grp)
         return (f'<a class="wcard" href="/who/{v["id"]}/" data-g="{grp}" data-h="{E(hay)}"><span class="wph {col}" data-who="{v["id"]}"><span>{E(ini)}</span></span>'
-                f'<span class="wtx"><b>{E(v["name"])}</b><i>{"Organization" if v["kind"] == "org" else ("IDF spokesperson" if grp == "idf" else "Individual")}</i>'
-                f'<span>{E(v.get("tags", "") or v["intro"].split(". ")[0])}</span></span></a>')
+                f'<span class="wtx"><b>{E(v["name"])}</b><span class="wc">{E(v.get("tags", ""))}</span></span>'
+                f'<span class="wd">{E(v["intro"])}</span><span class="wmore" hidden>MORE</span></a>')
     wb = ('<h1>Who&#8217;s Who</h1><p class="small">Entries on the organizations and people who shape the conversation about Israel. Each has an introduction, images, video and podcasts, more background, and the latest articles.</p>'
           '<div class="wfilter"><input id="wq" type="search" placeholder="Find a person, organization or topic" aria-label="Find in Who&#8217;s Who">'
           '<div class="wchips" id="wchips"><button type="button" data-g="" aria-pressed="true">All</button><button type="button" data-g="voice" aria-pressed="false">Individuals</button><button type="button" data-g="org" aria-pressed="false">Organizations</button><button type="button" data-g="idf" aria-pressed="false">IDF spokespeople</button></div></div>'
@@ -842,10 +842,10 @@ def voices_pages():
         col = 't%d' % (1 + sum(map(ord, v['id'])) % 5)
         site_ = f'<a class="vjump alt" href="{E(v["site"])}" rel="noopener" target="_blank">Official site</a>' if v.get('site') else ''
         body = (f'<article class="gl who"><div class="whohero"><div class="whoph {col}{" org" if v["kind"] == "org" else ""}" id="who-ph" data-who="{v["id"]}" data-wiki="{E(wk)}"><span class="ini">{E(ini)}</span></div>'
-                f'<div class="whotx"><span class="id">NOWlej · Who&#8217;s Who · {kind}</span><h1>{E(v["name"])}</h1>'
-                f'<p class="lead edef" id="e-def">{E(v["intro"])}<a class="econt" href="#e-summary" hidden>Continue &#9656;</a></p>'
+                f'<div class="whotx"><h1>{E(v["name"])}</h1><p class="wcred">{E(v.get("tags", ""))}</p></div>'
+                f'<p class="lead edef" id="e-def">{E(v["intro"])}</p><a class="econt more" id="e-more" href="#e-summary" hidden>MORE</a>'
                 f'<p class="whobtn"><a class="vjump vb" id="wb-vid" href="#e-video" hidden>Videos</a><a class="vjump vb" id="wb-pl" href="#e-video" data-t="playlists" hidden>Playlists</a><a class="vjump" href="#v-articles">Articles</a><a class="vjump" href="#v-news">News about</a>{site_}</p>'
-                f'<p class="claim"><a href="/submit/?type=claim&name={urllib.parse.quote(v["name"])}">Is this your profile? Send corrections, additions or removals</a></p></div></div>'
+                f'<p class="claim"><a href="/submit/?type=claim&name={urllib.parse.quote(v["name"])}">Is this your profile? Send corrections, additions or removals</a></p></div>'
                 '<nav class="esec" id="esec" aria-label="On this page"><a href="#e-images" data-s="e-images" hidden>Images</a><a href="#e-video" data-s="e-video" hidden>Video</a><a href="#e-summary" data-s="e-summary" hidden>More NOWlej</a><a href="#v-articles">Articles</a><a href="#v-news">News about</a><a href="#e-related">Related</a><a href="#e-sources">Sources</a></nav>'
                 f'<section id="e-images" hidden data-name="{E(wk)}"><div class="egal" id="e-gal"></div><p class="small">Photographs from Wikimedia Commons. Click an image to enlarge it. Author and license are shown with each.</p></section>'
                 f'<section id="e-video" hidden><div id="voice-page" data-id="{v["id"]}"></div><div class="vtop" id="v-player" hidden></div><div class="vtabs" id="v-tabs" role="group" aria-label="Choose from"><button type="button" data-t="videos" aria-pressed="true">Videos</button><button type="button" data-t="playlists" aria-pressed="false" hidden>Playlists</button></div><div id="v-clips" hidden><ul class="vclips"></ul></div><div id="v-playlists" hidden><ul class="vpls2"></ul></div><div id="v-pods" hidden><h2>Podcast episodes</h2><ul class="vlist2"></ul></div></section>'
