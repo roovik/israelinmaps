@@ -732,3 +732,9 @@ header.top{margin-bottom:5px}
 .hotera{font:700 .68rem system-ui,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:var(--t7)}
 .hotrules li{margin:.3em 0}
 .hotfeed h2{font-size:1.05rem;margin:0 0 4px}.hotfeed section{border-top:3px solid var(--t7);margin-top:12px;padding-top:6px}.hotfeed h3{margin:0 0 6px;font:700 .75rem system-ui,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:var(--t7)}.hotfeed ul{list-style:none;margin:0;padding:0}.hotfeed li{padding:6px 0;font-size:.88rem;line-height:1.3}.hotfeed li a{color:var(--fg);text-decoration:none;font-weight:600}.hotfeed .wm{display:block;font:.72rem system-ui,sans-serif;color:var(--mut)}
+
+.fcols{display:grid;grid-template-columns:1.6fr repeat(4,1fr);gap:22px;padding-bottom:14px}
+.fcol{display:flex;flex-direction:column;gap:6px}.fcol b{color:var(--fg,inherit);font-size:.9rem;margin-bottom:2px}
+.fcol a{color:var(--mut);text-decoration:none}.fcol a:hover{text-decoration:underline;color:inherit}.fbrand p{margin:0;line-height:1.45}
+.fsmall{border-top:1px solid var(--line);padding-top:12px;margin:0;font-size:.8rem}
+@media(max-width:800px){.fcols{grid-template-columns:1fr 1fr}.fbrand{grid-column:1/-1}}
