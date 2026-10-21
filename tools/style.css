@@ -853,3 +853,8 @@ main h1{padding-bottom:0}main h1::after{display:none!important}
 .pages.treg img{border:0;border-radius:0}
 }
 @media (max-width:640px){header.top .subnav a{font-size:.78rem;padding:5px 3px}}
+.tcover{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;margin:12px 0 26px}
+.tcover .tcard .timg img{aspect-ratio:4/3;object-fit:cover;width:100%}
+.tcover .tcard .tb b{font-size:1rem}.tcover .tp{display:block;font-size:.8rem;color:#4a5260;margin-top:2px}
+.tsub{margin-top:8px}
+@media (max-width:640px){.tcover{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.tcover .tcard .tb b{font-size:.9rem}}
