@@ -132,6 +132,13 @@ def parse_glossary():
 
 G = parse_glossary()
 assert sum(1 for g in G if not g.get('cf')) == 407, (len(G), sum(1 for g in G if g.get('cf')))
+# site-only changes: "Canaanite flourishing" is folded into the Canaan entry, and extra entries are added
+G = [g for g in G if g['name'] != 'Canaanite flourishing']
+for _x in json.load(open(os.path.join(ROOT, 'tools', 'extra_glossary.json')))['entries']:
+    _run = []
+    for _i, _part in enumerate(re.split(r'\[\[(.*?)\]\]', _x['text'])):
+        _run.append((_part, _i % 2 == 1))
+    G.append({'name': _x['name'], 'he': _x['he'], 'cat': _x['cat'], 'segs': [_run], 'see': _x.get('see', ''), 'app': '', 'pg': None, '_m': 'body'})
 
 def invert(name):
     n = name
@@ -158,7 +165,7 @@ for g in G:
     names[key(g['title'])] = g['slug']; names[key(g['name'])] = g['slug']
     names[tuple(sorted(key(g['title']).split()))] = g['slug']
 ALIAS = {'rome': 'romans', 'roman': 'romans', 'jews': None, 'zionist': 'zionism', 'crusader': 'crusaders', 'seljuk': 'seljuk-turks',
-         'herod': 'herod-the-great', "herod s": 'herod-the-great', 'maccabees': 'maccabees', 'philistine': 'philistines',
+         'herod': 'herod-the-great', "herod s": 'herod-the-great', 'maccabees': 'maccabees', 'philistine': 'philistines', 'canaanite flourishing': 'canaan-land', 'canaan': 'canaan-land', 'herod the great': 'herod-the-great',
          'sea of galilee': 'sea-of-galilee', 'british': 'british-mandate', 'merneptah': 'pharaoh-merneptah', 'suleiman': 'suleiman-the-magnificent', 'herods': 'herod-the-great',
          'scud missiles': 'scud-attacks', 'alliance israelite universelle': 'alliance-isra-lite-universelle',
          'rabin kings of israel square': 'rabin-kings-of-israel-square', 'white paper of 1939': 'white-paper-of-1939'}
@@ -534,6 +541,7 @@ def gl_related(g):
     return '<h3>In the book and on this site</h3>' + tcards(hits[:4])
 def gl_pageimg(g):
     pg = g['pg']
+    if pg is None: return ''
     return (f'<div class="pages single wide"><a href="/img/p{pg:03d}.webp"><img src="/img/p{pg:03d}.webp" width="1200" height="1500" alt="Glossary page {pg} of the book Israel NOWlej, with the entry {E(g["title"])}" loading="lazy"></a></div>'
             f'<p class="small">From the book <i>Israel NOWlej</i>, page {pg}.</p>')
 def gl_video(g, sl):
@@ -569,10 +577,10 @@ def gl_page(g):
     plain = re.sub(r'<[^>]+>', '', b)
     rel_ = gl_related(g)
     wk = ENTRYCFG.get('wiki', {}).get(sl, g['title'])
-    srcs_ = f'<li>The book <i>Israel NOWlej</i> by Richard J. Koret, glossary, page {g["pg"]}.</li>'
+    srcs_ = f'<li>The book <i>Israel NOWlej</i> by Richard J. Koret, glossary, page {g["pg"]}.</li>' if g['pg'] else '<li>Written for this site from standard reference works on the ancient Near East.</li>'
     _c = CUR.get('wikipedia', {}).get(sl)
     if _c: srcs_ += f'<li>Text adapted in part from <a href="{E(_c["url"])}" rel="noopener">{E(_c["article"])}</a> (revision {_c["rev"]}), <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="noopener">CC BY-SA 4.0</a>.</li>'
-    body = f"""<article class="gl"><header class="ih"><span class="id">NOWlej · book page {g["pg"]}</span><h1>{E(g["title"])} {he}</h1><p class="meta">{cat}</p></header>
+    body = f"""<article class="gl"><header class="ih"><span class="id">NOWlej · {f'book page {g["pg"]}' if g['pg'] else 'site entry'}</span><h1>{E(g["title"])} {he}</h1><p class="meta">{cat}</p></header>
 <p class="lead edef" id="e-def">{b}<a class="econt" href="#e-summary"{'' if CUR.get('wikipedia', {}).get(sl) else ' hidden'}>Continue &#9656;</a></p>
 <nav class="esec" id="esec" aria-label="On this page"><a href="#e-images" data-s="e-images" hidden>Images</a><a href="#e-video" data-s="e-video" hidden>Video</a><a href="#e-summary" data-s="e-summary"{'' if CUR.get('wikipedia', {}).get(sl) else ' hidden'}>More NOWlej</a><a href="#e-related">Related</a><a href="#e-sources">Sources</a></nav>
 <section id="e-images" hidden data-name="{E(wk) if wk else ''}"{(" data-files='" + E(json.dumps(CUR.get('images', {}).get(sl, []))).replace("'", "&#39;") + "'") if CUR.get('images', {}).get(sl) else ''}><div class="egal" id="e-gal"></div><p class="small">Photographs from Wikimedia Commons. Click an image to enlarge it. Author and license are shown with each.</p></section>
@@ -781,7 +789,7 @@ write('/404.html', layout('Not found', nf, 'Not found', '/404.html', nd=True, cl
 home_cards = [('/maps/', 'Maps', '33 maps'), ('/timelines/', 'Timelines', '19 timelines'), ('/rankings/', 'Rankings', '17 rankings'),
               ('/demographics/', 'Demographics', '13 graphics'), ('/top-ten/', 'Top Ten Lists', '6 lists'), ('/size/', 'Size Comparisons', 'Israel beside other places'),
               ('/tables/', 'Tables', '5 reference tables'), ('/tour/', 'A Taste of Israel', '10 regions, 71 stops'), ('/flora/', 'Flora and Fauna', '5 sections, 60 entries'),
-              ('/glossary/', 'Glossary', '407 entries'), ('/index/', 'Index', 'Find any name or place')]
+              ('/glossary/', 'Glossary', f'{len([g_ for g_ in G if not g_.get("cf")])} entries'), ('/index/', 'Index', 'Find any name or place')]
 cards = ''.join(f'<a class="card" href="{u}"><b>{t}</b><span>{d}</span></a>' for u, t, d in home_cards)
 _pick = lambda pre: [r for r in rows if r['prefix'] == pre][:1]
 _rep = _pick('MAP') + _pick('TL') + _pick('RNK') + _pick('TOP')
@@ -797,7 +805,7 @@ about_text = ('<h1>About Israel <b>NOWlej</b></h1>'
 home = (f'<div class="newspage aboutpg"><div class="newsleftcol"><h2>From the book</h2>{tcards(_rep)}<p class="small">Each page of the book has a web page like these.</p></div>'
         f'<div class="newsleft"><div class="newsmain">{about_text}<h2>Explore</h2><div class="cards">{cards}</div><hr>'
         + about.replace('<p class="crumb"><a href="/">Home</a> / About</p>', '').replace('<h1>How to Use This Site</h1>', '<h2>How to use this site</h2>') +
-        f'</div></div><aside class="newsside" aria-label="Featured"><h2>Featured entries</h2><ul class="hlist">{_fl}</ul><p class="small"><a href="/glossary/">All 407 NOWlej entries</a></p>'
+        f'</div></div><aside class="newsside" aria-label="Featured"><h2>Featured entries</h2><ul class="hlist">{_fl}</ul><p class="small"><a href="/glossary/">All {len([g_ for g_ in G if not g_.get("cf")])} NOWlej entries</a></p>'
         f'<span id="news-side" data-word="news" hidden></span><div id="news-latest"></div></aside></div><p class="small" id="news-status"></p>')
 
 # ---- voices and Who's Who: organizations and individuals
@@ -1021,6 +1029,8 @@ for s, d in HUBS.items():
     if s == d.rstrip('/'):
         red.append((s.upper(), d, 301)); continue
     R(s, d)
+R('/g/canaanite-flourishing', '/g/canaan-land/')
+R('/g/canaanite-flourishing/', '/g/canaan-land/')
 for p in range(173, 210): R(f'/gl-{p}', f'/g/{[g for g in G if g["pg"] == p][0]["slug"]}/')
 for v_ in VOICES_: red.append((f'/voices/{v_["id"]}/', f'/who/{v_["id"]}/', 301))
 open(os.path.join(OUT, '_redirects'), 'w').write('\n'.join(f'{s} {d} {c}' for s, d, c in red) + '\n')
