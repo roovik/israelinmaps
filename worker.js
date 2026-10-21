@@ -495,7 +495,7 @@ async function voiceApi(url, env) {
   const gnr = v.show ? { ok: true, items: [] } : await load({ id: v.id, name: 'News', site: 'https://news.google.com/', url: 'https://news.google.com/rss/search?q=' + encodeURIComponent('"' + gq + '"') + '&hl=en-US&gl=US&ceid=US:en', maxAge: 3650 });
   const news = gnr.items.map(({ f, ...rest }) => { const m = rest.t.match(/^(.*) - ([^-]{2,60})$/); return { ...rest, t: m ? m[1] : rest.t, src: m ? m[2] : 'News', x: '', i: '' }; }).filter(x => !arts.some(a => a.u === x.u)).slice(0, 25);
   if (diag) diag.push({ googleNews: gnr.ok, error: gnr.error, count: news.length });
-  const podArts = (await Promise.all((v.pods || []).map(async u0 => { const u = await podFeed(u0, diag); return u ? load({ id: v.id, name: v.name, site: v.site || u, url: u, maxAge: 36500, max: 400 }) : { items: [] }; })).flatMap(r => r.items).map(({ f, ...rest }) => rest);
+  const podArts = (await Promise.all((v.pods || []).map(async u0 => { const u = await podFeed(u0, diag); return u ? load({ id: v.id, name: v.name, site: v.site || u, url: u, maxAge: 36500, max: 400 }) : { items: [] }; }))).flatMap(r => r.items).map(({ f, ...rest }) => rest);
   const vids = [], chanIds = [];
   for (const h of (v.yt || [])) { const r = await loadVideoSource({ handle: h, name: v.name }, 'channel', diag); if (r.ok && r.id) chanIds.push(r.id); (r.videos || []).forEach(x => vids.push({ ...x, n: v.name })); if (diag) diag.push({ yt: h, ok: r.ok, error: r.error, count: (r.videos || []).length }); }
   // playlists of the person's own channel (cached twelve hours)
