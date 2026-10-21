@@ -48,6 +48,11 @@
    "id": "UCKM3VQFIITaRegPDkLlLeKA",
    "name": "The Times of Israel",
    "check": "Please verify. Evidence: about page links to timesofisrael.com"
+  },
+  {
+   "handle": "JNS",
+   "name": "JNS",
+   "check": "Approved by the user"
   }
  ],
  "playlists": [

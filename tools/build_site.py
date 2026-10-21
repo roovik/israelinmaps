@@ -934,7 +934,7 @@ write('/media/', layout('Media', chan('media', _mb, '/media/', left=_ml, aside='
 sb2 = '<h1>Sources</h1><p class="small">Each source has its own page here with its latest news and views.</p><ul class="idlist">' + ''.join(f'<li><a href="/sources/{i_}/">{E(n_)}</a><span>{E(d_)}</span></li>' for i_, n_, u_, d_ in SRC) + '</ul><h2>The Book</h2><ul class="idlist"><li><a href="/index/">Index</a><span>Find any name or place in the book Israel NOWlej</span></li><li><a href="/about/">How to use this site and cite it</a><span>Addresses, IDs and hubs</span></li></ul>'
 write('/sources/', layout('Sources', chan('sources', sb2, '/sources/'), 'The publishers whose public feeds supply the news and views on this site.', '/sources/'))
 for i_, n_, u_, d_ in SRC:
-    vc_ = {'jpost': 'thejerusalem_post', 'toi': 'timesofisrael'}.get(i_, '')
+    vc_ = {'jpost': 'thejerusalem_post', 'toi': 'timesofisrael', 'jns': 'jns'}.get(i_, '')
     tabs_ = (f'<nav class="srctabs" id="src-tabs" aria-label="{E(n_)}"><a href="/sources/{i_}/?show=news" data-show="news">News</a><a href="/sources/{i_}/?show=views" data-show="views">Views</a>'
              + (f'<a href="/video/{vc_}/">Videos</a>' if vc_ else '') + f'<a href="/sources/{i_}/" data-show="">All</a></nav>')
     b_ = (f'<h1 id="src-h1" data-name="{E(n_)}">{E(n_)}</h1>{tabs_}<p>{E(d_)}</p><p class="small"><a href="{u_}" rel="noopener">Visit {E(n_)}</a> (external site)</p><p class="small" id="src-count"></p>'
