@@ -901,3 +901,10 @@ body .bar .ticker,body.newspg .bar .ticker{border:0!important;background:transpa
 .gimg:has(>.tile:not(.has)){aspect-ratio:auto;height:54px}
 .gimg:has(>.tile:not(.has)) .tile{flex-direction:row;gap:12px}
 .gimg:has(>.tile:not(.has)) .tile b{font-size:1.6rem}.gimg:has(>.tile:not(.has)) .tile small{margin:0}
+.mnow{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin:0 0 10px;font-size:.9rem}.mnow audio{flex:1 1 260px;max-width:100%}
+.mplayer{margin:0 0 14px;aspect-ratio:16/9;max-width:720px}.mplayer iframe{width:100%;height:100%;border:0;border-radius:8px}
+.msong .mplay{position:relative;display:block;width:100%;aspect-ratio:1/1;padding:0;border:0;background:#2b2f38;cursor:pointer}
+.msong .mplay img{width:100%;height:100%;object-fit:cover;display:block}
+.msong .pbtn{position:absolute;right:10px;bottom:10px;width:40px;height:40px;border-radius:50%;background:rgba(0,0,0,.65);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1rem}
+.msong .mplay.on .pbtn{background:#1f5fbf}
+.igrid:has(.msong){grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}

@@ -690,6 +690,37 @@ async function scan(env) {
   try { await env.ENTRIES.put('snap/log', JSON.stringify(log)); } catch {}
 }
 
+
+const MUS_TAGS = { 'pop': 'Israeli pop', 'rock': 'Israeli rock', 'mizrahi': 'Mizrahi music', 'folk': 'Hebrew folk songs Israeli', 'hiphop': 'Israeli hip hop rap', 'electronic': 'Israeli electronic trance', 'classical': 'Israel Philharmonic classical', 'jazz': 'Israeli jazz', 'klezmer': 'klezmer', 'hasidic': 'Hasidic niggun Jewish music', 'kids': 'Hebrew children songs', 'eurovision': 'Eurovision Israel', 'oldies': 'classic Israeli songs', 'patriotic': 'Israeli patriotic songs Hatikvah', 'dance': 'Israeli folk dance music' };
+async function musicApi(url, env, ctx) {
+  const hdr = { 'Content-Type': 'application/json; charset=utf-8', 'Access-Control-Allow-Origin': '*', 'Cache-Control': 'public, max-age=1800' };
+  const type = ['songs', 'videos', 'playlists'].includes(url.searchParams.get('type')) ? url.searchParams.get('type') : 'songs';
+  const q = (url.searchParams.get('q') || '').replace(/[^\p{L}\p{N} '\-]/gu, ' ').trim().slice(0, 80);
+  const tag = url.searchParams.get('tag') || '';
+  let terms = q || MUS_TAGS[tag] || 'Israeli music';
+  if (q && tag && MUS_TAGS[tag]) terms = q + ' ' + MUS_TAGS[tag];
+  if (!/israel|hebrew|jewish|klezmer/i.test(terms)) terms += ' Israeli';
+  const ck = new Request('https://cache.local/music/' + type + '/' + encodeURIComponent(terms));
+  const hit = await caches.default.match(ck); if (hit) return new Response(hit.body, { headers: hdr });
+  const dec = t => String(t || '').replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+  let out;
+  try {
+    if (type === 'songs') {
+      const r = await fetch('https://itunes.apple.com/search?media=music&entity=song&limit=40&country=IL&term=' + encodeURIComponent(terms), { cf: { cacheTtl: 21600, cacheEverything: true } });
+      if (!r.ok) throw 0; const j = await r.json();
+      out = { items: (j.results || []).filter(x => x.previewUrl).map(x => ({ t: x.trackName, a: x.artistName, al: x.collectionName || '', img: String(x.artworkUrl100 || '').replace('100x100', '300x300'), p: x.previewUrl, u: x.trackViewUrl || '' })) };
+    } else {
+      if (!env.YT_KEY) return new Response(JSON.stringify({ items: [], error: 'nokey' }), { headers: { ...hdr, 'Cache-Control': 'no-store' } });
+      const sp = type === 'videos' ? '&type=video&videoCategoryId=10' : '&type=playlist';
+      const r = await fetch('https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=24&safeSearch=moderate&q=' + encodeURIComponent(terms) + sp + '&key=' + env.YT_KEY, { cf: { cacheTtl: 21600, cacheEverything: true } });
+      const j = await r.json(); if (!r.ok || j.error) return new Response(JSON.stringify({ items: [], error: 'youtube' }), { headers: { ...hdr, 'Cache-Control': 'no-store' } });
+      out = { items: (j.items || []).map(x => ({ id: type === 'videos' ? x.id.videoId : x.id.playlistId, t: dec(x.snippet.title), a: dec(x.snippet.channelTitle), img: ((x.snippet.thumbnails || {}).medium || (x.snippet.thumbnails || {}).default || {}).url || '' })).filter(x => x.id) };
+    }
+  } catch { return new Response(JSON.stringify({ items: [], error: 'upstream' }), { status: 502, headers: { ...hdr, 'Cache-Control': 'no-store' } }); }
+  const body = JSON.stringify(out);
+  ctx.waitUntil(caches.default.put(ck, new Response(body, { headers: { 'Cache-Control': 'max-age=21600' } })));
+  return new Response(body, { headers: hdr });
+}
 const IMG_TAGS = { 'jerusalem': 'Jerusalem', 'tel-aviv': 'Tel Aviv', 'haifa': 'Haifa', 'galilee': 'Galilee', 'golan': 'Golan Heights', 'coast': 'Mediterranean coast beach', 'negev': 'Negev desert', 'dead-sea': 'Dead Sea', 'landscape': 'landscape', 'archaeology': 'archaeological site ruins', 'holy': 'synagogue church mosque holy site', 'architecture': 'architecture building', 'food': 'food market cuisine', 'people': 'people festival culture', 'birds': 'bird', 'flowers': 'wildflowers anemone', 'wildlife': 'wildlife animal', 'military': 'Israel Defense Forces', 'history': 'historic' };
 async function imagesApi(url, ctx) {
   const hdr = { 'Content-Type': 'application/json; charset=utf-8', 'Access-Control-Allow-Origin': '*', 'Cache-Control': 'public, max-age=3600' };
@@ -730,6 +761,7 @@ const W = {
     if (url.pathname === '/api/whoimg') return whoImages(env, !!url.searchParams.get('diag'));
     if (url.pathname === '/api/voice') return voiceApi(url, env);
     if (url.pathname === '/api/images') return imagesApi(url, ctx);
+    if (url.pathname === '/api/music') return musicApi(url, env, ctx);
     if (url.pathname === '/api/pods-check') return podsCheck();
     if (url.pathname === '/api/latest-videos') {
       const o = env.ENTRIES ? await kvSnap(env, 'snap/new', 60 * 24 * 7) : null;
