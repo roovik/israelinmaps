@@ -58,9 +58,12 @@
  m();window.addEventListener('load',m);window.addEventListener('resize',m)})();
 ;(function(){var q=document.querySelector('.bar .sf input');if(q&&window.matchMedia('(max-width:900px)').matches)q.placeholder='Search'})();
 
-;(function(){var ds=document.querySelectorAll('.secnav details summary'),s=null;[].forEach.call(ds,function(x){if(x.textContent.trim()==='Channels'&&/^\/video\//.test(location.pathname))s=x});if(!s)return;
+;(function(){if(!/^\/video\//.test(location.pathname))return;var ds=document.querySelectorAll('.secnav details summary'),s=null;[].forEach.call(ds,function(x){if(x.textContent.trim()==='Channels')s=x});if(!s)return;
 var D={israeldefenseforces:'idf.il',israelmfa:'mfa.gov.il',standwithus:'standwithus.com',honestreportingvideo:'honestreporting.com',i24news_en:'i24news.tv',aipac:'aipac.org',thejerusalem_post:'jpost.com',timesofisrael:'timesofisrael.com',jns:'jns.org'};
-var ul=s.parentNode.querySelector('ul');if(!ul)return;ul.className='chgrid';
-[].forEach.call(ul.querySelectorAll('a'),function(a){var k=(a.getAttribute('href').split('/')[2]||''),t=a.textContent,sp=document.createElement('span');sp.textContent=t;a.textContent='';
-if(D[k]){var im=new Image();im.className='chi';im.width=44;im.height=44;im.alt='';im.loading='lazy';im.referrerPolicy='no-referrer';im.src='https://www.google.com/s2/favicons?sz=64&domain='+D[k];im.onerror=function(){im.style.visibility='hidden'};a.appendChild(im)}
-a.appendChild(sp)})})();
+var INI={israeldefenseforces:'IDF',israelmfa:'MFA',standwithus:'SWU',honestreportingvideo:'HR',i24news_en:'i24',aipac:'AI',thejerusalem_post:'JP',timesofisrael:'TOI',jns:'JNS'};
+var ul=s.parentNode.querySelector('ul');if(!ul)return;var nav=document.createElement('nav');nav.className='apick chpick';nav.setAttribute('aria-label','Choose a channel');
+[].forEach.call(ul.querySelectorAll('a'),function(a,n){var k=(a.getAttribute('href').split('/')[2]||''),l=document.createElement('a');l.href=a.getAttribute('href');if(a.getAttribute('aria-current'))l.setAttribute('aria-current','page');
+var pic=document.createElement('span');pic.className='apic org c'+(n%6);var ini=document.createElement('span');ini.className='ini';ini.textContent=INI[k]||a.textContent.slice(0,2);pic.appendChild(ini);
+if(D[k]){var im=new Image();im.alt='';im.loading='lazy';im.referrerPolicy='no-referrer';im.onload=function(){if(im.naturalWidth>16){pic.textContent='';pic.appendChild(im)}};im.src='https://www.google.com/s2/favicons?sz=128&domain='+D[k]}
+var nm=document.createElement('span');nm.className='apn';nm.textContent=a.textContent;l.appendChild(pic);l.appendChild(nm);nav.appendChild(l)});
+var box=s.closest('.newsleftcol')||s.parentNode;box.insertBefore(nav,box.firstChild);})();

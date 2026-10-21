@@ -809,16 +809,10 @@ header.top .subnav a,header.top .subnav.sub2 a{flex:0 1 auto;font-size:.82rem;pa
 main h1{padding-bottom:0}main h1::after{display:none!important}
 @media (max-width:640px){header.top .subnav.sub2{justify-content:flex-start;gap:0 16px;padding-top:0}header.top .subnav.sub2 a{padding:4px 0;font-size:.78rem}}
 .vcard[hidden]{display:none!important}
-/* video channels: icons with names beneath on phones */
-.chi{display:none}
+/* video channels: horizontal icon picker on phones, like audio */
+.chpick{display:none}
 @media (max-width:640px){
-.chgrid{display:grid!important;grid-template-columns:repeat(3,1fr);gap:12px 8px;list-style:none;padding:4px 0 8px;margin:0}
-.chgrid li{margin:0;padding:0}
-.chgrid a{display:flex;flex-direction:column;align-items:center;text-align:center;gap:5px;font-size:.78rem;line-height:1.2;text-decoration:none;color:var(--fg)}
-.chgrid .chi{display:block;width:44px;height:44px;box-sizing:border-box;padding:7px;border-radius:12px;background:#fff;border:1px solid var(--line)}
-}
-@media (max-width:640px){
-.newspage:not(.aboutpg) .newsleftcol:has(.chgrid){display:block!important;order:1!important;margin:0 0 8px;padding:0}
-.newsleftcol:has(.chgrid) .adslot,.newsleftcol:has(.chgrid) summary,.newsleftcol:has(.chgrid) details:not(:first-child){display:none!important}
-.newsleftcol:has(.chgrid) .newstopics{border:0;padding:0;margin:0}
+.newspage:not(.aboutpg) .newsleftcol:has(.chpick){display:block!important;order:1!important;margin:0;padding:0}
+.newsleftcol:has(.chpick) .adslot,.newsleftcol:has(.chpick) .newstopics{display:none!important}
+.chpick{display:flex}
 }
