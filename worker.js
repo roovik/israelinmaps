@@ -301,6 +301,7 @@ async function ytTitle(url) {
 }
 async function videoApi(url, env) {
   const hdr = { 'Content-Type': 'application/json; charset=utf-8', 'Access-Control-Allow-Origin': '*' };
+  if (env.ENTRIES && ![...url.searchParams].length) { const s = await kvSnap(env, 'snap/videos', 75); if (s) return new Response(JSON.stringify(s.j), { headers: { ...hdr, 'Cache-Control': 'public, max-age=300' } }); }
   if (url.searchParams.get('review')) {
     // curation helper: enriched channel or playlist candidates with provenance. Needs YT_KEY.
     if (!env.YT_KEY) return new Response(JSON.stringify({ error: 'Set the YT_KEY secret first.' }), { status: 400, headers: hdr });
@@ -466,7 +467,9 @@ async function voiceApi(url, env) {
   const v = (VOICES.voices || []).find(x => x.id === id);
   if (!v) return new Response('{"error":"unknown voice"}', { status: 404, headers: hdr });
   const diag = diagOn ? [] : null;
-  const mk = 'voice/' + id, cached = diagOn ? null : await memGet(mk);
+  const refresh = !!url.searchParams.get('refresh'), searchMode = url.searchParams.get('search') || '';
+  if (!diagOn && !refresh && env && env.ENTRIES) { const s = await kvSnap(env, 'snap/voice/' + id, 75); if (s) return new Response(JSON.stringify(s.j), { headers: hdr }); }
+  const mk = 'voice/' + id, cached = (diagOn || refresh) ? null : await memGet(mk);
   if (cached) return new Response(JSON.stringify(cached), { headers: hdr });
   const feedUrls = (v.blog && v.blog.length) ? v.blog : (v.site ? await discoverFeeds(v.site, diag) : []);
   const arts = (await Promise.all(feedUrls.map(u => load({ id: v.id, name: v.name, site: v.site || u, url: u, maxAge: 3650 })))).flatMap(r => r.items);
@@ -499,8 +502,8 @@ async function voiceApi(url, env) {
     try { const r = await fetch('https://www.googleapis.com/youtube/v3/search?part=snippet&type=channel&maxResults=3&q=' + encodeURIComponent(v.name) + '&key=' + env.YT_KEY); const j = await r.json(); diag.push({ suggestChannels: (j.items || []).map(x => ({ id: x.snippet.channelId, title: x.snippet.channelTitle })) }); } catch {}
   }
   // appearances on other people's shows: a cached YouTube search, kept for six hours to protect the quota
-  if (v.q && env && env.YT_KEY) {
-    const sk = 'vsearch/' + id; let sv = diagOn ? null : await memGet(sk);
+  if (v.q && env && env.YT_KEY && searchMode !== 'no') {
+    const sk = 'vsearch/' + id; let sv = (diagOn || searchMode === '1') ? null : await memGet(sk);
     if (!sv) {
       sv = { list: [] };
       try {
@@ -508,7 +511,7 @@ async function voiceApi(url, env) {
         const j = await r.json();
         if (diag) diag.push({ search: v.q, status: r.status, error: j.error ? j.error.message : '' });
         sv.list = (j.items || []).filter(x => x.id && x.id.videoId && ((x.snippet.title + ' ' + x.snippet.description).toLowerCase().includes(v.q.split(' ').slice(-1)[0].toLowerCase()))).map(x => ({ v: x.id.videoId, t: decode(x.snippet.title), d: x.snippet.publishedAt, x: (x.snippet.description || '').slice(0, 200), n: decode(x.snippet.channelTitle || ''), guest: 1 }));
-        if (sv.list.length) await memPut(sk, sv, 6 * 3600);
+        if (sv.list.length) await memPut(sk, sv, 24 * 3600);
       } catch (e) { if (diag) diag.push({ search: v.q, error: String(e) }); }
     }
     sv.list.forEach(x => { if (!vids.some(y => y.v === x.v)) vids.push(x); });
@@ -609,7 +612,56 @@ async function submissionsApi(request, env) {
   return new Response(JSON.stringify({ mail: !!(env.RESEND_KEY && env.MAIL_FROM), items: items.filter(Boolean).sort((a, b) => b.at.localeCompare(a.at)) }), { headers: hdr });
 }
 
+
+// ---------------------------------------------------------------- hourly scan: snapshots in KV
+async function kvSnap(env, key, maxMin) {
+  try { const raw = await env.ENTRIES.get(key); if (!raw) return null; const o = JSON.parse(raw); return (Date.now() - o.t) / 60000 <= maxMin ? o : null; } catch { return null; }
+}
+async function scan(env) {
+  if (!env.ENTRIES) return;
+  const started = Date.now();
+  const log = { t: started, videos: false, voices: [], searched: [], error: '' };
+  let fresh = [];
+  try {
+    const r = await videoApi(new URL('https://scan.local/api/videos?fresh=1'), env);
+    const j = await r.json();
+    if (j && j.channels && j.channels.length) { await env.ENTRIES.put('snap/videos', JSON.stringify({ t: Date.now(), j })); log.videos = true; }
+    (j.channels || []).forEach(c => (c.videos || []).forEach(x => fresh.push({ v: x.v, t: x.t, d: x.d, n: c.name, w: '' })));
+  } catch (e) { log.error += 'videos:' + String(e) + ' '; }
+  const vs = (VOICES.voices || []).filter(v => !v.hidden);
+  const per = Math.max(1, parseInt(env.SCAN_VOICES || '8', 10)), maxSearch = Math.max(0, parseInt(env.SCAN_SEARCHES || '3', 10));
+  let cur = 0; try { cur = parseInt((await env.ENTRIES.get('snap/cursor')) || '0', 10) || 0; } catch {}
+  let searches = 0;
+  for (let i = 0; i < Math.min(per, vs.length); i++) {
+    const v = vs[(cur + i) % vs.length];
+    try {
+      const doSearch = !!(v.q && env.YT_KEY && searches < maxSearch);
+      if (doSearch) searches++;
+      const r = await voiceApi(new URL('https://scan.local/api/voice?id=' + encodeURIComponent(v.id) + '&refresh=1&search=' + (doSearch ? '1' : 'no')), env);
+      const j = await r.json();
+      if (!j || j.error) continue;
+      if (!doSearch) {
+        try { const prev = JSON.parse((await env.ENTRIES.get('snap/voice/' + v.id)) || 'null'); if (prev && prev.j) { const have = new Set((j.videos || []).map(x => x.v)); (prev.j.videos || []).filter(x => x.guest && !have.has(x.v)).forEach(x => j.videos.push(x)); } } catch {}
+      } else log.searched.push(v.id);
+      await env.ENTRIES.put('snap/voice/' + v.id, JSON.stringify({ t: Date.now(), j }));
+      log.voices.push(v.id);
+      (j.videos || []).forEach(x => fresh.push({ v: x.v, t: x.t, d: x.d, n: x.n || v.name, w: v.id }));
+    } catch (e) { log.error += v.id + ':' + String(e) + ' '; }
+  }
+  try { await env.ENTRIES.put('snap/cursor', String((cur + per) % Math.max(vs.length, 1))); } catch {}
+  // newest uploads across every channel and person, with the hour each was first noticed
+  try {
+    let prev = []; try { prev = (JSON.parse((await env.ENTRIES.get('snap/new')) || 'null') || {}).items || []; } catch {}
+    const seen = new Map(prev.map(x => [x.v, x]));
+    fresh.forEach(x => { if (!x.v) return; const o = seen.get(x.v); if (!o) seen.set(x.v, { ...x, s: new Date().toISOString() }); else if (x.w && !o.w) o.w = x.w; });
+    const items = [...seen.values()].filter(x => x.d).sort((a, b) => b.d.localeCompare(a.d)).slice(0, 120);
+    await env.ENTRIES.put('snap/new', JSON.stringify({ t: Date.now(), items }));
+  } catch (e) { log.error += 'new:' + String(e); }
+  log.ms = Date.now() - started;
+  try { await env.ENTRIES.put('snap/log', JSON.stringify(log)); } catch {}
+}
 export default {
+  async scheduled(event, env, ctx) { YTK = env.YT_KEY || ''; ctx.waitUntil(scan(env)); },
   async fetch(request, env, ctx) {
     YTK = env.YT_KEY || '';
     const url = new URL(request.url);
@@ -620,6 +672,16 @@ export default {
     if (url.pathname === '/api/submissions') return submissionsApi(request, env);
     if (url.pathname === '/api/whoimg') return whoImages(env, !!url.searchParams.get('diag'));
     if (url.pathname === '/api/voice') return voiceApi(url, env);
+    if (url.pathname === '/api/latest-videos') {
+      const o = env.ENTRIES ? await kvSnap(env, 'snap/new', 60 * 24 * 7) : null;
+      const hrs = Math.min(parseInt(url.searchParams.get('hours') || '0', 10) || 0, 24 * 14), lim = Math.min(parseInt(url.searchParams.get('n') || '12', 10) || 12, 60);
+      let items = o ? o.items : []; if (hrs) items = items.filter(x => Date.now() - new Date(x.s || x.d) <= hrs * 3600000);
+      return new Response(JSON.stringify({ updated: o ? new Date(o.t).toISOString() : null, items: items.slice(0, lim) }), { headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'public, max-age=300', 'Access-Control-Allow-Origin': '*' } });
+    }
+    if (url.pathname === '/api/scan-status') {
+      if (request.headers.get('x-admin-key') !== env.ADMIN_KEY || !env.ADMIN_KEY) return new Response('{"error":"admin key required"}', { status: 401 });
+      return new Response((await env.ENTRIES.get('snap/log')) || '{"note":"no scan has run yet"}', { headers: { 'Content-Type': 'application/json' } });
+    }
     if (url.pathname === '/api/entry') return entryApi(request, url, env);
     if (url.pathname === '/api/yt-title') return ytTitle(url);
     if (url.pathname !== '/api/news') return env.ASSETS.fetch(request);

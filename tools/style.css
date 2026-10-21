@@ -710,3 +710,4 @@ header.top{margin-bottom:5px}
 .ss-dots{display:flex;gap:6px;flex-wrap:wrap}.ss-d{width:10px;height:10px;border-radius:50%;border:0;padding:0;background:var(--line);cursor:pointer}.ss-d.on{background:var(--t4)}
 .ss-pp{font:600 .75rem system-ui,sans-serif;border:1px solid var(--line);background:var(--card);color:var(--fg);padding:4px 10px;cursor:pointer}
 @media (prefers-reduced-motion:reduce){.ss-on .ss-f{transition:none}}
+.wlvc em{display:block;font:normal .7rem system-ui,sans-serif;color:var(--mut)}

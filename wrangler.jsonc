@@ -3,6 +3,7 @@
   "main": "worker.js",
   "compatibility_date": "2026-10-01",
   "keep_vars": true,
+  "triggers": { "crons": ["11 * * * *"] },
   "kv_namespaces": [{ "binding": "ENTRIES", "id": "d63fa268f4094b4093101bbf0b2b14f2" }],
   "assets": {
     "directory": ".",
