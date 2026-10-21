@@ -17,7 +17,7 @@ def slugify(s):
 
 def nbsp(t): return t.replace('\xa0', ' ').replace('­', '')
 
-GENERATED = ['maps', 'timelines', 'tables', 'population', 'demographics', 'rankings', 'top-ten', 'tour', 'flora', 'g', 'glossary', 'index', 'size', 'about', 'search', 'news', 'views', 'video', 'subscribe', 'signin', 'charts', 'media', 'audio', 'images', 'sources', 'admin']
+GENERATED = ['maps', 'timelines', 'tables', 'population', 'demographics', 'rankings', 'top-ten', 'tour', 'flora', 'g', 'glossary', 'index', 'size', 'about', 'search', 'news', 'views', 'video', 'subscribe', 'signin', 'charts', 'media', 'audio', 'images', 'hot', 'sources', 'admin']
 for d_ in GENERATED:
     shutil.rmtree(os.path.join(OUT, d_), ignore_errors=True)
 shutil.rmtree(os.path.join(OUT, 'img', 's'), ignore_errors=True)
@@ -270,7 +270,7 @@ def plslug(c): return 'pl-' + c['id'].lower()
 SUBNAV = {
  'news': [('Security', '/news/#mode=topics&tp=security'), ('Diplomacy', '/news/#mode=topics&tp=diplomacy'), ('Politics', '/news/#mode=topics&tp=politics'), ('Tech', '/news/#mode=topics&tp=technology'), ('Business', '/news/#mode=topics&tp=business')],
  'views': [('All Views', '/views/'), ('Op-Ed', '/views/#mode=topics&kind=Op-Ed'), ('Editorial', '/views/#mode=topics&kind=Editorial'), ('Blogs', '/views/#mode=topics&kind=Blog'), ('Voices', '/who/')],
- 'nowlej': [('Maps', '/maps/'), ('Timelines', '/timelines/'), ('Charts', '/charts/'), ('Voices', '/who/'), ('A to Z', '/glossary/')],
+ 'nowlej': [('Maps', '/maps/'), ('Timelines', '/timelines/'), ('Charts', '/charts/'), ('Voices', '/who/'), ('HOT', '/hot/'), ('A to Z', '/glossary/')],
  'maps': [('Historical Maps', '/maps/'), ('Size Comparisons', '/size/'), ('Israel Tour', '/tour/')],
  'charts': [('Rankings', '/rankings/'), ('Demographics', '/demographics/'), ('Top Ten', '/top-ten/'), ('Size Comparisons', '/size/'), ('Tables', '/tables/')],
  'media': [('Video', '/video/'), ('Audio', '/audio/'), ('Images', '/images/')],
@@ -293,7 +293,7 @@ def write_subnav_json():
         k = {'glossary': 'nowlej'}.get(k, k)
         m[u] = sec_links(k)
     write('/subnav.json', json.dumps(m))
-TOPSEC = {'': 'news', 'news': 'news', 'views': 'views', 'voices': 'views', 'who': 'nowlej', 'sources': 'sources', 'video': 'media', 'audio': 'media', 'images': 'media', 'maps': 'nowlej', 'timelines': 'nowlej', 'charts': 'nowlej', 'media': 'media', 'glossary': 'nowlej', 'g': 'nowlej',
+TOPSEC = {'': 'news', 'news': 'news', 'views': 'views', 'voices': 'views', 'who': 'nowlej', 'hot': 'nowlej', 'sources': 'sources', 'video': 'media', 'audio': 'media', 'images': 'media', 'maps': 'nowlej', 'timelines': 'nowlej', 'charts': 'nowlej', 'media': 'media', 'glossary': 'nowlej', 'g': 'nowlej',
           'tables': 'nowlej', 'demographics': 'nowlej', 'rankings': 'nowlej', 'top-ten': 'nowlej', 'size': 'nowlej', 'tour': 'media', 'flora': 'media'}
 TOPIDX = {'news': 0, 'views': 1, 'media': 2, 'nowlej': 3, 'sources': 4}
 CTX2 = {'maps': 'maps', 'timelines': 'timelines', 'charts': 'charts', 'tables': 'charts', 'demographics': 'charts', 'rankings': 'charts', 'top-ten': 'charts', 'size': 'charts',
@@ -334,7 +334,7 @@ def layout(title, body, desc='', path='/', og=None, cls='', nd=False):
 <main id="main" class="wrap">{body}</main>
 <footer><div class="wrap"><p>Israel NOWlej: news, views, maps, timelines, charts and media on the Holy Land.</p>
 <p>&copy; 2003 to 2026 Richard J. Koret. All rights reserved. Page images are shown for reference with the book <i>Israel NOWlej</i> by Richard J. Koret. <a href="/about/">About this site, how to use it and cite it</a> · <a href="/submit/">Send us an article, video or nomination</a></p></div></footer>
-<script src="/site.js" defer></script><script src="/share.js" defer></script><script src="/ticker.js" defer></script><script src="/whoimg.js" defer></script>{'<script src="/ads.js" defer></script><script src="/news.js" defer></script>' if news_js else ''}{'<script src="/subnav.js" defer></script>'}{'<script src="/entryedit.js" defer></script>' if path.startswith('/g/') else ''}{'<script src="/video.js" defer></script>' if path.startswith('/video/') or path == '/media/' or path.startswith('/g/') else ''}{'<script src="/entry.js" defer></script><script src="/slideshow.js" defer></script>' if path.startswith('/g/') else ''}{'<script src="/glossary.js" defer></script>' if path == '/glossary/' else ''}{'<script src="/zoom.js" defer></script>' if path == '/maps/' else ''}{'<script src="/voices.js" defer></script>' if path.startswith('/who/') else ''}{'<script src="/audio.js" defer></script>' if path == '/audio/' else ''}{'<script src="/submit.js" defer></script>' if path in ('/submit/', '/admin/submissions/') else ''}{'<script src="/entry.js" defer></script><script src="/slideshow.js" defer></script>' if path.startswith('/who/') and path != '/who/' else ''}{'<script src="/source.js" defer></script>' if path.startswith('/sources/') and path != '/sources/' else ''}{'<script src="/admin.js" defer></script>' if path == '/admin/video/' else ''}{'<script src="/tlnav.js" defer></script>' if path.startswith('/timelines/') and path != '/timelines/' else ''}{'<script src="/admin_entry.js" defer></script>' if path == '/admin/entry/' else ''}</body></html>'''
+<script src="/site.js" defer></script><script src="/share.js" defer></script><script src="/ticker.js" defer></script><script src="/whoimg.js" defer></script>{'<script src="/ads.js" defer></script><script src="/news.js" defer></script>' if news_js else ''}{'<script src="/subnav.js" defer></script>'}{'<script src="/entryedit.js" defer></script>' if path.startswith('/g/') else ''}{'<script src="/video.js" defer></script>' if path.startswith('/video/') or path == '/media/' or path.startswith('/g/') else ''}{'<script src="/entry.js" defer></script><script src="/slideshow.js" defer></script>' if path.startswith('/g/') else ''}{'<script src="/glossary.js" defer></script>' if path == '/glossary/' else ''}{'<script src="/zoom.js" defer></script>' if path == '/maps/' else ''}{'<script src="/voices.js" defer></script>' if path.startswith('/who/') else ''}{'<script src="/audio.js" defer></script>' if path == '/audio/' else ''}{'<script src="/hot.js" defer></script>' if path.startswith('/hot/') else ''}{'<script src="/submit.js" defer></script>' if path in ('/submit/', '/admin/submissions/') else ''}{'<script src="/entry.js" defer></script><script src="/slideshow.js" defer></script>' if path.startswith('/who/') and path != '/who/' else ''}{'<script src="/source.js" defer></script>' if path.startswith('/sources/') and path != '/sources/' else ''}{'<script src="/admin.js" defer></script>' if path == '/admin/video/' else ''}{'<script src="/tlnav.js" defer></script>' if path.startswith('/timelines/') and path != '/timelines/' else ''}{'<script src="/admin_entry.js" defer></script>' if path == '/admin/entry/' else ''}</body></html>'''
 
 def write(path, content):
     fp = os.path.join(OUT, path.lstrip('/'))
@@ -719,6 +719,7 @@ def gl_thumb(g):
         if best is None and (len(nm) >= 2 or len(' '.join(nm)) >= 6) and any(tw[x:x + len(nm)] == nm for x in range(len(tw) - len(nm) + 1)): best = r
     return best
 glcards = [g for g in G if not g.get('cf')]
+HOT_ = json.load(open(os.path.join(ROOT, 'tools', 'hot.json')))
 _wh = [{'name': v_['name'], 'slug': v_['id'], 'he': '', 'cat': 'WHOS', 'catname': 'Voices', 'href': f'/who/{v_["id"]}/', 'intro': v_['intro']} for v_ in json.load(open(os.path.join(ROOT, 'voices.json')))['voices'] if not v_.get('hidden')]
 glcards = glcards + _wh
 cats = {}
@@ -868,6 +869,48 @@ def voices_pages():
         search.append({'t': v['name'], 'u': f'/who/{v["id"]}/', 'k': 'WHO’S WHO', 's': kind + (' · IDF spokesperson' if v.get('group') == 'idf' else ''), 'x': (v['intro'] + ' ' + v.get('tags', '') + (' influencer podcaster guest expert' if v['kind'] == 'voice' else ' organization media'))[:700]})
 voices_pages()
 
+# ---- HOT: contested issues
+def hot_pages():
+    H_ = HOT_; T_ = H_['topics']; vmap = {v_['id']: v_ for v_ in VOICES_}
+    def left(cur=''):
+        return ('<nav class="newstopics secnav wholist hotleft" aria-label="HOT topics"><h2><a href="/hot/">HOT</a></h2><h3>Contested issues</h3><ul>'
+                + ''.join(f'<li><a href="/hot/{t["slug"]}/"{" aria-current=\"page\"" if t["slug"] == cur else ""}>{E(t["short"])}</a></li>' for t in T_) + '</ul></nav>')
+    def aside(t=None):
+        kw = E(json.dumps(t['kw'] if t else []))
+        return (f'<div class="hotfeed" id="hot-feed" data-kw="{kw}"><h2>{"On this topic now" if t else "Latest on contested issues"}</h2>'
+                '<section data-k="news"><h3>News</h3><ul></ul></section><section data-k="views"><h3>Views</h3><ul></ul></section>'
+                '<p class="small">Matches come from headlines in the live news and views feeds. Coverage is credited to its publisher.</p></div>')
+    note = ('<p class="hotnote"><b>Contested issue.</b> Draft for editorial review. As of ' + E(H_['asof']) + '. '
+            '<a href="/submit/?type=claim&name=HOT">Send a correction or a source</a></p>')
+    hubb = ('<h1>HOT: Contested Issues</h1>' + note + f'<p class="lead">{E(H_["intro"])}</p><div class="hotgrid">'
+            + ''.join(f'<a class="hotcard" href="/hot/{t["slug"]}/"><span class="hotera">{E(t["era"])}</span><b>{E(t["title"])}</b><span>{E(t["brief"].split(". ")[0])}.</span></a>' for t in T_)
+            + '</div><h2>How we handle contested issues</h2><ul class="hotrules"><li>Every topic is titled as the question people really ask.</li>'
+              '<li>We state the claim in its supporters&#8217; own terms before we answer it.</li>'
+              '<li>We separate what the record shows from what is argued, and we show the strongest case on each side.</li>'
+              '<li>Every date and figure names its source. Pages show when they were last reviewed and are corrected in public.</li>'
+              '<li>Critics and independent bodies are linked as well as Israel&#8217;s defenders.</li></ul>'
+              '<p class="subcta">Know a topic we should cover, or a source we missed? <a href="/submit/?type=nominee">Tell us</a>.</p>')
+    write('/hot/', layout('HOT: Contested Issues', chan('glossary', hubb, '/hot/', left=left(), aside=aside()), 'Contested issues about Israel, set out with the claim, the record, both sides and sources.', '/hot/'))
+    search.append({'t': 'HOT: Contested Issues', 'u': '/hot/', 'k': 'HOT', 's': 'Contested issues', 'x': 'contested controversial hot topics ' + ' '.join(t['short'] for t in T_)})
+    for t in T_:
+        li = lambda xs: '<ul>' + ''.join(f'<li>{E(x)}</li>' for x in xs) + '</ul>'
+        vc = ''.join(f'<li><a href="/who/{i_}/"><b>{E(vmap[i_]["name"])}</b></a><span>{E(n_)}</span></li>' for i_, n_ in t['voices'] if i_ in vmap)
+        srcs = ''.join('<li>' + (f'<a href="{E(u_)}" rel="noopener" target="_blank">{E(a_)}</a>' if u_ else f'<b>{E(a_)}</b>') + f'<span>{E(n_)}</span></li>' for a_, n_, u_ in t['sources'])
+        rel = ''.join(f'<a href="/g/{sl_}/">{E(used[sl_]["title"])}</a> · ' for sl_ in t['related'] if sl_ in used).rstrip(' · ')
+        body = (f'<article class="gl hot"><p class="hottag"><a href="/hot/">HOT</a> · {E(t["era"])}</p><h1>{E(t["title"])}</h1>{note}'
+                f'<div class="hotbrief"><b>In brief</b><p>{E(t["brief"])}</p></div>'
+                f'<h2>What is claimed</h2>{li(t["claim"])}<h2>What the record shows</h2>{li(t["record"])}'
+                f'<h2>Where it is disputed</h2><div class="hot2"><section><h3>Critics argue</h3>{li(t["critics"])}</section><section><h3>Israel and its defenders answer</h3>{li(t["defenders"])}</section></div>'
+                f'<h2>Key dates</h2><ul class="hotdates">' + ''.join(f'<li><b>{E(d_)}</b> {E(x_)}</li>' for d_, x_ in t['dates']) + '</ul>'
+                f'<h2>Who addresses this</h2><p class="small">Profiles with articles, videos and podcasts. Open a profile for the full list.</p><ul class="hotlist">{vc}</ul>'
+                f'<h2>Sources and further study</h2><ul class="hotlist">{srcs}</ul>'
+                + (f'<h2>Related on NOWlej</h2><p>{rel}</p>' if rel else '')
+                + f'<p class="subcta">Know a good article, video or podcast on this issue? <a href="/submit/?type=article&about={urllib.parse.quote(t["short"])}">Send it to us</a>.</p>'
+                '<p class="small">Links to outside sources are provided for study and do not imply endorsement. Figures and rulings are described as of the date shown.</p></article>')
+        write(f'/hot/{t["slug"]}/', layout(t['short'] + ' (HOT)', chan('glossary', body, '/hot/', left=left(t['slug']), aside=aside(t)), t['brief'], f'/hot/{t["slug"]}/'))
+        search.append({'t': t['title'], 'u': f'/hot/{t["slug"]}/', 'k': 'HOT', 's': 'Contested issue · ' + t['era'], 'x': t['brief'] + ' ' + ' '.join(t['kw'])})
+hot_pages()
+
 # ---- Media landing and Audio
 AUD_ = [v_ for v_ in VOICES_ if v_.get('pods')]
 _aleft = ('<nav class="newstopics secnav wholist" aria-label="Audio shows"><h2><a href="/audio/">Audio</a></h2><h3>Shows</h3><ul>'
@@ -984,6 +1027,7 @@ write('/glossary.json', json.dumps(list(merged.values()), ensure_ascii=False, se
 shutil.copy(os.path.join(ROOT, 'tools', 'news.js'), os.path.join(OUT, 'news.js'))
 shutil.copy(os.path.join(ROOT, 'tools', 'voices.js'), os.path.join(OUT, 'voices.js'))
 shutil.copy(os.path.join(ROOT, 'tools', 'audio.js'), os.path.join(OUT, 'audio.js'))
+shutil.copy(os.path.join(ROOT, 'tools', 'hot.js'), os.path.join(OUT, 'hot.js'))
 shutil.copy(os.path.join(ROOT, 'tools', 'slideshow.js'), os.path.join(OUT, 'slideshow.js'))
 shutil.copy(os.path.join(ROOT, 'tools', 'whoimg.js'), os.path.join(OUT, 'whoimg.js'))
 shutil.copy(os.path.join(ROOT, 'tools', 'submit.js'), os.path.join(OUT, 'submit.js'))
@@ -1009,7 +1053,7 @@ write('/search.json', json.dumps(search, ensure_ascii=False, separators=(',', ':
 shutil.copy(os.path.join(ROOT, 'tools', 'style.css'), os.path.join(OUT, 'style.css'))
 shutil.copy(os.path.join(ROOT, 'tools', 'site.js'), os.path.join(OUT, 'site.js'))
 open(os.path.join(OUT, 'robots.txt'), 'w').write(f'User-agent: *\nAllow: /\nSitemap: {BASE}/sitemap.xml\n')
-allurls = ['/', '/voices/', '/who/', '/submit/'] + [f'/who/{v_["id"]}/' for v_ in VOICES_] + [ '/about/', '/news/', '/views/', '/video/', '/media/', '/audio/', '/images/', '/charts/', '/sources/', '/subscribe/', '/signin/', '/glossary/', '/index/', '/maps/', '/timelines/', '/tables/', '/demographics/', '/rankings/', '/top-ten/', '/size/', '/tour/', '/flora/'] + [r['url'] for r in rows] + [f'/g/{g["slug"]}/' for g in G]
+allurls = ['/', '/voices/', '/who/', '/hot/', '/submit/'] + [f'/hot/{t_["slug"]}/' for t_ in HOT_['topics']] + [f'/who/{v_["id"]}/' for v_ in VOICES_] + [ '/about/', '/news/', '/views/', '/video/', '/media/', '/audio/', '/images/', '/charts/', '/sources/', '/subscribe/', '/signin/', '/glossary/', '/index/', '/maps/', '/timelines/', '/tables/', '/demographics/', '/rankings/', '/top-ten/', '/size/', '/tour/', '/flora/'] + [r['url'] for r in rows] + [f'/g/{g["slug"]}/' for g in G]
 open(os.path.join(OUT, 'sitemap.xml'), 'w').write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + ''.join(f'<url><loc>{BASE}{u}</loc></url>\n' for u in allurls) + '</urlset>\n')
 
 red = []
