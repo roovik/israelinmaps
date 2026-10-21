@@ -16,7 +16,7 @@
     }).catch(function(){box.innerHTML='<p>The '+label+' could not be loaded right now.</p>';return 0})}
   var show=new URLSearchParams(location.search).get('show');if(show!=='news'&&show!=='views')show='';
   var nm=document.getElementById('src-h1').getAttribute('data-name');
-  if(show){document.getElementById(show==='news'?'src-vsec':'src-nsec').hidden=true;document.getElementById('src-h1').textContent=nm+(show==='news'?' News':' Views');document.title=nm+(show==='news'?' News':' Views')+' | Israel NOWlej'}
+  if(show){document.getElementById(show==='news'?'src-vsec':'src-nsec').hidden=true;document.getElementById('src-h1').textContent='Source: '+nm+(show==='news'?' \u00b7 News':' \u00b7 Blogs');document.title=nm+(show==='news'?' News':' Blogs')+' | Israel NOWlej'}
   [].forEach.call(document.querySelectorAll('#src-tabs a[data-show]'),function(a){if(a.getAttribute('data-show')===show)a.setAttribute('aria-current','page')});
   var jobs=[show==='views'?Promise.resolve(0):load('/api/news?v=2','src-news','news'),show==='news'?Promise.resolve(0):load('/api/news?views=1&v=2','src-views','views')];
   Promise.all(jobs).then(function(n){

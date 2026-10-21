@@ -270,7 +270,7 @@ def plslug(c): return 'pl-' + c['id'].lower()
 SUBNAV = {
  'news': [('Security', '/news/#mode=topics&tp=security'), ('Diplomacy', '/news/#mode=topics&tp=diplomacy'), ('Politics', '/news/#mode=topics&tp=politics'), ('Tech', '/news/#mode=topics&tp=technology'), ('Business', '/news/#mode=topics&tp=business')],
  'views': [('All Views', '/views/'), ('Op-Ed', '/views/#mode=topics&kind=Op-Ed'), ('Editorial', '/views/#mode=topics&kind=Editorial'), ('Blogs', '/views/#mode=topics&kind=Blog'), ('Voices', '/who/')],
- 'nowlej': [('Maps', '/maps/'), ('Timelines', '/timelines/'), ('Charts', '/charts/'), ('Voices', '/who/'), ('HOT', '/hot/'), ('A to Z', '/glossary/')],
+ 'nowlej': [('Maps', '/maps/'), ('Timelines', '/timelines/'), ('Charts', '/charts/'), ('HOT', '/hot/'), ('A to Z', '/glossary/')],
  'maps': [('Historical Maps', '/maps/'), ('Size Comparisons', '/size/'), ('Israel Tour', '/tour/')],
  'charts': [('Rankings', '/rankings/'), ('Demographics', '/demographics/'), ('Top Ten', '/top-ten/'), ('Size Comparisons', '/size/'), ('Tables', '/tables/')],
  'media': [('Video', '/video/'), ('Audio', '/audio/'), ('Images', '/images/')],
@@ -284,7 +284,7 @@ def tl_links():
     return [(SHORT.get(r['title'], r['title'].replace('The ', '')), r['url']) for r in rows if r['prefix'] == 'TL']
 def sec_links(sec):
     if sec == 'timelines': return tl_links()
-    if sec == 'sources': return [({'toi': 'Times of Israel', 'jpost': 'Jerusalem Post', 'ynet': 'Ynet', 'israelhayom': 'Israel Hayom', 'insider': 'Israel Insider', 'jns': 'JNS'}.get(i_, n_), f'/sources/{i_}/') for i_, n_, _, _ in SRC]
+    if sec == 'sources': return [('Voices', '/who/')] + [({'toi': 'Times of Israel', 'jpost': 'Jerusalem Post', 'ynet': 'Ynet', 'israelhayom': 'Israel Hayom', 'insider': 'Israel Insider', 'jns': 'JNS'}.get(i_, n_), f'/sources/{i_}/') for i_, n_, _, _ in SRC]
     return SUBNAV.get(sec, [])
 def write_subnav_json():
     m = {}
@@ -293,11 +293,11 @@ def write_subnav_json():
         k = {'glossary': 'nowlej'}.get(k, k)
         m[u] = sec_links(k)
     write('/subnav.json', json.dumps(m))
-TOPSEC = {'': 'news', 'news': 'news', 'views': 'views', 'voices': 'views', 'who': 'nowlej', 'hot': 'nowlej', 'sources': 'sources', 'video': 'media', 'audio': 'media', 'images': 'media', 'maps': 'nowlej', 'timelines': 'nowlej', 'charts': 'nowlej', 'media': 'media', 'glossary': 'nowlej', 'g': 'nowlej',
+TOPSEC = {'': 'news', 'news': 'news', 'views': 'views', 'voices': 'views', 'who': 'sources', 'hot': 'nowlej', 'sources': 'sources', 'video': 'media', 'audio': 'media', 'images': 'media', 'maps': 'nowlej', 'timelines': 'nowlej', 'charts': 'nowlej', 'media': 'media', 'glossary': 'nowlej', 'g': 'nowlej',
           'tables': 'nowlej', 'demographics': 'nowlej', 'rankings': 'nowlej', 'top-ten': 'nowlej', 'size': 'nowlej', 'tour': 'media', 'flora': 'media'}
 TOPIDX = {'news': 0, 'views': 1, 'media': 2, 'nowlej': 3, 'sources': 4}
 CTX2 = {'maps': 'maps', 'timelines': 'timelines', 'charts': 'charts', 'tables': 'charts', 'demographics': 'charts', 'rankings': 'charts', 'top-ten': 'charts', 'size': 'charts',
-        'who': 'who'}
+        }
 def subnav_for(path):
     seg = path.strip('/').split('/')[0]
     top = TOPSEC.get(seg, '')
@@ -872,7 +872,7 @@ def voices_pages():
         body = (f'<article class="gl who"><div class="whohero"><div class="whoph {col}{" org" if v["kind"] == "org" else ""}" id="who-ph" data-who="{v["id"]}" data-wiki="{E(wk)}"><span class="ini">{E(ini)}</span></div>'
                 f'<div class="whotx"><h1>{E(v["name"])}</h1><p class="wcred">{E(v.get("tags", ""))}</p></div>'
                 f'<p class="lead edef" id="e-def"><span class="edt">{E(v["intro"])}</span> <a class="econt more" id="e-more" href="#e-summary" hidden>MORE</a></p>'
-                f'<p class="whobtn"><a class="vjump vb" id="wb-vid" href="#e-video" hidden>Videos</a><a class="vjump vb" id="wb-pl" href="#e-video" data-t="playlists" hidden>Playlists</a><a class="vjump" href="#v-articles">Articles</a><a class="vjump vn" href="#v-news">News About</a>{site_}</p>'
+                f'<p class="whobtn"><a class="vjump vb" id="wb-pod" href="#v-pods" hidden>Podcasts</a><a class="vjump vb" id="wb-vid" href="#e-video" hidden>Videos</a><a class="vjump vb" id="wb-pl" href="#e-video" data-t="playlists" hidden>Playlists</a><a class="vjump" href="#v-articles">Blogs</a><a class="vjump vn" href="#v-news">News</a>{site_}</p>'
                 f'<p class="claim"><a href="/submit/?type=claim&name={urllib.parse.quote(v["name"])}">Is this your profile? Send corrections, additions or removals</a></p></div>'
                 '<nav class="esec" id="esec" aria-label="On this page"><a href="#e-images" data-s="e-images" hidden>Images</a><a href="#e-video" data-s="e-video" hidden>Video</a><a href="#e-summary" data-s="e-summary" hidden>More NOWlej</a><a href="#v-articles">Articles</a><a href="#v-news">News About</a><a href="#e-related">Related</a><a href="#e-sources">Sources</a></nav>'
                 f'<section id="e-images" hidden data-name="{E(wk)}"><div class="egal" id="e-gal"></div><p class="small">Photographs from Wikimedia Commons. Click an image to enlarge it. Author and license are shown with each.</p></section>'

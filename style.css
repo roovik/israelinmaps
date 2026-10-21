@@ -816,3 +816,11 @@ main h1{padding-bottom:0}main h1::after{display:none!important}
 .newsleftcol:has(.chpick) .adslot,.newsleftcol:has(.chpick) .newstopics{display:none!important}
 .chpick{display:flex}
 }
+/* publications grid on Voices */
+.pubgrid{flex-wrap:wrap;overflow:visible;gap:20px 14px;padding:10px 0 16px}
+.pubgrid a{width:104px}
+.pubgrid .apic{width:76px;height:76px;font-size:1.2rem}
+.pubgrid[hidden]{display:none}
+.wchips button{font-size:.95rem;padding:7px 16px}
+.wgrid[hidden]{display:none!important}.wfilter #wq{margin-top:10px}.wfilter #wq[hidden]{display:none}
+#src-tabs{overflow-x:auto;white-space:nowrap}

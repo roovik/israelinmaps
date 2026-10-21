@@ -13,6 +13,17 @@
    "wiki": "StandWithUs"
   },
   {
+   "id": "idf-spokesperson",
+   "kind": "org",
+   "name": "IDF Spokesperson",
+   "site": "https://www.idf.il/en/",
+   "yt": [
+    "IsraelDefenseForces"
+   ],
+   "intro": "The IDF Spokesperson's Unit is the official media and public information arm of the Israel Defense Forces. It publishes the IDF's statements, videos and updates in several languages.",
+   "wiki": "Israel Defense Forces"
+  },
+  {
    "id": "honestreporting",
    "kind": "org",
    "name": "HonestReporting",
