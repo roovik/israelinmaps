@@ -27,7 +27,7 @@
     }
     if(!vs.length&&!pls.length)tabs.hidden=true;
     function list(items){return items.map(function(a){var im=a.i?'<img class="athumb" src="'+esc(a.i)+'" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">':'';var h=a.k?'/news/item/'+esc(a.k)+'/':esc(a.u),ext=a.k?'':' rel="noopener" target="_blank"';return'<li class="'+(a.i?'hasimg':'')+'">'+(a.i?'<a class="athl" href="'+h+'"'+ext+' tabindex="-1">'+im+'</a>':'')+'<div><a href="'+h+'"'+ext+'><b>'+esc(a.t)+'</b></a><span class="wm">'+esc(d.name)+(a.d?' · '+when(a.d):'')+(a.k?' · <a class="orig" href="'+esc(a.u)+'" rel="noopener" target="_blank">Original</a>':'')+'</span>'+(a.x?'<p>'+esc(a.x)+'</p>':'')+(a.a?'<audio controls preload="none" src="'+esc(a.a)+'"></audio>':'')+'</div></li>'}).join('')}
-    if(pp.length){var pe=document.getElementById('v-pods');pe.hidden=false;pe.querySelector('ul').innerHTML=list(pp)}
+    if(pp.length){var pe=document.getElementById('v-pods');pe.hidden=false;var pu=pe.querySelector('ul');function pdraw(n){pu.innerHTML=list(pp.slice(0,n))+(pp.length>n?'<li class="amore"><button type="button" class="aall">Show all '+pp.length+' episodes</button></li>':'')}pdraw(8);pu.addEventListener('click',function(e){if(e.target.closest('.aall'))pdraw(pp.length)})}
     var a=d.articles||[],nw=d.news||[];
     function nlist(items){return items.map(function(a){return'<li><a href="'+esc(a.u)+'" rel="noopener" target="_blank"><b>'+esc(a.t)+'</b></a><span class="wm">'+esc(a.src||'News')+(a.d?' · '+when(a.d):'')+'</span></li>'}).join('')}
     var h=a.length?list(a):'';

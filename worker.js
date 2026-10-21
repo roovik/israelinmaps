@@ -117,7 +117,7 @@ function parse(xml, feed) {
   const items = [];
   const re = /<(item|entry)\b[\s\S]*?<\/\1>/gi;
   let m;
-  while ((m = re.exec(xml)) && items.length < PER_FEED) {
+  while ((m = re.exec(xml)) && items.length < (feed.max || PER_FEED)) {
     const b = m[0];
     const title = text(tag(b, 'title'));
     let link = text(tag(b, 'link'));
@@ -193,7 +193,7 @@ async function itemPage(request, env, k, sp, cp) {
     const when = item.d ? new Date(item.d).toLocaleString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Jerusalem' }) : '';
     title = item.t; desc = (item.f || item.x || item.t).slice(0, 200);
     const vw = !!(cp && cp.startsWith('v-')) || !!archived;
-    body = '<span data-word="' + (vw ? 'views' : 'news') + '" hidden></span><p class="crumb"><a href="/">Home</a> / ' + (archived ? '<a href="/who/">Who&#8217;s Who</a> / <a href="/who/' + H(archived.vid) + '/">' + H(archived.src) + '</a>' : '<a href="' + (vw ? '/views/">Views' : '/news/">News') + '</a> / Feed item') + '</p>'
+    body = '<span data-word="' + (vw ? 'views' : 'news') + '" hidden></span><p class="crumb"><a href="/">Home</a> / ' + (archived ? '<a href="/who/">Voices</a> / <a href="/who/' + H(archived.vid) + '/">' + H(archived.src) + '</a>' : '<a href="' + (vw ? '/views/">Views' : '/news/">News') + '</a> / Feed item') + '</p>'
       + '<article class="fitem" data-orig="' + H(item.u) + '"><h1>' + H(item.t) + '</h1>'
       + '<p class="fmeta"><a href="' + H(src.site) + '" rel="noopener">' + H(src.name) + '</a>' + (when ? ' · ' + when : '') + '</p>'
       + (item.i ? '<img class="fimg" src="' + H(item.i) + '" alt="" referrerpolicy="no-referrer" onerror="this.remove()">' : '')
@@ -475,7 +475,7 @@ async function voiceApi(url, env) {
   const gnr = await load({ id: v.id, name: 'News', site: 'https://news.google.com/', url: 'https://news.google.com/rss/search?q=' + encodeURIComponent('"' + gq + '"') + '&hl=en-US&gl=US&ceid=US:en', maxAge: 3650 });
   const news = gnr.items.map(({ f, ...rest }) => { const m = rest.t.match(/^(.*) - ([^-]{2,60})$/); return { ...rest, t: m ? m[1] : rest.t, src: m ? m[2] : 'News', x: '', i: '' }; }).filter(x => !arts.some(a => a.u === x.u)).slice(0, 25);
   if (diag) diag.push({ googleNews: gnr.ok, error: gnr.error, count: news.length });
-  const podArts = (await Promise.all((v.pods || []).map(u => load({ id: v.id, name: v.name, site: v.site || u, url: u, maxAge: 3650 })))).flatMap(r => r.items).map(({ f, ...rest }) => rest);
+  const podArts = (await Promise.all((v.pods || []).map(u => load({ id: v.id, name: v.name, site: v.site || u, url: u, maxAge: 36500, max: 400 })))).flatMap(r => r.items).map(({ f, ...rest }) => rest);
   const vids = [], chanIds = [];
   for (const h of (v.yt || [])) { const r = await loadVideoSource({ handle: h, name: v.name }, 'channel', diag); if (r.ok && r.id) chanIds.push(r.id); (r.videos || []).forEach(x => vids.push({ ...x, n: v.name })); if (diag) diag.push({ yt: h, ok: r.ok, error: r.error, count: (r.videos || []).length }); }
   // playlists of the person's own channel (cached twelve hours)
@@ -522,7 +522,7 @@ async function voiceApi(url, env) {
       } catch { break; }
     }
   }
-  const out = { id, name: v.name, kind: v.kind, updated: new Date().toISOString(), articles: arts.slice(0, 30).map(({ f, ...rest }) => rest), news, podcasts: podArts.slice(0, 20), videos: vids.slice(0, 30), playlists: pls.slice(0, 24), feeds: feedUrls };
+  const out = { id, name: v.name, kind: v.kind, updated: new Date().toISOString(), articles: arts.slice(0, 30).map(({ f, ...rest }) => rest), news, podcasts: podArts.slice(0, 400), videos: vids.slice(0, 30), playlists: pls.slice(0, 24), feeds: feedUrls };
   if (diag) out.diag = diag; else await memPut(mk, out, 900);
   return new Response(JSON.stringify(out), { headers: diagOn ? { ...hdr, 'Cache-Control': 'no-store' } : hdr });
 }
@@ -539,7 +539,7 @@ async function sendMail(env, to, subject, text, replyTo) {
 const RECEIPT = {
   article: 'Thank you for sending an article to Israel NOWlej. A person will read it. If we use it, it will appear credited to its original publisher.',
   video: 'Thank you for sending a video to Israel NOWlej. A person will watch it. If we use it, it will play in an embedded player and be credited to its channel.',
-  nominee: 'Thank you for your nomination for Who’s Who on Israel NOWlej. We will review it and write to you with our decision.',
+  nominee: 'Thank you for your nomination for Voices on Israel NOWlej. We will review it and write to you with our decision.',
   apply: 'Thank you for applying to be listed on Israel NOWlej. We will review your application and write to you with our decision.',
   claim: 'Thank you for contacting us about your profile on Israel NOWlej. To protect you from impostors we may ask you to confirm your request from an official address. We will write to you soon.'
 };

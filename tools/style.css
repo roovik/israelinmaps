@@ -695,3 +695,4 @@ header.top{margin-bottom:5px}
  header.top .subnav{box-sizing:border-box;width:calc(var(--navw,504px) + 32px);max-width:100%;margin-left:max(0px,calc((100vw - 1440px)/2));margin-right:auto}
  .subnav a{font-size:.78rem;padding-left:4px;padding-right:4px}
 }
+.amore{justify-content:center}.aall{font:700 .85rem system-ui,sans-serif;padding:8px 16px;border:2px solid var(--t2);background:#fff;color:var(--t2);cursor:pointer}

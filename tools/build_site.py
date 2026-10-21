@@ -262,8 +262,8 @@ def vslug(c): return (c.get('handle') or c.get('id') or '').lower()
 def plslug(c): return 'pl-' + c['id'].lower()
 SUBNAV = {
  'news': [('Security', '/news/#mode=topics&tp=security'), ('Diplomacy', '/news/#mode=topics&tp=diplomacy'), ('Politics', '/news/#mode=topics&tp=politics'), ('Tech', '/news/#mode=topics&tp=technology'), ('Business', '/news/#mode=topics&tp=business')],
- 'views': [('All Views', '/views/'), ('Op-Ed', '/views/#mode=topics&kind=Op-Ed'), ('Editorial', '/views/#mode=topics&kind=Editorial'), ('Blogs', '/views/#mode=topics&kind=Blog'), ('Voices', '/voices/')],
- 'nowlej': [('Maps', '/maps/'), ('Timelines', '/timelines/'), ('Charts', '/charts/'), ('Who’s Who', '/who/'), ('A to Z', '/glossary/')],
+ 'views': [('All Views', '/views/'), ('Op-Ed', '/views/#mode=topics&kind=Op-Ed'), ('Editorial', '/views/#mode=topics&kind=Editorial'), ('Blogs', '/views/#mode=topics&kind=Blog'), ('Voices', '/who/')],
+ 'nowlej': [('Maps', '/maps/'), ('Timelines', '/timelines/'), ('Charts', '/charts/'), ('Voices', '/who/'), ('A to Z', '/glossary/')],
  'maps': [('Historical Maps', '/maps/'), ('Size Comparisons', '/size/'), ('Israel Tour', '/tour/')],
  'charts': [('Rankings', '/rankings/'), ('Demographics', '/demographics/'), ('Top Ten', '/top-ten/'), ('Size Comparisons', '/size/'), ('Tables', '/tables/')],
  'media': [('Video', '/video/'), ('Audio', '/audio/'), ('Images', '/images/')],
@@ -711,7 +711,7 @@ def gl_thumb(g):
         if best is None and (len(nm) >= 2 or len(' '.join(nm)) >= 6) and any(tw[x:x + len(nm)] == nm for x in range(len(tw) - len(nm) + 1)): best = r
     return best
 glcards = [g for g in G if not g.get('cf')]
-_wh = [{'name': v_['name'], 'slug': v_['id'], 'he': '', 'cat': 'WHOS', 'catname': 'Who’s Who', 'href': f'/who/{v_["id"]}/', 'intro': v_['intro']} for v_ in json.load(open(os.path.join(ROOT, 'voices.json')))['voices'] if not v_.get('hidden')]
+_wh = [{'name': v_['name'], 'slug': v_['id'], 'he': '', 'cat': 'WHOS', 'catname': 'Voices', 'href': f'/who/{v_["id"]}/', 'intro': v_['intro']} for v_ in json.load(open(os.path.join(ROOT, 'voices.json')))['voices'] if not v_.get('hidden')]
 glcards = glcards + _wh
 cats = {}
 for g in glcards: cats[catname(g)] = cats.get(catname(g), 0) + 1
@@ -736,7 +736,7 @@ for L, lst in letters.items():
                f'<span class="gb"><span class="gcat c-{cs}">{E(cn)}</span><b>{E(g["name"])}</b>{he_}<span class="gd">{E(d_)}</span></span></a>')
     gh += '</div></section>'
 print('glossary cards', len(glcards), 'with related thumbnail', nthumb)
-write('/glossary/', layout('NOWlej', chan('glossary', gh, '/glossary/'), 'NOWlej: entries on people, places, events, works, buildings and Who’s Who.', '/glossary/'))
+write('/glossary/', layout('NOWlej', chan('glossary', gh, '/glossary/'), 'NOWlej: entries on people, places, events, works, buildings and Voices.', '/glossary/'))
 
 # ---------------------------------------------------------------- index page
 idx = json.load(open(IDXJSON))
@@ -806,7 +806,7 @@ def who_sort(v): return re.sub(r'^(the|a)\s+', '', key(v['name'])).strip()
 def voices_pages():
     def tile(v):
         return f'<a class="vtile {v["kind"]}" href="/who/{v["id"]}/"><b>{E(v["name"])}</b><span>{E(v["intro"].split(". ")[0])}.</span></a>'
-    hubb = ('<h1>Voices</h1><p class="small">Organizations and individuals who make the case for Israel, with their latest articles, podcasts and video in one place. Each has a Who&#8217;s Who entry. Everything links to the original and is credited to its source.</p>'
+    hubb = ('<h1>Voices</h1><p class="small">Organizations and individuals who make the case for Israel, with their latest articles, podcasts and video in one place. Each has a Voices entry. Everything links to the original and is credited to its source.</p>'
             + '<h2>Organizations</h2><div class="vtiles">' + ''.join(tile(v) for v in VOICES_ if v['kind'] == 'org') + '</div>'
             + '<h2>Individuals</h2><div class="vtiles">' + ''.join(tile(v) for v in VOICES_ if v['kind'] == 'voice' and v.get('group') != 'idf') + '</div>'
             + '<h2>IDF spokespeople</h2><div class="vtiles">' + ''.join(tile(v) for v in VOICES_ if v.get('group') == 'idf') + '</div>')
@@ -816,11 +816,11 @@ def voices_pages():
     wside = ('<div class="wlatest" id="wlatest"><h2>Latest across NOWlej</h2>'
              '<section data-k="news"><h3>News</h3><ul></ul></section><section data-k="views"><h3>Views</h3><ul></ul></section>'
              '<section data-k="video"><h3>Video</h3><div class="wlv"></div></section>'
-             f'<section><h3>New in Who&#8217;s Who</h3><ul>{newp}</ul></section>'
+             f'<section><h3>New in Voices</h3><ul>{newp}</ul></section>'
              '<p class="small"><a href="/news/">All news</a> · <a href="/views/">All views</a> · <a href="/video/">All video</a></p></div>')
     def wholeft(cur=''):
         def grp(t, f): return f'<h3>{t}</h3><ul>' + ''.join(f'<li><a href="/who/{v["id"]}/"{" aria-current=\"page\"" if v["id"] == cur else ""}>{E(v["name"])}</a></li>' for v in lst if f(v)) + '</ul>'
-        return ('<nav class="newstopics secnav wholist" aria-label="Who&#8217;s Who"><h2><a href="/who/">Who&#8217;s Who</a></h2>'
+        return ('<nav class="newstopics secnav wholist" aria-label="Voices"><h2><a href="/who/">Voices</a></h2>'
                 + grp('Individuals', lambda v: v['kind'] == 'voice' and v.get('group') != 'idf') + grp('IDF spokespeople', lambda v: v.get('group') == 'idf') + grp('Organizations', lambda v: v['kind'] == 'org') + '</nav>')
     def wcard(v):
         ini = ''.join(w_[0] for w_ in re.sub(r'^The ', '', v['name']).replace('-', ' ').split()[:2]).upper()
@@ -830,12 +830,12 @@ def voices_pages():
         return (f'<a class="wcard" href="/who/{v["id"]}/" data-g="{grp}" data-h="{E(hay)}"><span class="wph {col}" data-who="{v["id"]}"><span>{E(ini)}</span></span>'
                 f'<span class="wtx"><b>{E(v["name"])}</b><span class="wc">{E(v.get("tags", ""))}</span></span>'
                 f'<span class="wdw"><span class="wd">{E(v["intro"])}</span><span class="wmore" hidden>MORE</span></span></a>')
-    wb = ('<h1>Who&#8217;s Who</h1><p class="small">Entries on the organizations and people who shape the conversation about Israel. Each has an introduction, images, video and podcasts, more background, and the latest articles.</p>'
-          '<div class="wfilter"><input id="wq" type="search" placeholder="Find a person, organization or topic" aria-label="Find in Who&#8217;s Who">'
+    wb = ('<h1>Voices</h1><p class="small">Entries on the organizations and people who shape the conversation about Israel. Each has an introduction, images, video and podcasts, more background, and the latest articles.</p>'
+          '<div class="wfilter"><input id="wq" type="search" placeholder="Find a person, organization or topic" aria-label="Find in Voices">'
           '<div class="wchips" id="wchips"><button type="button" data-g="" aria-pressed="true">All</button><button type="button" data-g="voice" aria-pressed="false">Individuals</button><button type="button" data-g="org" aria-pressed="false">Organizations</button><button type="button" data-g="idf" aria-pressed="false">IDF spokespeople</button></div></div>'
           '<div class="wgrid" id="wgrid">' + ''.join(wcard(v) for v in lst) + '</div><p class="small" id="wnone" hidden>No match. Try a shorter word.</p>'
           '<p class="subcta"><b>Missing someone?</b> <a href="/submit/?type=nominee">Nominate a person or organization</a> or <a href="/submit/?type=apply">apply to be listed</a>.</p>')
-    write('/who/', layout('Who’s Who', chan('glossary', wb, '/who/', left=wholeft(), aside=wside), 'Who’s Who: the organizations and people who shape the conversation about Israel.', '/who/'))
+    write('/who/', layout('Voices', chan('glossary', wb, '/who/', left=wholeft(), aside=wside), 'Voices: the organizations and people who shape the conversation about Israel.', '/who/'))
     for v in VOICES_:
         wk = v.get('wiki') or v['name']
         kind = 'Organization' if v['kind'] == 'org' else 'Individual'
@@ -851,7 +851,7 @@ def voices_pages():
                 f'<section id="e-images" hidden data-name="{E(wk)}"><div class="egal" id="e-gal"></div><p class="small">Photographs from Wikimedia Commons. Click an image to enlarge it. Author and license are shown with each.</p></section>'
                 f'<section id="e-video" hidden><div id="voice-page" data-id="{v["id"]}"></div><div class="vtop" id="v-player" hidden></div><div class="vtabs" id="v-tabs" role="group" aria-label="Choose from"><button type="button" data-t="videos" aria-pressed="true">Videos</button><button type="button" data-t="playlists" aria-pressed="false" hidden>Playlists</button></div><div id="v-clips" hidden><ul class="vclips"></ul></div><div id="v-playlists" hidden><ul class="vpls2"></ul></div><div id="v-pods" hidden><h2>Podcast episodes</h2><ul class="vlist2"></ul></div></section>'
                 f'<section id="e-summary" hidden><h2>MORE NOWLEJ</h2><div id="e-wiki" data-wiki="{E(wk)}" hidden></div></section>'
-                f'<section id="e-related"><h2>Related</h2><p><b>See also</b> <a href="/who/">Who&#8217;s Who</a> · <a href="/voices/">Voices</a> · <a href="/glossary/">NOWlej A to Z</a></p></section>'
+                f'<section id="e-related"><h2>Related</h2><p><b>See also</b> <a href="/who/">Voices</a> · <a href="/glossary/">NOWlej A to Z</a></p></section>'
                 f'<section id="v-articles"><h2>Articles</h2><ul class="vlist2"><li>Loading.</li></ul></section>'
                 f'<section id="v-news"><h2>News about {E(v["name"])}</h2><ul class="vlist2"><li>Loading.</li></ul></section>'
                 f'<p class="subcta">Know a good article or video about {E(v["name"])}? <a href="/submit/?type=article&about={urllib.parse.quote(v["name"])}">Send it to us</a> or <a href="/submit/?type=video&about={urllib.parse.quote(v["name"])}">suggest a video</a>.</p>'
@@ -864,22 +864,22 @@ voices_pages()
 AUD_ = [v_ for v_ in VOICES_ if v_.get('pods')]
 _aleft = ('<nav class="newstopics secnav wholist" aria-label="Audio shows"><h2><a href="/audio/">Audio</a></h2><h3>Shows</h3><ul>'
           + ''.join(f'<li><a href="#s-{v_["id"]}">{E(v_["name"])}</a></li>' for v_ in AUD_) + '</ul></nav>')
-_ab = ('<h1>Audio</h1><p class="small">Podcasts and audio shows from the people and organizations in Who&#8217;s Who. Choose an episode to play it here. Episodes are credited to and link to their original shows.</p>'
+_ab = ('<h1>Audio</h1><p class="small">Podcasts and audio shows from the people and organizations in Voices. Choose an episode to play it here. Episodes are credited to and link to their original shows.</p>'
        '<div class="atop" id="a-top" hidden><div class="anow" id="a-now"></div><audio id="a-audio" controls preload="none"></audio></div>'
        '<div id="a-shows">' + ''.join(f'<section class="ashow" id="s-{v_["id"]}" data-id="{v_["id"]}"><h2><a href="/who/{v_["id"]}/">{E(v_["name"])}</a></h2><ul class="alist"><li>Loading.</li></ul></section>' for v_ in AUD_) + '</div>'
        '<p class="subcta">Know a podcast we should include? <a href="/submit/?type=nominee">Send us a nomination</a>.</p>')
-write('/audio/', layout('Audio', chan('audio', _ab, '/audio/', left=_aleft), 'Podcasts and audio shows on Israel from the people and organizations in Who\u2019s Who.', '/audio/'))
+write('/audio/', layout('Audio', chan('audio', _ab, '/audio/', left=_aleft), 'Podcasts and audio shows on Israel from the people and organizations in Voices.', '/audio/'))
 
 # ---- submissions form
 def submit_page():
-    b = ('<h1>Send us something</h1><p class="lead">Help build the best archive and living directory of pro-Israel media. Send an article or a video, nominate someone for Who&#8217;s Who, or apply to be listed. Every submission is read by a person before anything is published.</p>'
+    b = ('<h1>Send us something</h1><p class="lead">Help build the best archive and living directory of pro-Israel media. Send an article or a video, nominate someone for Voices, or apply to be listed. Every submission is read by a person before anything is published.</p>'
          '<form id="subform" class="subform" novalidate><fieldset><legend>What are you sending?</legend>'
          '<label><input type="radio" name="type" value="article" checked> An article</label><label><input type="radio" name="type" value="video"> A video</label>'
-         '<label><input type="radio" name="type" value="nominee"> A nomination for Who&#8217;s Who</label><label><input type="radio" name="type" value="apply"> I want to be listed</label><label><input type="radio" name="type" value="claim"> This is my profile</label></fieldset>'
+         '<label><input type="radio" name="type" value="nominee"> A nomination for Voices</label><label><input type="radio" name="type" value="apply"> I want to be listed</label><label><input type="radio" name="type" value="claim"> This is my profile</label></fieldset>'
          '<div class="sf-row" data-for="claim" hidden><p class="small">Thank you for finding your profile. Tell us what to correct, add or remove. To protect you from impostors we will reply to the email below and may ask you to confirm from an official address before we change anything. Removal requests are handled promptly.</p><label>What would you like us to do? <select name="change"><option value="correct">Correct something</option><option value="add">Add something</option><option value="remove">Remove something or the whole profile</option></select></label></div>'
          '<div class="sf-row" data-for="article video"><label>Web address (full link) <input name="url" type="url" placeholder="https://"></label></div>'
          '<div class="sf-row" data-for="article video"><label>Title, if you know it <input name="title" maxlength="200"></label></div>'
-         '<div class="sf-row" data-for="article video"><label>Who or what is it about? <input name="about" maxlength="120" placeholder="A person or organization in Who&#8217;s Who, or a topic"></label></div>'
+         '<div class="sf-row" data-for="article video"><label>Who or what is it about? <input name="about" maxlength="120" placeholder="A person or organization in Voices, or a topic"></label></div>'
          '<div class="sf-row" data-for="nominee apply claim" hidden><label>Name of the person or organization <input name="name" maxlength="120"></label></div>'
          '<div class="sf-row" data-for="nominee apply claim" hidden><label>Links: website, YouTube, podcast, blog or feed addresses <textarea name="links" rows="3" maxlength="800"></textarea></label></div>'
          '<div class="sf-row"><label>Why it belongs, or a few words about it <textarea name="notes" rows="4" maxlength="2000"></textarea></label></div>'
@@ -892,7 +892,7 @@ def submit_page():
          '<div class="sf-row"><label class="sf-ck"><input type="checkbox" name="consent"> You may review this and email me about it. My contact details stay private and are not published.</label></div>'
          '<p><button type="submit" class="vjump">Send</button> <span id="sub-msg" role="status"></span></p></form>'
          '<p class="small">We list only material that is public and credited to its source. Being listed is an editorial decision and is never guaranteed. Videos play embedded and articles link to the original publisher.</p>')
-    write('/submit/', layout('Send us something', chan('voices', b, '/submit/', views=True), 'Submit an article or video, nominate someone for Who’s Who, or apply to be listed.', '/submit/'))
+    write('/submit/', layout('Send us something', chan('voices', b, '/submit/', views=True), 'Submit an article or video, nominate someone for Voices, or apply to be listed.', '/submit/'))
     ad = ('<h1>Submissions</h1><p class="small">Private working page. Enter the admin key once. It stays in this browser only. <a href="/admin/entry/">Entry workbench</a></p>'
           '<p><input id="sa-key" type="password" placeholder="Admin key" autocomplete="off"> <button type="button" id="sa-go">Load</button> <select id="sa-f"><option value="new">New</option><option value="approved">Approved</option><option value="done">Done</option><option value="rejected">Rejected</option><option value="">All</option></select></p><p id="sa-msg" class="small"></p><div id="sa-list"></div>')
     write('/admin/submissions/', layout('Submissions', ad, 'Private working page.', '/admin/submissions/', cls='', nd=True))
@@ -928,7 +928,7 @@ _mb = ('<h1>Media</h1><p class="lead">Video, audio and images from the land and 
        '<a class="card" href="/video/"><b>Video</b><span>Curated channels, playlists and clips.</span></a>'
        '<a class="card" href="/audio/"><b>Audio</b><span>Podcasts and audio shows.</span></a>'
        '<a class="card" href="/images/"><b>Images</b><span>A photographic tour of the land, plants and animals.</span></a></div>'
-       '<h2>Featured</h2><div class="cards"><a class="card" href="/who/"><b>Who&#8217;s Who</b><span>Videos, podcasts and articles from the voices that shape the conversation.</span></a>'
+       '<h2>Featured</h2><div class="cards"><a class="card" href="/who/"><b>Voices</b><span>Videos, podcasts and articles from the voices that shape the conversation.</span></a>'
        '<a class="card" href="/tour/"><b>A Taste of Israel</b><span>Ten regions in photographs.</span></a><a class="card" href="/flora/"><b>Flora and Fauna</b><span>Trees, flowers, wildlife and migrating birds.</span></a></div>')
 write('/media/', layout('Media', chan('media', _mb, '/media/', left=_ml, aside='<div id="vid-list" class="vlist"></div>'), 'Video, audio and images from the land and the people who talk about it.', '/media/'))
 sb2 = '<h1>Sources</h1><p class="small">Each source has its own page here with its latest news and views.</p><ul class="idlist">' + ''.join(f'<li><a href="/sources/{i_}/">{E(n_)}</a><span>{E(d_)}</span></li>' for i_, n_, u_, d_ in SRC) + '</ul><h2>The Book</h2><ul class="idlist"><li><a href="/index/">Index</a><span>Find any name or place in the book Israel NOWlej</span></li><li><a href="/about/">How to use this site and cite it</a><span>Addresses, IDs and hubs</span></li></ul>'
