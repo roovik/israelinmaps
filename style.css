@@ -794,10 +794,9 @@ body .bar .ticker,body.newspg .bar .ticker{order:2;flex:1 1 100%;margin:0}
 /* ticker headline: regular weight, one point smaller */
 .ticker .tkt,.bar .ticker .tkt{font-weight:400!important;font-size:.875rem!important}
 /* selected top tile: no bar, slightly deeper colour instead */
-header.top nav.wrap a.cur{box-shadow:none!important;filter:none!important;color:#fff!important}
-header.top nav.wrap a.cur[data-n="0"]{background:color-mix(in srgb,var(--t1) 78%,#000)}header.top nav.wrap a.cur[data-n="1"]{background:color-mix(in srgb,var(--t2) 78%,#000)}header.top nav.wrap a.cur[data-n="2"]{background:color-mix(in srgb,var(--t3) 78%,#000)}header.top nav.wrap a.cur[data-n="3"]{background:color-mix(in srgb,var(--t4) 78%,#000)}header.top nav.wrap a.cur[data-n="4"]{background:color-mix(in srgb,var(--t5) 78%,#000)}
+header.top nav.wrap a.cur{box-shadow:inset 0 -7px 0 rgba(0,0,0,.38)!important;filter:none!important;color:#fff!important}
 /* second level: dark shade of the selected top tile, no bars, always fits the width */
-header.top .subnav,header.top .subnav.sub2{--dk:color-mix(in srgb,var(--sc,#1f62c4) 58%,#000)}
+header.top .subnav,header.top .subnav.sub2{--dk:color-mix(in srgb,var(--sc,#1f62c4) 62%,#000)}
 header.top .subnav a,header.top .subnav.sub2 a{color:var(--dk)!important}
 header.top .subnav a:hover,header.top .subnav a:focus{color:var(--dk)!important;text-decoration:underline}
 header.top .subnav a.on,header.top .subnav.sub2 a.on{color:var(--dk)!important;font-weight:700;box-shadow:none!important}
@@ -805,3 +804,6 @@ header.top .subnav a.on,header.top .subnav.sub2 a.on{color:var(--dk)!important;f
 header.top .subnav,header.top .subnav.sub2{flex-wrap:wrap;overflow:visible;justify-content:space-between;gap:2px 0;padding:6px 16px 8px}
 header.top .subnav a,header.top .subnav.sub2 a{flex:0 1 auto;font-size:.82rem;padding:5px 6px;white-space:nowrap}
 }
+
+/* no colored bar under page headings */
+main h1{padding-bottom:0}main h1::after{display:none!important}
