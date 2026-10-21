@@ -707,3 +707,8 @@ header.top{margin-bottom:5px}
 .who .whohero>.edef{display:block!important;-webkit-line-clamp:unset!important}
 .who .whohero .edef .more{display:inline;position:static;background:none;font:700 .8rem system-ui,sans-serif;letter-spacing:.06em;margin:0 0 0 .2rem;color:var(--acc)}
 .who .whohero .edef .more[hidden]{display:none}
+/* button-like links never show an inner highlight frame (text selection, tap highlight or focus box) */
+.vjump,.whobtn a,.vtabs button,.vseg a,.vseg button,.subnav a,header.top nav.wrap a,.srctabs a,.chips a,.share a,.share button,.wchips button,.aall,.aplay,.pn a,.subbtn,button{-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
+.vjump::selection,.whobtn a::selection,.vtabs button::selection,.vseg a::selection,.subnav a::selection,header.top nav.wrap a::selection,.srctabs a::selection{background:transparent;color:inherit}
+.vjump:focus,.whobtn a:focus,.vtabs button:focus,.vseg a:focus{outline:none}
+.vjump:focus-visible,.whobtn a:focus-visible,.vtabs button:focus-visible,.vseg a:focus-visible{outline:2px solid #fff;outline-offset:-4px}
