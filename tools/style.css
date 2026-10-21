@@ -858,3 +858,5 @@ main h1{padding-bottom:0}main h1::after{display:none!important}
 .tcover .tcard .tb b{font-size:1rem}.tcover .tp{display:block;font-size:.8rem;color:#4a5260;margin-top:2px}
 .tsub{margin-top:8px}
 @media (max-width:640px){.tcover{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.tcover .tcard .tb b{font-size:.9rem}}
+.tstart{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin:6px 0 4px}.tbtn{display:inline-block;background:#1f5fbf;color:#fff!important;text-decoration:none;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-weight:700;padding:11px 20px;border-radius:8px}
+.pn a.tnr{background:#1f5fbf;border-color:#1f5fbf;color:#fff}.pn a.tnr span{color:#dbe7ff}
