@@ -275,7 +275,7 @@ SUBNAV = {
  'charts': [('Rankings', '/rankings/'), ('Demographics', '/demographics/'), ('Top Ten', '/top-ten/'), ('Size Comparisons', '/size/'), ('Tables', '/tables/')],
  'media': [('Video', '/video/'), ('Audio', '/audio/'), ('Images', '/images/')],
  'images': [('A Taste of Israel', '/tour/'), ('Flora and Fauna', '/flora/')],
- 'video': [(c['name'], f'/video/{vslug(c)}/') for c in VCFG['channels'][:5]],
+ 'video': [(c['name'], f'/video/{vslug(c)}/') for c in VCFG['channels']],
  'who': [('All', '/who/'), ('Groups', '/who/#g=org'), ('Influencers', '/who/#g=voice'), ('IDF voices', '/who/#g=idf')],
  'glossary': [('People and Groups', '/glossary/#c=people-and-groups'), ('Places', '/glossary/#c=places'), ('Events', '/glossary/#c=events'), ('Buildings and Sites', '/glossary/#c=buildings-and-sites'), ('Works', '/glossary/#c=works')],
 }
@@ -297,7 +297,7 @@ TOPSEC = {'': 'news', 'news': 'news', 'views': 'views', 'voices': 'views', 'who'
           'tables': 'nowlej', 'demographics': 'nowlej', 'rankings': 'nowlej', 'top-ten': 'nowlej', 'size': 'nowlej', 'tour': 'media', 'flora': 'media'}
 TOPIDX = {'news': 0, 'views': 1, 'media': 2, 'nowlej': 3, 'sources': 4}
 CTX2 = {'maps': 'maps', 'timelines': 'timelines', 'charts': 'charts', 'tables': 'charts', 'demographics': 'charts', 'rankings': 'charts', 'top-ten': 'charts', 'size': 'charts',
-        'glossary': 'glossary', 'g': 'glossary', 'who': 'who'}
+        'who': 'who', 'video': 'video'}
 def subnav_for(path):
     seg = path.strip('/').split('/')[0]
     top = TOPSEC.get(seg, '')
