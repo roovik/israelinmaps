@@ -273,7 +273,7 @@ SUBNAV = {
  'nowlej': [('Maps', '/maps/'), ('Tours', '/tour/'), ('Timelines', '/timelines/'), ('Charts', '/charts/'), ('Topics', '/hot/'), ('Book', '/about/'), ('A to Z', '/glossary/')],
  'maps': [('Historical Maps', '/maps/'), ('Size Comparisons', '/size/'), ('Israel Tour', '/tour/')],
  'charts': [('Rankings', '/rankings/'), ('Demographics', '/demographics/'), ('Top Ten', '/top-ten/'), ('Size Comparisons', '/size/'), ('Tables', '/tables/')],
- 'media': [('Video', '/video/'), ('Audio', '/audio/'), ('Images', '/images/')],
+ 'media': [('Video', '/video/'), ('Playlists', '/video/#playlists'), ('Audio', '/audio/'), ('Music', '/music/'), ('Images', '/images/')],
  'images': [('A Taste of Israel', '/tour/'), ('Flora and Fauna', '/flora/')],
  'video': [(c['name'], f'/video/{vslug(c)}/') for c in VCFG['channels']],
  'who': [('All', '/who/'), ('Groups', '/who/#g=org'), ('Influencers', '/who/#g=voice'), ('IDF voices', '/who/#g=idf')],
@@ -329,7 +329,7 @@ def layout(title, body, desc='', path='/', og=None, cls='', nd=False):
 <link rel="stylesheet" href="/style.css"></head>
 <body class="{cls}"><a class="skip" href="#main">Skip to content</a>
 <header class="top"><div class="wrap bar"><a class="brand" href="/" aria-label="Israel NOWlej, home"><img src="/logo.svg" alt="Israel NOWlej" width="160" height="52"></a><div class="ticker" id="news-ticker" aria-label="Latest headlines" hidden></div>
-<div class="rcol"><div class="acct"><a class="subbtn" href="/subscribe/">Subscribe</a><a class="signin" href="/signin/">Sign in</a><a class="signin sbtn" href="/search/">Search</a></div><form class="sf" action="/search/" role="search"><input name="q" type="search" placeholder="Search maps, people, places, IDs" aria-label="Search"><button>Search</button></form></div></div>
+<div class="rcol"><div class="acct"><a class="subbtn" href="/subscribe/">Subscribe</a><a class="signin" href="/signin/">Sign in</a><a class="signin sbtn" href="/search/">Search</a></div><form class="sf" action="/search/" role="search"><input name="q" type="search" placeholder="keyword(s)" aria-label="Search"><button>Search</button></form></div></div>
 <nav class="wrap" aria-label="Sections">{nav}</nav>{subnav_for(path)}</header>
 <main id="main" class="wrap">{body}</main>
 <footer><div class="wrap"><div class="fcols">
@@ -800,7 +800,7 @@ sb = '''<h1>Search</h1><form class="sf big" action="/search/" role="search"><inp
 <p class="small">Searches live news and views, maps, timelines, charts, media and the glossary.</p><ul class="results" id="results"></ul>'''
 write('/search/', layout('Search', chan('sources', sb), 'Search news, views, maps, timelines, charts, media and the glossary.', '/search/', nd=True))
 nf = '''<h1>That address is not here</h1><p class="lead">It may be a typing slip or an ID from a later edition. Search for it below, or browse from the home page.</p>
-<form class="sf big" action="/search/" role="search"><input id="q" name="q" type="search" aria-label="Search" placeholder="Search maps, people, places, IDs"><button>Search</button></form>
+<form class="sf big" action="/search/" role="search"><input id="q" name="q" type="search" aria-label="Search" placeholder="keyword(s)"><button>Search</button></form>
 <ul class="results" id="results"></ul><p><a href="/">Go to the home page</a></p>'''
 write('/404.html', layout('Not found', nf, 'Not found', '/404.html', nd=True, cls='nf'))
 

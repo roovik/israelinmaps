@@ -13,17 +13,18 @@
   if(!start&&document.body.classList.contains('nf')){start=decodeURIComponent(location.pathname).replace(/[\/\-_]+/g,' ').trim()}
   if(q)q.value=start;
   function norm(s){return s.toLowerCase().normalize('NFKD').replace(/[̀-ͯ]/g,'').replace(/['’]/g,'')}
-  var live={News:[],Views:[]};
+  var live={News:[],Views:[],Videos:[],Playlists:[],Audio:[]};
   function getLive(name,url){fetch(url).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){
     live[name]=(d.items||[]).filter(function(i){return!i.d||Date.now()-new Date(i.d)<=7*864e5}).map(function(i){
       return{t:i.t,u:i.k?'/news/item/'+i.k+'/?s='+encodeURIComponent(i.s)+(i.ch?'&c='+encodeURIComponent(i.ch):''):i.u,i:i.i||'',k:i.src,s:i.d?new Date(i.d).toLocaleDateString('en-GB',{day:'numeric',month:'short'}):'',x:i.x||''}});
     if(window.__run)window.__run()}).catch(function(){})}
   getLive('News','/api/news?v=2');getLive('Views','/api/news?views=1&v=2');
-  var SEC=[['HOT'],['Voices'],['News'],['Views'],['Maps'],['Timelines'],['Charts'],['Media'],['NOWlej'],['Other']];
-  function secOf(u){var f=u.split('/')[1];
-    if(f==='who')return'Voices';if(f==='hot')return'HOT';if(f==='maps')return'Maps';if(f==='timelines')return'Timelines';
-    if(['tables','demographics','rankings','top-ten','size','population'].indexOf(f)>-1)return'Charts';
-    if(f==='tour'||f==='flora')return'Media';if(f==='g'||f==='glossary')return'NOWlej';return'Other'}
+  fetch('/api/videos').then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){var o=[];(d.channels||[]).forEach(function(c){(c.videos||[]).forEach(function(v){o.push({t:v.t,u:'/video/watch/?v='+encodeURIComponent(v.v)+(c.key?'&c='+encodeURIComponent(String(c.key).toLowerCase()):''),k:c.name||'',s:v.d?new Date(v.d).toLocaleDateString('en-GB',{day:'numeric',month:'short'}):'',x:''})})});live.Videos=o;if(window.__run)window.__run()}).catch(function(){});
+  fetch('/video.json').then(function(r){return r.json()}).then(function(d){live.Playlists=(d.playlists||[]).map(function(p){return{t:p.name,u:'/video/pl-'+String(p.id).toLowerCase()+'/',k:'Playlist',s:p.channel||'',x:''}});if(window.__run)window.__run()}).catch(function(){});
+  fetch('/voices.json').then(function(r){return r.json()}).then(function(d){live.Audio=(d.shows||[]).map(function(p){return{t:p.name,u:'/audio/#s-'+p.id,k:'Podcast',s:p.by||'',x:p.by||''}});if(window.__run)window.__run()}).catch(function(){});
+  var PUBS=[['The Times of Israel','/sources/toi/','Publication'],['The Jerusalem Post','/sources/jpost/','Publication'],['Ynetnews','/sources/ynet/','Publication'],['Haaretz','/sources/haaretz/','Publication'],['JNS','/sources/jns/','Publication'],['Israel Hayom','/sources/israelhayom/','Publication']].map(function(p){return{t:p[0],u:p[1],k:p[2],s:'',x:''}});
+  var SEC=[['News'],['Views'],['Videos'],['Playlists'],['Audio'],['NOWlej'],['Sources']];
+  function secOf(u){var f=u.split('/')[1];if(f==='who'||f==='sources')return'Sources';return'NOWlej'}
   fetch('/search.json').then(function(r){return r.json()}).then(function(data){
     function score(d,term,words,idq){
       var t=norm(d.t),x=norm(d.x||''),k=norm(d.k||''),sc=0;
@@ -37,12 +38,13 @@
       res.innerHTML='';if(!term)return;
       var idq=term.replace(/\s+/g,'-'),words=term.split(/\s+/),groups={};
       data.forEach(function(d){var sc=score(d,term,words,idq);if(sc>=10)(groups[secOf(d.u)]=groups[secOf(d.u)]||[]).push([sc,d])});
-      ['News','Views'].forEach(function(n){live[n].forEach(function(d){var sc=score({t:d.t,x:d.x,k:'',s:d.k},term,words,idq);if(sc>=10)(groups[n]=groups[n]||[]).push([sc,d])})});
+      PUBS.forEach(function(d){var sc=score(d,term,words,idq);if(sc>=10)(groups.Sources=groups.Sources||[]).push([sc,d])});
+      ['News','Views','Videos','Playlists','Audio'].forEach(function(n){live[n].forEach(function(d){var sc=score({t:d.t,x:d.x,k:'',s:d.k},term,words,idq);if(sc>=10)(groups[n]=groups[n]||[]).push([sc,d])})});
       var any=false,jump=[];
-      SEC.forEach(function(S){var n=S[0],l=groups[n];if(!l)return;any=true;
+      SEC.forEach(function(S){var n=S[0],l=groups[n];if(!l){jump.push('<span class="rz">'+n+' (0)</span>');return}any=true;
         l.sort(function(a,b){return b[0]-a[0]});
         var h=document.createElement('li');h.className='rsec';h.id='r-'+n;h.innerHTML='<h2>'+n+' <small>'+l.length+'</small></h2>';res.appendChild(h);jump.push('<a href="#r-'+n+'">'+n+' ('+l.length+')</a>');
-        l.slice(0,n==='News'||n==='Views'?12:30).forEach(function(p){var d=p[1];var li=document.createElement('li');if(n==='Voices'){li.className='rwho';var ini=d.t.replace(/^The /,'').split(/\s+/).slice(0,2).map(function(w){return w[0]}).join('').toUpperCase(),hu=0;for(var z=0;z<d.u.length;z++)hu+=d.u.charCodeAt(z);li.innerHTML='<a class="rwph t'+(1+hu%5)+'" href="'+d.u+'" tabindex="-1" aria-hidden="true"><span>'+ini+'</span></a><span class="rtx"><a href="'+d.u+'">'+d.t.replace(/&/g,'&amp;')+'</a><small>'+(d.s||'')+'</small><em></em></span>';li.querySelector('em').textContent=(d.x||'').split('. ')[0].replace(/\.$/,'')+'.';res.appendChild(li);return}var a=document.createElement('a');a.href=d.u;a.textContent=d.t;
+        l.slice(0,n==='NOWlej'||n==='Sources'?30:12).forEach(function(p){var d=p[1];var li=document.createElement('li');if(n==='Sources'&&d.u.indexOf('/who/')===0){li.className='rwho';var ini=d.t.replace(/^The /,'').split(/\s+/).slice(0,2).map(function(w){return w[0]}).join('').toUpperCase(),hu=0;for(var z=0;z<d.u.length;z++)hu+=d.u.charCodeAt(z);li.innerHTML='<a class="rwph t'+(1+hu%5)+'" href="'+d.u+'" tabindex="-1" aria-hidden="true"><span>'+ini+'</span></a><span class="rtx"><a href="'+d.u+'">'+d.t.replace(/&/g,'&amp;')+'</a><small>'+(d.s||'')+'</small><em></em></span>';li.querySelector('em').textContent=(d.x||'').split('. ')[0].replace(/\.$/,'')+'.';res.appendChild(li);return}var a=document.createElement('a');a.href=d.u;a.textContent=d.t;
           var sm=document.createElement('small');sm.textContent=d.k+(d.s?' · '+d.s:'');var tx=document.createElement('span');tx.className='rtx';tx.appendChild(a);tx.appendChild(sm);
           if(d.i){var im=document.createElement('img');im.src=d.i;im.alt='';im.loading='lazy';im.referrerPolicy='no-referrer';im.onerror=function(){im.remove()};var al=document.createElement('a');al.className='rth';al.href=d.u;al.tabIndex=-1;al.setAttribute('aria-hidden','true');al.appendChild(im);li.appendChild(al)}
           li.appendChild(tx);res.appendChild(li)})});
@@ -56,7 +58,7 @@
 ;(function(){try{if(!localStorage.getItem('nowkey'))return;var f=document.querySelector('footer');if(!f)return;var a=document.createElement('p');a.className='small';a.innerHTML='<a href="/admin/entry/">Entry workbench</a> · <a href="/admin/video/">Video curation</a>';f.appendChild(a)}catch(e){}})();
 (function(){function m(){var n=document.querySelectorAll('header.top nav.wrap a');if(n.length<2)return;var a=n[0].getBoundingClientRect(),z=n[n.length-1].getBoundingClientRect();if(z.right>a.left)document.documentElement.style.setProperty('--navw',Math.round(z.right-a.left)+'px')}
  m();window.addEventListener('load',m);window.addEventListener('resize',m)})();
-;(function(){var q=document.querySelector('.bar .sf input');if(q&&window.matchMedia('(max-width:900px)').matches)q.placeholder='Search'})();
+;(function(){var q=document.querySelector('.bar .sf input');if(q&&window.matchMedia('(max-width:900px)').matches)q.placeholder='keyword(s)'})();
 
 ;(function(){if(!/^\/video\//.test(location.pathname))return;var ds=document.querySelectorAll('.secnav details summary'),s=null;[].forEach.call(ds,function(x){if(x.textContent.trim()==='Channels')s=x});if(!s)return;
 var D={israeldefenseforces:'idf.il',israelmfa:'mfa.gov.il',standwithus:'standwithus.com',honestreportingvideo:'honestreporting.com',i24news_en:'i24news.tv',aipac:'aipac.org',thejerusalem_post:'jpost.com',timesofisrael:'timesofisrael.com',jns:'jns.org'};

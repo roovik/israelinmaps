@@ -884,3 +884,10 @@ body .bar .ticker,body.newspg .bar .ticker{border:0!important;background:transpa
 .ftop button[aria-pressed=true]{background:var(--acc);border-color:var(--acc);color:#fff}
 @media (max-width:640px){.ftop{flex-wrap:nowrap;overflow-x:auto;white-space:nowrap}.ftop button{flex:none}}
 @media (max-width:640px){.ffilter{flex-wrap:nowrap;gap:6px}.ffilter select{max-width:34vw;flex:0 1 auto}.ffilter input{flex:1 1 60px}.ffilter button{padding:0 12px;flex:none}.ffilter label{font-size:.9rem}}
+/* logo another 3% smaller; search box 10px wider to the left */
+@media (min-width:901px){.bar .brand img{height:56px}.bar .ticker,body.newspg .bar .ticker{height:56px!important}.bar .rcol{height:56px}.bar .sf input{width:260px}}
+@media (max-width:900px){body .bar .brand img{height:52px}body .bar .rcol{height:52px}body .bar .sf{width:calc(100% + 8px)}}
+@media (max-width:380px){body .bar .brand img{height:43px}body .bar .rcol{height:43px}}
+.results .rjump{gap:8px}.results .rjump a,.results .rjump .rz{display:inline-block;padding:6px 14px;border:1px solid var(--line);border-radius:6px;background:var(--card);text-decoration:none;color:var(--fg)}
+.results .rjump a:hover{border-color:var(--acc);color:var(--acc)}.results .rjump .rz{opacity:.45}
+.results .rsec{scroll-margin-top:12px}
