@@ -931,12 +931,13 @@ def hot_pages():
 hot_pages()
 
 # ---- Media landing and Audio
-AUD_ = [v_ for v_ in VOICES_ if v_.get('pods')]
+SHOWS_ = json.load(open(os.path.join(ROOT, 'voices.json'))).get('shows', [])
+AUD_ = [dict(v_, own=True) for v_ in SHOWS_] + [v_ for v_ in VOICES_ if v_.get('pods')]
 _aleft = ('<nav class="newstopics secnav wholist" aria-label="Audio shows"><h2><a href="/audio/">Audio</a></h2><h3>Shows</h3><ul>'
           + ''.join(f'<li><a href="#s-{v_["id"]}">{E(v_["name"])}</a></li>' for v_ in AUD_) + '</ul></nav>')
 _ab = ('<h1>Audio</h1><p class="small">Podcasts and audio shows from the people and organizations in Voices. Choose an episode to play it here. Episodes are credited to and link to their original shows.</p>'
        '<div class="atop" id="a-top" hidden><div class="anow" id="a-now"></div><audio id="a-audio" controls preload="none"></audio></div>'
-       '<div id="a-shows">' + ''.join(f'<section class="ashow" id="s-{v_["id"]}" data-id="{v_["id"]}"><h2><a href="/who/{v_["id"]}/">{E(v_["name"])}</a></h2><ul class="alist"><li>Loading.</li></ul></section>' for v_ in AUD_) + '</div>'
+       '<div id="a-shows">' + ''.join(f'<section class="ashow" id="s-{v_["id"]}" data-id="{v_["id"]}"><h2>{E(v_["name"]) if v_.get("own") else f'<a href="/who/{v_["id"]}/">{E(v_["name"])}</a>'}</h2><ul class="alist"><li>Loading.</li></ul></section>' for v_ in AUD_) + '</div>'
        '<p class="subcta">Know a podcast we should include? <a href="/submit/?type=nominee">Send us a nomination</a>.</p>')
 write('/audio/', layout('Audio', chan('audio', _ab, '/audio/', left=_aleft), 'Podcasts and audio shows on Israel from the people and organizations in Voices.', '/audio/'))
 

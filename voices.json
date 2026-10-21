@@ -170,7 +170,10 @@
     "TheFreePress"
    ],
    "intro": "Bari Weiss is Editor-in-Chief of CBS News and the co-founder of The Free Press, the independent media company she built after leaving The New York Times. Her essays, reporting and podcasts frequently take up Israel, antisemitism and free speech.",
-   "tags": "Editor-in-Chief, CBS News · Co-founder, The Free Press"
+   "tags": "Editor-in-Chief, CBS News · Co-founder, The Free Press",
+   "pods": [
+    "itunes:Honestly with Bari Weiss"
+   ]
   },
   {
    "id": "noa-tishby",
@@ -212,7 +215,10 @@
    "yt": [
     "CallMeBackPodcast"
    ],
-   "intro": "Dan Senor is a policy adviser and author of Start-Up Nation. He hosts the Call Me Back podcast, a daily conversation about Israel and the news."
+   "intro": "Dan Senor is a policy adviser and author of Start-Up Nation. He hosts the Call Me Back podcast, a daily conversation about Israel and the news.",
+   "pods": [
+    "itunes:Call Me Back with Dan Senor"
+   ]
   },
   {
    "id": "rudy-rochman",
@@ -521,6 +527,48 @@
    "q": "Richard Kemp",
    "intro": "Richard Kemp is a retired British Army colonel and former commander of British forces in Afghanistan. He speaks on the laws and realities of modern warfare.",
    "tags": "British army, warfare, military analysis"
+  }
+ ],
+ "shows": [
+  {
+   "id": "toi-daily-briefing",
+   "name": "The Times of Israel Daily Briefing",
+   "by": "The Times of Israel",
+   "pods": [
+    "itunes:The Times of Israel Daily Briefing"
+   ]
+  },
+  {
+   "id": "unholy",
+   "name": "Unholy: Two Jews on the News",
+   "by": "Yonit Levi and Jonathan Freedland",
+   "pods": [
+    "itunes:Unholy: Two Jews on the News"
+   ]
+  },
+  {
+   "id": "israel-story",
+   "name": "Israel Story",
+   "by": "Israel Story",
+   "pods": [
+    "https://feeds.acast.com/public/shows/1353fdb5-6664-49dc-9858-fc781473a75f"
+   ]
+  },
+  {
+   "id": "unorthodox",
+   "name": "Unorthodox",
+   "by": "Tablet Magazine",
+   "pods": [
+    "itunes:Unorthodox Tablet Magazine"
+   ]
+  },
+  {
+   "id": "israel-hayom-podcast",
+   "name": "Israel Hayom English podcast",
+   "by": "Israel Hayom",
+   "pods": [
+    "itunes:Israel Hayom English podcast"
+   ]
   }
  ]
 }
