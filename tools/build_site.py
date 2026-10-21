@@ -739,7 +739,7 @@ for L, lst in letters.items():
     gh += f'<section class="gsec" data-l="{L}"><h2 id="l{L}">{L}</h2><div class="ggrid">'
     for g in lst:
         b_ = g['intro'] if g.get('href') else re.sub(r'<[^>]+>', '', body_html(g)).strip()
-        d_ = (b_[:120].rsplit(' ', 1)[0] + '...') if len(b_) > 120 else b_
+        d_ = b_
         cn = catname(g); cs = catslug(cn)
         tr = None if g.get('href') else gl_thumb(g); th = make_thumb(tr) if tr else None
         if th: nthumb += 1

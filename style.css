@@ -896,3 +896,8 @@ body .bar .ticker,body.newspg .bar .ticker{border:0!important;background:transpa
 @media (max-width:900px){body .bar .sf input,body .bar .sf button{height:25px}body .bar .sf{width:calc(100% + 3px)}}
 @media (max-width:380px){body .bar .sf input,body .bar .sf button{height:20px}}
 .ffilter button{display:inline-flex;align-items:center;justify-content:center;line-height:1;padding:0 16px}
+/* glossary cards: full entry text, shorter letter tiles */
+.gd{display:block;-webkit-line-clamp:unset;overflow:visible}
+.gimg:has(>.tile:not(.has)){aspect-ratio:auto;height:54px}
+.gimg:has(>.tile:not(.has)) .tile{flex-direction:row;gap:12px}
+.gimg:has(>.tile:not(.has)) .tile b{font-size:1.6rem}.gimg:has(>.tile:not(.has)) .tile small{margin:0}
