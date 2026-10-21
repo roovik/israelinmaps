@@ -712,3 +712,4 @@ header.top{margin-bottom:5px}
 .vjump::selection,.whobtn a::selection,.vtabs button::selection,.vseg a::selection,.subnav a::selection,header.top nav.wrap a::selection,.srctabs a::selection{background:transparent;color:inherit}
 .vjump:focus,.whobtn a:focus,.vtabs button:focus,.vseg a:focus{outline:none}
 .vjump:focus-visible,.whobtn a:focus-visible,.vtabs button:focus-visible,.vseg a:focus-visible{outline:2px solid #fff;outline-offset:-4px}
+.vjump.vn{background:var(--t7)}
