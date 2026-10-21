@@ -1,4 +1,7 @@
 (function(){
+  // MASTER SWITCH. false = no ads anywhere (slots stay in the page markup, hidden). Set true and delete the .adslot{display:none} rule in style.css to bring them back. Slot map: claude/ad-slots-v1.txt in the project.
+  var ADS_ON=false;
+  if(!ADS_ON){window.IMAds={fill:function(){}};return}
   // Test creatives only. type: house (own book), affiliate (commissionable), cpm (display ad reserved space)
   var LABEL='Sample ad';
   var C=[

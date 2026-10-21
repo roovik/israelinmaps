@@ -5,8 +5,8 @@
   var GEN=[['news','News',/news|breaking|headline|briefing|update|live\b|in the news|rundown|global eye|middle east now/i],['opinion','Opinion',/opinion|op-ed|commentary|analysis|debate|interview|explained|narratives|here's the thing|opinionated|unmask|media/i],['documentary','Documentary',/documentar|docunation|history|inside|archaeolog|written in stone|story|stories|zionism|remembr|remembering|october 7|grief/i],['film','Films',/film|movie|trailer|cinema/i],['travel','Travel',/travel|tour|visit|trip|through the land|360|food|cuisine|hike|beach|isra?eats|culture|jerusalem|state of/i],['military','Military',/idf|military|soldier|army|war\b|operation|hamas|hezbollah|iran|missile|strike|hostage|combat|iron shield|roaring|rising lion|bringing them home|targeted/i],['humor','Humor',/humou?r|comed|funny|satire|parody|joke|laugh|in a minute/i],['music','Music',/music|song|concert|singer|band|eurovision/i],['culture','Culture and faith',/culture|jewish|holiday|torah|shabbat|passover|hanukkah|religion|synagogue|pride|peoples of israel/i]];
   gs.innerHTML='<option value="">All genres</option>'+GEN.map(function(g){return'<option value="'+g[0]+'">'+g[1]+'</option>'}).join('');
   var P=[],names={};
-  fetch('/video.json').then(function(r){return r.json()}).then(function(d){
-    (d.channels||[]).forEach(function(c){names[String(c.handle||'').toLowerCase()]=c.name});
+  fetch('/api/videos?lists=1').then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){
+    names=d.chnames||{};
     P=(d.playlists||[]).map(function(p){return{id:p.id,name:p.name,by:names[(p.channel||'').toLowerCase()]||p.by||''}});
     ps.innerHTML='<option value="">All Israel playlists</option>'+P.map(function(p,i){return'<option value="'+esc(p.id)+'">'+esc(p.name+(p.by?' ('+p.by+')':''))+'</option>'}).join('');
     run()

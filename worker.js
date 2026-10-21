@@ -331,6 +331,7 @@ async function hydrateCats(env, chans) {
 async function videoApi(url, env) {
   const hdr = { 'Content-Type': 'application/json; charset=utf-8', 'Access-Control-Allow-Origin': '*' };
   if (env.ENTRIES && ![...url.searchParams].length) { const s = await kvSnap(env, 'snap/videos', 75); if (s) return new Response(JSON.stringify(s.j), { headers: { ...hdr, 'Cache-Control': 'public, max-age=300' } }); }
+  if (url.searchParams.get('lists')) return new Response(JSON.stringify({ playlists: (VCFG.playlists || []).map(({ id, name, channel }) => ({ id, name, channel: (channel || '').toLowerCase() })), chnames: Object.fromEntries((VCFG.channels || []).map(c => [(c.handle || c.id || '').toLowerCase(), c.name])) }), { headers: { ...hdr, 'Cache-Control': 'public, max-age=3600' } });
   if (url.searchParams.get('review')) {
     // curation helper: enriched channel or playlist candidates with provenance. Needs YT_KEY.
     if (!env.YT_KEY) return new Response(JSON.stringify({ error: 'Set the YT_KEY secret first.' }), { status: 400, headers: hdr });
