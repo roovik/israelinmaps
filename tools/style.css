@@ -647,3 +647,7 @@ header.top{margin-bottom:5px}
 .newsmain .pages.single,.newsmain .fitem,.newsmain .fx,.newsmain article,.newsmain .gl{max-width:none;width:100%}
 .newsmain .pages.single img{width:100%}
 .newsmain #e-wiki .wimg{max-width:240px}
+/* share icons */
+.share{flex-wrap:nowrap}.share a.ic,.share button.ic{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;padding:0;border:0;border-radius:50%;flex:0 0 auto;cursor:pointer}.share .ic svg{width:18px;height:18px}.share .ic:hover{filter:brightness(1.15)}.share .ic.ok{outline:3px solid #2e8b57}
+.share .shl{white-space:nowrap}.share .sho{margin-left:auto;white-space:nowrap}
+@media (max-width:480px){.share .shl{display:none}.share{gap:6px}}
