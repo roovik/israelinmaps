@@ -325,7 +325,7 @@ def layout(title, body, desc='', path='/', og=None, cls='', nd=False):
 <main id="main" class="wrap">{body}</main>
 <footer><div class="wrap"><p>Israel NOWlej: news, views, maps, timelines, charts and media on the Holy Land.</p>
 <p>&copy; 2003 to 2026 Richard J. Koret. All rights reserved. Page images are shown for reference with the book <i>Israel NOWlej</i> by Richard J. Koret. <a href="/about/">About this site, how to use it and cite it</a></p></div></footer>
-<script src="/site.js" defer></script><script src="/share.js" defer></script><script src="/ticker.js" defer></script>{'<script src="/ads.js" defer></script><script src="/news.js" defer></script>' if news_js else ''}{'<script src="/subnav.js" defer></script>'}{'<script src="/entryedit.js" defer></script>' if path.startswith('/g/') else ''}{'<script src="/video.js" defer></script>' if path.startswith('/video/') or path.startswith('/g/') else ''}{'<script src="/entry.js" defer></script>' if path.startswith('/g/') else ''}{'<script src="/glossary.js" defer></script>' if path == '/glossary/' else ''}{'<script src="/zoom.js" defer></script>' if path == '/maps/' else ''}{'<script src="/voices.js" defer></script>' if path.startswith('/who/') and path != '/who/' else ''}{'<script src="/entry.js" defer></script>' if path.startswith('/who/') and path != '/who/' else ''}{'<script src="/source.js" defer></script>' if path.startswith('/sources/') and path != '/sources/' else ''}{'<script src="/admin.js" defer></script>' if path == '/admin/video/' else ''}{'<script src="/tlnav.js" defer></script>' if path.startswith('/timelines/') and path != '/timelines/' else ''}{'<script src="/admin_entry.js" defer></script>' if path == '/admin/entry/' else ''}</body></html>'''
+<script src="/site.js" defer></script><script src="/share.js" defer></script><script src="/ticker.js" defer></script>{'<script src="/ads.js" defer></script><script src="/news.js" defer></script>' if news_js else ''}{'<script src="/subnav.js" defer></script>'}{'<script src="/entryedit.js" defer></script>' if path.startswith('/g/') else ''}{'<script src="/video.js" defer></script>' if path.startswith('/video/') or path.startswith('/g/') else ''}{'<script src="/entry.js" defer></script>' if path.startswith('/g/') else ''}{'<script src="/glossary.js" defer></script>' if path == '/glossary/' else ''}{'<script src="/zoom.js" defer></script>' if path == '/maps/' else ''}{'<script src="/voices.js" defer></script>' if path.startswith('/who/') else ''}{'<script src="/entry.js" defer></script>' if path.startswith('/who/') and path != '/who/' else ''}{'<script src="/source.js" defer></script>' if path.startswith('/sources/') and path != '/sources/' else ''}{'<script src="/admin.js" defer></script>' if path == '/admin/video/' else ''}{'<script src="/tlnav.js" defer></script>' if path.startswith('/timelines/') and path != '/timelines/' else ''}{'<script src="/admin_entry.js" defer></script>' if path == '/admin/entry/' else ''}</body></html>'''
 
 def write(path, content):
     fp = os.path.join(OUT, path.lstrip('/'))
@@ -804,11 +804,22 @@ def voices_pages():
         return f'<a class="vtile {v["kind"]}" href="/who/{v["id"]}/"><b>{E(v["name"])}</b><span>{E(v["intro"].split(". ")[0])}.</span></a>'
     hubb = ('<h1>Voices</h1><p class="small">Organizations and individuals who make the case for Israel, with their latest articles, podcasts and video in one place. Each has a Who&#8217;s Who entry. Everything links to the original and is credited to its source.</p>'
             + '<h2>Organizations</h2><div class="vtiles">' + ''.join(tile(v) for v in VOICES_ if v['kind'] == 'org') + '</div>'
-            + '<h2>Individuals</h2><div class="vtiles">' + ''.join(tile(v) for v in VOICES_ if v['kind'] == 'voice') + '</div>')
+            + '<h2>Individuals</h2><div class="vtiles">' + ''.join(tile(v) for v in VOICES_ if v['kind'] == 'voice' and v.get('group') != 'idf') + '</div>'
+            + '<h2>IDF spokespeople</h2><div class="vtiles">' + ''.join(tile(v) for v in VOICES_ if v.get('group') == 'idf') + '</div>')
     write('/voices/', layout('Voices', chan('voices', hubb, '/voices/', views=True), 'Organizations and individuals who make the case for Israel, with their latest articles, podcasts and video.', '/voices/'))
     lst = sorted(VOICES_, key=who_sort)
+    def wcard(v):
+        ini = ''.join(w_[0] for w_ in re.sub(r'^The ', '', v['name']).replace('-', ' ').split()[:2]).upper()
+        col = 't%d' % (1 + sum(map(ord, v['id'])) % 5)
+        grp = 'idf' if v.get('group') == 'idf' else v['kind']
+        hay = key(v['name'] + ' ' + v['intro'] + ' ' + v.get('tags', '') + ' ' + grp)
+        return (f'<a class="wcard" href="/who/{v["id"]}/" data-g="{grp}" data-h="{E(hay)}"><span class="wph {col}"><span>{E(ini)}</span></span>'
+                f'<span class="wtx"><b>{E(v["name"])}</b><i>{"Organization" if v["kind"] == "org" else ("IDF spokesperson" if grp == "idf" else "Individual")}</i>'
+                f'<span>{E(v.get("tags", "") or v["intro"].split(". ")[0])}</span></span></a>')
     wb = ('<h1>Who&#8217;s Who</h1><p class="small">Entries on the organizations and people who shape the conversation about Israel. Each has an introduction, images, video and podcasts, more background, and the latest articles.</p>'
-          '<ul class="idlist">' + ''.join(f'<li><a href="/who/{v["id"]}/">{E(v["name"])}</a><span>{"Organization" if v["kind"] == "org" else "Individual"}</span></li>' for v in lst) + '</ul>')
+          '<div class="wfilter"><input id="wq" type="search" placeholder="Find a person, organization or topic" aria-label="Find in Who&#8217;s Who">'
+          '<div class="wchips" id="wchips"><button type="button" data-g="" aria-pressed="true">All</button><button type="button" data-g="voice" aria-pressed="false">Individuals</button><button type="button" data-g="org" aria-pressed="false">Organizations</button><button type="button" data-g="idf" aria-pressed="false">IDF spokespeople</button></div></div>'
+          '<div class="wgrid" id="wgrid">' + ''.join(wcard(v) for v in lst) + '</div><p class="small" id="wnone" hidden>No match. Try a shorter word.</p>')
     write('/who/', layout('Who’s Who', chan('glossary', wb, '/who/'), 'Who’s Who: the organizations and people who shape the conversation about Israel.', '/who/'))
     for v in VOICES_:
         wk = v.get('wiki') or v['name']
@@ -828,7 +839,7 @@ def voices_pages():
                 f'<section id="v-articles"><h2>Articles</h2><ul class="vlist2"><li>Loading.</li></ul></section>'
                 f'<section id="e-sources"><h2>Sources</h2><ul class="esrc" id="e-src"><li>Headlines, short excerpts and links come from the public feeds of {E(v["name"])} and are credited to and link to the original.</li></ul></section></article>')
         write(f'/who/{v["id"]}/', layout(v['name'], chan('glossary', body, '/who/'), v['intro'], f'/who/{v["id"]}/'))
-        search.append({'t': v['name'], 'u': f'/who/{v["id"]}/', 'k': 'WHO’S WHO', 's': kind, 'x': v['intro'][:300]})
+        search.append({'t': v['name'], 'u': f'/who/{v["id"]}/', 'k': 'WHO’S WHO', 's': kind + (' · IDF spokesperson' if v.get('group') == 'idf' else ''), 'x': (v['intro'] + ' ' + v.get('tags', '') + (' influencer podcaster guest expert' if v['kind'] == 'voice' else ' organization media'))[:700]})
 voices_pages()
 write('/about/', layout('About Israel NOWlej', home, 'About Israel NOWlej, and how the addresses, IDs and citations from the book Israel NOWlej work.', '/about/', '/img/p006.webp', cls=''))
 

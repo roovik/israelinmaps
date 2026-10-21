@@ -205,10 +205,19 @@ const YT_UA = { 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.3
 // small last-good store in the edge cache, so one bad fetch does not blank a channel
 async function memGet(k) { try { const r = await caches.default.match(new Request('https://cache.local/' + k)); return r ? await r.json() : null; } catch { return null; } }
 async function memPut(k, v, ttl) { try { await caches.default.put(new Request('https://cache.local/' + k), new Response(JSON.stringify(v), { headers: { 'Cache-Control': 'max-age=' + ttl } })); } catch {} }
+let YTK = '';
 async function resolveChannel(c, diag) {
   if (c.id) return c.id;
   const known = await memGet('chid/' + c.handle);
   if (known && known.id) return known.id;
+  if (YTK) {
+    try {
+      const r = await fetch('https://www.googleapis.com/youtube/v3/channels?part=id&forHandle=' + encodeURIComponent('@' + c.handle) + '&key=' + YTK);
+      const j = await r.json();
+      if (diag) diag.push({ api: 'forHandle', status: r.status, found: !!(j.items && j.items[0]), error: j.error ? j.error.message : '' });
+      if (j.items && j.items[0]) { await memPut('chid/' + c.handle, { id: j.items[0].id }, 30 * 86400); return j.items[0].id; }
+    } catch (e) { if (diag) diag.push({ api: 'forHandle', error: String(e) }); }
+  }
   for (const path of ['', '/about', '/videos']) {
     try {
       const r = await fetch('https://www.youtube.com/@' + encodeURIComponent(c.handle) + path, { headers: YT_UA, redirect: 'follow' });
@@ -408,7 +417,7 @@ async function discoverFeeds(site, diag) {
   if (good.length) await memPut(mk, { list: good }, 14 * 86400);
   return good;
 }
-async function voiceApi(url) {
+async function voiceApi(url, env) {
   const hdr = { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'public, max-age=900', 'Access-Control-Allow-Origin': '*' };
   const id = (url.searchParams.get('id') || '').toLowerCase(), diagOn = !!url.searchParams.get('diag');
   const v = (VOICES.voices || []).find(x => x.id === id);
@@ -421,6 +430,25 @@ async function voiceApi(url) {
   const podArts = (await Promise.all((v.pods || []).map(u => load({ id: v.id, name: v.name, site: v.site || u, url: u, maxAge: 3650 })))).flatMap(r => r.items).map(({ f, ...rest }) => rest);
   const vids = [];
   for (const h of (v.yt || [])) { const r = await loadVideoSource({ handle: h, name: v.name }, 'channel', diag); (r.videos || []).forEach(x => vids.push({ ...x, n: v.name })); if (diag) diag.push({ yt: h, ok: r.ok, error: r.error, count: (r.videos || []).length }); }
+  // diagnostics only: suggest channels that match the name, never used automatically
+  if (diagOn && env && env.YT_KEY && !vids.length) {
+    try { const r = await fetch('https://www.googleapis.com/youtube/v3/search?part=snippet&type=channel&maxResults=3&q=' + encodeURIComponent(v.name) + '&key=' + env.YT_KEY); const j = await r.json(); diag.push({ suggestChannels: (j.items || []).map(x => ({ id: x.snippet.channelId, title: x.snippet.channelTitle })) }); } catch {}
+  }
+  // appearances on other people's shows: a cached YouTube search, kept for six hours to protect the quota
+  if (v.q && env && env.YT_KEY) {
+    const sk = 'vsearch/' + id; let sv = diagOn ? null : await memGet(sk);
+    if (!sv) {
+      sv = { list: [] };
+      try {
+        const r = await fetch('https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&order=date&maxResults=12&relevanceLanguage=en&q=' + encodeURIComponent('"' + v.q + '" Israel interview') + '&key=' + env.YT_KEY);
+        const j = await r.json();
+        if (diag) diag.push({ search: v.q, status: r.status, error: j.error ? j.error.message : '' });
+        sv.list = (j.items || []).filter(x => x.id && x.id.videoId && ((x.snippet.title + ' ' + x.snippet.description).toLowerCase().includes(v.q.split(' ').slice(-1)[0].toLowerCase()))).map(x => ({ v: x.id.videoId, t: decode(x.snippet.title), d: x.snippet.publishedAt, x: (x.snippet.description || '').slice(0, 200), n: decode(x.snippet.channelTitle || ''), guest: 1 }));
+        if (sv.list.length) await memPut(sk, sv, 6 * 3600);
+      } catch (e) { if (diag) diag.push({ search: v.q, error: String(e) }); }
+    }
+    sv.list.forEach(x => { if (!vids.some(y => y.v === x.v)) vids.push(x); });
+  }
   arts.sort((a, b) => (b.d || '').localeCompare(a.d || '')); vids.sort((a, b) => (b.d || '').localeCompare(a.d || ''));
   const out = { id, name: v.name, kind: v.kind, updated: new Date().toISOString(), articles: arts.slice(0, 30), podcasts: podArts.slice(0, 20), videos: vids.slice(0, 30), feeds: feedUrls };
   if (diag) out.diag = diag; else await memPut(mk, out, 900);
@@ -429,11 +457,12 @@ async function voiceApi(url) {
 
 export default {
   async fetch(request, env) {
+    YTK = env.YT_KEY || '';
     const url = new URL(request.url);
     const im = url.pathname.match(/^\/news\/item\/([a-z0-9]+)\/?$/);
     if (im) return itemPage(request, env, im[1], url.searchParams.get('s'), url.searchParams.get('c'));
     if (url.pathname === '/api/videos') return videoApi(url, env);
-    if (url.pathname === '/api/voice') return voiceApi(url);
+    if (url.pathname === '/api/voice') return voiceApi(url, env);
     if (url.pathname === '/api/entry') return entryApi(request, url, env);
     if (url.pathname === '/api/yt-title') return ytTitle(url);
     if (url.pathname !== '/api/news') return env.ASSETS.fetch(request);

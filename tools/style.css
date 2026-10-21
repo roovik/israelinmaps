@@ -575,3 +575,14 @@ main h1{padding-bottom:7px}main h1::after{height:4px;width:56px}
 .whobtn{display:flex;gap:8px;flex-wrap:wrap;margin:0}.vjump.alt{background:transparent;color:var(--t1);box-shadow:inset 0 0 0 2px var(--t1)}
 .who section>h2{border-top:4px solid var(--t2);padding-top:10px;margin-top:26px}
 @media (max-width:640px){.who .whohero{grid-template-columns:1fr;gap:12px}.whoph{width:100%;height:150px}.whoph .ini{font-size:3rem}.who .whotx h1{font-size:1.7rem}}
+/* Who's Who hub and search results */
+.wfilter{margin:10px 0 12px}.wfilter input{width:100%;box-sizing:border-box;font:1rem system-ui,sans-serif;padding:11px 14px;border:2px solid var(--t4);background:#fff;border-radius:0}
+.wchips{display:flex;gap:4px;flex-wrap:wrap;margin-top:8px}.wchips button{font:600 .82rem system-ui,sans-serif;padding:6px 12px;border:0;border-radius:0;background:color-mix(in srgb,var(--t4) 22%,var(--card));color:var(--fg);cursor:pointer}.wchips button[aria-pressed=true]{background:#fff;color:var(--t4);box-shadow:inset 0 0 0 2px var(--t4),inset 0 -6px 0 var(--t4)}
+.wgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
+.wcard{display:flex;gap:12px;align-items:center;padding:10px;background:var(--card);border:1px solid var(--line);text-decoration:none;color:var(--fg)}.wcard[hidden]{display:none}.wcard:hover{box-shadow:0 8px 18px -10px rgba(0,0,0,.4)}
+.wph,.rwph{flex:none;position:relative;display:flex;align-items:center;justify-content:center;width:64px;height:64px;color:#fff;font:700 1.35rem Georgia,serif;overflow:hidden;text-decoration:none}
+.wph::before,.rwph::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.18) 0 25%,transparent 25% 50%,rgba(0,0,0,.12) 50% 75%,transparent 75%);background-size:16px 16px}
+.wph>span,.rwph>span{position:relative}.t1{background:var(--t1)}.t2{background:var(--t2)}.t3{background:var(--t3)}.t4{background:var(--t4)}.t5{background:var(--t5)}
+.wtx{display:flex;flex-direction:column;min-width:0;font-family:system-ui,sans-serif}.wtx b{font-size:.98rem}.wtx i{font-style:normal;font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;color:var(--t4);margin:1px 0 3px}.wtx span{font-size:.78rem;color:var(--mut);line-height:1.35}
+.results li.rwho{display:flex;gap:14px;align-items:center;padding:12px 14px;margin:6px 0;background:var(--card);border:1px solid var(--line);border-left:6px solid var(--t4)}
+.results .rwho .rwph{width:76px;height:76px;font-size:1.6rem}.results .rwho .rtx a{font:700 1.1rem system-ui,sans-serif;text-decoration:none}.results .rwho em{display:block;font-style:normal;font-size:.88rem;color:var(--fg);margin-top:3px;line-height:1.4}

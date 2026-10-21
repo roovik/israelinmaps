@@ -130,7 +130,9 @@
    "yt": [
     "EylonALevy"
    ],
-   "intro": "Eylon Levy is a British-Israeli journalist and broadcaster who served as an international spokesman for the Israeli government. He now speaks and writes on his own channels."
+   "intro": "Eylon Levy is a British-Israeli journalist and broadcaster who served as an international spokesman for the Israeli government. He now speaks and writes on his own channels.",
+   "q": "Eylon Levy",
+   "tags": "former Israeli government spokesperson, EylON the Record, interviews"
   },
   {
    "id": "ben-shapiro",
@@ -151,7 +153,9 @@
     "DouglasMurray"
    ],
    "intro": "Douglas Murray is a British author and commentator. His books and interviews on the war in Gaza and on Western attitudes toward Israel have reached a wide audience.",
-   "wiki": "Douglas Murray (author)"
+   "wiki": "Douglas Murray (author)",
+   "q": "Douglas Murray",
+   "tags": "Western opinion, cultural debate, long-form interviews"
   },
   {
    "id": "bari-weiss",
@@ -171,7 +175,9 @@
    "yt": [
     "NoaTishby"
    ],
-   "intro": "Noa Tishby is an Israeli-American actress, producer and author of a popular book on Israel. She served as Israel's special envoy for combating antisemitism and delegitimization."
+   "intro": "Noa Tishby is an Israeli-American actress, producer and author of a popular book on Israel. She served as Israel's special envoy for combating antisemitism and delegitimization.",
+   "q": "Noa Tishby",
+   "tags": "public diplomacy, cultural media, guest interviews"
   },
   {
    "id": "yishai-fleisher",
@@ -211,7 +217,8 @@
    "yt": [
     "RudyRochman"
    ],
-   "intro": "Rudy Rochman is a Jewish activist and former IDF soldier who speaks on campuses and online about Israel, Jewish history and antisemitism."
+   "intro": "Rudy Rochman is a Jewish activist and former IDF soldier who speaks on campuses and online about Israel, Jewish history and antisemitism.",
+   "q": "Rudy Rochman"
   },
   {
    "id": "emily-schrader",
@@ -221,7 +228,8 @@
    "yt": [
     "EmilySchrader"
    ],
-   "intro": "Emily Schrader is an Israeli-American media commentator and creator of videos and interviews on Israel, the region and Israeli society."
+   "intro": "Emily Schrader is an Israeli-American media commentator and creator of videos and interviews on Israel, the region and Israeli society.",
+   "q": "Emily Schrader"
   },
   {
    "id": "israel-guys",
@@ -232,7 +240,8 @@
     "TheIsraelGuys"
    ],
    "intro": "The Israel Guys is an independent video channel that reports and comments on Israel and the Middle East.",
-   "wiki": "The Israel Guys"
+   "wiki": "The Israel Guys",
+   "q": "The Israel Guys"
   },
   {
    "id": "einat-wilf",
@@ -242,7 +251,9 @@
    "yt": [
     "EinatWilf"
    ],
-   "intro": "Einat Wilf is an Israeli author and former member of the Knesset. She writes and speaks on Zionism and the Arab-Israeli conflict, and is co-author of The War of Return."
+   "intro": "Einat Wilf is an Israeli author and former member of the Knesset. She writes and speaks on Zionism and Palestinian nationalism, hosts the podcast We Should All Be Zionists, and is co-author of The War of Return.",
+   "q": "Einat Wilf",
+   "tags": "Zionism, Palestinian nationalism, podcast host, We Should All Be Zionists"
   },
   {
    "id": "haviv-rettig-gur",
@@ -252,7 +263,11 @@
    "yt": [
     "HavivRettigGur"
    ],
-   "intro": "Haviv Rettig Gur is an Israeli journalist and senior analyst at The Times of Israel. He is known for long explanatory talks and interviews on Israeli politics, history and the war."
+   "intro": "Haviv Rettig Gur is an Israeli journalist and senior analyst at The Times of Israel. He is known for long explanatory talks and interviews on Israeli politics, history and the war.",
+   "pods": [
+    "https://anchor.fm/s/100cf5c64/podcast/rss"
+   ],
+   "tags": "Israeli history, strategy, podcast host, Ask Haviv Anything"
   },
   {
    "id": "mosab-hassan-yousef",
@@ -262,16 +277,237 @@
    "yt": [
     "MosabHassanYousef"
    ],
-   "intro": "Mosab Hassan Yousef is a Palestinian author and the son of a founder of Hamas. He later worked with Israeli security services and wrote the memoir Son of Hamas, and he speaks about Hamas and its ideas."
+   "intro": "Mosab Hassan Yousef is a Palestinian author and the son of a founder of Hamas. He later worked with Israeli security services and wrote the memoir Son of Hamas, and he speaks about Hamas and its ideas.",
+   "q": "Mosab Hassan Yousef",
+   "tags": "Hamas, political Islam, guest interviews"
   },
   {
-   "id": "natalie-hausdorff",
+   "id": "natasha-hausdorff",
    "kind": "voice",
-   "hidden": true,
-   "name": "Natalie Hausdorff",
+   "hidden": false,
+   "name": "Natasha Hausdorff",
    "site": "",
    "yt": [],
-   "intro": "Draft pending confirmation of the name and sources."
+   "intro": "Natasha Hausdorff is a British barrister who specialises in international law. She speaks and writes often on the International Court of Justice, the International Criminal Court and the legal debates around the war.",
+   "q": "Natasha Hausdorff",
+   "tags": "international law, ICJ, ICC, legal debates"
+  },
+  {
+   "id": "jonathan-conricus",
+   "kind": "voice",
+   "name": "Jonathan Conricus",
+   "site": "",
+   "yt": [],
+   "q": "Jonathan Conricus",
+   "intro": "Jonathan Conricus is a former international spokesperson of the Israel Defense Forces and a senior fellow at the Foundation for Defense of Democracies. He is a frequent guest on television and podcasts.",
+   "group": "idf",
+   "tags": "former IDF spokesperson, television, podcasts"
+  },
+  {
+   "id": "daniel-hagari",
+   "kind": "voice",
+   "name": "Daniel Hagari",
+   "site": "",
+   "yt": [],
+   "q": "Daniel Hagari",
+   "intro": "Daniel Hagari is a former chief spokesperson of the Israel Defense Forces. His briefings and interviews during the war were widely carried by international media.",
+   "group": "idf",
+   "tags": "former chief IDF spokesperson, briefings"
+  },
+  {
+   "id": "effie-defrin",
+   "kind": "voice",
+   "name": "Effie Defrin",
+   "site": "",
+   "yt": [],
+   "q": "Effie Defrin",
+   "intro": "Effie Defrin is the IDF spokesperson from 2025. His official briefings set out the army's account of operations. Roles in the army change, so check the current title.",
+   "group": "idf",
+   "tags": "IDF spokesperson, official briefings"
+  },
+  {
+   "id": "nadav-shoshani",
+   "kind": "voice",
+   "name": "Nadav Shoshani",
+   "site": "",
+   "yt": [],
+   "q": "Nadav Shoshani",
+   "intro": "Nadav Shoshani is an international spokesperson of the Israel Defense Forces and a regular voice in English-language press interviews.",
+   "group": "idf",
+   "tags": "IDF international spokesperson, English press interviews"
+  },
+  {
+   "id": "peter-lerner",
+   "kind": "voice",
+   "name": "Peter Lerner",
+   "site": "",
+   "yt": [],
+   "q": "Peter Lerner",
+   "intro": "Peter Lerner is a former international spokesperson of the Israel Defense Forces. He speaks on military operations and media analysis.",
+   "group": "idf",
+   "tags": "former IDF spokesperson, media analysis"
+  },
+  {
+   "id": "richard-hecht",
+   "kind": "voice",
+   "name": "Richard Hecht",
+   "site": "",
+   "yt": [],
+   "q": "Richard Hecht",
+   "intro": "Richard Hecht is a former international spokesperson of the Israel Defense Forces, known for news interviews and briefings.",
+   "group": "idf",
+   "tags": "former IDF spokesperson, news interviews"
+  },
+  {
+   "id": "doron-spielman",
+   "kind": "voice",
+   "name": "Doron Spielman",
+   "site": "",
+   "yt": [],
+   "q": "Doron Spielman",
+   "intro": "Doron Spielman is a former spokesperson of the Israel Defense Forces who speaks on public diplomacy and Israeli history.",
+   "group": "idf",
+   "tags": "former IDF spokesperson, public diplomacy, history"
+  },
+  {
+   "id": "dan-schueftan",
+   "kind": "voice",
+   "name": "Dan Schueftan",
+   "site": "",
+   "yt": [],
+   "q": "Dan Schueftan",
+   "intro": "Dan Schueftan is an Israeli scholar of security and Arab politics. He is a frequent guest on podcasts that discuss Israel's strategic position.",
+   "tags": "Israeli security, Arab politics, podcast guest"
+  },
+  {
+   "id": "hillel-fuld",
+   "kind": "voice",
+   "name": "Hillel Fuld",
+   "site": "",
+   "yt": [],
+   "q": "Hillel Fuld",
+   "intro": "Hillel Fuld is an Israel-based technology adviser and digital advocate who speaks about Israel's tech sector and online advocacy.",
+   "tags": "digital advocacy, technology, podcast interviews"
+  },
+  {
+   "id": "shai-davidai",
+   "kind": "voice",
+   "name": "Shai Davidai",
+   "site": "",
+   "yt": [],
+   "q": "Shai Davidai",
+   "intro": "Shai Davidai is a professor at Columbia Business School who speaks out on antisemitism on campus and in academia.",
+   "tags": "campus antisemitism, academia, podcast interviews"
+  },
+  {
+   "id": "caroline-glick",
+   "kind": "voice",
+   "name": "Caroline Glick",
+   "site": "",
+   "yt": [],
+   "q": "Caroline Glick",
+   "intro": "Caroline Glick is an Israeli-American columnist and commentator on Israeli strategy and relations between the United States and Israel.",
+   "tags": "Israeli strategy, US-Israel politics, commentary"
+  },
+  {
+   "id": "michael-oren",
+   "kind": "voice",
+   "name": "Michael Oren",
+   "site": "",
+   "yt": [],
+   "q": "Michael Oren",
+   "intro": "Michael Oren is a historian and former Israeli ambassador to the United States and member of the Knesset. He is the author of Six Days of War.",
+   "tags": "diplomacy, Israeli history, lectures"
+  },
+  {
+   "id": "john-spencer",
+   "kind": "voice",
+   "name": "John Spencer",
+   "site": "",
+   "yt": [],
+   "q": "John Spencer",
+   "intro": "John Spencer is an American military analyst and urban warfare expert who explains the conduct of the fighting in Gaza and other cities.",
+   "tags": "urban warfare, military operations, military analysis"
+  },
+  {
+   "id": "melanie-phillips",
+   "kind": "voice",
+   "name": "Melanie Phillips",
+   "site": "",
+   "yt": [],
+   "q": "Melanie Phillips",
+   "intro": "Melanie Phillips is a British journalist and author who writes on Israel, antisemitism and Western politics.",
+   "tags": "British commentary, antisemitism, podcast interviews"
+  },
+  {
+   "id": "yossi-klein-halevi",
+   "kind": "voice",
+   "name": "Yossi Klein Halevi",
+   "site": "",
+   "yt": [],
+   "q": "Yossi Klein Halevi",
+   "intro": "Yossi Klein Halevi is an Israeli-American author and senior fellow at the Shalom Hartman Institute. He writes on Jewish identity and Israeli society.",
+   "tags": "Jewish identity, Israeli society, podcast interviews"
+  },
+  {
+   "id": "bret-stephens",
+   "kind": "voice",
+   "name": "Bret Stephens",
+   "site": "",
+   "yt": [],
+   "q": "Bret Stephens",
+   "intro": "Bret Stephens is an American columnist at The New York Times who writes on Israel, Judaism and world affairs.",
+   "tags": "US commentary, Judaism, Israel, podcasts"
+  },
+  {
+   "id": "elliot-kaufman",
+   "kind": "voice",
+   "name": "Elliot Kaufman",
+   "site": "",
+   "yt": [],
+   "q": "Elliot Kaufman",
+   "intro": "Elliot Kaufman is an American journalist who writes on Israeli affairs and US politics for The Wall Street Journal.",
+   "tags": "US journalism, Israeli affairs, podcast interviews"
+  },
+  {
+   "id": "hussein-aboubakr-mansour",
+   "kind": "voice",
+   "name": "Hussein Aboubakr Mansour",
+   "site": "",
+   "yt": [],
+   "q": "Hussein Aboubakr Mansour",
+   "intro": "Hussein Aboubakr Mansour is an Egyptian-born author and speaker who writes on Arab and Islamic discourse and on antisemitism.",
+   "tags": "Arab discourse, antisemitism, talks"
+  },
+  {
+   "id": "khaled-abu-toameh",
+   "kind": "voice",
+   "name": "Khaled Abu Toameh",
+   "site": "",
+   "yt": [],
+   "q": "Khaled Abu Toameh",
+   "intro": "Khaled Abu Toameh is a Palestinian-Israeli journalist who has reported for decades on Palestinian politics and society.",
+   "tags": "Palestinian affairs, reporting, analysis"
+  },
+  {
+   "id": "miriam-elman",
+   "kind": "voice",
+   "name": "Miriam H. Elman",
+   "site": "",
+   "yt": [],
+   "q": "Miriam H. Elman",
+   "intro": "Miriam H. Elman is a political science professor at Syracuse University and executive director of the Academic Engagement Network. She speaks on campus politics and antisemitism.",
+   "tags": "campus politics, antisemitism, interviews"
+  },
+  {
+   "id": "richard-kemp",
+   "kind": "voice",
+   "name": "Richard Kemp",
+   "site": "",
+   "yt": [],
+   "q": "Richard Kemp",
+   "intro": "Richard Kemp is a retired British Army colonel and former commander of British forces in Afghanistan. He speaks on the laws and realities of modern warfare.",
+   "tags": "British army, warfare, military analysis"
   }
  ]
 }

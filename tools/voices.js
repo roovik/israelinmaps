@@ -1,4 +1,5 @@
 (function(){
+  var wg=document.getElementById('wgrid');if(wg){var wq=document.getElementById('wq'),ch=document.getElementById('wchips'),g0='';function nm(s){return s.toLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g,'').replace(/['\u2019]/g,'')}function fl(){var t=nm(wq.value).trim(),n=0;[].forEach.call(wg.children,function(c){var ok=(!g0||c.getAttribute('data-g')===g0)&&(!t||t.split(/\s+/).every(function(w){return c.getAttribute('data-h').indexOf(w)>-1}));c.hidden=!ok;if(ok)n++});document.getElementById('wnone').hidden=n>0}wq.addEventListener('input',fl);ch.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;g0=b.getAttribute('data-g');[].forEach.call(ch.children,function(x){x.setAttribute('aria-pressed',x===b)});fl()});return}
   var root=document.getElementById('voice-page');if(!root)return;
   function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
   function when(d){if(!d)return'';var t=new Date(d);if(isNaN(t))return'';return t.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}

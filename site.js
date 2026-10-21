@@ -19,9 +19,9 @@
       return{t:i.t,u:i.k?'/news/item/'+i.k+'/?s='+encodeURIComponent(i.s)+(i.ch?'&c='+encodeURIComponent(i.ch):''):i.u,i:i.i||'',k:i.src,s:i.d?new Date(i.d).toLocaleDateString('en-GB',{day:'numeric',month:'short'}):'',x:i.x||''}});
     if(window.__run)window.__run()}).catch(function(){})}
   getLive('News','/api/news?v=2');getLive('Views','/api/news?views=1&v=2');
-  var SEC=[['News'],['Views'],['Maps'],['Timelines'],['Charts'],['Media'],['NOWlej'],['Other']];
+  var SEC=[['Who’s Who'],['News'],['Views'],['Maps'],['Timelines'],['Charts'],['Media'],['NOWlej'],['Other']];
   function secOf(u){var f=u.split('/')[1];
-    if(f==='maps')return'Maps';if(f==='timelines')return'Timelines';
+    if(f==='who')return'Who’s Who';if(f==='maps')return'Maps';if(f==='timelines')return'Timelines';
     if(['tables','demographics','rankings','top-ten','size','population'].indexOf(f)>-1)return'Charts';
     if(f==='tour'||f==='flora')return'Media';if(f==='g'||f==='glossary')return'NOWlej';return'Other'}
   fetch('/search.json').then(function(r){return r.json()}).then(function(data){
@@ -42,7 +42,7 @@
       SEC.forEach(function(S){var n=S[0],l=groups[n];if(!l)return;any=true;
         l.sort(function(a,b){return b[0]-a[0]});
         var h=document.createElement('li');h.className='rsec';h.id='r-'+n;h.innerHTML='<h2>'+n+' <small>'+l.length+'</small></h2>';res.appendChild(h);jump.push('<a href="#r-'+n+'">'+n+' ('+l.length+')</a>');
-        l.slice(0,n==='News'||n==='Views'?12:30).forEach(function(p){var d=p[1];var li=document.createElement('li');var a=document.createElement('a');a.href=d.u;a.textContent=d.t;
+        l.slice(0,n==='News'||n==='Views'?12:30).forEach(function(p){var d=p[1];var li=document.createElement('li');if(n==='Who’s Who'){li.className='rwho';var ini=d.t.replace(/^The /,'').split(/\s+/).slice(0,2).map(function(w){return w[0]}).join('').toUpperCase(),hu=0;for(var z=0;z<d.u.length;z++)hu+=d.u.charCodeAt(z);li.innerHTML='<a class="rwph t'+(1+hu%5)+'" href="'+d.u+'" tabindex="-1" aria-hidden="true"><span>'+ini+'</span></a><span class="rtx"><a href="'+d.u+'">'+d.t.replace(/&/g,'&amp;')+'</a><small>'+(d.s||'')+'</small><em></em></span>';li.querySelector('em').textContent=(d.x||'').split('. ')[0].replace(/\.$/,'')+'.';res.appendChild(li);return}var a=document.createElement('a');a.href=d.u;a.textContent=d.t;
           var sm=document.createElement('small');sm.textContent=d.k+(d.s?' · '+d.s:'');var tx=document.createElement('span');tx.className='rtx';tx.appendChild(a);tx.appendChild(sm);
           if(d.i){var im=document.createElement('img');im.src=d.i;im.alt='';im.loading='lazy';im.referrerPolicy='no-referrer';im.onerror=function(){im.remove()};var al=document.createElement('a');al.className='rth';al.href=d.u;al.tabIndex=-1;al.setAttribute('aria-hidden','true');al.appendChild(im);li.appendChild(al)}
           li.appendChild(tx);res.appendChild(li)})});
