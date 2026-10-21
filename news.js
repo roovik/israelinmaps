@@ -42,7 +42,7 @@
     var byId={};data.sources.forEach(function(s){byId[s.id]=s});
 
     if(grid){
-      var WEEK=7*864e5;
+      var WEEK=30*864e5;
       data.items=data.items.filter(function(i){return!i.d||Date.now()-new Date(i.d)<=WEEK});
       var TOPICS=[
         ['security','Security',/\b(idf|hamas|hezbollah|hizbullah|gaza|missiles?|rockets?|drones?|terror\w*|soldiers?|troops|airstrikes?|strikes?|war|military|army|defen[cs]e|houthis?|iran\w*|hostages?|shin bet|ceasefire|shooting|stabbing|police|attack\w*)\b/i],

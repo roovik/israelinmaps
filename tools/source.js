@@ -11,8 +11,8 @@
     var box=document.getElementById(boxId);
     if(id==='haaretz'||id==='insider')box.className+=' g4';
     return fetch(url).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){
-      var l=(d.items||[]).filter(function(i){return i.s===id&&(!i.d||Date.now()-new Date(i.d)<=7*864e5)}).slice(0,12);
-      box.innerHTML=l.length?cards(l):'<p>No '+label+' from this source in the last seven days.</p>';return l.length
+      var l=(d.items||[]).filter(function(i){return i.s===id&&(!i.d||Date.now()-new Date(i.d)<=30*864e5)}).slice(0,12);
+      box.innerHTML=l.length?cards(l):'<p>No '+label+' from this source in the last month.</p>';return l.length
     }).catch(function(){box.innerHTML='<p>The '+label+' could not be loaded right now.</p>';return 0})}
   var show=new URLSearchParams(location.search).get('show');if(show!=='news'&&show!=='views')show='';
   var nm=document.getElementById('src-h1').getAttribute('data-name');
@@ -20,5 +20,5 @@
   [].forEach.call(document.querySelectorAll('#src-tabs a[data-show]'),function(a){if(a.getAttribute('data-show')===show)a.setAttribute('aria-current','page')});
   var jobs=[show==='views'?Promise.resolve(0):load('/api/news?v=2','src-news','news'),show==='news'?Promise.resolve(0):load('/api/news?views=1&v=2','src-views','views')];
   Promise.all(jobs).then(function(n){
-    var c=document.getElementById('src-count');if(c)c.textContent=show==='news'?n[0]+' news stories from the last seven days are shown below.':show==='views'?n[1]+' views from the last seven days are shown below.':n[0]+' news stories and '+n[1]+' views from the last seven days are shown below.'});
+    var c=document.getElementById('src-count');if(c)c.textContent=show==='news'?n[0]+' news stories from the last month are shown below.':show==='views'?n[1]+' views from the last month are shown below.':n[0]+' news stories and '+n[1]+' views from the last month are shown below.'});
 })();

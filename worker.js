@@ -51,7 +51,7 @@ function findChannel(src, cid) {
   return src.groups ? src.groups.flatMap(g => g.list).find(c => c.id === cid) || null : null;
 }
 const FEEDS = SOURCES.map(s => ({ id: s.id, name: s.name, site: s.site, url: s.url }));
-const PER_FEED = 40, TOTAL = 400, TIMEOUT = 8000, MAX_AGE_DAYS = 7;
+const PER_FEED = 40, TOTAL = 800, TIMEOUT = 8000, MAX_AGE_DAYS = 30, ARCH_DAYS = 30;
 
 const ENT = { amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: ' ', rsquo: '’', lsquo: '‘', rdquo: '”', ldquo: '“', hellip: '…', ndash: '–', mdash: '—' };
 function decode(s) {
@@ -159,6 +159,18 @@ async function load(feed) {
   } finally { clearTimeout(timer); }
 }
 
+
+// Rolling archive: feeds only list their newest stories, so every fetched story is kept for ARCH_DAYS days in KV.
+async function archRead(env, key) { try { const r = env && env.ENTRIES ? await env.ENTRIES.get('arch/' + key) : null; return r ? JSON.parse(r) : { t: 0, items: [] }; } catch { return { t: 0, items: [] }; } }
+async function archMerge(env, ctx, key, live) {
+  const old = await archRead(env, key), cut = Date.now() - ARCH_DAYS * 864e5, m = new Map();
+  old.items.forEach(i => m.set(i.k + '|' + (i.ch || ''), i));
+  live.forEach(i => m.set(i.k + '|' + (i.ch || ''), i));
+  const items = [...m.values()].filter(i => !i.d || new Date(i.d).getTime() >= cut).sort((a, b) => (b.d || '').localeCompare(a.d || '')).slice(0, 1500);
+  if (env && env.ENTRIES && ctx && Date.now() - old.t > 20 * 60000 && items.length) ctx.waitUntil(env.ENTRIES.put('arch/' + key, JSON.stringify({ t: Date.now(), items })).catch(() => {}));
+  return items;
+}
+
 const H = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 async function itemPage(request, env, k, sp, cp) {
   const origin = new URL(request.url).origin;
@@ -173,13 +185,14 @@ async function itemPage(request, env, k, sp, cp) {
     if (!cp || ch) {
       const r = await load({ id: src.id, name: src.name, site: src.site, url: ch ? ch.url : src.url });
       item = r.items.find(i => i.k === k) || null;
+      if (!item) { for (const kk of ['news', 'views']) { const a = await archRead(env, kk); item = a.items.find(i => i.k === k && i.s === src.id) || null; if (item) break; } }
       if (new URL(request.url).searchParams.get('debug')) return new Response(JSON.stringify({ asked: k, source: src.id, channel: cp || null, feedUrl: ch ? ch.url : src.url, ok: r.ok, error: r.error, count: r.items.length, keys: r.items.slice(0, 5).map(i => [i.k, i.t.slice(0, 50)]) }, null, 1), { headers: { 'Content-Type': 'application/json' } });
     }
   }
   let title, desc, body;
   if (!item) {
-    status = 404; title = 'This story is no longer available'; desc = 'News items stay on Israel NOWlej for seven days.';
-    body = '<p class="crumb"><a href="/">Home</a> / <a href="/news/">News</a></p><h1>This story is no longer available</h1><p>News items stay on this site for seven days. <a href="/news/">Back to the latest news</a>.</p>';
+    status = 404; title = 'This story is no longer available'; desc = 'This story is no longer on Israel NOWlej.';
+    body = '<p class="crumb"><a href="/">Home</a> / <a href="/news/">News</a></p><h1>This story is no longer available</h1><p><a href="/news/">Back to the latest news</a>.</p>';
   } else {
     let gl = [];
     try {
@@ -199,7 +212,7 @@ async function itemPage(request, env, k, sp, cp) {
       + (item.f ? '<p class="fx">' + H(item.f) + '</p>' : '<p class="fx">' + H(src.name) + ' shares only the headline of this story.</p>')
       + (gl.length ? '<p class="chips">In the glossary: ' + gl.map(g => '<a href="/g/' + H(g[0]) + '/">' + H(g[1]) + '</a>').join(' ') + '</p>' : '')
       + '<p class="fgo"><a class="fbtn" href="' + H(item.u) + '" rel="noopener nofollow">Read the full story at ' + H(src.name) + '</a></p>'
-      + (archived ? '<p class="small">Headline and a short excerpt, kept in the Israel NOWlej archive. Full text and copyright remain with the original publisher.</p></article>' : '<p class="small">This page will disappear after 7 days.</p></article>');
+      + (archived ? '<p class="small">Headline and a short excerpt, kept in the Israel NOWlej archive. Full text and copyright remain with the original publisher.</p></article>' : '</article>');
   }
   const html = tpl.split('@@TITLE@@').join(H(title)).split('@@DESC@@').join(H(desc)).split('@@K@@').join(H(k)).split('@@BODY@@').join(body);
   return new Response(html, { status, headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': status === 200 ? 'public, max-age=900' : 'no-store', 'X-Robots-Tag': 'noindex' } });
@@ -704,8 +717,8 @@ async function imagesApi(url, ctx) {
   ctx.waitUntil(caches.default.put(ck, new Response(out, { headers: { 'Cache-Control': 'max-age=21600' } })));
   return new Response(out, { headers: hdr });
 }
-export default {
-  async scheduled(event, env, ctx) { YTK = env.YT_KEY || ''; ctx.waitUntil(scan(env)); },
+const W = {
+  async scheduled(event, env, ctx) { YTK = env.YT_KEY || ''; ctx.waitUntil(scan(env)); ctx.waitUntil((async () => { for (const u of ['/api/news?v=2', '/api/news?views=1&v=2']) { try { await W.fetch(new Request('https://israelnowlej.com' + u), env, ctx); } catch {} } })()); },
   async fetch(request, env, ctx) {
     YTK = env.YT_KEY || '';
     const url = new URL(request.url);
@@ -749,12 +762,12 @@ export default {
         r.items.forEach(i => { i.ch = c.id; i.kind = c.name; });
         return { v, r };
       })));
-      const items = rs.flatMap(x => x.r.items).map(({ f, ...rest }) => rest).sort((a, b) => (b.d || '').localeCompare(a.d || '')).slice(0, 300);
+      const items = (await archMerge(env, ctx, 'views', rs.flatMap(x => x.r.items).map(({ f, ...rest }) => rest))).slice(0, 600);
       const sources = VSRC.map(v => ({ id: v.id, name: v.name, site: v.site, groups: v.groups.map(g => ({ group: g.group, list: g.list.map(c => ({ id: c.id, name: c.name })) })), ok: rs.some(x => x.v.id === v.id && x.r.ok), count: rs.filter(x => x.v.id === v.id).reduce((n, x) => n + x.r.items.length, 0), error: '' }));
       return new Response(JSON.stringify({ updated: new Date().toISOString(), sources, items }), { headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'public, max-age=600', 'Access-Control-Allow-Origin': '*' } });
     }
     if (sp && url.searchParams.get('probe')) {
-      // which channels of a source have stories from the last 7 days. One group per call keeps subrequests low.
+      // which channels of a source have recent stories. One group per call keeps subrequests low.
       const src = url.searchParams.get('views') ? VSRC.find(s => s.id === sp) : SOURCES.find(s => s.id === sp), g = src && src.groups && src.groups.find(x => x.group === url.searchParams.get('probe'));
       if (!g) return new Response('{"error":"unknown group"}', { status: 404, headers: { 'Content-Type': 'application/json' } });
       const rs = await Promise.all(g.list.map(c => load({ id: src.id, name: src.name, site: src.site, url: c.url }).then(r => ({ id: c.id, ok: r.ok, count: r.items.length, newest: r.items.reduce((m, i) => (i.d && i.d > m ? i.d : m), '') }))));
@@ -767,9 +780,10 @@ export default {
       return new Response(JSON.stringify({ updated: new Date().toISOString(), source: src.id, channel: { id: ch.id, name: ch.name }, ok: r.ok, error: r.error, items: r.items.map(({ f, ...rest }) => ({ ...rest, ...(cp.startsWith('v-') ? { kind: ch.name } : {}) })) }), { headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'public, max-age=600', 'Access-Control-Allow-Origin': '*' } });
     }
     const results = await Promise.all(FEEDS.map(load));
-    const items = results.flatMap(r => r.items).map(({ f, ...rest }) => rest).sort((a, b) => (b.d || '').localeCompare(a.d || '')).slice(0, TOTAL);
+    const items = (await archMerge(env, ctx, 'news', results.flatMap(r => r.items).map(({ f, ...rest }) => rest))).slice(0, TOTAL);
     const body = JSON.stringify({ updated: new Date().toISOString(), sources: results.map(r => ({ id: r.feed.id, name: r.feed.name, site: r.feed.site, groups: (SOURCES.find(s => s.id === r.feed.id) || {}).groups ? SOURCES.find(s => s.id === r.feed.id).groups.map(g => ({ group: g.group, list: g.list.map(c => ({ id: c.id, name: c.name })) })) : null, ok: r.ok, count: r.items.length, error: r.error, img: !!r.img })), items });
     return new Response(body, { headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'public, max-age=600', 'Access-Control-Allow-Origin': '*' } });
   },
 };
+export default W;
 export { parse };

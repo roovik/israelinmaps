@@ -6,7 +6,7 @@
   function iu(it){return it.k?'/news/item/'+it.k+'/?s='+encodeURIComponent(it.s)+(it.ch?'&c='+encodeURIComponent(it.ch):''):it.u}
   function isBrk(i){return i.d&&(Date.now()-new Date(i.d).getTime()<=3*3600*1000||/\b(breaking|live)\b/i.test(i.t))}
   fetch('/api/news?v=2').then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(data){
-    var week=7*864e5,dated=data.items.filter(function(i){return i.d&&Date.now()-new Date(i.d)<=week}).slice(0,12);
+    var week=30*864e5,dated=data.items.filter(function(i){return i.d&&Date.now()-new Date(i.d)<=week}).slice(0,12);
     if(!dated.length)return;
     tk.innerHTML=dated.map(function(i,n){return'<a class="tki'+(n?'':' on')+'" href="'+esc(iu(i))+'"><span class="tkt">'+esc(i.t)+'</span><span class="tkm">'+esc(i.src)+' · '+when(i.d)+'</span></a>'}).join('');
     tk.hidden=false;

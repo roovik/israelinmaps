@@ -17,7 +17,7 @@
     newsP=newsP||jget('/api/news?v=2');viewsP=viewsP||jget('/api/news?views=1&v=2');if(it.video)vidP=vidP||jget('/api/videos');
     var none=function(){return null};
     return Promise.all([newsP.catch(none),viewsP.catch(none),it.video?vidP.catch(none):Promise.resolve(null),it.show?jget('/api/voice?id='+encodeURIComponent(it.show)).catch(none):Promise.resolve(null)]).then(function(r){
-      var cut=Date.now()-7*864e5;
+      var cut=Date.now()-30*864e5;
       function sel(d,label){return((d&&d.items)||[]).filter(function(i){return i.s===it.id&&(!i.d||new Date(i.d)>cut)}).map(function(i){return{t:i.t,u:i.k?'/news/item/'+i.k+'/?s='+encodeURIComponent(i.s)+(i.ch?'&c='+encodeURIComponent(i.ch):''):i.u,ext:!i.k,d:i.d,s:label}})}
       var arts=sel(r[0],'News').concat(sel(r[1],'Views')).sort(function(a,b){return new Date(b.d||0)-new Date(a.d||0)});
       var vids=[];if(r[2]&&r[2].channels){var c=r[2].channels.filter(function(c){return String(c.key).toLowerCase()===it.video})[0];if(c)vids=c.videos||[]}

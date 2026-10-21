@@ -891,3 +891,8 @@ body .bar .ticker,body.newspg .bar .ticker{border:0!important;background:transpa
 .results .rjump{gap:8px}.results .rjump a,.results .rjump .rz{display:inline-block;padding:6px 14px;border:1px solid var(--line);border-radius:6px;background:var(--card);text-decoration:none;color:var(--fg)}
 .results .rjump a:hover{border-color:var(--acc);color:var(--acc)}.results .rjump .rz{opacity:.45}
 .results .rsec{scroll-margin-top:12px}
+/* search field and button 3px shorter; field starts 5px further right; Filter label centred in its button */
+@media (min-width:901px){.bar .sf button,.bar .sf input{height:27px}.bar .sf input{width:255px}}
+@media (max-width:900px){body .bar .sf input,body .bar .sf button{height:25px}body .bar .sf{width:calc(100% + 3px)}}
+@media (max-width:380px){body .bar .sf input,body .bar .sf button{height:20px}}
+.ffilter button{display:inline-flex;align-items:center;justify-content:center;line-height:1;padding:0 16px}
