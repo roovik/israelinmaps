@@ -920,3 +920,5 @@ body .bar .ticker,body.newspg .bar .ticker{border:0!important;background:transpa
 .pcard.on{border-color:var(--acc);box-shadow:0 0 0 2px var(--acc)}
 /* ADS OFF (see ads.js ADS_ON): slots remain in the markup, hidden. Remove this line to show them again. */
 .adslot,.adslot[data-slot],.adslot[data-slot=aside-top]{display:none!important}
+
+#plist{font-size:11pt}#plist option{font-weight:700}
