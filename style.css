@@ -690,3 +690,8 @@ header.top{margin-bottom:5px}
 @media (max-width:640px){.subnav a{flex:1 0 auto;padding-left:12px;padding-right:12px}}
 .subnav.prev a:hover,.subnav.prev a:focus{color:#fff;text-decoration:none}
 .subnav.sub2 a:hover{color:#fff}
+/* second and third level menus are exactly as wide as the top level menu, never wider */
+@media (min-width:641px){
+ header.top .subnav{box-sizing:border-box;width:calc(var(--navw,504px) + 32px);max-width:100%;margin-left:max(0px,calc((100vw - 1440px)/2));margin-right:auto}
+ .subnav a{font-size:.78rem;padding-left:4px;padding-right:4px}
+}

@@ -269,7 +269,7 @@ SUBNAV = {
  'media': [('Video', '/video/'), ('Audio', '/audio/'), ('Images', '/images/')],
  'images': [('A Taste of Israel', '/tour/'), ('Flora and Fauna', '/flora/')],
  'video': [(c['name'], f'/video/{vslug(c)}/') for c in VCFG['channels'][:5]],
- 'who': [('All', '/who/'), ('Groups', '/who/#g=org'), ('Influencers', '/who/#g=voice'), ('IDF spokespeople', '/who/#g=idf')],
+ 'who': [('All', '/who/'), ('Groups', '/who/#g=org'), ('Influencers', '/who/#g=voice'), ('IDF voices', '/who/#g=idf')],
  'glossary': [('People and Groups', '/glossary/#c=people-and-groups'), ('Places', '/glossary/#c=places'), ('Events', '/glossary/#c=events'), ('Buildings and Sites', '/glossary/#c=buildings-and-sites'), ('Works', '/glossary/#c=works')],
 }
 SHORT = {'Patriarchs to the First Kings': 'Patriarchs and Kings', 'Kings, Exile and Return': 'Exile and Return', 'Greeks, Hasmoneans and Romans': 'Greeks and Romans', 'Centuries of Foreign Rule': 'Foreign Rule', 'The Ottoman Land': 'Ottomans', 'Zionism Takes Shape': 'Zionism Takes Shape'}
@@ -277,7 +277,7 @@ def tl_links():
     return [(SHORT.get(r['title'], r['title'].replace('The ', '')), r['url']) for r in rows if r['prefix'] == 'TL']
 def sec_links(sec):
     if sec == 'timelines': return tl_links()
-    if sec == 'sources': return [({'toi': 'ToI', 'jpost': 'JPost', 'ynet': 'ynet', 'israelhayom': 'Hayom'}.get(i_, n_), f'/sources/{i_}/') for i_, n_, _, _ in SRC]
+    if sec == 'sources': return [({'toi': 'ToI', 'jpost': 'JPost', 'ynet': 'ynet', 'israelhayom': 'Hayom', 'insider': 'Insider'}.get(i_, n_), f'/sources/{i_}/') for i_, n_, _, _ in SRC]
     return SUBNAV.get(sec, [])
 def write_subnav_json():
     m = {}
@@ -939,7 +939,7 @@ for i_, n_, u_, d_ in SRC:
              + (f'<a href="/video/{vc_}/">Videos</a>' if vc_ else '') + f'<a href="/sources/{i_}/" data-show="">All</a></nav>')
     b_ = (f'<h1 id="src-h1" data-name="{E(n_)}">{E(n_)}</h1>{tabs_}<p>{E(d_)}</p><p class="small"><a href="{u_}" rel="noopener">Visit {E(n_)}</a> (external site)</p><p class="small" id="src-count"></p>'
           f'<div id="src-page" data-src="{i_}"></div><section id="src-nsec"><h2>Latest news</h2><div class="tgrid" id="src-news"><p>Loading.</p></div></section><section id="src-vsec"><h2>Latest views</h2><div class="tgrid" id="src-views"><p>Loading.</p></div></section>')
-    write(f'/sources/{i_}/', layout(n_, chan('sources', b_, f'/sources/{i_}/'), f'Latest news and views from {n_}.', f'/sources/{i_}/'))
+    write(f'/sources/{i_}/', layout(n_, chan('sources', b_, f'/sources/{i_}/', left='<nav class="newstopics secnav" aria-label="Sources"><h2><a href="/sources/">Sources</a></h2><ul><li><a href="/sources/">All sources</a></li><li><a href="/index/">Index</a></li><li><a href="/about/">How to use this site</a></li></ul></nav>', aside='<span id="news-side" data-word="news" hidden></span><div id="news-latest"></div>'), f'Latest news and views from {n_}.', f'/sources/{i_}/'))
 ab_ = ('<h1>Video curation</h1><p class="small">Private working page. Candidates come from YouTube search and are shown only to help you decide. Nothing here changes the site until the exported list is added to <code>video.json</code>. <a href="/admin/entry/">Entry workbench</a></p>'
        '<div class="adm"><div class="admbar"><label>Entry <select id="adm-ent"><option value="">(free search)</option></select></label><span id="adm-prog" class="small"></span></div><div class="admbar"><label>Look for <input id="adm-q" type="search" placeholder="e.g. Abraham Accords" size="28"></label>'
        '<span class="vseg" role="group" aria-label="Type"><button type="button" data-k="channels" aria-pressed="true">Channels</button><button type="button" data-k="playlists" aria-pressed="false">Playlists</button><button type="button" data-k="videos" aria-pressed="false">Videos</button></span>'
