@@ -525,9 +525,26 @@ async function voiceApi(url, env) {
   return new Response(JSON.stringify(out), { headers: diagOn ? { ...hdr, 'Cache-Control': 'no-store' } : hdr });
 }
 
+// ---------------------------------------------------------------- mail: alerts to the owner, receipts and replies to senders
+// Needs the secret RESEND_KEY and the variable MAIL_FROM (an address on a domain verified with Resend). Without them, nothing is sent.
+async function sendMail(env, to, subject, text, replyTo) {
+  if (!env.RESEND_KEY || !env.MAIL_FROM) return { ok: false, note: 'Mail is not set up yet.' };
+  try {
+    const r = await fetch('https://api.resend.com/emails', { method: 'POST', headers: { Authorization: 'Bearer ' + env.RESEND_KEY, 'Content-Type': 'application/json' }, body: JSON.stringify({ from: env.MAIL_FROM, to: [to], subject, text, ...(replyTo ? { reply_to: replyTo } : {}) }) });
+    return { ok: r.ok, note: r.ok ? '' : 'Mail service said ' + r.status };
+  } catch (e) { return { ok: false, note: String(e) }; }
+}
+const RECEIPT = {
+  article: 'Thank you for sending an article to Israel NOWlej. A person will read it. If we use it, it will appear credited to its original publisher.',
+  video: 'Thank you for sending a video to Israel NOWlej. A person will watch it. If we use it, it will play in an embedded player and be credited to its channel.',
+  nominee: 'Thank you for your nomination for Who’s Who on Israel NOWlej. We will review it and write to you with our decision.',
+  apply: 'Thank you for applying to be listed on Israel NOWlej. We will review your application and write to you with our decision.',
+  claim: 'Thank you for contacting us about your profile on Israel NOWlej. To protect you from impostors we may ask you to confirm your request from an official address. We will write to you soon.'
+};
+
 // ---------------------------------------------------------------- submissions: articles, videos, nominees and applications
 const SUBTYPES = ['article', 'video', 'nominee', 'apply', 'claim'];
-async function submitApi(request, env) {
+async function submitApi(request, env, ctx) {
   const hdr = { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' };
   if (request.method !== 'POST') return new Response('{"error":"method"}', { status: 405, headers: hdr });
   if (!env.ENTRIES) return new Response('{"error":"Submissions are not switched on yet."}', { status: 501, headers: hdr });
@@ -550,7 +567,14 @@ async function submitApi(request, env) {
   const n = parseInt(await env.ENTRIES.get(rk) || '0', 10);
   if (n >= 5) return new Response('{"error":"That is enough for this hour. Please try again later."}', { status: 429, headers: hdr });
   await env.ENTRIES.put(rk, String(n + 1), { expirationTtl: 3700 });
-  await env.ENTRIES.put('sub:' + rec.at + '-' + Math.random().toString(36).slice(2, 7), JSON.stringify(rec));
+  const id = 'sub:' + rec.at + '-' + Math.random().toString(36).slice(2, 7);
+  await env.ENTRIES.put(id, JSON.stringify(rec));
+  const notify = env.NOTIFY_TO || 'rkoret@gmail.com', host = new URL(request.url).origin;
+  const job = (async () => {
+    await sendMail(env, notify, 'New ' + rec.type + ' submission on Israel NOWlej', ['Type: ' + rec.type, rec.name && 'Name: ' + rec.name, rec.url && 'Link: ' + rec.url, rec.about && 'About: ' + rec.about, rec.change && 'Wants to: ' + rec.change, rec.notes && 'Notes: ' + rec.notes, rec.links && 'Links: ' + rec.links, 'From: ' + (rec.from || 'unknown') + ' <' + rec.email + '>', '', 'Review it: ' + host + '/admin/submissions/'].filter(x => x !== '' && x !== false && x != null).join('\n'), rec.email);
+    await sendMail(env, rec.email, 'We received your submission to Israel NOWlej', (RECEIPT[type] || RECEIPT.article) + '\n\nThis is an automatic receipt. You can reply to this email if you want to add something.\n\nIsrael NOWlej');
+  })();
+  if (ctx && ctx.waitUntil) ctx.waitUntil(job); else await job;
   return new Response('{"ok":true}', { headers: hdr });
 }
 async function submissionsApi(request, env) {
@@ -560,24 +584,35 @@ async function submissionsApi(request, env) {
   if (key.length !== env.ADMIN_KEY.length || key !== env.ADMIN_KEY) return new Response('{"error":"Wrong admin key."}', { status: 401, headers: hdr });
   if (request.method === 'POST') {
     const b = await request.json().catch(() => ({}));
-    if (!/^sub:[0-9T:.\-Z]+-[a-z0-9]+$/.test(b.id || '') || !['new', 'approved', 'rejected', 'done'].includes(b.status)) return new Response('{"error":"bad request"}', { status: 400, headers: hdr });
-    const raw = await env.ENTRIES.get(b.id); if (!raw) return new Response('{"error":"not found"}', { status: 404, headers: hdr });
-    const r = JSON.parse(raw); r.status = b.status; await env.ENTRIES.put(b.id, JSON.stringify(r));
-    return new Response('{"ok":true}', { headers: hdr });
+    const okId = x => /^sub:[0-9T:.\-Z]+-[a-z0-9]+$/.test(x || '');
+    const ids = (Array.isArray(b.ids) ? b.ids : [b.id]).filter(okId).slice(0, 100);
+    if (!ids.length) return new Response('{"error":"bad request"}', { status: 400, headers: hdr });
+    let sent = null;
+    for (const id of ids) {
+      const raw = await env.ENTRIES.get(id); if (!raw) continue;
+      const r = JSON.parse(raw);
+      if (b.reply && b.reply.body && ids.length === 1) {
+        const m = await sendMail(env, r.email, String(b.reply.subject || 'Your submission to Israel NOWlej').slice(0, 150), String(b.reply.body).slice(0, 4000) + '\n\nIsrael NOWlej');
+        sent = m; if (m.ok) { r.repliedAt = new Date().toISOString(); r.status = 'done'; await env.ENTRIES.put(id, JSON.stringify(r)); }
+        continue;
+      }
+      if (['new', 'approved', 'rejected', 'done'].includes(b.status)) { r.status = b.status; await env.ENTRIES.put(id, JSON.stringify(r)); }
+    }
+    return new Response(JSON.stringify({ ok: !sent || sent.ok, mail: sent }), { headers: hdr });
   }
   const l = await env.ENTRIES.list({ prefix: 'sub:', limit: 300 });
   const items = await Promise.all(l.keys.map(async k => { try { return { id: k.name, ...JSON.parse(await env.ENTRIES.get(k.name)) }; } catch { return null; } }));
-  return new Response(JSON.stringify({ items: items.filter(Boolean).sort((a, b) => b.at.localeCompare(a.at)) }), { headers: hdr });
+  return new Response(JSON.stringify({ mail: !!(env.RESEND_KEY && env.MAIL_FROM), items: items.filter(Boolean).sort((a, b) => b.at.localeCompare(a.at)) }), { headers: hdr });
 }
 
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     YTK = env.YT_KEY || '';
     const url = new URL(request.url);
     const im = url.pathname.match(/^\/news\/item\/([a-z0-9]+)\/?$/);
     if (im) return itemPage(request, env, im[1], url.searchParams.get('s'), url.searchParams.get('c'));
     if (url.pathname === '/api/videos') return videoApi(url, env);
-    if (url.pathname === '/api/submit') return submitApi(request, env);
+    if (url.pathname === '/api/submit') return submitApi(request, env, ctx);
     if (url.pathname === '/api/submissions') return submissionsApi(request, env);
     if (url.pathname === '/api/whoimg') return whoImages(env, !!url.searchParams.get('diag'));
     if (url.pathname === '/api/voice') return voiceApi(url, env);

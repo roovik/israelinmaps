@@ -635,3 +635,5 @@ main h1{padding-bottom:7px}main h1::after{height:4px;width:56px}
 #sub-msg{font:.9rem system-ui,sans-serif;color:var(--t3)}.subcta{margin:18px 0;padding:12px 14px;background:color-mix(in srgb,var(--t4) 12%,var(--card));font:.9rem system-ui,sans-serif}
 .subitem{border-top:1px solid var(--line);padding:8px 0}.subitem p{margin:3px 0}.subitem button{font:.8rem system-ui,sans-serif;padding:3px 10px;cursor:pointer}
 .claim{margin:8px 0 0;font:.8rem system-ui,sans-serif}.claim a{color:var(--t4)}
+.subbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font:.85rem system-ui,sans-serif;padding:8px 0}.subbar button,.subreply button{font:.8rem system-ui,sans-serif;padding:4px 10px;cursor:pointer}
+.subreply{margin:6px 0;padding:10px;background:#fff;border:1px solid var(--line)}.subreply input,.subreply textarea,.subreply select{display:block;width:100%;box-sizing:border-box;margin:0 0 6px;padding:7px;font:.9rem system-ui,sans-serif}
