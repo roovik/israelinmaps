@@ -120,7 +120,10 @@
     "JNS"
    ],
    "intro": "JNS, the Jewish News Syndicate, supplies news, opinion and video on Israel and Jewish communities worldwide. It also produces a range of shows and podcasts, which are gathered on this page.",
-   "wiki": "Jewish News Syndicate"
+   "wiki": "Jewish News Syndicate",
+   "blog": [
+    "https://www.jns.org/feed/"
+   ]
   },
   {
    "id": "eylon-levy",
@@ -267,7 +270,10 @@
    "pods": [
     "https://anchor.fm/s/100cf5c64/podcast/rss"
    ],
-   "tags": "Israeli history, strategy, podcast host, Ask Haviv Anything"
+   "tags": "Israeli history, strategy, podcast host, Ask Haviv Anything",
+   "blog": [
+    "https://www.timesofisrael.com/writers/haviv-rettig-gur/feed/"
+   ]
   },
   {
    "id": "mosab-hassan-yousef",
@@ -407,7 +413,10 @@
    "yt": [],
    "q": "Caroline Glick",
    "intro": "Caroline Glick is an Israeli-American columnist and commentator on Israeli strategy and relations between the United States and Israel.",
-   "tags": "Israeli strategy, US-Israel politics, commentary"
+   "tags": "Israeli strategy, US-Israel politics, commentary",
+   "blog": [
+    "https://www.jns.org/author/caroline-glick/feed/"
+   ]
   },
   {
    "id": "michael-oren",

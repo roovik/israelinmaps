@@ -448,8 +448,9 @@ async function whoImages(env, diagOn) {
     }
   }
   // 4. organizations without a picture: the site's own icon
-  vs.forEach(v => { if (!out[v.id] && v.site) { try { out[v.id] = 'https://www.google.com/s2/favicons?sz=128&domain=' + new URL(v.site).hostname; src[v.id] = 'site icon'; } catch {} } });
-  out._o = vs.filter(v => v.kind === 'org').map(v => v.id);
+  const icons = [];
+  vs.forEach(v => { if (!out[v.id] && v.site) { try { out[v.id] = 'https://www.google.com/s2/favicons?sz=128&domain=' + new URL(v.site).hostname; src[v.id] = 'site icon'; icons.push(v.id); } catch {} } });
+  out._o = vs.filter(v => v.kind === 'org').map(v => v.id); out._i = icons; out._y = vs.filter(v => src[v.id] === 'youtube').map(v => v.id);
   if (diagOn) out._src = src;
   if (Object.keys(out).length > 1 && !diagOn) await memPut('whoimg2', out, 24 * 3600);
   return new Response(JSON.stringify(out), { headers: hdr });
@@ -464,6 +465,11 @@ async function voiceApi(url, env) {
   if (cached) return new Response(JSON.stringify(cached), { headers: hdr });
   const feedUrls = (v.blog && v.blog.length) ? v.blog : (v.site ? await discoverFeeds(v.site, diag) : []);
   const arts = (await Promise.all(feedUrls.map(u => load({ id: v.id, name: v.name, site: v.site || u, url: u, maxAge: 3650 })))).flatMap(r => r.items).map(({ f, ...rest }) => rest);
+  // coverage by and about the person: Google News search, credited to each publisher
+  const gq = v.gq || v.name;
+  const gnr = await load({ id: v.id, name: 'News', site: 'https://news.google.com/', url: 'https://news.google.com/rss/search?q=' + encodeURIComponent('"' + gq + '"') + '&hl=en-US&gl=US&ceid=US:en', maxAge: 3650 });
+  const news = gnr.items.map(({ f, ...rest }) => { const m = rest.t.match(/^(.*) - ([^-]{2,60})$/); return { ...rest, t: m ? m[1] : rest.t, src: m ? m[2] : 'News', x: '', i: '' }; }).filter(x => !arts.some(a => a.u === x.u)).slice(0, 25);
+  if (diag) diag.push({ googleNews: gnr.ok, error: gnr.error, count: news.length });
   const podArts = (await Promise.all((v.pods || []).map(u => load({ id: v.id, name: v.name, site: v.site || u, url: u, maxAge: 3650 })))).flatMap(r => r.items).map(({ f, ...rest }) => rest);
   const vids = [], chanIds = [];
   for (const h of (v.yt || [])) { const r = await loadVideoSource({ handle: h, name: v.name }, 'channel', diag); if (r.ok && r.id) chanIds.push(r.id); (r.videos || []).forEach(x => vids.push({ ...x, n: v.name })); if (diag) diag.push({ yt: h, ok: r.ok, error: r.error, count: (r.videos || []).length }); }
@@ -503,7 +509,7 @@ async function voiceApi(url, env) {
     sv.list.forEach(x => { if (!vids.some(y => y.v === x.v)) vids.push(x); });
   }
   arts.sort((a, b) => (b.d || '').localeCompare(a.d || '')); vids.sort((a, b) => (b.d || '').localeCompare(a.d || ''));
-  const out = { id, name: v.name, kind: v.kind, updated: new Date().toISOString(), articles: arts.slice(0, 30), podcasts: podArts.slice(0, 20), videos: vids.slice(0, 30), playlists: pls.slice(0, 24), feeds: feedUrls };
+  const out = { id, name: v.name, kind: v.kind, updated: new Date().toISOString(), articles: arts.slice(0, 30), news, podcasts: podArts.slice(0, 20), videos: vids.slice(0, 30), playlists: pls.slice(0, 24), feeds: feedUrls };
   if (diag) out.diag = diag; else await memPut(mk, out, 900);
   return new Response(JSON.stringify(out), { headers: diagOn ? { ...hdr, 'Cache-Control': 'no-store' } : hdr });
 }

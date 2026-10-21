@@ -5,7 +5,7 @@
   function put(el,id,src){
     if(el.getAttribute('data-done'))return;el.setAttribute('data-done','1');
     var im=new Image();im.alt='';im.referrerPolicy='no-referrer';
-    im.onload=function(){if(map._o&&map._o.indexOf(id)>-1)el.classList.add('org');el.classList.add('has');el.innerHTML='';el.appendChild(im);
+    im.onload=function(){if(map._o&&map._o.indexOf(id)>-1)el.classList.add('org');if(map._i&&map._i.indexOf(id)>-1)el.classList.add('icon');el.classList.add('has');el.innerHTML='';el.appendChild(im);
       if(el.id==='who-ph'){var c=document.createElement('small');c.textContent='Image: Wikipedia';el.appendChild(c)}};
     im.src=src}
   function apply(){

@@ -843,7 +843,7 @@ def voices_pages():
                 f'<section id="e-summary" hidden><h2>MORE NOWLEJ</h2><div id="e-wiki" data-wiki="{E(wk)}" hidden></div></section>'
                 f'<section id="e-related"><h2>Related</h2><p><b>See also</b> <a href="/who/">Who&#8217;s Who</a> · <a href="/voices/">Voices</a> · <a href="/glossary/">NOWlej A to Z</a></p></section>'
                 f'<section id="v-articles"><h2>Articles</h2><ul class="vlist2"><li>Loading.</li></ul></section>'
-                f'<section id="e-sources"><h2>Sources</h2><ul class="esrc" id="e-src"><li>Headlines, short excerpts and links come from the public feeds of {E(v["name"])} and are credited to and link to the original.</li></ul></section></article>')
+                f'<section id="e-sources"><h2>Sources</h2><ul class="esrc" id="e-src"><li>Headlines, short excerpts and links come from the public feeds of {E(v["name"])} and from news search results, and are credited to and link to the original publisher.</li></ul></section></article>')
         write(f'/who/{v["id"]}/', layout(v['name'], chan('glossary', body, '/who/', left=wholeft(v['id'])), v['intro'], f'/who/{v["id"]}/'))
         search.append({'t': v['name'], 'u': f'/who/{v["id"]}/', 'k': 'WHO’S WHO', 's': kind + (' · IDF spokesperson' if v.get('group') == 'idf' else ''), 'x': (v['intro'] + ' ' + v.get('tags', '') + (' influencer podcaster guest expert' if v['kind'] == 'voice' else ' organization media'))[:700]})
 voices_pages()

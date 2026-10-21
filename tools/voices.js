@@ -28,7 +28,9 @@
     if(!vs.length&&!pls.length)tabs.hidden=true;
     function list(items){return items.map(function(a){return'<li><a href="'+esc(a.u)+'" rel="noopener" target="_blank"><b>'+esc(a.t)+'</b></a><span class="wm">'+esc(d.name)+(a.d?' · '+when(a.d):'')+'</span>'+(a.x?'<p>'+esc(a.x)+'</p>':'')+'</li>'}).join('')}
     if(pp.length){var pe=document.getElementById('v-pods');pe.hidden=false;pe.querySelector('ul').innerHTML=list(pp)}
-    var a=d.articles||[];document.querySelector('#v-articles ul').innerHTML=a.length?list(a):'<li>No articles are available from a public feed right now.</li>';
-    if(!vs.length&&!a.length&&!pp.length)document.querySelector('#v-articles ul').innerHTML='<li>The feeds for this page are being connected.</li>';
+    var a=d.articles||[],nw=d.news||[];
+    function nlist(items){return items.map(function(a){return'<li><a href="'+esc(a.u)+'" rel="noopener" target="_blank"><b>'+esc(a.t)+'</b></a><span class="wm">'+esc(a.src||'News')+(a.d?' · '+when(a.d):'')+'</span></li>'}).join('')}
+    var h=a.length?list(a):'';if(nw.length)h+=(a.length?'<li class="vsub"><h3>In the news</h3></li>':'')+nlist(nw);
+    document.querySelector('#v-articles ul').innerHTML=h||'<li>No recent articles were found. Check back soon.</li>';
   }).catch(function(){tabs.hidden=true;document.querySelector('#v-articles ul').innerHTML='<li>This page could not load just now. Please try again soon.</li>'});
 })();
