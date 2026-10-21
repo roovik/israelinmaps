@@ -27,7 +27,7 @@
   function player(){var p=document.getElementById('sb-player');return p}
   function render(it,d,t){
     var A=d.articles||[],V=d.videos||[],P=d.podcasts||[],html='';
-    head.innerHTML='<h2 class="sbname">'+esc(it.name)+'</h2><p class="small"><a href="'+esc(it.profile)+'">Full profile</a></p>';
+    head.innerHTML='<h2 class="sbname">'+esc(it.name)+'</h2><a class="small" href="'+esc(it.profile)+'">Full profile</a>'+(it.bio?'<p class="sbbio">'+esc(it.bio)+'</p>':'');
     var base='#s='+it.id,tl=[['','All']];if(A.length)tl.push(['articles','Articles']);if(V.length)tl.push(['videos','Videos']);if(P.length)tl.push(['podcasts','Podcasts']);
     tabs.innerHTML=tl.map(function(x){return'<a href="'+base+(x[0]?'&t='+x[0]:'')+'"'+(x[0]===t?' aria-current="page"':'')+'>'+x[1]+'</a>'}).join('');tabs.hidden=tl.length<2;
     if(!t||t==='articles')if(A.length)html+='<section id="m-articles"><h2>Articles</h2><ul class="vlist2">'+A.slice(0,t?40:12).map(function(a){return'<li><a href="'+esc(a.u)+'"'+(a.ext?' rel="noopener" target="_blank"':'')+'><b>'+esc(a.t)+'</b></a><span class="wm">'+esc(a.s||'')+(a.d?' · '+when(a.d):'')+'</span></li>'}).join('')+'</ul></section>';

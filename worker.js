@@ -676,6 +676,34 @@ async function scan(env) {
   log.ms = Date.now() - started;
   try { await env.ENTRIES.put('snap/log', JSON.stringify(log)); } catch {}
 }
+
+const IMG_TAGS = { 'jerusalem': 'Jerusalem', 'tel-aviv': 'Tel Aviv', 'haifa': 'Haifa', 'galilee': 'Galilee', 'golan': 'Golan Heights', 'coast': 'Mediterranean coast beach', 'negev': 'Negev desert', 'dead-sea': 'Dead Sea', 'landscape': 'landscape', 'archaeology': 'archaeological site ruins', 'holy': 'synagogue church mosque holy site', 'architecture': 'architecture building', 'food': 'food market cuisine', 'people': 'people festival culture', 'birds': 'bird', 'flowers': 'wildflowers anemone', 'wildlife': 'wildlife animal', 'military': 'Israel Defense Forces', 'history': 'historic' };
+async function imagesApi(url, ctx) {
+  const hdr = { 'Content-Type': 'application/json; charset=utf-8', 'Access-Control-Allow-Origin': '*', 'Cache-Control': 'public, max-age=3600' };
+  const q = (url.searchParams.get('q') || '').replace(/[^\p{L}\p{N} '\-]/gu, ' ').trim().slice(0, 80);
+  const tag = url.searchParams.get('tag') || '';
+  const off = Math.min(parseInt(url.searchParams.get('o') || '0', 10) || 0, 400);
+  let terms = q || IMG_TAGS[tag] || '';
+  if (!/israel/i.test(terms)) terms = 'Israel ' + terms;
+  const api = 'https://commons.wikimedia.org/w/api.php?action=query&format=json&origin=*&generator=search&gsrnamespace=6&gsrlimit=40&gsroffset=' + off + '&gsrsearch=' + encodeURIComponent(terms.trim() + ' filetype:bitmap') + '&prop=imageinfo&iiprop=url|size|extmetadata&iiurlwidth=520&iiextmetadatafilter=LicenseShortName|Artist|NonFree|Restrictions';
+  const ck = new Request('https://cache.local/img/' + encodeURIComponent(terms) + '/' + off);
+  const hit = await caches.default.match(ck); if (hit) return new Response(hit.body, { headers: hdr });
+  let j; try { const r = await fetch(api, { headers: { 'User-Agent': 'IsraelNOWlej/1.0 (https://israelnowlej.com)' } }); if (!r.ok) throw 0; j = await r.json(); } catch { return new Response(JSON.stringify({ items: [], error: 'upstream' }), { status: 502, headers: { ...hdr, 'Cache-Control': 'no-store' } }); }
+  const pages = Object.values((j.query && j.query.pages) || {}).sort((a, b) => a.index - b.index);
+  const items = [];
+  for (const p of pages) {
+    const ii = p.imageinfo && p.imageinfo[0]; if (!ii || !ii.thumburl) continue;
+    const m = ii.extmetadata || {}, lic = ((m.LicenseShortName || {}).value || '').trim();
+    if (!/^(CC0|CC BY(-SA)?\b|Public domain|PD)/i.test(lic) || /\b(NC|ND)\b/i.test(lic)) continue;
+    if (((m.NonFree || {}).value || '').toLowerCase() === 'true' || (m.Restrictions || {}).value) continue;
+    if (ii.width < 800) continue;
+    const a = ((m.Artist || {}).value || '').replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim().slice(0, 60);
+    items.push({ t: p.title.replace(/^File:/, '').replace(/\.[A-Za-z]+$/, '').replace(/_/g, ' ').slice(0, 90), th: ii.thumburl, page: ii.descriptionurl, a, lic });
+  }
+  const out = JSON.stringify({ items, next: j.continue && j.continue.gsroffset ? j.continue.gsroffset : 0 });
+  ctx.waitUntil(caches.default.put(ck, new Response(out, { headers: { 'Cache-Control': 'max-age=21600' } })));
+  return new Response(out, { headers: hdr });
+}
 export default {
   async scheduled(event, env, ctx) { YTK = env.YT_KEY || ''; ctx.waitUntil(scan(env)); },
   async fetch(request, env, ctx) {
@@ -688,6 +716,7 @@ export default {
     if (url.pathname === '/api/submissions') return submissionsApi(request, env);
     if (url.pathname === '/api/whoimg') return whoImages(env, !!url.searchParams.get('diag'));
     if (url.pathname === '/api/voice') return voiceApi(url, env);
+    if (url.pathname === '/api/images') return imagesApi(url, ctx);
     if (url.pathname === '/api/pods-check') return podsCheck();
     if (url.pathname === '/api/latest-videos') {
       const o = env.ENTRIES ? await kvSnap(env, 'snap/new', 60 * 24 * 7) : null;
