@@ -273,7 +273,7 @@ SUBNAV = {
  'nowlej': [('Maps', '/maps/'), ('Tours', '/tour/'), ('Timelines', '/timelines/'), ('Charts', '/charts/'), ('Topics', '/hot/'), ('Book', '/about/'), ('A to Z', '/glossary/')],
  'maps': [('Historical Maps', '/maps/'), ('Size Comparisons', '/size/'), ('Israel Tour', '/tour/')],
  'charts': [('Rankings', '/rankings/'), ('Demographics', '/demographics/'), ('Top Ten', '/top-ten/'), ('Size Comparisons', '/size/'), ('Tables', '/tables/')],
- 'media': [('Video', '/video/'), ('Playlists', '/video/#playlists'), ('Audio', '/audio/'), ('Music', '/music/'), ('Images', '/images/')],
+ 'media': [('Video', '/video/'), ('Playlists', '/playlists/'), ('Audio', '/audio/'), ('Music', '/music/'), ('Images', '/images/')],
  'images': [('A Taste of Israel', '/tour/'), ('Flora and Fauna', '/flora/')],
  'video': [(c['name'], f'/video/{vslug(c)}/') for c in VCFG['channels']],
  'who': [('All', '/who/'), ('Groups', '/who/#g=org'), ('Influencers', '/who/#g=voice'), ('IDF voices', '/who/#g=idf')],

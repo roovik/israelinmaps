@@ -913,3 +913,8 @@ body .bar .ticker,body.newspg .bar .ticker{border:0!important;background:transpa
 .mfilters{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.mfilters label{min-width:0}.mfilters select{width:100%}
 .egal figure.ibook,.egal.ranked figure.ibook:first-child{flex:0 0 min(78%,300px);grid-column:auto}
 .egal figure.ibook img,.egal.ranked figure.ibook:first-child img{aspect-ratio:1/1;object-fit:contain;background:#fff;border:1px solid var(--line)}
+.vfbar{margin:0 0 14px}.vfbar .small{margin:2px 0 0}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
+.pcard{display:flex;flex-direction:column;gap:4px;text-align:left;font:inherit;padding:12px 14px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--fg);cursor:pointer}
+.pcard b{font-size:.95rem}.pcard span{font-size:.8rem;color:var(--mut)}.pcard i{font-style:normal;font-size:.8rem;color:var(--acc);margin-top:auto}
+.pcard.on{border-color:var(--acc);box-shadow:0 0 0 2px var(--acc)}

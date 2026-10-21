@@ -311,6 +311,23 @@ async function ytTitle(url) {
     return new Response(JSON.stringify({ v, t: d.title || '', by: d.author_name || '' }), { headers: hdr });
   } catch { return new Response('{"error":"not found"}', { status: 404, headers: hdr }); }
 }
+
+// YouTube category of each whitelisted video, so the Video page can filter by genre. Needs YT_KEY; cached for 30 days.
+async function hydrateCats(env, chans) {
+  if (!env || !env.YT_KEY) return;
+  try {
+    const known = (await memGet('vcats')) || {};
+    const need = [...new Set(chans.flatMap(c => c.videos.map(v => v.v)))].filter(id => !(id in known));
+    for (let i = 0; i < need.length && i < 300; i += 50) {
+      const r = await fetch('https://www.googleapis.com/youtube/v3/videos?part=snippet&fields=items(id,snippet(categoryId))&id=' + need.slice(i, i + 50).join(',') + '&key=' + env.YT_KEY);
+      if (!r.ok) break; const j = await r.json();
+      (j.items || []).forEach(x => { known[x.id] = x.snippet && x.snippet.categoryId || ''; });
+    }
+    await memPut('vcats', known, 30 * 86400);
+    chans.forEach(c => c.videos.forEach(v => { if (known[v.v]) v.cat = known[v.v]; }));
+  } catch { }
+}
+
 async function videoApi(url, env) {
   const hdr = { 'Content-Type': 'application/json; charset=utf-8', 'Access-Control-Allow-Origin': '*' };
   if (env.ENTRIES && ![...url.searchParams].length) { const s = await kvSnap(env, 'snap/videos', 75); if (s) return new Response(JSON.stringify(s.j), { headers: { ...hdr, 'Cache-Control': 'public, max-age=300' } }); }
@@ -401,6 +418,7 @@ async function videoApi(url, env) {
   const dbg = !!url.searchParams.get('debug');
   const src = await Promise.all((VCFG.channels || []).map(c => loadVideoSource(c, 'channel', dbg)));
   if (dbg) return new Response(JSON.stringify(src.map(({ videos, ...r }) => ({ ...r, count: videos.length })), null, 1), { headers: hdr });
+  await hydrateCats(env, src.filter(s => s.ok));
   return new Response(JSON.stringify({ updated: new Date().toISOString(), channels: src.filter(s => s.ok), playlists: (VCFG.playlists || []).map(({ id, name, channel }) => ({ id, name, channel: (channel || '').toLowerCase() })), chnames: Object.fromEntries((VCFG.channels || []).map(c => [(c.handle || c.id || '').toLowerCase(), c.name])) }), { headers: { ...hdr, 'Cache-Control': 'public, max-age=900' } });
 }
 
