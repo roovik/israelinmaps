@@ -262,7 +262,7 @@ def vslug(c): return (c.get('handle') or c.get('id') or '').lower()
 def plslug(c): return 'pl-' + c['id'].lower()
 SUBNAV = {
  'news': [('Security', '/news/#mode=topics&tp=security'), ('Diplomacy', '/news/#mode=topics&tp=diplomacy'), ('Politics', '/news/#mode=topics&tp=politics'), ('Tech', '/news/#mode=topics&tp=technology'), ('Business', '/news/#mode=topics&tp=business')],
- 'views': [('All Views', '/views/'), ('Op-Ed', '/views/#mode=topics&kind=Op-Ed'), ('Editorial', '/views/#mode=topics&kind=Editorial'), ('Blogs', '/views/#mode=topics&kind=Blog')],
+ 'views': [('All Views', '/views/'), ('Op-Ed', '/views/#mode=topics&kind=Op-Ed'), ('Editorial', '/views/#mode=topics&kind=Editorial'), ('Blogs', '/views/#mode=topics&kind=Blog'), ('Voices', '/voices/')],
  'nowlej': [('Maps', '/maps/'), ('Timelines', '/timelines/'), ('Charts', '/charts/'), ('Media', '/media/'), ('A to Z', '/glossary/')],
  'maps': [('Historical Maps', '/maps/'), ('Size Comparisons', '/size/'), ('Israel Tour', '/tour/')],
  'charts': [('Rankings', '/rankings/'), ('Demographics', '/demographics/'), ('Top Ten', '/top-ten/'), ('Size Comparisons', '/size/'), ('Tables', '/tables/')],
@@ -284,7 +284,7 @@ def write_subnav_json():
         k = {'glossary': 'nowlej'}.get(k, k)
         m[u] = sec_links(k)
     write('/subnav.json', json.dumps(m))
-TOPSEC = {'': 'news', 'news': 'news', 'views': 'views', 'sources': 'sources', 'video': 'video', 'maps': 'nowlej', 'timelines': 'nowlej', 'charts': 'nowlej', 'media': 'nowlej', 'glossary': 'nowlej', 'g': 'nowlej',
+TOPSEC = {'': 'news', 'news': 'news', 'views': 'views', 'voices': 'views', 'sources': 'sources', 'video': 'video', 'maps': 'nowlej', 'timelines': 'nowlej', 'charts': 'nowlej', 'media': 'nowlej', 'glossary': 'nowlej', 'g': 'nowlej',
           'tables': 'nowlej', 'demographics': 'nowlej', 'rankings': 'nowlej', 'top-ten': 'nowlej', 'size': 'nowlej', 'tour': 'nowlej', 'flora': 'nowlej'}
 TOPIDX = {'news': 0, 'views': 1, 'video': 2, 'nowlej': 3, 'sources': 4}
 CTX2 = {'maps': 'maps', 'timelines': 'timelines', 'charts': 'charts', 'tables': 'charts', 'demographics': 'charts', 'rankings': 'charts', 'top-ten': 'charts', 'size': 'charts',
@@ -325,7 +325,7 @@ def layout(title, body, desc='', path='/', og=None, cls='', nd=False):
 <main id="main" class="wrap">{body}</main>
 <footer><div class="wrap"><p>Israel NOWlej: news, views, maps, timelines, charts and media on the Holy Land.</p>
 <p>&copy; 2003 to 2026 Richard J. Koret. All rights reserved. Page images are shown for reference with the book <i>Israel NOWlej</i> by Richard J. Koret. <a href="/about/">About this site, how to use it and cite it</a></p></div></footer>
-<script src="/site.js" defer></script><script src="/share.js" defer></script><script src="/ticker.js" defer></script>{'<script src="/ads.js" defer></script><script src="/news.js" defer></script>' if news_js else ''}{'<script src="/subnav.js" defer></script>'}{'<script src="/entryedit.js" defer></script>' if path.startswith('/g/') else ''}{'<script src="/video.js" defer></script>' if path.startswith('/video/') or path.startswith('/g/') else ''}{'<script src="/entry.js" defer></script>' if path.startswith('/g/') else ''}{'<script src="/glossary.js" defer></script>' if path == '/glossary/' else ''}{'<script src="/zoom.js" defer></script>' if path == '/maps/' else ''}{'<script src="/source.js" defer></script>' if path.startswith('/sources/') and path != '/sources/' else ''}{'<script src="/admin.js" defer></script>' if path == '/admin/video/' else ''}{'<script src="/tlnav.js" defer></script>' if path.startswith('/timelines/') and path != '/timelines/' else ''}{'<script src="/admin_entry.js" defer></script>' if path == '/admin/entry/' else ''}</body></html>'''
+<script src="/site.js" defer></script><script src="/share.js" defer></script><script src="/ticker.js" defer></script>{'<script src="/ads.js" defer></script><script src="/news.js" defer></script>' if news_js else ''}{'<script src="/subnav.js" defer></script>'}{'<script src="/entryedit.js" defer></script>' if path.startswith('/g/') else ''}{'<script src="/video.js" defer></script>' if path.startswith('/video/') or path.startswith('/g/') else ''}{'<script src="/entry.js" defer></script>' if path.startswith('/g/') else ''}{'<script src="/glossary.js" defer></script>' if path == '/glossary/' else ''}{'<script src="/zoom.js" defer></script>' if path == '/maps/' else ''}{'<script src="/voices.js" defer></script>' if path.startswith('/voices/') and path != '/voices/' else ''}{'<script src="/source.js" defer></script>' if path.startswith('/sources/') and path != '/sources/' else ''}{'<script src="/admin.js" defer></script>' if path == '/admin/video/' else ''}{'<script src="/tlnav.js" defer></script>' if path.startswith('/timelines/') and path != '/timelines/' else ''}{'<script src="/admin_entry.js" defer></script>' if path == '/admin/entry/' else ''}</body></html>'''
 
 def write(path, content):
     fp = os.path.join(OUT, path.lstrip('/'))
@@ -401,7 +401,7 @@ def chan(sk, body, active='', views=False, vl=False):
     wd = 'views' if views else 'news'
     vside = sk == 'video' or vl
     body = re.sub(r'<p class="crumb">.*?</p>', '', body, count=1)
-    noleft = sk in ('maps', 'timelines', 'charts')
+    noleft = sk in ('maps', 'timelines', 'charts', 'voices')
     return (f'<div class="newspage{" noleft" if noleft else ""}"><div class="adslot" data-slot="page-top" data-sizes="728x90|320x50"></div>'
             + ('' if noleft else f'<div class="newsleftcol">{secnav(sk, active)}<div class="adslot" data-slot="left" data-sizes="tower"></div></div>') +
             f'<div class="newsleft"><div class="newsmain">{body}<div class="adslot" data-slot="lb-bottom" data-sizes="728x90|320x50"></div></div></div>'
@@ -795,6 +795,26 @@ home = (f'<div class="newspage aboutpg"><div class="newsleftcol"><h2>From the bo
         + about.replace('<p class="crumb"><a href="/">Home</a> / About</p>', '').replace('<h1>How to Use This Site</h1>', '<h2>How to use this site</h2>') +
         f'</div></div><aside class="newsside" aria-label="Featured"><h2>Featured entries</h2><ul class="hlist">{_fl}</ul><p class="small"><a href="/glossary/">All 407 NOWlej entries</a></p>'
         f'<span id="news-side" data-word="news" hidden></span><div id="news-latest"></div></aside></div><p class="small" id="news-status"></p>')
+
+# ---- voices: organizations and individuals
+VOICES_ = json.load(open(os.path.join(ROOT, 'voices.json')))['voices']
+def voices_pages():
+    def tile(v):
+        return f'<a class="vtile {v["kind"]}" href="/voices/{v["id"]}/"><b>{E(v["name"])}</b><span>{E(v["intro"].split(". ")[0])}.</span></a>'
+    hubb = ('<h1>Voices</h1><p class="small">Organizations and individuals who make the case for Israel, with their latest articles, podcasts and video in one place. Everything links to the original and is credited to its source.</p>'
+            + '<h2>Organizations</h2><div class="vtiles">' + ''.join(tile(v) for v in VOICES_ if v['kind'] == 'org') + '</div>'
+            + '<h2>Individuals</h2><div class="vtiles">' + ''.join(tile(v) for v in VOICES_ if v['kind'] == 'voice') + '</div>')
+    write('/voices/', layout('Voices', chan('voices', hubb, '/voices/', views=True), 'Organizations and individuals who make the case for Israel, with their latest articles, podcasts and video.', '/voices/'))
+    for v in VOICES_:
+        b = (f'<h1>{E(v["name"])}</h1><p class="lead">{E(v["intro"])}</p>'
+             f'<p><a class="vjump" href="#v-articles">Jump to articles</a></p>'
+             f'<div id="voice-page" data-id="{v["id"]}"><div class="vtop" id="v-player" hidden></div>'
+             f'<section id="v-clips" hidden><h2>Video</h2><ul class="vclips"></ul></section>'
+             f'<section id="v-pods" hidden><h2>Podcast episodes</h2><ul class="vlist2"></ul></section>'
+             f'<section id="v-articles"><h2>Articles</h2><ul class="vlist2"><li>Loading.</li></ul></section></div>'
+             f'<p class="small">Headlines, short excerpts and links come from the public feeds of {E(v["name"])}. Videos play in an embedded player. Each item is credited to and links to its original.</p>')
+        write(f'/voices/{v["id"]}/', layout(v['name'], chan('voices', b, '/voices/', views=True), v['intro'], f'/voices/{v["id"]}/'))
+voices_pages()
 write('/about/', layout('About Israel NOWlej', home, 'About Israel NOWlej, and how the addresses, IDs and citations from the book Israel NOWlej work.', '/about/', '/img/p006.webp', cls=''))
 
 news = '''<div class="newspage"><div class="adslot" data-slot="page-top" data-sizes="728x90|320x50"></div><div class="newsleftcol"><nav class="newstopics" id="news-topics" aria-label="Topics and sources"></nav><div class="adslot" data-slot="left" data-sizes="tower"></div></div><div class="newsleft"><h1>News</h1>
@@ -862,6 +882,7 @@ for t, sl, terms in gjson:
         if x not in e[2] and ', ' not in x: e[2].append(x)
 write('/glossary.json', json.dumps(list(merged.values()), ensure_ascii=False, separators=(',', ':')))
 shutil.copy(os.path.join(ROOT, 'tools', 'news.js'), os.path.join(OUT, 'news.js'))
+shutil.copy(os.path.join(ROOT, 'tools', 'voices.js'), os.path.join(OUT, 'voices.js'))
 shutil.copy(os.path.join(ROOT, 'tools', 'ticker.js'), os.path.join(OUT, 'ticker.js'))
 shutil.copy(os.path.join(ROOT, 'tools', 'ads.js'), os.path.join(OUT, 'ads.js'))
 shutil.copy(os.path.join(ROOT, 'tools', 'source.js'), os.path.join(OUT, 'source.js'))
@@ -884,7 +905,7 @@ write('/search.json', json.dumps(search, ensure_ascii=False, separators=(',', ':
 shutil.copy(os.path.join(ROOT, 'tools', 'style.css'), os.path.join(OUT, 'style.css'))
 shutil.copy(os.path.join(ROOT, 'tools', 'site.js'), os.path.join(OUT, 'site.js'))
 open(os.path.join(OUT, 'robots.txt'), 'w').write(f'User-agent: *\nAllow: /\nSitemap: {BASE}/sitemap.xml\n')
-allurls = ['/', '/about/', '/news/', '/views/', '/video/', '/media/', '/charts/', '/sources/', '/subscribe/', '/signin/', '/glossary/', '/index/', '/maps/', '/timelines/', '/tables/', '/demographics/', '/rankings/', '/top-ten/', '/size/', '/tour/', '/flora/'] + [r['url'] for r in rows] + [f'/g/{g["slug"]}/' for g in G]
+allurls = ['/', '/voices/', '/about/', '/news/', '/views/', '/video/', '/media/', '/charts/', '/sources/', '/subscribe/', '/signin/', '/glossary/', '/index/', '/maps/', '/timelines/', '/tables/', '/demographics/', '/rankings/', '/top-ten/', '/size/', '/tour/', '/flora/'] + [r['url'] for r in rows] + [f'/g/{g["slug"]}/' for g in G]
 open(os.path.join(OUT, 'sitemap.xml'), 'w').write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + ''.join(f'<url><loc>{BASE}{u}</loc></url>\n' for u in allurls) + '</urlset>\n')
 
 red = []

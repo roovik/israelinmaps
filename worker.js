@@ -1,6 +1,7 @@
 // Israel Mosaic news worker. Serves /api/news from public RSS and Atom feeds.
 // Static pages are served by the assets binding. Only /api/* runs this code first.
 import VCFG from './video.json';
+import VOICES from './voices.json';
 const JP = 'https://www.jpost.com/rss/';
 const SOURCES = [
   { id: 'toi', name: 'The Times of Israel', site: 'https://www.timesofisrael.com/', url: 'https://www.timesofisrael.com/feed/' },
@@ -143,7 +144,7 @@ async function load(feed) {
     const xml = await r.text();
     if (!/<(rss|feed|rdf:RDF)\b/i.test(xml.slice(0, 2000))) return { feed, ok: false, error: 'not an RSS or Atom feed', items: [] };
     let items = parse(xml, feed);
-    const cutoff = Date.now() - MAX_AGE_DAYS * 864e5;
+    const cutoff = Date.now() - (feed.maxAge || MAX_AGE_DAYS) * 864e5;
     const fresh = items.filter(i => !i.d || new Date(i.d).getTime() >= cutoff);
     if (items.length && !fresh.length) return { feed, ok: false, error: 'no recent items', items: [] };
     items = fresh;
@@ -376,12 +377,63 @@ async function videoApi(url, env) {
   return new Response(JSON.stringify({ updated: new Date().toISOString(), channels: src.filter(s => s.ok), playlists: (VCFG.playlists || []).map(({ id, name, channel }) => ({ id, name, channel: (channel || '').toLowerCase() })), chnames: Object.fromEntries((VCFG.channels || []).map(c => [(c.handle || c.id || '').toLowerCase(), c.name])) }), { headers: { ...hdr, 'Cache-Control': 'public, max-age=900' } });
 }
 
+// ---------------------------------------------------------------- voices: organizations and individuals (articles, podcasts, video)
+async function probeFeed(u) {
+  try {
+    const r = await fetch(u, { headers: { 'User-Agent': 'IsraelNOWlej/1.0 (+https://israelinmaps.com/)', Accept: 'application/rss+xml, application/atom+xml, application/xml, text/xml, */*' }, redirect: 'follow', cf: { cacheTtl: 3600, cacheEverything: true } });
+    if (!r.ok) return false;
+    const t = await r.text();
+    return /<(rss|feed|rdf:RDF)\b/i.test(t.slice(0, 2000)) ? r.url || u : false;
+  } catch { return false; }
+}
+async function discoverFeeds(site, diag) {
+  const mk = 'vfeeds/' + site, known = await memGet(mk);
+  if (known && known.list) return known.list;
+  const found = [];
+  try {
+    const r = await fetch(site, { headers: YT_UA, redirect: 'follow' });
+    const t = r.ok ? await r.text() : '';
+    if (diag) diag.push({ homepage: site, status: r.status, bytes: t.length });
+    for (const m of t.matchAll(/<link\b[^>]*>/gi)) {
+      const b = m[0];
+      if (!/type=["']application\/(rss|atom)\+xml["']/i.test(b)) continue;
+      const h = b.match(/href=["']([^"']+)["']/i);
+      if (!h) continue;
+      try { const u = new URL(decode(h[1]), site).href; if (!found.includes(u) && !/comments/i.test(u)) found.push(u); } catch {}
+    }
+  } catch (e) { if (diag) diag.push({ homepage: site, error: String(e) }); }
+  const good = [];
+  for (const u of found.slice(0, 3)) { const ok = await probeFeed(u); if (ok) good.push(ok); }
+  if (!good.length) for (const p of ['/feed/', '/feed', '/rss', '/rss.xml', '/feed.xml']) { const ok = await probeFeed(new URL(p, site).href); if (ok) { good.push(ok); break; } }
+  if (good.length) await memPut(mk, { list: good }, 14 * 86400);
+  return good;
+}
+async function voiceApi(url) {
+  const hdr = { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'public, max-age=900', 'Access-Control-Allow-Origin': '*' };
+  const id = (url.searchParams.get('id') || '').toLowerCase(), diagOn = !!url.searchParams.get('diag');
+  const v = (VOICES.voices || []).find(x => x.id === id);
+  if (!v) return new Response('{"error":"unknown voice"}', { status: 404, headers: hdr });
+  const diag = diagOn ? [] : null;
+  const mk = 'voice/' + id, cached = diagOn ? null : await memGet(mk);
+  if (cached) return new Response(JSON.stringify(cached), { headers: hdr });
+  const feedUrls = (v.blog && v.blog.length) ? v.blog : (v.site ? await discoverFeeds(v.site, diag) : []);
+  const arts = (await Promise.all(feedUrls.map(u => load({ id: v.id, name: v.name, site: v.site || u, url: u, maxAge: 3650 })))).flatMap(r => r.items).map(({ f, ...rest }) => rest);
+  const podArts = (await Promise.all((v.pods || []).map(u => load({ id: v.id, name: v.name, site: v.site || u, url: u, maxAge: 3650 })))).flatMap(r => r.items).map(({ f, ...rest }) => rest);
+  const vids = [];
+  for (const h of (v.yt || [])) { const r = await loadVideoSource({ handle: h, name: v.name }, 'channel', diag); (r.videos || []).forEach(x => vids.push({ ...x, n: v.name })); if (diag) diag.push({ yt: h, ok: r.ok, error: r.error, count: (r.videos || []).length }); }
+  arts.sort((a, b) => (b.d || '').localeCompare(a.d || '')); vids.sort((a, b) => (b.d || '').localeCompare(a.d || ''));
+  const out = { id, name: v.name, kind: v.kind, updated: new Date().toISOString(), articles: arts.slice(0, 30), podcasts: podArts.slice(0, 20), videos: vids.slice(0, 30), feeds: feedUrls };
+  if (diag) out.diag = diag; else await memPut(mk, out, 900);
+  return new Response(JSON.stringify(out), { headers: diagOn ? { ...hdr, 'Cache-Control': 'no-store' } : hdr });
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
     const im = url.pathname.match(/^\/news\/item\/([a-z0-9]+)\/?$/);
     if (im) return itemPage(request, env, im[1], url.searchParams.get('s'), url.searchParams.get('c'));
     if (url.pathname === '/api/videos') return videoApi(url, env);
+    if (url.pathname === '/api/voice') return voiceApi(url);
     if (url.pathname === '/api/entry') return entryApi(request, url, env);
     if (url.pathname === '/api/yt-title') return ytTitle(url);
     if (url.pathname !== '/api/news') return env.ASSETS.fetch(request);
