@@ -320,7 +320,7 @@ def layout(title, body, desc='', path='/', og=None, cls='', nd=False):
 <link rel="stylesheet" href="/style.css"></head>
 <body class="{cls}"><a class="skip" href="#main">Skip to content</a>
 <header class="top"><div class="wrap bar"><a class="brand" href="/" aria-label="Israel NOWlej, home"><img src="/logo.svg" alt="Israel NOWlej" width="160" height="52"></a><div class="ticker" id="news-ticker" aria-label="Latest headlines" hidden></div>
-<div class="rcol"><div class="acct"><a class="subbtn" href="/subscribe/">Subscribe</a><a class="signin" href="/signin/">Sign in</a></div><form class="sf" action="/search/" role="search"><input name="q" type="search" placeholder="Search maps, people, places, IDs" aria-label="Search"><button>Search</button></form></div></div>
+<div class="rcol"><div class="acct"><a class="subbtn" href="/subscribe/">Subscribe</a><a class="signin" href="/signin/">Sign in</a><a class="signin sbtn" href="/search/">Search</a></div><form class="sf" action="/search/" role="search"><input name="q" type="search" placeholder="Search maps, people, places, IDs" aria-label="Search"><button>Search</button></form></div></div>
 <nav class="wrap" aria-label="Sections">{nav}</nav>{subnav_for(path)}</header>
 <main id="main" class="wrap">{body}</main>
 <footer><div class="wrap"><p>Israel NOWlej: news, views, maps, timelines, charts and media on the Holy Land.</p>

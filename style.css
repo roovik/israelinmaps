@@ -524,3 +524,20 @@ body .bar,body.newspg .bar{display:flex!important;flex-wrap:wrap;align-items:cen
 /* Subscribe on top, Sign in beneath it, both flush right */
 .acct{flex-direction:column;align-items:flex-end;gap:4px;align-self:flex-end}
 @media (max-width:900px){.bar .acct{justify-content:flex-start}}
+/* phones: pictures and stories first, only essential navigation above them */
+.acct .sbtn{display:none}
+@media (max-width:640px){
+.bar .sf{display:none!important}
+.acct .sbtn{display:inline}
+.bar .acct{flex-direction:row;align-items:center;gap:12px}
+.bar .ticker,body.newspg .bar .ticker{height:3.4em!important}
+.subnav .trend,.subnav .trl{display:none!important}
+.adslot[data-slot="page-top"]{display:none!important}
+header.top .bar{padding-top:8px;padding-bottom:6px}
+}
+@media (max-width:640px){
+.bar{gap:6px 8px!important}
+.bar .brand img{height:44px}
+.bar .acct{gap:9px;font-size:.76rem;flex-wrap:nowrap}
+.bar .acct .subbtn{padding:3px 9px}
+}
