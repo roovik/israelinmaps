@@ -502,7 +502,7 @@ async function voiceApi(url, env) {
     if (!sv) {
       sv = { list: [] };
       try {
-        const r = await fetch('https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&order=date&maxResults=12&relevanceLanguage=en&q=' + encodeURIComponent('"' + v.q + '" Israel interview') + '&key=' + env.YT_KEY);
+        const r = await fetch('https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&order=date&maxResults=12&relevanceLanguage=en&q=' + encodeURIComponent('"' + v.q + '"' + (v.qs != null ? v.qs : ' Israel interview')) + '&key=' + env.YT_KEY);
         const j = await r.json();
         if (diag) diag.push({ search: v.q, status: r.status, error: j.error ? j.error.message : '' });
         sv.list = (j.items || []).filter(x => x.id && x.id.videoId && ((x.snippet.title + ' ' + x.snippet.description).toLowerCase().includes(v.q.split(' ').slice(-1)[0].toLowerCase()))).map(x => ({ v: x.id.videoId, t: decode(x.snippet.title), d: x.snippet.publishedAt, x: (x.snippet.description || '').slice(0, 200), n: decode(x.snippet.channelTitle || ''), guest: 1 }));
