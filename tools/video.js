@@ -78,12 +78,12 @@
         host.innerHTML=embed(v.v,auto);host.hidden=false;
         if(titleEl)titleEl.textContent=v.t;document.title=v.t+' | Israel NOWlej';
         now.innerHTML='<p class="small">'+esc(c.name)+' \u00b7 '+ago(v.d)+'</p>'+(v.x?'<p>'+esc(v.x)+'</p>':'');
-        [].forEach.call(document.querySelectorAll('.vcard,.vli'),function(a){a.classList.toggle('vnowp',a.getAttribute('data-v')===v.v)});
+        [].forEach.call(document.querySelectorAll('.vcard,.vli'),function(a){var on=a.getAttribute('data-v')===v.v;a.classList.toggle('vnowp',on);(a.classList.contains('vli')?a.parentNode:a).hidden=on});
         try{history.replaceState(null,'','?v='+encodeURIComponent(v.v))}catch(x){}}
       var ck=c.kind==='playlist'?(c.channel||''):String(c.key).toLowerCase();
       var mpl=ck?(d.playlists||[]).filter(function(x){return x.channel===ck}):[];
       var cn=(d.chnames||{})[ck]||c.name;
-      box.innerHTML='<h2 id="ch-videos">'+(c.kind==='playlist'?'Videos in this playlist':(titleEl?'More from ':'Recent from ')+esc(c.name))+'</h2><div class="tgrid">'+c.videos.map(card).join('')+'</div>'+(mpl.length?'<h2 id="playlists">Playlists from '+esc(cn)+'</h2><ul class="vpl">'+mpl.map(function(x){var on=c.kind==='playlist'&&x.id===c.key;return'<li><a'+(on?' class="vnowp"':'')+' href="/video/pl-'+esc(x.id.toLowerCase())+'/">'+esc(x.name)+'</a></li>'}).join('')+'</ul>':'');
+      box.innerHTML=(c.kind==='playlist'?'<h2 id="ch-videos">Videos in this playlist</h2>':(titleEl?'<h2 id="ch-videos">More from '+esc(c.name)+'</h2>':''))+'<div class="tgrid">'+c.videos.map(card).join('')+'</div>'+(mpl.length?'<h2 id="playlists">Playlists from '+esc(cn)+'</h2><ul class="vpl">'+mpl.map(function(x){var on=c.kind==='playlist'&&x.id===c.key;return'<li><a'+(on?' class="vnowp"':'')+' href="/video/pl-'+esc(x.id.toLowerCase())+'/">'+esc(x.name)+'</a></li>'}).join('')+'</ul>':'');
       CTX=function(id){setP(id,true);host.scrollIntoView({behavior:'smooth',block:'nearest'})};
       listText(c.kind==='playlist'?'Playlist videos':'Recent channel videos',c.videos,c.kind==='playlist'?(c.channel||''):String(c.key).toLowerCase(),c.kind==='playlist'?c.key:'');
       var hh=location.hash;setP(vid&&byv[vid]?vid:c.videos[0].v,!!(vid&&byv[vid]));

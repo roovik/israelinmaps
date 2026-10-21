@@ -808,3 +808,4 @@ header.top .subnav a,header.top .subnav.sub2 a{flex:0 1 auto;font-size:.82rem;pa
 /* no colored bar under page headings */
 main h1{padding-bottom:0}main h1::after{display:none!important}
 @media (max-width:640px){header.top .subnav.sub2{justify-content:flex-start;gap:0 16px;padding-top:0}header.top .subnav.sub2 a{padding:4px 0;font-size:.78rem}}
+.vcard[hidden]{display:none!important}
