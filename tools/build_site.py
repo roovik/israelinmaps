@@ -397,13 +397,13 @@ def secnav(sk, active=''):
             f'<li><a href="{u}"{cur if u == active else ""}>{E(t)}</a></li>' for u, t in lst) + '</ul></details>'
     return o + '</nav>'
 
-def chan(sk, body, active='', views=False, vl=False):
+def chan(sk, body, active='', views=False, vl=False, left=None):
     wd = 'views' if views else 'news'
     vside = sk == 'video' or vl
     body = re.sub(r'<p class="crumb">.*?</p>', '', body, count=1)
     noleft = sk in ('maps', 'timelines', 'charts', 'voices')
     return (f'<div class="newspage{" noleft" if noleft else ""}"><div class="adslot" data-slot="page-top" data-sizes="728x90|320x50"></div>'
-            + ('' if noleft else f'<div class="newsleftcol">{secnav(sk, active)}<div class="adslot" data-slot="left" data-sizes="tower"></div></div>') +
+            + ('' if noleft else (f'<div class="newsleftcol secleft wholeft">{left}</div>' if left else f'<div class="newsleftcol">{secnav(sk, active)}<div class="adslot" data-slot="left" data-sizes="tower"></div></div>')) +
             f'<div class="newsleft"><div class="newsmain">{body}<div class="adslot" data-slot="lb-bottom" data-sizes="728x90|320x50"></div></div></div>'
             f'<aside class="newsside" aria-label="Latest {wd}"><div class="adslot" data-slot="aside-top" data-sizes="320x100"></div>{'<div id="vid-list" class="vlist"></div>' if vside else f'<span id="news-side" data-word="{wd}" hidden></span><div id="news-latest"></div><h2>By source</h2><div id="news-widget"></div>'}</aside></div>'
             f'{"" if vside else "<p class=\"small\" id=\"news-status\"></p>"}<div class="adslot adwide" data-slot="page-bottom" data-sizes="970x250|728x90|320x100"></div>')
@@ -808,6 +808,10 @@ def voices_pages():
             + '<h2>IDF spokespeople</h2><div class="vtiles">' + ''.join(tile(v) for v in VOICES_ if v.get('group') == 'idf') + '</div>')
     write('/voices/', layout('Voices', chan('voices', hubb, '/voices/', views=True), 'Organizations and individuals who make the case for Israel, with their latest articles, podcasts and video.', '/voices/'))
     lst = sorted(VOICES_, key=who_sort)
+    def wholeft(cur=''):
+        def grp(t, f): return f'<h3>{t}</h3><ul>' + ''.join(f'<li><a href="/who/{v["id"]}/"{" aria-current=\"page\"" if v["id"] == cur else ""}>{E(v["name"])}</a></li>' for v in lst if f(v)) + '</ul>'
+        return ('<nav class="newstopics secnav wholist" aria-label="Who&#8217;s Who"><h2><a href="/who/">Who&#8217;s Who</a></h2>'
+                + grp('Individuals', lambda v: v['kind'] == 'voice' and v.get('group') != 'idf') + grp('IDF spokespeople', lambda v: v.get('group') == 'idf') + grp('Organizations', lambda v: v['kind'] == 'org') + '</nav>')
     def wcard(v):
         ini = ''.join(w_[0] for w_ in re.sub(r'^The ', '', v['name']).replace('-', ' ').split()[:2]).upper()
         col = 't%d' % (1 + sum(map(ord, v['id'])) % 5)
@@ -820,7 +824,7 @@ def voices_pages():
           '<div class="wfilter"><input id="wq" type="search" placeholder="Find a person, organization or topic" aria-label="Find in Who&#8217;s Who">'
           '<div class="wchips" id="wchips"><button type="button" data-g="" aria-pressed="true">All</button><button type="button" data-g="voice" aria-pressed="false">Individuals</button><button type="button" data-g="org" aria-pressed="false">Organizations</button><button type="button" data-g="idf" aria-pressed="false">IDF spokespeople</button></div></div>'
           '<div class="wgrid" id="wgrid">' + ''.join(wcard(v) for v in lst) + '</div><p class="small" id="wnone" hidden>No match. Try a shorter word.</p>')
-    write('/who/', layout('Who’s Who', chan('glossary', wb, '/who/'), 'Who’s Who: the organizations and people who shape the conversation about Israel.', '/who/'))
+    write('/who/', layout('Who’s Who', chan('glossary', wb, '/who/', left=wholeft()), 'Who’s Who: the organizations and people who shape the conversation about Israel.', '/who/'))
     for v in VOICES_:
         wk = v.get('wiki') or v['name']
         kind = 'Organization' if v['kind'] == 'org' else 'Individual'
@@ -838,7 +842,7 @@ def voices_pages():
                 f'<section id="e-related"><h2>Related</h2><p><b>See also</b> <a href="/who/">Who&#8217;s Who</a> · <a href="/voices/">Voices</a> · <a href="/glossary/">NOWlej A to Z</a></p></section>'
                 f'<section id="v-articles"><h2>Articles</h2><ul class="vlist2"><li>Loading.</li></ul></section>'
                 f'<section id="e-sources"><h2>Sources</h2><ul class="esrc" id="e-src"><li>Headlines, short excerpts and links come from the public feeds of {E(v["name"])} and are credited to and link to the original.</li></ul></section></article>')
-        write(f'/who/{v["id"]}/', layout(v['name'], chan('glossary', body, '/who/'), v['intro'], f'/who/{v["id"]}/'))
+        write(f'/who/{v["id"]}/', layout(v['name'], chan('glossary', body, '/who/', left=wholeft(v['id'])), v['intro'], f'/who/{v["id"]}/'))
         search.append({'t': v['name'], 'u': f'/who/{v["id"]}/', 'k': 'WHO’S WHO', 's': kind + (' · IDF spokesperson' if v.get('group') == 'idf' else ''), 'x': (v['intro'] + ' ' + v.get('tags', '') + (' influencer podcaster guest expert' if v['kind'] == 'voice' else ' organization media'))[:700]})
 voices_pages()
 write('/about/', layout('About Israel NOWlej', home, 'About Israel NOWlej, and how the addresses, IDs and citations from the book Israel NOWlej work.', '/about/', '/img/p006.webp', cls=''))

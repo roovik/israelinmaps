@@ -586,3 +586,16 @@ main h1{padding-bottom:7px}main h1::after{height:4px;width:56px}
 .wtx{display:flex;flex-direction:column;min-width:0;font-family:system-ui,sans-serif}.wtx b{font-size:.98rem}.wtx i{font-style:normal;font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;color:var(--t4);margin:1px 0 3px}.wtx span{font-size:.78rem;color:var(--mut);line-height:1.35}
 .results li.rwho{display:flex;gap:14px;align-items:center;padding:12px 14px;margin:6px 0;background:var(--card);border:1px solid var(--line);border-left:6px solid var(--t4)}
 .results .rwho .rwph{width:76px;height:76px;font-size:1.6rem}.results .rwho .rtx a{font:700 1.1rem system-ui,sans-serif;text-decoration:none}.results .rwho em{display:block;font-style:normal;font-size:.88rem;color:var(--fg);margin-top:3px;line-height:1.4}
+/* Who's Who: the list of names sits in the left column, and at the very bottom on phones */
+.wholist h3{font:700 .72rem system-ui,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:var(--t4);margin:14px 0 4px}
+.wholist ul{list-style:none;margin:0;padding:0}.wholist li a{display:block;padding:3px 0;font-size:.9rem;text-decoration:none;color:var(--fg)}.wholist li a[aria-current]{font-weight:700;color:var(--t4)}.wholist li a:hover{text-decoration:underline}
+@media (max-width:900px){.newspage:not(.aboutpg) .newsleftcol.wholeft{display:block!important;order:30!important;position:static;margin-top:20px;padding-top:6px;border-top:3px solid var(--t4)}.wholist ul{columns:2}}
+/* video thumbnails under the player: a grid, not a single column */
+.vclips{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px 10px}
+.vclips li{margin:0}
+.vclip{flex-direction:column;gap:6px;border:0;padding:0;height:100%}
+.vclip img{width:100%;height:auto;aspect-ratio:16/9}
+.vclip span{width:100%}.vclip b{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;font-size:.82rem;line-height:1.3}
+.vclip:hover b{text-decoration:underline}
+@media (max-width:1100px){.vclips{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:640px){.vclips{grid-template-columns:repeat(2,minmax(0,1fr))}}
