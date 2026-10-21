@@ -880,8 +880,8 @@ def hot_pages():
         return (f'<div class="hotfeed" id="hot-feed" data-kw="{kw}"><h2>{"On this topic now" if t else "Latest on contested issues"}</h2>'
                 '<section data-k="news"><h3>News</h3><ul></ul></section><section data-k="views"><h3>Views</h3><ul></ul></section>'
                 '<p class="small">Matches come from headlines in the live news and views feeds. Coverage is credited to its publisher.</p></div>')
-    note = ('<p class="hotnote"><b>Contested issue.</b> Draft for editorial review. As of ' + E(H_['asof']) + '. '
-            '<a href="/submit/?type=claim&name=HOT">Send a correction or a source</a></p>')
+    note = ('<p class="hotmeta"><b>Contested issue</b> · Draft for editorial review · As of ' + E(H_['asof']) + '</p>')
+    corr = '<p class="subcta"><a href="/submit/?type=claim&name=HOT">Send a correction or a source</a></p>'
     hubb = ('<h1>HOT: Contested Issues</h1>' + note + f'<p class="lead">{E(H_["intro"])}</p><div class="hotgrid">'
             + ''.join(f'<a class="hotcard" href="/hot/{t["slug"]}/"><span class="hotera">{E(t["era"])}</span><b>{E(t["title"])}</b><span>{E(t["brief"].split(". ")[0])}.</span></a>' for t in T_)
             + '</div><h2>How we handle contested issues</h2><ul class="hotrules"><li>Every topic is titled as the question people really ask.</li>'
@@ -889,7 +889,7 @@ def hot_pages():
               '<li>We separate what the record shows from what is argued, and we show the strongest case on each side.</li>'
               '<li>Every date and figure names its source. Pages show when they were last reviewed and are corrected in public.</li>'
               '<li>Critics and independent bodies are linked as well as Israel&#8217;s defenders.</li></ul>'
-              '<p class="subcta">Know a topic we should cover, or a source we missed? <a href="/submit/?type=nominee">Tell us</a>.</p>')
+              '<p class="subcta">Know a topic we should cover, or a source we missed? <a href="/submit/?type=nominee">Tell us</a>.</p>' + corr)
     write('/hot/', layout('HOT: Contested Issues', chan('glossary', hubb, '/hot/', left=left(), aside=aside()), 'Contested issues about Israel, set out with the claim, the record, both sides and sources.', '/hot/'))
     search.append({'t': 'HOT: Contested Issues', 'u': '/hot/', 'k': 'HOT', 's': 'Contested issues', 'x': 'contested controversial hot topics ' + ' '.join(t['short'] for t in T_)})
     for t in T_:
@@ -906,7 +906,7 @@ def hot_pages():
                 f'<h2>Sources and further study</h2><ul class="hotlist">{srcs}</ul>'
                 + (f'<h2>Related on NOWlej</h2><p>{rel}</p>' if rel else '')
                 + f'<p class="subcta">Know a good article, video or podcast on this issue? <a href="/submit/?type=article&about={urllib.parse.quote(t["short"])}">Send it to us</a>.</p>'
-                '<p class="small">Links to outside sources are provided for study and do not imply endorsement. Figures and rulings are described as of the date shown.</p></article>')
+                '<p class="small">Links to outside sources are provided for study and do not imply endorsement. Figures and rulings are described as of the date shown.</p>' + corr + '</article>')
         write(f'/hot/{t["slug"]}/', layout(t['short'] + ' (HOT)', chan('glossary', body, '/hot/', left=left(t['slug']), aside=aside(t)), t['brief'], f'/hot/{t["slug"]}/'))
         search.append({'t': t['title'], 'u': f'/hot/{t["slug"]}/', 'k': 'HOT', 's': 'Contested issue · ' + t['era'], 'x': t['brief'] + ' ' + ' '.join(t['kw'])})
 hot_pages()

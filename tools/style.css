@@ -718,7 +718,7 @@ header.top{margin-bottom:5px}
 #e-wiki .wimg,.newsmain #e-wiki .wimg{float:right;width:180px;height:180px;max-width:42%;aspect-ratio:1/1;object-fit:cover;object-position:50% 20%;margin:0 0 8px 16px;border-radius:8px}
 @media (max-width:640px){#e-wiki .wimg,.newsmain #e-wiki .wimg{width:110px;height:110px}}
 /* HOT */
-.hotnote{font:.85rem/1.4 system-ui,sans-serif;background:#fdecea;border-left:5px solid var(--t7);padding:8px 12px;margin:10px 0}
+.hotmeta{font:.8rem/1.4 system-ui,sans-serif;color:var(--mut);margin:6px 0 10px}.hotmeta b{color:var(--t7);letter-spacing:.06em;text-transform:uppercase}
 .hottag{font:700 .75rem system-ui,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:var(--t7);margin:0}.hottag a{color:inherit;text-decoration:none}
 .hotbrief{background:var(--card);border:1px solid var(--line);border-top:4px solid var(--t7);padding:10px 14px;margin:12px 0}.hotbrief p{margin:.3em 0 0;font-size:1.05rem}
 .hot h2{margin:22px 0 6px;font-size:1.15rem}.hot ul{padding-left:1.2em}.hot li{margin:.35em 0}
