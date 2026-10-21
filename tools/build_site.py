@@ -866,9 +866,12 @@ def submit_page():
          '<div class="sf-row" data-for="nominee apply claim" hidden><label>Links: website, YouTube, podcast, blog or feed addresses <textarea name="links" rows="3" maxlength="800"></textarea></label></div>'
          '<div class="sf-row"><label>Why it belongs, or a few words about it <textarea name="notes" rows="4" maxlength="2000"></textarea></label></div>'
          '<div class="sf-row"><label>Your name <input name="from" maxlength="120" autocomplete="name"></label></div>'
-         '<div class="sf-row"><label>Your email, so we can reply <input name="email" type="email" required autocomplete="email"></label></div>'
+         '<fieldset class="sf-contact"><legend>How can we reach you? Give one or more.</legend><div class="sf-row"><label>Email <input name="email" type="email" autocomplete="email"></label></div>'
+         '<div class="sf-row"><label>WhatsApp number, with country code <input name="whatsapp" type="tel" placeholder="+972..." autocomplete="tel"></label></div>'
+         '<div class="sf-row"><label>Telegram username <input name="telegram" placeholder="@name"></label></div>'
+         '<div class="sf-row"><label>Instagram username <input name="instagram" placeholder="@name"></label></div></fieldset>'
          '<div class="sf-hp" aria-hidden="true"><label>Leave this empty <input name="website" tabindex="-1" autocomplete="off"></label></div>'
-         '<div class="sf-row"><label class="sf-ck"><input type="checkbox" name="consent"> You may review this and email me about it. My email stays private and is not published.</label></div>'
+         '<div class="sf-row"><label class="sf-ck"><input type="checkbox" name="consent"> You may review this and email me about it. My contact details stay private and are not published.</label></div>'
          '<p><button type="submit" class="vjump">Send</button> <span id="sub-msg" role="status"></span></p></form>'
          '<p class="small">We list only material that is public and credited to its source. Being listed is an editorial decision and is never guaranteed. Videos play embedded and articles link to the original publisher.</p>')
     write('/submit/', layout('Send us something', chan('voices', b, '/submit/', views=True), 'Submit an article or video, nominate someone for Who’s Who, or apply to be listed.', '/submit/'))

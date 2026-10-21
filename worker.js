@@ -557,8 +557,10 @@ async function submitApi(request, env, ctx) {
   const type = clip(b.type, 12);
   if (!SUBTYPES.includes(type)) return new Response('{"error":"Choose what you are sending."}', { status: 400, headers: hdr });
   const urlOk = u => { try { const x = new URL(u); return /^https?:$/.test(x.protocol); } catch { return false; } };
-  const rec = { type, name: clip(b.name, 120), url: clip(b.url, 500), title: clip(b.title, 200), change: clip(b.change, 20), about: clip(b.about, 120), notes: clip(b.notes, 2000), links: clip(b.links, 800), email: clip(b.email, 160), from: clip(b.from, 120), status: 'new', at: new Date().toISOString() };
-  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(rec.email)) return new Response('{"error":"Please give an email address we can reply to."}', { status: 400, headers: hdr });
+  const rec = { type, name: clip(b.name, 120), url: clip(b.url, 500), title: clip(b.title, 200), change: clip(b.change, 20), about: clip(b.about, 120), notes: clip(b.notes, 2000), links: clip(b.links, 800), email: clip(b.email, 160), whatsapp: clip(b.whatsapp, 25).replace(/[^\d+]/g, ''), telegram: clip(b.telegram, 40).replace(/^.*t\.me\//, '').replace(/^@/, ''), instagram: clip(b.instagram, 40).replace(/^.*instagram\.com\//, '').replace(/^@/, '').replace(/\/$/, ''), from: clip(b.from, 120), status: 'new', at: new Date().toISOString() };
+  const emailOk = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(rec.email), waOk = /^\+?\d{7,15}$/.test(rec.whatsapp), tgOk = /^[A-Za-z0-9_]{3,32}$/.test(rec.telegram), igOk = /^[A-Za-z0-9._]{1,30}$/.test(rec.instagram);
+  if (!emailOk) rec.email = ''; if (!waOk) rec.whatsapp = ''; if (!tgOk) rec.telegram = ''; if (!igOk) rec.instagram = '';
+  if (!rec.email && !rec.whatsapp && !rec.telegram && !rec.instagram) return new Response('{"error":"Please give at least one way to reach you: email, WhatsApp, Telegram or Instagram."}', { status: 400, headers: hdr });
   if ((type === 'article' || type === 'video') && !urlOk(rec.url)) return new Response('{"error":"Please paste the full web address of the article or video."}', { status: 400, headers: hdr });
   if ((type === 'nominee' || type === 'apply' || type === 'claim') && !rec.name) return new Response('{"error":"Please give a name."}', { status: 400, headers: hdr });
   if (!b.consent) return new Response('{"error":"Please tick the box so we may review and reply."}', { status: 400, headers: hdr });
@@ -571,8 +573,8 @@ async function submitApi(request, env, ctx) {
   await env.ENTRIES.put(id, JSON.stringify(rec));
   const notify = env.NOTIFY_TO || 'rkoret@gmail.com', host = new URL(request.url).origin;
   const job = (async () => {
-    await sendMail(env, notify, 'New ' + rec.type + ' submission on Israel NOWlej', ['Type: ' + rec.type, rec.name && 'Name: ' + rec.name, rec.url && 'Link: ' + rec.url, rec.about && 'About: ' + rec.about, rec.change && 'Wants to: ' + rec.change, rec.notes && 'Notes: ' + rec.notes, rec.links && 'Links: ' + rec.links, 'From: ' + (rec.from || 'unknown') + ' <' + rec.email + '>', '', 'Review it: ' + host + '/admin/submissions/'].filter(x => x !== '' && x !== false && x != null).join('\n'), rec.email);
-    await sendMail(env, rec.email, 'We received your submission to Israel NOWlej', (RECEIPT[type] || RECEIPT.article) + '\n\nThis is an automatic receipt. You can reply to this email if you want to add something.\n\nIsrael NOWlej');
+    await sendMail(env, notify, 'New ' + rec.type + ' submission on Israel NOWlej', ['Type: ' + rec.type, rec.name && 'Name: ' + rec.name, rec.url && 'Link: ' + rec.url, rec.about && 'About: ' + rec.about, rec.change && 'Wants to: ' + rec.change, rec.notes && 'Notes: ' + rec.notes, rec.links && 'Links: ' + rec.links, 'From: ' + (rec.from || 'unknown') + (rec.email ? ' <' + rec.email + '>' : ''), rec.whatsapp && 'WhatsApp: ' + rec.whatsapp, rec.telegram && 'Telegram: @' + rec.telegram, rec.instagram && 'Instagram: @' + rec.instagram, '', 'Review it: ' + host + '/admin/submissions/'].filter(x => x !== '' && x !== false && x != null).join('\n'), rec.email);
+    if (rec.email) await sendMail(env, rec.email, 'We received your submission to Israel NOWlej', (RECEIPT[type] || RECEIPT.article) + '\n\nThis is an automatic receipt. You can reply to this email if you want to add something.\n\nIsrael NOWlej');
   })();
   if (ctx && ctx.waitUntil) ctx.waitUntil(job); else await job;
   return new Response('{"ok":true}', { headers: hdr });
@@ -592,7 +594,7 @@ async function submissionsApi(request, env) {
       const raw = await env.ENTRIES.get(id); if (!raw) continue;
       const r = JSON.parse(raw);
       if (b.reply && b.reply.body && ids.length === 1) {
-        const m = await sendMail(env, r.email, String(b.reply.subject || 'Your submission to Israel NOWlej').slice(0, 150), String(b.reply.body).slice(0, 4000) + '\n\nIsrael NOWlej');
+        const m = !r.email ? { ok: false, note: 'This sender gave no email. Use the WhatsApp, Telegram or Instagram link instead.' } : await sendMail(env, r.email, String(b.reply.subject || 'Your submission to Israel NOWlej').slice(0, 150), String(b.reply.body).slice(0, 4000) + '\n\nIsrael NOWlej');
         sent = m; if (m.ok) { r.repliedAt = new Date().toISOString(); r.status = 'done'; await env.ENTRIES.put(id, JSON.stringify(r)); }
         continue;
       }
