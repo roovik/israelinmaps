@@ -772,3 +772,5 @@ header.top .subnav a,header.top .subnav.sub2 a{background:none!important;color:v
 header.top .subnav a:hover,header.top .subnav a:focus,header.top .subnav.sub2 a:hover{background:none!important;color:var(--sc,#1f62c4)!important;text-decoration:underline;filter:none!important}
 header.top .subnav a.on,header.top .subnav.sub2 a.on{background:none!important;color:var(--sc,#1f62c4)!important;font-weight:700;box-shadow:inset 0 -3px 0 var(--sc,#1f62c4)!important}
 @media (min-width:641px){.subnav a{flex:0 1 auto}}
+@media (min-width:901px){body .bar .sf,body.newspg .bar .sf{width:auto}body .bar .sf input,body.newspg .bar .sf input{flex:0 0 260px;width:260px}}
+@media (min-width:641px){header.top .subnav{max-width:1040px}body.newspg header.top .subnav{max-width:1440px}}
