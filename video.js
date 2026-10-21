@@ -27,7 +27,7 @@
     function plThumbs(){var T=gl.querySelector('.plthumbs');if(!T&&pls.length){T=document.createElement('div');T.className='vthumbs plthumbs';var a=gl.querySelector('.vthumbs');a.parentNode.insertBefore(T,a.nextSibling)}if(T)T.innerHTML=pls.map(function(x){return'<div class="plwrap">'+plCard(x)+'</div>'}).join('')}
     function loadPT(){pls.filter(function(x){return!PT[x.id]}).forEach(function(x){fetch('/api/videos?playlist='+encodeURIComponent(x.id)).then(function(r){return r.ok?r.json():null}).then(function(d){var c=d&&(d.channels||[])[0];if(c&&c.videos&&c.videos.length){PT[x.id]=c.videos[0].v;try{sessionStorage.setItem('plthumbs',JSON.stringify(PT))}catch(e){}draw()}}).catch(function(){})})}
     function draw(){thumbs();plThumbs();if(!L)return;
-      var h='<div class="vseg" role="group" aria-label="Go to"><button type="button" data-b="v" aria-pressed="'+(mode==='v')+'">Videos</button>'+(pls.length?'<button type="button" data-b="p" aria-pressed="'+(mode==='p')+'">Playlists</button>':'')+'</div>';
+      var h=pls.length?'<div class="vseg" role="group" aria-label="Go to"><button type="button" data-b="v" aria-pressed="'+(mode==='v')+'">Videos</button><button type="button" data-b="p" aria-pressed="'+(mode==='p')+'">Playlists</button></div>':'';
       h+='<h2 id="vl-videos">'+esc(ttl)+'</h2><ul>'+list.map(function(v){return'<li><a class="vli" data-v="'+esc(v.v)+'" href="/video/watch/?v='+encodeURIComponent(v.v)+'&t='+encodeURIComponent(v.t||'')+'">'+esc(v.t||'Video')+'</a></li>'}).join('')+'</ul>';
       if(pls.length)h+='<h2 id="vl-pls">Playlists</h2><ul class="vpls plc">'+pls.map(function(x){return'<li>'+plCard(x)+'</li>'}).join('')+'</ul>';
       L.innerHTML=h;mark()}
@@ -64,7 +64,7 @@
     function listText(title,vs,chkey,cur){var L=document.getElementById('vid-list');if(!L)return;
       var pls=chkey?(d.playlists||[]).filter(function(x){return x.channel===chkey}):[];
       var seg='';
-      if(chkey&&(pls.length||cur)){seg='<div class="vseg" role="group" aria-label="Go to"><a href="/video/'+esc(chkey)+'/#ch-videos">Videos</a><a href="/video/'+esc(chkey)+'/#playlists">Playlists</a></div>'}
+      if(chkey&&pls.length){seg='<div class="vseg" role="group" aria-label="Go to"><a href="/video/'+esc(chkey)+'/#playlists">Playlists</a></div>'}
       var h=seg+
         '<h2 id="vl-videos">'+esc(title)+'</h2><ul>'+vs.map(function(v){return'<li><a class="vli" data-v="'+esc(v.v)+'" href="'+esc(wurl(v,v.c,v.t))+'">'+esc(v.t)+'</a><span class="wm">'+esc(v.n||'')+(v.d?' · '+ago(v.d):'')+'</span></li>'}).join('')+'</ul>';
       if(pls.length)h+='<h2 id="vl-pls">Channel playlists</h2><ul class="vpls">'+pls.map(function(x){var on=cur&&x.id===cur;return'<li><a'+(on?' class="vnowp" aria-current="page"':'')+' href="/video/pl-'+esc(x.id.toLowerCase())+'/">'+esc(x.name)+'</a> <a class="vpop" href="/video/pl-'+esc(x.id.toLowerCase())+'/" title="Open this playlist in a new window" aria-label="Open this playlist in a new window">\u2197</a></li>'}).join('')+'</ul>';
