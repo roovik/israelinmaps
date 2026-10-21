@@ -284,7 +284,7 @@ def tl_links():
     return [(SHORT.get(r['title'], r['title'].replace('The ', '')), r['url']) for r in rows if r['prefix'] == 'TL']
 def sec_links(sec):
     if sec == 'timelines': return tl_links()
-    if sec == 'sources': return [({'toi': 'ToI', 'jpost': 'JPost', 'ynet': 'ynet', 'israelhayom': 'Hayom', 'insider': 'Insider'}.get(i_, n_), f'/sources/{i_}/') for i_, n_, _, _ in SRC]
+    if sec == 'sources': return [({'toi': 'Times of Israel', 'jpost': 'Jerusalem Post', 'ynet': 'Ynet', 'israelhayom': 'Israel Hayom', 'insider': 'Israel Insider', 'jns': 'JNS'}.get(i_, n_), f'/sources/{i_}/') for i_, n_, _, _ in SRC]
     return SUBNAV.get(sec, [])
 def write_subnav_json():
     m = {}
