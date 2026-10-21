@@ -141,7 +141,7 @@ async function load(feed) {
   const ctl = new AbortController();
   const timer = setTimeout(() => ctl.abort(), TIMEOUT);
   try {
-    const r = await fetch(feed.url, { signal: ctl.signal, headers: { 'User-Agent': 'IsraelMosaicNews/1.0 (+https://israelinmaps.com/news/)', Accept: 'application/rss+xml, application/atom+xml, application/xml, text/xml, */*' }, cf: { cacheTtl: 1800, cacheEverything: true } });
+    const r = await fetch(feed.url, { signal: ctl.signal, headers: { 'User-Agent': 'IsraelMosaicNews/1.0 (+https://israelnowlej.com/news/)', Accept: 'application/rss+xml, application/atom+xml, application/xml, text/xml, */*' }, cf: { cacheTtl: 1800, cacheEverything: true } });
     if (!r.ok) return { feed, ok: false, error: 'HTTP ' + r.status, items: [] };
     const xml = await r.text();
     if (!/<(rss|feed|rdf:RDF)\b/i.test(xml.slice(0, 2000))) return { feed, ok: false, error: 'not an RSS or Atom feed', items: [] };
@@ -395,7 +395,7 @@ async function videoApi(url, env) {
 // ---------------------------------------------------------------- voices: organizations and individuals (articles, podcasts, video)
 async function probeFeed(u) {
   try {
-    const r = await fetch(u, { headers: { 'User-Agent': 'IsraelNOWlej/1.0 (+https://israelinmaps.com/)', Accept: 'application/rss+xml, application/atom+xml, application/xml, text/xml, */*' }, redirect: 'follow', cf: { cacheTtl: 3600, cacheEverything: true } });
+    const r = await fetch(u, { headers: { 'User-Agent': 'IsraelNOWlej/1.0 (+https://israelnowlej.com/)', Accept: 'application/rss+xml, application/atom+xml, application/xml, text/xml, */*' }, redirect: 'follow', cf: { cacheTtl: 3600, cacheEverything: true } });
     if (!r.ok) return false;
     const t = await r.text();
     return /<(rss|feed|rdf:RDF)\b/i.test(t.slice(0, 2000)) ? r.url || u : false;
@@ -433,7 +433,7 @@ async function whoImages(env, diagOn) {
   // 2. Wikipedia lead image
   const titles = vs.map(v => (v.wiki || v.name).replace(/ /g, '_'));
   try {
-    const r = await fetch('https://en.wikipedia.org/w/api.php?action=query&format=json&redirects=1&prop=pageimages&piprop=thumbnail&pithumbsize=320&titles=' + encodeURIComponent(titles.join('|')), { headers: { 'User-Agent': 'IsraelNOWlej/1.0 (+https://israelinmaps.com/)' } });
+    const r = await fetch('https://en.wikipedia.org/w/api.php?action=query&format=json&redirects=1&prop=pageimages&piprop=thumbnail&pithumbsize=320&titles=' + encodeURIComponent(titles.join('|')), { headers: { 'User-Agent': 'IsraelNOWlej/1.0 (+https://israelnowlej.com/)' } });
     const j = await r.json(), q = j.query || {}, map = {};
     (q.normalized || []).forEach(x => map[x.from] = x.to); (q.redirects || []).forEach(x => map[x.from] = x.to);
     const byTitle = {}; Object.values(q.pages || {}).forEach(p => { if (p.thumbnail && p.thumbnail.source) byTitle[p.title] = p.thumbnail.source; });

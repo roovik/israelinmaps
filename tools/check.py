@@ -23,7 +23,7 @@ for i in ids:
         n += 1
         if not resolve('/' + form): bad.append('/' + form)
 for r in csv.DictReader(open(QR)):
-    path = '/' + r['short_url'].split('israelinmaps.com/')[1]
+    path = '/' + r['short_url'].split('israelnowlej.com/')[1]
     for form in (path, path.upper()):
         n += 1
         if not resolve(form): bad.append(form)

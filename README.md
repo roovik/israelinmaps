@@ -1,3 +1,3 @@
 # israelinmaps
 
-Static site for Israel Mosaic (israelinmaps.com), served by Cloudflare Pages from this repository.
+Static site for Israel NOWlej (israelnowlej.com), served by a Cloudflare Worker from this repository.

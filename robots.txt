@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://israelinmaps.com/sitemap.xml
+Sitemap: https://israelnowlej.com/sitemap.xml

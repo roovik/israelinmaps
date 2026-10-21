@@ -73,7 +73,7 @@ def fix_km(t):
     t = t.replace('21.9 K km and 15.06 M km', '21.9 K km² and 15.06 M km²')
     return t
 
-DROP = re.compile(r'^(Illustration, AI generated|ISRAEL IN MAPS|©.*Koret.*|.*israelinmaps\.com.*|\d+)$')
+DROP = re.compile(r'^(Illustration, AI generated|ISRAEL IN MAPS|©.*Koret.*|.*israel(inmaps|nowlej)\.com.*|\d+)$')
 def page_text(p):
     pg = doc[p - 1]
     paras = []
@@ -97,7 +97,7 @@ def parse_glossary():
         lines = [l for b in pg.get_text('dict')['blocks'] if b['type'] == 0 for l in b['lines']]
         for l in lines:
             sp = l['spans']; size = round(sp[0]['size'] * sc, 1); full = txt(l).strip()
-            if not full or full.startswith('©') or full.startswith('Illustration') or 'israelinmaps.com' in full: continue
+            if not full or full.startswith('©') or full.startswith('Illustration') or 'israelnowlej.com' in full or 'israelinmaps.com' in full: continue
             if size == 10.2 and 'Bo' in sp[0]['font']:
                 name = nbsp(sp[0]['text']).strip()
                 hes = [s['text'] for s in sp if round(s['size'] * sc, 1) == 9.2]
@@ -262,7 +262,7 @@ def app_html(g):
 # ---------------------------------------------------------------- templates
 CSS = open(os.path.join(ROOT, 'tools', 'style.css')).read()
 NAV = [('/', 'News'), ('/views/', 'Views'), ('/media/', 'Media'), ('/glossary/', 'NOWlej'), ('/sources/', 'Sources')]
-BASE = 'https://israelinmaps.com'
+BASE = 'https://israelnowlej.com'
 
 VCFG = json.load(open(os.path.join(ROOT, 'video.json')))
 def vslug(c): return (c.get('handle') or c.get('id') or '').lower()
@@ -350,7 +350,7 @@ def write(path, content):
 def citation(r):
     pg = r['pages']
     p = f'p. {pg[0]}' if len(pg) == 1 else f'pp. {pg[0]} to {pg[-1]}'
-    return f'Israel NOWlej (2027), {r["id"]}, {p}, israelinmaps.com/{r["id"].lower()}'
+    return f'Israel NOWlej (2027), {r["id"]}, {p}, israelnowlej.com/{r["id"].lower()}'
 
 TYPEWORD = {'MAP': 'Map', 'TL': 'Timeline', 'TBL': 'Table', 'POP': 'Infographic', 'DEM': 'Demographics', 'RNK': 'Ranking', 'TOP': 'Top Ten list'}
 def ordered_group(r):
@@ -520,11 +520,11 @@ def item_page(r):
 <p class="meta">{E(kind)} · {E(r["section"])}{"" if plain_ else f" · {ptxt}"}</p>{region}</header>
 {stn_html(r, st)}
 <div class="cite"><p><b>Cite this page</b></p><p class="citeline" id="cite">{E(cit)}</p><button type="button" class="copy" data-copy="{E(cit)}">Copy citation</button>
-<p class="small">Short address: <a href="{r["short"]}">israelinmaps.com{r["short"]}</a></p></div>
+<p class="small">Short address: <a href="{r["short"]}">israelnowlej.com{r["short"]}</a></p></div>
 {sub}{rel}
 <nav class="pn" aria-label="Previous and next">{pn}</nav>
 <details class="txt"><summary>Text of this page</summary>{text}</details>
-<p class="small">Corrections: none recorded. This is the current version. The 2027 print edition copy is at <a href="/2027{r["short"]}">israelinmaps.com/2027{r["short"]}</a>.</p></article>'''
+<p class="small">Corrections: none recorded. This is the current version. The 2027 print edition copy is at <a href="/2027{r["short"]}">israelnowlej.com/2027{r["short"]}</a>.</p></article>'''
     desc = f'{r["title"]} ({r["id"]}), {kind.lower()} from the book Israel NOWlej, page {pg[0]}.'
     write(r['url'], layout(r['title'], chan(SECKEY[hub], body, r['url']), desc, r['url'], f'/img/p{pg[0]:03d}.webp', cls='tlfull' if r['prefix'] == 'TL' else ''))
     search.append({'t': r['title'], 'u': r['url'], 'k': r['id'], 's': r['section'], 'x': (' '.join(st[0]) if st else ' '.join(paras))[:600]})
@@ -666,7 +666,7 @@ def map_hub():
     b = '<p class="crumb"><a href="/">Home</a> / Maps</p><h1>Maps</h1><p class="small">Thirty-three maps of the land from the patriarchs to today. Select a map to open it.</p>'
     b += '<h2>Historical Maps</h2><div class="tlmosaic wide"><div class="tltile cover"><img src="/img/t/maps-cover.webp" alt="Israel&#8217;s Story in Maps: thirty-three maps from the patriarchs to today" width="960" height="600"><button type="button" class="zh zl" style="width:' + split_ + '%" data-zoom="/img/t/maps-cover-left.webp" aria-label="Enlarge the map"></button><button type="button" class="zh zr" style="left:' + split_ + '%" data-zoom="/img/t/maps-cover-right.webp" aria-label="Enlarge the title page"></button></div>' + ''.join(tile(r, 'w') for r in hist) + '</div>'
     b += '<h2>Size Comparisons</h2><div class="tlmosaic">' + ''.join(tile(r, 'p') for r in size_) + '</div>'
-    write('/maps/', layout('Maps', chan('maps', b, '/maps/'), 'Thirty-three maps of the land from the patriarchs to today. Every map has its own address, such as israelinmaps.com/map-002.', '/maps/', '/img/p004.webp'))
+    write('/maps/', layout('Maps', chan('maps', b, '/maps/'), 'Thirty-three maps of the land from the patriarchs to today. Every map has its own address, such as israelnowlej.com/map-002.', '/maps/', '/img/p004.webp'))
 map_hub()
 def tl_hub():
     from PIL import Image as _I
@@ -774,9 +774,9 @@ write('/index/', layout('Index', chan('sources', ib, '/index/'), 'Index of the b
 # ---------------------------------------------------------------- about, search, 404, home
 about = '''<p class="crumb"><a href="/">Home</a> / About</p><h1>How to Use This Site</h1>
 <p class="lead">Every item in the book has one permanent ID, for example MAP-002 or TL-004. The ID is the address.</p>
-<h2>Addresses</h2><p>Type <b>israelinmaps.com/map-002</b> in any browser. It redirects to the full page, <b>israelinmaps.com/maps/002/zion-terrain</b>. If a title is ever corrected the full address may change. The ID and the short address never change.</p>
+<h2>Addresses</h2><p>Type <b>israelnowlej.com/map-002</b> in any browser. It redirects to the full page, <b>israelnowlej.com/maps/002/zion-terrain</b>. If a title is ever corrected the full address may change. The ID and the short address never change.</p>
 <h2>Hubs</h2><p>A bare prefix opens the whole group: /map, /tl, /tbl, /dem, /rnk, /top, /size, /tour, /flora, /gl. The glossary is at /glossary and the book index at /index.</p>
-<h2>Cite a page</h2><p>Each page shows a citation line and a Copy citation button, for example: Israel NOWlej (2027), MAP-002, p. 6, israelinmaps.com/map-002. The ID is enough for any later edition. The page number fits the 2027 print edition only.</p>
+<h2>Cite a page</h2><p>Each page shows a citation line and a Copy citation button, for example: Israel NOWlej (2027), MAP-002, p. 6, israelnowlej.com/map-002. The ID is enough for any later edition. The page number fits the 2027 print edition only.</p>
 <h2>Editions</h2><p>The short address always shows the current version. Each edition also keeps a frozen copy, for example /2027/map-002, so a citation from the 2027 book can be checked against what the book showed. Corrections are listed on the page with a date.</p>
 <h2>Scanning a code</h2><p>Each code in the book encodes the same short address. If a code is damaged, type the address printed beside it.</p>
 <h2>About the book</h2><p>Israel NOWlej: Know the Story of the Jewish Land in Maps, Timelines, Charts, and Graphics, by Richard J. Koret. This site is the companion to the book. Some illustrations in the book are marked as AI generated.</p>'''
@@ -786,7 +786,7 @@ for pth_, ttl_, txt_ in [('/subscribe/', 'Subscribe', 'Subscriptions are coming 
 
 
 _legal='<h1>Legal notice</h1><p class="lead">The terms that apply to this site. It is a reading companion to a book, not a news agency or an advisory service.</p><h2 id="terms">Terms of use</h2><p>You may read the site, link to any page and quote short passages with credit. See <a href="/cite/">Use and citation</a> for how. Copying whole pages, maps, timelines, charts or images, or using them in another product, needs written permission from the author.</p><h2>Copyright</h2><p>&copy; 2003 to 2026 Richard J. Koret. All rights reserved. Text, maps, timelines, charts and the glossary are the author\'s work except where a page says otherwise. Some illustrations in the book are marked as AI generated.</p><h2>Third party material</h2><p>Headlines, summaries, videos, podcasts and images from other publishers are shown by link or embed and belong to their owners. Their views are theirs. A listing is not an endorsement. HOT topic pages state the strongest case on each side and point to sources, so they will include views the author does not share.</p><h2>No advice</h2><p>Nothing here is legal, medical, financial or travel advice. Facts are checked with care, but check the sources before relying on them, and tell us about errors.</p><h2 id="privacy">Privacy</h2><p>The site has no accounts yet and does not ask you to sign in. It does not sell data. Pages may load fonts, embedded video and, later, advertising from other companies, which can set their own cookies under their own policies. If you send us an item through the form, we keep what you send and the contact detail you give, only to review it and reply.</p><h2 id="corrections">Corrections</h2><p>If something is wrong, use the <a href="/submit/">form</a> and choose a correction. Each page lists dated corrections.</p>'
-_cite='<h1>Use and citation</h1><p class="lead">How to quote, link to and cite Israel NOWlej.</p><h2>Cite a page</h2><p>Every map, timeline and chart has an ID. Cite it like this: Israel NOWlej (2027), MAP-002, p. 6, israelinmaps.com/map-002. The ID is enough for any later edition. The page number fits the 2027 print edition only.</p><h2>Cite a glossary entry</h2><p>Koret, Richard J. Israel NOWlej, NOWlej A to Z, entry name, israelinmaps.com/g/entry-name, accessed date.</p><h2>Cite news, views and media</h2><p>Cite the original publisher and link to it. This site only lists and links them.</p><h2>What you may do</h2><p>Link freely. Quote short passages with credit. Use a map or chart in a class by linking to it. For print, a website, a film or a product, ask first through the <a href="/contact/">contact page</a>.</p><h2>Frozen editions</h2><p>Each edition keeps a frozen copy, for example /2027/map-002, so a citation from the book can be checked against what the book showed.</p>'
+_cite='<h1>Use and citation</h1><p class="lead">How to quote, link to and cite Israel NOWlej.</p><h2>Cite a page</h2><p>Every map, timeline and chart has an ID. Cite it like this: Israel NOWlej (2027), MAP-002, p. 6, israelnowlej.com/map-002. The ID is enough for any later edition. The page number fits the 2027 print edition only.</p><h2>Cite a glossary entry</h2><p>Koret, Richard J. Israel NOWlej, NOWlej A to Z, entry name, israelnowlej.com/g/entry-name, accessed date.</p><h2>Cite news, views and media</h2><p>Cite the original publisher and link to it. This site only lists and links them.</p><h2>What you may do</h2><p>Link freely. Quote short passages with credit. Use a map or chart in a class by linking to it. For print, a website, a film or a product, ask first through the <a href="/contact/">contact page</a>.</p><h2>Frozen editions</h2><p>Each edition keeps a frozen copy, for example /2027/map-002, so a citation from the book can be checked against what the book showed.</p>'
 _contact='<h1>Contact</h1><p class="lead">The form is the best way to reach us. It goes to the author and the site editor.</p><div class="cards"><a class="card" href="/submit/"><b>Send an article, video or nomination</b><span>Suggest something for News, Views, Media or Voices.</span></a><a class="card" href="/submit/"><b>Report an error</b><span>Facts, dates, names, links or maps that look wrong.</span></a><a class="card" href="/submit/"><b>Permissions and press</b><span>Using material in print, film or teaching.</span></a></div><p>Do not send passwords or payment details through any form.</p>'
 _feed='<h1>Feeds</h1><p class="lead">Follow what is new without visiting.</p><h2>Site updates</h2><p><a href="/feed.xml">Israel NOWlej feed (RSS)</a>. It lists the HOT topics and main sections with the date of the latest build. Paste the address into any feed reader.</p><h2>Daily digest</h2><p>An email digest is coming. See <a href="/subscribe/">Subscribe</a>.</p><h2>Headlines</h2><p>News and Views are gathered live from the publishers\' own public feeds, listed under <a href="/sources/">Sources</a>.</p>'
 for pth_, ttl_, txt_, d_ in [('/legal/','Legal notice',_legal,'Terms of use, copyright, privacy and corrections for Israel NOWlej.'),('/cite/','Use and citation',_cite,'How to quote, link to and cite Israel NOWlej.'),('/contact/','Contact',_contact,'How to contact Israel NOWlej.'),('/feed/','Feeds',_feed,'RSS feed and updates from Israel NOWlej.')]:
@@ -794,7 +794,7 @@ for pth_, ttl_, txt_, d_ in [('/legal/','Legal notice',_legal,'Terms of use, cop
 import datetime as _dt
 _now=_dt.datetime.utcnow().strftime('%a, %d %b %Y %H:%M:%S GMT')
 _items=[('/hot/','HOT topics','Contested issues: the strongest case against, the best answers, and sources.')]+[(f'/hot/{t_["slug"]}/',t_['title'],t_.get('short','')) for t_ in HOT_['topics']]+[('/news/','News','Headlines from public feeds.'),('/views/','Views','Op-eds and blogs.'),('/media/','Media','Video, audio and images.'),('/who/','Voices','People and groups worth following.')]
-_x='<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"><channel><title>Israel NOWlej</title><link>https://israelinmaps.com/</link><description>News, views, maps, timelines, charts and media on the Holy Land.</description><language>en</language><lastBuildDate>'+_now+'</lastBuildDate>'+''.join(f'<item><title>{E(t)}</title><link>https://israelinmaps.com{u}</link><guid>https://israelinmaps.com{u}</guid><description>{E(d)}</description></item>' for u,t,d in _items)+'</channel></rss>'
+_x='<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"><channel><title>Israel NOWlej</title><link>https://israelnowlej.com/</link><description>News, views, maps, timelines, charts and media on the Holy Land.</description><language>en</language><lastBuildDate>'+_now+'</lastBuildDate>'+''.join(f'<item><title>{E(t)}</title><link>https://israelnowlej.com{u}</link><guid>https://israelnowlej.com{u}</guid><description>{E(d)}</description></item>' for u,t,d in _items)+'</channel></rss>'
 open(os.path.join(OUT,'feed.xml'),'w').write(_x)
 
 sb = '''<h1>Search</h1><form class="sf big" action="/search/" role="search"><input id="q" name="q" type="search" placeholder="Try map-002, Masada, Rabin, olive" aria-label="Search" autofocus><button>Search</button></form>
