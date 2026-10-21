@@ -108,7 +108,7 @@ function hashId(str) {
 }
 function image(block) {
   const raw = decode(unwrap(block)) + ' ' + unwrap(block);
-  let u = attr(block, 'media:thumbnail', 'url') || attr(block, 'media:content', 'url');
+  let u = attr(block, 'media:thumbnail', 'url') || attr(block, 'itunes:image', 'href') || attr(block, 'media:content', 'url');
   if (!u) { const m = block.match(/<enclosure\b[^>]*>/i); if (m && /image/i.test(m[0])) { const x = m[0].match(/url="([^"]+)"/i); if (x) u = decode(x[1]); } }
   if (!u) { const m = raw.match(/<img\b[^>]*\ssrc=["']([^"']+)["']/i); if (m) u = decode(m[1]); }
   return /^https?:\/\//i.test(u) ? u : '';
@@ -131,7 +131,9 @@ function parse(xml, feed) {
     const desc = tag(b, 'description') || tag(b, 'summary') || tag(b, 'content:encoded') || tag(b, 'content');
     const full = text(tag(b, 'content:encoded')), short = text(desc);
     const best = clean(full.length > short.length ? full : short, title, 5) || clean(short, title, 5);
-    items.push({ s: feed.id, src: feed.name, t: title, u: link, k: hashId(link), d: t && !isNaN(t) && t.getFullYear() >= 2005 ? t.toISOString() : null, x: blurb(short, title), i: image(b), f: best ? words100(best) : '' });
+    const am = b.match(/<enclosure\b[^>]*>/i); let au = ''; if (am && (/type="audio/i.test(am[0]) || /\.(mp3|m4a|aac)(\?|")/i.test(am[0]))) { const x = am[0].match(/url="([^"]+)"/i); if (x) au = decode(x[1]); }
+    const du = au ? text(tag(b, 'itunes:duration')) : '';
+    items.push({ ...(au ? { a: au, du } : {}), s: feed.id, src: feed.name, t: title, u: link, k: hashId(link), d: t && !isNaN(t) && t.getFullYear() >= 2005 ? t.toISOString() : null, x: blurb(short, title), i: image(b), f: best ? words100(best) : '' });
   }
   return items;
 }
