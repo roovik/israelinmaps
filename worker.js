@@ -417,21 +417,41 @@ async function discoverFeeds(site, diag) {
   if (good.length) await memPut(mk, { list: good }, 14 * 86400);
   return good;
 }
-async function whoImages() {
-  const hdr = { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'public, max-age=86400', 'Access-Control-Allow-Origin': '*' };
-  const known = await memGet('whoimg');
+async function whoImages(env, diagOn) {
+  const hdr = { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': diagOn ? 'no-store' : 'public, max-age=3600', 'Access-Control-Allow-Origin': '*' };
+  const known = diagOn ? null : await memGet('whoimg2');
   if (known) return new Response(JSON.stringify(known), { headers: hdr });
-  const vs = (VOICES.voices || []).filter(v => !v.hidden), out = {};
+  const vs = (VOICES.voices || []).filter(v => !v.hidden), out = {}, src = {};
+  // 1. an image address written into the registry always wins
+  vs.forEach(v => { if (v.img) { out[v.id] = v.img; src[v.id] = 'registry'; } });
+  // 2. Wikipedia lead image
   const titles = vs.map(v => (v.wiki || v.name).replace(/ /g, '_'));
   try {
     const r = await fetch('https://en.wikipedia.org/w/api.php?action=query&format=json&redirects=1&prop=pageimages&piprop=thumbnail&pithumbsize=320&titles=' + encodeURIComponent(titles.join('|')), { headers: { 'User-Agent': 'IsraelNOWlej/1.0 (+https://israelinmaps.com/)' } });
     const j = await r.json(), q = j.query || {}, map = {};
     (q.normalized || []).forEach(x => map[x.from] = x.to); (q.redirects || []).forEach(x => map[x.from] = x.to);
     const byTitle = {}; Object.values(q.pages || {}).forEach(p => { if (p.thumbnail && p.thumbnail.source) byTitle[p.title] = p.thumbnail.source; });
-    vs.forEach((v, i) => { let t = titles[i].replace(/_/g, ' '); const a = map[titles[i]] || map[t] || t; const b = map[a] || a; const u = byTitle[b] || byTitle[a] || byTitle[t]; if (u) out[v.id] = u; });
-    out._o = vs.filter(v => v.kind === 'org').map(v => v.id);
-    if (Object.keys(out).length) await memPut('whoimg', out, 7 * 86400);
+    vs.forEach((v, i) => { if (out[v.id]) return; const t = titles[i].replace(/_/g, ' '); const a = map[titles[i]] || map[t] || t; const b = map[a] || a; const u = byTitle[b] || byTitle[a] || byTitle[t]; if (u) { out[v.id] = u; src[v.id] = 'wikipedia'; } });
   } catch {}
+  // 3. the person's or organization's own YouTube channel picture
+  if (env && env.YT_KEY) {
+    const need = vs.filter(v => !out[v.id] && (v.yt || []).length);
+    for (const v of need) {
+      for (const h of v.yt) {
+        try {
+          const r = await fetch('https://www.googleapis.com/youtube/v3/channels?part=snippet&forHandle=' + encodeURIComponent('@' + h) + '&key=' + env.YT_KEY);
+          const j = await r.json(), t = j.items && j.items[0] && j.items[0].snippet && j.items[0].snippet.thumbnails;
+          const u = t && (t.high || t.medium || t.default || {}).url;
+          if (u) { out[v.id] = u; src[v.id] = 'youtube'; break; }
+        } catch {}
+      }
+    }
+  }
+  // 4. organizations without a picture: the site's own icon
+  vs.forEach(v => { if (!out[v.id] && v.site) { try { out[v.id] = 'https://www.google.com/s2/favicons?sz=128&domain=' + new URL(v.site).hostname; src[v.id] = 'site icon'; } catch {} } });
+  out._o = vs.filter(v => v.kind === 'org').map(v => v.id);
+  if (diagOn) out._src = src;
+  if (Object.keys(out).length > 1 && !diagOn) await memPut('whoimg2', out, 24 * 3600);
   return new Response(JSON.stringify(out), { headers: hdr });
 }
 async function voiceApi(url, env) {
@@ -495,7 +515,7 @@ export default {
     const im = url.pathname.match(/^\/news\/item\/([a-z0-9]+)\/?$/);
     if (im) return itemPage(request, env, im[1], url.searchParams.get('s'), url.searchParams.get('c'));
     if (url.pathname === '/api/videos') return videoApi(url, env);
-    if (url.pathname === '/api/whoimg') return whoImages();
+    if (url.pathname === '/api/whoimg') return whoImages(env, !!url.searchParams.get('diag'));
     if (url.pathname === '/api/voice') return voiceApi(url, env);
     if (url.pathname === '/api/entry') return entryApi(request, url, env);
     if (url.pathname === '/api/yt-title') return ytTitle(url);
