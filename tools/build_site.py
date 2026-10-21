@@ -297,7 +297,7 @@ TOPSEC = {'': 'news', 'news': 'news', 'views': 'views', 'voices': 'views', 'who'
           'tables': 'nowlej', 'demographics': 'nowlej', 'rankings': 'nowlej', 'top-ten': 'nowlej', 'size': 'nowlej', 'tour': 'media', 'flora': 'media'}
 TOPIDX = {'news': 0, 'views': 1, 'media': 2, 'nowlej': 3, 'sources': 4}
 CTX2 = {'maps': 'maps', 'timelines': 'timelines', 'charts': 'charts', 'tables': 'charts', 'demographics': 'charts', 'rankings': 'charts', 'top-ten': 'charts', 'size': 'charts',
-        'who': 'who', 'video': 'video'}
+        'who': 'who'}
 def subnav_for(path):
     seg = path.strip('/').split('/')[0]
     top = TOPSEC.get(seg, '')
