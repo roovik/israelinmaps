@@ -829,7 +829,7 @@ def voices_pages():
         hay = key(v['name'] + ' ' + v['intro'] + ' ' + v.get('tags', '') + ' ' + grp)
         return (f'<a class="wcard" href="/who/{v["id"]}/" data-g="{grp}" data-h="{E(hay)}"><span class="wph {col}" data-who="{v["id"]}"><span>{E(ini)}</span></span>'
                 f'<span class="wtx"><b>{E(v["name"])}</b><span class="wc">{E(v.get("tags", ""))}</span></span>'
-                f'<span class="wd">{E(v["intro"])}</span><span class="wmore" hidden>MORE</span></a>')
+                f'<span class="wdw"><span class="wd">{E(v["intro"])}</span><span class="wmore" hidden>MORE</span></span></a>')
     wb = ('<h1>Who&#8217;s Who</h1><p class="small">Entries on the organizations and people who shape the conversation about Israel. Each has an introduction, images, video and podcasts, more background, and the latest articles.</p>'
           '<div class="wfilter"><input id="wq" type="search" placeholder="Find a person, organization or topic" aria-label="Find in Who&#8217;s Who">'
           '<div class="wchips" id="wchips"><button type="button" data-g="" aria-pressed="true">All</button><button type="button" data-g="voice" aria-pressed="false">Individuals</button><button type="button" data-g="org" aria-pressed="false">Organizations</button><button type="button" data-g="idf" aria-pressed="false">IDF spokespeople</button></div></div>'
@@ -844,7 +844,7 @@ def voices_pages():
         site_ = f'<a class="vjump alt" href="{E(v["site"])}" rel="noopener" target="_blank">Official site</a>' if v.get('site') else ''
         body = (f'<article class="gl who"><div class="whohero"><div class="whoph {col}{" org" if v["kind"] == "org" else ""}" id="who-ph" data-who="{v["id"]}" data-wiki="{E(wk)}"><span class="ini">{E(ini)}</span></div>'
                 f'<div class="whotx"><h1>{E(v["name"])}</h1><p class="wcred">{E(v.get("tags", ""))}</p></div>'
-                f'<p class="lead edef" id="e-def">{E(v["intro"])}</p><a class="econt more" id="e-more" href="#e-summary" hidden>MORE</a>'
+                f'<div class="wdw hw"><p class="lead edef" id="e-def">{E(v["intro"])}</p><a class="econt more" id="e-more" href="#e-summary" hidden>MORE</a></div>'
                 f'<p class="whobtn"><a class="vjump vb" id="wb-vid" href="#e-video" hidden>Videos</a><a class="vjump vb" id="wb-pl" href="#e-video" data-t="playlists" hidden>Playlists</a><a class="vjump" href="#v-articles">Articles</a><a class="vjump" href="#v-news">News about</a>{site_}</p>'
                 f'<p class="claim"><a href="/submit/?type=claim&name={urllib.parse.quote(v["name"])}">Is this your profile? Send corrections, additions or removals</a></p></div>'
                 '<nav class="esec" id="esec" aria-label="On this page"><a href="#e-images" data-s="e-images" hidden>Images</a><a href="#e-video" data-s="e-video" hidden>Video</a><a href="#e-summary" data-s="e-summary" hidden>More NOWlej</a><a href="#v-articles">Articles</a><a href="#v-news">News about</a><a href="#e-related">Related</a><a href="#e-sources">Sources</a></nav>'

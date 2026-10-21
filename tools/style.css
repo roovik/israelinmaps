@@ -675,3 +675,12 @@ header.top{margin-bottom:5px}
 .alist{list-style:none;margin:0;padding:0}.alist li{display:flex;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}.alist .athumb{width:56px;height:56px;object-fit:cover;flex:none}.alist .wm{display:block;font:.75rem system-ui,sans-serif;color:var(--mut)}
 .aplay{flex:none;width:34px;height:34px;border-radius:50%;border:0;background:var(--t2);color:#fff;cursor:pointer;font-size:.8rem}
 .vlist2 audio{width:100%;margin-top:6px;height:34px}
+/* MORE sits on the last line of the description */
+.wdw{position:relative;grid-column:1/-1}
+.wdw .wmore,.wdw .more{position:absolute;right:0;bottom:0;margin:0;padding-left:34px;background:linear-gradient(90deg,transparent,var(--card) 28%);font:700 .72rem/1.45 system-ui,sans-serif;letter-spacing:.06em;color:var(--acc)}
+.wdw.hw .more{background:linear-gradient(90deg,transparent,var(--bg,#fffaf0) 28%);font-size:.8rem;line-height:1.5;color:var(--acc)}
+.wdw[hidden],.wdw .more[hidden],.wdw .wmore[hidden]{display:none}
+.who .whohero>.wdw{grid-column:1/-1}
+.who .whohero .wdw>.edef{display:-webkit-box!important;-webkit-line-clamp:3!important;-webkit-box-orient:vertical;overflow:hidden;margin:8px 0 0}
+.who .whohero .wdw>.edef.open{display:block!important;-webkit-line-clamp:unset!important}
+.wcard .wdw .wd{margin-top:4px}
