@@ -56,3 +56,4 @@
 ;(function(){try{if(!localStorage.getItem('nowkey'))return;var f=document.querySelector('footer');if(!f)return;var a=document.createElement('p');a.className='small';a.innerHTML='<a href="/admin/entry/">Entry workbench</a> · <a href="/admin/video/">Video curation</a>';f.appendChild(a)}catch(e){}})();
 (function(){function m(){var n=document.querySelectorAll('header.top nav.wrap a');if(n.length<2)return;var a=n[0].getBoundingClientRect(),z=n[n.length-1].getBoundingClientRect();if(z.right>a.left)document.documentElement.style.setProperty('--navw',Math.round(z.right-a.left)+'px')}
  m();window.addEventListener('load',m);window.addEventListener('resize',m)})();
+;(function(){var q=document.querySelector('.bar .sf input');if(q&&window.matchMedia('(max-width:900px)').matches)q.placeholder='Search'})();

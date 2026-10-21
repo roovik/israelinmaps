@@ -774,3 +774,20 @@ header.top .subnav a.on,header.top .subnav.sub2 a.on{background:none!important;c
 @media (min-width:641px){.subnav a{flex:0 1 auto}}
 @media (min-width:901px){body .bar .sf,body.newspg .bar .sf{width:auto}body .bar .sf input,body.newspg .bar .sf input{flex:0 0 260px;width:260px}}
 @media (min-width:641px){header.top .subnav{max-width:1040px}body.newspg header.top .subnav{max-width:1440px}}
+/* phones and tablets: logo on the left, two rows on the right that line up with the two logo rows.
+   Row 1 Sign in and Subscribe, row 2 search field and Search button. Ticker below. */
+@media (max-width:900px){
+body .bar,body.newspg .bar{display:flex!important;flex-wrap:wrap;align-items:center;gap:8px 12px}
+body .bar .brand{order:-2;flex:0 0 auto}
+body .bar .brand img{height:56px;width:auto}
+body .bar .rcol{display:flex!important;flex-direction:column;justify-content:space-between;align-items:flex-end;gap:2px;height:56px;flex:1 1 0;min-width:0;order:-1;margin-left:auto}
+body .bar .acct{flex-direction:row-reverse;align-items:center;align-self:flex-end;gap:12px;height:26px;margin:0;font-size:.85rem;flex-wrap:nowrap}
+body .bar .acct .sbtn{display:none!important}
+body .bar .acct .subbtn{width:76px;height:26px;box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;padding:0;font-size:.82rem;border-radius:5px}
+body .bar .sf{display:flex!important;width:100%;flex:none;gap:4px;order:0;justify-content:flex-end}
+body .bar .sf input{flex:1 1 0;min-width:0;width:auto;height:28px;box-sizing:border-box;padding:0 8px;font-size:16px;border-radius:5px}
+body .bar .sf button{flex:0 0 76px;width:76px;height:28px;box-sizing:border-box;padding:0;font-size:.82rem;border-radius:5px}
+body .bar .ticker,body.newspg .bar .ticker{order:2;flex:1 1 100%;margin:0}
+}
+@media (max-width:900px){body .bar .acct a{white-space:nowrap}}
+@media (max-width:380px){body .bar .brand img{height:46px}body .bar .rcol{height:46px}body .bar .acct,body .bar .acct .subbtn{height:21px}body .bar .sf input,body .bar .sf button{height:23px}body .bar .acct .subbtn,body .bar .sf button{flex-basis:66px;width:66px}}
