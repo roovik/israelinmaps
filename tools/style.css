@@ -643,3 +643,7 @@ main h1{padding-bottom:7px}main h1::after{height:4px;width:56px}
 .wlatest ul{list-style:none;margin:0;padding:0}.wlatest li{padding:6px 0;font-size:.88rem;line-height:1.3}.wlatest li a{text-decoration:none;color:var(--fg);font-weight:600}.wlatest li a:hover{text-decoration:underline}.wlatest .wm{display:block;font:.72rem system-ui,sans-serif;color:var(--mut)}
 .wlvc{display:block;margin-bottom:8px;text-decoration:none;color:var(--fg)}.wlvc img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;background:var(--hl)}.wlvc span{display:block;font:600 .8rem system-ui,sans-serif;margin-top:3px}
 header.top{margin-bottom:5px}
+/* use the full main column everywhere */
+.newsmain .pages.single,.newsmain .fitem,.newsmain .fx,.newsmain article,.newsmain .gl{max-width:none;width:100%}
+.newsmain .pages.single img{width:100%}
+.newsmain #e-wiki .wimg{max-width:240px}
