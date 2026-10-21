@@ -549,3 +549,7 @@ header.top .bar{padding-top:8px;padding-bottom:6px}
 .newsmain>h1,.hubslide>h1,.newsmain h1{font-size:1.5rem;margin:10px 0 6px}
 main h1{padding-bottom:7px}main h1::after{height:4px;width:56px}
 }
+/* glossary images: one swipe slider at every width */
+.egal,.egal.ranked{display:flex!important;grid-template-columns:none!important;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding-bottom:8px}
+.egal figure,.egal.ranked figure:first-child{flex:0 0 min(78%,420px);scroll-snap-align:start;grid-column:auto}
+.egal img,.egal.ranked figure:first-child img{aspect-ratio:4/3}
