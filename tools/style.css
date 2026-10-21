@@ -824,3 +824,11 @@ main h1{padding-bottom:0}main h1::after{display:none!important}
 .wchips button{font-size:.95rem;padding:7px 16px}
 .wgrid[hidden]{display:none!important}.wfilter #wq{margin-top:10px}.wfilter #wq[hidden]{display:none}
 #src-tabs{overflow-x:auto;white-space:nowrap}
+/* Sources: choose by icon */
+.srcpick{margin:8px 0 6px}
+@media (min-width:641px){.srcpick{flex-wrap:wrap;overflow:visible;gap:16px 12px}}
+.srcpick a[aria-current=true] .apic{box-shadow:0 0 0 3px var(--acc);border-color:#fff}
+.srcpick a[aria-current=true] .apn{color:var(--fg);font-weight:700}
+.sbhead{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin:14px 0 4px}.sbname{margin:0}
+#sb-tabs{margin:6px 0 14px;overflow-x:auto;white-space:nowrap}
+#sb section{margin-top:16px}

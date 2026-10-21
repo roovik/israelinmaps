@@ -284,7 +284,7 @@ def tl_links():
     return [(SHORT.get(r['title'], r['title'].replace('The ', '')), r['url']) for r in rows if r['prefix'] == 'TL']
 def sec_links(sec):
     if sec == 'timelines': return tl_links()
-    if sec == 'sources': return [('Voices', '/who/')] + [({'toi': 'Times of Israel', 'jpost': 'Jerusalem Post', 'ynet': 'Ynet', 'israelhayom': 'Israel Hayom', 'insider': 'Israel Insider', 'jns': 'JNS'}.get(i_, n_), f'/sources/{i_}/') for i_, n_, _, _ in SRC]
+    if sec == 'sources': return [('Publications', '/sources/'), ('Influencers', '/sources/influencers/'), ('Organizations', '/sources/organizations/')] if True else [({'toi': 'Times of Israel', 'jpost': 'Jerusalem Post', 'ynet': 'Ynet', 'israelhayom': 'Israel Hayom', 'jns': 'JNS'}.get(i_, n_), f'/sources/{i_}/') for i_, n_, _, _ in SRC]
     return SUBNAV.get(sec, [])
 def write_subnav_json():
     m = {}
@@ -372,7 +372,6 @@ SRC = [('toi', 'The Times of Israel', 'https://www.timesofisrael.com/', 'An Isra
        ('ynet', 'Ynetnews', 'https://www.ynetnews.com/', 'The English edition of Ynet, the news site of the Yedioth Ahronoth group.'),
        ('haaretz', 'Haaretz', 'https://www.haaretz.com/', 'The English edition of the Israeli daily Haaretz, with news, analysis and opinion.'),
        ('jns', 'JNS', 'https://www.jns.org/', 'Jewish News Syndicate, a news service on Israel, the Middle East and Jewish communities worldwide.'),
-       ('insider', 'Israel Insider', 'https://israelinsider.org/', 'An Israeli news and commentary site, now published through NOWlej.'),
        ('israelhayom', 'Israel Hayom', 'https://www.israelhayom.com/', 'The English edition of the Israeli daily Israel Hayom.')]
 SRCNAME = {a: b for a, b, _, _ in SRC}
 SECKEY = {'/charts/': 'charts', '/images/': 'media', '/maps/': 'maps', '/timelines/': 'timelines', '/tables/': 'charts', '/demographics/': 'charts', '/rankings/': 'charts', '/top-ten/': 'charts', '/size/': 'charts', '/tour/': 'media', '/flora/': 'media'}
