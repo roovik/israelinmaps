@@ -52,7 +52,8 @@
   {
    "handle": "JNS",
    "name": "JNS",
-   "check": "Approved by the user"
+   "check": "Approved by the user. Channel id taken from the YouTube page of @JNS_TV (JNS TV), which is the channel JNS lists as its video channel. Please verify it is the official one.",
+   "id": "UC24cdDLzkNJf2_CNNzdI-UQ"
   }
  ],
  "playlists": [
