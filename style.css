@@ -713,3 +713,7 @@ header.top{margin-bottom:5px}
 .vjump:focus,.whobtn a:focus,.vtabs button:focus,.vseg a:focus{outline:none}
 .vjump:focus-visible,.whobtn a:focus-visible,.vtabs button:focus-visible,.vseg a:focus-visible{outline:2px solid #fff;outline-offset:-4px}
 .vjump.vn{background:var(--t7)}
+/* Wikipedia picture in the background section: always a square crop, never taller than its text */
+#e-wiki{display:flow-root}
+#e-wiki .wimg,.newsmain #e-wiki .wimg{float:right;width:180px;height:180px;max-width:42%;aspect-ratio:1/1;object-fit:cover;object-position:50% 20%;margin:0 0 8px 16px;border-radius:8px}
+@media (max-width:640px){#e-wiki .wimg,.newsmain #e-wiki .wimg{width:110px;height:110px}}
