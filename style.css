@@ -791,3 +791,17 @@ body .bar .ticker,body.newspg .bar .ticker{order:2;flex:1 1 100%;margin:0}
 }
 @media (max-width:900px){body .bar .acct a{white-space:nowrap}}
 @media (max-width:380px){body .bar .brand img{height:46px}body .bar .rcol{height:46px}body .bar .acct,body .bar .acct .subbtn{height:21px}body .bar .sf input,body .bar .sf button{height:23px}body .bar .acct .subbtn,body .bar .sf button{flex-basis:66px;width:66px}}
+/* ticker headline: regular weight, one point smaller */
+.ticker .tkt,.bar .ticker .tkt{font-weight:400!important;font-size:.875rem!important}
+/* selected top tile: no bar, slightly deeper colour instead */
+header.top nav.wrap a.cur{box-shadow:none!important;filter:none!important;color:#fff!important}
+header.top nav.wrap a.cur[data-n="0"]{background:color-mix(in srgb,var(--t1) 78%,#000)}header.top nav.wrap a.cur[data-n="1"]{background:color-mix(in srgb,var(--t2) 78%,#000)}header.top nav.wrap a.cur[data-n="2"]{background:color-mix(in srgb,var(--t3) 78%,#000)}header.top nav.wrap a.cur[data-n="3"]{background:color-mix(in srgb,var(--t4) 78%,#000)}header.top nav.wrap a.cur[data-n="4"]{background:color-mix(in srgb,var(--t5) 78%,#000)}
+/* second level: dark shade of the selected top tile, no bars, always fits the width */
+header.top .subnav,header.top .subnav.sub2{--dk:color-mix(in srgb,var(--sc,#1f62c4) 58%,#000)}
+header.top .subnav a,header.top .subnav.sub2 a{color:var(--dk)!important}
+header.top .subnav a:hover,header.top .subnav a:focus{color:var(--dk)!important;text-decoration:underline}
+header.top .subnav a.on,header.top .subnav.sub2 a.on{color:var(--dk)!important;font-weight:700;box-shadow:none!important}
+@media (max-width:640px){
+header.top .subnav,header.top .subnav.sub2{flex-wrap:wrap;overflow:visible;justify-content:space-between;gap:2px 0;padding:6px 16px 8px}
+header.top .subnav a,header.top .subnav.sub2 a{flex:0 1 auto;font-size:.82rem;padding:5px 6px;white-space:nowrap}
+}
