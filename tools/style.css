@@ -624,3 +624,14 @@ main h1{padding-bottom:7px}main h1::after{height:4px;width:56px}
 .sharehero{margin-top:10px;padding:0;border:0;background:none}.orig{font-size:.75rem}
 .vjump[hidden]{display:none!important}
 .sharehero{gap:4px 5px}.sharehero .shl{display:none}.sharehero a[data-sh],.sharehero button{padding:3px 8px;font-size:.74rem}
+.vlist2 li.hasimg{display:flex;gap:12px;align-items:flex-start}.vlist2 .athl{flex:none;width:120px}.athumb{width:120px;height:80px;object-fit:cover;display:block;background:var(--hl)}
+@media (max-width:640px){.vlist2 .athl{width:96px}.athumb{width:96px;height:64px}}
+/* submissions */
+.subform fieldset{border:0;padding:0;margin:0 0 12px;display:flex;flex-wrap:wrap;gap:6px 14px}.subform legend{font:700 .9rem system-ui,sans-serif;margin-bottom:6px}
+.subform label{font:.9rem system-ui,sans-serif}.subform .sf-row{margin:0 0 12px}.subform .sf-row[hidden]{display:none}
+.subform input[type=text],.subform input[type=url],.subform input[type=email],.subform input:not([type]),.subform textarea{display:block;width:100%;box-sizing:border-box;margin-top:4px;padding:9px 12px;font:1rem system-ui,sans-serif;border:2px solid var(--line);background:#fff;border-radius:0}
+.subform input:focus,.subform textarea:focus{outline:0;border-color:var(--t1)}
+.sf-hp{position:absolute;left:-9999px;height:0;overflow:hidden}.sf-ck{display:flex;gap:8px;align-items:flex-start}
+#sub-msg{font:.9rem system-ui,sans-serif;color:var(--t3)}.subcta{margin:18px 0;padding:12px 14px;background:color-mix(in srgb,var(--t4) 12%,var(--card));font:.9rem system-ui,sans-serif}
+.subitem{border-top:1px solid var(--line);padding:8px 0}.subitem p{margin:3px 0}.subitem button{font:.8rem system-ui,sans-serif;padding:3px 10px;cursor:pointer}
+.claim{margin:8px 0 0;font:.8rem system-ui,sans-serif}.claim a{color:var(--t4)}

@@ -525,6 +525,51 @@ async function voiceApi(url, env) {
   return new Response(JSON.stringify(out), { headers: diagOn ? { ...hdr, 'Cache-Control': 'no-store' } : hdr });
 }
 
+// ---------------------------------------------------------------- submissions: articles, videos, nominees and applications
+const SUBTYPES = ['article', 'video', 'nominee', 'apply', 'claim'];
+async function submitApi(request, env) {
+  const hdr = { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' };
+  if (request.method !== 'POST') return new Response('{"error":"method"}', { status: 405, headers: hdr });
+  if (!env.ENTRIES) return new Response('{"error":"Submissions are not switched on yet."}', { status: 501, headers: hdr });
+  const org = request.headers.get('Origin');
+  if (org && new URL(org).host !== new URL(request.url).host) return new Response('{"error":"origin"}', { status: 403, headers: hdr });
+  let b; try { b = await request.json(); } catch { return new Response('{"error":"Please try again."}', { status: 400, headers: hdr }); }
+  if (b.website) return new Response('{"ok":true}', { headers: hdr });             // honeypot: quietly accept and drop
+  if (typeof b.t === 'number' && Date.now() - b.t < 3000) return new Response('{"error":"Please take a moment to check the form, then send again."}', { status: 429, headers: hdr });
+  const clip = (s, n) => String(s == null ? '' : s).replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f]/g, '').trim().slice(0, n);
+  const type = clip(b.type, 12);
+  if (!SUBTYPES.includes(type)) return new Response('{"error":"Choose what you are sending."}', { status: 400, headers: hdr });
+  const urlOk = u => { try { const x = new URL(u); return /^https?:$/.test(x.protocol); } catch { return false; } };
+  const rec = { type, name: clip(b.name, 120), url: clip(b.url, 500), title: clip(b.title, 200), change: clip(b.change, 20), about: clip(b.about, 120), notes: clip(b.notes, 2000), links: clip(b.links, 800), email: clip(b.email, 160), from: clip(b.from, 120), status: 'new', at: new Date().toISOString() };
+  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(rec.email)) return new Response('{"error":"Please give an email address we can reply to."}', { status: 400, headers: hdr });
+  if ((type === 'article' || type === 'video') && !urlOk(rec.url)) return new Response('{"error":"Please paste the full web address of the article or video."}', { status: 400, headers: hdr });
+  if ((type === 'nominee' || type === 'apply' || type === 'claim') && !rec.name) return new Response('{"error":"Please give a name."}', { status: 400, headers: hdr });
+  if (!b.consent) return new Response('{"error":"Please tick the box so we may review and reply."}', { status: 400, headers: hdr });
+  if (/(https?:\/\/[^\s]+[\s\S]*){6,}/.test(rec.notes)) return new Response('{"error":"Too many links in the notes. Please use the links box."}', { status: 400, headers: hdr });
+  const ip = request.headers.get('CF-Connecting-IP') || 'x', rk = 'rl:' + ip + ':' + new Date().toISOString().slice(0, 13);
+  const n = parseInt(await env.ENTRIES.get(rk) || '0', 10);
+  if (n >= 5) return new Response('{"error":"That is enough for this hour. Please try again later."}', { status: 429, headers: hdr });
+  await env.ENTRIES.put(rk, String(n + 1), { expirationTtl: 3700 });
+  await env.ENTRIES.put('sub:' + rec.at + '-' + Math.random().toString(36).slice(2, 7), JSON.stringify(rec));
+  return new Response('{"ok":true}', { headers: hdr });
+}
+async function submissionsApi(request, env) {
+  const hdr = { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' };
+  if (!env.ENTRIES || !env.ADMIN_KEY) return new Response('{"error":"Not set up yet. It needs the ENTRIES storage and the ADMIN_KEY secret."}', { status: 501, headers: hdr });
+  const key = request.headers.get('x-admin-key') || '';
+  if (key.length !== env.ADMIN_KEY.length || key !== env.ADMIN_KEY) return new Response('{"error":"Wrong admin key."}', { status: 401, headers: hdr });
+  if (request.method === 'POST') {
+    const b = await request.json().catch(() => ({}));
+    if (!/^sub:[0-9T:.\-Z]+-[a-z0-9]+$/.test(b.id || '') || !['new', 'approved', 'rejected', 'done'].includes(b.status)) return new Response('{"error":"bad request"}', { status: 400, headers: hdr });
+    const raw = await env.ENTRIES.get(b.id); if (!raw) return new Response('{"error":"not found"}', { status: 404, headers: hdr });
+    const r = JSON.parse(raw); r.status = b.status; await env.ENTRIES.put(b.id, JSON.stringify(r));
+    return new Response('{"ok":true}', { headers: hdr });
+  }
+  const l = await env.ENTRIES.list({ prefix: 'sub:', limit: 300 });
+  const items = await Promise.all(l.keys.map(async k => { try { return { id: k.name, ...JSON.parse(await env.ENTRIES.get(k.name)) }; } catch { return null; } }));
+  return new Response(JSON.stringify({ items: items.filter(Boolean).sort((a, b) => b.at.localeCompare(a.at)) }), { headers: hdr });
+}
+
 export default {
   async fetch(request, env) {
     YTK = env.YT_KEY || '';
@@ -532,6 +577,8 @@ export default {
     const im = url.pathname.match(/^\/news\/item\/([a-z0-9]+)\/?$/);
     if (im) return itemPage(request, env, im[1], url.searchParams.get('s'), url.searchParams.get('c'));
     if (url.pathname === '/api/videos') return videoApi(url, env);
+    if (url.pathname === '/api/submit') return submitApi(request, env);
+    if (url.pathname === '/api/submissions') return submissionsApi(request, env);
     if (url.pathname === '/api/whoimg') return whoImages(env, !!url.searchParams.get('diag'));
     if (url.pathname === '/api/voice') return voiceApi(url, env);
     if (url.pathname === '/api/entry') return entryApi(request, url, env);

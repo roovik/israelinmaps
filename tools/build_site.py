@@ -263,12 +263,13 @@ def plslug(c): return 'pl-' + c['id'].lower()
 SUBNAV = {
  'news': [('Security', '/news/#mode=topics&tp=security'), ('Diplomacy', '/news/#mode=topics&tp=diplomacy'), ('Politics', '/news/#mode=topics&tp=politics'), ('Tech', '/news/#mode=topics&tp=technology'), ('Business', '/news/#mode=topics&tp=business')],
  'views': [('All Views', '/views/'), ('Op-Ed', '/views/#mode=topics&kind=Op-Ed'), ('Editorial', '/views/#mode=topics&kind=Editorial'), ('Blogs', '/views/#mode=topics&kind=Blog'), ('Voices', '/voices/')],
- 'nowlej': [('Maps', '/maps/'), ('Timelines', '/timelines/'), ('Charts', '/charts/'), ('Media', '/media/'), ('A to Z', '/glossary/')],
+ 'nowlej': [('Maps', '/maps/'), ('Timelines', '/timelines/'), ('Charts', '/charts/'), ('Media', '/media/'), ('Who’s Who', '/who/'), ('A to Z', '/glossary/')],
  'maps': [('Historical Maps', '/maps/'), ('Size Comparisons', '/size/'), ('Israel Tour', '/tour/')],
  'charts': [('Rankings', '/rankings/'), ('Demographics', '/demographics/'), ('Top Ten', '/top-ten/'), ('Size Comparisons', '/size/'), ('Tables', '/tables/')],
  'media': [('A Taste of Israel', '/tour/'), ('Flora and Fauna', '/flora/')],
  'video': [(c['name'], f'/video/{vslug(c)}/') for c in VCFG['channels'][:5]],
- 'glossary': [('People and Groups', '/glossary/#c=people-and-groups'), ('Who’s Who', '/who/'), ('Places', '/glossary/#c=places'), ('Events', '/glossary/#c=events'), ('Buildings and Sites', '/glossary/#c=buildings-and-sites'), ('Works', '/glossary/#c=works')],
+ 'who': [('All', '/who/'), ('Groups', '/who/#g=org'), ('Influencers', '/who/#g=voice'), ('IDF spokespeople', '/who/#g=idf')],
+ 'glossary': [('People and Groups', '/glossary/#c=people-and-groups'), ('Places', '/glossary/#c=places'), ('Events', '/glossary/#c=events'), ('Buildings and Sites', '/glossary/#c=buildings-and-sites'), ('Works', '/glossary/#c=works')],
 }
 SHORT = {'Patriarchs to the First Kings': 'Patriarchs and Kings', 'Kings, Exile and Return': 'Exile and Return', 'Greeks, Hasmoneans and Romans': 'Greeks and Romans', 'Centuries of Foreign Rule': 'Foreign Rule', 'The Ottoman Land': 'Ottomans', 'Zionism Takes Shape': 'Zionism Takes Shape'}
 def tl_links():
@@ -288,7 +289,7 @@ TOPSEC = {'': 'news', 'news': 'news', 'views': 'views', 'voices': 'views', 'who'
           'tables': 'nowlej', 'demographics': 'nowlej', 'rankings': 'nowlej', 'top-ten': 'nowlej', 'size': 'nowlej', 'tour': 'nowlej', 'flora': 'nowlej'}
 TOPIDX = {'news': 0, 'views': 1, 'video': 2, 'nowlej': 3, 'sources': 4}
 CTX2 = {'maps': 'maps', 'timelines': 'timelines', 'charts': 'charts', 'tables': 'charts', 'demographics': 'charts', 'rankings': 'charts', 'top-ten': 'charts', 'size': 'charts',
-        'media': 'media', 'tour': 'media', 'flora': 'media', 'glossary': 'glossary', 'g': 'glossary', 'who': 'glossary'}
+        'media': 'media', 'tour': 'media', 'flora': 'media', 'glossary': 'glossary', 'g': 'glossary', 'who': 'who'}
 def subnav_for(path):
     seg = path.strip('/').split('/')[0]
     top = TOPSEC.get(seg, '')
@@ -324,8 +325,8 @@ def layout(title, body, desc='', path='/', og=None, cls='', nd=False):
 <nav class="wrap" aria-label="Sections">{nav}</nav>{subnav_for(path)}</header>
 <main id="main" class="wrap">{body}</main>
 <footer><div class="wrap"><p>Israel NOWlej: news, views, maps, timelines, charts and media on the Holy Land.</p>
-<p>&copy; 2003 to 2026 Richard J. Koret. All rights reserved. Page images are shown for reference with the book <i>Israel NOWlej</i> by Richard J. Koret. <a href="/about/">About this site, how to use it and cite it</a></p></div></footer>
-<script src="/site.js" defer></script><script src="/share.js" defer></script><script src="/ticker.js" defer></script><script src="/whoimg.js" defer></script>{'<script src="/ads.js" defer></script><script src="/news.js" defer></script>' if news_js else ''}{'<script src="/subnav.js" defer></script>'}{'<script src="/entryedit.js" defer></script>' if path.startswith('/g/') else ''}{'<script src="/video.js" defer></script>' if path.startswith('/video/') or path.startswith('/g/') else ''}{'<script src="/entry.js" defer></script>' if path.startswith('/g/') else ''}{'<script src="/glossary.js" defer></script>' if path == '/glossary/' else ''}{'<script src="/zoom.js" defer></script>' if path == '/maps/' else ''}{'<script src="/voices.js" defer></script>' if path.startswith('/who/') else ''}{'<script src="/entry.js" defer></script>' if path.startswith('/who/') and path != '/who/' else ''}{'<script src="/source.js" defer></script>' if path.startswith('/sources/') and path != '/sources/' else ''}{'<script src="/admin.js" defer></script>' if path == '/admin/video/' else ''}{'<script src="/tlnav.js" defer></script>' if path.startswith('/timelines/') and path != '/timelines/' else ''}{'<script src="/admin_entry.js" defer></script>' if path == '/admin/entry/' else ''}</body></html>'''
+<p>&copy; 2003 to 2026 Richard J. Koret. All rights reserved. Page images are shown for reference with the book <i>Israel NOWlej</i> by Richard J. Koret. <a href="/about/">About this site, how to use it and cite it</a> · <a href="/submit/">Send us an article, video or nomination</a></p></div></footer>
+<script src="/site.js" defer></script><script src="/share.js" defer></script><script src="/ticker.js" defer></script><script src="/whoimg.js" defer></script>{'<script src="/ads.js" defer></script><script src="/news.js" defer></script>' if news_js else ''}{'<script src="/subnav.js" defer></script>'}{'<script src="/entryedit.js" defer></script>' if path.startswith('/g/') else ''}{'<script src="/video.js" defer></script>' if path.startswith('/video/') or path.startswith('/g/') else ''}{'<script src="/entry.js" defer></script>' if path.startswith('/g/') else ''}{'<script src="/glossary.js" defer></script>' if path == '/glossary/' else ''}{'<script src="/zoom.js" defer></script>' if path == '/maps/' else ''}{'<script src="/voices.js" defer></script>' if path.startswith('/who/') else ''}{'<script src="/submit.js" defer></script>' if path in ('/submit/', '/admin/submissions/') else ''}{'<script src="/entry.js" defer></script>' if path.startswith('/who/') and path != '/who/' else ''}{'<script src="/source.js" defer></script>' if path.startswith('/sources/') and path != '/sources/' else ''}{'<script src="/admin.js" defer></script>' if path == '/admin/video/' else ''}{'<script src="/tlnav.js" defer></script>' if path.startswith('/timelines/') and path != '/timelines/' else ''}{'<script src="/admin_entry.js" defer></script>' if path == '/admin/entry/' else ''}</body></html>'''
 
 def write(path, content):
     fp = os.path.join(OUT, path.lstrip('/'))
@@ -825,7 +826,8 @@ def voices_pages():
     wb = ('<h1>Who&#8217;s Who</h1><p class="small">Entries on the organizations and people who shape the conversation about Israel. Each has an introduction, images, video and podcasts, more background, and the latest articles.</p>'
           '<div class="wfilter"><input id="wq" type="search" placeholder="Find a person, organization or topic" aria-label="Find in Who&#8217;s Who">'
           '<div class="wchips" id="wchips"><button type="button" data-g="" aria-pressed="true">All</button><button type="button" data-g="voice" aria-pressed="false">Individuals</button><button type="button" data-g="org" aria-pressed="false">Organizations</button><button type="button" data-g="idf" aria-pressed="false">IDF spokespeople</button></div></div>'
-          '<div class="wgrid" id="wgrid">' + ''.join(wcard(v) for v in lst) + '</div><p class="small" id="wnone" hidden>No match. Try a shorter word.</p>')
+          '<div class="wgrid" id="wgrid">' + ''.join(wcard(v) for v in lst) + '</div><p class="small" id="wnone" hidden>No match. Try a shorter word.</p>'
+          '<p class="subcta"><b>Missing someone?</b> <a href="/submit/?type=nominee">Nominate a person or organization</a> or <a href="/submit/?type=apply">apply to be listed</a>.</p>')
     write('/who/', layout('Who’s Who', chan('glossary', wb, '/who/', left=wholeft()), 'Who’s Who: the organizations and people who shape the conversation about Israel.', '/who/'))
     for v in VOICES_:
         wk = v.get('wiki') or v['name']
@@ -836,17 +838,44 @@ def voices_pages():
         body = (f'<article class="gl who"><div class="whohero"><div class="whoph {col}{" org" if v["kind"] == "org" else ""}" id="who-ph" data-who="{v["id"]}" data-wiki="{E(wk)}"><span class="ini">{E(ini)}</span></div>'
                 f'<div class="whotx"><span class="id">NOWlej · Who&#8217;s Who · {kind}</span><h1>{E(v["name"])}</h1>'
                 f'<p class="lead edef" id="e-def">{E(v["intro"])}<a class="econt" href="#e-summary" hidden>Continue &#9656;</a></p>'
-                f'<p class="whobtn"><a class="vjump vb" id="wb-vid" href="#e-video" hidden>Videos</a><a class="vjump vb" id="wb-pl" href="#e-video" data-t="playlists" hidden>Playlists</a><a class="vjump" href="#v-articles">Articles</a>{site_}</p></div></div>'
+                f'<p class="whobtn"><a class="vjump vb" id="wb-vid" href="#e-video" hidden>Videos</a><a class="vjump vb" id="wb-pl" href="#e-video" data-t="playlists" hidden>Playlists</a><a class="vjump" href="#v-articles">Articles</a>{site_}</p>'
+                f'<p class="claim"><a href="/submit/?type=claim&name={urllib.parse.quote(v["name"])}">Is this your profile? Send corrections, additions or removals</a></p></div></div>'
                 '<nav class="esec" id="esec" aria-label="On this page"><a href="#e-images" data-s="e-images" hidden>Images</a><a href="#e-video" data-s="e-video" hidden>Video</a><a href="#e-summary" data-s="e-summary" hidden>More NOWlej</a><a href="#v-articles">Articles</a><a href="#e-related">Related</a><a href="#e-sources">Sources</a></nav>'
                 f'<section id="e-images" hidden data-name="{E(wk)}"><div class="egal" id="e-gal"></div><p class="small">Photographs from Wikimedia Commons. Click an image to enlarge it. Author and license are shown with each.</p></section>'
                 f'<section id="e-video" hidden><div id="voice-page" data-id="{v["id"]}"></div><div class="vtop" id="v-player" hidden></div><div class="vtabs" id="v-tabs" role="group" aria-label="Choose from"><button type="button" data-t="videos" aria-pressed="true">Videos</button><button type="button" data-t="playlists" aria-pressed="false" hidden>Playlists</button></div><div id="v-clips" hidden><ul class="vclips"></ul></div><div id="v-playlists" hidden><ul class="vpls2"></ul></div><div id="v-pods" hidden><h2>Podcast episodes</h2><ul class="vlist2"></ul></div></section>'
                 f'<section id="e-summary" hidden><h2>MORE NOWLEJ</h2><div id="e-wiki" data-wiki="{E(wk)}" hidden></div></section>'
                 f'<section id="e-related"><h2>Related</h2><p><b>See also</b> <a href="/who/">Who&#8217;s Who</a> · <a href="/voices/">Voices</a> · <a href="/glossary/">NOWlej A to Z</a></p></section>'
                 f'<section id="v-articles"><h2>Articles</h2><ul class="vlist2"><li>Loading.</li></ul></section>'
+                f'<p class="subcta">Know a good article or video about {E(v["name"])}? <a href="/submit/?type=article&about={urllib.parse.quote(v["name"])}">Send it to us</a> or <a href="/submit/?type=video&about={urllib.parse.quote(v["name"])}">suggest a video</a>.</p>'
                 f'<section id="e-sources"><h2>Sources</h2><ul class="esrc" id="e-src"><li>Headlines, short excerpts and links come from the public feeds of {E(v["name"])} and from news search results, and are credited to and link to the original publisher.</li></ul></section></article>')
         write(f'/who/{v["id"]}/', layout(v['name'], chan('glossary', body, '/who/', left=wholeft(v['id'])), v['intro'], f'/who/{v["id"]}/'))
         search.append({'t': v['name'], 'u': f'/who/{v["id"]}/', 'k': 'WHO’S WHO', 's': kind + (' · IDF spokesperson' if v.get('group') == 'idf' else ''), 'x': (v['intro'] + ' ' + v.get('tags', '') + (' influencer podcaster guest expert' if v['kind'] == 'voice' else ' organization media'))[:700]})
 voices_pages()
+
+# ---- submissions form
+def submit_page():
+    b = ('<h1>Send us something</h1><p class="lead">Help build the best archive and living directory of pro-Israel media. Send an article or a video, nominate someone for Who&#8217;s Who, or apply to be listed. Every submission is read by a person before anything is published.</p>'
+         '<form id="subform" class="subform" novalidate><fieldset><legend>What are you sending?</legend>'
+         '<label><input type="radio" name="type" value="article" checked> An article</label><label><input type="radio" name="type" value="video"> A video</label>'
+         '<label><input type="radio" name="type" value="nominee"> A nomination for Who&#8217;s Who</label><label><input type="radio" name="type" value="apply"> I want to be listed</label><label><input type="radio" name="type" value="claim"> This is my profile</label></fieldset>'
+         '<div class="sf-row" data-for="claim" hidden><p class="small">Thank you for finding your profile. Tell us what to correct, add or remove. To protect you from impostors we will reply to the email below and may ask you to confirm from an official address before we change anything. Removal requests are handled promptly.</p><label>What would you like us to do? <select name="change"><option value="correct">Correct something</option><option value="add">Add something</option><option value="remove">Remove something or the whole profile</option></select></label></div>'
+         '<div class="sf-row" data-for="article video"><label>Web address (full link) <input name="url" type="url" placeholder="https://"></label></div>'
+         '<div class="sf-row" data-for="article video"><label>Title, if you know it <input name="title" maxlength="200"></label></div>'
+         '<div class="sf-row" data-for="article video"><label>Who or what is it about? <input name="about" maxlength="120" placeholder="A person or organization in Who&#8217;s Who, or a topic"></label></div>'
+         '<div class="sf-row" data-for="nominee apply claim" hidden><label>Name of the person or organization <input name="name" maxlength="120"></label></div>'
+         '<div class="sf-row" data-for="nominee apply claim" hidden><label>Links: website, YouTube, podcast, blog or feed addresses <textarea name="links" rows="3" maxlength="800"></textarea></label></div>'
+         '<div class="sf-row"><label>Why it belongs, or a few words about it <textarea name="notes" rows="4" maxlength="2000"></textarea></label></div>'
+         '<div class="sf-row"><label>Your name <input name="from" maxlength="120" autocomplete="name"></label></div>'
+         '<div class="sf-row"><label>Your email, so we can reply <input name="email" type="email" required autocomplete="email"></label></div>'
+         '<div class="sf-hp" aria-hidden="true"><label>Leave this empty <input name="website" tabindex="-1" autocomplete="off"></label></div>'
+         '<div class="sf-row"><label class="sf-ck"><input type="checkbox" name="consent"> You may review this and email me about it. My email stays private and is not published.</label></div>'
+         '<p><button type="submit" class="vjump">Send</button> <span id="sub-msg" role="status"></span></p></form>'
+         '<p class="small">We list only material that is public and credited to its source. Being listed is an editorial decision and is never guaranteed. Videos play embedded and articles link to the original publisher.</p>')
+    write('/submit/', layout('Send us something', chan('voices', b, '/submit/', views=True), 'Submit an article or video, nominate someone for Who’s Who, or apply to be listed.', '/submit/'))
+    ad = ('<h1>Submissions</h1><p class="small">Private working page. Enter the admin key once. It stays in this browser only. <a href="/admin/entry/">Entry workbench</a></p>'
+          '<p><input id="sa-key" type="password" placeholder="Admin key" autocomplete="off"> <button type="button" id="sa-go">Load</button> <select id="sa-f"><option value="new">New</option><option value="approved">Approved</option><option value="done">Done</option><option value="rejected">Rejected</option><option value="">All</option></select></p><p id="sa-msg" class="small"></p><div id="sa-list"></div>')
+    write('/admin/submissions/', layout('Submissions', ad, 'Private working page.', '/admin/submissions/', cls='', nd=True))
+submit_page()
 write('/about/', layout('About Israel NOWlej', home, 'About Israel NOWlej, and how the addresses, IDs and citations from the book Israel NOWlej work.', '/about/', '/img/p006.webp', cls=''))
 
 news = '''<div class="newspage"><div class="adslot" data-slot="page-top" data-sizes="728x90|320x50"></div><div class="newsleftcol"><nav class="newstopics" id="news-topics" aria-label="Topics and sources"></nav><div class="adslot" data-slot="left" data-sizes="tower"></div></div><div class="newsleft"><h1>News</h1>
@@ -916,6 +945,7 @@ write('/glossary.json', json.dumps(list(merged.values()), ensure_ascii=False, se
 shutil.copy(os.path.join(ROOT, 'tools', 'news.js'), os.path.join(OUT, 'news.js'))
 shutil.copy(os.path.join(ROOT, 'tools', 'voices.js'), os.path.join(OUT, 'voices.js'))
 shutil.copy(os.path.join(ROOT, 'tools', 'whoimg.js'), os.path.join(OUT, 'whoimg.js'))
+shutil.copy(os.path.join(ROOT, 'tools', 'submit.js'), os.path.join(OUT, 'submit.js'))
 shutil.copy(os.path.join(ROOT, 'tools', 'ticker.js'), os.path.join(OUT, 'ticker.js'))
 shutil.copy(os.path.join(ROOT, 'tools', 'ads.js'), os.path.join(OUT, 'ads.js'))
 shutil.copy(os.path.join(ROOT, 'tools', 'source.js'), os.path.join(OUT, 'source.js'))
@@ -938,7 +968,7 @@ write('/search.json', json.dumps(search, ensure_ascii=False, separators=(',', ':
 shutil.copy(os.path.join(ROOT, 'tools', 'style.css'), os.path.join(OUT, 'style.css'))
 shutil.copy(os.path.join(ROOT, 'tools', 'site.js'), os.path.join(OUT, 'site.js'))
 open(os.path.join(OUT, 'robots.txt'), 'w').write(f'User-agent: *\nAllow: /\nSitemap: {BASE}/sitemap.xml\n')
-allurls = ['/', '/voices/', '/who/'] + [f'/who/{v_["id"]}/' for v_ in VOICES_] + [ '/about/', '/news/', '/views/', '/video/', '/media/', '/charts/', '/sources/', '/subscribe/', '/signin/', '/glossary/', '/index/', '/maps/', '/timelines/', '/tables/', '/demographics/', '/rankings/', '/top-ten/', '/size/', '/tour/', '/flora/'] + [r['url'] for r in rows] + [f'/g/{g["slug"]}/' for g in G]
+allurls = ['/', '/voices/', '/who/', '/submit/'] + [f'/who/{v_["id"]}/' for v_ in VOICES_] + [ '/about/', '/news/', '/views/', '/video/', '/media/', '/charts/', '/sources/', '/subscribe/', '/signin/', '/glossary/', '/index/', '/maps/', '/timelines/', '/tables/', '/demographics/', '/rankings/', '/top-ten/', '/size/', '/tour/', '/flora/'] + [r['url'] for r in rows] + [f'/g/{g["slug"]}/' for g in G]
 open(os.path.join(OUT, 'sitemap.xml'), 'w').write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + ''.join(f'<url><loc>{BASE}{u}</loc></url>\n' for u in allurls) + '</urlset>\n')
 
 red = []
