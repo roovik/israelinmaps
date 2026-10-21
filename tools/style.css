@@ -541,3 +541,11 @@ header.top .bar{padding-top:8px;padding-bottom:6px}
 .bar .acct{gap:9px;font-size:.76rem;flex-wrap:nowrap}
 .bar .acct .subbtn{padding:3px 9px}
 }
+/* phones: photo galleries become swipe sliders, headings take less room */
+@media (max-width:640px){
+.hubslide .tgrid,.aboutpg .newsleftcol .tgrid{display:flex!important;grid-template-columns:none!important;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;margin:0 -16px 8px;padding:2px 16px 10px;scroll-padding-left:16px}
+.hubslide .tgrid>.tcard,.aboutpg .newsleftcol .tgrid>.tcard{flex:0 0 78%;max-width:78%;scroll-snap-align:start;margin:0}
+.hubslide h2{margin:14px 0 8px;font-size:1.05rem}
+.newsmain>h1,.hubslide>h1,.newsmain h1{font-size:1.5rem;margin:10px 0 6px}
+main h1{padding-bottom:7px}main h1::after{height:4px;width:56px}
+}

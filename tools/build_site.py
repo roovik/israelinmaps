@@ -626,7 +626,7 @@ def hub(path, title, intro, groups, crumb=None):
         tc_ = tcards(items_)
         if SECKEY[path] == 'charts': tc_ = re.sub(r'<span class="(?:tid|tp)">.*?</span>', '', tc_)
         b += tc_
-    write(path, layout(title, chan(SECKEY[path], b, path), intro, path, f'/img/p{groups[0][1][0]["pages"][0]:03d}.webp' if groups and groups[0][1] else None))
+    write(path, layout(title, chan(SECKEY[path], '<div class="hubslide">' + b + '</div>', path), intro, path, f'/img/p{groups[0][1][0]["pages"][0]:03d}.webp' if groups and groups[0][1] else None))
 
 def items(prefix, pred=lambda r: True): return [r for r in rows if r['prefix'] == prefix and pred(r)]
 def map_hub():
