@@ -1016,3 +1016,11 @@ header.top::after{display:none!important}
 .mfilters.m3 label{flex:1 1 0;min-width:0;flex-direction:row!important;font-size:0!important;gap:0}
 .mfilters.m3 select{width:100%;font-size:.78rem!important}
 .sbfilter{position:sticky;top:var(--stick,0px);z-index:7;background:var(--bg);padding:6px 0;margin-top:0}
+.igrid.mas{display:block!important;column-width:230px;column-gap:14px}
+.igrid.mas .ifig{break-inside:avoid;margin:0 0 14px;position:relative;border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.igrid.mas .ifig a.ith{aspect-ratio:auto;min-height:90px;position:relative}
+.igrid.mas .ifig img{height:auto;display:block;transition:transform .35s}.igrid.mas .ifig:hover img{transform:scale(1.03)}
+.igrid.mas .ifig a.ith{overflow:hidden}
+.iplay{position:absolute;right:8px;bottom:8px;background:rgba(0,0,0,.65);color:#fff;border-radius:50%;width:30px;height:30px;display:grid;place-items:center;font-size:.8rem}
+.igrid.mas .ifig figcaption{font-size:.78rem;padding:7px 10px 9px}.igrid.mas .ifig b{font-size:.86rem}
+@media(max-width:520px){.igrid.mas{column-width:150px;column-gap:10px}.igrid.mas .ifig{margin-bottom:10px}}
