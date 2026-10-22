@@ -752,7 +752,7 @@ for L, lst in letters.items():
         cn = catname(g); cs = catslug(cn)
         tr = None if g.get('href') else gl_thumb(g); th = make_thumb(tr) if tr else None
         if th: nthumb += 1
-        img = (f'<img src="{th}" alt="" width="{THUMB_W}" height="{THUMB_H}" loading="lazy">' if th else f'<span class="tile c-{cs}"{(" data-who=\"" + g["slug"] + "\"") if g.get("href") else ""}><b>{E(key(g["name"])[0].upper())}</b><small>{E(cn)}</small></span>')
+        img = (f'<img src="{th}" alt="" width="{THUMB_W}" height="{THUMB_H}" loading="lazy">' if th else f'<span class="tile c-{cs}"{(" data-who=\"" + g["slug"] + "\"") if g.get("href") else ""}><b>{E(key(g["name"])[0].upper())}</b></span>')
         he_ = f'<span class="he" lang="he" dir="rtl">{E(g["he"])}</span>' if g['he'] else ''
         gh += (f'<a class="gcard" href="{g.get("href") or "/g/" + g["slug"] + "/"}" data-c="{cs}" data-n="{E((g["name"] + " " + g["he"] + " " + d_).lower())}"><span class="gimg">{img}</span>'
                f'<span class="gb"><span class="gcat c-{cs}">{E(cn)}</span><b>{E(g["name"])}</b>{he_}<span class="gd">{E(d_)}</span></span></a>')

@@ -974,3 +974,13 @@ header.top{margin-bottom:0!important}main#main{padding-top:5px!important;margin-
 
 @media (max-width:640px){#sb-head{scroll-margin-top:178px}}
 #sb-head{scroll-margin-top:10px}
+
+.gfilter{position:static!important;border-bottom:0}
+#gaz{position:sticky;top:var(--stick,0px);z-index:6;background:var(--bg);margin:0 0 8px;padding:6px 0;border-bottom:1px solid var(--line);display:flex;flex-wrap:nowrap;overflow-x:auto;justify-content:safe center;gap:2px;scrollbar-width:none;font-family:system-ui,sans-serif}
+#gaz::-webkit-scrollbar{display:none}#gaz a{flex:0 0 auto;padding:4px 7px;font-weight:700;text-decoration:none;border-radius:4px}#gaz a:hover{background:rgba(0,0,0,.06)}
+.gsec h2[id]{scroll-margin-top:calc(var(--stick,0px) + 52px)}
+
+@media (max-width:900px){p.az#gaz{display:flex!important}.newsleftcol:has(.secnav.az){display:none!important}}
+
+.egal img,.egal.ranked figure:first-child img,.gimg img,.tcover .tcard .timg img{object-fit:contain!important;background:var(--hl)}
+.egal figure.ibook img{object-fit:contain}

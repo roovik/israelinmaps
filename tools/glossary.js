@@ -1,6 +1,8 @@
 (function(){
   var q=document.getElementById('gq'),cats=document.getElementById('gcats');if(!q||!cats)return;
   var cards=[].slice.call(document.querySelectorAll('.gcard')),secs=[].slice.call(document.querySelectorAll('.gsec')),cnt=document.getElementById('gcount'),az=document.getElementById('gaz'),cat='';
+  var gf=document.querySelector('.gfilter');if(gf&&az&&gf.contains(az))gf.insertAdjacentElement('afterend',az);
+  function stick(){var h=document.querySelector('header.top'),m=window.matchMedia('(max-width:640px)').matches;document.documentElement.style.setProperty('--stick',m&&h?h.offsetHeight+'px':'0px')}stick();window.addEventListener('resize',stick);window.addEventListener('load',stick);
   function norm(s){return s.toLowerCase().normalize('NFKD').replace(/[̀-ͯ]/g,'').replace(/['’]/g,'')}
   function run(){
     var t=norm(q.value.trim()),shown=0;
