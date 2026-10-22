@@ -20,7 +20,7 @@ A['tour']={'t':'Tours','g':[{'h':'Regions','u':'/tour/','i':[x for x in leaves('
 A['timelines']={'t':'Timelines','g':[{'h':'Timelines','u':'/timelines/','i':leaves('timelines/[0-9]*/*/index.html')}]}
 A['charts']={'t':'Charts','g':[{'h':'Rankings','u':'/rankings/','i':leaves('rankings/[0-9]*/*/index.html')},{'h':'Demographics','u':'/demographics/','i':leaves('demographics/[0-9]*/*/index.html')},{'h':'Tables','u':'/tables/','i':leaves('tables/[0-9]*/*/index.html')},{'h':'Top ten','u':'/top-ten/','i':leaves('top-ten/[0-9]*/*/index.html')}]}
 A['hot']={'t':'Topics','g':[{'h':'Topics','u':'/hot/','i':leaves('hot/*/index.html')}]}
-A['glossary']={'t':'NOWlej','g':[{'h':'In NOWlej','u':'/glossary/','i':[['Maps','/maps/'],['Tours','/tour/'],['Timelines','/timelines/'],['Charts','/charts/'],['Topics','/hot/'],['Book','/about/'],['A to Z','/glossary/']]}]}
+A['glossary']={'t':'NOWlej','g':[{'h':'In NOWlej','u':'/glossary/','i':[['Maps','/maps/'],['Size Comparisons','/size/'],['Tours','/tour/'],['Timelines','/timelines/'],['Charts','/charts/'],['Topics','/hot/'],['Book','/about/'],['A to Z','/glossary/']]}]}
 A['about']={'t':'About Us','g':[
  {'h':'About','u':'/about/','i':[['About Israel NOWlej','/about/'],['How to use this site','','soon'],['Our editorial standards','','soon'],['Our sources','/sources/'],['Corrections','/legal/#corrections'],['Team and contributors','','soon'],['The book: Israel in Maps','','soon']]},
  {'h':'Get in touch','u':'/contact/','i':[['Contact','/contact/'],['Send an article, video or nomination','/submit/'],['Press and permissions','','soon'],['Advertise with us','','soon']]},

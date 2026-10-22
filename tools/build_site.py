@@ -296,7 +296,7 @@ def write_subnav_json():
 TOPSEC = {'': 'news', 'news': 'news', 'views': 'views', 'voices': 'views', 'who': 'sources', 'hot': 'nowlej', 'sources': 'sources', 'video': 'media', 'audio': 'media', 'images': 'media', 'maps': 'nowlej', 'timelines': 'nowlej', 'charts': 'nowlej', 'media': 'media', 'glossary': 'nowlej', 'g': 'nowlej',
           'tables': 'nowlej', 'demographics': 'nowlej', 'rankings': 'nowlej', 'top-ten': 'nowlej', 'size': 'nowlej', 'tour': 'media', 'flora': 'media'}
 TOPIDX = {'news': 0, 'views': 1, 'media': 2, 'nowlej': 3, 'sources': 4}
-CTX2 = {'maps': 'maps', 'timelines': 'timelines', 'charts': 'charts', 'tables': 'charts', 'demographics': 'charts', 'rankings': 'charts', 'top-ten': 'charts', 'size': 'charts',
+CTX2 = {'timelines': 'timelines', 'charts': 'charts', 'tables': 'charts', 'demographics': 'charts', 'rankings': 'charts', 'top-ten': 'charts', 'size': 'charts',
         }
 def subnav_for(path):
     seg = path.strip('/').split('/')[0]
