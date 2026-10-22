@@ -1012,3 +1012,7 @@ header.top .subnav,header.top .subnav.sub2{background:color-mix(in srgb,var(--sc
 header.top::after{display:none!important}
 .athl.fav .athumb{object-fit:contain;padding:14px;box-sizing:border-box}
 #sb-pick[hidden]{display:none!important}
+.mfilters.m3{display:flex!important;flex-wrap:nowrap;gap:6px;max-width:720px}
+.mfilters.m3 label{flex:1 1 0;min-width:0;flex-direction:row!important;font-size:0!important;gap:0}
+.mfilters.m3 select{width:100%;font-size:.78rem!important}
+.sbfilter{position:sticky;top:var(--stick,0px);z-index:7;background:var(--bg);padding:6px 0;margin-top:0}

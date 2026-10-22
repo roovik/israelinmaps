@@ -58,7 +58,7 @@
     as.sort(function(a,b){var x=by[a.getAttribute('data-s')],y=by[b.getAttribute('data-s')];if(!x||!y)return 0;return s==='old'?0:lbl(x).toLowerCase().localeCompare(lbl(y).toLowerCase())}).forEach(function(a){pick.appendChild(a)});
     as.forEach(function(a){var it=by[a.getAttribute('data-s')];var ok=!q||(it&&(it.name+' '+(it.bio||'')).toLowerCase().indexOf(q)>-1);a.hidden=!ok;if(ok)n++});
     head.innerHTML='<h2 class="sbname">'+esc(ALL.name)+'</h2><p class="small">'+n+' shown. Choose one to see its articles, videos and podcasts.</p>'}
-  function route(sc){var r=parse(),it=by[r.s],my=++seq;if(sc&&head&&head.scrollIntoView)head.scrollIntoView({behavior:'smooth',block:'start'});
+  function route(sc){var r=parse(),it=by[r.s],my=++seq;
     [].forEach.call(pick.children,function(a){var on=a.getAttribute('data-s')===r.s;if(on)a.setAttribute('aria-current','true');else a.removeAttribute('aria-current')});
     selEl.value=r.s;if(r.s==='all'){showAll();return}
     out.innerHTML='<p>Loading.</p>';
