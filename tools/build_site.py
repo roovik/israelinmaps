@@ -440,7 +440,7 @@ def neighbors(r):
 def imgs_html(r):
     out = []
     for p in r['pages']:
-        out.append(f'<a href="/img/p{p:03d}.webp"><img src="/img/p{p:03d}.webp" width="1200" height="1500" alt="Book page {p}: {E(r["title"])}" loading="{"eager" if p == r["pages"][0] else "lazy"}"></a>')
+        out.append(f'<a href="/img/p{p:03d}.webp"><img src="/img/p{p:03d}.webp" width="1200" height="1500" alt="{E(r["title"])}" loading="{"eager" if p == r["pages"][0] else "lazy"}"></a>')
     cls = 'spread' if len(r['pages']) == 2 else ('multi' if len(r['pages']) > 2 else 'single')
     return f'<div class="pages {cls}">' + ''.join(out) + '</div>'
 
@@ -492,8 +492,8 @@ def stn_html(r, st):
     if not st: return imgs_html(r)
     paras, fn, w, h = st
     pg = r['pfirst']
-    return (f'<div class="pages single wide"><a href="{fn}"><img src="{fn}" width="{w}" height="{h}" alt="{E(r["title"])}, from book page {pg}"></a></div>'
-            f'<details class="txt"><summary>See the whole book page ({pg})</summary><div class="pages single"><a href="/img/p{pg:03d}.webp"><img src="/img/p{pg:03d}.webp" width="1200" height="1500" alt="Book page {pg}" loading="lazy"></a></div></details>')
+    return (f'<div class="pages single wide"><a href="{fn}"><img src="{fn}" width="{w}" height="{h}" alt="{E(r["title"])}"></a></div>'
+            )
 
 def item_page(r):
     hub, hubt = hub_of(r)
@@ -525,7 +525,7 @@ def item_page(r):
     plain_ = SECKEY.get(hub) in ('maps', 'timelines', 'charts')
     body = f'''<p class="crumb"><a href="/">Home</a> / <a href="{hub}">{E(hubt)}</a></p>
 <article><header class="ih">{"" if plain_ else f'<span class="id">{r["id"]}</span>'}<h1>{E(r["title"])}</h1>
-<p class="meta">{E(kind)} · {E(r["section"])}{"" if plain_ else f" · {ptxt}"}</p>{region}</header>
+<p class="meta">{E(kind)} · {E(r["section"])}</p>{region}</header>
 {stn_html(r, st)}
 <div class="cite"><p><b>Cite this page</b></p><p class="citeline" id="cite">{E(cit)}</p><button type="button" class="copy" data-copy="{E(cit)}">Copy citation</button>
 <p class="small">Short address: <a href="{r["short"]}">israelnowlej.com{r["short"]}</a></p></div>
