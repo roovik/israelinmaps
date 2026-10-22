@@ -1175,3 +1175,4 @@ h1.nowbar b,h1.nowbar .nsep{color:inherit}
 .nb .nmeta .by{margin-left:0;font-style:italic}.nb .nmeta .by .ago{font-style:normal;color:var(--mut)}
 @media (min-width:901px){.ticker .tkt,.bar .ticker .tkt{font-size:calc(.875rem + 2pt)!important;line-height:1.25}.ticker .tkm{font-size:calc(.84rem + 2pt)!important;line-height:1.25}.bar .ticker .tki{padding-left:4px!important}}
 @media (min-width:901px){.bar .rcol .sf button{height:26px!important;width:82px!important;flex:0 0 82px!important;align-self:center;padding-left:0;padding-right:0}.bar .rcol .acct .subbtn{width:82px!important;flex:0 0 82px!important;text-align:center;padding-left:0!important;padding-right:0!important;box-sizing:border-box}}
+@media (min-width:901px){.bar .ticker .tkt{position:relative;top:-2px}.bar .ticker .tkm{position:relative;top:2px}}
