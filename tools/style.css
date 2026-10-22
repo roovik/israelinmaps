@@ -961,3 +961,6 @@ body .bar .ticker,body.newspg .bar .ticker{border:0!important;background:transpa
 .cdd-l span{color:var(--secd,#1d3557);opacity:.75}
 
 @media (max-width:640px){.ffilter{flex-wrap:nowrap!important;gap:5px}.ffilter label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}.ffilter select{flex:0 0 29%;max-width:29%;min-width:0;padding:0 4px;font-size:.8rem;text-overflow:ellipsis}.ffilter input{flex:1 1 0;min-width:0;padding:0 6px}.ffilter button{flex:none;padding:0 10px}}
+
+.ffilter select{font-size:.73rem!important}.mfilters select,.srt select,.vfbar select{font-size:.78rem!important}.cdd-b,.cdd-l{font-size:9pt!important}
+@media (max-width:640px){.ffilter select{flex:0 0 22%!important;max-width:22%!important;font-size:.63rem!important;padding:0 3px!important}.mfilters select{font-size:.72rem!important}}
