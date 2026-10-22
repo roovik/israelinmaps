@@ -1004,3 +1004,4 @@ header.top .subnav.wrap{width:auto;max-width:none;margin-left:max(16px,calc((100
 header.top::after{margin-left:max(16px,calc((100% - 1408px)/2));margin-right:max(16px,calc((100% - 1408px)/2))}
 .ffilter #ff-c{max-width:130px}
 @media(max-width:520px){.ffilter #ff-c,.ffilter #ff-b{max-width:84px}}
+header.top nav.wrap{padding-bottom:0!important}
