@@ -1173,3 +1173,4 @@ h1.nowbar b,h1.nowbar .nsep{color:inherit}
 .newspage h1,.newsmain h1{color:color-mix(in srgb,var(--sec,#1f62c4) 62%,#fff)}
 .newspage article h1,.fitem h1{color:inherit}
 .nb .nmeta .by{margin-left:0;font-style:italic}.nb .nmeta .by .ago{font-style:normal;color:var(--mut)}
+@media (min-width:901px){.ticker .tkt,.bar .ticker .tkt{font-size:calc(.875rem + 2pt)!important;line-height:1.25}.ticker .tkm{font-size:calc(.84rem + 2pt)!important;line-height:1.25}.bar .ticker .tki{padding-left:4px!important}}
