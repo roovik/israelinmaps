@@ -729,6 +729,101 @@ async function submissionsApi(request, env) {
 }
 
 
+// ---------------------------------------------------------------- people: subscribers and contacts (KV: sb:<email>, ct:<time>-<id>)
+const pClip = (s, n) => String(s == null ? '' : s).replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f]/g, '').trim().slice(0, n);
+const P_TOPICS = ['general', 'press', 'permissions', 'error', 'other'];
+async function peopleSignup(request, env, ctx, kind) {
+  const hdr = { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' };
+  if (request.method !== 'POST') return new Response('{"error":"method"}', { status: 405, headers: hdr });
+  if (!env.ENTRIES) return new Response('{"error":"This form is not switched on yet."}', { status: 501, headers: hdr });
+  const org = request.headers.get('Origin');
+  if (org && new URL(org).host !== new URL(request.url).host) return new Response('{"error":"origin"}', { status: 403, headers: hdr });
+  let b; try { b = await request.json(); } catch { return new Response('{"error":"Please try again."}', { status: 400, headers: hdr }); }
+  if (b.website) return new Response('{"ok":true}', { headers: hdr });
+  if (typeof b.t === 'number' && Date.now() - b.t < 2500) return new Response('{"error":"Please take a moment to check the form, then send again."}', { status: 429, headers: hdr });
+  const email = pClip(b.email, 160).toLowerCase();
+  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return new Response('{"error":"Please enter a valid email address."}', { status: 400, headers: hdr });
+  if (!b.consent) return new Response('{"error":"Please tick the box so we may write to you."}', { status: 400, headers: hdr });
+  const message = pClip(b.message, 3000);
+  if (kind === 'contact' && !message) return new Response('{"error":"Please write your message."}', { status: 400, headers: hdr });
+  if (/(https?:\/\/[^\s]+[\s\S]*){5,}/.test(message)) return new Response('{"error":"Too many links in the message."}', { status: 400, headers: hdr });
+  const ip = request.headers.get('CF-Connecting-IP') || 'x', rk = 'rlp:' + ip + ':' + new Date().toISOString().slice(0, 13);
+  const n = parseInt(await env.ENTRIES.get(rk) || '0', 10);
+  if (n >= 6) return new Response('{"error":"That is enough for this hour. Please try again later."}', { status: 429, headers: hdr });
+  await env.ENTRIES.put(rk, String(n + 1), { expirationTtl: 3700 });
+  const stated = /^[A-Za-z]{2}$/.test(String(b.country || '')) ? String(b.country).toUpperCase() : '';
+  const det = request.cf && /^[A-Z]{2}$/.test(request.cf.country || '') && request.cf.country !== 'XX' && request.cf.country !== 'T1' ? request.cf.country : '';
+  const base = { email, first: pClip(b.first, 80), last: pClip(b.last, 80), cc: stated || det, ccSrc: stated ? 'stated' : (det ? 'detected' : ''), at: new Date().toISOString() };
+  const subscribe = async () => {
+    const key = 'sb:' + email, old = await env.ENTRIES.get(key);
+    let rec = { ...base, status: 'active', src: pClip(b.src, 60) || 'subscribe page' };
+    if (old) { try { const o = JSON.parse(old); rec = { ...o, first: base.first || o.first, last: base.last || o.last, cc: base.cc || o.cc, ccSrc: base.cc ? base.ccSrc : o.ccSrc, status: 'active', updatedAt: base.at }; } catch { } }
+    await env.ENTRIES.put(key, JSON.stringify(rec));
+    return !old;
+  };
+  let isNew = false;
+  if (kind === 'subscribe' || b.alsoSubscribe) isNew = await subscribe();
+  if (kind === 'contact') {
+    const topic = P_TOPICS.includes(b.topic) ? b.topic : 'general';
+    await env.ENTRIES.put('ct:' + base.at + '-' + Math.random().toString(36).slice(2, 7), JSON.stringify({ ...base, topic, message, status: 'new', subscribed: !!b.alsoSubscribe }));
+  }
+  const notify = env.NOTIFY_TO || 'rkoret@gmail.com';
+  const job = (async () => {
+    if (kind === 'contact') await sendMail(env, notify, 'New contact message on Israel NOWlej', ['From: ' + [base.first, base.last].filter(Boolean).join(' ') + ' <' + email + '>', 'Country: ' + (base.cc || 'unknown') + (base.ccSrc ? ' (' + base.ccSrc + ')' : ''), 'Topic: ' + (b.topic || 'general'), '', message].join('\n'), email);
+    if (kind === 'subscribe' && isNew) await sendMail(env, email, 'Welcome to Israel NOWlej', 'Hello' + (base.first ? ' ' + base.first : '') + ',\n\nThank you for subscribing to Israel NOWlej. You will receive our digest of the news and views on the Holy Land. To stop at any time, reply to this email and say so.\n\nIsrael NOWlej');
+    if (kind === 'contact') await sendMail(env, email, 'We received your message to Israel NOWlej', 'Hello' + (base.first ? ' ' + base.first : '') + ',\n\nThank you for writing. A person will read your message and reply if needed. You can reply to this email to add something.\n\nIsrael NOWlej');
+  })();
+  if (ctx && ctx.waitUntil) ctx.waitUntil(job); else await job;
+  return new Response('{"ok":true}', { headers: hdr });
+}
+async function peopleList(env, prefix) {
+  const out = []; let cursor;
+  for (let i = 0; i < 5; i++) {
+    const l = await env.ENTRIES.list({ prefix, limit: 1000, ...(cursor ? { cursor } : {}) });
+    const rows = await Promise.all(l.keys.map(async k => { try { return { id: k.name, ...JSON.parse(await env.ENTRIES.get(k.name)) }; } catch { return null; } }));
+    out.push(...rows.filter(Boolean));
+    if (l.list_complete) break; cursor = l.cursor;
+  }
+  return out.sort((a, b) => String(b.at || '').localeCompare(String(a.at || '')));
+}
+async function peopleAdmin(request, env) {
+  const hdr = { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' };
+  if (!env.ENTRIES || !env.ADMIN_KEY) return new Response('{"error":"Not set up yet. It needs the ENTRIES storage and the ADMIN_KEY secret."}', { status: 501, headers: hdr });
+  const key = request.headers.get('x-admin-key') || '';
+  if (key.length !== env.ADMIN_KEY.length || key !== env.ADMIN_KEY) return new Response('{"error":"Wrong admin key."}', { status: 401, headers: hdr });
+  if (request.method === 'POST') {
+    const b = await request.json().catch(() => ({}));
+    const okId = x => /^(sb:[^\s]{3,170}|ct:[0-9T:.\-Z]+-[a-z0-9]+)$/.test(x || '');
+    if (b.action === 'add') {
+      const email = pClip(b.email, 160).toLowerCase();
+      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return new Response('{"error":"Please enter a valid email address."}', { status: 400, headers: hdr });
+      const cc = /^[A-Za-z]{2}$/.test(b.cc || '') ? b.cc.toUpperCase() : '';
+      const old = await env.ENTRIES.get('sb:' + email);
+      let rec = { email, first: pClip(b.first, 80), last: pClip(b.last, 80), cc, ccSrc: cc ? 'stated' : '', at: new Date().toISOString(), status: 'active', src: 'added by admin' };
+      if (old) { try { rec = { ...JSON.parse(old), ...rec, at: JSON.parse(old).at || rec.at }; } catch { } }
+      await env.ENTRIES.put('sb:' + email, JSON.stringify(rec));
+      return new Response('{"ok":true}', { headers: hdr });
+    }
+    if (!okId(b.id)) return new Response('{"error":"bad request"}', { status: 400, headers: hdr });
+    if (b.action === 'delete') { await env.ENTRIES.delete(b.id); return new Response('{"ok":true}', { headers: hdr }); }
+    if (b.action === 'update') {
+      const raw = await env.ENTRIES.get(b.id); if (!raw) return new Response('{"error":"not found"}', { status: 404, headers: hdr });
+      const r = JSON.parse(raw), f = b.fields || {};
+      if ('first' in f) r.first = pClip(f.first, 80); if ('last' in f) r.last = pClip(f.last, 80);
+      if ('cc' in f) { r.cc = /^[A-Za-z]{2}$/.test(f.cc || '') ? f.cc.toUpperCase() : ''; r.ccSrc = r.cc ? 'stated' : ''; }
+      if ('status' in f && ['active', 'unsubscribed', 'new', 'replied', 'done', 'spam'].includes(f.status)) r.status = f.status;
+      if ('notes' in f) r.notes = pClip(f.notes, 1000);
+      r.updatedAt = new Date().toISOString();
+      await env.ENTRIES.put(b.id, JSON.stringify(r));
+      return new Response('{"ok":true}', { headers: hdr });
+    }
+    return new Response('{"error":"bad request"}', { status: 400, headers: hdr });
+  }
+  const url = new URL(request.url), kind = url.searchParams.get('kind') === 'contacts' ? 'ct:' : 'sb:';
+  return new Response(JSON.stringify({ items: await peopleList(env, kind) }), { headers: hdr });
+}
+
+
 // ---------------------------------------------------------------- hourly scan: snapshots in KV
 async function kvSnap(env, key, maxMin) {
   try { const raw = await env.ENTRIES.get(key); if (!raw) return null; const o = JSON.parse(raw); return (Date.now() - o.t) / 60000 <= maxMin ? o : null; } catch { return null; }
@@ -854,6 +949,9 @@ const W = {
     if (url.pathname === '/api/videos') return videoApi(url, env);
     if (url.pathname === '/api/submit') return submitApi(request, env, ctx);
     if (url.pathname === '/api/submissions') return submissionsApi(request, env);
+    if (url.pathname === '/api/subscribe') return peopleSignup(request, env, ctx, 'subscribe');
+    if (url.pathname === '/api/contact') return peopleSignup(request, env, ctx, 'contact');
+    if (url.pathname === '/api/people') return peopleAdmin(request, env);
     if (url.pathname === '/api/whoimg') return whoImages(env, !!url.searchParams.get('diag'));
     if (url.pathname === '/api/voice') return voiceApi(url, env);
     if (url.pathname === '/api/images') return imagesApi(url, ctx);

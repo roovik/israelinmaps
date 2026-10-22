@@ -1185,3 +1185,9 @@ body #gaz{justify-content:center!important}
 .newsside .asect{border-top-left-radius:0!important}
 .newsside .alist li.asub{font-weight:700;color:var(--wl);font-size:.8rem;text-transform:uppercase;letter-spacing:.04em;border-bottom:0;padding:10px 0 2px}
 .newsside .alist li.asub:first-child{padding-top:2px}
+.subform select{display:block;width:100%;box-sizing:border-box;padding:8px 10px;border:1px solid #cfc6ae;border-radius:6px;font:inherit;background:#fffdf6}
+.subform h2,#contact-form{max-width:640px}.subform button[type=submit]{background:#2b2f38;color:#fff;border:0;border-radius:6px;padding:9px 18px;font:inherit;cursor:pointer}
+table.pp{width:100%;border-collapse:collapse;font:.85rem system-ui,sans-serif}table.pp th,table.pp td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line,#e6dfc9);vertical-align:top}
+table.pp input,table.pp select{font:inherit;padding:3px 5px;border:1px solid #cfc6ae;border-radius:4px;background:#fffdf6;max-width:150px}.pp-msg{max-width:340px;white-space:pre-wrap}
+#src-tabs+p,#src-tabs+p+p{text-align:center}
+@media (min-width:901px){.newspage>.newsside{margin-top:calc(-1*var(--pull,0px) - 1px)!important}.bar .rcol .sf button{height:25px!important}.bar .rcol .acct .subbtn{height:25px!important;line-height:25px;padding-top:0!important;padding-bottom:0!important}}
