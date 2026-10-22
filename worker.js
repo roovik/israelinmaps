@@ -811,7 +811,7 @@ async function musicApi(url, env, ctx) {
       ctx.waitUntil(caches.default.put(ck, new Response(body0, { headers: { 'Cache-Control': 'max-age=21600' } })));
       return new Response(body0, { headers: hdr });
     }
-    out = { items: (j.items || []).map(x => ({ id: x.id.videoId, t: dec(x.snippet.title), a: dec(x.snippet.channelTitle), img: ((x.snippet.thumbnails || {}).medium || (x.snippet.thumbnails || {}).default || {}).url || '' })).filter(x => x.id) };
+    out = { items: (j.items || []).map(x => ({ id: x.id.videoId, t: dec(x.snippet.title), a: dec(x.snippet.channelTitle), d: x.snippet.publishedAt || '', img: ((x.snippet.thumbnails || {}).medium || (x.snippet.thumbnails || {}).default || {}).url || '' })).filter(x => x.id) };
   } catch { return new Response(JSON.stringify({ items: [], error: 'upstream' }), { status: 502, headers: { ...hdr, 'Cache-Control': 'no-store' } }); }
   const body = JSON.stringify(out);
   ctx.waitUntil(caches.default.put(ck, new Response(body, { headers: { 'Cache-Control': 'max-age=21600' } })));
@@ -825,7 +825,7 @@ async function imagesApi(url, ctx) {
   const off = Math.min(parseInt(url.searchParams.get('o') || '0', 10) || 0, 400);
   let terms = q || IMG_TAGS[tag] || '';
   if (!/israel/i.test(terms)) terms = 'Israel ' + terms;
-  const api = 'https://commons.wikimedia.org/w/api.php?action=query&format=json&origin=*&generator=search&gsrnamespace=6&gsrlimit=40&gsroffset=' + off + '&gsrsearch=' + encodeURIComponent(terms.trim() + ' filetype:bitmap') + '&prop=imageinfo&iiprop=url|size|extmetadata&iiurlwidth=520&iiextmetadatafilter=LicenseShortName|Artist|NonFree|Restrictions';
+  const api = 'https://commons.wikimedia.org/w/api.php?action=query&format=json&origin=*&generator=search&gsrnamespace=6&gsrlimit=40&gsroffset=' + off + '&gsrsearch=' + encodeURIComponent(terms.trim() + ' filetype:bitmap') + '&prop=imageinfo&iiprop=url|size|extmetadata&iiurlwidth=520&iiextmetadatafilter=LicenseShortName|Artist|NonFree|Restrictions|DateTimeOriginal|DateTime';
   const ck = new Request('https://cache.local/img/' + encodeURIComponent(terms) + '/' + off);
   const hit = await caches.default.match(ck); if (hit) return new Response(hit.body, { headers: hdr });
   let j; try { const r = await fetch(api, { headers: { 'User-Agent': 'IsraelNOWlej/1.0 (https://israelnowlej.com)' } }); if (!r.ok) throw 0; j = await r.json(); } catch { return new Response(JSON.stringify({ items: [], error: 'upstream' }), { status: 502, headers: { ...hdr, 'Cache-Control': 'no-store' } }); }
@@ -838,7 +838,7 @@ async function imagesApi(url, ctx) {
     if (((m.NonFree || {}).value || '').toLowerCase() === 'true' || (m.Restrictions || {}).value) continue;
     if (ii.width < 800) continue;
     const a = ((m.Artist || {}).value || '').replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim().slice(0, 60);
-    items.push({ t: p.title.replace(/^File:/, '').replace(/\.[A-Za-z]+$/, '').replace(/_/g, ' ').slice(0, 90), th: ii.thumburl, page: ii.descriptionurl, a, lic });
+    items.push({ t: p.title.replace(/^File:/, '').replace(/\.[A-Za-z]+$/, '').replace(/_/g, ' ').slice(0, 90), th: ii.thumburl, page: ii.descriptionurl, a, lic, d: (((m.DateTimeOriginal || m.DateTime || {}).value || '').replace(/<[^>]*>/g, '').match(/\d{4}(-\d{2}(-\d{2})?)?/) || [''])[0] });
   }
   const out = JSON.stringify({ items, next: j.continue && j.continue.gsroffset ? j.continue.gsroffset : 0 });
   ctx.waitUntil(caches.default.put(ck, new Response(out, { headers: { 'Cache-Control': 'max-age=21600' } })));
