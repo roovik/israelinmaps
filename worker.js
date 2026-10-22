@@ -236,7 +236,7 @@ async function itemPage(request, env, k, sp, cp) {
       + '<article class="fitem" data-orig="' + H(item.u) + '"><h1>' + H(item.t) + '</h1>'
       + '<p class="fmeta">' + (sHref ? '<a href="' + sHref + '">' + H(src.name) + '</a>' : H(src.name)) + (item.by ? ' · By ' + H(item.by) : '') + (when ? ' · ' + when : '') + '</p>'
       + (item.i ? '<img class="fimg" src="' + H(item.i) + '" alt="" referrerpolicy="no-referrer" onerror="this.remove()">' : '')
-      + (paras.length ? paras.map(p => '<p class="fx">' + H(p) + '</p>').join('') : '<p class="fx">' + H(src.name) + ' shares only the headline of this story.</p>')
+      + (paras.length ? paras.map(p => '<p class="ftext">' + H(p) + '</p>').join('') : '<p class="ftext">' + H(src.name) + ' shares only the headline of this story.</p>')
       + (gl.length ? '<p class="chips">In the glossary: ' + gl.map(g => '<a href="/g/' + H(g[0]) + '/">' + H(g[1]) + '</a>').join(' ') + '</p>' : '')
       + '<p class="fgo"><a class="fbtn" href="' + H(item.u) + '" rel="noopener nofollow" target="_blank">Read the full story at ' + H(src.name) + '</a></p>'
       + (archived ? '<p class="small">Headline and a short excerpt, kept in the Israel NOWlej archive. Full text and copyright remain with the original publisher.</p></article>' : '</article>');
