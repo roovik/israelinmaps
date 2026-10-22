@@ -1284,3 +1284,5 @@ body:has(#src-tabs) .newsmain .ncard .nb>p:not(.nmeta){display:none}
 }
 @media (min-width:641px){header.top .subnav a,.subnav a{padding-left:6px;padding-right:6px}.subnav{gap:2px}}
 @media (max-width:640px){header.top .subnav a{padding-left:3px!important;padding-right:3px!important}}
+@media (max-width:640px){#gaz{display:flex!important;overflow:visible!important;justify-content:space-between!important;gap:0!important;padding-left:2px;padding-right:2px}#gaz a{flex:1 1 0;min-width:0;text-align:center;padding:6px 0;font-size:.72rem;letter-spacing:0}}
+@media (max-width:640px){#gaz a{text-decoration:none;font-weight:700}}
