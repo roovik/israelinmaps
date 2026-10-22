@@ -1020,7 +1020,7 @@ sb2 = '<h1>Sources</h1><p class="small">Each source has its own page here with i
 write('/sources/', layout('Sources', chan('sources', sb2, '/sources/'), 'The publishers whose public feeds supply the news and views on this site.', '/sources/'))
 for i_, n_, u_, d_ in SRC:
     vc_ = {'jpost': 'thejerusalem_post', 'toi': 'timesofisrael', 'jns': 'jns'}.get(i_, '')
-    tabs_ = (f'<nav class="srctabs" id="src-tabs" aria-label="{E(n_)}"><a href="/sources/{i_}/?show=news" data-show="news">News</a><a href="/sources/{i_}/?show=views" data-show="views">Views</a>'
+    tabs_ = (f'<nav class="srctabs" id="src-tabs" aria-label="{E(n_)}">' + ('' if i_ in ('ji',) else f'<a href="/sources/{i_}/?show=news" data-show="news">News</a>') + f'<a href="/sources/{i_}/?show=views" data-show="views">Views</a>'
              + (f'<a href="/video/{vc_}/">Videos</a>' if vc_ else '') + f'<a href="/sources/{i_}/" data-show="">All</a></nav>')
     b_ = (f'<h1 id="src-h1" data-name="{E(n_)}">{E(n_)}</h1>{tabs_}<p>{E(d_)}</p><p class="small"><a href="{u_}" rel="noopener">Visit {E(n_)}</a> (external site)</p><p class="small" id="src-count"></p>'
           f'<div id="src-page" data-src="{i_}"></div><section id="src-nsec"><h2>Latest news</h2><div class="tgrid" id="src-news"><p>Loading.</p></div></section><section id="src-vsec"><h2>Latest views</h2><div class="tgrid" id="src-views"><p>Loading.</p></div></section>')
