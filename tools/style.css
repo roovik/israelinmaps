@@ -997,3 +997,5 @@ header.top{margin-bottom:0!important}main#main{padding-top:5px!important;margin-
 @media(max-width:520px){.srow{gap:5px}.srow select{max-width:92px}.srow label{font-size:11px}}
 .srow select#s-by,.ffilter #ff-b{max-width:130px}
 .nmeta .by{margin-left:6px;font-style:italic}
+.newspage.noleft>.newsleftcol[hidden]{display:none!important}
+p.az#gaz{display:flex!important}
