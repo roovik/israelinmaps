@@ -28,6 +28,12 @@ const SOURCES = [
   ] },
   { id: 'jta', name: 'JTA', site: 'https://www.jta.org/', url: 'https://www.jta.org/feed' },
   { id: 'inn', name: 'Israel National News', site: 'https://www.israelnationalnews.com/', url: 'https://www.israelnationalnews.com/Rss.aspx' },
+  { id: 'i24', name: 'i24NEWS', site: 'https://www.i24news.tv/', url: 'https://www.i24news.tv/en/rss' },
+  { id: 'globes', name: 'Globes', site: 'https://en.globes.co.il/', url: 'https://en.globes.co.il/WebService/Rss/RssFeeder.asmx/FeederNode?iID=1725' },
+  { id: 'calcalist', name: 'Calcalist', site: 'https://www.calcalistech.com/', url: 'https://www.calcalistech.com/ctechnews/rss' },
+  { id: 'tablet', name: 'Tablet', site: 'https://www.tabletmag.com/', url: 'https://www.tabletmag.com/feed', vonly: true },
+  { id: 'mef', name: 'Middle East Forum', site: 'https://www.meforum.org/', url: 'https://www.meforum.org/rss', vonly: true },
+  { id: 'ji', name: 'Jewish Insider', site: 'https://jewishinsider.com/', url: 'https://jewishinsider.com/feed/', vonly: true },
   { id: 'israelhayom', name: 'Israel Hayom', site: 'https://www.israelhayom.com/', url: 'https://www.israelhayom.com/feed/', base: 'https://www.israelhayom.com/category/', channels: [
     ['News', [['Israel', 'news/israel/feed/'], ['Israel at War', 'news/israel/israel-at-war/feed/'], ['Middle East', 'news/middle-east/feed/'], ['United States', 'news/world-news/united-states/feed/']]],
     ['Jewish World', [['Jewish World', 'jewish-world/feed/'], ['Antisemitism', 'jewish-world/antisemitism/feed/'], ['Archaeology', 'archaeology/feed/']]],
@@ -43,6 +49,9 @@ const VDEF = {
   ynet: [['Op-Ed', 'https://www.ynetnews.com/Integration/StoryRss3084.xml']],
   haaretz: [['Op-Ed', 'https://www.haaretz.com/srv/opinion-rss'], ['Editorial', 'https://www.haaretz.com/srv/editorial-rss']],
   jns: [['Op-Ed', 'https://www.jns.org/opinion.rss']],
+  tablet: [['Blog', 'https://www.tabletmag.com/feed']],
+  mef: [['Blog', 'https://www.meforum.org/rss']],
+  ji: [['Blog', 'https://jewishinsider.com/feed/']],
   jta: [['Op-Ed', 'https://www.jta.org/category/opinion/feed']],
   israelhayom: [['Op-Ed', 'https://www.israelhayom.com/opinions/feed/'], ['Editorial', 'https://www.israelhayom.com/category/editorial/feed/']],
 };
@@ -53,7 +62,7 @@ function findChannel(src, cid) {
   if (cid.startsWith('v-')) { const v = VSRC.find(x => x.id === src.id); return v ? v.groups[0].list.find(c => c.id === cid) || null : null; }
   return src.groups ? src.groups.flatMap(g => g.list).find(c => c.id === cid) || null : null;
 }
-const FEEDS = SOURCES.map(s => ({ id: s.id, name: s.name, site: s.site, url: s.url }));
+const FEEDS = SOURCES.filter(s => !s.vonly).map(s => ({ id: s.id, name: s.name, site: s.site, url: s.url }));
 const PER_FEED = 40, TOTAL = 800, TIMEOUT = 8000, MAX_AGE_DAYS = 30, ARCH_DAYS = 30;
 
 const ENT = { amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: ' ', rsquo: '’', lsquo: '‘', rdquo: '”', ldquo: '“', hellip: '…', ndash: '–', mdash: '—' };

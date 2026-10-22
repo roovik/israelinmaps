@@ -374,7 +374,13 @@ SRC = [('toi', 'The Times of Israel', 'https://www.timesofisrael.com/', 'An Isra
        ('jns', 'JNS', 'https://www.jns.org/', 'Jewish News Syndicate, a news service on Israel, the Middle East and Jewish communities worldwide.'),
        ('israelhayom', 'Israel Hayom', 'https://www.israelhayom.com/', 'The English edition of the Israeli daily Israel Hayom.'),
        ('jta', 'JTA', 'https://www.jta.org/', 'The Jewish Telegraphic Agency, a global Jewish news service founded in 1917, covering Israel and Jewish communities worldwide.'),
-       ('inn', 'Israel National News', 'https://www.israelnationalnews.com/', 'Arutz Sheva, a news outlet with English, Hebrew and other editions, reporting from a religious Zionist perspective.')]
+       ('inn', 'Israel National News', 'https://www.israelnationalnews.com/', 'Arutz Sheva, a news outlet with English, Hebrew and other editions, reporting from a religious Zionist perspective.'),
+       ('i24', 'i24NEWS', 'https://www.i24news.tv/', 'Israeli international news channel broadcasting from Jaffa in English, French and Arabic.'),
+       ('globes', 'Globes', 'https://en.globes.co.il/', 'English edition of the Israeli business daily, covering the economy, markets and companies.'),
+       ('calcalist', 'Calcalist', 'https://www.calcalistech.com/', 'Israeli business and technology news from the Calcalist group, with a focus on startups and the tech sector.'),
+       ('tablet', 'Tablet', 'https://www.tabletmag.com/', 'Online magazine of Jewish news, ideas and culture, known for long essays.'),
+       ('mef', 'Middle East Forum', 'https://www.meforum.org/', 'A Philadelphia think tank publishing analysis and commentary on the Middle East from a conservative perspective.'),
+       ('ji', 'Jewish Insider', 'https://jewishinsider.com/', 'Washington-based outlet covering Israel, US politics and Jewish affairs, with a focus on policy and Congress.')]
 SRCNAME = {a: b for a, b, _, _ in SRC}
 SECKEY = {'/charts/': 'charts', '/images/': 'media', '/maps/': 'maps', '/timelines/': 'timelines', '/tables/': 'charts', '/demographics/': 'charts', '/rankings/': 'charts', '/top-ten/': 'charts', '/size/': 'charts', '/tour/': 'media', '/flora/': 'media'}
 def sec_groups(sk):
