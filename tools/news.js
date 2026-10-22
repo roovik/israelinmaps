@@ -18,7 +18,7 @@
   function chips(it,lab){return it.g.length?'<p class="chips">'+(lab?'In the glossary: ':'')+it.g.map(function(g){return'<a href="/g/'+g[0]+'/">'+esc(g[1])+'</a>'}).join(' ')+'</p>':''}
   var PUB=/^(toi|jpost|ynet|haaretz|jns|jta|inn|i24|globes|calcalist|tablet|mef|ji|kan|israelhayom)$/;
   function srcLink(it){var vw=/^\/views\//.test(location.pathname)||/\/who\//.test(location.pathname);return PUB.test(it.s||'')?'<a href="/sources/'+esc(it.s)+'/'+(vw?'?show=views':'?show=news')+'">'+esc(it.src)+'</a>':esc(it.src)}
-  function meta(it){return'<p class="nmeta"><b>'+srcLink(it)+(it.kind?' \u00b7 '+esc(it.kind):'')+'</b>'+(it.by?'<span class="by">By '+esc(it.by)+'</span>':'')+(it.d?'<span>'+ago(it.d)+'</span>':'')+'</p>'}
+  function meta(it){return'<p class="nmeta"><b>'+srcLink(it)+(it.kind?' \u00b7 '+esc(it.kind):'')+'</b>'+(it.by?'<span class="by">By '+esc(it.by)+(it.d?'<em class="ago"> \u00b7 '+ago(it.d)+'</em>':'')+'</span>':(it.d?'<span>'+ago(it.d)+'</span>':''))+'</p>'}
   function card(it){
     var img='<img src="'+esc(it.i)+'" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.parentNode.classList.add(\'noimg\');this.remove()">';
     return'<article class="ncard"><a class="nimg" href="'+esc(iu(it))+'" rel="noopener" tabindex="-1" aria-hidden="true">'+img+'</a><div class="nb"><h3><a href="'+esc(iu(it))+'">'+esc(it.t)+'</a></h3>'+meta(it)+'</div></article>'}

@@ -1172,3 +1172,4 @@ h1.nowbar b,h1.nowbar .nsep{color:inherit}
 .fnav{display:flex!important;flex-direction:column}.fnav>.fsrc{order:-1;margin-bottom:8px!important}.fnav>.ffilter{order:1}
 .newspage h1,.newsmain h1{color:color-mix(in srgb,var(--sec,#1f62c4) 62%,#fff)}
 .newspage article h1,.fitem h1{color:inherit}
+.nb .nmeta .by{margin-left:0;font-style:italic}.nb .nmeta .by .ago{font-style:normal;color:var(--mut)}
