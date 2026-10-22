@@ -10,7 +10,7 @@
     names=d.chnames||{};
     P=(d.playlists||[]).map(function(p){return{id:p.id,name:p.name,by:names[(p.channel||'').toLowerCase()]||p.by||''}});
     ps.innerHTML='<option value="">All Israel playlists</option>'+P.map(function(p,i){return'<option value="'+esc(p.id)+'">'+esc(p.name)+'</option>'}).join('');
-    cdd();run()
+    cdd();run();hp()
   }).catch(function(){nn.textContent='The playlists could not be loaded right now. Please try again shortly.'});
 
   var cd,cb,cl;
@@ -22,6 +22,8 @@
     cl.innerHTML=P.length?'<li data-v="" role="option"><b>All Israel playlists</b></li>'+P.map(function(p){return'<li role="option" data-v="'+esc(p.id)+'"><b>'+esc(p.name)+'</b>'+(p.by?' <span>'+esc(p.by)+'</span>':'')+'</li>'}).join(''):'';
     cdsync()}
   function cdsync(){var o=ps.options[ps.selectedIndex];cb.innerHTML='<b>'+esc(o?o.textContent:'All Israel playlists')+'</b>'}
+  function hp(){var id=decodeURIComponent(location.hash.slice(1));var x=P.filter(function(q){return q.id===id})[0];if(x){ps.value=id;cdsync();run();play(x.id,x.name)}}
+  window.addEventListener('hashchange',hp);
   function play(id,name){
     pl.hidden=false;pl.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/videoseries?list='+encodeURIComponent(id)+'&rel=0&autoplay=1&mute=1&playsinline=1&enablejsapi=1&origin='+encodeURIComponent(location.origin)+'" title="'+esc(name)+'" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>';
     var f=pl.firstChild;function cmd(n){try{f.contentWindow.postMessage(JSON.stringify({event:'command',func:n,args:[]}),'*')}catch(x){}}function go(){cmd('playVideo');cmd('unMute')}

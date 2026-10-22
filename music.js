@@ -24,5 +24,7 @@
     pl.hidden=false;pl.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/'+encodeURIComponent(b.getAttribute('data-y'))+'?rel=0&autoplay=1&mute=1&playsinline=1&enablejsapi=1&origin='+encodeURIComponent(location.origin)+'" title="Player" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>';
     var f=pl.firstChild;function cmd(n){try{f.contentWindow.postMessage(JSON.stringify({event:'command',func:n,args:[]}),'*')}catch(x){}}function go(){cmd('playVideo');cmd('unMute')}
     f.addEventListener('load',function(){go();setTimeout(go,500);setTimeout(go,1500)});pl.scrollIntoView({block:'nearest'})});
+  function hm(){var q=new URLSearchParams(location.hash.slice(1));if(q.get('genre'))gs.value=q.get('genre');if(q.get('artist'))as.value=q.get('artist')}
+  hm();window.addEventListener('hashchange',function(){hm();load()});
   load();
 })();
