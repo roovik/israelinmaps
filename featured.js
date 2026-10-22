@@ -20,7 +20,7 @@
     host.hidden=false;host.className='feat'+(opt.cls?' '+opt.cls:'');
     host.innerHTML=(opt.title?'<h2 class="feath">'+(opt.href?'<a href="'+esc(opt.href)+'">'+esc(opt.title)+'</a>':esc(opt.title))+'</h2>':'')+'<div class="ftrack" tabindex="0" aria-roledescription="carousel" aria-label="'+esc(opt.title||'Featured')+'">'+items.map(function(x,i){
       var inner='<img src="'+esc(x.img)+'" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.closest(\'.fcard\').classList.add(\'noimg\');this.remove()"><span class="fcap"><b>'+esc(x.t)+'</b>'+(x.s?'<i>'+esc(x.s)+'</i>':'')+'</span>'+(x.y||x.pl?'<span class="fplay">&#9654;</span>':'');
-      return x.y||x.pl?'<button type="button" class="fcard" data-i="'+i+'">'+inner+'</button>':'<a class="fcard" href="'+esc(x.a)+'"'+(x.ext?' target="_blank" rel="noopener"':'')+'>'+inner+'</a>'}).join('')+'</div><button type="button" class="farr fprev" aria-label="Previous">&#10094;</button><button type="button" class="farr fnext" aria-label="Next">&#10095;</button><div class="fdots" aria-hidden="true">'+items.map(function(x,i){return'<span data-i="'+i+'"></span>'}).join('')+'</div>';
+      return x.y||x.pl?'<button type="button" class="fcard" data-i="'+i+'">'+inner+'</button>':'<a class="fcard" href="'+esc(x.a)+'"'+(x.v?' data-v="'+esc(x.v)+'"':'')+(x.ext?' target="_blank" rel="noopener"':'')+'>'+inner+'</a>'}).join('')+'</div><button type="button" class="farr fprev" aria-label="Previous">&#10094;</button><button type="button" class="farr fnext" aria-label="Next">&#10095;</button><div class="fdots" aria-hidden="true">'+items.map(function(x,i){return'<span data-i="'+i+'"></span>'}).join('')+'</div>';
     var tr=host.querySelector('.ftrack'),dots=host.querySelectorAll('.fdots span'),idx=0,paused=false,t=null;
     function cw(){var c=tr.querySelector('.fcard');return c?c.getBoundingClientRect().width+12:300}
     function vis(){return Math.max(1,Math.round(tr.clientWidth/cw()))}
@@ -55,5 +55,5 @@
   function mk(k,title,href){var d=document.createElement('section');d.hidden=true;K[k][0]().then(function(items){mount(d,items,{title:title,href:href})}).catch(function(){});return d}
   if(page==='media'){var anchor=h1.nextElementSibling&&h1.nextElementSibling.classList.contains('lead')?h1.nextElementSibling:h1;
     var after=anchor;['video','playlists','audio','music','images'].forEach(function(k){var d=mk(k,K[k][1],K[k][2]);after.insertAdjacentElement('afterend',d);after=d})}
-  else if(K[page]&&page!=='images'&&(page!=='video'||p==='/video/')){var d=mk(page,'Featured');h1.insertAdjacentElement('afterend',d)}
+  else if(K[page]&&page!=='images'&&p!=='/video/'&&(page!=='video'||p==='/video/')){var d=mk(page,'Featured');h1.insertAdjacentElement('afterend',d)}
 })();

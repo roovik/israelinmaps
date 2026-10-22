@@ -1,14 +1,16 @@
 (function(){(window.NOWOV||Promise.resolve()).then(function(){
   function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
   function ago(iso){if(!iso)return'';var s=(Date.now()-new Date(iso))/1000;if(s<86400)return'today';if(s<2*86400)return'yesterday';if(s<30*86400)return Math.round(s/86400)+' days ago';if(s<365*86400)return Math.round(s/(30*86400))+' months ago';return Math.round(s/(365*86400))+' years ago'}
-  function embed(v,auto){return'<iframe src="https://www.youtube-nocookie.com/embed/'+encodeURIComponent(v)+'?rel=0'+(auto?'&autoplay=1':'')+'" title="Video player" allow="accelerometer; autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>'}
+  function embed(v,auto){return'<iframe src="https://www.youtube-nocookie.com/embed/'+encodeURIComponent(v)+'?rel=0'+(auto?'&autoplay=1&mute=1&playsinline=1&enablejsapi=1':'')+'" onload="var w=this.contentWindow;[0,500,1500].forEach(function(t){setTimeout(function(){try{w.postMessage(JSON.stringify({event:\'command\',func:\'playVideo\',args:[]}),\'*\');w.postMessage(JSON.stringify({event:\'command\',func:\'unMute\',args:[]}),\'*\')}catch(x){}},t)})" title="Video player" allow="accelerometer; autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>'}
   function wurl(v,c,t){return'/video/watch/?v='+encodeURIComponent(v.v)+(c?'&c='+encodeURIComponent(c):'')+(t?'&t='+encodeURIComponent(t):'')}
   function card(v){return'<a class="tcard vcard" data-v="'+esc(v.v)+'" href="'+esc(wurl(v,v.c,v.t))+'"><span class="timg"><img src="https://i.ytimg.com/vi/'+esc(v.v)+'/mqdefault.jpg" alt="" loading="lazy"><span class="vplay">▶</span></span><span class="tb"><span class="tid">'+esc(v.n||'')+(v.n&&v.d?' · ':'')+ago(v.d)+'</span><b>'+esc(v.t)+'</b></span></a>'}
-  var host=document.getElementById('vid-top'),onWatch=!!document.getElementById('vid-watch'),onChan=!!document.getElementById('vid-chan'),CTX=null,EVP=null;
+  var host=document.getElementById('vid-top'),onWatch=!!document.getElementById('vid-watch'),onChan=!!document.getElementById('vid-chan'),CTX=null,EVP=null,SEL=null;
   document.addEventListener('click',function(e){var pp=e.target.closest&&e.target.closest('a.vpop');if(pp&&!e.metaKey&&!e.ctrlKey&&!e.shiftKey){e.preventDefault();var w=window.open(pp.getAttribute('href'),'nowlej_player','popup=yes,width=1000,height=720,resizable=yes,scrollbars=yes');if(!w)location.href=pp.getAttribute('href');return}
+    var fc=e.target.closest&&e.target.closest('a.fcard[data-v]');if(fc&&SEL&&!e.metaKey&&!e.ctrlKey&&!e.shiftKey&&!e.button){e.preventDefault();SEL(fc.getAttribute('data-v'));return}
     var a=e.target.closest&&e.target.closest('a.vcard,a.vli');if(!a||e.metaKey||e.ctrlKey||e.shiftKey||e.button)return;
     var v=a.getAttribute('data-v');if(a.classList.contains('vli')&&!(onWatch||onChan)&&host){/* main page: let the link open the channel context */}
-    if(EVP&&a.closest('#vid-list,#e-video')){e.preventDefault();EVP(v)}
+    if(SEL&&a.closest('#vid-list,#vid-root,#vid-rel')){e.preventDefault();SEL(v)}
+    else if(EVP&&a.closest('#vid-list,#e-video')){e.preventDefault();EVP(v)}
     else if((onWatch||onChan)&&CTX){e.preventDefault();CTX(v)}
     else if(a.closest('#e-video')){e.preventDefault();var im=a.querySelector('.timg');im.innerHTML=embed(v,true);im.className='timg vlive'}});
   var root=document.getElementById('vid-root'),chp=document.getElementById('vid-chan'),wt=document.getElementById('vid-watch'),gl=document.getElementById('e-video');
@@ -32,7 +34,7 @@
       if(pls.length)h+='<h2 id="vl-pls">Playlists</h2><ul class="vpls plc">'+pls.map(function(x){return'<li>'+plCard(x)+'</li>'}).join('')+'</ul>';
       L.innerHTML=h;mark()}
     var plp=document.getElementById('e-plplayer'),plname='';
-    function plSrc(vid,auto){return'https://www.youtube-nocookie.com/embed/'+(vid?encodeURIComponent(vid):'videoseries')+'?list='+encodeURIComponent(act)+'&rel=0'+(auto?'&autoplay=1':'')}
+    function plSrc(vid,auto){return'https://www.youtube-nocookie.com/embed/'+(vid?encodeURIComponent(vid):'videoseries')+'?list='+encodeURIComponent(act)+'&rel=0'+(auto?'&autoplay=1&mute=1&playsinline=1':'')}
     function showPl(vid,auto){if(!plp)return;plp.hidden=false;plp.innerHTML='<div class="plh"><b>Playlist: '+esc(plname)+'</b><button type="button" class="plx">Close playlist player</button></div><iframe src="'+plSrc(vid,auto)+'" title="Playlist player" allow="accelerometer; autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>'}
     function closePl(){act='';mode='v';list=pins;ttl='Videos on this topic';if(plp){plp.hidden=true;plp.innerHTML=''}draw()}
     if(plp)plp.addEventListener('click',function(e){if(e.target.closest('.plx'))closePl()});
@@ -55,7 +57,7 @@
       if(!chs.length){root.innerHTML='<p>No videos are available right now.</p>';return}
       var all=[];chs.forEach(function(c){all=all.concat(c.videos)});
       all.sort(function(a,b){return(b.d||'').localeCompare(a.d||'')});
-      host.innerHTML=embed(all[0].v,false);host.hidden=false;listText('Videos',all.slice(0,20));
+      host.hidden=true;listText('Videos',all.slice(0,20));
       var h='';
       chs.forEach(function(c){h+='<section class="vch"><h2><a href="/video/'+esc(sl(c))+'/">'+esc(lab(c))+'</a></h2><div class="tgrid">'+c.videos.slice(0,8).map(card).join('')+'</div><p class="small"><a href="/video/'+esc(sl(c))+'/">All videos from '+esc(c.name)+'</a></p></section>'});
       if((d.playlists||[]).length){h+='<h2 id="playlists">Playlists</h2>';chs.forEach(function(c){var pls=d.playlists.filter(function(x){return x.channel===String(c.key).toLowerCase()});if(pls.length)h+='<h3>'+esc(c.name)+'</h3><ul class="vpl">'+pls.map(function(x){return'<li><a href="/video/pl-'+esc(x.id.toLowerCase())+'/">'+esc(x.name)+'</a></li>'}).join('')+'</ul>'})}
@@ -67,20 +69,37 @@
       var YTC={'1':'Film & Animation','2':'Autos & Vehicles','10':'Music','15':'Pets & Animals','17':'Sports','19':'Travel & Events','20':'Gaming','22':'People & Blogs','23':'Comedy','24':'Entertainment','25':'News & Politics','26':'Howto & Style','27':'Education','28':'Science & Technology','29':'Nonprofits & Activism'};
       var present={};all.forEach(function(v){if(v.cat&&YTC[v.cat])present[v.cat]=1});
       var bar=document.createElement('div');bar.className='vfbar';
-      bar.innerHTML='<div class="mfilters"><label>Genre<select id="vf-g"><option value="">All genres</option><optgroup label="Genre">'+GEN.map(function(g){return'<option value="g:'+g[0]+'">'+g[1]+'</option>'}).join('')+'</optgroup>'+(Object.keys(present).length?'<optgroup label="YouTube category">'+Object.keys(present).sort(function(a,b){return YTC[a]<YTC[b]?-1:1}).map(function(k){return'<option value="c:'+k+'">'+YTC[k]+'</option>'}).join('')+'</optgroup>':'')+'</select></label><label>Channel<select id="vf-c"><option value="">All channels</option>'+chs.map(function(c){return'<option value="'+esc(sl(c))+'">'+esc(c.name)+'</option>'}).join('')+'</select></label></div><form class="imgbar" id="vf-f" role="search"><input id="vf-q" type="search" placeholder="keyword(s)" aria-label="Keyword"><button>Filter</button></form><p class="small" id="vf-n" role="status"></p>';
-      root.parentNode.insertBefore(bar,root);
+      bar.innerHTML='<div class="mfilters"><label>Genre<select id="vf-g"><option value="">All genres</option><optgroup label="Genre">'+GEN.map(function(g){return'<option value="g:'+g[0]+'">'+g[1]+'</option>'}).join('')+'</optgroup>'+(Object.keys(present).length?'<optgroup label="YouTube category">'+Object.keys(present).sort(function(a,b){return YTC[a]<YTC[b]?-1:1}).map(function(k){return'<option value="c:'+k+'">'+YTC[k]+'</option>'}).join('')+'</optgroup>':'')+'</select></label><label>Channel<select id="vf-c"><option value="">All channels</option>'+chs.map(function(c){return'<option value="'+esc(sl(c))+'">'+esc(c.name)+'</option>'}).join('')+'</select></label></div><form class="imgbar" id="vf-f" role="search"><input id="vf-q" type="search" placeholder="keyword(s)" aria-label="Keyword"><button>Filter</button></form><label>Sort<select id="vf-s" aria-label="Sort">'+IMSort.opts([['new','Newest first'],['old','Oldest first'],['src','Channel A to Z'],['az','Title A to Z'],['rand','Random']])+'</select></label><p class="small" id="vf-n" role="status"></p>';
+      (function(){var sl=bar.querySelector('#vf-s').parentNode,mf=bar.querySelector('.mfilters');mf.appendChild(sl);mf.classList.add('m3')})();host.parentNode.insertBefore(bar,host);
       var gs=document.getElementById('vf-g'),cs=document.getElementById('vf-c'),qi=document.getElementById('vf-q'),nn=document.getElementById('vf-n');
+      var cr=document.createElement('section');cr.hidden=true;host.parentNode.insertBefore(cr,root);
+      var rel=document.createElement('div');rel.id='vid-rel';rel.hidden=true;host.parentNode.insertBefore(rel,cr);
+      var byId={};all.forEach(function(x){byId[x.v]=x});var csig='';
+      function car(list){var it=list.slice(0,12),sg=it.map(function(x){return x.v}).join('|');if(sg===csig)return;csig=sg;
+        if(!window.IMFeat||it.length<3){cr.hidden=true;return}
+        window.IMFeat.mount(cr,it.map(function(x){return{img:'https://i.ytimg.com/vi/'+x.v+'/mqdefault.jpg',t:x.t,s:x.n,a:wurl(x,x.c,x.t),v:x.v}}),{ms:2500,cls:'io'})}
+      function back(){run()}
+      SEL=function(id){var x=byId[id];if(!x)return;var c=chs.filter(function(k){return sl(k)===x.c})[0];
+        host.innerHTML=embed(x.v,true);host.hidden=false;
+        var more=c?c.videos.filter(function(k){return k.v!==x.v}):[];
+        rel.hidden=false;rel.innerHTML='<h2 class="vnowt">'+esc(x.t)+'</h2><p class="small">'+esc(x.n||'')+(x.d?' \u00b7 '+ago(x.d):'')+' \u00b7 <button type="button" class="vback">Back to all videos</button></p>'+(x.x?'<p>'+esc(x.x)+'</p>':'')+
+          '<h2>'+(c&&c.kind==='playlist'?'Playlist: '+esc(c.name)+' \u00b7 '+c.videos.length+' videos':'More from '+esc(x.n||'this channel')+' (channel videos, not a playlist)')+'</h2><div class="tgrid">'+more.slice(0,12).map(card).join('')+'</div>';
+        root.hidden=true;cr.hidden=true;rel.querySelector('.vback').addEventListener('click',back);
+        try{document.title=x.t+' | Israel NOWlej'}catch(e){}
+        bar.scrollIntoView({behavior:'smooth',block:'start'})};
       function run(){
+        if(!host.hidden){host.hidden=true;host.innerHTML='';rel.hidden=true;rel.innerHTML='';root.hidden=false;cr.hidden=false;csig=''}
         var g=gs.value,c=cs.value,q=qi.value.trim().toLowerCase();
-        if(!g&&!c&&!q){root.innerHTML=orig;nn.textContent='';return}
+        var sk=document.getElementById('vf-s').value;if(!g&&!c&&!q&&sk==='new'){root.innerHTML=orig;nn.textContent='';car(all.slice().sort(function(a,b){return(b.d||'').localeCompare(a.d||'')}));if(!host.hidden){}return}
         var list=all.filter(function(v){
           if(c&&v.c!==c)return false;
           if(g){var k=g.slice(2);if(g[0]==='c'){if(v.cat!==k)return false}else{var re=GEN.filter(function(x){return x[0]===k})[0][2];if(!re.test(v.t+' '+(v.x||'')+' '+(v.n||'')))return false}}
           if(q&&(v.t+' '+(v.x||'')+' '+(v.n||'')).toLowerCase().indexOf(q)<0)return false;
           return true});
-        nn.textContent=list.length+(list.length===1?' video':' videos');
+        if(sk)list=IMSort.apply(list,sk,{date:function(x){return x.d},title:function(x){return x.t},src:function(x){return x.n}});
+        nn.textContent=list.length+(list.length===1?' video':' videos');car(list);
         root.innerHTML=list.length?'<div class="tgrid">'+list.slice(0,60).map(card).join('')+'</div>':'<p>No videos match. Try another genre, channel or keyword.</p>'}
-      gs.addEventListener('change',run);cs.addEventListener('change',run);document.getElementById('vf-f').addEventListener('submit',function(e){e.preventDefault();run()});qi.addEventListener('input',run)
+      run();gs.addEventListener('change',run);cs.addEventListener('change',run);document.getElementById('vf-s').addEventListener('change',run);document.getElementById('vf-f').addEventListener('submit',function(e){e.preventDefault();run()});qi.addEventListener('input',run)
     }
     function listText(title,vs,chkey,cur){var L=document.getElementById('vid-list');if(!L)return;
       var pls=chkey?(d.playlists||[]).filter(function(x){return x.channel===chkey}):[];
@@ -98,7 +117,7 @@
       function setP(id,auto){var v=byv[id]||c.videos[0];
         host.innerHTML=embed(v.v,auto);host.hidden=false;
         if(titleEl)titleEl.textContent=v.t;document.title=v.t+' | Israel NOWlej';
-        now.innerHTML='<p class="small">'+esc(c.name)+' \u00b7 '+ago(v.d)+'</p>'+(v.x?'<p>'+esc(v.x)+'</p>':'');
+        var ix=c.videos.indexOf(v);now.innerHTML=(c.kind==='playlist'?'<p class="plbadge"><b>Playlist: '+esc(c.name)+'</b> \u00b7 video '+(ix+1)+' of '+c.videos.length+'</p>':'')+'<p class="small">'+esc(v.n||c.name)+' \u00b7 '+ago(v.d)+'</p>'+(v.x?'<p>'+esc(v.x)+'</p>':'');
         [].forEach.call(document.querySelectorAll('.vcard,.vli'),function(a){var on=a.getAttribute('data-v')===v.v;a.classList.toggle('vnowp',on);(a.classList.contains('vli')?a.parentNode:a).hidden=on});
         try{history.replaceState(null,'','?v='+encodeURIComponent(v.v))}catch(x){}}
       var ck=c.kind==='playlist'?(c.channel||''):String(c.key).toLowerCase();

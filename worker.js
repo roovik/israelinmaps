@@ -766,7 +766,7 @@ async function musicApi(url, env, ctx) {
   const hdr = { 'Content-Type': 'application/json; charset=utf-8', 'Access-Control-Allow-Origin': '*', 'Cache-Control': 'public, max-age=1800' };
   const clean = v => (v || '').replace(/[^\p{L}\p{N} '\-]/gu, ' ').trim().slice(0, 80);
   const q = clean(url.searchParams.get('q')), artist = clean(url.searchParams.get('artist')), genre = MUS_TAGS[url.searchParams.get('genre') || ''] || '';
-  const parts = [artist, genre, q].filter(Boolean);
+  const parts = (artist ? [artist, q] : [genre, q]).filter(Boolean);
   let terms = parts.join(' ') || 'Israeli music';
   if (!artist && !/israel|hebrew|jewish|klezmer/i.test(terms)) terms += ' Israeli';
   terms += ' music video';
@@ -778,7 +778,22 @@ async function musicApi(url, env, ctx) {
   let out;
   try {
     const r = await fetch('https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=24&safeSearch=moderate&type=video&videoCategoryId=10' + (order ? '&order=' + order : '') + '&q=' + encodeURIComponent(terms) + '&key=' + env.YT_KEY, { cf: { cacheTtl: 21600, cacheEverything: true } });
-    const j = await r.json(); if (!r.ok || j.error) return new Response(JSON.stringify({ items: [], error: 'youtube' }), { headers: { ...hdr, 'Cache-Control': 'no-store' } });
+    const j = await r.json();
+    if (!r.ok || j.error) {
+      // quota gone: read the public results page instead (no quota)
+      const sp = order === 'date' ? 'CAI%253D' : order === 'viewCount' ? 'CAM%253D' : 'EgIQAQ%253D%253D';
+      const rr = await fetch('https://www.youtube.com/results?sp=' + sp + '&search_query=' + encodeURIComponent(terms), { headers: YT_UA });
+      const html = await rr.text(); const items = [];
+      for (const m of html.matchAll(/"videoRenderer":\{"videoId":"([\w-]{11})"[\s\S]*?"title":\{"runs":\[\{"text":"((?:[^"\\]|\\.)*)"[\s\S]*?"ownerText":\{"runs":\[\{"text":"((?:[^"\\]|\\.)*)"/g)) {
+        let t, a; try { t = dec(JSON.parse('"' + m[2] + '"')); a = dec(JSON.parse('"' + m[3] + '"')); } catch { continue; }
+        if (items.some(x => x.id === m[1])) continue;
+        items.push({ id: m[1], t, a, img: 'https://i.ytimg.com/vi/' + m[1] + '/mqdefault.jpg' }); if (items.length >= 24) break;
+      }
+      if (!items.length) return new Response(JSON.stringify({ items: [], error: 'youtube' }), { headers: { ...hdr, 'Cache-Control': 'no-store' } });
+      const body0 = JSON.stringify({ items });
+      ctx.waitUntil(caches.default.put(ck, new Response(body0, { headers: { 'Cache-Control': 'max-age=21600' } })));
+      return new Response(body0, { headers: hdr });
+    }
     out = { items: (j.items || []).map(x => ({ id: x.id.videoId, t: dec(x.snippet.title), a: dec(x.snippet.channelTitle), img: ((x.snippet.thumbnails || {}).medium || (x.snippet.thumbnails || {}).default || {}).url || '' })).filter(x => x.id) };
   } catch { return new Response(JSON.stringify({ items: [], error: 'upstream' }), { status: 502, headers: { ...hdr, 'Cache-Control': 'no-store' } }); }
   const body = JSON.stringify(out);
