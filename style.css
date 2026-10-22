@@ -1059,3 +1059,5 @@ header.top nav.wrap{width:auto;max-width:none;margin-left:max(16px,calc((100% - 
 #vid-rel .vback{font:inherit;background:none;border:0;color:var(--link,#1f62c4);text-decoration:underline;cursor:pointer;padding:0}
 .vnow .plbadge{display:inline-block;margin:8px 0 2px;padding:4px 10px;border-radius:6px;background:#1f62c4;color:#fff;font-size:.9rem}
 .ftext{font-size:1.15rem;line-height:1.6;max-width:none;width:100%}
+#src-count{display:none!important}
+.srctabs,#src-tabs{margin-left:auto!important;margin-right:auto!important}
