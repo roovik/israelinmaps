@@ -1230,3 +1230,17 @@ table.pp input,table.pp select{font:inherit;padding:3px 5px;border:1px solid #cf
 .newsside.sect #news-latest .wlatest li a{color:#fff}
 .newsside.sect #news-latest .wlatest .wm,.newsside.sect #news-latest .wlatest time{color:rgba(255,255,255,.7)}
 .newsside.sect #news-latest .wlatest .wm a{color:rgba(255,255,255,.85);font-weight:500}
+/* COMPACT VIEW (News/Views). Revert: remove this block, or set default off in compact.js */
+body.compact .newsmain .ngrid3,body.compact .newsmain .ngrid4,body.compact .newsmain .ngrid{display:block}
+body.compact .newsmain .ncard:not(.hcard){display:grid;grid-template-columns:104px 1fr;gap:0 12px;align-items:start;border:0;border-bottom:1px solid var(--line);border-radius:0;background:transparent;padding:9px 0;height:auto}
+body.compact .newsmain .ncard:not(.hcard) .nimg{aspect-ratio:3/2;border-radius:6px;overflow:hidden;grid-column:1}
+body.compact .newsmain .ncard.noimg:not(.hcard){grid-template-columns:1fr}
+body.compact .newsmain .ncard:not(.hcard) .nb{grid-column:2;padding:0;display:block}
+body.compact .newsmain .ncard.noimg:not(.hcard) .nb{grid-column:1}
+body.compact .newsmain .nb h3{font-size:.95rem;line-height:1.25;min-height:0;margin:0 0 3px}
+body.compact .newsmain .nb>p:not(.nmeta){display:none}
+body.compact .newsmain .nb .chips{display:none}
+body.compact .newsmain .nmeta{font-size:.76rem;margin:0}
+body.compact .newsmain .hcard{border:0;border-bottom:1px solid var(--line);border-radius:0;background:transparent;padding:6px 0}
+#densbtn{float:right;margin:0 0 6px 8px;font:600 .75rem system-ui,sans-serif;padding:3px 10px;border:1px solid var(--line);border-radius:12px;background:transparent;color:inherit;cursor:pointer}
+body.compact .newsmain .hcard .nb{padding:0}body.compact .newsmain .hcard .hi{padding:7px 0;margin:0;border-bottom:1px solid var(--line)}body.compact .newsmain .hcard .hi:last-child{border-bottom:0}body.compact .newsmain .hcard .hi .nmeta{margin-bottom:0}
