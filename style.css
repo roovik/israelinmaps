@@ -1078,3 +1078,5 @@ header.top nav.wrap{width:auto;max-width:none;margin-left:max(16px,calc((100% - 
  .newspage>.newsside{margin-top:calc(-1*var(--pull,0px));position:relative!important;z-index:6;top:auto}
 }
 .agrp.long .alist{max-height:62vh;overflow-y:auto;padding-right:6px}
+.ffilter .cdd{flex:0 1 190px;min-width:0}.ffilter .cdd-l{min-width:340px;right:auto}
+.ffilter .cdd-b{background:#fff!important;color:var(--secd,#1d3557)!important;border:1px solid var(--sec,#cfc6ae)!important;font-weight:600;padding:5px 8px;border-radius:6px;font-size:.73rem!important;height:auto}
