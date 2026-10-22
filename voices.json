@@ -582,7 +582,38 @@
       "name": "The Jerusalem Post Podcasts",
       "by": "The Jerusalem Post",
       "pods": [
-        "https://www.jpost.com/rss/rssfeedpodcast"
+        {
+          "n": "JPost sits down with...",
+          "u": "https://www.spreaker.com/show/6685676/episodes/feed"
+        },
+        {
+          "n": "JPost Headlines",
+          "u": "https://www.spreaker.com/show/6677418/episodes/feed"
+        },
+        {
+          "n": "The Deep Dive",
+          "u": "https://www.spreaker.com/show/6705634/episodes/feed"
+        },
+        {
+          "n": "The Defense and Tech Podcast",
+          "u": "https://www.spreaker.com/show/6772154/episodes/feed"
+        },
+        {
+          "n": "The Jerusalem Dispatch",
+          "u": "https://www.spreaker.com/show/6707417/episodes/feed"
+        },
+        {
+          "n": "The Jerusalem Report Podcast",
+          "u": "https://www.spreaker.com/show/6782807/episodes/feed"
+        },
+        {
+          "n": "The JPost Podcast - Travel Edition",
+          "u": "https://www.spreaker.com/show/5765303/episodes/feed"
+        },
+        {
+          "n": "The JPost Podcast",
+          "u": "https://www.spreaker.com/show/5767250/episodes/feed"
+        }
       ]
     }
   ]

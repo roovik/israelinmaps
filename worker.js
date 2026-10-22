@@ -527,7 +527,7 @@ async function podFeed(u, diag) {
 }
 async function podsCheck() {
   const all = [...(VOICES.voices || []), ...(VOICES.shows || [])].filter(v => v.pods), rows = [];
-  for (const v of all) for (const u of v.pods) { const d = []; const f = await podFeed(u, d); rows.push({ id: v.id, name: v.name, source: u, matched: (d[0] && d[0].title) || '', feed: f }); }
+  for (const v of all) for (const p of v.pods) { const u = typeof p === 'object' ? p.u : p; const d = []; const f = await podFeed(u, d); rows.push({ id: v.id, name: v.name, source: u, matched: (d[0] && d[0].title) || '', feed: f }); }
   return new Response(JSON.stringify(rows, null, 1), { headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' } });
 }
 async function voiceApi(url, env) {
@@ -560,7 +560,7 @@ async function voiceApi(url, env) {
     const m = rest.t.match(/^(.*) - ([^-]{2,60})$/); return { ...rest, t: m ? m[1] : rest.t, src: m ? m[2] : 'News', x: '', i: '' };
   }).filter(x => !arts.some(a => a.u === x.u)).slice(0, 25);
   if (diag) diag.push({ news: viaBing ? 'bing' : 'google', googleNews: gnr.ok, error: gnr.error, count: news.length });
-  const podArts = (await Promise.all((v.pods || []).map(async u0 => { const u = await podFeed(u0, diag); return u ? load({ id: v.id, name: v.name, site: v.site || u, url: u, maxAge: 36500, max: 400 }) : { items: [] }; }))).flatMap(r => r.items).map(({ f, ...rest }) => rest);
+  const podArts = (await Promise.all((v.pods || []).map(async p0 => { const u0 = typeof p0 === 'object' ? p0.u : p0, nm = typeof p0 === 'object' ? p0.n : v.name; const u = await podFeed(u0, diag); return u ? load({ id: v.id, name: nm, site: v.site || u, url: u, maxAge: 36500, max: 400 }) : { items: [] }; }))).flatMap(r => r.items).map(({ f, ...rest }) => rest).sort((a, b) => (b.d || '').localeCompare(a.d || ''));
   const vids = [], chanIds = [];
   for (const h of (v.yt || [])) { const r = await loadVideoSource({ handle: h, name: v.name }, 'channel', diag); if (r.ok && r.id) chanIds.push(r.id); (r.videos || []).forEach(x => vids.push({ ...x, n: v.name })); if (diag) diag.push({ yt: h, ok: r.ok, error: r.error, count: (r.videos || []).length }); }
   // playlists of the person's own channel (cached twelve hours)
