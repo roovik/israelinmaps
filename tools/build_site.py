@@ -947,7 +947,7 @@ def _ini(n):
     w_ = [x for x in re.sub(r'^The ', '', n.split(':')[0]).split() if x[:1].isalpha() and x.lower() not in ('of', 'the', 'with')]
     return (w_[0][0] + (w_[1][0] if len(w_) > 1 else '')).upper()
 _apick = ('<nav class="apick" aria-label="Choose a show">' + ''.join(
-    f'<a href="#s-{v_["id"]}"><span class="apic c{i_ % 6}"' + ('' if v_.get('own') else f' data-who="{v_["id"]}"') + f'><span class="ini">{E(_ini(v_["name"]))}</span></span><span class="apn">{E(re.sub(r"^The ", "", v_["name"].split(":")[0].replace(" Daily Briefing", " Briefing")))}</span></a>'
+    f'<a href="#s-{v_["id"]}"><span class="apic c{i_ % 6}"' + ('' if v_.get('own') else f' data-who="{v_["id"]}"') + f'><span class="ini">{E(_ini(v_["name"]))}</span></span><span class="apn">{E(re.sub(r"^The ", "", v_["name"].split(":")[0]).replace(" Daily Briefing", " Briefing").replace("Jerusalem Post", "JPost"))}</span></a>'
     for i_, v_ in enumerate(AUD_)) + '</nav>')
 _ab = ('<h1>Podcasts</h1>' + _apick + '<p class="small">Podcasts and audio shows from the people and organizations in Voices. Choose an episode to play it here. Episodes are credited to and link to their original shows.</p>'
        '<div class="atop" id="a-top" hidden><div class="anow" id="a-now"></div><audio id="a-audio" controls preload="none"></audio></div>'
