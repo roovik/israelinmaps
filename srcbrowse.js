@@ -9,7 +9,7 @@
   function jget(u){return fetch(u).then(function(r){if(!r.ok)throw 0;return r.json()})}
 
   var ctl=document.createElement('form');ctl.className='ffilter sbfilter';ctl.setAttribute('role','search');
-  ctl.innerHTML='<label for="sb-sel">Source:</label><select id="sb-sel" aria-label="Source"><option value="all">All sources ('+items.length+')</option>'+items.map(function(x){return'<option value="'+esc(x.id)+'">'+esc(x.name)+'</option>'}).join('')+'</select><select id="sb-sort" aria-label="Sort"><option value="new">Newest</option><option value="old">Oldest</option><option value="az">A-Z</option><option value="rand">Random</option></select><input id="sb-q" type="search" placeholder="Keyword" aria-label="Keyword"><button type="submit">Filter</button>';
+  ctl.innerHTML='<select id="sb-sel" aria-label="Source"><option value="all">All sources ('+items.length+')</option>'+items.map(function(x){return'<option value="'+esc(x.id)+'">'+esc(x.name)+'</option>'}).join('')+'</select><select id="sb-sort" aria-label="Sort"><option value="new">Newest</option><option value="old">Oldest</option><option value="az">A-Z</option><option value="rand">Random</option></select><input id="sb-q" type="search" placeholder="Keyword" aria-label="Keyword"><button type="submit">Filter</button>';
   pick.parentNode.insertBefore(ctl,pick);
   var allIc=document.createElement('a');allIc.href='#s=all';allIc.setAttribute('data-s','all');allIc.innerHTML='<span class="apic" style="background:#2b2f38"><span class="ini">All</span></span><span class="apn">All</span>';pick.insertBefore(allIc,pick.firstChild);
   var selEl=document.getElementById('sb-sel'),sortEl=document.getElementById('sb-sort'),qEl=document.getElementById('sb-q'),last=null;

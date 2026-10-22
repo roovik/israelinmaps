@@ -25,7 +25,7 @@
     if(rowDone)return;rowDone=true;
     var ns=document.getElementById('src-nsec'),vs=document.getElementById('src-vsec');if(!ns||!vs)return;
     var r=document.createElement('div');r.className='srow';
-    r.innerHTML='<label>Media<select id="s-med" aria-label="Media"><option value="all">All media</option><option value="news">News</option><option value="views">Views</option></select></label><label>Sort<select id="s-ord" aria-label="Sort"><option value="new">Newest first</option><option value="old">Oldest first</option><option value="az">A to Z</option></select></label><select id="s-by" aria-label="Author" hidden></select><input id="s-q" type="search" placeholder="Filter" aria-label="Filter" autocomplete="off">';
+    r.innerHTML='<select id="s-med" aria-label="Media"><option value="all">All media</option><option value="news">News</option><option value="views">Views</option></select><select id="s-ord" aria-label="Sort"><option value="new">Newest first</option><option value="old">Oldest first</option><option value="az">A to Z</option></select><select id="s-by" aria-label="Author" hidden></select><input id="s-q" type="search" placeholder="Filter" aria-label="Filter" autocomplete="off">';
     ns.parentNode.insertBefore(r,ns);
     var by=r.querySelector('#s-by'),cnt={};[].forEach.call(document.querySelectorAll('.tcard[data-by]'),function(c){var a=c.getAttribute('data-by');if(a)cnt[a]=(cnt[a]||0)+1});
     var ak=Object.keys(cnt).sort(function(a,b){return cnt[b]-cnt[a]||a.localeCompare(b)});

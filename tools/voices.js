@@ -85,7 +85,7 @@
   var tabs=document.getElementById('v-tabs'),clips=document.getElementById('v-clips'),pls=document.getElementById('v-playlists'),pods=document.getElementById('v-pods'),arts=document.getElementById('v-articles'),news=document.getElementById('v-news'),player=document.getElementById('v-player'),ev=document.getElementById('e-video');
   if(!ev||!arts||!news)return;
   var row=document.createElement('div');row.className='srow';row.id='w-row';row.hidden=true;
-  row.innerHTML='<label>Media<select id="w-med" aria-label="Media"></select></label><label>Sort<select id="w-ord" aria-label="Sort"><option value="new">Newest first</option><option value="old">Oldest first</option><option value="az">A to Z</option></select></label><input id="w-q" type="search" placeholder="Filter" aria-label="Filter" autocomplete="off">';
+  row.innerHTML='<select id="w-med" aria-label="Media"></select><select id="w-ord" aria-label="Sort"><option value="new">Newest first</option><option value="old">Oldest first</option><option value="az">A to Z</option></select><input id="w-q" type="search" placeholder="Filter" aria-label="Filter" autocomplete="off">';
   ev.parentNode.insertBefore(row,ev);
   var D=null,med=document.getElementById('w-med'),ord=document.getElementById('w-ord'),q=document.getElementById('w-q');
   var G={videos:{box:clips,key:'videos'},playlists:{box:pls,key:'playlists'},podcasts:{box:pods,key:'podcasts'},articles:{box:arts,key:'articles'},news:{box:news,key:'news'}};

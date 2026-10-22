@@ -7,7 +7,7 @@
   var SEC={g:'A to Z',maps:'Maps',tour:'Tours',timelines:'Timelines',rankings:'Charts',demographics:'Charts',tables:'Charts','top-ten':'Charts',population:'Charts',hot:'Topics',flora:'Flora and Fauna'};
   var ORDER=['Maps','Tours','Timelines','Charts','Topics','A to Z','Flora and Fauna'];
   var form=document.createElement('form');form.className='ffilter nowfilter';form.setAttribute('role','search');
-  form.innerHTML='<label for="nw-s">Section:</label><select id="nw-s" aria-label="Section"><option value="">All sections</option></select><select id="nw-o" aria-label="Sort"><option value="">Book order</option><option value="az">A-Z</option><option value="za">Z-A</option><option value="rand">Random</option></select><input id="nw-q" type="search" placeholder="Keyword" aria-label="Keyword"><button type="submit">Filter</button>';
+  form.innerHTML='<select id="nw-s" aria-label="Section"><option value="">All sections</option></select><select id="nw-o" aria-label="Sort"><option value="">Book order</option><option value="az">A-Z</option><option value="za">Z-A</option><option value="rand">Random</option></select><input id="nw-q" type="search" placeholder="Keyword" aria-label="Keyword"><button type="submit">Filter</button>';
   h1.insertAdjacentElement('afterend',form);
   var panel=document.createElement('div');panel.className='nwpanel';panel.hidden=true;form.insertAdjacentElement('afterend',panel);
   var sel=form.querySelector('#nw-s'),so=form.querySelector('#nw-o'),qi=form.querySelector('#nw-q'),idx=null,shown=60;

@@ -8,7 +8,7 @@
   function fallback(t,ok){var a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy');ok()}catch(x){}document.body.removeChild(a)}
   var res=document.getElementById('results');if(!res)return;
   var q=document.getElementById('q'),rsel=null,rsrt=null;
-  (function(){var f=q&&q.form;if(!f)return;f.className='ffilter rfilter';var lab=document.createElement('label');lab.textContent='Section:';lab.setAttribute('for','rs-s');rsel=document.createElement('select');rsel.id='rs-s';rsel.setAttribute('aria-label','Section');rsel.innerHTML='<option value="">All sections</option>';
+  (function(){var f=q&&q.form;if(!f)return;f.className='ffilter rfilter';var lab=document.createElement('label');lab.textContent='';lab.hidden=true;lab.setAttribute('for','rs-s');rsel=document.createElement('select');rsel.id='rs-s';rsel.setAttribute('aria-label','Section');rsel.innerHTML='<option value="">All sections</option>';
    rsrt=document.createElement('select');rsrt.id='rs-o';rsrt.setAttribute('aria-label','Sort');rsrt.innerHTML='<option value="">Relevance</option><option value="new">Newest</option><option value="az">A-Z</option><option value="rand">Random</option>';
    f.insertBefore(lab,q);f.insertBefore(rsel,q);f.insertBefore(rsrt,q);var b=f.querySelector('button');if(b)b.textContent='Filter';q.placeholder='Keyword';
    rsel.addEventListener('change',function(){if(window.__run)window.__run()});rsrt.addEventListener('change',function(){if(window.__run)window.__run()});
