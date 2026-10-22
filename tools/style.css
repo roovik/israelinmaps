@@ -1037,3 +1037,8 @@ header.top nav.wrap a.cur{box-shadow:none!important}
 header.top nav.wrap a.cur::after,header.top nav.wrap a.hov::after{content:"";position:absolute;left:0;right:0;bottom:-5px;height:5px;background:inherit;z-index:2}
 header.top nav.wrap:has(a.hov) a.cur:not(.hov)::after{display:none}
 header.top nav.wrap{width:auto;max-width:none;margin-left:max(16px,calc((100% - 1408px)/2));margin-right:max(16px,calc((100% - 1408px)/2));padding-left:0!important;padding-right:0!important}
+
+/* Images carousel: image only, caption on rollover */
+.feat.io .fcap{opacity:0;transition:opacity .15s;pointer-events:none}
+.feat.io .fcard:hover .fcap,.feat.io .fcard:focus .fcap,.feat.io .fcard:focus-visible .fcap{opacity:1}
+.feat.io{margin:0 0 12px}

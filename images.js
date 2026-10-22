@@ -31,9 +31,16 @@
     else if(S.sort==='rand'){a=a.slice();for(var i=a.length-1;i>0;i--){var k=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[k];a[k]=t}}
     else if(S.tag==='latest')a=a.slice().sort(function(x,y){return new Date(y.d||0)-new Date(x.d||0)});
     return a}
+  var fh=document.createElement('section');fh.hidden=true;grid.parentNode.insertBefore(fh,grid);var fsig='';
+  function feat(a){
+    var it=a.filter(function(x){return x.th}).slice(0,12);var sig=it.map(function(x){return x.th}).join('|');
+    if(sig===fsig)return;fsig=sig;
+    if(!window.IMFeat||it.length<3){fh.hidden=true;return}
+    window.IMFeat.mount(fh,it.map(function(x){return{img:x.th,t:x.t,s:x.a||'',a:x.page,ext:!(S.tag==='latest'&&x.page.charAt(0)==='/')}}),{ms:2500,cls:'io'})}
   function draw(){
     var a=view(),lt=S.tag==='latest',n=lt?S.shown:a.length;
     grid.innerHTML=a.slice(0,n).map(function(x){var cp=x.t+'\n'+(lt?(x.a||'')+(x.kind?' \u00b7 '+x.kind:'')+(x.d?' \u00b7 '+ago(x.d):''):(x.a?x.a+' \u00b7 ':'')+(x.lic||''));return'<figure class="ifig"><a class="ith" title="'+esc(cp)+'" data-cap="'+esc(cp)+'" href="'+esc(x.page)+'"'+(lt&&x.page.charAt(0)==='/'?'':' target="_blank" rel="noopener"')+'><img src="'+esc(x.th)+'" alt="'+esc(x.t)+'" loading="lazy" referrerpolicy="no-referrer" onerror="this.closest(\'figure\').remove()">'+(x.kind==='Video'?'<span class="iplay">▶</span>':'')+'</a><figcaption><b>'+esc(x.t)+'</b>'+(lt?esc(x.a||'')+(x.kind?' · '+esc(x.kind):'')+(x.d?' · '+ago(x.d):''):(x.a?esc(x.a)+' · ':'')+esc(x.lic)+' · <a href="'+esc(x.page)+'" target="_blank" rel="noopener">Source</a>')+'</figcaption></figure>'}).join('');
+    feat(a);
     more.hidden=lt?a.length<=n:!S.next;
     st.textContent=a.length?'':(lt?'No recent images match. Try another word.':'No open-license images found for this search. Try another tag or word.')}
   function load(reset){
