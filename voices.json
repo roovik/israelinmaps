@@ -576,6 +576,14 @@
       "pods": [
         "itunes:Israel Hayom English podcast"
       ]
+    },
+    {
+      "id": "jpost-podcasts",
+      "name": "The Jerusalem Post Podcasts",
+      "by": "The Jerusalem Post",
+      "pods": [
+        "https://www.jpost.com/rss/rssfeedpodcast"
+      ]
     }
   ]
 }
