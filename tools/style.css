@@ -1010,3 +1010,5 @@ header.top .subnav,header.top .subnav.sub2{background:color-mix(in srgb,var(--sc
 .newspage .newsmain>h1::after{left:50%;transform:translateX(-50%)}
 .newspage .newsleft>h1{text-align:center}.newspage .newsleft>h1::after{left:50%;transform:translateX(-50%)}
 header.top::after{display:none!important}
+.athl.fav .athumb{object-fit:contain;padding:14px;box-sizing:border-box}
+#sb-pick[hidden]{display:none!important}
