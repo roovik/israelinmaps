@@ -1005,7 +1005,7 @@ header.top::after{margin-left:max(16px,calc((100% - 1408px)/2));margin-right:max
 .ffilter #ff-c{max-width:130px}
 @media(max-width:520px){.ffilter #ff-c,.ffilter #ff-b{max-width:84px}}
 header.top nav.wrap{padding-bottom:0!important}
-header.top .subnav,header.top .subnav.sub2{background:color-mix(in srgb,var(--sc,#1f62c4) 10%,#fff)}
+header.top .subnav,header.top .subnav.sub2{background:color-mix(in srgb,var(--sc,#1f62c4) 20%,#fff)}
 .newspage .newsmain>h1,.newspage h1#nh,.newspage .whotx h1{text-align:center}
 .newspage .newsmain>h1::after{left:50%;transform:translateX(-50%)}
 .newspage .newsleft>h1{text-align:center}.newspage .newsleft>h1::after{left:50%;transform:translateX(-50%)}
