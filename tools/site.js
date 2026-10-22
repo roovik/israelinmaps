@@ -108,3 +108,13 @@ ctr();window.addEventListener('resize',ctr);window.addEventListener('load',ctr);
 if(window.MutationObserver){var mo=new MutationObserver(ctr);if(s1)mo.observe(s1,{childList:true});if(s2)mo.observe(s2,{childList:true});[].forEach.call(nv.querySelectorAll('a'),function(a){mo.observe(a,{attributes:true,attributeFilter:['class']})})}})();
 
 ;(function(){var nv=document.querySelector('header.top nav.wrap');if(!nv)return;function sec(){var a=nv.querySelector('a.cur')||nv.querySelector('a[aria-current]');if(!a)return;var c=getComputedStyle(a).backgroundColor;if(!c||c==='rgba(0, 0, 0, 0)')return;var r=document.documentElement.style;r.setProperty('--sec',c);r.setProperty('--secd','color-mix(in srgb,'+c+' 70%,#000)')}sec();window.addEventListener('load',sec);setTimeout(sec,500)})();
+/* desktop: lift the right column to just under the Search box */
+(function(){
+  function pull(){var r=document.documentElement,mq=window.matchMedia('(min-width:1001px)');
+    var np=document.querySelector('.newspage'),side=np&&np.querySelector(':scope>.newsside'),rc=document.querySelector('header.top .rcol');
+    if(!mq.matches||!side||!rc){r.style.removeProperty('--pull');return}
+    var p=Math.round(np.getBoundingClientRect().top-(rc.getBoundingClientRect().bottom+10));r.style.setProperty('--pull',Math.max(0,p)+'px')}
+  window.addEventListener('load',function(){pull();setTimeout(pull,600);setTimeout(pull,2000)});window.addEventListener('resize',pull);
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(pull);
+  var tries=0,t=setInterval(function(){pull();if(++tries>10)clearInterval(t)},500);
+})();

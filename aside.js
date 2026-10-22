@@ -15,5 +15,10 @@
       var on=g.i.some(function(x){return x[1]===p||x[1]===cur});
       return'<details class="agrp" open><summary><a href="'+esc(g.u)+'">'+esc(g.h)+'</a> <span>'+g.i.length+'</span></summary><ul class="alist'+''+'">'+g.i.map(function(x){return'<li><a href="'+esc(x[1])+'"'+(x[1]===p||x[1]===cur?' aria-current="page"':'')+'>'+esc(x[0])+'</a></li>'}).join('')+'</ul></details>'}).join('')+'</div>';
     var d=document.createElement('div');d.innerHTML=h;as.classList.add('sect');if(/^(media|video|playlists|audio|music|images|maps|tour|timelines|charts|hot|glossary|book|sources|views)$/.test(k)){var np=as.closest('.newspage'),lc=np&&np.querySelector(':scope>.newsleftcol');if(np&&lc){np.classList.add('noleft');lc.hidden=true}}as.insertBefore(d.firstChild,as.firstChild);
+    if(k==='glossary')fetch('/glossary.json').then(function(r){return r.json()}).then(function(G){
+      var L=G.slice().sort(function(a,b){return String(a[0]).localeCompare(String(b[0]))}),box=as.querySelector('.asect');if(!box||!L.length)return;
+      var det=document.createElement('details');det.className='agrp long';det.open=true;
+      det.innerHTML='<summary><a href="/glossary/">A to Z</a> <span>'+L.length+'</span></summary><ul class="alist">'+L.map(function(g){return'<li><a href="/g/'+esc(g[0])+'/"'+(p==='/g/'+g[0]+'/'?' aria-current="page"':'')+'>'+esc(g[1])+'</a></li>'}).join('')+'</ul>';
+      box.appendChild(det)}).catch(function(){})
   }).catch(function(){});
 })();

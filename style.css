@@ -1068,3 +1068,13 @@ header.top nav.wrap{width:auto;max-width:none;margin-left:max(16px,calc((100% - 
 .sbmore{margin-top:2rem;padding-top:1rem;border-top:1px solid var(--line,#d8d4c8)}
 .sbmore ul{list-style:none;padding:0;margin:0}.sbmore li{padding:6px 0;border-bottom:1px solid var(--line,#e6e1d4)}.sbmore li b{display:inline-block;min-width:6rem}
 #sb-head.sbhead{display:block}
+
+/* desktop: navigation as wide as the centre column, right column starts under Search */
+@media (min-width:1001px){
+ body:has(.newspage>.newsside){--asw:320px;--asg:28px}
+ body:has(.newspage>.newsside) header.top nav.wrap,body:has(.newspage>.newsside) header.top .subnav.wrap{margin-right:calc(max(16px,calc((100% - 1408px)/2)) + var(--asw) + var(--asg))}
+ .newspage.noleft>.adslot[data-slot=page-top]{grid-column:1}
+ .newspage.noleft>.newsside{grid-column:2;grid-row:1/3}
+ .newspage>.newsside{margin-top:calc(-1*var(--pull,0px));position:relative!important;z-index:6;top:auto}
+}
+.agrp.long .alist{max-height:62vh;overflow-y:auto;padding-right:6px}
