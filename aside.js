@@ -13,7 +13,7 @@
     var s=A[k];if(!s)return;var cur=p+location.hash;
     var h='<div class="asect"><h2>'+esc(s.t)+'</h2>'+s.g.map(function(g,i){
       var on=g.i.some(function(x){return x[1]===p||x[1]===cur});
-      return'<details class="agrp"'+(i===0||on?' open':'')+'><summary><a href="'+esc(g.u)+'">'+esc(g.h)+'</a> <span>'+g.i.length+'</span></summary><ul class="alist'+(g.i.length>14?' long':'')+'">'+g.i.map(function(x){return'<li><a href="'+esc(x[1])+'"'+(x[1]===p||x[1]===cur?' aria-current="page"':'')+'>'+esc(x[0])+'</a></li>'}).join('')+'</ul></details>'}).join('')+'</div>';
+      return'<details class="agrp" open><summary><a href="'+esc(g.u)+'">'+esc(g.h)+'</a> <span>'+g.i.length+'</span></summary><ul class="alist'+''+'">'+g.i.map(function(x){return'<li><a href="'+esc(x[1])+'"'+(x[1]===p||x[1]===cur?' aria-current="page"':'')+'>'+esc(x[0])+'</a></li>'}).join('')+'</ul></details>'}).join('')+'</div>';
     var d=document.createElement('div');d.innerHTML=h;as.classList.add('sect');as.insertBefore(d.firstChild,as.firstChild);
   }).catch(function(){});
 })();
