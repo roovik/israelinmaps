@@ -71,7 +71,7 @@ var ul=s.parentNode.querySelector('ul');if(!ul)return;var nav=document.createEle
 [].forEach.call(ul.querySelectorAll('a'),function(a,n){var k=(a.getAttribute('href').split('/')[2]||''),l=document.createElement('a');l.href=a.getAttribute('href');if(a.getAttribute('aria-current'))l.setAttribute('aria-current','page');
 var pic=document.createElement('span');pic.className='apic org c'+(n%6);var ini=document.createElement('span');ini.className='ini';ini.textContent=INI[k]||a.textContent.slice(0,2);pic.appendChild(ini);
 if(D[k]){var im=new Image();im.alt='';im.loading='lazy';im.referrerPolicy='no-referrer';im.onload=function(){if(im.naturalWidth>16){pic.textContent='';pic.appendChild(im)}};im.src=(D[k]==='ynetnews.com'?'/img/ynet-y.png':'https://www.google.com/s2/favicons?sz=128&domain='+D[k])}
-var nm=document.createElement('span');nm.className='apn';nm.textContent=a.textContent.replace(/^The /,'').replace('Jerusalem Post','JPost');l.appendChild(pic);l.appendChild(nm);nav.appendChild(l)});
+var nm=document.createElement('span');nm.className='apn';nm.textContent=a.textContent.replace(/^The /,'').replace('Jerusalem Post','JPost').replace('Times of Israel','ToI');l.appendChild(pic);l.appendChild(nm);nav.appendChild(l)});
 var box=s.closest('.newsleftcol')||s.parentNode;box.insertBefore(nav,box.firstChild);})();
 
 ;(function(){var h=document.querySelector('header.top'),s=document.getElementById('subnav');if(!h||!s)return;function pin(){var m=window.matchMedia('(max-width:640px)').matches;h.style.setProperty('--pin',m?'0px':'0px')}pin();window.addEventListener('resize',pin);window.addEventListener('load',pin);if(window.MutationObserver)new MutationObserver(pin).observe(s,{childList:true,subtree:true});setTimeout(pin,800)})();

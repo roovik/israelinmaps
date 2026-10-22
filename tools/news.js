@@ -60,7 +60,7 @@
           more=document.getElementById('news-more'),mt=document.getElementById('news-more-title'),wid=document.getElementById('news-widget'),latest=document.getElementById('news-latest'),st=document.getElementById('news-status');
       if(item){g2=document.createElement('input');more=document.createElement('ul');mt=document.createElement('h2')}
       var state={mode:'sources',src:null,sub:null,tp:null,ch:null,q:null,kind:null,by:null},cache={},alive={};
-      var good=data.sources.filter(function(s){return s.ok});
+      var good=data.sources.filter(function(s){return s.ok&&(W!=='views'||data.items.filter(function(i){return i.s===s.id}).length>=3)});
       function isBrk(i){return i.d&&(Date.now()-new Date(i.d).getTime()<=3*3600*1000||/\b(breaking|live)\b/i.test(i.t))}
       var dated=data.items.filter(function(i){return i.d}).slice(0,12);
       latest.innerHTML='<section class="wsrc wlatest"><h3>Latest '+W+'</h3><ul>'+dated.slice(0,5).map(function(i){return'<li><a href="'+esc(iu(i))+'">'+esc(i.t)+'</a><span class="wm"><a href="/sources/'+esc(i.s)+'/?show='+W+'">'+esc(i.src)+'</a> · <time>'+when(i.d)+'</time></span></li>'}).join('')+'</ul></section>';
@@ -87,7 +87,7 @@
         return s.groups.map(function(g){return{group:g.group,list:g.list.filter(function(c){return a.ok[c.id]})}}).filter(function(g){return g.list.length})}
       function srcItems(id){return data.items.filter(function(i){return i.s===id})}
       function topicBtns(items,cur,attr){return TOPICS.map(function(x){var n=items.filter(function(i){return i.tp&&i.tp.indexOf(x[0])>-1}).length;return n?'<button '+attr+'="'+x[0]+'" aria-pressed="'+(cur===x[0])+'">'+x[1]+' <i>'+n+'</i></button>':''}).join('')}
-      var LBL={toi:'Times of Israel',jpost:'JPost',inn:'INN'};var AB={toi:'ToI',jpost:'JPost',ynet:'ynet',israelhayom:'Hayom',inn:'INN',kan:'Kan',mef:'MEF',ji:'JI',i24:'i24'};function ab(x){return AB[x.id]||x.name}
+      var LBL={toi:'ToI',jpost:'JPost',inn:'INN'};var AB={toi:'ToI',jpost:'JPost',ynet:'ynet',israelhayom:'Hayom',inn:'INN',kan:'Kan',mef:'MEF',ji:'JI',i24:'i24'};function ab(x){return AB[x.id]||x.name}
       var MQ={get matches(){return!item}};
       var DOM={toi:'timesofisrael.com',jpost:'jpost.com',ynet:'ynetnews.com',haaretz:'haaretz.com',jns:'jns.org',israelhayom:'israelhayom.com',jta:'jta.org',inn:'israelnationalnews.com',i24:'i24news.tv',kan:'kan.org.il',globes:'globes.co.il',calcalist:'calcalistech.com',tablet:'tabletmag.com',mef:'meforum.org',ji:'jewishinsider.com'},FAV={'ynetnews.com':'/img/ynet-y.png'};
       function ini(x){var w=x.name.replace(/^The /,'').split(/\s+/);return(w.length>1?w.map(function(y){return y[0]}).join(''):x.name.slice(0,2)).toUpperCase().slice(0,3)}
