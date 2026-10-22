@@ -5,7 +5,7 @@
   function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
   function ago(d){if(!d)return'';var m=Math.round((Date.now()-new Date(d))/60000);if(isNaN(m))return'';if(m<60)return Math.max(m,1)+' min ago';if(m<1440)return Math.round(m/60)+' h ago';if(m<43200)return Math.round(m/1440)+' d ago';return new Date(d).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}
   var sel=document.getElementById('isel'),inp=document.getElementById('iq'),fm=document.getElementById('iform');
-  var so=document.createElement('select');so.id='isort';so.setAttribute('aria-label','Sort');so.innerHTML='<option value="new">Newest</option><option value="old">Oldest</option><option value="az">A to Z</option><option value="rand">Random</option>';
+  var so=document.createElement('select');so.id='isort';so.setAttribute('aria-label','Sort');so.innerHTML='<option value="new">Newest</option><option value="old">Oldest</option><option value="az">A-Z</option><option value="rand">Random</option>';
   (function(){var lb=sel.parentNode;fm.className='ffilter';fm.insertBefore(sel,inp);fm.insertBefore(so,inp);if(lb&&lb.tagName==='LABEL')lb.hidden=true;inp.placeholder='Keyword'})();
   sel.innerHTML=TAGS.map(function(t){return'<option value="'+t[0]+'">'+esc(t[1])+'</option>'}).join('');
   grid.classList.add('mas');tags.hidden=true;

@@ -1,15 +1,15 @@
-/* NOWlej sections: Section, Sort and Filter row over the whole NOWlej index (maps, tours, timelines, charts, topics, A to Z, flora). */
+/* NOWlej sections: Section, Sort and Filter row over the whole NOWlej index (maps, tours, timelines, charts, topics, A-Z, flora). */
 (function(){
   var P={'/glossary/':1,'/maps/':1,'/tour/':1,'/timelines/':1,'/charts/':1,'/hot/':1,'/size/':1,'/rankings/':1,'/demographics/':1,'/tables/':1,'/top-ten/':1,'/population/':1,'/flora/':1};
   if(!P[location.pathname])return;
   var h1=document.querySelector('.newspage h1');if(!h1)return;
   function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
-  var SEC={g:'A to Z',maps:'Maps',tour:'Tours',timelines:'Timelines',rankings:'Charts',demographics:'Charts',tables:'Charts','top-ten':'Charts',population:'Charts',hot:'Topics',flora:'Flora and Fauna'};
-  var ORDER=['Maps','Tours','Timelines','Charts','Topics','A to Z','Flora and Fauna'];
+  var SEC={g:'A-Z',maps:'Maps',tour:'Tours',timelines:'Timelines',rankings:'Charts',demographics:'Charts',tables:'Charts','top-ten':'Charts',population:'Charts',hot:'Topics',flora:'Flora and Fauna'};
+  var ORDER=['Maps','Tours','Timelines','Charts','Topics','A-Z','Flora and Fauna'];
   var form=document.createElement('form');form.className='ffilter nowfilter';form.setAttribute('role','search');
   form.innerHTML='<select id="nw-s" aria-label="Section"><option value="">All sections</option></select><select id="nw-o" aria-label="Sort"><option value="">Book order</option><option value="az">A-Z</option><option value="za">Z-A</option><option value="rand">Random</option></select><input id="nw-q" type="search" placeholder="Keyword" aria-label="Keyword"><button type="submit">Filter</button>';
   h1.insertAdjacentElement('afterend',form);
-  /* A to Z page: the category chips become a Category dropdown in this one row */
+  /* A-Z page: the category chips become a Category dropdown in this one row */
   (function(){var cats=document.querySelectorAll('#gcats button');if(location.pathname!=='/glossary/'||!cats.length)return;
     var c=document.createElement('select');c.id='nw-c';c.setAttribute('aria-label','Category');
     c.innerHTML=[].map.call(cats,function(b){var i=b.querySelector('i'),t=b.textContent.replace(i?i.textContent:'','').trim();return'<option value="'+esc(b.getAttribute('data-c'))+'">'+(b.getAttribute('data-c')?esc(t):'All categories')+(i?' ('+esc(i.textContent)+')':'')+'</option>'}).join('');

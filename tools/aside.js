@@ -27,7 +27,7 @@
         if(key==='tour')lab='Tours';if(key==='maps')lab='Maps';if(key==='hot')lab='Topics';if(key==='book')lab='Book';if(key==='video')lab='Video channels';
         groups.push({key:key,h:lab,u:g.u,i:g.i})})});
     if(!title&&A[k])title=A[k].t;
-    if(chan==='nowlej'||k==='glossary')groups.push({key:'glossary',h:'A to Z',u:'/glossary/',i:null,lazy:1});
+    if(chan==='nowlej'||k==='glossary')groups.push({key:'glossary',h:'A-Z',u:'/glossary/',i:null,lazy:1});
     var openFirstOf={},cnt=0;
     groups.forEach(function(g){var here=g.key===k&&g.i&&g.i.some(function(x){return x[1]===p||x[1]===cur});if(here)g.open=1});
     if(!groups.some(function(g){return g.open})){var f=groups.filter(function(g){return g.key===k})[0];if(f)f.open=1}

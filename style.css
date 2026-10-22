@@ -1121,7 +1121,7 @@ header.top nav.wrap{width:auto;max-width:none;margin-left:max(16px,calc((100% - 
 a{text-decoration:none}
 a:hover,a:focus-visible{text-decoration:underline}
 .newsside .agrp .alist{max-height:52vh;overflow-y:auto;padding-right:6px}
-/* A to Z: one filter row only */
+/* A-Z: one filter row only */
 body .gfilter{display:none!important}
 /* Sources: single source assets as a 3-up matrix */
 #sb-out .sbarts,#sb-out .vlist2{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;list-style:none;padding:0}
@@ -1282,3 +1282,5 @@ body:has(#src-tabs) .newsmain .ncard .nb>p:not(.nmeta){display:none}
 .ffilter{margin-top:2px!important;margin-bottom:8px!important}.fnav>.fsrc{margin-bottom:0!important}
 .ffilter+*,.newsmain .ffilter~h2{margin-top:6px!important}
 }
+@media (min-width:641px){header.top .subnav a,.subnav a{padding-left:6px;padding-right:6px}.subnav{gap:2px}}
+@media (max-width:640px){header.top .subnav a{padding-left:3px!important;padding-right:3px!important}}
