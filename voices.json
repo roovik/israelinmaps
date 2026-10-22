@@ -183,7 +183,7 @@
       "intro": "Bari Weiss is Editor-in-Chief of CBS News and the co-founder of The Free Press, the independent media company she built after leaving The New York Times. Her essays, reporting and podcasts frequently take up Israel, antisemitism and free speech.",
       "tags": "Editor-in-Chief, CBS News · Co-founder, The Free Press",
       "pods": [
-        "itunes:Honestly with Bari Weiss"
+        "https://feeds.megaphone.fm/rsv2347142881"
       ]
     },
     {
@@ -228,7 +228,7 @@
       ],
       "intro": "Dan Senor is a policy adviser and author of Start-Up Nation. He hosts the Call Me Back podcast, a daily conversation about Israel and the news.",
       "pods": [
-        "itunes:Call Me Back with Dan Senor"
+        "https://rss.beehiiv.com/podcasts/01a0599f-c7dc-725e-a326-2afd78c94e7e.xml"
       ]
     },
     {
@@ -554,7 +554,7 @@
       "name": "Unholy: Two Jews on the News",
       "by": "Yonit Levi and Jonathan Freedland",
       "pods": [
-        "itunes:Unholy: Two Jews on the News"
+        "https://www.omnycontent.com/d/playlist/2ee97a4e-8795-4260-9648-accf00a38c6a/661e2338-316e-4a0c-a2ab-ace100c4f08b/1c1fe6c7-ca02-4358-a7e3-ace100c4f0a3/podcast.rss"
       ]
     },
     {
@@ -570,7 +570,7 @@
       "name": "Unorthodox",
       "by": "Tablet Magazine",
       "pods": [
-        "itunes:Unorthodox Tablet Magazine"
+        "https://feeds.megaphone.fm/unorthodox"
       ]
     },
     {
