@@ -1,14 +1,112 @@
-{"entries": [
- {"name": "Philistia", "he": "פלשת", "cat": "Places",
-  "text": "The coastal plain of southern Canaan held by the [[Philistines]] from about 1175 BCE, centered on the five cities of Gaza, Ashkelon, Ashdod, Ekron and Gath. Philistia was Israel's chief rival in the days of the judges and the early kings. Assyria later made its cities vassals. Rome eventually applied the name Palaestina, drawn from Philistia, to the whole province after the Bar Kokhba revolt, and the word Palestine descends from it."},
- {"name": "Moab", "he": "מואב", "cat": "Places",
-  "text": "Kingdom on the plateau east of the Dead Sea, between the Arnon and Zered rivers in present-day Jordan, with its capital at Dibon. The Mesha Stele, set up about 840 BCE, records King Mesha's revolt against Israel and is among the oldest inscriptions to name the God of Israel. Moab is also the setting for much of the Book of Ruth, whose heroine was a Moabite woman who joined the Jewish people."},
- {"name": "Edom", "he": "אדום", "cat": "Places",
-  "text": "Kingdom in the highlands south of the Dead Sea, in present-day southern Jordan and the Negev, linked in the Bible with Esau. Its copper mines at Timna and Faynan fed regional trade. Edom fought Judah repeatedly and fell to Babylon. Its people, later called Idumeans, were brought into the Jewish people under John Hyrcanus in the second century BCE, and [[Herod the Great]] came from an Idumean family."},
- {"name": "Ammon", "he": "עמון", "cat": "Places",
-  "text": "Kingdom east of the Jordan River with its capital at Rabbath Ammon, today's Amman, the capital of Jordan. The Ammonites fought Israel under Saul and David, and David's general Joab captured their capital. The modern name Amman preserves the ancient one."},
- {"name": "Aram-Damascus", "he": "ארם דמשק", "cat": "Places",
-  "text": "Aramean kingdom centered on Damascus, the main rival of the northern kingdom of Israel from the ninth to the eighth century BCE. Kings such as Hazael pressed Israel hard until Assyria destroyed Damascus in 732 BCE. The Tel Dan inscription, an Aramean victory stele of about 840 BCE, carries the earliest known mention of the House of David outside the Bible."},
- {"name": "Phoenicia", "he": "פיניקיה", "cat": "Places",
-  "text": "Coastal city-states of Tyre, Sidon and Byblos on today's Lebanese coast, home to master seafarers and traders who founded colonies across the Mediterranean, including Carthage. The [[Phoenician alphabet]] became the ancestor of the Hebrew, Greek and Latin scripts. King Hiram of Tyre supplied cedar and craftsmen for Solomon's Temple in [[Jerusalem]]. Their neighbors in the land were the [[Canaanites]], whose culture they largely continued."}
-]}
+{
+ "entries": [
+  {
+   "name": "Philistia",
+   "he": "פלשת",
+   "cat": "Places",
+   "text": "The coastal plain of southern Canaan held by the [[Philistines]] from about 1175 BCE, centered on the five cities of Gaza, Ashkelon, Ashdod, Ekron and Gath. Philistia was Israel's chief rival in the days of the judges and the early kings. Assyria later made its cities vassals. Rome eventually applied the name Palaestina, drawn from Philistia, to the whole province after the Bar Kokhba revolt, and the word Palestine descends from it."
+  },
+  {
+   "name": "Moab",
+   "he": "מואב",
+   "cat": "Places",
+   "text": "Kingdom on the plateau east of the Dead Sea, between the Arnon and Zered rivers in present-day Jordan, with its capital at Dibon. The Mesha Stele, set up about 840 BCE, records King Mesha's revolt against Israel and is among the oldest inscriptions to name the God of Israel. Moab is also the setting for much of the Book of Ruth, whose heroine was a Moabite woman who joined the Jewish people."
+  },
+  {
+   "name": "Edom",
+   "he": "אדום",
+   "cat": "Places",
+   "text": "Kingdom in the highlands south of the Dead Sea, in present-day southern Jordan and the Negev, linked in the Bible with Esau. Its copper mines at Timna and Faynan fed regional trade. Edom fought Judah repeatedly and fell to Babylon. Its people, later called Idumeans, were brought into the Jewish people under John Hyrcanus in the second century BCE, and [[Herod the Great]] came from an Idumean family."
+  },
+  {
+   "name": "Ammon",
+   "he": "עמון",
+   "cat": "Places",
+   "text": "Kingdom east of the Jordan River with its capital at Rabbath Ammon, today's Amman, the capital of Jordan. The Ammonites fought Israel under Saul and David, and David's general Joab captured their capital. The modern name Amman preserves the ancient one."
+  },
+  {
+   "name": "Aram-Damascus",
+   "he": "ארם דמשק",
+   "cat": "Places",
+   "text": "Aramean kingdom centered on Damascus, the main rival of the northern kingdom of Israel from the ninth to the eighth century BCE. Kings such as Hazael pressed Israel hard until Assyria destroyed Damascus in 732 BCE. The Tel Dan inscription, an Aramean victory stele of about 840 BCE, carries the earliest known mention of the House of David outside the Bible."
+  },
+  {
+   "name": "Phoenicia",
+   "he": "פיניקיה",
+   "cat": "Places",
+   "text": "Coastal city-states of Tyre, Sidon and Byblos on today's Lebanese coast, home to master seafarers and traders who founded colonies across the Mediterranean, including Carthage. The [[Phoenician alphabet]] became the ancestor of the Hebrew, Greek and Latin scripts. King Hiram of Tyre supplied cedar and craftsmen for Solomon's Temple in [[Jerusalem]]. Their neighbors in the land were the [[Canaanites]], whose culture they largely continued."
+  },
+  {
+   "name": "Nabataeans",
+   "he": "נבטים",
+   "cat": "People and groups",
+   "text": "Arab trading people whose kingdom, centered on Petra in present-day Jordan, grew rich from the incense and spice caravans that crossed the [[Negev]] to the Mediterranean. They built walled desert cities at [[Avdat]], Mamshit, Shivta and Haluza, and used cisterns and terraced fields to farm the desert. Rome annexed their kingdom in 106 CE. Their Negev cities are a UNESCO World Heritage site."
+  },
+  {
+   "name": "Samaritans",
+   "he": "שומרונים",
+   "cat": "People and groups",
+   "text": "Small community that keeps its own version of the Torah and holds [[Mount Gerizim]], not Jerusalem, to be the place chosen for worship. They still offer the Passover sacrifice there each year. Jewish and Samaritan tradition give different accounts of their origin. Their number fell to a few hundred in the early 20th century and has since grown to somewhat fewer than one thousand, living at Kiryat Luza on Mount Gerizim and in Holon."
+  },
+  {
+   "name": "Essenes",
+   "he": "אסיים",
+   "cat": "People and groups",
+   "text": "Jewish sect of the Second Temple period that, according to [[Josephus]] and other ancient writers, lived in strict communities, shared property and stressed ritual purity. Many scholars link them to the settlement at [[Qumran]] and the [[Dead Sea Scrolls]], though others dispute the connection. They vanish from the record after the revolt against Rome."
+  },
+  {
+   "name": "Pharisees",
+   "he": "פרושים",
+   "cat": "People and groups",
+   "text": "Jewish movement of the Second Temple period that stressed study and the oral law alongside the written Torah. Their teachers shaped the [[Mishnah]]. After the destruction of the [[Second Temple]] in 70 CE their approach became the basis of rabbinic Judaism. [[Josephus]] and the New Testament describe them as a leading party with wide popular support."
+  },
+  {
+   "name": "Sadducees",
+   "he": "צדוקים",
+   "cat": "People and groups",
+   "text": "Priestly and aristocratic party of the Second Temple period that accepted only the written Torah and rejected the oral law. They were tied to the Temple and its priesthood, and the party faded after the Temple was destroyed in 70 CE."
+  },
+  {
+   "name": "Zealots",
+   "he": "קנאים",
+   "cat": "People and groups",
+   "text": "Name given to Jewish rebel factions in the revolt against Rome of 66 to 73 CE, known as the [[First (66-73 CE) Revolt=First Revolt]]. Groups inside Jerusalem fought each other as well as the [[Romans]]. The Sicarii, a separate group, held [[Masada]] until its fall. The main source on all of them is [[Josephus]], who opposed the rebellion."
+  },
+  {
+   "name": "Sanhedrin",
+   "he": "סנהדרין",
+   "cat": "Concepts",
+   "text": "Council of Jewish sages and judges that served as the highest court and legislature of Jewish life. It sat in [[Jerusalem]] in the Second Temple period. After 70 CE it was re-formed at [[Yavne]], later moved to the Galilee, and ended about 425 CE."
+  },
+  {
+   "name": "Diaspora",
+   "he": "תפוצות",
+   "cat": "Concepts",
+   "text": "Jewish communities living outside the land of Israel. It began with the exile to [[Babylon]] in 586 BCE and grew after the Roman destruction of Jerusalem. For some two thousand years Jews lived in Babylonia, Egypt, Europe, North Africa and the Americas, while a Jewish presence continued in the land. Today roughly as many Jews live outside Israel as in it."
+  },
+  {
+   "name": "Abbasids",
+   "he": "עבאסים",
+   "cat": "People and groups",
+   "text": "Dynasty of caliphs that overthrew the [[Umayyads]] in 750 and ruled from Baghdad. The land was a frontier province, and by the 10th century Egyptian dynasties controlled it, until the [[Fatimids]] conquered it in 969."
+  },
+  {
+   "name": "Twelve Tribes of Israel",
+   "he": "שנים עשר השבטים",
+   "cat": "People and groups",
+   "text": "The tribes descended from the sons of [[Jacob]] according to the Bible, each with its own territory in the land. Joseph's descendants form two tribes, Ephraim and Manasseh. The ten northern tribes were carried off by Assyria after the [[Fall of Samaria]] in 722 BCE, while Judah and Benjamin formed the kingdom of Judah. The priestly tribe of Levi received towns but no territory."
+  },
+  {
+   "name": "Yishuv",
+   "he": "היישוב",
+   "cat": "Concepts",
+   "text": "Hebrew word for settlement, used for the organized Jewish community in the land before the state of 1948. The old Yishuv of religious families in [[Jerusalem]], [[Safed]], [[Tiberias]] and [[Hebron]] predated Zionism, and the new Yishuv grew from the [[First Aliyah]] of 1882. By 1948 it had more than 600,000 people, with its own schools, defense force and labor federation."
+  },
+  {
+   "name": "Decapolis",
+   "he": "דקאפוליס",
+   "cat": "Places",
+   "text": "League of ten Greek-speaking cities of the Roman era, mostly east of the Jordan River in present-day Jordan and Syria. [[Beit She'an]], then called Scythopolis, was the only one west of the river. The cities shared Greek culture and had a measure of self-rule under Rome."
+  }
+ ]
+}
