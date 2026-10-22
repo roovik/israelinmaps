@@ -1042,3 +1042,16 @@ header.top nav.wrap{width:auto;max-width:none;margin-left:max(16px,calc((100% - 
 .feat.io .fcap{opacity:0;transition:opacity .15s;pointer-events:none}
 .feat.io .fcard:hover .fcap,.feat.io .fcard:focus .fcap,.feat.io .fcard:focus-visible .fcap{opacity:1}
 .feat.io{margin:0 0 12px}
+
+/* carousel arrows */
+.feat{position:relative}
+.feat .farr{position:absolute;top:calc(50% - 22px);z-index:3;width:38px;height:38px;border-radius:50%;border:0;background:rgba(0,0,0,.55);color:#fff;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0}
+.feat .farr:hover,.feat .farr:focus-visible{background:rgba(0,0,0,.85)}
+.feat .fprev{left:6px}.feat .fnext{right:6px}
+.feat .fdots span{padding:3px;background-clip:content-box}
+/* image view page */
+.ivfig{margin:0 0 14px}.ivfig img{display:block;width:100%;max-height:70vh;object-fit:contain;background:#111;border-radius:10px}
+.ivfig figcaption{margin-top:8px;font-size:.95rem;line-height:1.4}
+.ivmeta{display:grid;grid-template-columns:max-content 1fr;gap:4px 16px;margin:0 0 10px}.ivmeta dt{font-weight:700}.ivmeta dd{margin:0}
+.ivlinks{margin:0 0 10px;padding-left:20px}.ivlinks li{margin:3px 0}
+#iv h1{text-align:center}

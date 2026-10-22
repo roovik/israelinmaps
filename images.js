@@ -24,6 +24,7 @@
       (r[1].items||[]).forEach(function(i){if(i.i)add({t:i.t,th:i.i,page:i.k?'/news/item/'+i.k+'/?s='+encodeURIComponent(i.s)+(i.ch?'&c='+encodeURIComponent(i.ch):''):i.u,a:i.src,d:i.d,kind:'Views'})});
       (r[2].items||[]).forEach(function(v){add({t:v.t,th:'https://i.ytimg.com/vi/'+v.v+'/hqdefault.jpg',page:'/video/watch/?v='+v.v,a:v.n,d:v.d,kind:'Video'})});
       LATEST=o;return o})}
+  function ivu(x){var u=new URLSearchParams();u.set('t',x.t||'');u.set('th',x.th);u.set('p',x.page||'');if(x.a)u.set('a',x.a);if(x.lic)u.set('l',x.lic);if(x.d)u.set('d',x.d);if(x.kind)u.set('k',x.kind);return'/images/view/?'+u.toString()}
   function view(){
     var q=S.q.toLowerCase(),a=S.items.filter(function(x){return!q||S.tag==='latest'&&((x.t||'')+' '+(x.a||'')+' '+(x.kind||'')).toLowerCase().indexOf(q)>-1||S.tag!=='latest'});
     if(S.sort==='az')a=a.slice().sort(function(x,y){return(x.t||'').localeCompare(y.t||'')});
@@ -36,10 +37,10 @@
     var it=a.filter(function(x){return x.th}).slice(0,12);var sig=it.map(function(x){return x.th}).join('|');
     if(sig===fsig)return;fsig=sig;
     if(!window.IMFeat||it.length<3){fh.hidden=true;return}
-    window.IMFeat.mount(fh,it.map(function(x){return{img:x.th,t:x.t,s:x.a||'',a:x.page,ext:!(S.tag==='latest'&&x.page.charAt(0)==='/')}}),{ms:2500,cls:'io'})}
+    window.IMFeat.mount(fh,it.map(function(x){return{img:x.th,t:x.t,s:x.a||'',a:ivu(x)}}),{ms:2500,cls:'io'})}
   function draw(){
     var a=view(),lt=S.tag==='latest',n=lt?S.shown:a.length;
-    grid.innerHTML=a.slice(0,n).map(function(x){var cp=x.t+'\n'+(lt?(x.a||'')+(x.kind?' \u00b7 '+x.kind:'')+(x.d?' \u00b7 '+ago(x.d):''):(x.a?x.a+' \u00b7 ':'')+(x.lic||''));return'<figure class="ifig"><a class="ith" title="'+esc(cp)+'" data-cap="'+esc(cp)+'" href="'+esc(x.page)+'"'+(lt&&x.page.charAt(0)==='/'?'':' target="_blank" rel="noopener"')+'><img src="'+esc(x.th)+'" alt="'+esc(x.t)+'" loading="lazy" referrerpolicy="no-referrer" onerror="this.closest(\'figure\').remove()">'+(x.kind==='Video'?'<span class="iplay">▶</span>':'')+'</a><figcaption><b>'+esc(x.t)+'</b>'+(lt?esc(x.a||'')+(x.kind?' · '+esc(x.kind):'')+(x.d?' · '+ago(x.d):''):(x.a?esc(x.a)+' · ':'')+esc(x.lic)+' · <a href="'+esc(x.page)+'" target="_blank" rel="noopener">Source</a>')+'</figcaption></figure>'}).join('');
+    grid.innerHTML=a.slice(0,n).map(function(x){var cp=x.t+'\n'+(lt?(x.a||'')+(x.kind?' \u00b7 '+x.kind:'')+(x.d?' \u00b7 '+ago(x.d):''):(x.a?x.a+' \u00b7 ':'')+(x.lic||''));return'<figure class="ifig"><a class="ith" title="'+esc(cp)+'" data-cap="'+esc(cp)+'" href="'+esc(ivu(x))+'"><img src="'+esc(x.th)+'" alt="'+esc(x.t)+'" loading="lazy" referrerpolicy="no-referrer" onerror="this.closest(\'figure\').remove()">'+(x.kind==='Video'?'<span class="iplay">▶</span>':'')+'</a><figcaption><b>'+esc(x.t)+'</b>'+(lt?esc(x.a||'')+(x.kind?' · '+esc(x.kind):'')+(x.d?' · '+ago(x.d):''):(x.a?esc(x.a)+' · ':'')+esc(x.lic)+' · <a href="'+esc(x.page)+'" target="_blank" rel="noopener">Source</a>')+'</figcaption></figure>'}).join('');
     feat(a);
     more.hidden=lt?a.length<=n:!S.next;
     st.textContent=a.length?'':(lt?'No recent images match. Try another word.':'No open-license images found for this search. Try another tag or word.')}

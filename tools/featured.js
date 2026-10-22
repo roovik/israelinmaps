@@ -20,7 +20,7 @@
     host.hidden=false;host.className='feat'+(opt.cls?' '+opt.cls:'');
     host.innerHTML=(opt.title?'<h2 class="feath">'+(opt.href?'<a href="'+esc(opt.href)+'">'+esc(opt.title)+'</a>':esc(opt.title))+'</h2>':'')+'<div class="ftrack" tabindex="0" aria-roledescription="carousel" aria-label="'+esc(opt.title||'Featured')+'">'+items.map(function(x,i){
       var inner='<img src="'+esc(x.img)+'" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.closest(\'.fcard\').classList.add(\'noimg\');this.remove()"><span class="fcap"><b>'+esc(x.t)+'</b>'+(x.s?'<i>'+esc(x.s)+'</i>':'')+'</span>'+(x.y||x.pl?'<span class="fplay">&#9654;</span>':'');
-      return x.y||x.pl?'<button type="button" class="fcard" data-i="'+i+'">'+inner+'</button>':'<a class="fcard" href="'+esc(x.a)+'"'+(x.ext?' target="_blank" rel="noopener"':'')+'>'+inner+'</a>'}).join('')+'</div><div class="fdots" aria-hidden="true">'+items.map(function(x,i){return'<span data-i="'+i+'"></span>'}).join('')+'</div>';
+      return x.y||x.pl?'<button type="button" class="fcard" data-i="'+i+'">'+inner+'</button>':'<a class="fcard" href="'+esc(x.a)+'"'+(x.ext?' target="_blank" rel="noopener"':'')+'>'+inner+'</a>'}).join('')+'</div><button type="button" class="farr fprev" aria-label="Previous">&#10094;</button><button type="button" class="farr fnext" aria-label="Next">&#10095;</button><div class="fdots" aria-hidden="true">'+items.map(function(x,i){return'<span data-i="'+i+'"></span>'}).join('')+'</div>';
     var tr=host.querySelector('.ftrack'),dots=host.querySelectorAll('.fdots span'),idx=0,paused=false,t=null;
     function cw(){var c=tr.querySelector('.fcard');return c?c.getBoundingClientRect().width+12:300}
     function vis(){return Math.max(1,Math.round(tr.clientWidth/cw()))}
@@ -32,6 +32,9 @@
     ['mouseleave','focusout'].forEach(function(e){host.addEventListener(e,function(){paused=false})});
     host.addEventListener('touchend',function(){setTimeout(function(){paused=false},6000)},{passive:true});
     tr.addEventListener('click',function(e){var b=e.target.closest('button.fcard');if(!b)return;var x=items[+b.getAttribute('data-i')];play(x)});
+    host.querySelector('.fprev').addEventListener('click',function(){var n=items.length,mx=Math.max(0,n-vis());go(idx<=0?mx:idx-1);start()});
+    host.querySelector('.fnext').addEventListener('click',function(){var n=items.length,mx=Math.max(0,n-vis());go(idx>=mx?0:idx+1);start()});
+    dots.forEach(function(d,k){d.style.cursor='pointer';d.addEventListener('click',function(){go(k);start()})});
     go(0);start()}
   /* sources of items */
   var G=['pop','rock','mizrahi','folk','hiphop','electronic','jazz','klezmer','classical','kids'];
