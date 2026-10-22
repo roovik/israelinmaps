@@ -1244,3 +1244,4 @@ body.compact .newsmain .nmeta{font-size:.76rem;margin:0}
 body.compact .newsmain .hcard{border:0;border-bottom:1px solid var(--line);border-radius:0;background:transparent;padding:6px 0}
 #densbtn{float:right;margin:0 0 6px 8px;font:600 .75rem system-ui,sans-serif;padding:3px 10px;border:1px solid var(--line);border-radius:12px;background:transparent;color:inherit;cursor:pointer}
 body.compact .newsmain .hcard .nb{padding:0}body.compact .newsmain .hcard .hi{padding:7px 0;margin:0;border-bottom:1px solid var(--line)}body.compact .newsmain .hcard .hi:last-child{border-bottom:0}body.compact .newsmain .hcard .hi .nmeta{margin-bottom:0}
+@media (max-width:640px){.subnav a{overflow:visible!important;text-overflow:clip!important;white-space:nowrap;flex:1 1 auto!important;min-width:auto!important;padding-left:6px!important;padding-right:6px!important;font-size:.8rem}.subnav{overflow-x:auto;-webkit-overflow-scrolling:touch}}
