@@ -359,6 +359,18 @@ async function hydrateCats(env, chans) {
 async function videoApi(url, env) {
   const hdr = { 'Content-Type': 'application/json; charset=utf-8', 'Access-Control-Allow-Origin': '*' };
   if (env.ENTRIES && ![...url.searchParams].length) { const s = await kvSnap(env, 'snap/videos', 75); if (s) return new Response(JSON.stringify(s.j), { headers: { ...hdr, 'Cache-Control': 'public, max-age=300' } }); }
+  if (url.searchParams.get('lists') && url.searchParams.get('dates')) {
+    // each playlist with its newest video date and a thumbnail video. Uses the cached playlist feeds, fetching at most 30 uncached ones per call so the subrequest limit is never hit.
+    let budget = 30;
+    const pls = await Promise.all((VCFG.playlists || []).map(async ({ id, name, channel }) => {
+      let o = await memGet('vsrc/playlist/' + id);
+      if (!o && budget > 0) { budget--; o = await loadVideoSource({ id, name, channel }, 'playlist'); }
+      const vs = (o && o.videos) || [];
+      const d = vs.reduce((m, v) => (v.d && v.d > m ? v.d : m), '');
+      return { id, name, channel: (channel || '').toLowerCase(), d, th: vs[0] ? vs[0].v : '', n: vs.length };
+    }));
+    return new Response(JSON.stringify({ playlists: pls, chnames: Object.fromEntries((VCFG.channels || []).map(c => [(c.handle || c.id || '').toLowerCase(), c.name])) }), { headers: { ...hdr, 'Cache-Control': 'public, max-age=900' } });
+  }
   if (url.searchParams.get('lists')) return new Response(JSON.stringify({ playlists: (VCFG.playlists || []).map(({ id, name, channel }) => ({ id, name, channel: (channel || '').toLowerCase() })), chnames: Object.fromEntries((VCFG.channels || []).map(c => [(c.handle || c.id || '').toLowerCase(), c.name])) }), { headers: { ...hdr, 'Cache-Control': 'public, max-age=3600' } });
   if (url.searchParams.get('review')) {
     // curation helper: enriched channel or playlist candidates with provenance. Needs YT_KEY.

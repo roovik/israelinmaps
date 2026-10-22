@@ -1,15 +1,15 @@
 (function(){
   var gs=document.getElementById('pgenre'),ps=document.getElementById('plist'),form=document.getElementById('pform'),qi=document.getElementById('pq'),grid=document.getElementById('pgrid'),pl=document.getElementById('pplayer'),nn=document.getElementById('pstatus');
   if(!gs)return;
-  var sw=document.createElement('label');sw.className='srt';sw.innerHTML='Sort<select id="psort" aria-label="Sort">'+IMSort.opts([['az','Playlist A to Z'],['src','Channel A to Z'],['rand','Random']])+'</select>';sw.className='';var mf0=document.querySelector('.mfilters');mf0.appendChild(sw);mf0.classList.add('m3');document.getElementById('psort').addEventListener('change',function(){run()});
+  var sw=document.createElement('label');sw.className='srt';sw.innerHTML='Sort<select id="psort" aria-label="Sort">'+IMSort.opts([['new','Most recent'],['az','Playlist A to Z'],['src','Channel A to Z'],['rand','Random']])+'</select>';sw.className='';var mf0=document.querySelector('.mfilters');mf0.appendChild(sw);mf0.classList.add('m3');document.getElementById('psort').addEventListener('change',function(){run()});
   (function(){var mf=document.querySelector('.mfilters');if(!mf||!form)return;form.className='ffilter';[gs,ps,document.getElementById('psort')].forEach(function(x){if(x)form.insertBefore(x,qi)});mf.hidden=true;qi.placeholder='Keyword'})();
   function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
   var GEN=[['news','News',/news|breaking|headline|briefing|update|live\b|in the news|rundown|global eye|middle east now/i],['opinion','Opinion',/opinion|op-ed|commentary|analysis|debate|interview|explained|narratives|here's the thing|opinionated|unmask|media/i],['documentary','Documentary',/documentar|docunation|history|inside|archaeolog|written in stone|story|stories|zionism|remembr|remembering|october 7|grief/i],['film','Films',/film|movie|trailer|cinema/i],['travel','Travel',/travel|tour|visit|trip|through the land|360|food|cuisine|hike|beach|isra?eats|culture|jerusalem|state of/i],['military','Military',/idf|military|soldier|army|war\b|operation|hamas|hezbollah|iran|missile|strike|hostage|combat|iron shield|roaring|rising lion|bringing them home|targeted/i],['humor','Humor',/humou?r|comed|funny|satire|parody|joke|laugh|in a minute/i],['music','Music',/music|song|concert|singer|band|eurovision/i],['culture','Culture and faith',/culture|jewish|holiday|torah|shabbat|passover|hanukkah|religion|synagogue|pride|peoples of israel/i]];
   gs.innerHTML='<option value="">All genres</option>'+GEN.map(function(g){return'<option value="'+g[0]+'">'+g[1]+'</option>'}).join('');
   var P=[],names={};
-  fetch('/api/videos?lists=1').then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){
+  fetch('/api/videos?lists=1&dates=1').then(function(r){if(!r.ok)throw 0;return r.json()}).catch(function(){return fetch('/api/videos?lists=1').then(function(r){if(!r.ok)throw 0;return r.json()})}).then(function(d){
     names=d.chnames||{};
-    P=(d.playlists||[]).map(function(p){return{id:p.id,name:p.name,by:names[(p.channel||'').toLowerCase()]||p.by||''}});
+    P=(d.playlists||[]).map(function(p){if(p.th&&!PTH[p.id])PTH[p.id]=p.th;return{id:p.id,name:p.name,d:p.d||'',by:names[(p.channel||'').toLowerCase()]||p.by||''}});
     ps.innerHTML='<option value="">All Israel playlists</option>'+P.map(function(p,i){return'<option value="'+esc(p.id)+'">'+esc(p.name)+'</option>'}).join('');
     cdd();run();hp()
   }).catch(function(){nn.textContent='The playlists could not be loaded right now. Please try again shortly.'});
@@ -28,12 +28,12 @@
   var PTH={};try{PTH=JSON.parse(sessionStorage.getItem('plthumbs')||'{}')}catch(e){}
   var curPl='';
   var stage=document.createElement('div');stage.className='stage';var sm=document.createElement('div');sm.className='stage-main';var sl=document.createElement('ul');sl.className='stage-list';sl.id='vlist';
-  pl.parentNode.insertBefore(stage,pl);stage.appendChild(sm);stage.appendChild(sl);sm.appendChild(pl);var more=document.createElement('div');more.className='pmore';var mh=document.createElement('h2');more.appendChild(mh);var pg=document.createElement('ul');pg.className='vgrid pgrid';pg.id='pgrid';grid.removeAttribute('id');grid.hidden=true;more.appendChild(pg);stage.parentNode.insertBefore(more,stage.nextSibling);grid=pg;var VL={};
+  stage.hidden=true;pl.parentNode.insertBefore(stage,pl);stage.appendChild(sm);stage.appendChild(sl);sm.appendChild(pl);var more=document.createElement('div');more.className='pmore';var mh=document.createElement('h2');more.appendChild(mh);var pg=document.createElement('ul');pg.className='vgrid pgrid';pg.id='pgrid';grid.removeAttribute('id');grid.hidden=true;more.appendChild(pg);stage.parentNode.insertBefore(more,stage.nextSibling);grid=pg;var VL={};
   var meta=document.createElement('div');meta.className='stage-meta';sm.appendChild(meta);
   function thumbs(){[].forEach.call(grid.querySelectorAll('.sitem'),function(b){var id=b.getAttribute('data-id');if(PTH[id]||b._req)return;b._req=1;
     var go=function(){fetch('/api/videos?playlist='+encodeURIComponent(id)).then(function(r){return r.ok?r.json():null}).then(function(d){var c=d&&(d.channels||[])[0];if(c&&c.videos&&c.videos.length){PTH[id]=c.videos[0].v;try{sessionStorage.setItem('plthumbs',JSON.stringify(PTH))}catch(e){}var t=b.querySelector('.sth');if(t)t.innerHTML='<img src="https://i.ytimg.com/vi/'+PTH[id]+'/mqdefault.jpg" alt="" loading="lazy">'}}).catch(function(){})};
     if('IntersectionObserver' in window){var io=new IntersectionObserver(function(en){if(en[0].isIntersecting){io.disconnect();go()}},{root:null,rootMargin:'200px'});io.observe(b)}else go()})}
-  function showPl(id,name,vid,auto){curPl=id;
+  function showPl(id,name,vid,auto){curPl=id;stage.hidden=false;
     pl.hidden=false;pl.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/'+(vid?encodeURIComponent(vid):'videoseries')+'?list='+encodeURIComponent(id)+'&rel=0'+(auto?'&autoplay=1&mute=1&playsinline=1&enablejsapi=1&origin='+encodeURIComponent(location.origin):'')+'" title="'+esc(name)+'" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>';
     if(auto){var f=pl.firstChild;function cmd(n){try{f.contentWindow.postMessage(JSON.stringify({event:'command',func:n,args:[]}),'*')}catch(x){}}function go(){cmd('playVideo');cmd('unMute')}f.addEventListener('load',function(){go();setTimeout(go,500);setTimeout(go,1500)})}
     window.IMNow&&IMNow('Playlist',name,(VL[id]&&(VL[id].filter(function(v){return v.v===vid})[0]||(!vid&&VL[id][0])||{}).t)||'');meta.innerHTML='';
@@ -53,13 +53,13 @@
       var t=p.name+' '+p.by;
       if(g){var re=GEN.filter(function(x){return x[0]===g})[0][2];if(!re.test(t))return false}
       if(q&&t.toLowerCase().indexOf(q)<0)return false;return true});
-    var sk=document.getElementById('psort').value;if(sk)list=IMSort.apply(list,sk,{date:function(){return 0},title:function(x){return x.name},src:function(x){return x.by}});
+    var sk=document.getElementById('psort').value;if(sk)list=IMSort.apply(list,sk,{date:function(x){return x.d||''},title:function(x){return x.name},src:function(x){return x.by}});if(sk==='new')list=list.slice().sort(function(a,b){return(b.d||'').localeCompare(a.d||'')});
     var cur=P.filter(function(p){return p.id===curPl})[0];
     if(cur&&!sel){list=list.filter(function(p){return p.id!==curPl});var cw=cur.name.toLowerCase().split(/\W+/).filter(function(w){return w.length>4});var sc=function(p){return(p.by&&p.by===cur.by?2:0)+(cw.some(function(w){return p.name.toLowerCase().indexOf(w)>=0})?1:0)};list=list.map(function(p,i){return[p,i]}).sort(function(a,b){return sc(b[0])-sc(a[0])||a[1]-b[1]}).map(function(x){return x[0]})}
-    mh.textContent=cur?(cur.by?'More playlists from '+cur.by+' and on similar topics':'More playlists'):'Playlists';
+    mh.textContent=!cur?'Latest playlists':(cur.by?'More playlists from '+cur.by+' and on similar topics':'More playlists');
     nn.textContent=list.length+(list.length===1?' playlist':' playlists');
-    grid.innerHTML=list.map(function(p){return'<li><button type="button" class="sitem pcard'+(p.id===curPl?' on':'')+'" data-id="'+esc(p.id)+'" data-n="'+esc(p.name)+'"><span class="sth">'+(PTH[p.id]?'<img src="https://i.ytimg.com/vi/'+esc(PTH[p.id])+'/mqdefault.jpg" alt="" loading="lazy">':'<span class="sph">&#9654;</span>')+'</span><span class="stx"><b>'+esc(p.name)+'</b><i>Playlist'+(p.by?' \u00b7 '+esc(p.by):'')+'</i></span></button></li>'}).join('')||'<li class="small">No playlists match. Try another genre or keyword.</li>';
-    thumbs();if(!curPl&&list.length&&!pl.querySelector('iframe')){curPl=list[0].id;showPl(list[0].id,list[0].name,'',false);run();return}
+    grid.innerHTML=list.map(function(p){return'<li><button type="button" class="sitem pcard'+(p.id===curPl?' on':'')+'" data-id="'+esc(p.id)+'" data-n="'+esc(p.name)+'"><span class="sth">'+(PTH[p.id]?'<img src="https://i.ytimg.com/vi/'+esc(PTH[p.id])+'/mqdefault.jpg" alt="" loading="lazy">':'<span class="sph">&#9654;</span>')+'</span><span class="stx"><b>'+esc(p.name)+'</b><i>'+(p.by?esc(p.by):'Playlist')+(p.d?' \u00b7 '+new Date(p.d).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}):'')+'</i></span></button></li>'}).join('')||'<li class="small">No playlists match. Try another genre or keyword.</li>';
+    thumbs();
     if(sel&&list.length===1&&document.activeElement===ps)play(list[0].id,list[0].name)}
   gs.addEventListener('change',run);ps.addEventListener('change',run);gs.addEventListener('change',cdsync);form.addEventListener('submit',function(e){e.preventDefault();run()});qi.addEventListener('input',run);
   grid.addEventListener('click',function(e){var b=e.target.closest('.pcard');if(!b)return;play(b.getAttribute('data-id'),b.getAttribute('data-n'));run()});
