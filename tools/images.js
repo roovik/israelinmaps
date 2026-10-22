@@ -33,7 +33,7 @@
     return a}
   function draw(){
     var a=view(),lt=S.tag==='latest',n=lt?S.shown:a.length;
-    grid.innerHTML=a.slice(0,n).map(function(x){return'<figure class="ifig"><a class="ith" href="'+esc(x.page)+'"'+(lt&&x.page.charAt(0)==='/'?'':' target="_blank" rel="noopener"')+'><img src="'+esc(x.th)+'" alt="'+esc(x.t)+'" loading="lazy" referrerpolicy="no-referrer" onerror="this.closest(\'figure\').remove()">'+(x.kind==='Video'?'<span class="iplay">▶</span>':'')+'</a><figcaption><b>'+esc(x.t)+'</b>'+(lt?esc(x.a||'')+(x.kind?' · '+esc(x.kind):'')+(x.d?' · '+ago(x.d):''):(x.a?esc(x.a)+' · ':'')+esc(x.lic)+' · <a href="'+esc(x.page)+'" target="_blank" rel="noopener">Source</a>')+'</figcaption></figure>'}).join('');
+    grid.innerHTML=a.slice(0,n).map(function(x){var cp=x.t+'\n'+(lt?(x.a||'')+(x.kind?' \u00b7 '+x.kind:'')+(x.d?' \u00b7 '+ago(x.d):''):(x.a?x.a+' \u00b7 ':'')+(x.lic||''));return'<figure class="ifig"><a class="ith" title="'+esc(cp)+'" data-cap="'+esc(cp)+'" href="'+esc(x.page)+'"'+(lt&&x.page.charAt(0)==='/'?'':' target="_blank" rel="noopener"')+'><img src="'+esc(x.th)+'" alt="'+esc(x.t)+'" loading="lazy" referrerpolicy="no-referrer" onerror="this.closest(\'figure\').remove()">'+(x.kind==='Video'?'<span class="iplay">▶</span>':'')+'</a><figcaption><b>'+esc(x.t)+'</b>'+(lt?esc(x.a||'')+(x.kind?' · '+esc(x.kind):'')+(x.d?' · '+ago(x.d):''):(x.a?esc(x.a)+' · ':'')+esc(x.lic)+' · <a href="'+esc(x.page)+'" target="_blank" rel="noopener">Source</a>')+'</figcaption></figure>'}).join('');
     more.hidden=lt?a.length<=n:!S.next;
     st.textContent=a.length?'':(lt?'No recent images match. Try another word.':'No open-license images found for this search. Try another tag or word.')}
   function load(reset){
