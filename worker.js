@@ -34,6 +34,7 @@ const SOURCES = [
   { id: 'tablet', name: 'Tablet', site: 'https://www.tabletmag.com/', url: 'https://www.tabletmag.com/feed', vonly: true },
   { id: 'mef', name: 'Middle East Forum', site: 'https://www.meforum.org/', url: 'https://www.meforum.org/rss', vonly: true },
   { id: 'ji', name: 'Jewish Insider', site: 'https://jewishinsider.com/', url: 'https://jewishinsider.com/feed/', vonly: true },
+  { id: 'kan', name: 'Kan News English', site: 'https://www.kan.org.il/en/', url: 'https://www.kan.org.il/rss/news-english.xml' },
   { id: 'israelhayom', name: 'Israel Hayom', site: 'https://www.israelhayom.com/', url: 'https://www.israelhayom.com/feed/', base: 'https://www.israelhayom.com/category/', channels: [
     ['News', [['Israel', 'news/israel/feed/'], ['Israel at War', 'news/israel/israel-at-war/feed/'], ['Middle East', 'news/middle-east/feed/'], ['United States', 'news/world-news/united-states/feed/']]],
     ['Jewish World', [['Jewish World', 'jewish-world/feed/'], ['Antisemitism', 'jewish-world/antisemitism/feed/'], ['Archaeology', 'archaeology/feed/']]],
