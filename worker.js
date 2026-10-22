@@ -15,8 +15,8 @@ const SOURCES = [
     ['Science and History', [['Science', 'rssscience'], ['Health and Wellness', 'rsshealth-and-wellness'], ['Environment and Climate', 'rssenvironment'], ['Archaeology', 'rssarchaeology'], ['History', 'rssfeedhistory']]],
     ['Opinion', [['Opinion', 'rssfeedsopinion.aspx'], ['Experts Opinion', 'rssfeedsexperts.aspx']]],
   ] },
-  { id: 'ynet', name: 'Ynetnews', site: 'https://www.ynetnews.com/', url: 'https://www.ynetnews.com/Integration/StoryRss3082.xml', channels: [
-    ['Ynetnews', [['Breaking News', 'https://www.ynetnews.com/Integration/StoryRss3254.xml'], ['Opinion', 'https://www.ynetnews.com/Integration/StoryRss3084.xml'], ['Culture', 'https://www.ynetnews.com/Integration/StoryRss3086.xml'], ['Jewish Scene', 'https://www.ynetnews.com/Integration/StoryRss3443.xml']]],
+  { id: 'ynet', name: 'Ynet Global', site: 'https://www.ynetnews.com/', url: 'https://www.ynetnews.com/Integration/StoryRss3082.xml', channels: [
+    ['Ynet Global', [['Breaking News', 'https://www.ynetnews.com/Integration/StoryRss3254.xml'], ['Opinion', 'https://www.ynetnews.com/Integration/StoryRss3084.xml'], ['Culture', 'https://www.ynetnews.com/Integration/StoryRss3086.xml'], ['Jewish Scene', 'https://www.ynetnews.com/Integration/StoryRss3443.xml']]],
   ] },
   { id: 'haaretz', name: 'Haaretz', site: 'https://www.haaretz.com/', url: 'https://www.haaretz.com/srv/haaretz-latest-headlines', base: 'https://www.haaretz.com/srv/', channels: [
     ['News', [['Israel News', 'israel-news-rss'], ['Middle East', 'middle-east-news-rss'], ['World', 'world-news-rss'], ['U.S.', 'u.s.-news-rss'], ['Jewish World', 'jewish-world-rss']]],
