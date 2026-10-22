@@ -9,6 +9,12 @@
   var form=document.createElement('form');form.className='ffilter nowfilter';form.setAttribute('role','search');
   form.innerHTML='<select id="nw-s" aria-label="Section"><option value="">All sections</option></select><select id="nw-o" aria-label="Sort"><option value="">Book order</option><option value="az">A-Z</option><option value="za">Z-A</option><option value="rand">Random</option></select><input id="nw-q" type="search" placeholder="Keyword" aria-label="Keyword"><button type="submit">Filter</button>';
   h1.insertAdjacentElement('afterend',form);
+  /* A to Z page: the category chips become a Category dropdown in this one row */
+  (function(){var cats=document.querySelectorAll('#gcats button');if(location.pathname!=='/glossary/'||!cats.length)return;
+    var c=document.createElement('select');c.id='nw-c';c.setAttribute('aria-label','Category');
+    c.innerHTML=[].map.call(cats,function(b){var i=b.querySelector('i'),t=b.textContent.replace(i?i.textContent:'','').trim();return'<option value="'+esc(b.getAttribute('data-c'))+'">'+(b.getAttribute('data-c')?esc(t):'All categories')+(i?' ('+esc(i.textContent)+')':'')+'</option>'}).join('');
+    form.insertBefore(c,form.querySelector('#nw-o'));
+    c.addEventListener('change',function(){var b=document.querySelector('#gcats button[data-c="'+c.value+'"]');if(b)b.click()})})();
   var panel=document.createElement('div');panel.className='nwpanel';panel.hidden=true;form.insertAdjacentElement('afterend',panel);
   var sel=form.querySelector('#nw-s'),so=form.querySelector('#nw-o'),qi=form.querySelector('#nw-q'),idx=null,shown=60;
   function others(){var out=[],n=panel.nextElementSibling;while(n){out.push(n);n=n.nextElementSibling}return out}

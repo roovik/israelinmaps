@@ -1107,3 +1107,29 @@ header.top nav.wrap{width:auto;max-width:none;margin-left:max(16px,calc((100% - 
 .newsside a[aria-current],.newsside a[aria-current="page"],.newsside a.on{color:var(--wl)!important;font-weight:700}
 .newsside .agrp .alist{scrollbar-color:rgba(255,255,255,.4) transparent}
 .newsside input,.newsside select{background:#fff;color:#1d3557}
+/* accordion +/- */
+.newsside .agrp>summary{list-style:none;display:flex;align-items:center;gap:8px;cursor:pointer;padding:5px 0}
+.newsside .agrp>summary::-webkit-details-marker{display:none}
+.newsside .agrp>summary .pm{width:16px;height:16px;border:1px solid var(--wl);border-radius:3px;position:relative;flex:0 0 16px}
+.newsside .agrp>summary .pm::before,.newsside .agrp>summary .pm::after{content:"";position:absolute;left:3px;right:3px;top:7px;height:1px;background:var(--wl)}
+.newsside .agrp>summary .pm::after{transform:rotate(90deg)}
+.newsside .agrp[open]>summary .pm::after{display:none}
+.newsside .agrp>summary a{flex:1 1 auto;font-weight:700}
+.newsside .agrp>summary .cn{opacity:.8}
+.newsside .agrp+.agrp{border-top:1px solid rgba(255,255,255,.18)}
+/* no underlines to mark links */
+a{text-decoration:none}
+a:hover,a:focus-visible{text-decoration:underline}
+.newsside .agrp .alist{max-height:52vh;overflow-y:auto;padding-right:6px}
+/* A to Z: one filter row only */
+body .gfilter{display:none!important}
+/* Sources: single source assets as a 3-up matrix */
+#sb-out .sbarts,#sb-out .vlist2{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;list-style:none;padding:0}
+#sb-out .sbarts>li,#sb-out .vlist2>li{display:flex;flex-direction:column;gap:6px;margin:0;border:1px solid var(--line,#e0dac8);border-radius:10px;background:var(--card,#fff);overflow:hidden;padding:0}
+#sb-out .sbarts>li>a.athl,#sb-out .vlist2>li>a.athl{display:block;order:-1}
+#sb-out .sbarts .athumb{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;display:block;border-radius:0}
+#sb-out .sbarts>li>div,#sb-out .vlist2>li>div{padding:8px 12px 12px}
+#sb-out .vclips{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;list-style:none;padding:0}
+@media (max-width:900px){#sb-out .sbarts,#sb-out .vlist2,#sb-out .vclips{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){#sb-out .sbarts,#sb-out .vlist2,#sb-out .vclips{grid-template-columns:1fr}}
+body p.az#gaz,body #gaz{display:none!important}
