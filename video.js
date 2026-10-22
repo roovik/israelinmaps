@@ -83,7 +83,7 @@
         host.innerHTML=embed(x.v,true);host.hidden=false;
         var more=c?c.videos.filter(function(k){return k.v!==x.v}):[];
         rel.hidden=false;rel.innerHTML='<h2 class="vnowt">'+esc(x.t)+'</h2><p class="small">'+esc(x.n||'')+(x.d?' \u00b7 '+ago(x.d):'')+' \u00b7 <button type="button" class="vback">Back to all videos</button></p>'+(x.x?'<p>'+esc(x.x)+'</p>':'')+
-          '<h2>'+(c&&c.kind==='playlist'?'Playlist: '+esc(c.name)+' \u00b7 '+c.videos.length+' videos':'More from '+esc(x.n||'this channel')+' (channel videos, not a playlist)')+'</h2><div class="tgrid">'+more.slice(0,12).map(card).join('')+'</div>';
+          '<h2>'+(c&&c.kind==='playlist'?'Playlist: '+esc(c.name)+'':'More from '+esc(x.n||'this channel')+' (channel videos, not a playlist)')+'</h2><div class="tgrid">'+more.slice(0,12).map(card).join('')+'</div>';
         root.hidden=true;cr.hidden=true;rel.querySelector('.vback').addEventListener('click',back);
         try{document.title=x.t+' | Israel NOWlej'}catch(e){}
         bar.scrollIntoView({behavior:'smooth',block:'start'})};
@@ -97,7 +97,7 @@
           if(q&&(v.t+' '+(v.x||'')+' '+(v.n||'')).toLowerCase().indexOf(q)<0)return false;
           return true});
         if(sk)list=IMSort.apply(list,sk,{date:function(x){return x.d},title:function(x){return x.t},src:function(x){return x.n}});
-        nn.textContent=list.length+(list.length===1?' video':' videos');car(list);
+        nn.textContent='';car(list);
         root.innerHTML=list.length?'<div class="tgrid">'+list.slice(0,60).map(card).join('')+'</div>':'<p>No videos match. Try another genre, channel or keyword.</p>'}
       run();gs.addEventListener('change',run);cs.addEventListener('change',run);document.getElementById('vf-s').addEventListener('change',run);document.getElementById('vf-f').addEventListener('submit',function(e){e.preventDefault();run()});qi.addEventListener('input',run)
     }
@@ -117,7 +117,7 @@
       function setP(id,auto){var v=byv[id]||c.videos[0];
         host.innerHTML=embed(v.v,auto);host.hidden=false;
         if(titleEl)titleEl.textContent=v.t;document.title=v.t+' | Israel NOWlej';
-        var ix=c.videos.indexOf(v);window.IMNow&&(c.kind==='playlist'?IMNow('Playlist',c.name,v.t):IMNow('Video',v.n||c.name,v.t));now.innerHTML=(c.kind==='playlist'?'<p class="small">Video '+(ix+1)+' of '+c.videos.length+'</p>':'')+'<p class="small">'+esc(v.n||c.name)+' \u00b7 '+ago(v.d)+'</p>'+(v.x?'<p>'+esc(v.x)+'</p>':'');
+        var ix=c.videos.indexOf(v);window.IMNow&&(c.kind==='playlist'?IMNow('Playlist',c.name,v.t):IMNow('Video',v.n||c.name,v.t));now.innerHTML=''+'<p class="small">'+esc(v.n||c.name)+' \u00b7 '+ago(v.d)+'</p>'+(v.x?'<p>'+esc(v.x)+'</p>':'');
         [].forEach.call(document.querySelectorAll('.vcard,.vli'),function(a){var on=a.getAttribute('data-v')===v.v;a.classList.toggle('vnowp',on);(a.classList.contains('vli')?a.parentNode:a).hidden=on});
         try{history.replaceState(null,'','?v='+encodeURIComponent(v.v))}catch(x){}}
       var ck=c.kind==='playlist'?(c.channel||''):String(c.key).toLowerCase();
