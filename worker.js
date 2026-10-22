@@ -49,11 +49,7 @@ const VDEF = {
   jpost: [['Op-Ed', JP + 'rssfeedsopinion.aspx'], ['Editorial', JP + 'rssfeedseditorial.aspx'], ['Blog', JP + 'rssfeedsexperts.aspx']],
   ynet: [['Op-Ed', 'https://www.ynetnews.com/Integration/StoryRss3084.xml']],
   haaretz: [['Op-Ed', 'https://www.haaretz.com/srv/opinion-rss'], ['Editorial', 'https://www.haaretz.com/srv/editorial-rss']],
-  tablet: [['Blog', 'https://www.tabletmag.com/feed']],
-  mef: [['Blog', 'https://www.meforum.org/rss']],
   ji: [['Blog', 'https://jewishinsider.com/feed/']],
-  jta: [['Op-Ed', 'https://www.jta.org/category/opinion/feed']],
-  israelhayom: [['Op-Ed', 'https://www.israelhayom.com/opinions/feed/'], ['Editorial', 'https://www.israelhayom.com/category/editorial/feed/']],
 };
 function vid(kind) { return 'v-' + kind.toLowerCase().replace(/[^a-z0-9]+/g, '-'); }
 const VSRC = SOURCES.filter(s => VDEF[s.id]).map(s => ({ id: s.id, name: s.name, site: s.site, groups: [{ group: 'Views', list: VDEF[s.id].map(([k, u]) => ({ id: vid(k), name: k, url: u })) }] }));
