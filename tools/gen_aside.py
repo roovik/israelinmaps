@@ -42,10 +42,10 @@ isrc=open('images.js',encoding='utf8').read()
 tags=[[t[1],'/images/#tag='+t[0]] for t in re.findall(r"\['([a-z-]*)','([^']*)'\]",re.search(r'TAGS=\[(.*?)\];',isrc,re.S).group(1)) if t[0]]
 A['video']={'t':'Video','g':[{'h':'Channels','u':'/video/','i':chs}]}
 A['playlists']={'t':'Playlists','g':[{'h':'Playlists','u':'/playlists/','i':pls}]}
-A['audio']={'t':'Audio','g':[{'h':'Shows','u':'/audio/','i':shows}]}
+A['audio']={'t':'Podcasts','g':[{'h':'Podcasts','u':'/audio/','i':shows}]}
 A['music']={'t':'Music','g':[{'h':'Genres','u':'/music/','i':gen},{'h':'Musicians','u':'/music/','i':art}]}
 A['images']={'t':'Images','g':[{'h':'Tags','u':'/images/','i':tags}]}
-A['media']={'t':'Media','g':[{'h':'Video channels','u':'/video/','i':chs},{'h':'Audio shows','u':'/audio/','i':shows},{'h':'Music genres','u':'/music/','i':gen},{'h':'Image tags','u':'/images/','i':tags}]}
+A['media']={'t':'Media','g':[{'h':'Video channels','u':'/video/','i':chs},{'h':'Podcasts','u':'/audio/','i':shows},{'h':'Music genres','u':'/music/','i':gen},{'h':'Image tags','u':'/images/','i':tags}]}
 for k in A:A[k]['g']=[g for g in A[k]['g'] if g['i']]
 json.dump(A,open('asides.json','w'),ensure_ascii=False,separators=(',',':'))
 print({k:[len(g['i']) for g in A[k]['g']] for k in A})

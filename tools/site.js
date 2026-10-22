@@ -13,7 +13,7 @@
   if(!start&&document.body.classList.contains('nf')){start=decodeURIComponent(location.pathname).replace(/[\/\-_]+/g,' ').trim()}
   if(q)q.value=start;
   function norm(s){return s.toLowerCase().normalize('NFKD').replace(/[̀-ͯ]/g,'').replace(/['’]/g,'')}
-  var live={News:[],Views:[],Videos:[],Playlists:[],Audio:[]};
+  var live={News:[],Views:[],Videos:[],Playlists:[],Podcasts:[]};
   function getLive(name,url){fetch(url).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){
     live[name]=(d.items||[]).filter(function(i){return!i.d||Date.now()-new Date(i.d)<=30*864e5}).map(function(i){
       return{t:i.t,u:i.k?'/news/item/'+i.k+'/?s='+encodeURIComponent(i.s)+(i.ch?'&c='+encodeURIComponent(i.ch):''):i.u,i:i.i||'',k:i.src,s:i.d?new Date(i.d).toLocaleDateString('en-GB',{day:'numeric',month:'short'}):'',x:i.x||''}});
@@ -21,9 +21,9 @@
   getLive('News','/api/news?v=2');getLive('Views','/api/news?views=1&v=2');
   fetch('/api/videos').then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){var o=[];(d.channels||[]).forEach(function(c){(c.videos||[]).forEach(function(v){o.push({t:v.t,u:'/video/watch/?v='+encodeURIComponent(v.v)+(c.key?'&c='+encodeURIComponent(String(c.key).toLowerCase()):''),k:c.name||'',s:v.d?new Date(v.d).toLocaleDateString('en-GB',{day:'numeric',month:'short'}):'',x:''})})});live.Videos=o;if(window.__run)window.__run()}).catch(function(){});
   fetch('/api/videos?lists=1').then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){live.Playlists=(d.playlists||[]).map(function(p){return{t:p.name,u:'/video/pl-'+String(p.id).toLowerCase()+'/',k:'Playlist',s:(d.chnames||{})[p.channel]||'',x:''}});if(window.__run)window.__run()}).catch(function(){});
-  fetch('/voices.json').then(function(r){return r.json()}).then(function(d){live.Audio=(d.shows||[]).map(function(p){return{t:p.name,u:'/audio/#s-'+p.id,k:'Podcast',s:p.by||'',x:p.by||''}});if(window.__run)window.__run()}).catch(function(){});
+  fetch('/voices.json').then(function(r){return r.json()}).then(function(d){live.Podcasts=(d.shows||[]).map(function(p){return{t:p.name,u:'/audio/#s-'+p.id,k:'Podcast',s:p.by||'',x:p.by||''}});if(window.__run)window.__run()}).catch(function(){});
   var PUBS=[['The Times of Israel','/sources/toi/','Publication'],['The Jerusalem Post','/sources/jpost/','Publication'],['Ynetnews','/sources/ynet/','Publication'],['Haaretz','/sources/haaretz/','Publication'],['JNS','/sources/jns/','Publication'],['Israel Hayom','/sources/israelhayom/','Publication'],['JTA','/sources/jta/','Publication'],['Israel National News','/sources/inn/','Publication'],['i24NEWS','/sources/i24/','Publication'],['Globes','/sources/globes/','Publication'],['Calcalist','/sources/calcalist/','Publication'],['Tablet','/sources/tablet/','Publication'],['Middle East Forum','/sources/mef/','Publication'],['Jewish Insider','/sources/ji/','Publication'],['Kan News English','/sources/kan/','Publication']].map(function(p){return{t:p[0],u:p[1],k:p[2],s:'',x:''}});
-  var SEC=[['News'],['Views'],['Videos'],['Playlists'],['Audio'],['NOWlej'],['Sources']];
+  var SEC=[['News'],['Views'],['Videos'],['Playlists'],['Podcasts'],['NOWlej'],['Sources']];
   function secOf(u){var f=u.split('/')[1];if(f==='who'||f==='sources')return'Sources';return'NOWlej'}
   fetch('/search.json').then(function(r){return r.json()}).then(function(data){
     function score(d,term,words,idq){
@@ -39,7 +39,7 @@
       var idq=term.replace(/\s+/g,'-'),words=term.split(/\s+/),groups={};
       data.forEach(function(d){var sc=score(d,term,words,idq);if(sc>=10)(groups[secOf(d.u)]=groups[secOf(d.u)]||[]).push([sc,d])});
       PUBS.forEach(function(d){var sc=score(d,term,words,idq);if(sc>=10)(groups.Sources=groups.Sources||[]).push([sc,d])});
-      ['News','Views','Videos','Playlists','Audio'].forEach(function(n){live[n].forEach(function(d){var sc=score({t:d.t,x:d.x,k:'',s:d.k},term,words,idq);if(sc>=10)(groups[n]=groups[n]||[]).push([sc,d])})});
+      ['News','Views','Videos','Playlists','Podcasts'].forEach(function(n){live[n].forEach(function(d){var sc=score({t:d.t,x:d.x,k:'',s:d.k},term,words,idq);if(sc>=10)(groups[n]=groups[n]||[]).push([sc,d])})});
       var any=false,jump=[];
       SEC.forEach(function(S){var n=S[0],l=groups[n];if(!l){jump.push('<span class="rz">'+n+' (0)</span>');return}any=true;
         l.sort(function(a,b){return b[0]-a[0]});

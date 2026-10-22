@@ -273,7 +273,7 @@ SUBNAV = {
  'nowlej': [('Maps', '/maps/'), ('Tours', '/tour/'), ('Timelines', '/timelines/'), ('Charts', '/charts/'), ('Topics', '/hot/'), ('Book', '/about/'), ('A to Z', '/glossary/')],
  'maps': [('Historical Maps', '/maps/'), ('Size Comparisons', '/size/'), ('Israel Tour', '/tour/')],
  'charts': [('Rankings', '/rankings/'), ('Demographics', '/demographics/'), ('Top Ten', '/top-ten/'), ('Size Comparisons', '/size/'), ('Tables', '/tables/')],
- 'media': [('Video', '/video/'), ('Playlists', '/playlists/'), ('Audio', '/audio/'), ('Music', '/music/'), ('Images', '/images/')],
+ 'media': [('Video', '/video/'), ('Playlists', '/playlists/'), ('Podcasts', '/audio/'), ('Music', '/music/'), ('Images', '/images/')],
  'images': [('A Taste of Israel', '/tour/'), ('Flora and Fauna', '/flora/')],
  'video': [(c['name'], f'/video/{vslug(c)}/') for c in VCFG['channels']],
  'who': [('All', '/who/'), ('Groups', '/who/#g=org'), ('Influencers', '/who/#g=voice'), ('IDF voices', '/who/#g=idf')],
@@ -339,7 +339,7 @@ def layout(title, body, desc='', path='/', og=None, cls='', nd=False):
 <nav class="fcol" aria-label="Follow and contribute"><b>Follow</b><a href="/subscribe/">Subscribe</a><a href="/feed/">Feeds (RSS)</a><a href="/submit/">Send an article, video or nomination</a><a href="/sitemap.xml">Sitemap</a></nav>
 <nav class="fcol" aria-label="Legal"><b>Legal</b><a href="/legal/">Legal notice</a><a href="/legal/#privacy">Privacy</a><a href="/legal/#terms">Terms of use</a><a href="/legal/#corrections">Corrections</a></nav></div>
 <p class="fsmall">&copy; 2003 to 2026 Richard J. Koret. All rights reserved. Page images are shown for reference with the book <i>Israel NOWlej</i>. Headlines and videos belong to their publishers.</p></div></footer>
-<script src="/site.js" defer></script><script src="/share.js" defer></script><script src="/ticker.js" defer></script><script src="/whoimg.js" defer></script>{'<script src="/ads.js" defer></script><script src="/news.js" defer></script>' if news_js else ''}{'<script src="/subnav.js" defer></script><script src="/aside.js" defer></script>'}{'<script src="/entryedit.js" defer></script>' if path.startswith('/g/') else ''}{'<script src="/video.js" defer></script>' if path.startswith('/video/') or path == '/media/' or path.startswith('/g/') else ''}{'<script src="/entry.js" defer></script><script src="/slideshow.js" defer></script>' if path.startswith('/g/') else ''}{'<script src="/glossary.js" defer></script>' if path == '/glossary/' else ''}{'<script src="/zoom.js" defer></script>' if path == '/maps/' else ''}{'<script src="/voices.js" defer></script>' if path.startswith('/who/') else ''}{'<script src="/audio.js" defer></script>' if path == '/audio/' else ''}{'<script src="/hot.js" defer></script>' if path.startswith('/hot/') else ''}{'<script src="/submit.js" defer></script>' if path in ('/submit/', '/admin/submissions/') else ''}{'<script src="/entry.js" defer></script><script src="/slideshow.js" defer></script>' if path.startswith('/who/') and path != '/who/' else ''}{'<script src="/source.js" defer></script>' if path.startswith('/sources/') and path != '/sources/' else ''}{'<script src="/admin.js" defer></script>' if path == '/admin/video/' else ''}{'<script src="/tlnav.js" defer></script>' if path.startswith('/timelines/') and path != '/timelines/' else ''}{'<script src="/admin_entry.js" defer></script>' if path == '/admin/entry/' else ''}</body></html>'''
+<script src="/site.js" defer></script><script src="/share.js" defer></script><script src="/ticker.js" defer></script><script src="/whoimg.js" defer></script>{'<script src="/ads.js" defer></script><script src="/news.js" defer></script>' if news_js else ''}{'<script src="/subnav.js" defer></script><script src="/aside.js" defer></script>' + ('<script src="/featured.js" defer></script>' if path in ('/media/', '/video/', '/playlists/', '/audio/', '/music/', '/images/') else '')}{'<script src="/entryedit.js" defer></script>' if path.startswith('/g/') else ''}{'<script src="/video.js" defer></script>' if path.startswith('/video/') or path == '/media/' or path.startswith('/g/') else ''}{'<script src="/entry.js" defer></script><script src="/slideshow.js" defer></script>' if path.startswith('/g/') else ''}{'<script src="/glossary.js" defer></script>' if path == '/glossary/' else ''}{'<script src="/zoom.js" defer></script>' if path == '/maps/' else ''}{'<script src="/voices.js" defer></script>' if path.startswith('/who/') else ''}{'<script src="/audio.js" defer></script>' if path == '/audio/' else ''}{'<script src="/hot.js" defer></script>' if path.startswith('/hot/') else ''}{'<script src="/submit.js" defer></script>' if path in ('/submit/', '/admin/submissions/') else ''}{'<script src="/entry.js" defer></script><script src="/slideshow.js" defer></script>' if path.startswith('/who/') and path != '/who/' else ''}{'<script src="/source.js" defer></script>' if path.startswith('/sources/') and path != '/sources/' else ''}{'<script src="/admin.js" defer></script>' if path == '/admin/video/' else ''}{'<script src="/tlnav.js" defer></script>' if path.startswith('/timelines/') and path != '/timelines/' else ''}{'<script src="/admin_entry.js" defer></script>' if path == '/admin/entry/' else ''}</body></html>'''
 
 def write(path, content):
     fp = os.path.join(OUT, path.lstrip('/'))
@@ -941,7 +941,7 @@ hot_pages()
 # ---- Media landing and Audio
 SHOWS_ = json.load(open(os.path.join(ROOT, 'voices.json'))).get('shows', [])
 AUD_ = [dict(v_, own=True) for v_ in SHOWS_] + [v_ for v_ in VOICES_ if v_.get('pods')]
-_aleft = ('<nav class="newstopics secnav wholist" aria-label="Audio shows"><h2><a href="/audio/">Audio</a></h2><h3>Shows</h3><ul>'
+_aleft = ('<nav class="newstopics secnav wholist" aria-label="Podcasts"><h2><a href="/audio/">Podcasts</a></h2><h3>Shows</h3><ul>'
           + ''.join(f'<li><a href="#s-{v_["id"]}">{E(v_["name"])}</a></li>' for v_ in AUD_) + '</ul></nav>')
 def _ini(n):
     w_ = [x for x in re.sub(r'^The ', '', n.split(':')[0]).split() if x[:1].isalpha() and x.lower() not in ('of', 'the', 'with')]
@@ -949,11 +949,11 @@ def _ini(n):
 _apick = ('<nav class="apick" aria-label="Choose a show">' + ''.join(
     f'<a href="#s-{v_["id"]}"><span class="apic c{i_ % 6}"' + ('' if v_.get('own') else f' data-who="{v_["id"]}"') + f'><span class="ini">{E(_ini(v_["name"]))}</span></span><span class="apn">{E(re.sub(r"^The ", "", v_["name"].split(":")[0].replace(" Daily Briefing", " Briefing")))}</span></a>'
     for i_, v_ in enumerate(AUD_)) + '</nav>')
-_ab = ('<h1>Audio</h1>' + _apick + '<p class="small">Podcasts and audio shows from the people and organizations in Voices. Choose an episode to play it here. Episodes are credited to and link to their original shows.</p>'
+_ab = ('<h1>Podcasts</h1>' + _apick + '<p class="small">Podcasts and audio shows from the people and organizations in Voices. Choose an episode to play it here. Episodes are credited to and link to their original shows.</p>'
        '<div class="atop" id="a-top" hidden><div class="anow" id="a-now"></div><audio id="a-audio" controls preload="none"></audio></div>'
        '<div id="a-shows">' + ''.join(f'<section class="ashow" id="s-{v_["id"]}" data-id="{v_["id"]}"><h2>{E(v_["name"]) if v_.get("own") else f'<a href="/who/{v_["id"]}/">{E(v_["name"])}</a>'}</h2><ul class="alist"><li>Loading.</li></ul></section>' for v_ in AUD_) + '</div>'
        '<p class="subcta">Know a podcast we should include? <a href="/submit/?type=nominee">Send us a nomination</a>.</p>')
-write('/audio/', layout('Audio', chan('audio', _ab, '/audio/', left=_aleft), 'Podcasts and audio shows on Israel from the people and organizations in Voices.', '/audio/'))
+write('/audio/', layout('Podcasts', chan('audio', _ab, '/audio/', left=_aleft), 'Podcasts and audio shows on Israel from the people and organizations in Voices.', '/audio/'))
 
 # ---- submissions form
 def submit_page():
@@ -1007,15 +1007,15 @@ hub('/charts/', 'Charts', 'Rankings, population graphics, top ten lists, size co
 hub('/images/', 'Images', 'A photographic tour of the land and the plants and animals of Israel.',
     [('A Taste of Israel', [byid[p + '-00'] for p in ['NEG', 'DSE', 'JUS', 'GAL', 'GOL', 'MED', 'TAJ', 'JHL', 'JRS', 'SHF']]), ('Flora and Fauna', [byid[p + '-00'] for p in ['TRE', 'WFL', 'WLD', 'BRD', 'MIG']])])
 _ml = ('<nav class="newstopics secnav wholist" aria-label="Media"><h2><a href="/media/">Media</a></h2><h3><a href="/video/">Video</a></h3><ul>' + ''.join(f'<li><a href="/video/{vslug(c)}/">{E(c["name"])}</a></li>' for c in VCFG['channels']) + '</ul>'
-       '<h3><a href="/audio/">Audio</a></h3><ul>' + ''.join(f'<li><a href="/audio/#s-{v_["id"]}">{E(v_["name"])}</a></li>' for v_ in AUD_) + '</ul>'
+       '<h3><a href="/audio/">Podcasts</a></h3><ul>' + ''.join(f'<li><a href="/audio/#s-{v_["id"]}">{E(v_["name"])}</a></li>' for v_ in AUD_) + '</ul>'
        '<h3><a href="/images/">Images</a></h3><ul><li><a href="/tour/">A Taste of Israel</a></li><li><a href="/flora/">Flora and Fauna</a></li></ul></nav>')
-_mb = ('<h1>Media</h1><p class="lead">Video, audio and images from the land and the people who talk about it.</p><div class="cards">'
+_mb = ('<h1>Media</h1><p class="lead">Video, playlists, podcasts, music and images from the land and the people who talk about it.</p><div class="cards">'
        '<a class="card" href="/video/"><b>Video</b><span>Curated channels, playlists and clips.</span></a>'
-       '<a class="card" href="/audio/"><b>Audio</b><span>Podcasts and audio shows.</span></a>'
+       '<a class="card" href="/audio/"><b>Podcasts</b><span>Podcasts and audio shows.</span></a>'
        '<a class="card" href="/images/"><b>Images</b><span>A photographic tour of the land, plants and animals.</span></a></div>'
        '<h2>Featured</h2><div class="cards"><a class="card" href="/who/"><b>Voices</b><span>Videos, podcasts and articles from the voices that shape the conversation.</span></a>'
        '<a class="card" href="/tour/"><b>A Taste of Israel</b><span>Ten regions in photographs.</span></a><a class="card" href="/flora/"><b>Flora and Fauna</b><span>Trees, flowers, wildlife and migrating birds.</span></a></div>')
-write('/media/', layout('Media', chan('media', _mb, '/media/', left=_ml, aside='<div id="vid-list" class="vlist"></div>'), 'Video, audio and images from the land and the people who talk about it.', '/media/'))
+write('/media/', layout('Media', chan('media', _mb, '/media/', left=_ml, aside='<div id="vid-list" class="vlist"></div>'), 'Video, playlists, podcasts, music and images from the land and the people who talk about it.', '/media/'))
 sb2 = '<h1>Sources</h1><p class="small">Each source has its own page here with its latest news and views.</p><ul class="idlist">' + ''.join(f'<li><a href="/sources/{i_}/">{E(n_)}</a><span>{E(d_)}</span></li>' for i_, n_, u_, d_ in SRC) + '</ul><h2>The Book</h2><ul class="idlist"><li><a href="/index/">Index</a><span>Find any name or place in the book Israel NOWlej</span></li><li><a href="/about/">How to use this site and cite it</a><span>Addresses, IDs and hubs</span></li></ul>'
 write('/sources/', layout('Sources', chan('sources', sb2, '/sources/'), 'The publishers whose public feeds supply the news and views on this site.', '/sources/'))
 for i_, n_, u_, d_ in SRC:
@@ -1070,6 +1070,7 @@ shutil.copy(os.path.join(ROOT, 'tools', 'ads.js'), os.path.join(OUT, 'ads.js'))
 shutil.copy(os.path.join(ROOT, 'tools', 'source.js'), os.path.join(OUT, 'source.js'))
 shutil.copy(os.path.join(ROOT, 'tools', 'subnav.js'), os.path.join(OUT, 'subnav.js'))
 shutil.copy(os.path.join(ROOT, 'aside.js'), os.path.join(OUT, 'aside.js'))
+shutil.copy(os.path.join(ROOT, 'featured.js'), os.path.join(OUT, 'featured.js'))
 shutil.copy(os.path.join(ROOT, 'tools', 'video.js'), os.path.join(OUT, 'video.js'))
 shutil.copy(os.path.join(ROOT, 'tools', 'entry.js'), os.path.join(OUT, 'entry.js'))
 shutil.copy(os.path.join(ROOT, 'tools', 'entryedit.js'), os.path.join(OUT, 'entryedit.js'))
