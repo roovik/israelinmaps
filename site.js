@@ -79,3 +79,17 @@ var box=s.closest('.newsleftcol')||s.parentNode;box.insertBefore(nav,box.firstCh
   if(k==='old')return function(a,b){return D(key.date(a))-D(key.date(b))};
   if(k==='az')return A(key.title);if(k==='src')return A(key.src);return null},
  apply:function(arr,k,key){arr=arr.slice();if(k==='rand'){for(var i=arr.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=arr[i];arr[i]=arr[j];arr[j]=t}return arr}var c=this.cmp(k,key);return c?arr.sort(c):arr}};
+
+;(function(){var done=new WeakSet();
+function fix(img){if(done.has(img))return;var pic=img.parentNode;if(!pic||!pic.classList||!pic.classList.contains('apic')||!pic.hasAttribute('data-d'))return;if(!/s2\/favicons|gstatic|favicon/.test(img.src))return;done.add(img);
+ var c=new Image();c.crossOrigin='anonymous';c.onload=function(){try{var n=48,cv=document.createElement('canvas');cv.width=cv.height=n;var x=cv.getContext('2d');x.drawImage(c,0,0,n,n);var d=x.getImageData(0,0,n,n),p=d.data;
+  function white(i){return p[i+3]<40||(p[i]>232&&p[i+1]>232&&p[i+2]>232)}
+  var seen=new Uint8Array(n*n),st=[];for(var k=0;k<n;k++){st.push(k,(n-1)*n+k,k*n,k*n+n-1)}
+  while(st.length){var q=st.pop();if(seen[q])continue;seen[q]=1;if(!white(q*4))continue;p[q*4+3]=0;var r=Math.floor(q/n),cc=q%n;if(r>0)st.push(q-n);if(r<n-1)st.push(q+n);if(cc>0)st.push(q-1);if(cc<n-1)st.push(q+1)}
+  var h={},best='',bc=0;for(var i=0;i<p.length;i+=4){if(p[i+3]<200||(p[i]>232&&p[i+1]>232&&p[i+2]>232))continue;var key=(p[i]>>4)+','+(p[i+1]>>4)+','+(p[i+2]>>4);h[key]=(h[key]||0)+1;if(h[key]>bc){bc=h[key];best=key}}
+  x.putImageData(d,0,0);var col=best?'rgb('+best.split(',').map(function(v){return v*16+8}).join(',')+')':'#2b2f38';
+  img.src=cv.toDataURL('image/png');pic.style.background=col;pic.style.borderColor='transparent'}catch(e){img.style.transform='scale(1.3)'}};
+ c.onerror=function(){img.style.transform='scale(1.3)'};c.src=img.src}
+function scan(root){[].forEach.call((root.querySelectorAll?root:document).querySelectorAll('.apic[data-d] img'),fix)}
+if(window.MutationObserver)new MutationObserver(function(ms){ms.forEach(function(m){[].forEach.call(m.addedNodes,function(n){if(n.nodeType!==1)return;if(n.tagName==='IMG')fix(n);else scan(n)})})}).observe(document.documentElement,{childList:true,subtree:true});
+document.addEventListener('DOMContentLoaded',function(){scan(document)})})();
