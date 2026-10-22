@@ -530,6 +530,7 @@ async function podsCheck() {
   for (const v of all) for (const p of v.pods) { const u = typeof p === 'object' ? p.u : p; const d = []; const f = await podFeed(u, d); rows.push({ id: v.id, name: v.name, source: u, matched: (d[0] && d[0].title) || '', feed: f }); }
   return new Response(JSON.stringify(rows, null, 1), { headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' } });
 }
+function voiceHas(j) { return !!j && ((j.articles || []).length + (j.news || []).length + (j.podcasts || []).length + (j.videos || []).length + (j.playlists || []).length) > 0; }
 async function voiceApi(url, env) {
   const hdr = { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'public, max-age=900', 'Access-Control-Allow-Origin': '*' };
   const id = (url.searchParams.get('id') || '').toLowerCase(), diagOn = !!url.searchParams.get('diag');
@@ -537,7 +538,7 @@ async function voiceApi(url, env) {
   if (!v) return new Response('{"error":"unknown voice"}', { status: 404, headers: hdr });
   const diag = diagOn ? [] : null;
   const refresh = !!url.searchParams.get('refresh'), searchMode = url.searchParams.get('search') || (url.searchParams.get('refresh') ? '' : 'no');
-  if (!diagOn && !refresh && env && env.ENTRIES) { const s = await kvSnap(env, 'snap/voice/' + id, 14 * 1440); if (s) return new Response(JSON.stringify(s.j), { headers: hdr }); }
+  if (!diagOn && !refresh && env && env.ENTRIES) { const s = await kvSnap(env, 'snap/voice/' + id, 14 * 1440); if (s && voiceHas(s.j)) return new Response(JSON.stringify(s.j), { headers: hdr }); }
   const mk = 'voice/' + id, cached = (diagOn || refresh) ? null : await memGet(mk);
   if (cached) return new Response(JSON.stringify(cached), { headers: hdr });
   const feedUrls = (v.blog && v.blog.length) ? v.blog : (v.site ? await discoverFeeds(v.site, diag) : []);
@@ -725,7 +726,7 @@ async function scan(env) {
       if (!doSearch) {
         try { const prev = JSON.parse((await env.ENTRIES.get('snap/voice/' + v.id)) || 'null'); if (prev && prev.j) { const have = new Set((j.videos || []).map(x => x.v)); (prev.j.videos || []).filter(x => x.guest && !have.has(x.v)).forEach(x => j.videos.push(x)); } } catch {}
       } else log.searched.push(v.id);
-      await env.ENTRIES.put('snap/voice/' + v.id, JSON.stringify({ t: Date.now(), j }));
+      if (voiceHas(j)) await env.ENTRIES.put('snap/voice/' + v.id, JSON.stringify({ t: Date.now(), j }));
       log.voices.push(v.id);
       (j.videos || []).forEach(x => fresh.push({ v: x.v, t: x.t, d: x.d, n: x.n || v.name, w: v.id }));
     } catch (e) { log.error += v.id + ':' + String(e) + ' '; }
