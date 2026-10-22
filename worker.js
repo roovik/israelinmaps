@@ -727,7 +727,7 @@ async function scan(env) {
     (j.channels || []).forEach(c => (c.videos || []).forEach(x => fresh.push({ v: x.v, t: x.t, d: x.d, n: c.name, w: '' })));
   } catch (e) { log.error += 'videos:' + String(e) + ' '; }
   const vs = (VOICES.voices || []).filter(v => !v.hidden);
-  const per = Math.max(1, parseInt(env.SCAN_VOICES || '8', 10)), maxSearch = Math.max(0, parseInt(env.SCAN_SEARCHES || '1', 10));
+  const per = Math.max(1, parseInt(env.SCAN_VOICES || '8', 10)), maxSearch = Math.max(0, parseInt(env.SCAN_SEARCHES || '3', 10));
   let cur = 0; try { cur = parseInt((await env.ENTRIES.get('snap/cursor')) || '0', 10) || 0; } catch {}
   let searches = 0;
   for (let i = 0; i < Math.min(per, vs.length); i++) {

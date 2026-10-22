@@ -147,7 +147,10 @@
       ],
       "intro": "Eylon Levy is a British-Israeli journalist and broadcaster who served as an international spokesman for the Israeli government. He now speaks and writes on his own channels.",
       "q": "Eylon Levy",
-      "tags": "former Israeli government spokesperson, EylON the Record, interviews"
+      "tags": "former Israeli government spokesperson, EylON the Record, interviews",
+      "blog": [
+        "https://eylonalevy.substack.com/feed"
+      ]
     },
     {
       "id": "ben-shapiro",
@@ -157,7 +160,10 @@
       "yt": [
         "BenShapiro"
       ],
-      "intro": "Ben Shapiro is an American commentator and co-founder of The Daily Wire. His daily show and writing return often to Israel, the Middle East and antisemitism."
+      "intro": "Ben Shapiro is an American commentator and co-founder of The Daily Wire. His daily show and writing return often to Israel, the Middle East and antisemitism.",
+      "pods": [
+        "https://feeds.megaphone.fm/WWO3519750118"
+      ]
     },
     {
       "id": "douglas-murray",
@@ -170,7 +176,10 @@
       "intro": "Douglas Murray is a British author and commentator. His books and interviews on the war in Gaza and on Western attitudes toward Israel have reached a wide audience.",
       "wiki": "Douglas Murray (author)",
       "q": "Douglas Murray",
-      "tags": "Western opinion, cultural debate, long-form interviews"
+      "tags": "Western opinion, cultural debate, long-form interviews",
+      "blog": [
+        "https://douglaskmurray.substack.com/feed"
+      ]
     },
     {
       "id": "bari-weiss",
@@ -216,7 +225,10 @@
       "yt": [
         "HenMazzig"
       ],
-      "intro": "Hen Mazzig is an Israeli writer and speaker, a former IDF officer and the author of a memoir about growing up in Israel. He speaks on Israel, Jewish identity and the Middle East."
+      "intro": "Hen Mazzig is an Israeli writer and speaker, a former IDF officer and the author of a memoir about growing up in Israel. He speaks on Israel, Jewish identity and the Middle East.",
+      "blog": [
+        "https://henmazzig.com/feed/"
+      ]
     },
     {
       "id": "dan-senor",
@@ -275,7 +287,10 @@
       ],
       "intro": "Einat Wilf is an Israeli author and former member of the Knesset. She writes and speaks on Zionism and Palestinian nationalism, hosts the podcast We Should All Be Zionists, and is co-author of The War of Return.",
       "q": "Einat Wilf",
-      "tags": "Zionism, Palestinian nationalism, podcast host, We Should All Be Zionists"
+      "tags": "Zionism, Palestinian nationalism, podcast host, We Should All Be Zionists",
+      "blog": [
+        "https://einatwilf.substack.com/feed"
+      ]
     },
     {
       "id": "haviv-rettig-gur",
@@ -426,7 +441,8 @@
       "intro": "Caroline Glick is an Israeli-American columnist and commentator on Israeli strategy and relations between the United States and Israel.",
       "tags": "Israeli strategy, US-Israel politics, commentary",
       "blog": [
-        "https://www.jns.org/author/caroline-glick/feed/"
+        "https://www.jns.org/author/caroline-glick/feed/",
+        "https://carolineglick.com/feed/"
       ]
     },
     {
@@ -439,7 +455,8 @@
       "intro": "Michael Oren is a historian and former Israeli ambassador to the United States and member of the Knesset. He is the author of Six Days of War.",
       "tags": "diplomacy, Israeli history, lectures",
       "blog": [
-        "https://claritywithmichaeloren.substack.com/feed"
+        "https://claritywithmichaeloren.substack.com/feed",
+        "https://michaeloren.org/feed/"
       ]
     },
     {
@@ -450,7 +467,10 @@
       "yt": [],
       "q": "John Spencer",
       "intro": "John Spencer is an American military analyst and urban warfare expert who explains the conduct of the fighting in Gaza and other cities.",
-      "tags": "urban warfare, military operations, military analysis"
+      "tags": "urban warfare, military operations, military analysis",
+      "blog": [
+        "https://www.johnspenceronline.com/feed"
+      ]
     },
     {
       "id": "melanie-phillips",
@@ -483,7 +503,10 @@
       "yt": [],
       "q": "Bret Stephens",
       "intro": "Bret Stephens is an American columnist at The New York Times who writes on Israel, Judaism and world affairs.",
-      "tags": "US commentary, Judaism, Israel, podcasts"
+      "tags": "US commentary, Judaism, Israel, podcasts",
+      "blog": [
+        "https://www.nytimes.com/svc/collections/v1/publish/https://www.nytimes.com/by/bret-stephens/rss"
+      ]
     },
     {
       "id": "elliot-kaufman",
