@@ -542,9 +542,9 @@ async function voiceApi(url, env) {
   let gnr = { ok: true, items: [] }, viaBing = false;
   if (!v.show) {
     // Google News refuses requests from Cloudflare (HTTP 503), so Bing News goes first and Google is the fallback
-    gnr = await load({ id: v.id, name: 'News', site: 'https://www.bing.com/news', url: 'https://www.bing.com/news/search?format=rss&setlang=en&cc=us&q=' + encodeURIComponent(gqs), maxAge: 3650 });
+    gnr = await load({ id: v.id, name: 'News', site: 'https://www.bing.com/news', url: 'https://www.bing.com/news/search?format=rss&q=' + encodeURIComponent(gq), maxAge: 3650 });
     viaBing = gnr.ok && gnr.items.length > 0;
-    if (diag) diag.push({ bing: gnr.ok, error: gnr.error, count: gnr.items.length });
+    if (diag) { let raw = ''; try { const rr = await fetch('https://www.bing.com/news/search?format=rss&q=' + encodeURIComponent(gq), { headers: { 'User-Agent': 'Mozilla/5.0 (compatible; IsraelNOWlej/1.0)' } }); raw = rr.status + ' ' + (await rr.text()).slice(0, 700); } catch (e) { raw = String(e); } diag.push({ bing: gnr.ok, error: gnr.error, count: gnr.items.length, raw }); }
     if (!viaBing) gnr = await load({ id: v.id, name: 'News', site: 'https://news.google.com/', url: 'https://news.google.com/rss/search?q=' + encodeURIComponent(gqs) + '&hl=en-US&gl=US&ceid=US:en', maxAge: 3650 });
   }
   const news = gnr.items.map(({ f, ...rest }) => {
