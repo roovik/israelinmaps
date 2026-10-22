@@ -246,6 +246,7 @@ async function memPut(k, v, ttl) { try { await caches.default.put(new Request('h
 let YTK = '';
 async function resolveChannel(c, diag) {
   if (c.id) return c.id;
+  if (/^UC[\w-]{22}$/.test(c.handle || '')) return c.handle;
   const known = await memGet('chid/' + c.handle);
   if (known && known.id) return known.id;
   if (YTK) {
@@ -286,7 +287,7 @@ async function loadVideoSource(c, kind, diag) {
   const id = kind === 'playlist' ? c.id : await resolveChannel(c, d);
   const mk = 'vsrc/' + kind + '/' + key;
   const stale = async why => { const o = await memGet(mk); return o ? { ...o, stale: true, error: why } : { key, name: c.name, ok: false, error: why, videos: [], diag: d }; };
-  if (!id) return stale('could not resolve channel id');
+  if (!id) return stale('could not resolve channel id' + (d && d.length ? ' ' + JSON.stringify(d).slice(0, 400) : ''));
   const fu = 'https://www.youtube.com/feeds/videos.xml?' + (kind === 'playlist' ? 'playlist_id=' : 'channel_id=') + id;
   try {
     const r = await fetch(fu, { headers: YT_UA });
