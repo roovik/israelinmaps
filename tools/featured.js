@@ -55,5 +55,4 @@
   function mk(k,title,href){var d=document.createElement('section');d.hidden=true;K[k][0]().then(function(items){if(!d.parentNode)(document.querySelector('.newsmain .ffilter')||h1).insertAdjacentElement('afterend',d);mount(d,items,{title:title,href:href})}).catch(function(){});return d}
   if(page==='media'){var anchor=h1.nextElementSibling&&h1.nextElementSibling.classList.contains('lead')?h1.nextElementSibling:h1;
     var after=anchor;['video','playlists','audio','music','images'].forEach(function(k){var d=mk(k,K[k][1],K[k][2]);after.insertAdjacentElement('afterend',d);after=d})}
-  else if(K[page]&&page!=='images'&&page!=='playlists'&&p!=='/video/'&&(page!=='video'||p==='/video/')){var d=mk(page,'Featured')}
 })();
