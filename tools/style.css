@@ -1087,3 +1087,4 @@ header.top nav.wrap{width:auto;max-width:none;margin-left:max(16px,calc((100% - 
  body:has(.newspage>.newsside) .bar .rcol .sf input[type=search],body:has(.newspage>.newsside) .bar .rcol form input{flex:1 1 auto;min-width:0}
 }
 @media (min-width:1001px){body:has(.newspage>.newsside) .bar .rcol .acct{display:flex!important;justify-content:flex-start;align-items:center;gap:14px;width:100%}}
+@media (min-width:1001px){body:has(.newspage>.newsside){--asg:5px}.newspage{column-gap:5px!important}}
