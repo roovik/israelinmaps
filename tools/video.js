@@ -79,7 +79,7 @@
         if(!window.IMFeat||it.length<3){cr.hidden=true;return}
         window.IMFeat.mount(cr,it.map(function(x){return{img:'https://i.ytimg.com/vi/'+x.v+'/mqdefault.jpg',t:x.t,s:x.n,a:wurl(x,x.c,x.t),v:x.v}}),{ms:2500,cls:'io'})}
       function back(){run()}
-      SEL=function(id){var x=byId[id];if(!x)return;var c=chs.filter(function(k){return sl(k)===x.c})[0];
+      SEL=function(id){var x=byId[id];if(!x)return;var c=chs.filter(function(k){return sl(k)===x.c})[0];window.IMNow&&IMNow('Video',x.n||'',x.t);
         host.innerHTML=embed(x.v,true);host.hidden=false;
         var more=c?c.videos.filter(function(k){return k.v!==x.v}):[];
         rel.hidden=false;rel.innerHTML='<h2 class="vnowt">'+esc(x.t)+'</h2><p class="small">'+esc(x.n||'')+(x.d?' \u00b7 '+ago(x.d):'')+' \u00b7 <button type="button" class="vback">Back to all videos</button></p>'+(x.x?'<p>'+esc(x.x)+'</p>':'')+
@@ -88,7 +88,7 @@
         try{document.title=x.t+' | Israel NOWlej'}catch(e){}
         bar.scrollIntoView({behavior:'smooth',block:'start'})};
       function run(){
-        if(!host.hidden){host.hidden=true;host.innerHTML='';rel.hidden=true;rel.innerHTML='';root.hidden=false;cr.hidden=false;csig=''}
+        if(!host.hidden){window.IMNow&&IMNow();host.hidden=true;host.innerHTML='';rel.hidden=true;rel.innerHTML='';root.hidden=false;cr.hidden=false;csig=''}
         var g=gs.value,c=cs.value,q=qi.value.trim().toLowerCase();
         var sk=document.getElementById('vf-s').value;if(!g&&!c&&!q&&sk==='new'){root.innerHTML=orig;nn.textContent='';car(all.slice().sort(function(a,b){return(b.d||'').localeCompare(a.d||'')}));if(!host.hidden){}return}
         var list=all.filter(function(v){
@@ -117,7 +117,7 @@
       function setP(id,auto){var v=byv[id]||c.videos[0];
         host.innerHTML=embed(v.v,auto);host.hidden=false;
         if(titleEl)titleEl.textContent=v.t;document.title=v.t+' | Israel NOWlej';
-        var ix=c.videos.indexOf(v);now.innerHTML=(c.kind==='playlist'?'<p class="plbadge"><b>Playlist: '+esc(c.name)+'</b> \u00b7 video '+(ix+1)+' of '+c.videos.length+'</p>':'')+'<p class="small">'+esc(v.n||c.name)+' \u00b7 '+ago(v.d)+'</p>'+(v.x?'<p>'+esc(v.x)+'</p>':'');
+        var ix=c.videos.indexOf(v);window.IMNow&&(c.kind==='playlist'?IMNow('Playlist',c.name,v.t):IMNow('Video',v.n||c.name,v.t));now.innerHTML=(c.kind==='playlist'?'<p class="small">Video '+(ix+1)+' of '+c.videos.length+'</p>':'')+'<p class="small">'+esc(v.n||c.name)+' \u00b7 '+ago(v.d)+'</p>'+(v.x?'<p>'+esc(v.x)+'</p>':'');
         [].forEach.call(document.querySelectorAll('.vcard,.vli'),function(a){var on=a.getAttribute('data-v')===v.v;a.classList.toggle('vnowp',on);(a.classList.contains('vli')?a.parentNode:a).hidden=on});
         try{history.replaceState(null,'','?v='+encodeURIComponent(v.v))}catch(x){}}
       var ck=c.kind==='playlist'?(c.channel||''):String(c.key).toLowerCase();

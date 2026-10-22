@@ -1161,3 +1161,5 @@ body p.az#gaz,body #gaz{display:none!important}
 .stage-list .sitem.vit.on{background:color-mix(in srgb,var(--sec,#1f62c4) 14%,#fff)}
 .stage-list{max-height:none;aspect-ratio:auto}
 @media (min-width:901px){.stage{align-items:stretch}.stage-list{max-height:calc((100vw - 10px) * .5 * 9 / 16 + 0px);min-height:340px}}
+.nowbar{text-align:center;margin:8px 0 10px;padding:9px 14px;border-radius:6px;background:color-mix(in srgb,var(--sec,#1f62c4) 32%,#fff);color:color-mix(in srgb,var(--sec,#1f62c4) 45%,#000);font-size:1.05rem;line-height:1.35}
+.nowbar[hidden]{display:none}.nowbar .nsep{opacity:.6;margin:0 4px}

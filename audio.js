@@ -24,7 +24,7 @@
     var st=document.createElement('div');st.className='stage';st.innerHTML='<div class="stage-main"><div class="amain"><div class="aart"><span class="sph">&#9654;</span></div><div class="ameta"><b>Choose an episode</b><span></span></div><audio controls preload="none" id="a-p"></audio><p class="adesc"></p></div></div><ul class="stage-list" id="a-list"></ul>';
     f.insertAdjacentElement('afterend',st);
     var sel=f.querySelector('#a-sel'),so=f.querySelector('#a-sort'),qi=f.querySelector('#a-q'),list=st.querySelector('#a-list'),ap=st.querySelector('#a-p'),art=st.querySelector('.aart'),mt=st.querySelector('.ameta'),ds=st.querySelector('.adesc'),cur=null,L=[],first=true;
-    function setEp(e,auto){cur=e;art.innerHTML=e.i?'<img src="'+esc(e.i)+'" alt="" referrerpolicy="no-referrer" onerror="this.remove()">':'<span class="sph">&#9654;</span>';
+    function setEp(e,auto){cur=e;window.IMNow&&IMNow('Podcast',e.sn,e.t);art.innerHTML=e.i?'<img src="'+esc(e.i)+'" alt="" referrerpolicy="no-referrer" onerror="this.remove()">':'<span class="sph">&#9654;</span>';
       mt.innerHTML='<b>'+esc(e.t)+'</b><span>'+esc(e.sn)+(e.d?' · '+when(e.d):'')+(e.du?' · '+dur(e.du):'')+'</span>';ds.textContent=e.x||'';
       ap.src=e.a;if(auto)ap.play().catch(function(){});[].forEach.call(list.querySelectorAll('.sitem'),function(b){b.classList.toggle('on',+b.getAttribute('data-i')===L.indexOf(e))})}
     function apply(){var q=qi.value.trim().toLowerCase(),s=so.value,out=[];
