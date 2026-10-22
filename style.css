@@ -1165,3 +1165,5 @@ body p.az#gaz,body #gaz{display:none!important}
 .nowbar[hidden]{display:none}.nowbar .nsep{opacity:.6;margin:0 4px}
 h1.nowbar{font-size:1.5rem;line-height:1.3;margin-top:0}
 h1.nowbar b{font-weight:800}h1.nowbar{font-weight:600}
+h1.nowbar,.nowbar{background:none!important;padding:0!important;border-radius:0!important;text-align:center;color:color-mix(in srgb,var(--sec,#1f62c4) 62%,#fff)!important}
+h1.nowbar b,h1.nowbar .nsep{color:inherit}
