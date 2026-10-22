@@ -31,7 +31,12 @@ VS=[('toi','The Times of Israel'),('jpost','The Jerusalem Post'),('ynet','Ynetne
 A['views']={'t':'Views','g':[{'h':'By kind','u':'/views/','i':[['All views','/views/'],['Op-Ed','/views/#mode=topics&kind=Op-Ed'],['Editorial','/views/#mode=topics&kind=Editorial'],['Blogs','/views/#mode=topics&kind=Blog'],['Voices','/who/']]},{'h':'By source','u':'/sources/','i':[[n,'/views/#mode=topics&src=%s'%i] for i,n in VS]}]}
 v=json.load(open('video.json'))
 chs=[[c['name'],'/video/%s/'%c['handle'].lower()] for c in v['channels']]
-pls=[[p['name'],'/playlists/#'+p['id']] for p in v['playlists']]
+chn={(c.get('handle') or c.get('id') or '').lower():c['name'] for c in v['channels']}
+pls=[];_last=None
+for p in sorted(v['playlists'],key=lambda p:(list(chn).index(p.get('channel','')) if p.get('channel','') in chn else 999)):
+    if p.get('channel')!=_last:
+        _last=p.get('channel');pls.append(['##',chn.get(_last or '','Other playlists')])
+    pls.append([p['name'],'/playlists/#'+p['id']])
 shows=[]
 s=open('audio/index.html',encoding='utf8').read()
 for m in re.finditer(r'<a href="(#s-[^"]+)"><span class="apic[^"]*"><span class="ini">[^<]*</span></span><span class="apn">([^<]*)</span>',s):shows.append([m.group(2),'/audio/'+m.group(1)])

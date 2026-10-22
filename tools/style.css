@@ -1183,3 +1183,5 @@ h1.nowbar b,h1.nowbar .nsep{color:inherit}
 body #gaz{justify-content:center!important}
 .stage[hidden]{display:none!important}
 .newsside .asect{border-top-left-radius:0!important}
+.newsside .alist li.asub{font-weight:700;color:var(--wl);font-size:.8rem;text-transform:uppercase;letter-spacing:.04em;border-bottom:0;padding:10px 0 2px}
+.newsside .alist li.asub:first-child{padding-top:2px}
