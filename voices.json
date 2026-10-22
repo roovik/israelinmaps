@@ -176,10 +176,7 @@
       "intro": "Douglas Murray is a British author and commentator. His books and interviews on the war in Gaza and on Western attitudes toward Israel have reached a wide audience.",
       "wiki": "Douglas Murray (author)",
       "q": "Douglas Murray",
-      "tags": "Western opinion, cultural debate, long-form interviews",
-      "blog": [
-        "https://douglaskmurray.substack.com/feed"
-      ]
+      "tags": "Western opinion, cultural debate, long-form interviews"
     },
     {
       "id": "bari-weiss",
@@ -441,8 +438,7 @@
       "intro": "Caroline Glick is an Israeli-American columnist and commentator on Israeli strategy and relations between the United States and Israel.",
       "tags": "Israeli strategy, US-Israel politics, commentary",
       "blog": [
-        "https://www.jns.org/author/caroline-glick/feed/",
-        "https://carolineglick.com/feed/"
+        "https://www.jns.org/author/caroline-glick/feed/"
       ]
     },
     {
@@ -467,10 +463,7 @@
       "yt": [],
       "q": "John Spencer",
       "intro": "John Spencer is an American military analyst and urban warfare expert who explains the conduct of the fighting in Gaza and other cities.",
-      "tags": "urban warfare, military operations, military analysis",
-      "blog": [
-        "https://www.johnspenceronline.com/feed"
-      ]
+      "tags": "urban warfare, military operations, military analysis"
     },
     {
       "id": "melanie-phillips",
@@ -503,10 +496,7 @@
       "yt": [],
       "q": "Bret Stephens",
       "intro": "Bret Stephens is an American columnist at The New York Times who writes on Israel, Judaism and world affairs.",
-      "tags": "US commentary, Judaism, Israel, podcasts",
-      "blog": [
-        "https://www.nytimes.com/svc/collections/v1/publish/https://www.nytimes.com/by/bret-stephens/rss"
-      ]
+      "tags": "US commentary, Judaism, Israel, podcasts"
     },
     {
       "id": "elliot-kaufman",

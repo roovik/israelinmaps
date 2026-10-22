@@ -161,7 +161,8 @@ async function load(feed) {
   const ctl = new AbortController();
   const timer = setTimeout(() => ctl.abort(), TIMEOUT);
   try {
-    const r = await fetch(feed.url, { signal: ctl.signal, headers: { 'User-Agent': 'IsraelMosaicNews/1.0 (+https://israelnowlej.com/news/)', Accept: 'application/rss+xml, application/atom+xml, application/xml, text/xml, */*' }, cf: { cacheTtl: 1800, cacheEverything: true } });
+    let r = await fetch(feed.url, { signal: ctl.signal, headers: { 'User-Agent': 'IsraelMosaicNews/1.0 (+https://israelnowlej.com/news/)', Accept: 'application/rss+xml, application/atom+xml, application/xml, text/xml, */*' }, cf: { cacheTtl: 1800, cacheEverything: true } });
+    if (r.status === 429 || r.status === 403) { r = await fetch(feed.url, { signal: ctl.signal, headers: { 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36', Accept: 'application/rss+xml, application/xml, text/xml, */*' } }); }
     if (!r.ok) return { feed, ok: false, error: 'HTTP ' + r.status, items: [] };
     const xml = await r.text();
     if (!/<(rss|feed|rdf:RDF)\b/i.test(xml.slice(0, 2000))) return { feed, ok: false, error: 'not an RSS or Atom feed', items: [] };
