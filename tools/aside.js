@@ -31,9 +31,10 @@
     var openFirstOf={},cnt=0;
     groups.forEach(function(g){var here=g.key===k&&g.i&&g.i.some(function(x){return x[1]===p||x[1]===cur});if(here)g.open=1});
     if(!groups.some(function(g){return g.open})){var f=groups.filter(function(g){return g.key===k})[0];if(f)f.open=1}
-    function li(x){if(x[2]==='soon')return'<li class="soon">'+esc(x[0])+' <em>soon</em></li>';if(x[0]==='##')return'<li class="asub">'+(x[2]?'<a href="'+esc(x[2])+'">'+esc(x[1])+'</a>':esc(x[1]))+'</li>';return'<li><a href="'+esc(x[1])+'"'+(x[1]===p||x[1]===cur?' aria-current="page"':'')+'>'+esc(x[0])+'</a></li>'}
+    groups.forEach(function(g){if(!g.i)return;var h=null;g.i.forEach(function(x){if(x[0]==='##'){h=x;h.n=0}else if(h&&x[2]!=='soon')h.n++})});
+    function li(x){if(x[2]==='soon')return'<li class="soon">'+esc(x[0])+' <em>soon</em></li>';if(x[0]==='##')return'<li class="asub">'+(x[2]?'<a href="'+esc(x[2])+'">'+esc(x[1])+'</a>':esc(x[1]))+(x.n!=null?' <span class="cn">'+x.n+'</span>':'')+'</li>';return'<li><a href="'+esc(x[1])+'"'+(x[1]===p||x[1]===cur?' aria-current="page"':'')+'>'+esc(x[0])+'</a></li>'}
     var h='<div class="asect"><h2>'+esc(title)+'</h2>'+groups.map(function(g){
-      return'<details class="agrp'+(g.lazy?' long':'')+'"'+(g.open?' open':'')+(g.lazy?' data-lazy="1"':'')+'><summary><span class="pm" aria-hidden="true"></span><a href="'+esc(g.u)+'">'+esc(g.h)+'</a> <span class="cn">'+(g.i?g.i.filter(function(x){return x[0]!=='##'&&x[2]!=='soon'}).length:'')+'</span></summary><ul class="alist">'+(g.i?g.i.map(li).join(''):'')+'</ul></details>'}).join('')+'</div>';
+      return'<details class="agrp'+(g.lazy?' long':'')+'"'+((g.open||!g.lazy)?' open':'')+(g.lazy?' data-lazy="1"':'')+'><summary><span class="pm" aria-hidden="true"></span><a href="'+esc(g.u)+'">'+esc(g.h)+'</a> <span class="cn">'+(g.i?g.i.filter(function(x){return x[0]!=='##'&&x[2]!=='soon'}).length:'')+'</span></summary><ul class="alist">'+(g.i?g.i.map(li).join(''):'')+'</ul></details>'}).join('')+'</div>';
     var d=document.createElement('div');d.innerHTML=h;as.classList.add('sect');
     if(/^(media|video|playlists|audio|music|images|maps|tour|timelines|charts|hot|glossary|book|about|sources|views)$/.test(k)){var np=as.closest('.newspage'),lc=np&&np.querySelector(':scope>.newsleftcol');if(np&&lc){np.classList.add('noleft');lc.hidden=true}if(k==='about')document.body.style.setProperty('--sec','#56627a')}
     as.insertBefore(d.firstChild,as.firstChild);

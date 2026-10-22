@@ -60,7 +60,7 @@
           more=document.getElementById('news-more'),mt=document.getElementById('news-more-title'),wid=document.getElementById('news-widget'),latest=document.getElementById('news-latest'),st=document.getElementById('news-status');
       if(item){g2=document.createElement('input');more=document.createElement('ul');mt=document.createElement('h2')}
       var state={mode:'sources',src:null,sub:null,tp:null,ch:null,q:null,kind:null,by:null},cache={},alive={};
-      var good=data.sources.filter(function(s){return s.ok});
+      var good=data.sources.filter(function(s){return s.ok&&(W!=='views'||data.items.filter(function(i){return i.s===s.id}).length>=3)});
       function isBrk(i){return i.d&&(Date.now()-new Date(i.d).getTime()<=3*3600*1000||/\b(breaking|live)\b/i.test(i.t))}
       var dated=data.items.filter(function(i){return i.d}).slice(0,12);
       latest.innerHTML='<section class="wsrc wlatest"><h3>Latest '+W+'</h3><ul>'+dated.slice(0,5).map(function(i){return'<li><a href="'+esc(iu(i))+'">'+esc(i.t)+'</a><span class="wm"><a href="/sources/'+esc(i.s)+'/?show='+W+'">'+esc(i.src)+'</a> · <time>'+when(i.d)+'</time></span></li>'}).join('')+'</ul></section>';

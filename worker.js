@@ -49,7 +49,6 @@ const VDEF = {
   jpost: [['Op-Ed', JP + 'rssfeedsopinion.aspx'], ['Editorial', JP + 'rssfeedseditorial.aspx'], ['Blog', JP + 'rssfeedsexperts.aspx']],
   ynet: [['Op-Ed', 'https://www.ynetnews.com/Integration/StoryRss3084.xml']],
   haaretz: [['Op-Ed', 'https://www.haaretz.com/srv/opinion-rss'], ['Editorial', 'https://www.haaretz.com/srv/editorial-rss']],
-  jns: [['Op-Ed', 'https://www.jns.org/opinion.rss']],
   tablet: [['Blog', 'https://www.tabletmag.com/feed']],
   mef: [['Blog', 'https://www.meforum.org/rss']],
   ji: [['Blog', 'https://jewishinsider.com/feed/']],

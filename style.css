@@ -1222,3 +1222,4 @@ table.pp input,table.pp select{font:inherit;padding:3px 5px;border:1px solid #cf
 #subscribe-form .sf-row,#contact-form .sf-row{margin:0}
 .newsmain .cards{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
 @media (max-width:700px){#subscribe-form,#contact-form{grid-template-columns:1fr}.newsmain .cards{grid-template-columns:1fr}}
+.newsside .alist li.asub{display:flex;justify-content:space-between;gap:8px;align-items:baseline}.newsside .alist li.asub .cn{font-weight:400;opacity:.7;font-size:.78rem}
