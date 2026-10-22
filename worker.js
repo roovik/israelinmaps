@@ -539,7 +539,7 @@ async function voiceApi(url, env) {
   const v = (VOICES.voices || []).find(x => x.id === id) || (VOICES.shows || []).find(x => x.id === id && (x.show = true));
   if (!v) return new Response('{"error":"unknown voice"}', { status: 404, headers: hdr });
   const diag = diagOn ? [] : null;
-  const refresh = !!url.searchParams.get('refresh'), searchMode = url.searchParams.get('search') || (url.searchParams.get('refresh') ? '' : 'no');
+  const refresh = !!url.searchParams.get('refresh'), searchMode = url.searchParams.get('search') || '';
   if (!diagOn && !refresh && env && env.ENTRIES) { const s = await kvSnap(env, 'snap/voice/' + id, 14 * 1440); if (s && voiceHas(s.j)) return new Response(JSON.stringify(s.j), { headers: hdr }); }
   const mk = 'voice/' + id, cached = (diagOn || refresh) ? null : await memGet(mk);
   if (cached) return new Response(JSON.stringify(cached), { headers: hdr });
@@ -625,7 +625,7 @@ async function voiceApi(url, env) {
     }
   }
   const out = { id, name: v.name, kind: v.kind, updated: new Date().toISOString(), articles: arts.slice(0, 30).map(({ f, ...rest }) => rest), news, podcasts: podArts.slice(0, 400), videos: vids.slice(0, 30), playlists: pls.slice(0, 24), feeds: feedUrls };
-  if (diag) out.diag = diag; else await memPut(mk, out, 900);
+  if (diag) out.diag = diag; else { await memPut(mk, out, 900); if (env && env.ENTRIES && voiceHas(out)) { try { await env.ENTRIES.put('snap/voice/' + id, JSON.stringify({ t: Date.now(), j: out })); } catch {} } }
   return new Response(JSON.stringify(out), { headers: diagOn ? { ...hdr, 'Cache-Control': 'no-store' } : hdr });
 }
 
