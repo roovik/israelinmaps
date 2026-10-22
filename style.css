@@ -1095,3 +1095,15 @@ header.top nav.wrap{width:auto;max-width:none;margin-left:max(16px,calc((100% - 
  header.top nav.wrap{padding-left:0!important;padding-right:0!important}
  body:has(.newspage>.newsside) header.top nav.wrap,body:has(.newspage>.newsside) header.top .subnav.wrap{margin-right:calc(max(5px,calc((100% - 1430px)/2)) + var(--asw) + var(--asg))!important}
 }
+
+/* widget column: dark shade of the selected channel, section titles in its light shade */
+.newsside{--wd:color-mix(in srgb,var(--sec,#1f62c4) 52%,#000);--wl:color-mix(in srgb,var(--sec,#1f62c4) 32%,#fff);background:var(--wd)!important;border-color:var(--wd)!important;color:#fff}
+.newsside .asect{background:transparent!important;border-color:rgba(255,255,255,.22)!important}
+.newsside h2,.newsside h3,.newsside summary,.newsside summary a,.newsside .agrp>summary a,.newsside .wsrc h3{color:var(--wl)!important}
+.newsside summary span,.newsside h2 span,.newsside .small,.newsside .nmeta,.newsside .nmeta *,.newsside .wm{color:rgba(255,255,255,.7)!important}
+.newsside a,.newsside li a,.newsside li{color:#fff}
+.newsside a:hover{color:var(--wl)}
+.newsside .alist li,.newsside li,.newsside .hi,.newsside .nlist li{border-color:rgba(255,255,255,.18)!important}
+.newsside a[aria-current],.newsside a[aria-current="page"],.newsside a.on{color:var(--wl)!important;font-weight:700}
+.newsside .agrp .alist{scrollbar-color:rgba(255,255,255,.4) transparent}
+.newsside input,.newsside select{background:#fff;color:#1d3557}
