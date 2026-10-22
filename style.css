@@ -1210,3 +1210,15 @@ table.pp input,table.pp select{font:inherit;padding:3px 5px;border:1px solid #cf
 .newsmain .ffilter,.newsmain .imgbar,.hubslide .ffilter{margin-top:14px!important}
 .pmore>h2:first-child{margin-top:0!important}
 .mfilters[hidden]{display:none!important}
+.newsside li.soon{color:rgba(255,255,255,.55);font-size:.9rem;padding:4px 0}.newsside li.soon em{font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;opacity:.8;margin-left:4px}
+.newspage.noleft>.newsleftcol[hidden]{display:none!important}
+/* forms fill the whole main column */
+#subscribe-form,#contact-form{max-width:none!important;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:12px 18px;align-items:end}
+#subscribe-form>.lead,#subscribe-form>p,#subscribe-form>.sf-row:nth-last-of-type(-n+3),#contact-form>.sf-row:nth-last-of-type(-n+4),#contact-form>p{grid-column:1/-1}
+#contact-form .sf-row:has(textarea){grid-column:1/-1}
+#contact-form .sf-row[hidden],#subscribe-form .sf-row[hidden]{display:none}
+.subform h2{max-width:none}
+#subscribe-form,#contact-form{align-items:start!important}
+#subscribe-form .sf-row,#contact-form .sf-row{margin:0}
+.newsmain .cards{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+@media (max-width:700px){#subscribe-form,#contact-form{grid-template-columns:1fr}.newsmain .cards{grid-template-columns:1fr}}
