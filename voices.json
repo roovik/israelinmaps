@@ -150,6 +150,9 @@
       "tags": "former Israeli government spokesperson, EylON the Record, interviews",
       "blog": [
         "https://eylonalevy.substack.com/feed"
+      ],
+      "pods": [
+        "https://anchor.fm/s/1173449b0/podcast/rss"
       ]
     },
     {
@@ -212,7 +215,10 @@
       "yt": [
         "YishaiFleisher"
       ],
-      "intro": "Yishai Fleisher is an international spokesman for the Jewish community of Hebron and host of a long-running Israel-focused podcast and video show."
+      "intro": "Yishai Fleisher is an international spokesman for the Jewish community of Hebron and host of a long-running Israel-focused podcast and video show.",
+      "pods": [
+        "https://feeds.buzzsprout.com/1271258.rss"
+      ]
     },
     {
       "id": "hen-mazzig",
