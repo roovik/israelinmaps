@@ -528,17 +528,27 @@ async function voiceApi(url, env) {
   const v = (VOICES.voices || []).find(x => x.id === id) || (VOICES.shows || []).find(x => x.id === id && (x.show = true));
   if (!v) return new Response('{"error":"unknown voice"}', { status: 404, headers: hdr });
   const diag = diagOn ? [] : null;
-  const refresh = !!url.searchParams.get('refresh'), searchMode = url.searchParams.get('search') || '';
-  if (!diagOn && !refresh && env && env.ENTRIES) { const s = await kvSnap(env, 'snap/voice/' + id, 75); if (s) return new Response(JSON.stringify(s.j), { headers: hdr }); }
+  const refresh = !!url.searchParams.get('refresh'), searchMode = url.searchParams.get('search') || (url.searchParams.get('refresh') ? '' : 'no');
+  if (!diagOn && !refresh && env && env.ENTRIES) { const s = await kvSnap(env, 'snap/voice/' + id, 14 * 1440); if (s) return new Response(JSON.stringify(s.j), { headers: hdr }); }
   const mk = 'voice/' + id, cached = (diagOn || refresh) ? null : await memGet(mk);
   if (cached) return new Response(JSON.stringify(cached), { headers: hdr });
   const feedUrls = (v.blog && v.blog.length) ? v.blog : (v.site ? await discoverFeeds(v.site, diag) : []);
   const arts = (await Promise.all(feedUrls.map(u => load({ id: v.id, name: v.name, site: v.site || u, url: u, maxAge: 3650 })))).flatMap(r => r.items);
   // coverage by and about the person: Google News search, credited to each publisher
   const gq = v.gq || v.name;
-  const gnr = v.show ? { ok: true, items: [] } : await load({ id: v.id, name: 'News', site: 'https://news.google.com/', url: 'https://news.google.com/rss/search?q=' + encodeURIComponent('"' + gq + '"') + '&hl=en-US&gl=US&ceid=US:en', maxAge: 3650 });
-  const news = gnr.items.map(({ f, ...rest }) => { const m = rest.t.match(/^(.*) - ([^-]{2,60})$/); return { ...rest, t: m ? m[1] : rest.t, src: m ? m[2] : 'News', x: '', i: '' }; }).filter(x => !arts.some(a => a.u === x.u)).slice(0, 25);
-  if (diag) diag.push({ googleNews: gnr.ok, error: gnr.error, count: news.length });
+  const gqs = '"' + gq + '"';
+  let gnr = { ok: true, items: [] }, viaBing = false;
+  if (!v.show) {
+    // Google News refuses requests from Cloudflare (HTTP 503), so Bing News goes first and Google is the fallback
+    gnr = await load({ id: v.id, name: 'News', site: 'https://www.bing.com/news', url: 'https://www.bing.com/news/search?format=rss&setlang=en&cc=us&q=' + encodeURIComponent(gqs), maxAge: 3650 });
+    viaBing = gnr.ok && gnr.items.length > 0;
+    if (!viaBing) gnr = await load({ id: v.id, name: 'News', site: 'https://news.google.com/', url: 'https://news.google.com/rss/search?q=' + encodeURIComponent(gqs) + '&hl=en-US&gl=US&ceid=US:en', maxAge: 3650 });
+  }
+  const news = gnr.items.map(({ f, ...rest }) => {
+    if (viaBing) { let u = rest.u, host = ''; try { const x = new URL(rest.u); const p = x.searchParams.get('url'); if (p) u = p; host = new URL(u).hostname.replace(/^www\./, ''); } catch {} return { ...rest, u, src: host || 'News', x: '', i: '' }; }
+    const m = rest.t.match(/^(.*) - ([^-]{2,60})$/); return { ...rest, t: m ? m[1] : rest.t, src: m ? m[2] : 'News', x: '', i: '' };
+  }).filter(x => !arts.some(a => a.u === x.u)).slice(0, 25);
+  if (diag) diag.push({ news: viaBing ? 'bing' : 'google', googleNews: gnr.ok, error: gnr.error, count: news.length });
   const podArts = (await Promise.all((v.pods || []).map(async u0 => { const u = await podFeed(u0, diag); return u ? load({ id: v.id, name: v.name, site: v.site || u, url: u, maxAge: 36500, max: 400 }) : { items: [] }; }))).flatMap(r => r.items).map(({ f, ...rest }) => rest);
   const vids = [], chanIds = [];
   for (const h of (v.yt || [])) { const r = await loadVideoSource({ handle: h, name: v.name }, 'channel', diag); if (r.ok && r.id) chanIds.push(r.id); (r.videos || []).forEach(x => vids.push({ ...x, n: v.name })); if (diag) diag.push({ yt: h, ok: r.ok, error: r.error, count: (r.videos || []).length }); }
@@ -572,7 +582,7 @@ async function voiceApi(url, env) {
         const j = await r.json();
         if (diag) diag.push({ search: v.q, status: r.status, error: j.error ? j.error.message : '' });
         sv.list = (j.items || []).filter(x => x.id && x.id.videoId && ((x.snippet.title + ' ' + x.snippet.description).toLowerCase().includes(v.q.split(' ').slice(-1)[0].toLowerCase()))).map(x => ({ v: x.id.videoId, t: decode(x.snippet.title), d: x.snippet.publishedAt, x: (x.snippet.description || '').slice(0, 200), n: decode(x.snippet.channelTitle || ''), guest: 1 }));
-        if (sv.list.length) await memPut(sk, sv, 24 * 3600);
+        if (sv.list.length) await memPut(sk, sv, 72 * 3600);
       } catch (e) { if (diag) diag.push({ search: v.q, error: String(e) }); }
     }
     sv.list.forEach(x => { if (!vids.some(y => y.v === x.v)) vids.push(x); });
@@ -690,7 +700,7 @@ async function scan(env) {
     (j.channels || []).forEach(c => (c.videos || []).forEach(x => fresh.push({ v: x.v, t: x.t, d: x.d, n: c.name, w: '' })));
   } catch (e) { log.error += 'videos:' + String(e) + ' '; }
   const vs = (VOICES.voices || []).filter(v => !v.hidden);
-  const per = Math.max(1, parseInt(env.SCAN_VOICES || '8', 10)), maxSearch = Math.max(0, parseInt(env.SCAN_SEARCHES || '3', 10));
+  const per = Math.max(1, parseInt(env.SCAN_VOICES || '8', 10)), maxSearch = Math.max(0, parseInt(env.SCAN_SEARCHES || '1', 10));
   let cur = 0; try { cur = parseInt((await env.ENTRIES.get('snap/cursor')) || '0', 10) || 0; } catch {}
   let searches = 0;
   for (let i = 0; i < Math.min(per, vs.length); i++) {

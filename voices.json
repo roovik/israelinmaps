@@ -417,16 +417,6 @@
       "tags": "digital advocacy, technology, podcast interviews"
     },
     {
-      "id": "shai-davidai",
-      "kind": "voice",
-      "name": "Shai Davidai",
-      "site": "",
-      "yt": [],
-      "q": "Shai Davidai",
-      "intro": "Shai Davidai is a professor at Columbia Business School who speaks out on antisemitism on campus and in academia.",
-      "tags": "campus antisemitism, academia, podcast interviews"
-    },
-    {
       "id": "caroline-glick",
       "kind": "voice",
       "name": "Caroline Glick",
@@ -447,7 +437,10 @@
       "yt": [],
       "q": "Michael Oren",
       "intro": "Michael Oren is a historian and former Israeli ambassador to the United States and member of the Knesset. He is the author of Six Days of War.",
-      "tags": "diplomacy, Israeli history, lectures"
+      "tags": "diplomacy, Israeli history, lectures",
+      "blog": [
+        "https://claritywithmichaeloren.substack.com/feed"
+      ]
     },
     {
       "id": "john-spencer",
@@ -467,7 +460,10 @@
       "yt": [],
       "q": "Melanie Phillips",
       "intro": "Melanie Phillips is a British journalist and author who writes on Israel, antisemitism and Western politics.",
-      "tags": "British commentary, antisemitism, podcast interviews"
+      "tags": "British commentary, antisemitism, podcast interviews",
+      "blog": [
+        "https://melaniephillips.substack.com/feed"
+      ]
     },
     {
       "id": "yossi-klein-halevi",

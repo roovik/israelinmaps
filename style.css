@@ -939,6 +939,7 @@ body .bar .ticker,body.newspg .bar .ticker{border:0!important;background:transpa
 .asect h2{margin:4px 0 8px;font-size:1.05rem}.agrp{border-top:1px solid var(--line);padding:6px 0}.agrp:first-of-type{border-top:0}
 .agrp summary{cursor:pointer;font-weight:700;font-size:.92rem;display:flex;gap:8px;align-items:baseline}.agrp summary a{color:inherit;text-decoration:none}.agrp summary span{font-weight:400;font-size:.78rem;color:var(--mut)}
 .alist{list-style:none;margin:6px 0 2px;padding:0;font-size:.88rem}.alist.long{max-height:19em;overflow:auto}.alist li{padding:3px 0;line-height:1.3}.alist a{color:var(--fg);text-decoration:none}.alist a:hover{text-decoration:underline}.alist a[aria-current]{font-weight:700;color:var(--acc)}
+
 .feat{margin:6px 0 18px;font-family:system-ui,sans-serif}.feat[hidden]{display:none}.feath{font-size:1.05rem;margin:14px 0 8px}.feath a{color:inherit;text-decoration:none}.feath a:hover{text-decoration:underline}
 .ftrack{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch}.ftrack::-webkit-scrollbar{display:none}
 .fcard{position:relative;flex:0 0 calc((100% - 24px)/3);aspect-ratio:16/9;border:0;padding:0;border-radius:10px;overflow:hidden;background:#2b2f38;cursor:pointer;scroll-snap-align:start;display:block;text-decoration:none;color:#fff}
@@ -987,3 +988,10 @@ header.top{margin-bottom:0!important}main#main{padding-top:5px!important;margin-
 
 .share .shl,.sharehero .shl{display:inline!important;font-weight:700;letter-spacing:.04em;font-size:.78rem;margin-right:2px}
 @media (max-width:480px){.share{flex-wrap:wrap!important;gap:5px 5px}.share a.ic,.share button.ic{width:30px;height:30px}}
+
+/* per-source selection row (Media, Sort, Filter) */
+.srow{display:flex;gap:8px;align-items:center;margin:8px 0 10px;flex-wrap:nowrap}
+.srow label{display:flex;align-items:center;gap:5px;font-weight:700;font-size:12px;color:var(--secd,#334)}
+.srow select{font:inherit;font-size:12px;font-weight:400;max-width:120px;padding:5px 4px;border:1px solid #cbd;border-radius:6px;background:#fff;color:var(--secd,#223)}
+.srow input{flex:1;min-width:0;font:inherit;font-size:13px;padding:6px 8px;border:1px solid #cbd;border-radius:6px}
+@media(max-width:520px){.srow{gap:5px}.srow select{max-width:92px}.srow label{font-size:11px}}

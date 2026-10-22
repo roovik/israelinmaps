@@ -77,3 +77,52 @@
     run();window.addEventListener('load',run);window.addEventListener('resize',run);document.addEventListener('click',function(){setTimeout(run,60)});var q=document.getElementById('wq');if(q)q.addEventListener('input',function(){setTimeout(run,60)})}
   hero();cards();
 })();
+
+/* Selection row for each source page: Media, Sort and Filter */
+(function(){
+  var root=document.getElementById('voice-page');if(!root)return;
+  var id=root.getAttribute('data-id');
+  var tabs=document.getElementById('v-tabs'),clips=document.getElementById('v-clips'),pls=document.getElementById('v-playlists'),pods=document.getElementById('v-pods'),arts=document.getElementById('v-articles'),news=document.getElementById('v-news'),player=document.getElementById('v-player'),ev=document.getElementById('e-video');
+  if(!ev||!arts||!news)return;
+  var row=document.createElement('div');row.className='srow';row.id='w-row';row.hidden=true;
+  row.innerHTML='<label>Media<select id="w-med" aria-label="Media"></select></label><label>Sort<select id="w-ord" aria-label="Sort"><option value="new">Newest first</option><option value="old">Oldest first</option><option value="az">A to Z</option></select></label><input id="w-q" type="search" placeholder="Filter" aria-label="Filter" autocomplete="off">';
+  ev.parentNode.insertBefore(row,ev);
+  var D=null,med=document.getElementById('w-med'),ord=document.getElementById('w-ord'),q=document.getElementById('w-q');
+  var G={videos:{box:clips,key:'videos'},playlists:{box:pls,key:'playlists'},podcasts:{box:pods,key:'podcasts'},articles:{box:arts,key:'articles'},news:{box:news,key:'news'}};
+  function ul(k){return G[k].box.querySelector('ul')}
+  function tag(){Object.keys(G).forEach(function(k){var u=ul(k),a=D[G[k].key]||[],n=0;if(!u)return;[].forEach.call(u.children,function(li){if(li.classList.contains('amore')||!a[n]){return}li._d=a[n].d||a[n].published||'';li._t=li.textContent;n++})})}
+  function apply(){
+    var m=med.value,o=ord.value,t=q.value.trim().toLowerCase();
+    if((o!=='new'||t)){var more=pods.querySelector('.aall');if(more)more.click()}
+    Object.keys(G).forEach(function(k){
+      var box=G[k].box,u=ul(k);if(!u)return;
+      var show=(m==='all'||m===k);
+      var any=(D[G[k].key]||[]).length>0;
+      if(k==='videos'||k==='playlists'){box.hidden=!show||!any}else if(k==='podcasts'){box.hidden=!show||!any}else{box.hidden=!show}
+      if(show&&k==='articles'||show&&k==='news'){box.hidden=false}
+      var lis=[].slice.call(u.children).filter(function(li){return li._t!=null});
+      lis.sort(function(a,b){if(o==='az')return a._t.localeCompare(b._t);var c=(b._d||'').localeCompare(a._d||'');return o==='old'?-c:c});
+      var last=u.querySelector('.amore');
+      lis.forEach(function(li){li.hidden=!!t&&li._t.toLowerCase().indexOf(t)<0;u.insertBefore(li,last)});
+    });
+    if(player&&m!=='all'&&m!=='videos'&&m!=='playlists')player.hidden=true;else if(player&&player.innerHTML)player.hidden=false;
+    ev.hidden=!(D.videos.length||D.podcasts.length||D.playlists.length);
+  }
+  function build(){
+    var opts=[['all','All media']];
+    if(D.videos.length)opts.push(['videos','Videos ('+D.videos.length+')']);
+    if(D.playlists.length)opts.push(['playlists','Playlists ('+D.playlists.length+')']);
+    if(D.podcasts.length)opts.push(['podcasts','Podcasts ('+D.podcasts.length+')']);
+    opts.push(['articles','Articles ('+D.articles.length+')']);
+    opts.push(['news','News coverage ('+D.news.length+')']);
+    med.innerHTML=opts.map(function(x){return'<option value="'+x[0]+'">'+x[1]+'</option>'}).join('');
+    if(tabs)tabs.hidden=true;
+    row.hidden=false;tag();apply();
+    [med,ord].forEach(function(e){e.addEventListener('change',apply)});q.addEventListener('input',apply);
+    var mo=new MutationObserver(function(){mo.disconnect();tag();apply();obs()});function obs(){mo.observe(pods.querySelector('ul'),{childList:true})}obs();
+  }
+  fetch('/api/voice?id='+encodeURIComponent(id)).then(function(r){return r.json()}).then(function(d){
+    D={videos:d.videos||[],playlists:d.playlists||[],podcasts:d.podcasts||[],articles:d.articles||[],news:d.news||[]};
+    var tries=0;(function wait(){if(document.querySelector('#v-news ul li')&&!/^Loading/.test(document.querySelector('#v-news ul').textContent)||tries++>40){build()}else setTimeout(wait,150)})();
+  }).catch(function(){});
+})();
