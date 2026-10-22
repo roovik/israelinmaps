@@ -109,7 +109,7 @@
         tpn.className=(tpn.className||'').replace(/\bmobnav\b/g,'').trim();tpn.classList.add('fnav');
         tpn.innerHTML=h;favs();
       }
-      (function(){var np=document.querySelector('.newspage'),lc=tpn.closest&&tpn.closest('.newsleftcol');if(!np||!lc||!grid||!grid.parentNode||item)return;
+      (function(){var np=document.querySelector('.newspage'),lc=tpn.closest&&tpn.closest('.newsleftcol');if(np&&lc&&item){var nl=np.querySelector(':scope>.newsleft');if(nl){np.classList.add('noleft');lc.hidden=true;nl.insertBefore(tpn,nl.firstChild)}return}if(!np||!lc||!grid||!grid.parentNode||item)return;
         np.classList.add('noleft');lc.hidden=true;grid.parentNode.insertBefore(tpn,grid)})();
       var FOUR={haaretz:1,insider:1},g4el=null,g4h=null;
       function paint(items,note){
