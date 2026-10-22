@@ -46,7 +46,7 @@ for (const s of SOURCES) if (s.channels) s.groups = s.channels.map(([g, list]) =
 // Views: opinion feeds, each channel is one of Op-Ed, Editorial or Blog
 const VDEF = {
   toi: [['Op-Ed', 'https://www.timesofisrael.com/opinion/feed/'], ['Blog', 'https://blogs.timesofisrael.com/feed/']],
-  jpost: [['Op-Ed', JP + 'rssfeedsopinion.aspx'], ['Editorial', JP + 'rssfeedseditorial.aspx']],
+  jpost: [['Op-Ed', JP + 'rssfeedsopinion.aspx'], ['Editorial', JP + 'rssfeedseditorial.aspx'], ['Blog', JP + 'rssfeedsexperts.aspx']],
   ynet: [['Op-Ed', 'https://www.ynetnews.com/Integration/StoryRss3084.xml']],
   haaretz: [['Op-Ed', 'https://www.haaretz.com/srv/opinion-rss'], ['Editorial', 'https://www.haaretz.com/srv/editorial-rss']],
   jns: [['Op-Ed', 'https://www.jns.org/opinion.rss']],
