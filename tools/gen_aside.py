@@ -35,7 +35,7 @@ chn={(c.get('handle') or c.get('id') or '').lower():c['name'] for c in v['channe
 pls=[];_last=None
 for p in sorted(v['playlists'],key=lambda p:(list(chn).index(p.get('channel','')) if p.get('channel','') in chn else 999)):
     if p.get('channel')!=_last:
-        _last=p.get('channel');pls.append(['##',chn.get(_last or '','Other playlists')])
+        _last=p.get('channel');pls.append(['##',chn.get(_last or '','Other playlists'),'/playlists/#ch-'+(_last or '')])
     pls.append([p['name'],'/playlists/#'+p['id']])
 shows=[]
 s=open('audio/index.html',encoding='utf8').read()

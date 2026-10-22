@@ -9,7 +9,7 @@
   var P=[],names={};
   fetch('/api/videos?lists=1&dates=1').then(function(r){if(!r.ok)throw 0;return r.json()}).catch(function(){return fetch('/api/videos?lists=1').then(function(r){if(!r.ok)throw 0;return r.json()})}).then(function(d){
     names=d.chnames||{};
-    P=(d.playlists||[]).map(function(p){if(p.th&&!PTH[p.id])PTH[p.id]=p.th;return{id:p.id,name:p.name,d:p.d||'',by:names[(p.channel||'').toLowerCase()]||p.by||''}});
+    P=(d.playlists||[]).map(function(p){if(p.th&&!PTH[p.id])PTH[p.id]=p.th;return{id:p.id,name:p.name,ch:(p.channel||'').toLowerCase(),d:p.d||'',by:names[(p.channel||'').toLowerCase()]||p.by||''}});
     ps.innerHTML='<option value="">All Israel playlists</option>'+P.map(function(p,i){return'<option value="'+esc(p.id)+'">'+esc(p.name)+'</option>'}).join('');
     cdd();run();hp()
   }).catch(function(){nn.textContent='The playlists could not be loaded right now. Please try again shortly.'});
@@ -23,7 +23,7 @@
     cl.innerHTML=P.length?'<li data-v="" role="option"><b>All Israel playlists</b></li>'+P.map(function(p){return'<li role="option" data-v="'+esc(p.id)+'"><b>'+esc(p.name)+'</b>'+(p.by?' <span>'+esc(p.by)+'</span>':'')+'</li>'}).join(''):'';
     cdsync()}
   function cdsync(){var o=ps.options[ps.selectedIndex];cb.innerHTML='<b>'+esc(o?o.textContent:'All Israel playlists')+'</b>'}
-  function hp(){var id=decodeURIComponent(location.hash.slice(1));var x=P.filter(function(q){return q.id===id})[0];if(x){ps.value=id;cdsync();run();play(x.id,x.name)}}
+  function hp(){var id=decodeURIComponent(location.hash.slice(1));if(id.indexOf('ch-')===0){var cc=id.slice(3).toLowerCase(),mine=P.filter(function(q){return q.ch===cc}).sort(function(a,b){return(b.d||'').localeCompare(a.d||'')});if(mine[0]){ps.value='';cdsync();run();play(mine[0].id,mine[0].name)}return}var x=P.filter(function(q){return q.id===id})[0];if(x){ps.value=id;cdsync();run();play(x.id,x.name)}}
   window.addEventListener('hashchange',hp);
   var PTH={};try{PTH=JSON.parse(sessionStorage.getItem('plthumbs')||'{}')}catch(e){}
   var curPl='';
