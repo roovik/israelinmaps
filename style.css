@@ -1290,3 +1290,4 @@ body:has(#src-tabs) .newsmain .ncard .nb>p:not(.nmeta){display:none}
 @media (max-width:640px){.bar .rcol .sf{width:calc(50vw - 16px)!important;margin-left:auto!important;flex:none!important}.bar .rcol .sf input{flex:1 1 0;min-width:0}}
 @media (max-width:640px){.bar .rcol .sf input{font-size:.8rem;padding-left:6px;padding-right:4px}.bar .rcol .sf input::placeholder{font-size:.8rem}}
 @media (max-width:640px){.apick.fsrc{gap:0!important}.apick.fsrc>a{width:54px!important;padding:0!important}.apick.fsrc .apic{width:40px!important;height:40px!important}.apick.fsrc>a>span:last-child,.apick.fsrc .apn{font-size:.6rem!important;letter-spacing:-.01em}}
+html,body{overscroll-behavior-y:none}
