@@ -959,3 +959,5 @@ body .bar .ticker,body.newspg .bar .ticker{border:0!important;background:transpa
 .ffilter select,.mfilters select,.srt select,.cdd-b,.vfbar select{color:var(--secd,#1d3557);font-weight:600;border-color:var(--sec,#cfc6ae)}
 .ffilter select option,.mfilters select option,.srt select option,.vfbar select option,.cdd-l li{color:var(--secd,#1d3557);background:#fff}
 .cdd-l span{color:var(--secd,#1d3557);opacity:.75}
+
+@media (max-width:640px){.ffilter{flex-wrap:nowrap!important;gap:5px}.ffilter label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}.ffilter select{flex:0 0 29%;max-width:29%;min-width:0;padding:0 4px;font-size:.8rem;text-overflow:ellipsis}.ffilter input{flex:1 1 0;min-width:0;padding:0 6px}.ffilter button{flex:none;padding:0 10px}}
