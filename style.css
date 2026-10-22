@@ -1001,3 +1001,5 @@ header.top{margin-bottom:0!important}main#main{padding-top:5px!important;margin-
 p.az#gaz{display:flex!important}
 .gcard.nobanner .gimg{display:none}
 header.top .subnav.wrap{width:calc(100% - 32px)!important;max-width:1408px!important;margin-left:auto;margin-right:auto;box-sizing:border-box}
+.ffilter #ff-c{max-width:130px}
+@media(max-width:520px){.ffilter #ff-c,.ffilter #ff-b{max-width:84px}}
