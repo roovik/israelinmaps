@@ -27,21 +27,21 @@
   window.addEventListener('hashchange',hp);
   var PTH={};try{PTH=JSON.parse(sessionStorage.getItem('plthumbs')||'{}')}catch(e){}
   var curPl='';
-  var stage=document.createElement('div');stage.className='stage';var sm=document.createElement('div');sm.className='stage-main';var sl=document.createElement('ul');sl.className='stage-list';
-  pl.parentNode.insertBefore(stage,pl);stage.appendChild(sm);stage.appendChild(sl);sm.appendChild(pl);sl.id='pgrid';grid.removeAttribute('id');grid.hidden=true;grid=sl;
-  var meta=document.createElement('div');meta.className='stage-meta';sm.appendChild(meta);var vids=document.createElement('div');vids.className='stage-vids';sm.appendChild(vids);
+  var stage=document.createElement('div');stage.className='stage';var sm=document.createElement('div');sm.className='stage-main';var sl=document.createElement('ul');sl.className='stage-list';sl.id='vlist';
+  pl.parentNode.insertBefore(stage,pl);stage.appendChild(sm);stage.appendChild(sl);sm.appendChild(pl);var more=document.createElement('div');more.className='pmore';var mh=document.createElement('h2');more.appendChild(mh);var pg=document.createElement('ul');pg.className='vgrid pgrid';pg.id='pgrid';grid.removeAttribute('id');grid.hidden=true;more.appendChild(pg);stage.parentNode.insertBefore(more,stage.nextSibling);grid=pg;var VL={};
+  var meta=document.createElement('div');meta.className='stage-meta';sm.appendChild(meta);
   function thumbs(){[].forEach.call(grid.querySelectorAll('.sitem'),function(b){var id=b.getAttribute('data-id');if(PTH[id]||b._req)return;b._req=1;
     var go=function(){fetch('/api/videos?playlist='+encodeURIComponent(id)).then(function(r){return r.ok?r.json():null}).then(function(d){var c=d&&(d.channels||[])[0];if(c&&c.videos&&c.videos.length){PTH[id]=c.videos[0].v;try{sessionStorage.setItem('plthumbs',JSON.stringify(PTH))}catch(e){}var t=b.querySelector('.sth');if(t)t.innerHTML='<img src="https://i.ytimg.com/vi/'+PTH[id]+'/mqdefault.jpg" alt="" loading="lazy">'}}).catch(function(){})};
-    if('IntersectionObserver' in window){var io=new IntersectionObserver(function(en){if(en[0].isIntersecting){io.disconnect();go()}},{root:grid,rootMargin:'200px'});io.observe(b)}else go()})}
+    if('IntersectionObserver' in window){var io=new IntersectionObserver(function(en){if(en[0].isIntersecting){io.disconnect();go()}},{root:null,rootMargin:'200px'});io.observe(b)}else go()})}
   function showPl(id,name,vid,auto){curPl=id;
     pl.hidden=false;pl.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/'+(vid?encodeURIComponent(vid):'videoseries')+'?list='+encodeURIComponent(id)+'&rel=0'+(auto?'&autoplay=1&mute=1&playsinline=1&enablejsapi=1&origin='+encodeURIComponent(location.origin):'')+'" title="'+esc(name)+'" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>';
     if(auto){var f=pl.firstChild;function cmd(n){try{f.contentWindow.postMessage(JSON.stringify({event:'command',func:n,args:[]}),'*')}catch(x){}}function go(){cmd('playVideo');cmd('unMute')}f.addEventListener('load',function(){go();setTimeout(go,500);setTimeout(go,1500)})}
     meta.innerHTML='<p class="plbadge"><b>Playlist: '+esc(name)+'</b></p>';
-    if(!vid){vids.innerHTML='<p class="small">Loading the videos in this playlist…</p>';
-      fetch('/api/videos?playlist='+encodeURIComponent(id)).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){if(curPl!==id)return;var c=(d.channels||[])[0];if(!c||!c.videos.length)throw 0;
-        meta.innerHTML='<p class="plbadge"><b>Playlist: '+esc(name)+'</b> \u00b7 '+c.videos.length+' videos</p>';
-        vids.innerHTML='<h2>Videos in this playlist</h2><ul class="vgrid">'+c.videos.map(function(v,i){return'<li><button type="button" class="vcell" data-v="'+esc(v.v)+'"><img src="https://i.ytimg.com/vi/'+esc(v.v)+'/mqdefault.jpg" alt="" loading="lazy"><span>'+(i+1)+'. '+esc(v.t)+'</span></button></li>'}).join('')+'</ul>';
-        vids.onclick=function(e){var b=e.target.closest('.vcell');if(!b)return;showPl(id,name,b.getAttribute('data-v'),true)}}).catch(function(){vids.innerHTML=''})}}
+    var draw=function(c){sl.innerHTML=c.map(function(v,i){return'<li><button type="button" class="sitem vit'+(v.v===vid?' on':'')+'" data-v="'+esc(v.v)+'"><span class="sth"><img src="https://i.ytimg.com/vi/'+esc(v.v)+'/mqdefault.jpg" alt="" loading="lazy"></span><span class="stx"><b>'+(i+1)+'. '+esc(v.t)+'</b></span></button></li>'}).join('');meta.innerHTML='<p class="plbadge"><b>Playlist: '+esc(name)+'</b> \u00b7 '+c.length+' videos</p>'};
+    if(VL[id]){draw(VL[id]);return}
+    sl.innerHTML='<li class="small" style="padding:10px">Loading the videos in this playlist\u2026</li>';
+    fetch('/api/videos?playlist='+encodeURIComponent(id)).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){var c=(d.channels||[])[0];if(!c||!c.videos.length)throw 0;VL[id]=c.videos;if(curPl===id)draw(c.videos)}).catch(function(){sl.innerHTML='<li class="small" style="padding:10px">The videos in this playlist are shown in the player.</li>'})}
+  sl.addEventListener('click',function(e){var b=e.target.closest('.vit');if(!b)return;var x=P.filter(function(q){return q.id===curPl})[0];showPl(curPl,x?x.name:'',b.getAttribute('data-v'),true)});
   function play(id,name){showPl(id,name,'',true);pl.scrollIntoView({block:'nearest'});return;
     pl.hidden=false;pl.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/videoseries?list='+encodeURIComponent(id)+'&rel=0&autoplay=1&mute=1&playsinline=1&enablejsapi=1&origin='+encodeURIComponent(location.origin)+'" title="'+esc(name)+'" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>';
     var f=pl.firstChild;function cmd(n){try{f.contentWindow.postMessage(JSON.stringify({event:'command',func:n,args:[]}),'*')}catch(x){}}function go(){cmd('playVideo');cmd('unMute')}
@@ -54,10 +54,13 @@
       if(g){var re=GEN.filter(function(x){return x[0]===g})[0][2];if(!re.test(t))return false}
       if(q&&t.toLowerCase().indexOf(q)<0)return false;return true});
     var sk=document.getElementById('psort').value;if(sk)list=IMSort.apply(list,sk,{date:function(){return 0},title:function(x){return x.name},src:function(x){return x.by}});
+    var cur=P.filter(function(p){return p.id===curPl})[0];
+    if(cur&&!sel){list=list.filter(function(p){return p.id!==curPl});var cw=cur.name.toLowerCase().split(/\W+/).filter(function(w){return w.length>4});var sc=function(p){return(p.by&&p.by===cur.by?2:0)+(cw.some(function(w){return p.name.toLowerCase().indexOf(w)>=0})?1:0)};list=list.map(function(p,i){return[p,i]}).sort(function(a,b){return sc(b[0])-sc(a[0])||a[1]-b[1]}).map(function(x){return x[0]})}
+    mh.textContent=cur?(cur.by?'More playlists from '+cur.by+' and on similar topics':'More playlists'):'Playlists';
     nn.textContent=list.length+(list.length===1?' playlist':' playlists');
     grid.innerHTML=list.map(function(p){return'<li><button type="button" class="sitem pcard'+(p.id===curPl?' on':'')+'" data-id="'+esc(p.id)+'" data-n="'+esc(p.name)+'"><span class="sth">'+(PTH[p.id]?'<img src="https://i.ytimg.com/vi/'+esc(PTH[p.id])+'/mqdefault.jpg" alt="" loading="lazy">':'<span class="sph">&#9654;</span>')+'</span><span class="stx"><b>'+esc(p.name)+'</b><i>Playlist'+(p.by?' \u00b7 '+esc(p.by):'')+'</i></span></button></li>'}).join('')||'<li class="small">No playlists match. Try another genre or keyword.</li>';
-    thumbs();if(!curPl&&list.length&&!pl.querySelector('iframe')){curPl=list[0].id;var f0=grid.querySelector('.sitem');if(f0)f0.classList.add('on');showPl(list[0].id,list[0].name,'',false)}
+    thumbs();if(!curPl&&list.length&&!pl.querySelector('iframe')){curPl=list[0].id;showPl(list[0].id,list[0].name,'',false);run();return}
     if(sel&&list.length===1&&document.activeElement===ps)play(list[0].id,list[0].name)}
   gs.addEventListener('change',run);ps.addEventListener('change',run);gs.addEventListener('change',cdsync);form.addEventListener('submit',function(e){e.preventDefault();run()});qi.addEventListener('input',run);
-  grid.addEventListener('click',function(e){var b=e.target.closest('.pcard');if(!b)return;[].forEach.call(grid.querySelectorAll('.pcard.on'),function(x){x.classList.remove('on')});b.classList.add('on');play(b.getAttribute('data-id'),b.getAttribute('data-n'))});
+  grid.addEventListener('click',function(e){var b=e.target.closest('.pcard');if(!b)return;play(b.getAttribute('data-id'),b.getAttribute('data-n'));run()});
 })();

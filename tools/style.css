@@ -1156,3 +1156,8 @@ body p.az#gaz,body #gaz{display:none!important}
 #a-shows,.apick,#a-top{display:none!important}
 @media (max-width:900px){.stage{grid-template-columns:1fr}.stage-list{max-height:420px}}
 .sitem.pcard{border:0!important;box-shadow:none!important;border-radius:0}
+.pmore h2{font-size:1.05rem;margin:18px 0 8px}
+.pgrid .sitem.pcard{display:block;padding:0}.pgrid .sitem.pcard .sth{margin-bottom:4px}.pgrid .sitem.pcard .stx{display:block}
+.stage-list .sitem.vit.on{background:color-mix(in srgb,var(--sec,#1f62c4) 14%,#fff)}
+.stage-list{max-height:none;aspect-ratio:auto}
+@media (min-width:901px){.stage{align-items:stretch}.stage-list{max-height:calc((100vw - 10px) * .5 * 9 / 16 + 0px);min-height:340px}}
