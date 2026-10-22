@@ -26,6 +26,8 @@ const SOURCES = [
   { id: 'jns', name: 'JNS', site: 'https://www.jns.org/', url: 'https://www.jns.org/feed/', base: 'https://www.jns.org/', channels: [
     ['JNS', [['Israeli Society', 'israeli-society.rss'], ['Middle East', 'middle-east.rss'], ['Antisemitism', 'antisemitism.rss'], ['Israel News', 'israel-news.rss'], ['U.S. News', 'us-news.rss'], ['World News', 'world-news.rss'], ['Opinion', 'opinion.rss'], ['Jewish World', 'jewish-world.rss']]],
   ] },
+  { id: 'jta', name: 'JTA', site: 'https://www.jta.org/', url: 'https://www.jta.org/feed' },
+  { id: 'inn', name: 'Israel National News', site: 'https://www.israelnationalnews.com/', url: 'https://www.israelnationalnews.com/Rss.aspx' },
   { id: 'israelhayom', name: 'Israel Hayom', site: 'https://www.israelhayom.com/', url: 'https://www.israelhayom.com/feed/', base: 'https://www.israelhayom.com/category/', channels: [
     ['News', [['Israel', 'news/israel/feed/'], ['Israel at War', 'news/israel/israel-at-war/feed/'], ['Middle East', 'news/middle-east/feed/'], ['United States', 'news/world-news/united-states/feed/']]],
     ['Jewish World', [['Jewish World', 'jewish-world/feed/'], ['Antisemitism', 'jewish-world/antisemitism/feed/'], ['Archaeology', 'archaeology/feed/']]],
@@ -41,6 +43,7 @@ const VDEF = {
   ynet: [['Op-Ed', 'https://www.ynetnews.com/Integration/StoryRss3084.xml']],
   haaretz: [['Op-Ed', 'https://www.haaretz.com/srv/opinion-rss'], ['Editorial', 'https://www.haaretz.com/srv/editorial-rss']],
   jns: [['Op-Ed', 'https://www.jns.org/opinion.rss']],
+  jta: [['Op-Ed', 'https://www.jta.org/category/opinion/feed']],
   israelhayom: [['Op-Ed', 'https://www.israelhayom.com/opinions/feed/'], ['Editorial', 'https://www.israelhayom.com/category/editorial/feed/']],
 };
 function vid(kind) { return 'v-' + kind.toLowerCase().replace(/[^a-z0-9]+/g, '-'); }

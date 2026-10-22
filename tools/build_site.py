@@ -372,7 +372,9 @@ SRC = [('toi', 'The Times of Israel', 'https://www.timesofisrael.com/', 'An Isra
        ('ynet', 'Ynetnews', 'https://www.ynetnews.com/', 'The English edition of Ynet, the news site of the Yedioth Ahronoth group.'),
        ('haaretz', 'Haaretz', 'https://www.haaretz.com/', 'The English edition of the Israeli daily Haaretz, with news, analysis and opinion.'),
        ('jns', 'JNS', 'https://www.jns.org/', 'Jewish News Syndicate, a news service on Israel, the Middle East and Jewish communities worldwide.'),
-       ('israelhayom', 'Israel Hayom', 'https://www.israelhayom.com/', 'The English edition of the Israeli daily Israel Hayom.')]
+       ('israelhayom', 'Israel Hayom', 'https://www.israelhayom.com/', 'The English edition of the Israeli daily Israel Hayom.'),
+       ('jta', 'JTA', 'https://www.jta.org/', 'The Jewish Telegraphic Agency, a global Jewish news service founded in 1917, covering Israel and Jewish communities worldwide.'),
+       ('inn', 'Israel National News', 'https://www.israelnationalnews.com/', 'Arutz Sheva, a news outlet with English, Hebrew and other editions, reporting from a religious Zionist perspective.')]
 SRCNAME = {a: b for a, b, _, _ in SRC}
 SECKEY = {'/charts/': 'charts', '/images/': 'media', '/maps/': 'maps', '/timelines/': 'timelines', '/tables/': 'charts', '/demographics/': 'charts', '/rankings/': 'charts', '/top-ten/': 'charts', '/size/': 'charts', '/tour/': 'media', '/flora/': 'media'}
 def sec_groups(sk):
