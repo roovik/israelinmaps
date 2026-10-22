@@ -595,6 +595,20 @@ async function voiceApi(url, env) {
         const j = await r.json();
         if (diag) diag.push({ search: v.q, status: r.status, error: j.error ? j.error.message : '' });
         sv.list = (j.items || []).filter(x => x.id && x.id.videoId && ((x.snippet.title + ' ' + x.snippet.description).toLowerCase().includes(v.q.split(' ').slice(-1)[0].toLowerCase()))).map(x => ({ v: x.id.videoId, t: decode(x.snippet.title), d: x.snippet.publishedAt, x: (x.snippet.description || '').slice(0, 200), n: decode(x.snippet.channelTitle || ''), guest: 1 }));
+        if (!sv.list.length && j.error) {
+          // quota gone: read the public results page instead (no quota), newest first
+          try {
+            const rr = await fetch('https://www.youtube.com/results?sp=CAI%253D&search_query=' + encodeURIComponent('"' + v.q + '"' + (v.qs != null ? v.qs : ' Israel interview')), { headers: YT_UA });
+            const html = await rr.text(); const last = v.q.split(' ').slice(-1)[0].toLowerCase();
+            const ago = t => { const m = /(\d+)\s+(minute|hour|day|week|month|year)/.exec(t || ''); if (!m) return ''; const u = { minute: 6e4, hour: 36e5, day: 864e5, week: 6048e5, month: 2592e6, year: 31536e6 }[m[2]]; return new Date(Date.now() - m[1] * u).toISOString(); };
+            const out = [];
+            for (const m of html.matchAll(/"videoRenderer":\{"videoId":"([\w-]{11})"[\s\S]*?"title":\{"runs":\[\{"text":"((?:[^"\\]|\\.)*)"[\s\S]*?(?:"publishedTimeText":\{"simpleText":"([^"]*)")?[\s\S]*?"ownerText":\{"runs":\[\{"text":"((?:[^"\\]|\\.)*)"/g)) {
+              const t = decode(JSON.parse('"' + m[2] + '"')); if (!t.toLowerCase().includes(last)) continue;
+              out.push({ v: m[1], t, d: ago(m[3]), x: '', n: decode(JSON.parse('"' + m[4] + '"')), guest: 1 }); if (out.length >= 12) break;
+            }
+            sv.list = out; if (diag) diag.push({ scrape: rr.status, bytes: html.length, found: out.length });
+          } catch (e) { if (diag) diag.push({ scrape: String(e) }); }
+        }
         if (sv.list.length) await memPut(sk, sv, 72 * 3600);
       } catch (e) { if (diag) diag.push({ search: v.q, error: String(e) }); }
     }
