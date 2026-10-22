@@ -1193,3 +1193,4 @@ table.pp input,table.pp select{font:inherit;padding:3px 5px;border:1px solid #cf
 @media (min-width:901px){.newspage>.newsside{margin-top:calc(-1*var(--pull,0px) - 1px)!important}.bar .rcol .sf button{height:25px!important}.bar .rcol .acct .subbtn{height:25px!important;line-height:25px;padding-top:0!important;padding-bottom:0!important}}
 @media (min-width:901px){.bar .rcol .sf button{height:24px!important}}
 .newsside .alist li.asub a{color:var(--wl)!important;text-decoration:none}.newsside .alist li.asub a:hover{text-decoration:underline}
+@media (min-width:641px){.ffilter>select,.ffilter>input,.ffilter>button,.ffilter>.cdd,.ffilter .cdd-b,.mfilters select,.srt select{height:34px!important;min-height:34px;box-sizing:border-box;align-self:center}.ffilter .cdd{display:flex}.ffilter .cdd-b{display:flex;align-items:center;justify-content:center}}

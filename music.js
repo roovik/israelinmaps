@@ -9,7 +9,7 @@
   function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
   gs.innerHTML=GENRES.map(function(t){return'<option value="'+t[0]+'">'+esc(t[1])+'</option>'}).join('');
   function fillArtists(){var g=gs.value,cur=as.value,list=ARTISTS.filter(function(a){return!g||(AG[a]||'').split(' ').indexOf(g)>-1});
-    as.innerHTML='<option value="">All musicians'+(g?' in this genre':'')+'</option>'+list.map(function(a){return'<option>'+esc(a)+'</option>'}).join('');as.value=list.indexOf(cur)>-1?cur:''}
+    as.innerHTML='<option value="">'+(g?esc(gs.options[gs.selectedIndex].textContent)+' musicians':'All musicians')+'</option>'+list.map(function(a){return'<option>'+esc(a)+'</option>'}).join('');as.value=list.indexOf(cur)>-1?cur:''}
   fillArtists();
   var seq=0;
   function load(){
