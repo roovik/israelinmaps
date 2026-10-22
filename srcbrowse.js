@@ -28,11 +28,12 @@
   function render(it,d,t){
     var A=d.articles||[],V=d.videos||[],P=d.podcasts||[],html='';
     head.innerHTML='<h2 class="sbname">'+esc(it.name)+'</h2><a class="small" href="'+esc(it.profile)+'">Full profile</a>'+(it.bio?'<p class="sbbio">'+esc(it.bio)+'</p>':'');
-    var base='#s='+it.id,tl=[['','All']];if(A.length)tl.push(['articles','Articles']);if(V.length)tl.push(['videos','Videos']);if(P.length)tl.push(['podcasts','Podcasts']);
+    var base='#s='+it.id,tl=[['','All']];if(A.length)tl.push(['articles','Articles']);if(V.length)tl.push(['videos','Videos']);if(P.length||it.pod)tl.push(['podcasts','Podcasts']);
     tabs.innerHTML=tl.map(function(x){return'<a href="'+base+(x[0]?'&t='+x[0]:'')+'"'+(x[0]===t?' aria-current="page"':'')+'>'+x[1]+'</a>'}).join('');tabs.hidden=tl.length<2;
     if(!t||t==='articles')if(A.length)html+='<section id="m-articles"><h2>Articles</h2><ul class="vlist2">'+A.slice(0,t?40:12).map(function(a){return'<li><a href="'+esc(a.u)+'"'+(a.ext?' rel="noopener" target="_blank"':'')+'><b>'+esc(a.t)+'</b></a><span class="wm">'+esc(a.s||'')+(a.d?' · '+when(a.d):'')+'</span></li>'}).join('')+'</ul></section>';
     if(!t||t==='videos')if(V.length)html+='<section id="m-videos"><h2>Videos</h2><div class="vtop" id="sb-player" hidden></div><ul class="vclips">'+V.slice(0,t?30:8).map(function(x){return'<li><button type="button" class="vclip" data-v="'+esc(x.v)+'"><img src="https://i.ytimg.com/vi/'+esc(x.v)+'/mqdefault.jpg" alt="" width="320" height="180" loading="lazy"><span><b>'+esc(x.t)+'</b><i>'+esc(x.n||it.name)+(x.d?' · '+when(x.d):'')+'</i></span></button></li>'}).join('')+'</ul></section>';
     if(!t||t==='podcasts')if(P.length)html+='<section id="m-podcasts"><h2>Podcasts</h2><ul class="vlist2">'+P.slice(0,t?30:8).map(function(a){return'<li><div><a href="'+esc(a.u)+'" rel="noopener" target="_blank"><b>'+esc(a.t)+'</b></a><span class="wm">'+esc(it.name)+(a.d?' · '+when(a.d):'')+'</span>'+(a.a?'<audio controls preload="none" src="'+esc(a.a)+'"></audio>':'')+'</div></li>'}).join('')+'</ul></section>';
+    if((!t||t==='podcasts')&&!P.length&&it.pod)html+='<section id="m-podcasts"><h2>Podcasts</h2><p>'+esc(it.name)+' has a podcast. Episodes could not be loaded just now. Please try again soon.</p></section>';
     if(!html)html='<p>'+(d.failed?'This source could not load just now. Please try again soon.':'No recent articles, videos or podcasts from this source were found. Check back soon.')+'</p>';
     out.innerHTML=html}
   var seq=0;
