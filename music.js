@@ -8,7 +8,7 @@
   as.innerHTML='<option value="">All musicians</option>'+ARTISTS.map(function(a){return'<option>'+esc(a)+'</option>'}).join('');
   var seq=0;
   function load(){
-    var my=++seq;grid.innerHTML='';st.textContent='Searching…';
+    var my=++seq;grid.innerHTML='';st.textContent='Filtering…';
     fetch('/api/music?genre='+encodeURIComponent(gs.value)+'&artist='+encodeURIComponent(as.value)+'&q='+encodeURIComponent(inp.value.trim())).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){
       if(my!==seq)return;
       if(d.error==='nokey'){st.textContent='Music search needs the YouTube key to be switched on for this site.';return}
