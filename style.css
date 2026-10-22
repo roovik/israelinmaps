@@ -1170,3 +1170,5 @@ h1.nowbar b,h1.nowbar .nsep{color:inherit}
 .stage-list .sitem .stx b,.stage-list .sitem.on .stx b,.pgrid .sitem .stx b{color:color-mix(in srgb,var(--sec,#1f62c4) 70%,#000)!important}
 .stage-list .sitem.on .stx b{color:var(--sec,#1f62c4)!important}
 .fnav{display:flex!important;flex-direction:column}.fnav>.fsrc{order:-1;margin-bottom:8px!important}.fnav>.ffilter{order:1}
+.newspage h1,.newsmain h1{color:color-mix(in srgb,var(--sec,#1f62c4) 62%,#fff)}
+.newspage article h1,.fitem h1{color:inherit}

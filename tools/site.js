@@ -125,3 +125,12 @@ window.IMNow=function(label,a,b){var h=document.querySelector('.newsmain h1');if
   if(!label){h.innerHTML=h._orig;h.classList.remove('nowbar');return}
   var e=function(x){return String(x==null?'':x).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})};
   h.innerHTML='<b>'+e(label)+':</b> '+e(a)+(b?' <span class="nsep">\u00b7</span> '+e(b):'');h.classList.add('nowbar')};
+
+/* desktop: logo centred over the News tab, headline ticker starts at the Views tab's left edge */
+(function(){function al(){var bar=document.querySelector('header.top .bar'),br=bar&&bar.querySelector('.brand'),tk=bar&&bar.querySelector('.ticker'),nv=document.querySelectorAll('header.top nav.wrap>a');if(!bar||!br||nv.length<2)return;
+  if(innerWidth<901){br.style.marginLeft='';if(tk)tk.style.marginLeft='';return}
+  br.style.marginLeft='0px';if(tk)tk.style.marginLeft='0px';
+  var b=bar.getBoundingClientRect(),n=nv[0].getBoundingClientRect(),v=nv[1].getBoundingClientRect(),w=br.getBoundingClientRect().width;
+  var ml=Math.max(0,n.left+n.width/2-w/2-b.left-parseFloat(getComputedStyle(bar).paddingLeft||0));br.style.marginLeft=ml+'px';
+  if(tk){var r=br.getBoundingClientRect();tk.style.marginLeft=Math.max(0,v.left-r.right)+'px'}}
+  addEventListener('resize',al);addEventListener('load',al);document.addEventListener('DOMContentLoaded',al);setTimeout(al,300);setTimeout(al,1200)})();
