@@ -995,3 +995,5 @@ header.top{margin-bottom:0!important}main#main{padding-top:5px!important;margin-
 .srow select{font:inherit;font-size:12px;font-weight:400;max-width:120px;padding:5px 4px;border:1px solid #cbd;border-radius:6px;background:#fff;color:var(--secd,#223)}
 .srow input{flex:1;min-width:0;font:inherit;font-size:13px;padding:6px 8px;border:1px solid #cbd;border-radius:6px}
 @media(max-width:520px){.srow{gap:5px}.srow select{max-width:92px}.srow label{font-size:11px}}
+.srow select#s-by,.ffilter #ff-b{max-width:130px}
+.nmeta .by{margin-left:6px;font-style:italic}

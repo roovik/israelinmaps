@@ -125,6 +125,13 @@ function image(block) {
   if (!u) { const m = raw.match(/<img\b[^>]*\ssrc=["']([^"']+)["']/i); if (m) u = decode(m[1]); }
   return /^https?:\/\//i.test(u) ? u : '';
 }
+function byline(b, link) {
+  let by = text(tag(b, 'dc:creator') || tag(b, 'author'));
+  by = by.replace(/^\S+@\S+\s*\((.*)\)$/, '$1').replace(/^by\s+/i, '').trim();
+  if (!by || by.length > 60 || /^(staff|editors?|admin|news desk|jpost.*)$/i.test(by)) by = '';
+  if (!by) { const m = link.match(/jpost\.com\/blogs\/([a-z0-9-]+)\//i); if (m) by = m[1].split('-').map(w => w[0].toUpperCase() + w.slice(1)).join(' '); }
+  return by;
+}
 function parse(xml, feed) {
   const items = [];
   const re = /<(item|entry)\b[\s\S]*?<\/\1>/gi;
@@ -145,7 +152,8 @@ function parse(xml, feed) {
     const best = clean(full.length > short.length ? full : short, title, 5) || clean(short, title, 5);
     const am = b.match(/<enclosure\b[^>]*>/i); let au = ''; if (am && (/type="audio/i.test(am[0]) || /\.(mp3|m4a|aac)(\?|")/i.test(am[0]))) { const x = am[0].match(/url="([^"]+)"/i); if (x) au = decode(x[1]); }
     const du = au ? text(tag(b, 'itunes:duration')) : '';
-    items.push({ ...(au ? { a: au, du } : {}), s: feed.id, src: feed.name, t: title, u: link, k: hashId(link), d: t && !isNaN(t) && t.getFullYear() >= 2005 ? t.toISOString() : null, x: blurb(short, title), i: image(b), f: best ? words100(best) : '' });
+    const by = byline(b, link);
+    items.push({ ...(by ? { by } : {}), ...(au ? { a: au, du } : {}), s: feed.id, src: feed.name, t: title, u: link, k: hashId(link), d: t && !isNaN(t) && t.getFullYear() >= 2005 ? t.toISOString() : null, x: blurb(short, title), i: image(b), f: best ? words100(best) : '' });
   }
   return items;
 }
