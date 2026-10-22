@@ -2,7 +2,7 @@
 (function(){
   var root=document.getElementById('sb');if(!root)return;
   var cfg=JSON.parse(document.getElementById('sb-data').textContent),items=cfg.items,by={};items.forEach(function(x){by[x.id]=x});
-  var PATH=location.pathname,KIND=PATH.indexOf('/influencers')>-1?'influencers':PATH.indexOf('/organizations')>-1?'organizations':'publications';var ALL={id:'all',name:'All '+KIND,profile:'/sources/',bio:''};by.all=ALL;
+  var PATH=location.pathname,KIND=PATH.indexOf('/influencers')>-1?'influencers':PATH.indexOf('/organizations')>-1?'organizations':'publications';var SING=KIND==='influencers'?'Influencer':KIND==='organizations'?'Organization':'Publication';var ALL={id:'all',name:'All '+KIND,profile:'/sources/',bio:''};by.all=ALL;
   var pick=document.getElementById('sb-pick'),head=document.getElementById('sb-head'),tabs=document.getElementById('sb-tabs'),out=document.getElementById('sb-out');
   function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
   function when(d){if(!d)return'';var t=new Date(d);if(isNaN(t))return'';return t.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}
@@ -44,7 +44,7 @@
   function player(){var p=document.getElementById('sb-player');return p}
   function render(it,d,t){
     var A=applyFS(d.articles||[],function(x){return x.t},function(x){return x.d}),V=applyFS(d.videos||[],function(x){return x.t},function(x){return x.d}),P=applyFS(d.podcasts||[],function(x){return x.t},function(x){return x.d}),html='';last=[it,d,t];
-    head.innerHTML='<h2 class="sbname">'+esc(it.name)+'</h2>'+(it.id==='all'?'':'<a class="small" href="#s=all" data-back="1">All '+KIND+'</a> · <a class="small" href="'+esc(it.profile)+'">Full profile</a>')+(it.bio?'<p class="sbbio">'+esc(it.bio)+'</p>':'');
+    head.innerHTML='<h2 class="sbname">'+(it.id==='all'?'':'Sources: '+SING+': ')+esc(it.name)+'</h2>'+(it.bio?'<p class="sbbio">'+esc(it.bio)+'</p>':'')+(it.id==='all'?'':'<p class="sblinks"><a class="small" href="#s=all" data-back="1">All '+KIND+'</a> · <a class="small" href="#sb-more" data-more="1">More NOWlej about '+esc(it.name)+'</a></p>');
     var base='#s='+it.id,tl=[['','All']];if(A.length)tl.push(['articles','Articles']);if(V.length)tl.push(['videos','Videos']);if(P.length||it.pod)tl.push(['podcasts','Podcasts']);
     tabs.innerHTML=tl.map(function(x){return'<a href="'+base+(x[0]?'&t='+x[0]:'')+'"'+(x[0]===t?' aria-current="page"':'')+'>'+x[1]+'</a>'}).join('');tabs.hidden=tl.length<2;
     if(!t||t==='articles')if(A.length)html+='<section id="m-articles"><h2>Articles</h2><ul class="vlist2 sbarts">'+A.slice(0,t?40:12).map(function(a){var h;try{h=new URL(a.o||a.u,location.href).hostname}catch(e){h=''}var im=a.i||(h&&h!==location.hostname?'https://www.google.com/s2/favicons?sz=128&domain='+h:'');var th=im?'<a class="athl'+(a.i?'':' fav')+'" href="'+esc(a.u)+'"'+(a.ext?' rel="noopener" target="_blank"':'')+' tabindex="-1"><img class="athumb" src="'+esc(im)+'" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.parentNode.remove()"></a>':'';return'<li class="'+(th?'hasimg':'')+'">'+th+'<div><a href="'+esc(a.u)+'"'+(a.ext?' rel="noopener" target="_blank"':'')+'><b>'+esc(a.t)+'</b></a><span class="wm">'+esc(a.s||'')+(a.d?' · '+when(a.d):'')+'</span></div></li>'}).join('')+'</ul></section>';
@@ -52,7 +52,19 @@
     if(!t||t==='podcasts')if(P.length)html+='<section id="m-podcasts"><h2>Podcasts</h2><ul class="vlist2">'+P.slice(0,t?30:8).map(function(a){return'<li><div><a href="'+esc(a.u)+'" rel="noopener" target="_blank"><b>'+esc(a.t)+'</b></a><span class="wm">'+esc(a.n||it.name)+(a.d?' · '+when(a.d):'')+'</span>'+(a.a?'<audio controls preload="none" src="'+esc(a.a)+'"></audio>':'')+'</div></li>'}).join('')+'</ul></section>';
     if((!t||t==='podcasts')&&!P.length&&it.pod)html+='<section id="m-podcasts"><h2>Podcasts</h2><p>'+esc(it.name)+' has a podcast. Episodes could not be loaded just now. Please try again soon.</p></section>';
     if(!html)html='<p>'+(d.failed?'This source could not load just now. Please try again soon.':'No recent articles, videos or podcasts from this source were found. Check back soon.')+'</p>';
-    out.innerHTML=html}
+    out.innerHTML=html+moreHtml(it);if(it.id!=='all'&&!VJ)vp.then(function(){if(last&&last[0]===it){var m=document.getElementById('sb-more');if(m)m.outerHTML=moreHtml(it)}})}
+  var VJ=null,vp=jget('/voices.json').then(function(j){VJ=j}).catch(function(){});
+  function origin(u){try{return new URL(u).origin}catch(e){return ''}}
+  function moreHtml(it){if(it.id==='all')return'';
+    var v=VJ&&(VJ.voices||[]).filter(function(x){return x.id===it.id})[0]||{},rows=[];
+    rows.push('<li><b>On NOWlej</b> <a href="'+esc(it.profile)+'">Full profile of '+esc(it.name)+'</a></li>');
+    var site=v.site||(DOMS[it.id]?'https://'+DOMS[it.id]+'/':'');if(site)rows.push('<li><b>Website</b> <a href="'+esc(site)+'" rel="noopener" target="_blank">'+esc(site.replace(/^https?:\/\/(www\.)?/,'').replace(/\/$/,''))+'</a> (external site)</li>');
+    var bl=[];(v.blog||[]).forEach(function(b){var u=typeof b==='string'?b:(b&&(b.u||b.url))||'',o=origin(u);if(o&&bl.indexOf(o)<0)bl.push(o)});
+    bl.forEach(function(o){rows.push('<li><b>Writing</b> <a href="'+esc(o)+'" rel="noopener" target="_blank">'+esc(o.replace(/^https?:\/\/(www\.)?/,''))+'</a> (external site)</li>')});
+    if((v.pods&&v.pods.length)||it.pod)rows.push('<li><b>Podcast</b> Episodes are listed under Podcasts above.</li>');
+    if((v.yt&&v.yt.length)||it.video)rows.push('<li><b>Video</b> Videos are listed under Videos above and play on this site.</li>');
+    rows.push('<li><b>Contact</b> No public contact details are listed yet. <a href="/contact/">Send us a correction or contact</a>.</li>');
+    return'<section id="sb-more" class="sbmore"><h2>More NOWlej about '+esc(it.name)+'</h2><ul>'+rows.join('')+'</ul></section>'}
   var seq=0;
   function showAll(){last=null;pick.hidden=false;tabs.hidden=true;out.innerHTML='';var q=qEl.value.trim().toLowerCase(),n=0,s=sortEl.value,as=[].slice.call(pick.children);
     as.sort(function(a,b){var x=by[a.getAttribute('data-s')],y=by[b.getAttribute('data-s')];if(!x||!y)return 0;return s==='old'?0:lbl(x).toLowerCase().localeCompare(lbl(y).toLowerCase())}).forEach(function(a){pick.appendChild(a)});
@@ -68,7 +80,7 @@
   selEl.addEventListener('change',function(){var s=selEl.value;try{history.replaceState(null,'','#s='+s)}catch(x){location.hash='s='+s}route(true)});
   sortEl.addEventListener('change',function(){if(last)render(last[0],last[1],last[2]);else if(selEl.value==='all')showAll()});
   ctl.addEventListener('submit',function(e){e.preventDefault();if(last)render(last[0],last[1],last[2]);else if(selEl.value==='all')showAll()});qEl.addEventListener('input',function(){if(last)render(last[0],last[1],last[2]);else if(selEl.value==='all')showAll()});
-  head.addEventListener('click',function(e){var a=e.target.closest('[data-back]');if(!a)return;e.preventDefault();try{history.replaceState(null,'','#s=all')}catch(x){}route(true)});
+  head.addEventListener('click',function(e){var mo=e.target.closest('[data-more]');if(mo){e.preventDefault();var m=document.getElementById('sb-more');if(m)m.scrollIntoView({behavior:'smooth',block:'start'});return}var a=e.target.closest('[data-back]');if(!a)return;e.preventDefault();try{history.replaceState(null,'','#s=all')}catch(x){}route(true)});
   out.addEventListener('click',function(e){var b=e.target.closest('.vclip');if(!b)return;var p=player();p.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/'+encodeURIComponent(b.getAttribute('data-v'))+'?rel=0&autoplay=1&mute=1&playsinline=1" title="Video player" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen loading="lazy"></iframe>';p.hidden=false;p.scrollIntoView({behavior:'smooth',block:'center'})});
   pick.addEventListener('click',function(e){var a=e.target.closest('a');if(!a)return;e.preventDefault();var s=a.getAttribute('data-s');try{history.replaceState(null,'','#s='+s)}catch(x){location.hash='s='+s}route(true)});
   window.addEventListener('hashchange',function(){route(true)});route(/[#&]s=/.test(location.hash));

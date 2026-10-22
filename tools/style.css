@@ -1061,3 +1061,10 @@ header.top nav.wrap{width:auto;max-width:none;margin-left:max(16px,calc((100% - 
 .ftext{font-size:1.15rem;line-height:1.6;max-width:none;width:100%}
 #src-count{display:none!important}
 .srctabs,#src-tabs{margin-left:auto!important;margin-right:auto!important}
+#sb-head,#sb-head .sbname{text-align:center}
+#sb-head .sbbio{max-width:62ch;margin:.3rem auto .5rem}
+#sb-head .sblinks{margin:.2rem 0 .6rem}
+#sb-tabs{display:flex;justify-content:center;margin-left:auto;margin-right:auto}
+.sbmore{margin-top:2rem;padding-top:1rem;border-top:1px solid var(--line,#d8d4c8)}
+.sbmore ul{list-style:none;padding:0;margin:0}.sbmore li{padding:6px 0;border-bottom:1px solid var(--line,#e6e1d4)}.sbmore li b{display:inline-block;min-width:6rem}
+#sb-head.sbhead{display:block}
