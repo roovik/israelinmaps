@@ -4,6 +4,7 @@
   var gs=document.getElementById('mgenre'),as=document.getElementById('martist'),form=document.getElementById('mform'),inp=document.getElementById('mq'),grid=document.getElementById('mgrid'),st=document.getElementById('mstatus'),pl=document.getElementById('mplayer');
   if(!gs)return;
   var sw=document.createElement('label');sw.className='srt';sw.innerHTML='Sort<select id="msort" aria-label="Sort">'+IMSort.opts([['','Relevance'],['date','Newest first'],['viewCount','Most viewed'],['az','Title A to Z'],['src','Musician A to Z'],['rand','Random']])+'</select>';sw.className='';var mf0=document.querySelector('.mfilters');mf0.appendChild(sw);mf0.classList.add('m3');var so=document.getElementById('msort');so.addEventListener('change',function(){load()});
+  (function(){var mf=document.querySelector('.mfilters');if(!mf||!form)return;form.className='ffilter';[gs,as,document.getElementById('msort')].forEach(function(x){if(x)form.insertBefore(x,inp)});mf.hidden=true;inp.placeholder='Keyword'})();
   function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
   gs.innerHTML=GENRES.map(function(t){return'<option value="'+t[0]+'">'+esc(t[1])+'</option>'}).join('');
   as.innerHTML='<option value="">All musicians</option>'+ARTISTS.map(function(a){return'<option>'+esc(a)+'</option>'}).join('');

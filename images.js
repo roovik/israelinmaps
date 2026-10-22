@@ -4,6 +4,7 @@
   if(!bar||!grid)return;
   function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
   var sel=document.getElementById('isel'),inp=document.getElementById('iq');
+  (function(){var fm=document.getElementById('iform');if(!fm||!sel)return;var lb=sel.parentNode;fm.className='ffilter';fm.insertBefore(sel,inp);if(lb&&lb.tagName==='LABEL')lb.hidden=true;inp.placeholder='Keyword'})();
   sel.innerHTML=TAGS.map(function(t){return'<option value="'+t[0]+'">'+esc(t[1])+'</option>'}).join('');
   var S={tag:'',q:'',o:0,busy:false};
   function parse(){var h=location.hash.replace(/^#/,''),p=new URLSearchParams(h);S.tag=p.get('tag')||'';S.q=p.get('q')||''}
