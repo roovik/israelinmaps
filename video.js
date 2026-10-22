@@ -67,20 +67,21 @@
       var YTC={'1':'Film & Animation','2':'Autos & Vehicles','10':'Music','15':'Pets & Animals','17':'Sports','19':'Travel & Events','20':'Gaming','22':'People & Blogs','23':'Comedy','24':'Entertainment','25':'News & Politics','26':'Howto & Style','27':'Education','28':'Science & Technology','29':'Nonprofits & Activism'};
       var present={};all.forEach(function(v){if(v.cat&&YTC[v.cat])present[v.cat]=1});
       var bar=document.createElement('div');bar.className='vfbar';
-      bar.innerHTML='<div class="mfilters"><label>Genre<select id="vf-g"><option value="">All genres</option><optgroup label="Genre">'+GEN.map(function(g){return'<option value="g:'+g[0]+'">'+g[1]+'</option>'}).join('')+'</optgroup>'+(Object.keys(present).length?'<optgroup label="YouTube category">'+Object.keys(present).sort(function(a,b){return YTC[a]<YTC[b]?-1:1}).map(function(k){return'<option value="c:'+k+'">'+YTC[k]+'</option>'}).join('')+'</optgroup>':'')+'</select></label><label>Channel<select id="vf-c"><option value="">All channels</option>'+chs.map(function(c){return'<option value="'+esc(sl(c))+'">'+esc(c.name)+'</option>'}).join('')+'</select></label></div><form class="imgbar" id="vf-f" role="search"><input id="vf-q" type="search" placeholder="keyword(s)" aria-label="Keyword"><button>Filter</button></form><p class="small" id="vf-n" role="status"></p>';
+      bar.innerHTML='<div class="mfilters"><label>Genre<select id="vf-g"><option value="">All genres</option><optgroup label="Genre">'+GEN.map(function(g){return'<option value="g:'+g[0]+'">'+g[1]+'</option>'}).join('')+'</optgroup>'+(Object.keys(present).length?'<optgroup label="YouTube category">'+Object.keys(present).sort(function(a,b){return YTC[a]<YTC[b]?-1:1}).map(function(k){return'<option value="c:'+k+'">'+YTC[k]+'</option>'}).join('')+'</optgroup>':'')+'</select></label><label>Channel<select id="vf-c"><option value="">All channels</option>'+chs.map(function(c){return'<option value="'+esc(sl(c))+'">'+esc(c.name)+'</option>'}).join('')+'</select></label></div><form class="imgbar" id="vf-f" role="search"><input id="vf-q" type="search" placeholder="keyword(s)" aria-label="Keyword"><button>Filter</button></form><label class="srt">Sort<select id="vf-s" aria-label="Sort">'+IMSort.opts([['','Default'],['new','Newest first'],['old','Oldest first'],['src','Channel A to Z'],['az','Title A to Z'],['rand','Random']])+'</select></label><p class="small" id="vf-n" role="status"></p>';
       root.parentNode.insertBefore(bar,root);
       var gs=document.getElementById('vf-g'),cs=document.getElementById('vf-c'),qi=document.getElementById('vf-q'),nn=document.getElementById('vf-n');
       function run(){
         var g=gs.value,c=cs.value,q=qi.value.trim().toLowerCase();
-        if(!g&&!c&&!q){root.innerHTML=orig;nn.textContent='';return}
+        var sk=document.getElementById('vf-s').value;if(!g&&!c&&!q&&!sk){root.innerHTML=orig;nn.textContent='';return}
         var list=all.filter(function(v){
           if(c&&v.c!==c)return false;
           if(g){var k=g.slice(2);if(g[0]==='c'){if(v.cat!==k)return false}else{var re=GEN.filter(function(x){return x[0]===k})[0][2];if(!re.test(v.t+' '+(v.x||'')+' '+(v.n||'')))return false}}
           if(q&&(v.t+' '+(v.x||'')+' '+(v.n||'')).toLowerCase().indexOf(q)<0)return false;
           return true});
+        if(sk)list=IMSort.apply(list,sk,{date:function(x){return x.d},title:function(x){return x.t},src:function(x){return x.n}});
         nn.textContent=list.length+(list.length===1?' video':' videos');
         root.innerHTML=list.length?'<div class="tgrid">'+list.slice(0,60).map(card).join('')+'</div>':'<p>No videos match. Try another genre, channel or keyword.</p>'}
-      gs.addEventListener('change',run);cs.addEventListener('change',run);document.getElementById('vf-f').addEventListener('submit',function(e){e.preventDefault();run()});qi.addEventListener('input',run)
+      gs.addEventListener('change',run);cs.addEventListener('change',run);document.getElementById('vf-s').addEventListener('change',run);document.getElementById('vf-f').addEventListener('submit',function(e){e.preventDefault();run()});qi.addEventListener('input',run)
     }
     function listText(title,vs,chkey,cur){var L=document.getElementById('vid-list');if(!L)return;
       var pls=chkey?(d.playlists||[]).filter(function(x){return x.channel===chkey}):[];

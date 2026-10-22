@@ -719,13 +719,14 @@ async function musicApi(url, env, ctx) {
   let terms = parts.join(' ') || 'Israeli music';
   if (!artist && !/israel|hebrew|jewish|klezmer/i.test(terms)) terms += ' Israeli';
   terms += ' music video';
+  const order = ['date', 'viewCount'].includes(url.searchParams.get('order')) ? url.searchParams.get('order') : '';
   if (!env.YT_KEY) return new Response(JSON.stringify({ items: [], error: 'nokey' }), { headers: { ...hdr, 'Cache-Control': 'no-store' } });
-  const ck = new Request('https://cache.local/music/' + encodeURIComponent(terms));
+  const ck = new Request('https://cache.local/music/' + order + '/' + encodeURIComponent(terms));
   const hit = await caches.default.match(ck); if (hit) return new Response(hit.body, { headers: hdr });
   const dec = t => String(t || '').replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>');
   let out;
   try {
-    const r = await fetch('https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=24&safeSearch=moderate&type=video&videoCategoryId=10&q=' + encodeURIComponent(terms) + '&key=' + env.YT_KEY, { cf: { cacheTtl: 21600, cacheEverything: true } });
+    const r = await fetch('https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=24&safeSearch=moderate&type=video&videoCategoryId=10' + (order ? '&order=' + order : '') + '&q=' + encodeURIComponent(terms) + '&key=' + env.YT_KEY, { cf: { cacheTtl: 21600, cacheEverything: true } });
     const j = await r.json(); if (!r.ok || j.error) return new Response(JSON.stringify({ items: [], error: 'youtube' }), { headers: { ...hdr, 'Cache-Control': 'no-store' } });
     out = { items: (j.items || []).map(x => ({ id: x.id.videoId, t: dec(x.snippet.title), a: dec(x.snippet.channelTitle), img: ((x.snippet.thumbnails || {}).medium || (x.snippet.thumbnails || {}).default || {}).url || '' })).filter(x => x.id) };
   } catch { return new Response(JSON.stringify({ items: [], error: 'upstream' }), { status: 502, headers: { ...hdr, 'Cache-Control': 'no-store' } }); }
