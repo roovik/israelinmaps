@@ -1153,7 +1153,7 @@ body p.az#gaz,body #gaz{display:none!important}
 .amain .aart .sph{font-size:3rem}
 .amain .ameta{margin:8px 0}.amain .ameta b{display:block;font-size:1.1rem}.amain .ameta span{font-size:.85rem;color:var(--mut,#667)}
 .amain audio{width:100%;margin-top:4px}.amain .adesc{font-size:.9rem;line-height:1.5}
-#a-shows,.apick,#a-top{display:none!important}
+#a-shows,#a-top,body:has(#a-sel) .apick{display:none!important}
 @media (max-width:900px){.stage{grid-template-columns:1fr}.stage-list{max-height:420px}}
 .sitem.pcard{border:0!important;box-shadow:none!important;border-radius:0}
 .pmore h2{font-size:1.05rem;margin:18px 0 8px}
