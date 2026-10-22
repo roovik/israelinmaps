@@ -593,7 +593,7 @@ def gl_page(g):
     srcs_ = f'<li>The book <i>Israel NOWlej</i> by Richard J. Koret, glossary, page {g["pg"]}.</li>' if g['pg'] else '<li>Written for this site from standard reference works on the ancient Near East.</li>'
     _c = CUR.get('wikipedia', {}).get(sl)
     if _c: srcs_ += f'<li>Text adapted in part from <a href="{E(_c["url"])}" rel="noopener">{E(_c["article"])}</a> (revision {_c["rev"]}), <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="noopener">CC BY-SA 4.0</a>.</li>'
-    body = f"""<article class="gl"><header class="ih"><span class="id">NOWlej · {f'book page {g["pg"]}' if g['pg'] else 'site entry'}</span><h1>{E(g["title"])} {he}</h1><p class="meta">{cat}</p></header>
+    body = f"""<article class="gl"><header class="ih"><h1>{E(g["title"])} {he}</h1><p class="meta">{cat}</p></header>
 <p class="lead edef" id="e-def">{b}<a class="econt" href="#e-summary"{'' if CUR.get('wikipedia', {}).get(sl) else ' hidden'}>Continue &#9656;</a></p>
 <nav class="esec" id="esec" aria-label="On this page"><a href="#e-images" data-s="e-images" hidden>Images</a><a href="#e-video" data-s="e-video" hidden>Video</a><a href="#e-summary" data-s="e-summary"{'' if CUR.get('wikipedia', {}).get(sl) else ' hidden'}>More NOWlej</a><a href="#e-related">Related</a><a href="#e-sources">Sources</a></nav>
 <section id="e-images" hidden data-name="{E(wk) if wk else ''}"{(" data-files='" + E(json.dumps(CUR.get('images', {}).get(sl, []))).replace("'", "&#39;") + "'") if CUR.get('images', {}).get(sl) else ''}><div class="egal" id="e-gal"></div><p class="small">Photographs from Wikimedia Commons. Click an image to enlarge it. Author and license are shown with each.</p></section>
