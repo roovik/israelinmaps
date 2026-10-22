@@ -6,6 +6,9 @@
   if(!gs)return;
   var sw=document.createElement('label');sw.className='srt';sw.innerHTML='Sort<select id="msort" aria-label="Sort">'+IMSort.opts([['','Relevance'],['date','Newest first'],['viewCount','Most viewed'],['az','Title A to Z'],['src','Musician A to Z'],['rand','Random']])+'</select>';sw.className='';var mf0=document.querySelector('.mfilters');mf0.appendChild(sw);mf0.classList.add('m3');var so=document.getElementById('msort');so.addEventListener('change',function(){load()});
   (function(){var mf=document.querySelector('.mfilters');if(!mf||!form)return;form.className='ffilter';[gs,as,document.getElementById('msort')].forEach(function(x){if(x)form.insertBefore(x,inp)});mf.hidden=true;inp.placeholder='Keyword'})();
+  var stage=document.createElement('div');stage.className='stage';stage.hidden=true;var sm=document.createElement('div');sm.className='stage-main';var sl=document.createElement('ul');sl.className='stage-list';sl.id='mlist';
+  grid.parentNode.insertBefore(stage,grid);stage.appendChild(sm);stage.appendChild(sl);sm.appendChild(pl);
+  var IT=[],curId='';
   function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
   gs.innerHTML=GENRES.map(function(t){return'<option value="'+t[0]+'">'+esc(t[1])+'</option>'}).join('');
   function fillArtists(){var g=gs.value,cur=as.value,list=ARTISTS.filter(function(a){return!g||(AG[a]||'').split(' ').indexOf(g)>-1});
@@ -19,15 +22,18 @@
       if(d.error==='nokey'){st.textContent='Music search needs the YouTube key to be switched on for this site.';return}
       if(d.error){st.textContent='The music search is not available right now. Please try again shortly.';return}
       var it=d.items||[];if(so.value==='az'||so.value==='src'||so.value==='rand')it=IMSort.apply(it,so.value,{date:function(){return 0},title:function(x){return x.t},src:function(x){return x.a}});grid.innerHTML=it.map(function(x){return'<figure class="ifig msong"><button type="button" class="mplay" data-y="'+esc(x.id)+'" aria-label="Play '+esc(x.t)+'">'+(x.img?'<img src="'+esc(x.img)+'" alt="" loading="lazy">':'')+'<span class="pbtn">&#9654;</span></button><figcaption><b>'+esc(x.t)+'</b>'+esc(x.a)+'</figcaption></figure>'}).join('');
-      st.textContent=it.length?'':'Nothing found. Try another genre, musician or keyword.'
+      IT=it;drawList();st.textContent=it.length?'':'Nothing found. Try another genre, musician or keyword.'
     }).catch(function(){if(my===seq)st.textContent='The music search is not reachable right now. Please try again shortly.'})}
   gs.addEventListener('change',function(){fillArtists();load()});as.addEventListener('change',load);
   form.addEventListener('submit',function(e){e.preventDefault();load()});
-  grid.addEventListener('click',function(e){var b=e.target.closest('.mplay');if(!b)return;
-    [].forEach.call(document.querySelectorAll('.mplay.on'),function(x){x.classList.remove('on')});b.classList.add('on');
-    pl.hidden=false;pl.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/'+encodeURIComponent(b.getAttribute('data-y'))+'?rel=0&autoplay=1&mute=1&playsinline=1&enablejsapi=1&origin='+encodeURIComponent(location.origin)+'" title="Player" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>';
+  function drawList(){sl.innerHTML=IT.map(function(x){return'<li><button type="button" class="sitem" data-y="'+esc(x.id)+'"'+(x.id===curId?' data-on="1"':'')+'><span class="sth">'+(x.img?'<img src="'+esc(x.img)+'" alt="" loading="lazy">':'<span class="sph">&#9654;</span>')+'</span><span class="stx"><b>'+esc(x.t)+'</b><i>'+esc(x.a)+'</i></span></button></li>'}).join('');[].forEach.call(sl.querySelectorAll('.sitem'),function(b){if(b.getAttribute('data-y')===curId)b.classList.add('on')})}
+  function play(id){curId=id;var x=IT.filter(function(q){return q.id===id})[0]||{};
+    stage.hidden=false;grid.hidden=true;pl.hidden=false;window.IMNow&&IMNow('Music',x.a||'',x.t||'');
+    pl.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/'+encodeURIComponent(id)+'?rel=0&autoplay=1&mute=1&playsinline=1&enablejsapi=1&origin='+encodeURIComponent(location.origin)+'" title="Player" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>';
     var f=pl.firstChild;function cmd(n){try{f.contentWindow.postMessage(JSON.stringify({event:'command',func:n,args:[]}),'*')}catch(x){}}function go(){cmd('playVideo');cmd('unMute')}
-    f.addEventListener('load',function(){go();setTimeout(go,500);setTimeout(go,1500)});pl.scrollIntoView({block:'nearest'})});
+    f.addEventListener('load',function(){go();setTimeout(go,500);setTimeout(go,1500)});drawList()}
+  grid.addEventListener('click',function(e){var b=e.target.closest('.mplay');if(b)play(b.getAttribute('data-y'))});
+  sl.addEventListener('click',function(e){var b=e.target.closest('.sitem');if(b)play(b.getAttribute('data-y'))});
   function hm(){var q=new URLSearchParams(location.hash.slice(1));if(q.get('genre'))gs.value=q.get('genre');fillArtists();if(q.get('artist'))as.value=q.get('artist')}
   hm();window.addEventListener('hashchange',function(){hm();load()});
   load();

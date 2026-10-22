@@ -1201,3 +1201,12 @@ table.pp input,table.pp select{font:inherit;padding:3px 5px;border:1px solid #cf
 .timg,.fcard,.sitem .sth,.amain .aart,.msong .mplay{background:#111}
 .vcell img,.timg img{background:#111}
 .msong .mplay{aspect-ratio:16/9!important}.igrid:has(.msong){grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
+.stage-main .mplayer{max-width:none;width:100%}
+/* balanced rhythm: title, filter row, content are evenly spaced */
+.newsmain h1,.hubslide>h1{margin-bottom:0!important;padding-bottom:0!important}
+.newsmain .ffilter,.newsmain .imgbar,.hubslide .ffilter{margin-top:14px!important;margin-bottom:14px!important}
+.ffilter+.stage,.imgbar+.stage,.ffilter+.mplayer,.ffilter+.igrid,.ffilter+.pmore,.ffilter+.srctabs{margin-top:0!important}
+.igrid[hidden]{display:none!important}
+.newsmain .ffilter,.newsmain .imgbar,.hubslide .ffilter{margin-top:14px!important}
+.pmore>h2:first-child{margin-top:0!important}
+.mfilters[hidden]{display:none!important}
