@@ -1088,3 +1088,10 @@ header.top nav.wrap{width:auto;max-width:none;margin-left:max(16px,calc((100% - 
 }
 @media (min-width:1001px){body:has(.newspage>.newsside) .bar .rcol .acct{display:flex!important;justify-content:flex-start;align-items:center;gap:14px;width:100%}}
 @media (min-width:1001px){body:has(.newspage>.newsside){--asg:5px}.newspage{column-gap:5px!important}}
+/* desktop: 5px page margins */
+@media (min-width:1001px){
+ .wrap:not(.subnav){padding-left:5px!important;padding-right:5px!important}
+ header.top nav.wrap,header.top .subnav.wrap{margin-left:max(5px,calc((100% - 1430px)/2))!important;margin-right:max(5px,calc((100% - 1430px)/2))!important}
+ header.top nav.wrap{padding-left:0!important;padding-right:0!important}
+ body:has(.newspage>.newsside) header.top nav.wrap,body:has(.newspage>.newsside) header.top .subnav.wrap{margin-right:calc(max(5px,calc((100% - 1430px)/2)) + var(--asw) + var(--asg))!important}
+}
