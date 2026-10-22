@@ -1080,3 +1080,10 @@ header.top nav.wrap{width:auto;max-width:none;margin-left:max(16px,calc((100% - 
 .agrp.long .alist{max-height:62vh;overflow-y:auto;padding-right:6px}
 .ffilter .cdd{flex:0 1 190px;min-width:0}.ffilter .cdd-l{min-width:340px;right:auto}
 .ffilter .cdd-b{background:#fff!important;color:var(--secd,#1d3557)!important;border:1px solid var(--sec,#cfc6ae)!important;font-weight:600;padding:5px 8px;border-radius:6px;font-size:.73rem!important;height:auto}
+@media (min-width:1001px){
+ body:has(.newspage>.newsside) .bar .rcol{width:320px!important;flex:0 0 320px!important;align-items:stretch!important}
+ body:has(.newspage>.newsside) .bar .rcol .acct{justify-content:flex-end}
+ body:has(.newspage>.newsside) .bar .rcol .sf,body:has(.newspage>.newsside) .bar .rcol form{width:100%!important;display:flex}
+ body:has(.newspage>.newsside) .bar .rcol .sf input[type=search],body:has(.newspage>.newsside) .bar .rcol form input{flex:1 1 auto;min-width:0}
+}
+@media (min-width:1001px){body:has(.newspage>.newsside) .bar .rcol .acct{display:flex!important;justify-content:flex-start;align-items:center;gap:14px;width:100%}}
