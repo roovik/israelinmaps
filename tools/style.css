@@ -1245,3 +1245,31 @@ body.compact .newsmain .hcard{border:0;border-bottom:1px solid var(--line);borde
 #densbtn{float:right;margin:0 0 6px 8px;font:600 .75rem system-ui,sans-serif;padding:3px 10px;border:1px solid var(--line);border-radius:12px;background:transparent;color:inherit;cursor:pointer}
 body.compact .newsmain .hcard .nb{padding:0}body.compact .newsmain .hcard .hi{padding:7px 0;margin:0;border-bottom:1px solid var(--line)}body.compact .newsmain .hcard .hi:last-child{border-bottom:0}body.compact .newsmain .hcard .hi .nmeta{margin-bottom:0}
 @media (max-width:640px){.subnav a{overflow:visible!important;text-overflow:clip!important;white-space:nowrap;flex:1 1 auto!important;min-width:auto!important;padding-left:6px!important;padding-right:6px!important;font-size:.8rem}.subnav{overflow-x:auto;-webkit-overflow-scrolling:touch}}
+/* Sources pages: 3-up cards, thumbnail left, bold headline + plain dateline right */
+#sb-out .sbarts>li,#sb-out .vlist2>li{flex-direction:row;align-items:flex-start;gap:10px;padding:10px}
+#sb-out .sbarts>li>a.athl{order:0;flex:none;width:96px}
+#sb-out .sbarts .athumb{width:96px;height:64px;aspect-ratio:auto;border-radius:6px}
+#sb-out .sbarts>li>div,#sb-out .vlist2>li>div{padding:0;flex:1;min-width:0}
+#sb-out .sbarts b,#sb-out .vlist2 b,#sb-out .vclip b{font-weight:700;font-size:.9rem;line-height:1.28}
+#sb-out .sbarts .wm,#sb-out .vlist2 .wm,#sb-out .vclip i{display:block;font-weight:400;font-style:normal;font-size:.76rem;margin-top:3px}
+#sb-out .vclip{flex-direction:row;align-items:flex-start;gap:10px;border:1px solid var(--line,#e0dac8);border-radius:10px;background:var(--card,#fff);padding:10px;height:100%}
+#sb-out .vclip img{flex:none;width:96px;height:64px;aspect-ratio:auto;border-radius:6px}
+#sb-out .vclip span{flex:1;min-width:0;width:auto}
+/* Source pages (news.js cards): same rule, thumbnail left, headline bold then dateline plain */
+body:has(#src-tabs) .newsmain .ncard:not(.hcard){display:flex;flex-direction:row;align-items:flex-start;gap:10px;padding:10px;height:auto}
+body:has(#src-tabs) .newsmain .ncard:not(.hcard) .nimg{flex:none;width:96px;aspect-ratio:auto;height:64px;border-radius:6px;overflow:hidden}
+body:has(#src-tabs) .newsmain .ncard.noimg:not(.hcard) .nimg{display:none}
+body:has(#src-tabs) .newsmain .ncard .nb{padding:0;flex:1;min-width:0;display:flex;flex-direction:column}
+body:has(#src-tabs) .newsmain .ncard .nb h3{order:1;font-weight:700;font-size:.9rem;line-height:1.28;min-height:0;margin:0}
+body:has(#src-tabs) .newsmain .ncard .nb .nmeta{order:2;font-weight:400;font-size:.76rem;margin:3px 0 0}
+body:has(#src-tabs) .newsmain .ncard .nb .nmeta b,body:has(#src-tabs) .newsmain .ncard .nb .nmeta em{font-weight:400}
+body:has(#src-tabs) .newsmain .ncard .nb>p:not(.nmeta){display:none}
+/* Source pages: 3-up cards, thumbnail left, bold headline then plain dateline */
+#src-news.tgrid,#src-views.tgrid{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+#src-news .tcard,#src-views .tcard{flex-direction:row;align-items:flex-start;gap:10px;padding:10px}
+#src-news .timg,#src-views .timg{flex:none;width:96px;height:64px;aspect-ratio:auto;border-radius:6px;overflow:hidden}
+#src-news .tb,#src-views .tb{padding:0;flex:1;min-width:0;gap:2px}
+#src-news .tb b,#src-views .tb b{order:-1;font-weight:700;font-size:.9rem;line-height:1.28}
+#src-news .tid,#src-views .tid{font-size:.76rem;letter-spacing:0;font-weight:400;color:var(--mut)}
+@media (max-width:900px){#src-news.tgrid,#src-views.tgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){#src-news.tgrid,#src-views.tgrid{grid-template-columns:1fr}}
