@@ -153,7 +153,7 @@ function parse(xml, feed) {
     const am = b.match(/<enclosure\b[^>]*>/i); let au = ''; if (am && (/type="audio/i.test(am[0]) || /\.(mp3|m4a|aac)(\?|")/i.test(am[0]))) { const x = am[0].match(/url="([^"]+)"/i); if (x) au = decode(x[1]); }
     const du = au ? text(tag(b, 'itunes:duration')) : '';
     const by = byline(b, link);
-    items.push({ ...(by ? { by } : {}), ...(au ? { a: au, du } : {}), s: feed.id, src: feed.name, t: title, u: link, k: hashId(link), d: t && !isNaN(t) && t.getFullYear() >= 2005 ? t.toISOString() : null, x: blurb(short, title), i: image(b), f: best ? words100(best) : '' });
+    items.push({ ...(by ? { by } : {}), ...(au ? { a: au, du } : {}), s: feed.id, src: feed.name, t: title, u: link, k: hashId(link), d: t && !isNaN(t) && t.getFullYear() >= 2005 ? t.toISOString() : null, x: blurb(short, title), i: image(b), f: best ? words100(best) : '', ...(feed.full && best ? { F: best } : {}) });
   }
   return items;
 }
@@ -205,7 +205,7 @@ async function itemPage(request, env, k, sp, cp) {
   if (src && !archived) {
     const ch = cp ? findChannel(src, cp) : null;
     if (!cp || ch) {
-      const r = await load({ id: src.id, name: src.name, site: src.site, url: ch ? ch.url : src.url });
+      const r = await load({ id: src.id, name: src.name, site: src.site, url: ch ? ch.url : src.url, full: true });
       item = r.items.find(i => i.k === k) || null;
       if (!item) { for (const kk of ['news', 'views']) { const a = await archRead(env, kk); item = a.items.find(i => i.k === k && i.s === src.id) || null; if (item) break; } }
       if (new URL(request.url).searchParams.get('debug')) return new Response(JSON.stringify({ asked: k, source: src.id, channel: cp || null, feedUrl: ch ? ch.url : src.url, ok: r.ok, error: r.error, count: r.items.length, keys: r.items.slice(0, 5).map(i => [i.k, i.t.slice(0, 50)]) }, null, 1), { headers: { 'Content-Type': 'application/json' } });
@@ -227,13 +227,18 @@ async function itemPage(request, env, k, sp, cp) {
     const when = item.d ? new Date(item.d).toLocaleString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Jerusalem' }) : '';
     title = item.t; desc = (item.f || item.x || item.t).slice(0, 200);
     const vw = !!(cp && cp.startsWith('v-')) || !!archived;
-    body = '<span data-word="' + (vw ? 'views' : 'news') + '" hidden></span><p class="crumb"><a href="/">Home</a> / ' + (archived ? '<a href="/who/">Voices</a> / <a href="/who/' + H(archived.vid) + '/">' + H(archived.src) + '</a>' : '<a href="' + (vw ? '/views/">Views' : '/news/">News') + '</a> / Feed item') + '</p>'
+    const known = !archived && SOURCES.some(x => x.id === src.id);
+    const sHref = archived ? '/who/' + H(archived.vid) + '/' : known ? '/sources/' + H(src.id) + '/' : '';
+    const sCrumb = known ? '/sources/' + H(src.id) + '/?show=' + (vw ? 'views' : 'news') : sHref;
+    const txt = item.F || item.f || '';
+    const paras = []; if (txt) { const ss = txt.match(/[^.!?]+[.!?]+["')\]]*\s*|[^.!?]+$/g) || [txt]; for (let i = 0; i < ss.length; i += 3) paras.push(ss.slice(i, i + 3).join('').trim()); }
+    body = '<span data-word="' + (vw ? 'views' : 'news') + '" hidden></span><p class="crumb"><a href="/">Home</a> / <a href="' + (vw ? '/views/">Views' : '/news/">News') + '</a> / ' + (sCrumb ? '<a href="' + sCrumb + '">' + H(src.name) + '</a>' : H(src.name)) + '</p>'
       + '<article class="fitem" data-orig="' + H(item.u) + '"><h1>' + H(item.t) + '</h1>'
-      + '<p class="fmeta"><a href="' + H(src.site) + '" rel="noopener">' + H(src.name) + '</a>' + (when ? ' · ' + when : '') + '</p>'
+      + '<p class="fmeta">' + (sHref ? '<a href="' + sHref + '">' + H(src.name) + '</a>' : H(src.name)) + (item.by ? ' · By ' + H(item.by) : '') + (when ? ' · ' + when : '') + '</p>'
       + (item.i ? '<img class="fimg" src="' + H(item.i) + '" alt="" referrerpolicy="no-referrer" onerror="this.remove()">' : '')
-      + (item.f ? '<p class="fx">' + H(item.f) + '</p>' : '<p class="fx">' + H(src.name) + ' shares only the headline of this story.</p>')
+      + (paras.length ? paras.map(p => '<p class="fx">' + H(p) + '</p>').join('') : '<p class="fx">' + H(src.name) + ' shares only the headline of this story.</p>')
       + (gl.length ? '<p class="chips">In the glossary: ' + gl.map(g => '<a href="/g/' + H(g[0]) + '/">' + H(g[1]) + '</a>').join(' ') + '</p>' : '')
-      + '<p class="fgo"><a class="fbtn" href="' + H(item.u) + '" rel="noopener nofollow">Read the full story at ' + H(src.name) + '</a></p>'
+      + '<p class="fgo"><a class="fbtn" href="' + H(item.u) + '" rel="noopener nofollow" target="_blank">Read the full story at ' + H(src.name) + '</a></p>'
       + (archived ? '<p class="small">Headline and a short excerpt, kept in the Israel NOWlej archive. Full text and copyright remain with the original publisher.</p></article>' : '</article>');
   }
   const html = tpl.split('@@TITLE@@').join(H(title)).split('@@DESC@@').join(H(desc)).split('@@K@@').join(H(k)).split('@@BODY@@').join(body);
