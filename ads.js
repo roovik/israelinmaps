@@ -5,7 +5,7 @@
   // Test creatives only. type: house (own book), affiliate (commissionable), cpm (display ad reserved space)
   var LABEL='Sample ad';
   var C=[
-    {type:'house',title:'Israel NOWlej',text:'Know the Story of the Jewish Land in Maps, Timelines, Charts, and Graphics. By Richard J. Koret.',cta:'Explore the book',href:'/',img:'/img/ad/israel-mosaic-cover.webp'},
+    {type:'house',title:'Israel NOWlej',text:'Know the Story of the Jewish Land in Maps, Timelines, Charts, and Graphics. By Richard J. Koret.',cta:'Explore the book',href:'/',img:'/img/ad/israel-nowlej-cover.webp'},
     {type:'affiliate',title:'Every Dog Has His Day',text:'By Richard J. Koret. Paperback and Kindle from Raining Cats & Dogs Press.',cta:'See the book',href:'https://rainingcad.com/',tile:'a'},
     {type:'cpm',title:'Your ad here',text:'Reserved for a display ad sold by thousand views.',cta:'',href:'',tile:'c'},
     {type:'affiliate',title:'The Cat’s Pajamas',text:'By Richard J. Koret. From Raining Cats & Dogs Press.',cta:'See the book',href:'https://rainingcad.com/',tile:'b'}
