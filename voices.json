@@ -556,7 +556,10 @@
       "yt": [],
       "q": "Richard Kemp",
       "intro": "Richard Kemp is a retired British Army colonel and former commander of British forces in Afghanistan. He speaks on the laws and realities of modern warfare.",
-      "tags": "British army, warfare, military analysis"
+      "tags": "British army, warfare, military analysis",
+      "blog": [
+        "https://richardkemp.substack.com/feed"
+      ]
     }
   ],
   "shows": [
