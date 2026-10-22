@@ -533,7 +533,9 @@ async function voiceApi(url, env) {
   const mk = 'voice/' + id, cached = (diagOn || refresh) ? null : await memGet(mk);
   if (cached) return new Response(JSON.stringify(cached), { headers: hdr });
   const feedUrls = (v.blog && v.blog.length) ? v.blog : (v.site ? await discoverFeeds(v.site, diag) : []);
-  const arts = (await Promise.all(feedUrls.map(u => load({ id: v.id, name: v.name, site: v.site || u, url: u, maxAge: 3650 })))).flatMap(r => r.items);
+  const artR = await Promise.all(feedUrls.map(u => load({ id: v.id, name: v.name, site: v.site || u, url: u, maxAge: 3650 })));
+  if (diag) artR.forEach(r => diag.push({ feed: r.feed.url, ok: r.ok, error: r.error, count: r.items.length }));
+  const arts = artR.flatMap(r => r.items);
   // coverage by and about the person: Google News search, credited to each publisher
   const gq = v.gq || v.name;
   const gqs = '"' + gq + '"';
@@ -542,6 +544,7 @@ async function voiceApi(url, env) {
     // Google News refuses requests from Cloudflare (HTTP 503), so Bing News goes first and Google is the fallback
     gnr = await load({ id: v.id, name: 'News', site: 'https://www.bing.com/news', url: 'https://www.bing.com/news/search?format=rss&setlang=en&cc=us&q=' + encodeURIComponent(gqs), maxAge: 3650 });
     viaBing = gnr.ok && gnr.items.length > 0;
+    if (diag) diag.push({ bing: gnr.ok, error: gnr.error, count: gnr.items.length });
     if (!viaBing) gnr = await load({ id: v.id, name: 'News', site: 'https://news.google.com/', url: 'https://news.google.com/rss/search?q=' + encodeURIComponent(gqs) + '&hl=en-US&gl=US&ceid=US:en', maxAge: 3650 });
   }
   const news = gnr.items.map(({ f, ...rest }) => {
