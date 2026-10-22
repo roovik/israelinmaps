@@ -89,7 +89,7 @@
       function topicBtns(items,cur,attr){return TOPICS.map(function(x){var n=items.filter(function(i){return i.tp&&i.tp.indexOf(x[0])>-1}).length;return n?'<button '+attr+'="'+x[0]+'" aria-pressed="'+(cur===x[0])+'">'+x[1]+' <i>'+n+'</i></button>':''}).join('')}
       var LBL={toi:'Times of Israel',jpost:'JPost',inn:'INN'};var AB={toi:'ToI',jpost:'JPost',ynet:'ynet',israelhayom:'Hayom',inn:'INN',kan:'Kan',mef:'MEF',ji:'JI',i24:'i24'};function ab(x){return AB[x.id]||x.name}
       var MQ={get matches(){return!item}};
-      var DOM={toi:'timesofisrael.com',jpost:'jpost.com',ynet:'ynetnews.com',haaretz:'haaretz.com',jns:'jns.org',israelhayom:'israelhayom.com',jta:'jta.org',inn:'israelnationalnews.com',i24:'i24news.tv',kan:'kan.org.il',globes:'globes.co.il',calcalist:'calcalistech.com',tablet:'tabletmag.com',mef:'meforum.org',ji:'jewishinsider.com'},FAV={};
+      var DOM={toi:'timesofisrael.com',jpost:'jpost.com',ynet:'ynetnews.com',haaretz:'haaretz.com',jns:'jns.org',israelhayom:'israelhayom.com',jta:'jta.org',inn:'israelnationalnews.com',i24:'i24news.tv',kan:'kan.org.il',globes:'globes.co.il',calcalist:'calcalistech.com',tablet:'tabletmag.com',mef:'meforum.org',ji:'jewishinsider.com'},FAV={'ynetnews.com':'/img/ynet-y.png'};
       function ini(x){var w=x.name.replace(/^The /,'').split(/\s+/);return(w.length>1?w.map(function(y){return y[0]}).join(''):x.name.slice(0,2)).toUpperCase().slice(0,3)}
       function favs(){[].forEach.call(tpn.querySelectorAll('.apic[data-d]'),function(pic){var d=pic.getAttribute('data-d');if(FAV[d]===false)return;
         var put=function(src){var im=new Image();im.alt='';im.src=src;pic.textContent='';pic.appendChild(im)};
