@@ -1291,3 +1291,9 @@ body:has(#src-tabs) .newsmain .ncard .nb>p:not(.nmeta){display:none}
 @media (max-width:640px){.bar .rcol .sf input{font-size:.8rem;padding-left:6px;padding-right:4px}.bar .rcol .sf input::placeholder{font-size:.8rem}}
 @media (max-width:640px){.apick.fsrc{gap:0!important}.apick.fsrc>a{width:54px!important;padding:0!important}.apick.fsrc .apic{width:40px!important;height:40px!important}.apick.fsrc>a>span:last-child,.apick.fsrc .apn{font-size:.6rem!important;letter-spacing:-.01em}}
 html,body{overscroll-behavior-y:none}
+/* readability on dark right-column panels */
+.newsside .wsrc .wm a,.newsside .wlatest .wm a{color:#a9cbff!important;font-weight:500}
+.newsside .wsrc time,.newsside .wlatest time,.newsside .wlatest .wm{color:#d3d8e0!important}
+.newsside .wsrc li time{opacity:1}
+.newsside .wsrc li>a,.newsside .wlatest li>a{color:#fff!important}
+.newsside .wsrc h3 a{color:#a9cbff!important}
