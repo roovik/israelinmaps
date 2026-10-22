@@ -963,3 +963,11 @@ body .bar .ticker,body.newspg .bar .ticker{border:0!important;background:transpa
 
 .ffilter select{font-size:.73rem!important}.mfilters select,.srt select,.vfbar select{font-size:.78rem!important}.cdd-b,.cdd-l{font-size:9pt!important}
 @media (max-width:640px){.ffilter select{flex:0 0 22%!important;max-width:22%!important;font-size:.63rem!important;padding:0 3px!important}.mfilters select{font-size:.72rem!important}}
+
+header.top{margin-bottom:0!important}main#main{padding-top:5px!important;margin-top:0!important}
+.newspage>.adslot[data-slot=page-top]{display:none!important}
+.newspage h1,.newsleft>h1,.newsmain>h1,.hubslide>h1{margin-top:0!important}
+.fsrc{margin-bottom:0!important;padding-bottom:0!important}
+#news-topics+*,.newsmain>.ngrid3:first-of-type,.ngrid3{margin-top:5px!important}
+
+.newstopics.fnav{margin-bottom:0!important;padding-bottom:0!important}.fsrc{overflow-y:hidden}
