@@ -24,9 +24,9 @@ A['glossary']={'t':'NOWlej','g':[{'h':'In NOWlej','u':'/glossary/','i':[['Maps',
 A['book']={'t':'Book','g':[{'h':'About the book','u':'/about/','i':[['About us','/about/'],['Use and citation','/cite/'],['Contact','/contact/'],['Legal notice','/legal/']]}]}
 def srcjson(p):
     s=open(p,encoding='utf8').read();out=[]
-    for m in re.finditer(r'\{"id": "[^"]*", "name": "([^"]*)"[^{}]*?"profile": "([^"]*)"',s):out.append([m.group(1),m.group(2)])
+    for m in re.finditer(r'\{"id": "[^"]*"(?:, "pod": 1)?, "name": "([^"]*)"[^{}]*?"profile": "([^"]*)"',s):out.append([m.group(1),m.group(2)])
     return out
-A['sources']={'t':'Sources','g':[{'h':'Publications','u':'/sources/','i':srcjson('sources/index.html')},{'h':'Influencers','u':'/sources/influencers/','i':srcjson('sources/influencers/index.html')},{'h':'Organizations','u':'/sources/organizations/','i':srcjson('sources/organizations/index.html')}]}
+A['sources']={'t':'Sources','g':[{'h':'Publications','u':'/sources/','i':srcjson('sources/index.html')},{'h':'Influencers','u':'/sources/influencers/','i':[[n,'/sources/influencers/#s='+u.rstrip('/').split('/')[-1]] for n,u in srcjson('sources/influencers/index.html')]},{'h':'Organizations','u':'/sources/organizations/','i':[[n,'/sources/organizations/#s='+u.rstrip('/').split('/')[-1]] for n,u in srcjson('sources/organizations/index.html')]}]}
 VS=[('toi','The Times of Israel'),('jpost','The Jerusalem Post'),('ynet','Ynetnews'),('haaretz','Haaretz'),('jns','JNS'),('jta','JTA'),('israelhayom','Israel Hayom'),('tablet','Tablet'),('mef','Middle East Forum'),('ji','Jewish Insider')]
 A['views']={'t':'Views','g':[{'h':'By kind','u':'/views/','i':[['All views','/views/'],['Op-Ed','/views/#mode=topics&kind=Op-Ed'],['Editorial','/views/#mode=topics&kind=Editorial'],['Blogs','/views/#mode=topics&kind=Blog'],['Voices','/who/']]},{'h':'By source','u':'/sources/','i':[[n,'/views/#mode=topics&src=%s'%i] for i,n in VS]}]}
 v=json.load(open('video.json'))
