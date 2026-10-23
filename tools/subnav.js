@@ -27,27 +27,31 @@
   (function(){
     var row=document.getElementById('subnav2');if(!row)return;
     var links=[].slice.call(row.querySelectorAll('a[href^="/timelines/"]'));if(links.length<10)return;
-    var ERAS=[{t:'2000 BCE',r:'2000 to 1000 BCE',from:1,to:1},{t:'1000 BCE',r:'1000 BCE to 100 CE',from:2,to:3},{t:'100 CE',r:'100 to 1900',from:4,to:6},{t:'1900',r:'1900 to 1960',from:7,to:12},{t:'1960',r:'1960 to today',from:13,to:99}];
+    var ERAS=[{r:'2000 to 1000 BCE',y0:-2000,y1:-1000,from:1,to:1},{r:'1000 BCE to 100 CE',y0:-1000,y1:100,from:2,to:3},{r:'100 to 1900',y0:100,y1:1900,from:4,to:6},{r:'1900 to 1960',y0:1900,y1:1960,from:7,to:12},{r:'1960 to today',y0:1960,y1:2030,from:13,to:99}];
+    var SPLIT=72;  /* percent of the ruler for 2000 BCE to 1900; the rest is the zoom from 1900 to today */
+    function X(y){return y<=1900?(y+2000)/3900*SPLIT:SPLIT+(y-1900)/130*(100-SPLIT)}
     function num(h){var m=/^\/timelines\/(\d{3})\//.exec(h||'');return m?+m[1]:0}
     function eraOf(n){for(var i=0;i<ERAS.length;i++)if(n>=ERAS[i].from&&n<=ERAS[i].to)return i;return -1}
     if(!document.getElementById('tl-era-css')){var st=document.createElement('style');st.id='tl-era-css';st.textContent=
       '.subnav.sub2.tl2{display:block;padding:8px 16px 10px}'+
-      '.tl-eras{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border:1.5px solid var(--sc,#6a3d9a);border-radius:0;overflow:hidden;max-width:860px;margin:0 auto}'+
-      '.tl-eras button{font:600 .9rem system-ui,-apple-system,sans-serif;padding:9px 8px;border:0;background:#fff;color:var(--sc,#6a3d9a);cursor:pointer;white-space:nowrap}'+
-      '.tl-eras button+button{border-left:1.5px solid var(--sc,#6a3d9a)}'+
-      '.tl-eras button:hover{background:color-mix(in srgb,var(--sc,#6a3d9a) 10%,#fff)}'+
-      '.tl-eras button[aria-selected=true]{background:var(--sc,#6a3d9a);color:#fff}'+
-      '.tl-list{display:flex;flex-wrap:wrap;justify-content:center;gap:2px 4px;margin-top:8px}.tl-list[hidden]{display:none}'+
+      '.tl-eras{position:relative;max-width:900px;margin:0 auto;height:52px;user-select:none}'+'.tl-eras .tb{position:absolute;top:0;height:26px;border:0;padding:0;margin:0;cursor:pointer;background:color-mix(in srgb,var(--sc,#6a3d9a) 9%,#fff);transition:background .15s}'+'.tl-eras .tb:nth-of-type(2n){background:color-mix(in srgb,var(--sc,#6a3d9a) 16%,#fff)}'+'.tl-eras .tb:hover{background:color-mix(in srgb,var(--sc,#6a3d9a) 28%,#fff)}'+'.tl-eras .tb[aria-selected=true]{background:color-mix(in srgb,var(--sc,#6a3d9a) 55%,#fff);box-shadow:inset 0 3px 0 var(--sc,#6a3d9a)}'+'.tl-eras .tb:focus-visible{outline:2px solid var(--sc,#6a3d9a);outline-offset:1px;z-index:2}'+'.tl-eras .base{position:absolute;left:0;right:0;top:26px;height:1.5px;background:var(--sc,#6a3d9a);pointer-events:none}'+'.tl-eras .tk{position:absolute;top:26px;width:1px;height:4px;background:color-mix(in srgb,var(--sc,#6a3d9a) 55%,#fff);pointer-events:none}'+'.tl-eras .tk.mj{height:9px;width:1.5px;background:var(--sc,#6a3d9a)}'+'.tl-eras .lb{position:absolute;top:37px;transform:translateX(-50%);font:600 .7rem/1 system-ui,-apple-system,sans-serif;color:var(--sc,#6a3d9a);white-space:nowrap;pointer-events:none}'+'.tl-eras .lb.st{transform:none}.tl-eras .lb.en{transform:translateX(-100%)}'+'.tl-eras .brk{position:absolute;top:0;width:3px;height:26px;margin-left:-1.5px;background:#fff;opacity:.9;transform:skewX(-12deg);pointer-events:none;z-index:1}'+'.tl-eras .lb i{display:none}'+'.tl-list{display:flex;flex-wrap:wrap;justify-content:center;gap:2px 4px;margin-top:8px}.tl-list[hidden]{display:none}'+
       '.subnav.sub2.tl2 .tl-list a{flex:none}'+
-      '@media (max-width:380px){header.top .subnav.sub2.tl2 .tl-list a{padding:5px 2px!important;font-size:.74rem!important}}'+
-      '@media (max-width:700px){.tl-eras button{font-size:.8rem;padding:8px 2px}.subnav.sub2.tl2{padding:8px 8px 8px}.tl-list{gap:0 2px}header.top .subnav.sub2.tl2 .tl-list a{padding:5px 4px!important;font-size:.8rem!important}.tl-list{justify-content:space-between!important}}';
+      '@media (max-width:700px){.tl-eras .lb{font-size:.64rem}}'+
+      '@media (max-width:380px){header.top .subnav.sub2.tl2 .tl-list a{padding:5px 2px!important;font-size:.74rem!important}.tl-eras .lb{font-size:.56rem}.tl-eras .lb.ce{display:none}}'+
+      '@media (max-width:700px){.subnav.sub2.tl2{padding:8px 8px 8px}.tl-list{gap:0 2px}header.top .subnav.sub2.tl2 .tl-list a{padding:5px 4px!important;font-size:.8rem!important}.tl-list{justify-content:space-between!important}}';
       document.head.appendChild(st)}
     row.classList.add('tl2');row.innerHTML='';
     var bar=document.createElement('div');bar.className='tl-eras';bar.setAttribute('role','tablist');bar.setAttribute('aria-label','Timeline eras');
     var list=document.createElement('div');list.className='tl-list';list.hidden=true;list.setAttribute('role','tabpanel');
     row.appendChild(bar);row.appendChild(list);
-    var btns=ERAS.map(function(e,i){var b=document.createElement('button');b.type='button';b.setAttribute('role','tab');b.textContent=e.t;b.title=e.r;b.setAttribute('aria-label',e.r);b.setAttribute('aria-selected','false');
+    var btns=ERAS.map(function(e,i){var b=document.createElement('button');b.type='button';b.className='tb';b.setAttribute('role','tab');b.title=e.r;b.setAttribute('aria-label',e.r);b.setAttribute('aria-selected','false');
+      b.style.left=X(e.y0)+'%';b.style.width=(X(e.y1)-X(e.y0))+'%';
       b.addEventListener('click',function(){show(i);var first=links.filter(function(a){return eraOf(num(a.getAttribute('href')))===i})[0];if(!first)return;var u=first.getAttribute('href');if(eraOf(num(location.pathname))===i)return;if(window.__tlLoad)window.__tlLoad(u);else location.href=u});bar.appendChild(b);return b});
+    (function(){var h='<span class="base"></span>';
+      for(var y=-1900;y<1900;y+=100)if(y%1000)h+='<span class="tk" style="left:'+X(y)+'%"></span>';
+      for(var d=1910;d<2030;d+=10)if(d!==1960&&d!==2000)h+='<span class="tk" style="left:'+X(d)+'%"></span>';
+      [[-2000,'2000 BCE','st'],[-1000,'1000<i> BCE</i>',''],[0,'0',''],[1000,'1000',''],[1900,'1900',''],[1960,'1960',''],[2000,'2000','ce']].forEach(function(m){h+='<span class="tk mj" style="left:'+X(m[0])+'%"></span><span class="lb '+m[2]+'" style="left:'+X(m[0])+'%">'+m[1]+'</span>'});
+      h+='<span class="brk" style="left:'+SPLIT+'%"></span>';bar.insertAdjacentHTML('beforeend',h)})();
     links.forEach(function(a){if(a.textContent==='Zionism Takes Shape')a.textContent='Zionism'});
     links.forEach(function(a){a.setAttribute('data-tl','1')});
     var sel=-1;
