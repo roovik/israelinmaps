@@ -57,8 +57,9 @@ L[k + 1:k + 1] = [{'t': P['title'], 'u': f"/timelines/{P['id']}/{P['slug']}/", '
                    'i': f"/img/t/tlf-tl-{P['id']}.webp"} for P in PAGES]
 json.dump(L, open('search.json', 'w', encoding='utf-8'), ensure_ascii=False, separators=(',', ':'))
 g = open('timelines/index.html', encoding='utf-8').read()
-tile = re.search(r'<a class="tltile" href="/timelines/' + tid0 + r'/[^"]*".*?</a>', g, re.S).group(0)
-if f'/timelines/{PAGES[0]["id"]}/' not in g:
+mt = re.search(r'<a class="tltile" href="/timelines/' + tid0 + r'/[^"]*".*?</a>', g, re.S)
+if mt and f'/timelines/{PAGES[0]["id"]}/' not in g:
+    tile = mt.group(0)
     g = g.replace(tile, tile + ''.join(f'<a class="tltile" href="/timelines/{P["id"]}/{P["slug"]}/" title="{P["title"]}"><img src="/img/t/tlf-tl-{P["id"]}.webp" alt="{P["title"]}" width="420" height="525" loading="lazy"></a>' for P in PAGES))
     g = g.replace(tile, '', 1) if '--keep' not in sys.argv else g
 open('timelines/index.html', 'w', encoding='utf-8').write(g)

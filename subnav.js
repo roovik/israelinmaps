@@ -35,9 +35,9 @@
     function steps(y0,y1,d){var r=[y0];for(var y=Math.floor(y0/d)*d+d;y<y1;y+=d)r.push(y);r.push(y1);return r}
     function alt(ys,a,b){return ys.slice(1).map(function(y,k){return [ys[k],y,k%2?b:a]})}
     var ERAS=[
-      {r:'2000 to 1000 BCE',y0:-2000,y1:-1000,from:1,to:1,segs:[[-2000,-1550,'#d9b48e','Patriarchs'],[-1550,-1200,'#ecc9a0','Egypt and the Exodus'],[-1200,-1050,'#f4e09a','Judges'],[-1050,-1000,'#f8efbe','Saul']]},
-      {r:'1000 BCE to 100 CE',y0:-1000,y1:100,from:2,to:3,segs:[[-1000,-930,'#f2b9b9','United kingdom'],[-930,-750,'#f6d0b4','Two kingdoms'],[-750,-586,'#efc6e2','Prophets'],[-586,-538,'#cdcfe8','Exile'],[-538,-332,'#c9e7e3','Return'],[-332,-167,'#cbdff5','Greeks'],[-167,-63,'#f3e2a2','Hasmoneans'],[-63,100,'#e3b1b6','Romans']]},
-      {r:'100 to 1918',y0:100,y1:1918,from:4,to:8,segs:[[100,638,'#d8ecca','Early Christian'],[638,1099,'#c2e0bf','Early Muslim'],[1099,1291,'#e2efc2','Crusader'],[1291,1516,'#cbe6d4','Mamluk'],[1516,1918,'#b3d8b2','Ottoman']]},
+      {r:'Patriarchs to Saul, 2000 to 1000 BCE',y0:-2000,y1:-1000,from:1,to:1,segs:[[-2000,-1700,'#d6ae86','Patriarchal age'],[-1700,-1200,'#ebc79c','Egypt and the Exodus'],[-1200,-1020,'#f3dd96','Judges and tribal Israel'],[-1020,-1000,'#f8efbe','Saul']]},
+      {r:'David to Bar Kokhba, 1000 BCE to 135 CE',y0:-1000,y1:135,from:2,to:3,segs:[[-1000,-970,'#f4b4b4','David'],[-970,-930,'#f7c4c0','Solomon'],[-930,-722,'#f7d3bd','Divided kingdoms'],[-722,-586,'#f1c3db','Judah survives'],[-586,-539,'#c9cbe6','Babylonian exile'],[-539,-332,'#c4e5e0','Persian rule'],[-332,-301,'#d9e8f8','Alexander and successors'],[-301,-200,'#c6dcf4','Ptolemaic rule'],[-200,-167,'#b3cfee','Seleucid rule'],[-167,-140,'#f7e6a6','Maccabean revolt'],[-140,-63,'#f0d888','Hasmonean independence'],[-63,-37,'#ecc4c7','Roman supremacy'],[-37,-4,'#e5b2b8','Herod the Great'],[-4,66,'#ecc4c7','Herodian rulers and Roman governors'],[66,74,'#d9939c','Great Jewish Revolt'],[74,132,'#e8bcc1','Post-Temple Roman Judea'],[132,135,'#d9939c','Bar Kokhba revolt']]},
+      {r:'135 to 1918',y0:135,y1:1918,from:4,to:8,segs:[[135,638,'#d8ecca','Early Christian'],[638,1099,'#c2e0bf','Early Muslim'],[1099,1291,'#e2efc2','Crusader'],[1291,1516,'#cbe6d4','Mamluk'],[1516,1918,'#b3d8b2','Ottoman']]},
       {r:'British Mandate, 1918 to 1948',y0:1918,y1:1948,from:9,to:11,segs:[[1918,1930,'#d6e6f6','1920s'],[1930,1940,'#bcd5ef','1930s'],[1940,1948,'#a3c4e8','1940s']]},
       {r:'1948 to 1990',y0:1948,y1:1990,from:12,to:15,segs:[[1948,1960,'#ece2f8','1950s'],[1960,1970,'#ddd0f3','1960s'],[1970,1980,'#cfbfee','1970s'],[1980,1990,'#c0aee8','1980s']]},
       {r:'1990 to today',y0:1990,y1:2030,from:16,to:99,segs:[[1990,2000,'#d5efec','1990s'],[2000,2010,'#c1e6e2','2000s'],[2010,2020,'#acdcd7','2010s'],[2020,2030,'#97d1cb','2020s']]}];
@@ -68,6 +68,7 @@
       for(var d=1910;d<2030;d+=10)if(d!==1990)h+='<span class="tk" style="left:'+X(d)+'%"></span>';
       [[-2000,'2000<b> BCE</b>','st'],[-1000,'1000<i> BCE</i>',''],[0,'0',''],[1000,'1000',''],[1900,'',''],[1918,'1918',''],[1948,'1948',''],[1990,'1990','']].forEach(function(m){h+='<span class="tk mj" style="left:'+X(m[0])+'%"></span><span class="lb '+m[2]+'" style="left:'+X(m[0])+'%">'+m[1]+'</span>'});
       bar.insertAdjacentHTML('beforeend',h)})();
+    links.forEach(function(a){var h=a.getAttribute('href');if(/^\/timelines\/001\//.test(h))a.textContent='Patriarchs and Judges';if(/^\/timelines\/003\//.test(h))a.textContent='Greeks, Hasmoneans, Romans'});
     links.forEach(function(a){if(a.textContent==='Zionism Takes Shape')a.textContent='Early Zionism'});
     links=links.filter(function(a){if(/^\/timelines\/005\//.test(a.getAttribute('href'))){a.remove();return false}return true});
     links.forEach(function(a){a.setAttribute('data-tl','1')});
