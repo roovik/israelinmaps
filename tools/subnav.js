@@ -44,6 +44,8 @@
     var MID={1:-1500,2:-900,2.1:-940,2.2:-450,3:-250,4:400,4.1:300,4.2:600,4.3:900,4.4:1180,4.5:1400,4.6:1650,5:1840,6:1890,7:1905,8:1915,16:1996};
     var SPLIT=66;  /* percent of the ruler for 2000 BCE to 1900; the rest is the zoom from 1900 to today */
     function X(y){return y<=1900?(y+2000)/3900*SPLIT:SPLIT+(y-1900)/130*(100-SPLIT)}
+    var SPAN={1:[-2000,-1000],2.1:[-1000,-586],2.2:[-586,-332],3:[-332,135]};
+    function grad(e,y0,y1){var g=e.segs.filter(function(q){return q[1]>y0&&q[0]<y1});return 'linear-gradient(90deg,'+g.map(function(q){var a=(Math.max(q[0],y0)-y0)/(y1-y0)*100,b=(Math.min(q[1],y1)-y0)/(y1-y0)*100;return q[2]+' '+a.toFixed(1)+'% '+b.toFixed(1)+'%'}).join(',')+')'}
     function colorAt(e,y){for(var k=0;k<e.segs.length;k++)if(y<e.segs[k][1])return e.segs[k][2];return e.segs[e.segs.length-1][2]}
     function num(h){var m=/^\/timelines\/(\d{3})([a-z]?)\//.exec(h||'');return m?+m[1]+(m[2]?(m[2].charCodeAt(0)-96)/10:0):0}
     function eraOf(n){for(var i=0;i<ERAS.length;i++)if(n>=ERAS[i].from&&n<=ERAS[i].to)return i;return -1}
@@ -75,7 +77,7 @@
     var SUB={5:1,6:1,7:1,8:1},grp=document.createElement('a');grp.textContent='Zionism';grp.href='/timelines/005/the-ottoman-land/';grp.setAttribute('data-tl','1');
     function show(i){sel=i;btns.forEach(function(b,j){b.setAttribute('aria-selected',j===i?'true':'false')});
       list.innerHTML='';list2.innerHTML='';var k=0;links.forEach(function(a){var n=num(a.getAttribute('href'));if(eraOf(n)!==i)return;var c=colorAt(ERAS[i],MID[n]!=null?MID[n]:1925+10*(n-9));
-        if(i===2&&SUB[n]){if(!k){grp.style.setProperty('background',c,'important');list.appendChild(grp)}a.style.setProperty('background',mixc(c,'#ffffff',.12+.14*k),'important');k++;list2.appendChild(a)}else{a.style.setProperty('background',c,'important');list.appendChild(a)}});
+        if(i===2&&SUB[n]){if(!k){grp.style.setProperty('background',c,'important');list.appendChild(grp)}a.style.setProperty('background',mixc(c,'#ffffff',.12+.14*k),'important');k++;list2.appendChild(a)}else{a.style.setProperty('background',SPAN[n]?grad(ERAS[i],SPAN[n][0],SPAN[n][1]):c,'important');list.appendChild(a)}});
       list.hidden=false;list2.hidden=!(i===2&&SUB[num(location.pathname)]);mark2()}
     function mark2(){var cur=location.pathname;links.forEach(function(a){a.className=a.getAttribute('href')===cur?'on':''});grp.className=SUB[num(cur)]?'on':''}
     function sync(){var e=eraOf(num(location.pathname));if(e>-1)show(e);else mark2()}
