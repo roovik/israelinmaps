@@ -27,18 +27,20 @@
   (function(){
     var row=document.getElementById('subnav2');if(!row)return;
     var links=[].slice.call(row.querySelectorAll('a[href^="/timelines/"]'));if(links.length<10)return;
-    (function(){var f=links.filter(function(x){return /^\/timelines\/004\//.test(x.getAttribute('href'))})[0];if(!f)return;var i=links.indexOf(f),add=[];[['/timelines/004a/early-christian-rule/','Christian'],['/timelines/004b/early-muslim-rule/','Muslim'],['/timelines/004c/the-crusader-kingdom/','Crusaders'],['/timelines/004d/mamluk-rule/','Mamluks'],['/timelines/004e/ottoman-rule/','Ottomans']].forEach(function(q){var x=row.querySelector('a[href="'+q[0]+'"]');if(!x){x=document.createElement('a');x.href=q[0];x.textContent=q[1]}add.push(x)});links.splice.apply(links,[i,1].concat(add));f.remove();links=links.filter(function(x,j){return links.indexOf(x)===j})})();
+    function swap(re,qs){var f=links.filter(function(x){return re.test(x.getAttribute('href'))})[0];if(!f)return;var i=links.indexOf(f),add=[];qs.forEach(function(q){var x=row.querySelector('a[href="'+q[0]+'"]');if(!x){x=document.createElement('a');x.href=q[0];x.textContent=q[1];f.parentNode.insertBefore(x,f)}add.push(x)});links.splice.apply(links,[i,1].concat(add));f.remove();links=links.filter(function(x,j){return links.indexOf(x)===j})}
+    swap(/^\/timelines\/002\//,[['/timelines/002a/kings-and-prophets/','Kings and Prophets'],['/timelines/002b/exile-and-return/','Exile and Return']]);
+    swap(/^\/timelines\/004\//,[['/timelines/004a/early-christian-rule/','Christian'],['/timelines/004b/early-muslim-rule/','Muslim'],['/timelines/004c/the-crusader-kingdom/','Crusaders'],['/timelines/004d/mamluk-rule/','Mamluks'],['/timelines/004e/ottoman-rule/','Ottomans']]);
     function mixc(a,b,t){var x=parseInt(a.slice(1),16),y=parseInt(b.slice(1),16),o='#';for(var s=16;s>=0;s-=8){var v=Math.round(((x>>s)&255)*(1-t)+((y>>s)&255)*t);o+=(v<16?'0':'')+v.toString(16)}return o}
     function ramp(ys,a,b){var r=[];for(var k=0;k<ys.length-1;k++)r.push([ys[k],ys[k+1],mixc(a,b,ys.length>2?k/(ys.length-2):0)]);return r}
     function steps(y0,y1,d){var r=[y0];for(var y=Math.floor(y0/d)*d+d;y<y1;y+=d)r.push(y);r.push(y1);return r}
     function alt(ys,a,b){return ys.slice(1).map(function(y,k){return [ys[k],y,k%2?b:a]})}
     var ERAS=[
-      {r:'2000 to 1000 BCE',y0:-2000,y1:-1000,from:1,to:1,segs:ramp(steps(-2000,-1000,100),'#d9b48e','#f6eaa8')},
-      {r:'1000 BCE to 100 CE',y0:-1000,y1:100,from:2,to:3,segs:[[-1000,-750,'#f0bfc0','Kings'],[-750,-586,'#f6d0c8','Prophets'],[-586,-538,'#e2a9b0','Exile'],[-538,-332,'#f8dccf','Return'],[-332,-167,'#f1c6d4','Greeks'],[-167,-63,'#f7d8e2','Hasmoneans'],[-63,100,'#ebbcc6','Romans']]},
+      {r:'2000 to 1000 BCE',y0:-2000,y1:-1000,from:1,to:1,segs:[[-2000,-1550,'#d9b48e','Patriarchs'],[-1550,-1200,'#ecc9a0','Egypt and the Exodus'],[-1200,-1050,'#f4e09a','Judges'],[-1050,-1000,'#f8efbe','Saul']]},
+      {r:'1000 BCE to 100 CE',y0:-1000,y1:100,from:2,to:3,segs:[[-1000,-930,'#f2b9b9','United kingdom'],[-930,-750,'#f6d0b4','Two kingdoms'],[-750,-586,'#efc6e2','Prophets'],[-586,-538,'#cdcfe8','Exile'],[-538,-332,'#c9e7e3','Return'],[-332,-167,'#cbdff5','Greeks'],[-167,-63,'#f3e2a2','Hasmoneans'],[-63,100,'#e3b1b6','Romans']]},
       {r:'100 to 1920',y0:100,y1:1920,from:4,to:8,segs:[[100,638,'#d8ecca','Early Christian'],[638,1099,'#c2e0bf','Early Muslim'],[1099,1291,'#e2efc2','Crusaders'],[1291,1516,'#cbe6d4','Mamluks'],[1516,1920,'#b3d8b2','Ottomans']]},
       {r:'1920 to 1970',y0:1920,y1:1970,from:9,to:13,segs:ramp(steps(1920,1970,10),'#ede3f8','#cbb6ea')},
       {r:'1970 to today',y0:1970,y1:2030,from:14,to:99,segs:ramp(steps(1970,2030,10),'#e0ecf9','#b8d2ef')}];
-    var MID={1:-1500,2:-900,3:-250,4:400,4.1:400,4.2:900,4.3:1200,4.4:1400,4.5:1650,5:1840,6:1890,7:1905,8:1915};
+    var MID={1:-1500,2:-900,2.1:-940,2.2:-450,3:-250,4:400,4.1:400,4.2:900,4.3:1200,4.4:1400,4.5:1650,5:1840,6:1890,7:1905,8:1915};
     var SPLIT=66;  /* percent of the ruler for 2000 BCE to 1900; the rest is the zoom from 1900 to today */
     function X(y){return y<=1900?(y+2000)/3900*SPLIT:SPLIT+(y-1900)/130*(100-SPLIT)}
     function colorAt(e,y){for(var k=0;k<e.segs.length;k++)if(y<e.segs[k][1])return e.segs[k][2];return e.segs[e.segs.length-1][2]}
@@ -63,7 +65,7 @@
       for(var y=-1900;y<1900;y+=100)if(y%1000)h+='<span class="tk" style="left:'+X(y)+'%"></span>';
       for(var d=1910;d<2030;d+=10)if(d!==1920&&d!==1970&&d!==2000)h+='<span class="tk" style="left:'+X(d)+'%"></span>';
       [[-2000,'2000<b> BCE</b>','st'],[-1000,'1000<i> BCE</i>',''],[0,'0',''],[1000,'1000',''],[1900,'',''],[1920,'1920',''],[1970,'1970',''],[2000,'2000','ce']].forEach(function(m){h+='<span class="tk mj" style="left:'+X(m[0])+'%"></span><span class="lb '+m[2]+'" style="left:'+X(m[0])+'%">'+m[1]+'</span>'});
-      h+='<span class="brk" style="left:'+SPLIT+'%"></span>';bar.insertAdjacentHTML('beforeend',h)})();
+      bar.insertAdjacentHTML('beforeend',h)})();
     links.forEach(function(a){if(a.textContent==='Zionism Takes Shape')a.textContent='Zionism'});
     links=links.filter(function(a){if(/^\/timelines\/005\//.test(a.getAttribute('href'))){a.remove();return false}return true});
     links.forEach(function(a){a.setAttribute('data-tl','1')});

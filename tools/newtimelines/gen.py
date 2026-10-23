@@ -3,7 +3,8 @@ import json, sys, base64, io, os
 import qrcode
 from playwright.sync_api import sync_playwright
 sys.path.insert(0, os.path.dirname(__file__))
-from data import PAGES
+import importlib
+PAGES = importlib.import_module(os.environ.get('TLDATA','data')).PAGES
 
 F = '/home/claude/tlgen/node_modules/@fontsource/'
 def font(fam, path, w):
@@ -49,7 +50,7 @@ svg{position:absolute;left:0;top:0;z-index:2}
 .qr{position:absolute;top:1385px;right:91px;width:70px;height:70px;image-rendering:pixelated}
 </style></head><body>
 <div class="run"><span>ISRAEL IN MAPS</span><span>TIMELINE %NUMUP%</span></div>
-<div class="of">Timeline %NUM%</div><h1>%TITLE%</h1><div class="rng">%Y0% to %Y1%</div>
+<div class="of">Timeline %NUM%</div><h1>%TITLE%</h1><div class="rng">%RNG%</div>
 <div class="leg"><span><i style="background:#a8453b"></i>Conflict</span><span><i style="background:#798591"></i>Rule and borders</span><span><i style="background:#2f6da1"></i>Diplomacy and law</span><span><i style="background:#4d8a58"></i>Settlement</span><span><i style="background:#bc8958"></i>Faith and learning</span><span><i style="background:#765da3"></i>Literature and arts</span></div>
 <div class="mini" id="mini"></div>
 <div class="intro">%INTRO%</div>
@@ -68,7 +69,7 @@ const h1=document.createElement('div');h1.className='hd';h1.textContent='TURNING
 const h2=document.createElement('div');h2.className='hd';h2.textContent='ALSO IN THIS PERIOD';h2.style.top=top0+'px';h2.style.left='811px';document.body.appendChild(h2);
 const A0=top0+26,A1=1345,P0=A0+16,P1=A1-16,Y=y=>P0+(y-D.y0)/(D.y1-D.y0)*(P1-P0);
 const ax=document.createElement('div');ax.className='axis';ax.style.top=A0+'px';ax.style.height=(A1-A0)+'px';document.body.appendChild(ax);
-for(let t=Math.ceil(D.y0/D.step)*D.step;t<=D.y1;t+=D.step){if(Y(t)<A0+8||Y(t)>A1-4)continue;const k=document.createElement('div');k.className='tick';k.style.top=Y(t)+'px';document.body.appendChild(k);const l=document.createElement('div');l.className='tl';l.style.top=Y(t)+'px';l.textContent=t;document.body.appendChild(l)}
+for(let t=Math.ceil(D.y0/D.step)*D.step;t<=D.y1;t+=D.step){if(Y(t)<A0+8||Y(t)>A1-4)continue;const k=document.createElement('div');k.className='tick';k.style.top=Y(t)+'px';document.body.appendChild(k);const l=document.createElement('div');l.className='tl';l.style.top=Y(t)+'px';l.textContent=t<0?(-t)+' BCE':t;document.body.appendChild(l)}
 function stack(items,mk,gap,anchor){const els=items.map(mk);els.forEach(e=>{e.style.top='0px';document.body.appendChild(e)});
   let pos=items.map((it,i)=>Y(it[1])-anchor);
   for(let i=0;i<els.length;i++){if(i>0)pos[i]=Math.max(pos[i],pos[i-1]+els[i-1].offsetHeight+gap)}
@@ -92,7 +93,7 @@ def build(out_dir):
         for P in PAGES:
             n = P['id'].lstrip('0')
             h = (TPL.replace('%FONTS%', FONTS).replace('%NUMUP%', n.upper()).replace('%NUM%', n).replace('%TITLE%', P['title'])
-                 .replace('%Y0%', str(P['y0'])).replace('%Y1%', str(P['y1'])).replace('%INTRO%', P['intro']).replace('%ID%', P['id'])
+                 .replace('%RNG%', P.get('rng') or f"{P['y0']} to {P['y1']}").replace('%INTRO%', P['intro']).replace('%ID%', P['id'])
                  .replace('%QR%', qr('https://israelinmaps.com/tl-' + P['id'])).replace('%CAT%', json.dumps(CAT))
                  .replace('%DATA%', json.dumps({k: P[k] for k in ('y0', 'y1', 'step', 'tp', 'also')})))
             pg = b.new_page(viewport={'width': 1200, 'height': 1500}); pg.on('pageerror', lambda e: print('ERR', e))
