@@ -11,7 +11,7 @@
     [x.p,x.n].forEach(function(q){if(q&&!cache[q.u])cache[q.u]=fetch(q.u).then(function(r){return r.text()}).catch(function(){return null})})}
   function load(u,push){(cache[u]||(cache[u]=fetch(u).then(function(r){return r.text()}))).then(function(html){if(!html){location.href=u;return}
       var d=new DOMParser().parseFromString(html,'text/html'),na=d.querySelector('main article');if(!na){location.href=u;return}
-      art().innerHTML=na.innerHTML;document.title=d.title;if(push)history.pushState({tl:1},'',u);window.scrollTo({top:0,behavior:'instant'});bar();if(window.__tlArrows)window.__tlArrows();try{document.dispatchEvent(new Event('tl:nav'))}catch(e){}}).catch(function(){location.href=u})}
+      art().innerHTML=na.innerHTML;document.title=d.title;if(push)history.pushState({tl:1},'',u);bar();fit();if(window.__tlArrows)window.__tlArrows();try{document.dispatchEvent(new Event('tl:nav'))}catch(e){}}).catch(function(){location.href=u})}
   document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a');if(!a||e.metaKey||e.ctrlKey||e.shiftKey||e.button)return;var h=a.getAttribute('href')||'';
     if((a.hasAttribute('data-tl')||a.closest('nav.pn'))&&/^\/timelines\/\d{3}\//.test(h)){e.preventDefault();load(h,true)}});
   window.addEventListener('popstate',function(){load(location.pathname,false)});
@@ -39,6 +39,15 @@
     function place(){var a=art(),pg=a&&a.querySelector('.pages');if(!pg||innerWidth<=700){P.style.left='';N.style.right='';return}var r=pg.getBoundingClientRect();P.style.left=Math.max(0,r.left)+'px';N.style.right=Math.max(0,innerWidth-r.right)+'px'}
     window.addEventListener('resize',place);setTimeout(place,50);document.addEventListener('tl:nav',place);
     window.__tlArrows();
+    /* fit: bring the era rows to the top of the screen and size the timeline so the whole page is visible */
+    function fit(){var a=art(),img=a&&a.querySelector('.pages img'),eras=document.querySelector('.tl-eras');if(!img)return;
+      var y0=eras?Math.max(0,eras.getBoundingClientRect().top+scrollY-6):0;window.scrollTo({top:y0,behavior:'instant'});
+      if(eras&&eras.getBoundingClientRect().top>20){window.scrollTo({top:0,behavior:'instant'});y0=0}  /* pinned menu: keep the page at the top */
+      var top=img.getBoundingClientRect().top+scrollY-y0,room=innerHeight-top-8;
+      img.style.maxHeight=Math.max(320,room)+'px';img.style.width='auto';img.style.maxWidth='100%';img.style.margin='0 auto';img.style.display='block';place()}
+    window.__tlFit=fit;window.__tlLoad=function(u){load(u,true)};
+    window.addEventListener('resize',function(){clearTimeout(fit.t);fit.t=setTimeout(fit,150)});
+    if(document.readyState==='complete')setTimeout(fit,60);else window.addEventListener('load',function(){setTimeout(fit,60)});
     var sx=null,sy=null;
     document.addEventListener('touchstart',function(e){var a=e.target.closest&&e.target.closest('main article .pages');if(!a||e.touches.length!==1){sx=null;return}sx=e.touches[0].clientX;sy=e.touches[0].clientY},{passive:true});
     document.addEventListener('touchend',function(e){if(sx==null)return;var t=e.changedTouches[0],dx=t.clientX-sx,dy=t.clientY-sy;sx=null;

@@ -46,8 +46,9 @@
     var list=document.createElement('div');list.className='tl-list';list.hidden=true;list.setAttribute('role','tabpanel');
     row.appendChild(bar);row.appendChild(list);
     var btns=ERAS.map(function(e,i){var b=document.createElement('button');b.type='button';b.setAttribute('role','tab');b.textContent=e.t;b.setAttribute('aria-selected','false');
-      b.addEventListener('click',function(){show(i)});bar.appendChild(b);return b});
+      b.addEventListener('click',function(){show(i);var first=links.filter(function(a){return eraOf(num(a.getAttribute('href')))===i})[0];if(!first)return;var u=first.getAttribute('href');if(eraOf(num(location.pathname))===i)return;if(window.__tlLoad)window.__tlLoad(u);else location.href=u});bar.appendChild(b);return b});
     links.forEach(function(a){if(a.textContent==='Zionism Takes Shape')a.textContent='Zionism'});
+    links.forEach(function(a){a.setAttribute('data-tl','1')});
     var sel=-1;
     function show(i){sel=i;btns.forEach(function(b,j){b.setAttribute('aria-selected',j===i?'true':'false')});
       list.innerHTML='';links.forEach(function(a){if(eraOf(num(a.getAttribute('href')))===i)list.appendChild(a)});list.hidden=false;mark2()}
