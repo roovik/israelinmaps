@@ -28,7 +28,7 @@
     var row=document.getElementById('subnav2');if(!row)return;
     var links=[].slice.call(row.querySelectorAll('a[href^="/timelines/"]'));if(links.length<10)return;
     function swap(re,qs){qs.forEach(function(q){var x=row.querySelector('a[href="'+q[0]+'"]');if(x)x.textContent=q[1]});var f=links.filter(function(x){return re.test(x.getAttribute('href'))})[0];if(!f)return;var i=links.indexOf(f),add=[];qs.forEach(function(q){var x=row.querySelector('a[href="'+q[0]+'"]');if(!x){x=document.createElement('a');x.href=q[0];x.textContent=q[1];f.parentNode.insertBefore(x,f)}x.textContent=q[1];add.push(x)});links.splice.apply(links,[i,1].concat(add));f.remove();links=links.filter(function(x,j){return links.indexOf(x)===j})}
-    swap(/^\/timelines\/002\//,[['/timelines/002a/kings-and-prophets/','Kings and Prophets'],['/timelines/002b/exile-and-return/','Exile and Return']]);
+    swap(/^\/timelines\/002\//,[['/timelines/002a/kings-and-prophets/','Kings & Prophets'],['/timelines/002b/exile-and-return/','Exile & Return']]);
     swap(/^\/timelines\/004\//,[['/timelines/004a/rabbinic-judaism-and-roman-rule/','Rabbinic'],['/timelines/004b/byzantine-decline-and-islamic-conquest/','Islamic Conquest'],['/timelines/004c/abbasid-and-early-medieval-judaism/','Abbasid'],['/timelines/004d/crusaders-and-ayyubids/','Crusader'],['/timelines/004e/mamluk-rule-and-the-spanish-expulsion/','Mamluk'],['/timelines/004f/ottoman-rule-and-jewish-resettlement/','Ottoman']]);
     function mixc(a,b,t){var x=parseInt(a.slice(1),16),y=parseInt(b.slice(1),16),o='#';for(var s=16;s>=0;s-=8){var v=Math.round(((x>>s)&255)*(1-t)+((y>>s)&255)*t);o+=(v<16?'0':'')+v.toString(16)}return o}
     function ramp(ys,a,b){var r=[];for(var k=0;k<ys.length-1;k++)r.push([ys[k],ys[k+1],mixc(a,b,ys.length>2?k/(ys.length-2):0)]);return r}
@@ -68,7 +68,7 @@
       for(var d=1910;d<2030;d+=10)h+='<span class="tk" style="left:'+X(d)+'%"></span>';
       [[-2000,'2000<b> BCE</b>','st'],[-1000,'1000<i> BCE</i>',''],[0,'0',''],[1000,'1000',''],[1900,'',''],[1917,'1917',''],[1948,'1948',''],[1993,'1993','']].forEach(function(m){h+='<span class="tk mj" style="left:'+X(m[0])+'%"></span><span class="lb '+m[2]+'" style="left:'+X(m[0])+'%">'+m[1]+'</span>'});
       bar.insertAdjacentHTML('beforeend',h)})();
-    links.forEach(function(a){var h=a.getAttribute('href');if(/^\/timelines\/001\//.test(h))a.textContent='Patriarchs and Judges';if(/^\/timelines\/003\//.test(h))a.textContent='Greeks, Hasmoneans, Romans'});
+    links.forEach(function(a){var h=a.getAttribute('href');if(/^\/timelines\/001\//.test(h))a.textContent='Patriarchs & Judges';if(/^\/timelines\/003\//.test(h))a.textContent='Greeks, Jews & Romans'});
     links.forEach(function(a){if(a.textContent==='Zionism Takes Shape')a.textContent='Early Zionism';if(/^\/timelines\/005\//.test(a.getAttribute('href')))a.textContent='1800s'});
     links.forEach(function(a){a.setAttribute('data-tl','1')});
     var sel=-1;
