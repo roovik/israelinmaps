@@ -27,7 +27,7 @@
   (function(){
     var row=document.getElementById('subnav2');if(!row)return;
     var links=[].slice.call(row.querySelectorAll('a[href^="/timelines/"]'));if(links.length<10)return;
-    var ERAS=[{k:'ancient',t:'2000 BCE to 0',from:1,to:3},{k:'middle',t:'0 to 1850',from:4,to:5},{k:'modern',t:'1850 to 2030',from:6,to:99}];
+    var ERAS=[{k:'ancient',t:'2000 BCE to 0',from:1,to:3},{k:'middle',t:'0 to 1850',from:4,to:5},{k:'modern',t:'1850 to today',from:6,to:99}];
     function num(h){var m=/^\/timelines\/(\d{3})\//.exec(h||'');return m?+m[1]:0}
     function eraOf(n){for(var i=0;i<ERAS.length;i++)if(n>=ERAS[i].from&&n<=ERAS[i].to)return i;return -1}
     if(!document.getElementById('tl-era-css')){var st=document.createElement('style');st.id='tl-era-css';st.textContent=
@@ -47,6 +47,7 @@
     row.appendChild(bar);row.appendChild(list);
     var btns=ERAS.map(function(e,i){var b=document.createElement('button');b.type='button';b.setAttribute('role','tab');b.textContent=e.t;b.setAttribute('aria-selected','false');
       b.addEventListener('click',function(){show(i)});bar.appendChild(b);return b});
+    links.forEach(function(a){if(a.textContent==='Zionism Takes Shape')a.textContent='Zionism'});
     var sel=-1;
     function show(i){sel=i;btns.forEach(function(b,j){b.setAttribute('aria-selected',j===i?'true':'false')});
       list.innerHTML='';links.forEach(function(a){if(eraOf(num(a.getAttribute('href')))===i)list.appendChild(a)});list.hidden=false;mark2()}
