@@ -472,11 +472,6 @@
 /2027/TL-004 /timelines/004/centuries-of-foreign-rule/ 301
 /tl004 /timelines/004/centuries-of-foreign-rule/ 301
 /TL004 /timelines/004/centuries-of-foreign-rule/ 301
-/tl-004a /timelines/004a/early-christian-rule/ 301
-/tl-004b /timelines/004b/early-muslim-rule/ 301
-/tl-004c /timelines/004c/the-crusader-kingdom/ 301
-/tl-004d /timelines/004d/mamluk-rule/ 301
-/tl-004e /timelines/004e/ottoman-rule/ 301
 /tl-005 /timelines/005/the-ottoman-land/ 301
 /TL-005 /timelines/005/the-ottoman-land/ 301
 /2027/tl-005 /timelines/005/the-ottoman-land/ 301
@@ -1501,3 +1496,14 @@
 /who/ /sources/influencers/ 302
 /tl-002a /timelines/002a/kings-and-prophets/ 301
 /tl-002b /timelines/002b/exile-and-return/ 301
+/timelines/004a/early-christian-rule/ /timelines/004a/rabbinic-judaism-and-roman-rule/ 301
+/timelines/004b/early-muslim-rule/ /timelines/004b/byzantine-decline-and-islamic-conquest/ 301
+/timelines/004c/the-crusader-kingdom/ /timelines/004d/crusaders-and-ayyubids/ 301
+/timelines/004d/mamluk-rule/ /timelines/004e/mamluk-rule-and-the-spanish-expulsion/ 301
+/timelines/004e/ottoman-rule/ /timelines/004f/ottoman-rule-and-jewish-resettlement/ 301
+/tl-004a /timelines/004a/rabbinic-judaism-and-roman-rule/ 301
+/tl-004b /timelines/004b/byzantine-decline-and-islamic-conquest/ 301
+/tl-004c /timelines/004c/abbasid-and-early-medieval-judaism/ 301
+/tl-004d /timelines/004d/crusaders-and-ayyubids/ 301
+/tl-004e /timelines/004e/mamluk-rule-and-the-spanish-expulsion/ 301
+/tl-004f /timelines/004f/ottoman-rule-and-jewish-resettlement/ 301

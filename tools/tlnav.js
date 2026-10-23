@@ -13,7 +13,7 @@
       var d=new DOMParser().parseFromString(html,'text/html'),na=d.querySelector('main article');if(!na){location.href=u;return}
       art().innerHTML=na.innerHTML;document.title=d.title;if(push)history.pushState({tl:1},'',u);bar();fit();if(window.__tlArrows)window.__tlArrows();try{document.dispatchEvent(new Event('tl:nav'))}catch(e){}}).catch(function(){location.href=u})}
   document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a');if(!a||e.metaKey||e.ctrlKey||e.shiftKey||e.button)return;var h=a.getAttribute('href')||'';
-    if((a.hasAttribute('data-tl')||a.closest('nav.pn'))&&/^\/timelines\/\d{3}[a-e]?\//.test(h)){e.preventDefault();load(h,true)}});
+    if((a.hasAttribute('data-tl')||a.closest('nav.pn'))&&/^\/timelines\/\d{3}[a-z]?\//.test(h)){e.preventDefault();load(h,true)}});
   window.addEventListener('popstate',function(){load(location.pathname,false)});
   document.addEventListener('keydown',function(e){if(/INPUT|TEXTAREA|SELECT/.test((e.target||{}).tagName||''))return;var x=nb(art()||document);
     if(e.key==='ArrowLeft'&&x.p){load(x.p.u,true)}else if(e.key==='ArrowRight'&&x.n){load(x.n.u,true)}});

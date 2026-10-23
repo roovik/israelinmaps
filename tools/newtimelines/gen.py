@@ -25,7 +25,7 @@ TPL = r'''<!doctype html><html><head><meta charset="utf-8"><style>
 body{width:1200px;height:1500px;background:#fff;color:#222;font-family:SSans;position:relative;overflow:hidden}
 .run{position:absolute;top:97px;left:109px;right:91px;display:flex;justify-content:space-between;font:600 13.5px SSans;letter-spacing:.2em;color:#666;border-bottom:1.5px solid #ccc;padding-bottom:14px}
 .of{position:absolute;top:156px;left:109px;font:400 24px SSerif;color:#222}
-h1{position:absolute;top:220px;left:107px;font:700 57px/1 SSerif;color:#1d1d1d;letter-spacing:-.005em}
+h1{position:absolute;top:220px;left:107px;white-space:nowrap;font:700 57px/1 SSerif;color:#1d1d1d;letter-spacing:-.005em}
 .rng{position:absolute;top:292px;left:109px;font:400 22px SSans;color:#666}
 .leg{position:absolute;top:300px;right:91px;display:flex;gap:16px;font:400 13.5px SSans;color:#444}
 .leg span{display:flex;align-items:center;gap:6px}.leg i{width:12px;height:12px;border-radius:50%;display:inline-block}
@@ -60,6 +60,7 @@ svg{position:absolute;left:0;top:0;z-index:2}
 <script>
 Promise.all(['400 14px SSans','600 14px SSans','700 14px SSans','400 14px SSerif','700 14px SSerif'].map(f=>document.fonts.load(f))).then(()=>document.fonts.ready).then(()=>{
 const D=%DATA%,C=%CAT%;
+{const h=document.querySelector('h1');let f=57;while(h.scrollWidth>1000&&f>34){f--;h.style.fontSize=f+'px'}h.style.whiteSpace='nowrap'}
 // mini ruler 2000 BCE to 2026
 const mini=document.getElementById('mini'),mx=y=>(y+2000)/4026*1000;
 mini.innerHTML='<div class="bg"></div><div class="hi" style="left:'+mx(D.y0)+'px;width:'+Math.max(3,mx(D.y1)-mx(D.y0))+'px"></div>'+[-2000,-1000,0,1000,2026].map(y=>'<div class="t" style="left:'+mx(y)+'px"></div>').join('');
