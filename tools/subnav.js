@@ -27,25 +27,26 @@
   (function(){
     var row=document.getElementById('subnav2');if(!row)return;
     var links=[].slice.call(row.querySelectorAll('a[href^="/timelines/"]'));if(links.length<10)return;
-    var ERAS=[{k:'ancient',t:'2000 BCE to 0',from:1,to:3},{k:'middle',t:'0 to 1850',from:4,to:5},{k:'modern',t:'1850 to today',from:6,to:99}];
+    var ERAS=[{t:'2000 BCE',r:'2000 to 1000 BCE',from:1,to:1},{t:'1000 BCE',r:'1000 BCE to 100 CE',from:2,to:3},{t:'100 CE',r:'100 to 1900',from:4,to:6},{t:'1900',r:'1900 to 1960',from:7,to:12},{t:'1960',r:'1960 to today',from:13,to:99}];
     function num(h){var m=/^\/timelines\/(\d{3})\//.exec(h||'');return m?+m[1]:0}
     function eraOf(n){for(var i=0;i<ERAS.length;i++)if(n>=ERAS[i].from&&n<=ERAS[i].to)return i;return -1}
     if(!document.getElementById('tl-era-css')){var st=document.createElement('style');st.id='tl-era-css';st.textContent=
       '.subnav.sub2.tl2{display:block;padding:8px 16px 10px}'+
-      '.tl-eras{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1.5px solid var(--sc,#6a3d9a);border-radius:0;overflow:hidden;max-width:640px;margin:0 auto}'+
+      '.tl-eras{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border:1.5px solid var(--sc,#6a3d9a);border-radius:0;overflow:hidden;max-width:860px;margin:0 auto}'+
       '.tl-eras button{font:600 .9rem system-ui,-apple-system,sans-serif;padding:9px 8px;border:0;background:#fff;color:var(--sc,#6a3d9a);cursor:pointer;white-space:nowrap}'+
       '.tl-eras button+button{border-left:1.5px solid var(--sc,#6a3d9a)}'+
       '.tl-eras button:hover{background:color-mix(in srgb,var(--sc,#6a3d9a) 10%,#fff)}'+
       '.tl-eras button[aria-selected=true]{background:var(--sc,#6a3d9a);color:#fff}'+
       '.tl-list{display:flex;flex-wrap:wrap;justify-content:center;gap:2px 4px;margin-top:8px}.tl-list[hidden]{display:none}'+
       '.subnav.sub2.tl2 .tl-list a{flex:none}'+
-      '@media (max-width:560px){.tl-eras button{font-size:.78rem;padding:9px 4px}.subnav.sub2.tl2{padding:8px 10px 10px}}';
+      '@media (max-width:380px){header.top .subnav.sub2.tl2 .tl-list a{padding:5px 2px!important;font-size:.74rem!important}}'+
+      '@media (max-width:700px){.tl-eras button{font-size:.8rem;padding:8px 2px}.subnav.sub2.tl2{padding:8px 8px 8px}.tl-list{gap:0 2px}header.top .subnav.sub2.tl2 .tl-list a{padding:5px 4px!important;font-size:.8rem!important}.tl-list{justify-content:space-between!important}}';
       document.head.appendChild(st)}
     row.classList.add('tl2');row.innerHTML='';
     var bar=document.createElement('div');bar.className='tl-eras';bar.setAttribute('role','tablist');bar.setAttribute('aria-label','Timeline eras');
     var list=document.createElement('div');list.className='tl-list';list.hidden=true;list.setAttribute('role','tabpanel');
     row.appendChild(bar);row.appendChild(list);
-    var btns=ERAS.map(function(e,i){var b=document.createElement('button');b.type='button';b.setAttribute('role','tab');b.textContent=e.t;b.setAttribute('aria-selected','false');
+    var btns=ERAS.map(function(e,i){var b=document.createElement('button');b.type='button';b.setAttribute('role','tab');b.textContent=e.t;b.title=e.r;b.setAttribute('aria-label',e.r);b.setAttribute('aria-selected','false');
       b.addEventListener('click',function(){show(i);var first=links.filter(function(a){return eraOf(num(a.getAttribute('href')))===i})[0];if(!first)return;var u=first.getAttribute('href');if(eraOf(num(location.pathname))===i)return;if(window.__tlLoad)window.__tlLoad(u);else location.href=u});bar.appendChild(b);return b});
     links.forEach(function(a){if(a.textContent==='Zionism Takes Shape')a.textContent='Zionism'});
     links.forEach(function(a){a.setAttribute('data-tl','1')});
