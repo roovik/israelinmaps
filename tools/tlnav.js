@@ -21,21 +21,23 @@
   /* Phones: the timeline image straight under the menu, floating arrows (and swipes) for earlier and later */
   (function(){
     var st=document.createElement('style');st.textContent=
-      '.tlarrow{display:none}'+
-      '@media (max-width:700px){'+
-        'body.tlfull main article>header.ih{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}'+
-        'body.tlfull .tlbar{display:none!important}'+
-        'body.tlfull main article .pages{margin-top:6px}'+
+      'body.tlfull main article>header.ih{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}'+
+      'body.tlfull .tlbar,body.tlfull main article nav.pn,body.tlfull .crumb{display:none!important}'+
+      'body.tlfull main article .pages{margin-top:6px}'+
+      '@media all{'+
         '.tlarrow{display:flex;align-items:center;justify-content:center;position:fixed;top:55%;z-index:30;width:40px;height:64px;margin-top:-32px;background:rgba(43,47,56,.78);color:#fff;text-decoration:none;font:700 1.5rem/1 system-ui,sans-serif;box-shadow:0 4px 14px rgba(0,0,0,.25);-webkit-tap-highlight-color:transparent}'+
         '.tlarrow:active{background:rgba(106,61,154,.92)}'+
         '.tlarrow.prev{left:0}.tlarrow.next{right:0}.tlarrow[hidden]{display:none}'+
-      '}';
+      '}'+
+      '@media (min-width:701px){.tlarrow{width:48px;height:88px;margin-top:-44px;font-size:2rem}}';
     document.head.appendChild(st);
     var P=document.createElement('a'),N=document.createElement('a');
     P.className='tlarrow prev';N.className='tlarrow next';P.innerHTML='&#8249;';N.innerHTML='&#8250;';P.setAttribute('data-tl','1');N.setAttribute('data-tl','1');
     document.body.appendChild(P);document.body.appendChild(N);
     window.__tlArrows=function(){var x=nb(art()||document);
       [[P,x.p,'Earlier: '],[N,x.n,'Later: ']].forEach(function(z){var el=z[0],q=z[1];if(q){el.href=q.u;el.hidden=false;el.setAttribute('aria-label',z[2]+q.t);el.title=z[2]+q.t}else{el.hidden=true;el.removeAttribute('href')}})};
+    function place(){var a=art(),pg=a&&a.querySelector('.pages');if(!pg||innerWidth<=700){P.style.left='';N.style.right='';return}var r=pg.getBoundingClientRect();P.style.left=Math.max(0,r.left)+'px';N.style.right=Math.max(0,innerWidth-r.right)+'px'}
+    window.addEventListener('resize',place);setTimeout(place,50);document.addEventListener('tl:nav',place);
     window.__tlArrows();
     var sx=null,sy=null;
     document.addEventListener('touchstart',function(e){var a=e.target.closest&&e.target.closest('main article .pages');if(!a||e.touches.length!==1){sx=null;return}sx=e.touches[0].clientX;sy=e.touches[0].clientY},{passive:true});
