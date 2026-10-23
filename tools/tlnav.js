@@ -11,7 +11,7 @@
     [x.p,x.n].forEach(function(q){if(q&&!cache[q.u])cache[q.u]=fetch(q.u).then(function(r){return r.text()}).catch(function(){return null})})}
   function load(u,push){(cache[u]||(cache[u]=fetch(u).then(function(r){return r.text()}))).then(function(html){if(!html){location.href=u;return}
       var d=new DOMParser().parseFromString(html,'text/html'),na=d.querySelector('main article');if(!na){location.href=u;return}
-      art().innerHTML=na.innerHTML;document.title=d.title;if(push)history.pushState({tl:1},'',u);window.scrollTo({top:0,behavior:'instant'});bar()}).catch(function(){location.href=u})}
+      art().innerHTML=na.innerHTML;document.title=d.title;if(push)history.pushState({tl:1},'',u);window.scrollTo({top:0,behavior:'instant'});bar();try{document.dispatchEvent(new Event('tl:nav'))}catch(e){}}).catch(function(){location.href=u})}
   document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a');if(!a||e.metaKey||e.ctrlKey||e.shiftKey||e.button)return;var h=a.getAttribute('href')||'';
     if((a.hasAttribute('data-tl')||a.closest('nav.pn'))&&/^\/timelines\/\d{3}\//.test(h)){e.preventDefault();load(h,true)}});
   window.addEventListener('popstate',function(){load(location.pathname,false)});
