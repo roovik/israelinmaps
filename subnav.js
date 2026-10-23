@@ -64,12 +64,13 @@
       for(var d=1910;d<2030;d+=10)if(d!==1920&&d!==1970&&d!==2000)h+='<span class="tk" style="left:'+X(d)+'%"></span>';
       [[-2000,'2000<b> BCE</b>','st'],[-1000,'1000<i> BCE</i>',''],[0,'0',''],[1000,'1000',''],[1900,'',''],[1920,'1920',''],[1970,'1970',''],[2000,'2000','ce']].forEach(function(m){h+='<span class="tk mj" style="left:'+X(m[0])+'%"></span><span class="lb '+m[2]+'" style="left:'+X(m[0])+'%">'+m[1]+'</span>'});
       h+='<span class="brk" style="left:'+SPLIT+'%"></span>';bar.insertAdjacentHTML('beforeend',h)})();
-    links.forEach(function(a){if(a.textContent==='Zionism Takes Shape')a.textContent='Zionism';if(/^\/timelines\/005\//.test(a.getAttribute('href')))a.textContent='1800s'});
+    links.forEach(function(a){if(a.textContent==='Zionism Takes Shape')a.textContent='Zionism'});
+    links=links.filter(function(a){if(/^\/timelines\/005\//.test(a.getAttribute('href'))){a.remove();return false}return true});
     links.forEach(function(a){a.setAttribute('data-tl','1')});
     var sel=-1;
     function show(i){sel=i;btns.forEach(function(b,j){b.setAttribute('aria-selected',j===i?'true':'false')});
       list.innerHTML='';var k=0;links.forEach(function(a){if(eraOf(num(a.getAttribute('href')))===i){var n=num(a.getAttribute('href'));a.style.setProperty('background',colorAt(ERAS[i],MID[n]!=null?MID[n]:1925+10*(n-9)),'important');k++;list.appendChild(a)}});list.hidden=false;mark2()}
-    function mark2(){var cur=location.pathname;links.forEach(function(a){a.className=a.getAttribute('href')===cur?'on':''})}
+    function mark2(){var cur=location.pathname;if(/^\/timelines\/005\//.test(cur))cur='/timelines/004e/ottoman-rule/';links.forEach(function(a){a.className=a.getAttribute('href')===cur?'on':''})}
     function sync(){var e=eraOf(num(location.pathname));if(e>-1)show(e);else mark2()}
     sync();window.addEventListener('popstate',sync);document.addEventListener('tl:nav',sync);
   })();
