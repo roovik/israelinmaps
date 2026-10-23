@@ -32,7 +32,7 @@
     function eraOf(n){for(var i=0;i<ERAS.length;i++)if(n>=ERAS[i].from&&n<=ERAS[i].to)return i;return -1}
     if(!document.getElementById('tl-era-css')){var st=document.createElement('style');st.id='tl-era-css';st.textContent=
       '.subnav.sub2.tl2{display:block;padding:8px 16px 10px}'+
-      '.tl-eras{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1.5px solid var(--sc,#6a3d9a);border-radius:999px;overflow:hidden;max-width:640px;margin:0 auto}'+
+      '.tl-eras{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1.5px solid var(--sc,#6a3d9a);border-radius:0;overflow:hidden;max-width:640px;margin:0 auto}'+
       '.tl-eras button{font:600 .9rem system-ui,-apple-system,sans-serif;padding:9px 8px;border:0;background:#fff;color:var(--sc,#6a3d9a);cursor:pointer;white-space:nowrap}'+
       '.tl-eras button+button{border-left:1.5px solid var(--sc,#6a3d9a)}'+
       '.tl-eras button:hover{background:color-mix(in srgb,var(--sc,#6a3d9a) 10%,#fff)}'+
