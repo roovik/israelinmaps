@@ -18,7 +18,7 @@
   var chan=null;Object.keys(CH).forEach(function(c){if(CH[c].keys.indexOf(k)>-1)chan=c});if(k==='media')chan='media';
   var keys=chan?CH[chan].keys:[k],title=chan?CH[chan].t:'';
   var NOMULTI={sources:1,views:1,about:1};
-  fetch('/asides.json').then(function(r){return r.json()}).then(function(A){
+  fetch('/asides.json?v=92807059').then(function(r){return r.json()}).then(function(A){
     var cur=p+location.hash,groups=[];
     keys.forEach(function(key){var s=A[key];if(!s)return;
       if(key==='glossary'){return}
