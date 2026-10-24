@@ -142,3 +142,28 @@
   var sx=0,sy=0;if(pg){pg.addEventListener('touchstart',function(e){sx=e.touches[0].clientX;sy=e.touches[0].clientY},{passive:true});
     pg.addEventListener('touchend',function(e){var dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.5&&i>-1){var q=seq[i+(dx<0?1:-1)];if(q)location.href=q[0]}},{passive:true})}
 })();
+
+/* Tours: each page reads as title, a large picture, then the description */
+(function(){
+  var p=location.pathname,m=p.match(/^\/tour\/([^\/]+)\/(?:([^\/]+)\/)?$/);if(!m)return;
+  var COV={"/tour/negev/": "/img/c/neg.webp", "/tour/dead-sea/": "/img/c/dse.webp", "/tour/judea-and-samaria/": "/img/c/jus.webp", "/tour/galilee/": "/img/c/gal.webp", "/tour/golan-heights/": "/img/c/gol.webp", "/tour/mediterranean-coast/": "/img/c/med.webp", "/tour/tel-aviv-and-jaffa/": "/img/c/taj.webp", "/tour/judean-hills/": "/img/c/jhl.webp", "/tour/jerusalem/": "/img/c/jrs.webp", "/tour/southern-plain-shfela/": "/img/c/shf.webp"};
+  var art=document.querySelector('main article');if(!art)return;
+  var det=art.querySelector('details.txt'),ps=det?[].map.call(det.querySelectorAll('p'),function(x){return x.textContent.trim()}):[];
+  var img,txt=[],sub='';
+  if(m[2]){var s=art.querySelector('.pages img');if(!s)return;img=s.getAttribute('src').replace('/img/s/','/img/i/');
+    sub=ps[1]||'';txt=ps.slice(2).filter(function(t){return !/^Glossary:/.test(t)})}
+  else{img=COV[p];var h1=(art.querySelector('h1')||{}).textContent||'';var i=ps.indexOf(h1);var stops=[].map.call(art.querySelectorAll('.idlist a'),function(a){return a.textContent.trim()});
+    for(var k=i+1;k<ps.length;k++){var t=ps[k];if(stops.indexOf(t)>-1||(t===t.toUpperCase()&&/[A-Z]/.test(t)))break;txt.push(t)}
+    txt=[txt.join(' ').replace(/\s+/g,' ')]}
+  if(!img)return;
+  var st=document.createElement('style');st.textContent=
+    'body .tourfig{margin:8px 0 14px;text-align:center}body .tourfig img{width:100%;max-width:900px;max-height:72vh;object-fit:cover;display:block;margin:0 auto;border-radius:0}'+
+    'body .tourtxt{max-width:760px;margin:0 auto 18px;font:1.12rem/1.6 Georgia,serif;color:#222}body .tourtxt .sub{font-style:italic;color:#555;margin:0 0 .6em;font-size:1.15rem}'+
+    'main article .pages,main article .crumb2,main article header .meta,main article details.txt{display:none!important}main article header.ih h1{margin-bottom:4px}';
+  document.head.appendChild(st);
+  var f=document.createElement('figure');f.className='tourfig';var im=document.createElement('img');im.src=img;im.alt=(art.querySelector('h1')||{}).textContent||'';f.appendChild(im);
+  var d=document.createElement('div');d.className='tourtxt';d.innerHTML=(sub?'<p class="sub">'+sub.replace(/</g,'&lt;')+'</p>':'')+txt.map(function(t){return '<p>'+t.replace(/</g,'&lt;')+'</p>'}).join('');
+  var hd=art.querySelector('header');(hd||art.firstChild).insertAdjacentElement(hd?'afterend':'beforebegin',f);f.insertAdjacentElement('afterend',d);
+  var sx=0,sy=0;f.addEventListener('touchstart',function(e){sx=e.touches[0].clientX;sy=e.touches[0].clientY},{passive:true});
+  f.addEventListener('touchend',function(e){var dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.5){var a=document.querySelector('.tourarrow.'+(dx<0?'next':'prev'));if(a)location.href=a.href}},{passive:true});
+})();
