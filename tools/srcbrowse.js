@@ -66,7 +66,7 @@
     rows.push('<li><b>Contact</b> No public contact details are listed yet. <a href="/contact/">Send us a correction or contact</a>.</li>');
     return'<section id="sb-more" class="sbmore"><h2>More NOWlej about '+esc(it.name)+'</h2><ul>'+rows.join('')+'</ul></section>'}
   var H1=document.querySelector('.newsmain h1,main h1'),H1T=H1?H1.textContent:'';
-  function setH1(it){if(!H1)return;var t=it&&it.id!=='all'?'Sources: '+SING+': '+it.name:H1T;H1.textContent=t;document.title=t+' | Israel NOWlej'}
+  function setH1(it){if(!H1)return;var t=it&&it.id!=='all'?SING+': '+it.name:H1T;H1.textContent=t;document.title=t+' | Israel NOWlej'}
   var seq=0;
   function showAll(){last=null;setH1(null);pick.hidden=false;tabs.hidden=true;out.innerHTML='';var q=qEl.value.trim().toLowerCase(),n=0,s=sortEl.value,as=[].slice.call(pick.children);
     as.sort(function(a,b){var x=by[a.getAttribute('data-s')],y=by[b.getAttribute('data-s')];if(!x||!y)return 0;return s==='old'?0:lbl(x).toLowerCase().localeCompare(lbl(y).toLowerCase())}).forEach(function(a){pick.appendChild(a)});
