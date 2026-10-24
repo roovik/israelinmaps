@@ -1,6 +1,6 @@
 /* NOWlej sections: Section, Sort and Filter row over the whole NOWlej index (maps, tours, timelines, charts, topics, A-Z, flora). */
 (function(){
-  var P={'/glossary/':1,'/maps/':1,'/tour/':1,'/timelines/':1,'/charts/':1,'/hot/':1,'/size/':1,'/rankings/':1,'/demographics/':1,'/tables/':1,'/top-ten/':1,'/population/':1,'/flora/':1};
+  var P={'/glossary/':1,'/maps/':1,'/about/':1,'/charts/':1,'/hot/':1,'/size/':1,'/rankings/':1,'/demographics/':1,'/tables/':1,'/top-ten/':1,'/population/':1,'/flora/':1};
   if(!P[location.pathname])return;
   var h1=document.querySelector('.newspage h1');if(!h1)return;
   function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
