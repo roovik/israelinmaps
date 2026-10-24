@@ -43,6 +43,11 @@ PAGES = [
   ],
   also=[
    ('c. 571 BCE',-571,'f','Ezekiel prophesies among the exiles in Babylon.'),
+   ('c. 550 BCE',-550,'r','Cyrus founds the Persian Empire.'),
+   ('522 BCE',-522,'r','Darius I takes the Persian throne and confirms the right to rebuild the Temple.'),
+   ('404 BCE',-404,'r','Egypt breaks away from Persia, and Judea becomes a border province.'),
+   ('333 BCE',-333,'c','Alexander defeats Darius III at Issus.'),
+   ('c. 586 BCE',-584,'s','The Babylonians leave the poorest of the land to work its vineyards and fields.'),
    ('562 BCE',-562,'d','King Jehoiachin of Judah is released from prison in Babylon.'),
    ('c. 545 BCE',-545,'l','The prophecies of comfort in the later chapters of Isaiah console the exiles.'),
    ('538 BCE',-535,'s','The first exiles return under Sheshbazzar.'),

@@ -4,14 +4,11 @@ sys.path.insert(0, os.path.dirname(__file__))
 import gen
 from playwright.sync_api import sync_playwright
 RULER = open(os.path.join(os.path.dirname(__file__), 'ruler_defs.js')).read()
-ERAS = [
- ('Patriarchs to Saul', '2000 to 1000 BCE', [('1', 'Patriarchs to the First Kings', '2000 to 1000 BCE')]),
- ('David to Bar Kokhba', '1000 BCE to 135 CE', [('2a', 'Kings and Prophets', '1000 to 586 BCE'), ('2b', 'Exile and Return', '586 to 332 BCE'), ('3', 'Greeks, Hasmoneans and Romans', '350 BCE to 100 CE')]),
- ('Survival without sovereignty', '135 to 1917', [('4a', 'Rabbinic Judaism and Roman Rule', '135 to 500'), ('4b', 'Byzantine Decline and Islamic Conquest', '500 to 750'), ('4c', 'Abbasid and Early Medieval Judaism', '750 to 1099'), ('4d', 'Crusaders and Ayyubids', '1099 to 1260'), ('4e', 'Mamluk Rule and the Spanish Expulsion', '1260 to 1517'), ('4f', 'Ottoman Rule and Jewish Resettlement', '1517 to 1799'), ('5', 'The Ottoman Land', '1800 to 1880'), ('6', 'Zionism Takes Shape', '1881 to 1900'), ('7', 'The 1900s', '1900 to 1909'), ('8', 'The 1910s', '1910 to 1919')]),
- ('British Mandate, Holocaust and statehood', '1917 to 1948', [('9', 'The 1920s', '1920 to 1929'), ('10', 'The 1930s', '1930 to 1939'), ('11', 'The 1940s', '1940 to 1949')]),
- ('Independence and regional wars', '1948 to 1993', [('', 'Independence and Ingathering', '1948 to 1955'), ('', 'Sinai and the Years Between', '1956 to 1966'), ('', 'The Six-Day War and Yom Kippur', '1967 to 1976'), ('', 'Upheaval, Peace and Intifada', '1977 to 1992')]),
- ('Peace efforts, conflict and realignment', '1993 to today', [('', 'Oslo and the Second Intifada', '1993 to 2004'), ('', 'Disengagement and the Gaza Wars', '2005 to 2014'), ('', 'Abraham Accords to October 7', '2015 to October 7, 2023'), ('', 'The Seven-Front War', 'October 8, 2023 to today')]),
-]
+_R = json.load(open(os.path.join(os.path.dirname(__file__), 'registry.json')))
+_G = [('Patriarchs to Saul', '2000 to 1000 BCE', [1]), ('David to Bar Kokhba', '1000 BCE to 135 CE', [2, 3, 4]),
+      ('Survival without sovereignty', '135 to 1917', list(range(5, 15))), ('British Mandate, Holocaust and statehood', '1917 to 1948', [15, 16, 17]),
+      ('Independence and regional wars', '1948 to 1993', list(range(18, 23))), ('Peace efforts, conflict and realignment', '1993 to today', list(range(23, 27)))]
+ERAS = [(n, y, [(str(r['n']), r['title'], r['rng']) for r in _R if r['n'] in ids]) for n, y, ids in _G]
 KEY = [('#8fadea', 'Jewish sovereignty'), ('#e6cfa6', 'Ancient empires'), ('#eeb5ae', 'Christian rule'), ('#b0d6a8', 'Muslim rule'), ('stripe:#a3cf9c:#8fadea', 'The return to Zion'), ('stripe:#d9d4cb:#7ea0e6', 'British Mandate')]
 H = r'''<!doctype html><html><head><meta charset="utf-8"><style>%F%
 *{box-sizing:border-box;margin:0;padding:0}body{width:1200px;height:1500px;background:#fff;color:#222;font-family:SSans;position:relative;overflow:hidden}

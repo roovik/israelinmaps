@@ -31,7 +31,8 @@ for a, b in R:
     assert a in T, a[:70]; T = T.replace(a, b)
 T = T.replace("pos=pos.map(p=>Math.max(p,A0));els.forEach((e,i)=>e.style.top=pos[i]+'px');return pos}", "pos=pos.map(p=>Math.max(p,A0));for(let i=1;i<els.length;i++)pos[i]=Math.max(pos[i],pos[i-1]+els[i-1].offsetHeight+gap);els.forEach((e,i)=>e.style.top=pos[i]+'px');return pos}")
 T = T.replace("const tf=", "const tf=")
-with sync_playwright() as p:
+def _main():
+  with sync_playwright() as p:
     b = p.chromium.launch()
     for P in PAGES:
         n = P['id'].lstrip('0')
@@ -44,3 +45,4 @@ with sync_playwright() as p:
         print(P['id'], 'over', pg.evaluate('window.OVER'), pg.evaluate("getComputedStyle(document.body).getPropertyValue('--fs')"))
         pg.screenshot(path=f'{sys.argv[1]}/{P["id"]}.png'); pg.close()
     b.close()
+if __name__ == '__main__': _main()

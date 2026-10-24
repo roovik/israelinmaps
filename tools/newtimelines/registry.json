@@ -1,0 +1,5371 @@
+[
+ {
+  "n": 1,
+  "slug": "patriarchs-to-the-first-kings",
+  "title": "Patriarchs to the First Kings",
+  "menu": "Patriarchs & Judges",
+  "rng": "2000 to 1000 BCE",
+  "intro": "Canaan is a land of fortified city-states between Egypt and Mesopotamia. The Bible’s accounts of the Patriarchs, the Exodus and the conquest are traditional, and their dates are approximate. The first outside mention of Israel comes from Egypt.",
+  "style": "std",
+  "y0": -2000,
+  "y1": -1000,
+  "step": 100,
+  "tp": [
+   [
+    "c. 2000 BCE",
+    -2000,
+    "r",
+    "Canaan flourishes.",
+    "The Middle Bronze Age begins. Fortified cities rise across the land and Canaanite worship of Baal, Asherah and El takes shape."
+   ],
+   [
+    "c. 1900 to 1850 BCE",
+    -1900,
+    "r",
+    "Abraham, by tradition.",
+    "Biblical tradition places Abraham’s journey to Canaan in these years, with family-based worship."
+   ],
+   [
+    "c. 1208 BCE",
+    -1208,
+    "r",
+    "Israel named on a stele.",
+    "Pharaoh Merneptah’s victory stele mentions Israel as a people. It is the earliest known mention outside the Bible."
+   ],
+   [
+    "c. 1200 BCE",
+    -1200,
+    "s",
+    "The Bronze Age collapse.",
+    "Canaanite city-states fall. The Sea Peoples arrive, among them the Philistines, and Shiloh and Shechem become religious centers."
+   ],
+   [
+    "c. 1150 BCE",
+    -1150,
+    "s",
+    "Philistines and highland villages.",
+    "Philistine city-states form on the coastal plain while early Israelite villages appear in the hills."
+   ],
+   [
+    "c. 1050 BCE",
+    -1050,
+    "r",
+    "Saul is anointed king.",
+    "Under Philistine pressure the tribes accept a king. Saul is the first."
+   ]
+  ],
+  "also": [
+   [
+    "c. 1750 BCE",
+    -1750,
+    "r",
+    "Hazor becomes a great city. It is the largest fortified city in the region, a hub on the trade road between Egypt and Mesopotamia."
+   ],
+   [
+    "c. 1274 BCE",
+    -1274,
+    "r",
+    "The Battle of Kadesh. Ramses II of Egypt and the Hittites fight for control of the Levant."
+   ],
+   [
+    "c. 1950 BCE",
+    -1950,
+    "s",
+    "Fortified cities such as Jericho and Arad are founded."
+   ],
+   [
+    "c. 1750 to 1650 BCE",
+    -1750,
+    "c",
+    "Isaac and Jacob, and Joseph’s rise in Egypt, by tradition. The Hyksos bring chariots."
+   ],
+   [
+    "c. 1550 to 1500 BCE",
+    -1550,
+    "r",
+    "The Hyksos are expelled from Egypt. Thutmose III takes Megiddo and Egypt rules Canaan."
+   ],
+   [
+    "c. 1450 BCE",
+    -1450,
+    "r",
+    "Traditional date of the Exodus."
+   ],
+   [
+    "c. 1400 to 1300 BCE",
+    -1400,
+    "r",
+    "The Amarna letters show unrest. Hazor, Lachish and Gezer stay loyal to Egypt."
+   ],
+   [
+    "c. 1250 BCE",
+    -1250,
+    "r",
+    "Traditional date of Joshua’s conquest. Worship gathers around Yahweh."
+   ],
+   [
+    "c. 1120 BCE",
+    -1120,
+    "r",
+    "Deborah and Barak defeat a Canaanite army, by tradition."
+   ],
+   [
+    "c. 1100 BCE",
+    -1100,
+    "r",
+    "The Ark of the Covenant is kept at Shiloh."
+   ],
+   [
+    "c. 1020 BCE",
+    -1020,
+    "r",
+    "Philistine pressure on the tribes grows."
+   ],
+   [
+    "c. 1010 BCE",
+    -1010,
+    "r",
+    "David defeats Goliath and begins his rise, by tradition."
+   ],
+   [
+    "c. 1650 BCE",
+    -1650,
+    "r",
+    "Hyksos rulers of Canaanite origin take power in Egypt."
+   ],
+   [
+    "c. 1177 BCE",
+    -1177,
+    "r",
+    "Ramses III defeats the Sea Peoples in battles on Egypt’s coast."
+   ],
+   [
+    "c. 1800 BCE",
+    -1800,
+    "r",
+    "The earliest alphabetic inscriptions are cut by Canaanite workers at Serabit el-Khadim in Sinai."
+   ],
+   [
+    "c. 1100 BCE",
+    -1100,
+    "l",
+    "The Song of Deborah is composed. Its date is debated and it may be among the oldest texts of the Bible."
+   ],
+   [
+    "c. 1050 BCE",
+    -1050,
+    "r",
+    "The Phoenician alphabet, ancestor of the Hebrew, Greek and Latin letters, takes shape."
+   ],
+   [
+    "c. 1000 BCE",
+    -1000,
+    "r",
+    "The Psalms are attributed by tradition to David."
+   ]
+  ],
+  "id": "001"
+ },
+ {
+  "n": 2,
+  "slug": "kings-and-prophets",
+  "title": "Kings and Prophets",
+  "menu": "Kings & Prophets",
+  "rng": "1000 to 586 BCE",
+  "intro": "David makes Jerusalem the capital and Solomon builds the First Temple. The kingdom then splits in two. The prophets speak out against kings and idols, Assyria ends the north, and Babylon ends the south.",
+  "style": "std",
+  "y0": -1000,
+  "y1": -586,
+  "step": 50,
+  "tp": [
+   [
+    "c. 1000 BCE",
+    -1000,
+    "r",
+    "David makes Jerusalem the capital.",
+    "He unites the tribes into one kingdom and secures the trade routes."
+   ],
+   [
+    "c. 960 BCE",
+    -960,
+    "f",
+    "Solomon builds the First Temple.",
+    "The kingdom reaches its height in wealth and trade, and Jerusalem becomes a religious center."
+   ],
+   [
+    "c. 930 BCE",
+    -930,
+    "r",
+    "The kingdom splits.",
+    "After Solomon’s death the northern tribes form Israel and the south becomes Judah."
+   ],
+   [
+    "c. 853 BCE",
+    -853,
+    "c",
+    "The Battle of Qarqar.",
+    "Ahab of Israel joins an alliance that fights Assyria. It is the first Assyrian record that names an Israelite king."
+   ],
+   [
+    "722 BCE",
+    -722,
+    "c",
+    "Samaria falls to Assyria.",
+    "The northern kingdom is conquered and its people are scattered."
+   ],
+   [
+    "701 BCE",
+    -701,
+    "c",
+    "Hezekiah withstands Sennacherib.",
+    "The Assyrian king besieges Jerusalem and does not take it. Hezekiah’s water tunnel supplies the city."
+   ],
+   [
+    "622 BCE",
+    -622,
+    "f",
+    "Josiah’s reform.",
+    "A law book found during Temple repairs leads the king to end idol worship."
+   ],
+   [
+    "586 BCE",
+    -586,
+    "c",
+    "Babylon destroys the First Temple.",
+    "Jerusalem falls, the Temple is burned and Judah’s leaders are taken to Babylon."
+   ]
+  ],
+  "also": [
+   [
+    "c. 990 BCE",
+    -990,
+    "f",
+    "The prophet Nathan rebukes King David, by tradition."
+   ],
+   [
+    "c. 950 BCE",
+    -950,
+    "l",
+    "The Gezer calendar, an early Hebrew inscription, records the farming year."
+   ],
+   [
+    "c. 925 BCE",
+    -925,
+    "c",
+    "Pharaoh Shishak raids Judah and Israel."
+   ],
+   [
+    "c. 880 BCE",
+    -880,
+    "s",
+    "Omri founds Samaria as the capital of the northern kingdom."
+   ],
+   [
+    "c. 870 BCE",
+    -870,
+    "f",
+    "Ahab and Jezebel promote the worship of Baal. The prophets Elijah and Elisha oppose it."
+   ],
+   [
+    "c. 841 BCE",
+    -841,
+    "r",
+    "Jehu overthrows Ahab’s house in a coup and ends Baal worship."
+   ],
+   [
+    "c. 840 BCE",
+    -835,
+    "l",
+    "The Mesha Stele of Moab tells of Israel’s rule over Moab."
+   ],
+   [
+    "c. 760 BCE",
+    -760,
+    "f",
+    "The prophets Amos and Hosea condemn injustice and idolatry."
+   ],
+   [
+    "c. 740 BCE",
+    -740,
+    "l",
+    "Isaiah and Micah prophesy in Judah, and Isaiah’s poetry shapes the Hebrew Bible."
+   ],
+   [
+    "732 BCE",
+    -732,
+    "c",
+    "Assyria takes the Galilee and sends many of its people into exile."
+   ],
+   [
+    "701 BCE",
+    -698,
+    "l",
+    "The Siloam inscription records the digging of Hezekiah’s tunnel."
+   ],
+   [
+    "c. 626 BCE",
+    -626,
+    "f",
+    "Jeremiah begins to prophesy. After the fall, Lamentations mourns Jerusalem."
+   ],
+   [
+    "609 BCE",
+    -609,
+    "c",
+    "Josiah is killed at Megiddo."
+   ],
+   [
+    "597 BCE",
+    -597,
+    "c",
+    "Babylon captures Jerusalem for the first time."
+   ],
+   [
+    "c. 588 BCE",
+    -588,
+    "l",
+    "The Lachish letters, written in Hebrew on pottery, record Judah’s last days."
+   ]
+  ],
+  "id": "002"
+ },
+ {
+  "n": 3,
+  "slug": "exile-and-return",
+  "title": "Exile and Return",
+  "menu": "Exile & Return",
+  "rng": "586 to 332 BCE",
+  "intro": "The exiles keep their faith by the rivers of Babylon. Persia conquers Babylon and lets them go home. They rebuild the Temple and the walls of Jerusalem, and the Torah becomes the law of the people.",
+  "style": "std",
+  "y0": -586,
+  "y1": -332,
+  "step": 50,
+  "tp": [
+   [
+    "586 BCE",
+    -586,
+    "c",
+    "Babylon destroys the First Temple.",
+    "Judah’s leaders and craftsmen are taken to Babylon."
+   ],
+   [
+    "c. 582 BCE",
+    -582,
+    "r",
+    "Gedaliah is murdered.",
+    "The governor appointed by Babylon is killed, and many Judeans flee to Egypt."
+   ],
+   [
+    "539 BCE",
+    -539,
+    "d",
+    "Cyrus lets the exiles return.",
+    "The Persian king conquers Babylon and allows the Jews to go home and rebuild."
+   ],
+   [
+    "c. 515 BCE",
+    -515,
+    "f",
+    "The Second Temple is completed.",
+    "It stands on the site of the first, in the Persian province of Yehud."
+   ],
+   [
+    "c. 458 BCE",
+    -458,
+    "f",
+    "Ezra arrives from Babylon.",
+    "He teaches the Torah and leads a renewal of the covenant."
+   ],
+   [
+    "c. 445 BCE",
+    -445,
+    "s",
+    "Nehemiah rebuilds the walls.",
+    "A governor sent by the Persian king restores the walls of Jerusalem, by tradition in 52 days."
+   ],
+   [
+    "c. 400 BCE",
+    -400,
+    "l",
+    "The Hebrew Bible takes shape.",
+    "Scribes under Persian rule gather the Torah, the prophets and the histories."
+   ],
+   [
+    "332 BCE",
+    -332,
+    "r",
+    "Alexander the Great conquers the land.",
+    "Persian rule ends and Greek rule begins."
+   ]
+  ],
+  "also": [
+   [
+    "c. 571 BCE",
+    -571,
+    "f",
+    "Ezekiel prophesies among the exiles in Babylon."
+   ],
+   [
+    "c. 550 BCE",
+    -550,
+    "r",
+    "Cyrus founds the Persian Empire."
+   ],
+   [
+    "522 BCE",
+    -522,
+    "r",
+    "Darius I takes the Persian throne and confirms the right to rebuild the Temple."
+   ],
+   [
+    "404 BCE",
+    -404,
+    "r",
+    "Egypt breaks away from Persia, and Judea becomes a border province."
+   ],
+   [
+    "333 BCE",
+    -333,
+    "c",
+    "Alexander defeats Darius III at Issus."
+   ],
+   [
+    "c. 586 BCE",
+    -584,
+    "s",
+    "The Babylonians leave the poorest of the land to work its vineyards and fields."
+   ],
+   [
+    "562 BCE",
+    -562,
+    "d",
+    "King Jehoiachin of Judah is released from prison in Babylon."
+   ],
+   [
+    "c. 545 BCE",
+    -545,
+    "l",
+    "The prophecies of comfort in the later chapters of Isaiah console the exiles."
+   ],
+   [
+    "538 BCE",
+    -535,
+    "s",
+    "The first exiles return under Sheshbazzar."
+   ],
+   [
+    "520 BCE",
+    -520,
+    "f",
+    "The prophets Haggai and Zechariah urge the rebuilding of the Temple."
+   ],
+   [
+    "c. 520 BCE",
+    -510,
+    "r",
+    "Zerubbabel, of the house of David, governs Judea."
+   ],
+   [
+    "c. 480 BCE",
+    -480,
+    "l",
+    "The story of Esther is set at the Persian court of Xerxes."
+   ],
+   [
+    "c. 450 BCE",
+    -450,
+    "f",
+    "The Samaritans build a temple on Mount Gerizim, according to excavations."
+   ],
+   [
+    "c. 440 BCE",
+    -440,
+    "f",
+    "Malachi, the last of the prophets, preaches in Jerusalem."
+   ],
+   [
+    "407 BCE",
+    -407,
+    "d",
+    "Jews of Elephantine in Egypt write to the governor of Judea to rebuild their temple."
+   ],
+   [
+    "c. 350 BCE",
+    -350,
+    "l",
+    "Silver coins stamped Yehud are minted in Judea."
+   ],
+   [
+    "c. 350 BCE",
+    -345,
+    "c",
+    "A Jewish revolt against Persia is put down."
+   ]
+  ],
+  "id": "003"
+ },
+ {
+  "n": 4,
+  "slug": "greeks-hasmoneans-and-romans",
+  "title": "Greeks, Hasmoneans and Romans",
+  "menu": "Greeks, Jews & Romans",
+  "rng": "350 BCE to 100 CE",
+  "intro": "Alexander brings Greek rule and Greek culture. A revolt against Greek rule creates the Hasmonean kingdom. Rome takes over, Herod rebuilds Jerusalem, and in 70 the Romans destroy the Second Temple.",
+  "style": "std",
+  "y0": -350,
+  "y1": 100,
+  "step": 50,
+  "tp": [
+   [
+    "332 BCE",
+    -332,
+    "s",
+    "Alexander the Great conquers the land.",
+    "Greek culture and Greek-style cities arrive with him."
+   ],
+   [
+    "167 BCE",
+    -167,
+    "r",
+    "The Maccabean Revolt begins.",
+    "Antiochus IV desecrates the Temple and bans Jewish practice. Judah Maccabee leads the revolt."
+   ],
+   [
+    "164 BCE",
+    -164,
+    "r",
+    "The Temple is rededicated.",
+    "The Maccabees retake Jerusalem. The rededication is the first Hanukkah."
+   ],
+   [
+    "140 BCE",
+    -140,
+    "r",
+    "The Hasmonean dynasty.",
+    "Simon is confirmed as ruler and high priest, and Judea is independent."
+   ],
+   [
+    "63 BCE",
+    -63,
+    "r",
+    "Pompey takes Jerusalem.",
+    "Judea becomes a client state of Rome."
+   ],
+   [
+    "37 BCE",
+    -37,
+    "r",
+    "Herod becomes king.",
+    "Rome’s client king launches huge building projects, among them the rebuilding of the Temple."
+   ],
+   [
+    "66 CE",
+    66.5,
+    "r",
+    "The First Revolt against Rome.",
+    "Heavy taxes and religious tension set off a rebellion."
+   ],
+   [
+    "70 CE",
+    70.5,
+    "r",
+    "The Romans destroy the Second Temple.",
+    "Titus takes Jerusalem and burns the Temple. Masada falls in 73."
+   ]
+  ],
+  "also": [
+   [
+    "198 BCE",
+    -198,
+    "r",
+    "Antiochus III takes Judea. The Seleucid king defeats the Ptolemies at Panium and Seleucid rule begins."
+   ],
+   [
+    "c. 104 BCE",
+    -104,
+    "r",
+    "Aristobulus I takes the title of king. He is the first Hasmonean ruler to do so."
+   ],
+   [
+    "c. 26 CE",
+    26.5,
+    "r",
+    "Pontius Pilate becomes governor of Judea. He governs for about ten years."
+   ],
+   [
+    "c. 30 CE",
+    30.5,
+    "r",
+    "Jesus is crucified in Jerusalem. The event is the foundation of Christianity."
+   ],
+   [
+    "c. 350 BCE",
+    -350,
+    "r",
+    "A Jewish revolt against Persia is put down."
+   ],
+   [
+    "320 BCE",
+    -320,
+    "r",
+    "The Ptolemies of Egypt take control of the land."
+   ],
+   [
+    "312 BCE",
+    -312,
+    "c",
+    "The Seleucids win control after the Battle of Gaza. The two dynasties keep fighting for the land."
+   ],
+   [
+    "c. 250 BCE",
+    -250,
+    "r",
+    "The Septuagint, a Greek translation of the Hebrew Bible, is begun in Alexandria."
+   ],
+   [
+    "175 BCE",
+    -175,
+    "r",
+    "Antiochus IV takes the Seleucid throne and presses Hellenization."
+   ],
+   [
+    "160 BCE",
+    -160,
+    "r",
+    "Judah Maccabee dies and his brothers Jonathan and Simon lead."
+   ],
+   [
+    "c. 103 BCE",
+    -103,
+    "r",
+    "Alexander Jannaeus rules as king and expands the kingdom further."
+   ],
+   [
+    "76 BCE",
+    -76,
+    "d",
+    "Queen Salome Alexandra rules in relative peace."
+   ],
+   [
+    "c. 20 BCE",
+    -20,
+    "r",
+    "Herod begins the great renovation of the Temple. 4 BCE Herod dies and his kingdom is divided among his sons. 6 CE Judea becomes a Roman province under a governor."
+   ],
+   [
+    "c. 90 CE",
+    90.5,
+    "r",
+    "Scholars at Yavne reorganize Jewish practice without the Temple."
+   ],
+   [
+    "c. 100 CE",
+    100.5,
+    "s",
+    "The core of the Hebrew Bible reaches its settled form."
+   ],
+   [
+    "c. 50 CE",
+    50.5,
+    "r",
+    "Paul begins his journeys across the Roman Empire."
+   ],
+   [
+    "67 CE",
+    67.5,
+    "r",
+    "Vespasian’s army begins the conquest of the Galilee."
+   ],
+   [
+    "c. 180 BCE",
+    -180,
+    "r",
+    "Ben Sira writes his book of wisdom in Jerusalem."
+   ],
+   [
+    "c. 150 BCE",
+    -150,
+    "f",
+    "The Qumran community gathers scrolls written from the 3rd century BCE to the 1st century CE."
+   ],
+   [
+    "c. 22 BCE",
+    -22,
+    "r",
+    "Herod builds the harbor and theater of Caesarea."
+   ],
+   [
+    "c. 75 CE",
+    75.5,
+    "c",
+    "Josephus writes The Jewish War in Rome."
+   ]
+  ],
+  "id": "004"
+ },
+ {
+  "n": 5,
+  "slug": "rabbinic-judaism-and-roman-rule",
+  "title": "Rabbinic Judaism and Roman Rule",
+  "menu": "Roman",
+  "rng": "135 to 500",
+  "intro": "After Bar Kokhba, Jewish life gathers around the sages. The Mishnah and the Talmuds are written, and in the fourth century Roman rule becomes Byzantine Christian rule.",
+  "style": "dual",
+  "y0": 135,
+  "y1": 500,
+  "step": 50,
+  "left": [
+   [
+    "135",
+    135,
+    "c",
+    "Hadrian bars the Jews from Jerusalem.",
+    "After the Bar Kokhba revolt fails, Jerusalem becomes Aelia Capitolina and Judea is renamed Syria Palaestina."
+   ],
+   [
+    "c. 140",
+    140,
+    "f",
+    "",
+    "The surviving sages reconvene at Usha in the Galilee and rebuild the Sanhedrin."
+   ],
+   [
+    "c. 200",
+    200,
+    "f",
+    "The Mishnah is compiled.",
+    "Rabbi Judah the Prince writes down the oral law in the Galilee."
+   ],
+   [
+    "c. 220",
+    220,
+    "l",
+    "",
+    "Beth Shearim becomes the burial place of Rabbi Judah the Prince and the sages."
+   ],
+   [
+    "c. 250",
+    250,
+    "f",
+    "",
+    "Rabbi Yohanan heads the academy of Tiberias, whose teachings fill the Jerusalem Talmud."
+   ],
+   [
+    "351",
+    351,
+    "c",
+    "The revolt against Gallus.",
+    "Jews in the Galilee rise against Roman rule. Sepphoris, Tiberias and Lod are damaged as it is put down."
+   ],
+   [
+    "c. 359",
+    359,
+    "f",
+    "",
+    "Hillel II publishes a fixed Hebrew calendar, according to tradition."
+   ],
+   [
+    "363",
+    363,
+    "f",
+    "Julian plans to rebuild the Temple.",
+    "The emperor allows work to begin in Jerusalem. It stops within weeks, after a fire, an earthquake and his death in battle."
+   ],
+   [
+    "c. 375",
+    375,
+    "l",
+    "",
+    "The Hammat Tiberias synagogue is laid with its zodiac mosaic."
+   ],
+   [
+    "c. 400",
+    400,
+    "f",
+    "The Jerusalem Talmud is completed.",
+    "It is finished in the Galilee and builds on the Mishnah."
+   ],
+   [
+    "c. 425",
+    425,
+    "r",
+    "The patriarchate ends.",
+    "Rome stops recognizing the Jewish patriarch in Tiberias, the head of the Jews for centuries."
+   ],
+   [
+    "438",
+    438,
+    "d",
+    "",
+    "Empress Eudocia allows Jews to pray at the Temple Mount on the festivals."
+   ],
+   [
+    "c. 500",
+    499,
+    "f",
+    "The Babylonian Talmud is completed.",
+    "The sages of Babylonia finish the work that becomes the core of Jewish law."
+   ]
+  ],
+  "right": [
+   [
+    "212",
+    212,
+    "d",
+    "",
+    "Caracalla grants Roman citizenship to all free men of the empire, Jews among them."
+   ],
+   [
+    "270",
+    270,
+    "c",
+    "",
+    "Queen Zenobia of Palmyra seizes the eastern provinces until Rome retakes them in 272."
+   ],
+   [
+    "313",
+    313,
+    "d",
+    "Rome tolerates Christianity.",
+    "Constantine ends the persecution of Christians. Jerusalem soon becomes a center of Christian pilgrimage."
+   ],
+   [
+    "324",
+    324,
+    "r",
+    "",
+    "Constantine takes the eastern empire, and the land comes under a Christian emperor."
+   ],
+   [
+    "c. 326",
+    326,
+    "f",
+    "",
+    "Empress Helena visits the Holy Land, and churches rise at Bethlehem and the Mount of Olives."
+   ],
+   [
+    "330",
+    330,
+    "r",
+    "",
+    "Constantinople becomes the capital of the empire."
+   ],
+   [
+    "c. 335",
+    335,
+    "f",
+    "",
+    "The Church of the Holy Sepulchre is consecrated in Jerusalem."
+   ],
+   [
+    "380",
+    380,
+    "f",
+    "",
+    "Theodosius makes Christianity the religion of the empire."
+   ],
+   [
+    "395",
+    395,
+    "r",
+    "",
+    "The empire splits in two, and the land is ruled from Constantinople."
+   ],
+   [
+    "438",
+    437.5,
+    "d",
+    "",
+    "The Theodosian Code bars Jews from public office."
+   ],
+   [
+    "451",
+    451,
+    "f",
+    "",
+    "The Council of Chalcedon makes Jerusalem a patriarchate of the Church."
+   ],
+   [
+    "476",
+    476,
+    "r",
+    "",
+    "Rome falls in the West. Byzantium rules on in the East."
+   ]
+  ],
+  "id": "005"
+ },
+ {
+  "n": 6,
+  "slug": "byzantine-decline-and-islamic-conquest",
+  "title": "Byzantine Decline and Islamic Conquest",
+  "menu": "Muslim",
+  "rng": "500 to 750",
+  "intro": "Byzantine laws press on the Jews of the land while the academies of Babylonia lead. Persia invades, Arab armies take Jerusalem in 638, and the Umayyads rule from Damascus.",
+  "style": "dual",
+  "y0": 500,
+  "y1": 750,
+  "step": 50,
+  "left": [
+   [
+    "c. 520",
+    520,
+    "l",
+    "",
+    "The Beth Alpha synagogue is built with its zodiac mosaic floor."
+   ],
+   [
+    "c. 520",
+    520.5,
+    "f",
+    "",
+    "Mar Zutra III comes from Babylonia to head the Sanhedrin in Tiberias."
+   ],
+   [
+    "c. 550",
+    550,
+    "l",
+    "",
+    "The poet Yannai writes piyyutim, Hebrew hymns for the synagogue."
+   ],
+   [
+    "589",
+    589,
+    "f",
+    "",
+    "The age of the Geonim begins at the academies of Babylonia."
+   ],
+   [
+    "614",
+    614,
+    "c",
+    "The Persians take Jerusalem.",
+    "Jews fight beside the Persians and briefly govern the city."
+   ],
+   [
+    "629",
+    629,
+    "c",
+    "The Byzantines return.",
+    "Emperor Heraclius retakes Jerusalem and expels the Jews."
+   ],
+   [
+    "c. 641",
+    641,
+    "s",
+    "",
+    "Seventy Jewish families from Tiberias settle in Jerusalem, by tradition."
+   ],
+   [
+    "c. 700",
+    700,
+    "f",
+    "",
+    "The academy of the land of Israel meets in Tiberias."
+   ]
+  ],
+  "right": [
+   [
+    "527",
+    527,
+    "r",
+    "",
+    "Justinian becomes emperor. His laws restrict Jews and Samaritans."
+   ],
+   [
+    "529",
+    529,
+    "c",
+    "",
+    "The Samaritans revolt against Byzantine rule and are crushed."
+   ],
+   [
+    "541",
+    541,
+    "s",
+    "",
+    "The Plague of Justinian strikes the land."
+   ],
+   [
+    "543",
+    543,
+    "f",
+    "",
+    "Justinian dedicates the Nea Church in Jerusalem."
+   ],
+   [
+    "542 to 570",
+    556,
+    "l",
+    "",
+    "The Madaba Map mosaic, made in these years, shows Jerusalem and the Holy Land."
+   ],
+   [
+    "c. 600",
+    600,
+    "s",
+    "",
+    "The land reaches a peak of population and prosperity."
+   ],
+   [
+    "622",
+    622,
+    "f",
+    "",
+    "Muhammad leaves Mecca for Medina, the start of Islam."
+   ],
+   [
+    "636",
+    636,
+    "c",
+    "",
+    "The Arabs defeat the Byzantines at the Yarmuk River."
+   ],
+   [
+    "638",
+    638,
+    "r",
+    "The Arab conquest.",
+    "Caliph Umar takes Jerusalem and allows Jews to settle there again."
+   ],
+   [
+    "661",
+    661,
+    "r",
+    "The Umayyad Caliphate.",
+    "Muawiya founds the dynasty and rules the region from Damascus."
+   ],
+   [
+    "691",
+    691,
+    "f",
+    "The Dome of the Rock.",
+    "The Umayyads build it on the Temple Mount."
+   ],
+   [
+    "c. 705",
+    705,
+    "f",
+    "",
+    "The al-Aqsa Mosque is built on the Temple Mount."
+   ],
+   [
+    "c. 715",
+    715,
+    "s",
+    "",
+    "Ramla is founded as the capital of the province of Palestine."
+   ],
+   [
+    "c. 720",
+    720,
+    "d",
+    "",
+    "The rules for non-Muslims later called the Pact of Umar take shape."
+   ],
+   [
+    "749",
+    749,
+    "c",
+    "The great earthquake.",
+    "It ruins Tiberias, Beit Shean and other towns across the land."
+   ]
+  ],
+  "id": "006"
+ },
+ {
+  "n": 7,
+  "slug": "abbasid-and-early-medieval-judaism",
+  "title": "Abbasid and Early Medieval Judaism",
+  "menu": "Abbasid",
+  "rng": "750 to 1099",
+  "intro": "The Abbasid caliphs rule from Baghdad, where the Geonim guide the Jews of the world. Tiberias fixes the text of the Bible, and Jerusalem passes to the Fatimids of Cairo.",
+  "style": "dual",
+  "y0": 750,
+  "y1": 1099,
+  "step": 50,
+  "left": [
+   [
+    "c. 760",
+    760,
+    "f",
+    "",
+    "Anan ben David founds the Karaite movement in Babylonia."
+   ],
+   [
+    "c. 880",
+    880,
+    "f",
+    "",
+    "Karaite Jews, who reject the oral law, settle in Jerusalem."
+   ],
+   [
+    "c. 900",
+    900,
+    "l",
+    "The Masoretes of Tiberias.",
+    "They fix the vowel signs and the text of the Hebrew Bible."
+   ],
+   [
+    "c. 920",
+    920,
+    "l",
+    "",
+    "The Aleppo Codex of the Bible is written in Tiberias."
+   ],
+   [
+    "921",
+    921,
+    "f",
+    "",
+    "Aaron ben Meir of the Jerusalem academy clashes with Saadia Gaon of Babylonia over the calendar."
+   ],
+   [
+    "928",
+    928,
+    "f",
+    "Saadia Gaon heads the academy of Sura.",
+    "He translates the Bible into Arabic and writes the first great work of Jewish philosophy."
+   ],
+   [
+    "c. 950",
+    950,
+    "f",
+    "",
+    "The academy of the land of Israel moves from Tiberias to Jerusalem."
+   ],
+   [
+    "c. 1000",
+    1000,
+    "f",
+    "",
+    "Jews gather on the Mount of Olives each Hoshana Rabbah to pray and proclaim the calendar."
+   ],
+   [
+    "c. 1050",
+    1050,
+    "l",
+    "",
+    "Letters later found in the Cairo Geniza record Jewish life in the land."
+   ],
+   [
+    "1051",
+    1051,
+    "f",
+    "",
+    "Daniel ben Azariah, of the house of David, heads the academy in Jerusalem."
+   ],
+   [
+    "1071",
+    1071.5,
+    "f",
+    "",
+    "The academy leaves Jerusalem for Tyre after the Seljuk conquest."
+   ]
+  ],
+  "right": [
+   [
+    "750",
+    750,
+    "r",
+    "The Abbasids take power.",
+    "The capital moves from Damascus to Baghdad, and the land becomes a far province."
+   ],
+   [
+    "878",
+    878,
+    "r",
+    "",
+    "Ahmad ibn Tulun adds the land to his Egyptian dynasty."
+   ],
+   [
+    "935",
+    935,
+    "r",
+    "",
+    "The Ikhshidids rule the land from Egypt."
+   ],
+   [
+    "969",
+    969,
+    "r",
+    "The Fatimids conquer the land.",
+    "Rule passes to Cairo. Wars between the Fatimids and their rivals wear the land down."
+   ],
+   [
+    "c. 985",
+    985,
+    "l",
+    "",
+    "The geographer al-Muqaddasi of Jerusalem describes his home province."
+   ],
+   [
+    "1009",
+    1009,
+    "c",
+    "The Church of the Holy Sepulchre is destroyed.",
+    "Caliph al-Hakim orders it torn down and persecutes Christians and Jews."
+   ],
+   [
+    "1033",
+    1033,
+    "c",
+    "",
+    "An earthquake damages Jerusalem, Ramla and other towns."
+   ],
+   [
+    "1048",
+    1048,
+    "f",
+    "",
+    "The Church of the Holy Sepulchre is rebuilt with Byzantine help."
+   ],
+   [
+    "1071",
+    1071,
+    "c",
+    "",
+    "Seljuk Turks invade the land."
+   ],
+   [
+    "1073",
+    1073,
+    "c",
+    "Seljuk Turks take Jerusalem.",
+    "In 1077 they put down a revolt in the city with a massacre. The Jerusalem academy of the Jewish sages later moves to Tyre."
+   ],
+   [
+    "1095",
+    1095,
+    "c",
+    "",
+    "Pope Urban II calls the First Crusade."
+   ],
+   [
+    "1098",
+    1098,
+    "r",
+    "",
+    "The Fatimids retake Jerusalem a year before the Crusaders arrive."
+   ]
+  ],
+  "id": "007"
+ },
+ {
+  "n": 8,
+  "slug": "crusaders-and-ayyubids",
+  "title": "Crusaders and Ayyubids",
+  "menu": "Crusader",
+  "rng": "1099 to 1260",
+  "intro": "Crusaders take Jerusalem and found a Latin kingdom. Saladin retakes the city in 1187, and Jewish learning flowers around the Mediterranean, above all in Maimonides.",
+  "style": "dual",
+  "y0": 1099,
+  "y1": 1260,
+  "step": 25,
+  "left": [
+   [
+    "1100",
+    1100,
+    "s",
+    "",
+    "Jews of Egypt and Ashkelon ransom captives and Torah scrolls taken in Jerusalem."
+   ],
+   [
+    "1141",
+    1141,
+    "l",
+    "",
+    "Yehuda Halevi sails for Zion after writing “My heart is in the East”."
+   ],
+   [
+    "1165",
+    1165,
+    "f",
+    "",
+    "Maimonides visits Acre, Jerusalem and Hebron."
+   ],
+   [
+    "c. 1170",
+    1170,
+    "l",
+    "",
+    "Benjamin of Tudela tours the land and records its Jewish communities."
+   ],
+   [
+    "c. 1180",
+    1180,
+    "l",
+    "",
+    "Petahiah of Regensburg travels through the land and visits the graves of the sages."
+   ],
+   [
+    "c. 1190",
+    1190,
+    "f",
+    "Maimonides completes the Guide for the Perplexed.",
+    "In Egypt he joins Jewish law and Greek philosophy."
+   ],
+   [
+    "1191",
+    1191.5,
+    "s",
+    "",
+    "Saladin destroys Ashkelon, and its Jews move to Jerusalem."
+   ],
+   [
+    "1211",
+    1211,
+    "s",
+    "",
+    "Scholars from France and England arrive in the “Aliyah of the 300 Rabbis”."
+   ],
+   [
+    "c. 1218",
+    1218,
+    "l",
+    "",
+    "The poet Judah al-Harizi visits Jerusalem and finds its Jews returned."
+   ]
+  ],
+  "right": [
+   [
+    "1099",
+    1099,
+    "c",
+    "The Crusaders take Jerusalem.",
+    "Their capture is followed by the killing of Jews and Muslims and the ruin of Jewish towns."
+   ],
+   [
+    "1104",
+    1104,
+    "r",
+    "The Crusaders take Acre.",
+    "The port becomes the gateway of the kingdom."
+   ],
+   [
+    "1148",
+    1148,
+    "c",
+    "",
+    "The Second Crusade fails at Damascus."
+   ],
+   [
+    "1149",
+    1149,
+    "f",
+    "",
+    "The rebuilt Church of the Holy Sepulchre is consecrated."
+   ],
+   [
+    "1187",
+    1187,
+    "c",
+    "Saladin wins at Hattin and retakes Jerusalem.",
+    "Jews are allowed to return after decades of Crusader rule."
+   ],
+   [
+    "1191",
+    1191,
+    "c",
+    "Richard the Lionheart takes Acre.",
+    "The Third Crusade wins back the coast, and Acre becomes the Crusader capital."
+   ],
+   [
+    "1192",
+    1192,
+    "d",
+    "",
+    "Richard and Saladin sign a truce. Christian pilgrims may visit Jerusalem."
+   ],
+   [
+    "1219",
+    1219,
+    "c",
+    "",
+    "The Ayyubid ruler tears down the walls of Jerusalem."
+   ],
+   [
+    "1229",
+    1229,
+    "d",
+    "Frederick II regains Jerusalem by treaty.",
+    "The emperor wins the city from the sultan of Egypt without a battle."
+   ],
+   [
+    "1244",
+    1244,
+    "c",
+    "The Khwarazmians sack Jerusalem.",
+    "The city is lost to the Crusaders for good."
+   ],
+   [
+    "1250",
+    1250,
+    "r",
+    "",
+    "The Mamluks seize power in Egypt."
+   ],
+   [
+    "1258",
+    1258,
+    "c",
+    "",
+    "The Mongols sack Baghdad."
+   ]
+  ],
+  "id": "008"
+ },
+ {
+  "n": 9,
+  "slug": "mamluk-rule-and-the-spanish-expulsion",
+  "title": "Mamluk Rule and the Spanish Expulsion",
+  "menu": "Mamluk",
+  "rng": "1260 to 1517",
+  "intro": "The Mamluk sultans of Egypt drive out the last Crusaders and rule the land as a province. In Europe Jews face expulsions, and Spain expels its Jews in 1492.",
+  "style": "dual",
+  "y0": 1260,
+  "y1": 1517,
+  "step": 50,
+  "left": [
+   [
+    "1260",
+    1260.5,
+    "s",
+    "",
+    "Rabbi Yehiel of Paris settles in Acre with his students."
+   ],
+   [
+    "1267",
+    1267,
+    "s",
+    "Nachmanides arrives in Jerusalem.",
+    "The great scholar re-establishes the Jewish community and opens a synagogue."
+   ],
+   [
+    "1286",
+    1286,
+    "s",
+    "",
+    "Rabbi Meir of Rothenburg is seized while setting out for the land of Israel."
+   ],
+   [
+    "1322",
+    1322,
+    "l",
+    "",
+    "Ishtori Haparchi completes Kaftor va-Ferach, the first Hebrew geography of the land."
+   ],
+   [
+    "c. 1400",
+    1400,
+    "f",
+    "",
+    "The Ramban Synagogue moves to its site in the Jewish Quarter."
+   ],
+   [
+    "1428",
+    1428,
+    "f",
+    "",
+    "Jews and Franciscans clash over David’s Tomb on Mount Zion."
+   ],
+   [
+    "1474",
+    1474,
+    "c",
+    "The Ramban Synagogue is destroyed.",
+    "Jews of Jerusalem rebuild it the next year."
+   ],
+   [
+    "1481",
+    1481,
+    "l",
+    "",
+    "Meshullam of Volterra travels through the land and writes an account."
+   ],
+   [
+    "1488",
+    1488,
+    "s",
+    "Rabbi Ovadiah of Bertinoro arrives in Jerusalem.",
+    "He revives its community."
+   ],
+   [
+    "1492",
+    1492,
+    "s",
+    "Spain expels its Jews.",
+    "Many settle in Ottoman lands, among them Safed and Jerusalem."
+   ],
+   [
+    "1497",
+    1497,
+    "f",
+    "",
+    "Portugal forces its Jews to convert."
+   ]
+  ],
+  "right": [
+   [
+    "1260",
+    1260,
+    "c",
+    "The Mamluks defeat the Mongols at Ain Jalut.",
+    "The Mamluks of Egypt take over the land."
+   ],
+   [
+    "1265",
+    1265,
+    "c",
+    "",
+    "Baybars takes Caesarea and Arsuf from the Crusaders."
+   ],
+   [
+    "1266",
+    1266,
+    "c",
+    "",
+    "Sultan Baybars takes Safed from the Templars."
+   ],
+   [
+    "1291",
+    1291,
+    "r",
+    "The Mamluks raze the coast.",
+    "Acre and the other ports are torn down so that the Crusaders cannot return."
+   ],
+   [
+    "c. 1300",
+    1300,
+    "r",
+    "",
+    "Safed becomes the capital of a Mamluk province in the Galilee."
+   ],
+   [
+    "c. 1336",
+    1336,
+    "s",
+    "",
+    "The Cotton Merchants’ Market is built in Jerusalem."
+   ],
+   [
+    "1348",
+    1348,
+    "s",
+    "The Black Death.",
+    "The plague kills much of the population of the land."
+   ],
+   [
+    "1400",
+    1400.5,
+    "c",
+    "",
+    "Timur sacks Damascus."
+   ],
+   [
+    "1482",
+    1482,
+    "s",
+    "",
+    "Sultan Qaitbay builds his fountain on the Temple Mount."
+   ],
+   [
+    "1495",
+    1495,
+    "l",
+    "",
+    "Mujir al-Din writes his history of Jerusalem and Hebron."
+   ],
+   [
+    "1516",
+    1516,
+    "c",
+    "",
+    "The Ottomans defeat the Mamluks at Marj Dabiq."
+   ]
+  ],
+  "id": "009"
+ },
+ {
+  "n": 10,
+  "slug": "ottoman-rule-and-jewish-resettlement",
+  "title": "Ottoman Rule and Jewish Resettlement",
+  "menu": "Ottoman",
+  "rng": "1517 to 1799",
+  "intro": "The Ottomans take the land in 1516 and 1517. Safed becomes the center of Jewish mysticism and law, and Sephardi and later Hasidic Jews settle in the holy cities.",
+  "style": "dual",
+  "y0": 1517,
+  "y1": 1799,
+  "step": 50,
+  "left": [
+   [
+    "1540",
+    1540,
+    "s",
+    "",
+    "Exiles from Spain strengthen the Jewish community of Hebron."
+   ],
+   [
+    "1561",
+    1561,
+    "d",
+    "",
+    "Joseph Nasi wins a grant of Tiberias from the sultan and plans a Jewish refuge."
+   ],
+   [
+    "1565",
+    1565,
+    "f",
+    "Joseph Karo publishes the Shulchan Aruch.",
+    "The code of Jewish law is written in Safed."
+   ],
+   [
+    "1570",
+    1570,
+    "f",
+    "Isaac Luria arrives in Safed.",
+    "His teaching makes Safed the center of Kabbalah."
+   ],
+   [
+    "1577",
+    1577,
+    "l",
+    "",
+    "The first printing press in the land opens in Safed."
+   ],
+   [
+    "1586",
+    1586,
+    "f",
+    "",
+    "The Ottoman governor closes the Ramban Synagogue."
+   ],
+   [
+    "1621",
+    1621,
+    "f",
+    "",
+    "Rabbi Isaiah Horowitz comes to Jerusalem from Prague."
+   ],
+   [
+    "1648",
+    1648,
+    "s",
+    "",
+    "News of the Chmielnicki massacres in Eastern Europe sends Jews to the land."
+   ],
+   [
+    "1660",
+    1660,
+    "c",
+    "Safed and Tiberias are destroyed.",
+    "Fighting among local rulers ruins both Jewish towns."
+   ],
+   [
+    "1665",
+    1665,
+    "f",
+    "Shabbetai Zevi is proclaimed Messiah in Gaza.",
+    "The movement sweeps the Jewish world and collapses when he converts to Islam."
+   ],
+   [
+    "1700",
+    1700,
+    "s",
+    "Judah the Pious leads a group to Jerusalem.",
+    "He dies days after they arrive. In 1720 creditors burn their synagogue, later rebuilt as the Hurva."
+   ],
+   [
+    "1740",
+    1740,
+    "s",
+    "Tiberias is rebuilt.",
+    "Zahir al-Umar invites Rabbi Haim Abulafia to restore the Jewish community."
+   ],
+   [
+    "1742",
+    1742,
+    "f",
+    "",
+    "Rabbi Haim ibn Attar, the Or ha-Haim, founds an academy in Jerusalem."
+   ],
+   [
+    "1747",
+    1747,
+    "s",
+    "",
+    "Rabbi Gershon of Kuty, brother-in-law of the Baal Shem Tov, settles in the land."
+   ],
+   [
+    "1777",
+    1777,
+    "s",
+    "",
+    "Hasidic Jews settle in Tiberias and Safed."
+   ]
+  ],
+  "right": [
+   [
+    "1517",
+    1517,
+    "r",
+    "The Ottomans conquer the land.",
+    "Selim I takes Jerusalem from the Mamluks."
+   ],
+   [
+    "1536",
+    1536,
+    "s",
+    "",
+    "Suleiman builds public fountains in Jerusalem."
+   ],
+   [
+    "1538",
+    1538,
+    "s",
+    "Suleiman rebuilds the walls of Jerusalem.",
+    "The walls still stand around the Old City."
+   ],
+   [
+    "1552",
+    1552,
+    "s",
+    "",
+    "The Haseki Sultan soup kitchen opens in Jerusalem."
+   ],
+   [
+    "1624",
+    1624,
+    "r",
+    "",
+    "The Druze emir Fakhr al-Din rules the Galilee for the Ottomans."
+   ],
+   [
+    "1703",
+    1703,
+    "c",
+    "",
+    "The Naqib al-Ashraf revolt holds Jerusalem for two years."
+   ],
+   [
+    "1759",
+    1759,
+    "c",
+    "",
+    "An earthquake damages Safed, Tiberias and Acre."
+   ],
+   [
+    "1775",
+    1775,
+    "r",
+    "",
+    "Jazzar Pasha begins his rule from Acre."
+   ],
+   [
+    "1799",
+    1799,
+    "c",
+    "Napoleon fails at Acre.",
+    "Jazzar Pasha holds the city and the French retreat to Egypt."
+   ]
+  ],
+  "id": "010"
+ },
+ {
+  "n": 11,
+  "slug": "the-ottoman-land",
+  "title": "The Ottoman Land",
+  "menu": "1800s",
+  "rng": "1800 to 1880",
+  "intro": "Jews, Muslims and Christians live under Ottoman and then Egyptian rule. Pilgrims, scholars and travelers arrive, and the first Jewish neighborhood rises outside the walls of Jerusalem.",
+  "style": "period",
+  "y0": 1800,
+  "y1": 1881,
+  "tp": [
+   [
+    "1831",
+    1831.5,
+    "r",
+    "Egyptian rule.",
+    "Muhammad Ali’s son Ibrahim Pasha conquers the land. Egyptian rule lasts until 1840 and opens it to European consuls, missionaries and travelers."
+   ],
+   [
+    "1837",
+    1837.5,
+    "l",
+    "The Galilee earthquake.",
+    "Thousands die in Safed and Tiberias, among them much of the Jewish community."
+   ],
+   [
+    "1855",
+    1855.5,
+    "s",
+    "Mishkenot Sha’ananim.",
+    "Moses Montefiore buys land outside the walls. The first Jewish neighborhood outside the Old City follows."
+   ],
+   [
+    "1862",
+    1862.5,
+    "r",
+    "Moses Hess, Rome and Jerusalem.",
+    "The German Jewish socialist argues that Jews are a nation and need a homeland in the land of Israel."
+   ],
+   [
+    "1862",
+    1862.5,
+    "f",
+    "Zvi Hirsch Kalischer, Seeking Zion.",
+    "The Prussian rabbi urges Jews to buy land and farm it in the land of Israel and so begin the redemption."
+   ],
+   [
+    "1869",
+    1869.5,
+    "r",
+    "The Suez Canal opens.",
+    "Travel and trade to the land become faster and cheaper."
+   ],
+   [
+    "1870",
+    1870.5,
+    "r",
+    "Mikveh Israel.",
+    "The agricultural school near Jaffa trains the first farmers."
+   ],
+   [
+    "1878",
+    1878.5,
+    "s",
+    "Petah Tikva.",
+    "The first modern Jewish farming village is founded."
+   ]
+  ],
+  "also": [
+   [
+    "1800",
+    1800.5,
+    "r",
+    "About 7,000 Jews live in the land, mostly in four holy cities."
+   ],
+   [
+    "1808",
+    1808.5,
+    "s",
+    "The Perushim, disciples of the Vilna Gaon, settle in Safed and Jerusalem."
+   ],
+   [
+    "1817",
+    1817.5,
+    "r",
+    "The Perushim complete the Hurva Synagogue in Jerusalem."
+   ],
+   [
+    "1825",
+    1825.5,
+    "r",
+    "Mordecai Noah of New York proposes a Jewish refuge, Ararat."
+   ],
+   [
+    "1827",
+    1827.5,
+    "r",
+    "Moses Montefiore makes his first visit to the land."
+   ],
+   [
+    "1834",
+    1834.5,
+    "r",
+    "An Arab revolt against Egyptian rule devastates Safed and Tiberias."
+   ],
+   [
+    "1838",
+    1838.5,
+    "r",
+    "Britain opens the first consulate in Jerusalem."
+   ],
+   [
+    "1839",
+    1839.5,
+    "r",
+    "The painter David Roberts tours the land, and his lithographs bring it to Europe."
+   ],
+   [
+    "1840",
+    1840.5,
+    "r",
+    "The Damascus Affair shows how exposed Jews are. European powers intervene."
+   ],
+   [
+    "1840",
+    1840.5,
+    "r",
+    "European powers and the Ottomans end Egyptian rule."
+   ],
+   [
+    "1841",
+    1841.5,
+    "r",
+    "Britain and Prussia found a Protestant bishopric in Jerusalem."
+   ],
+   [
+    "1847",
+    1847.5,
+    "s",
+    "Rabbi Yehuda Alkalai writes in support of Jewish resettlement."
+   ],
+   [
+    "1849",
+    1849.5,
+    "r",
+    "Moses Montefiore visits Jerusalem and funds housing."
+   ],
+   [
+    "1853",
+    1853.5,
+    "l",
+    "Abraham Mapu publishes Ahavat Zion, the first Hebrew novel, set in ancient Israel."
+   ],
+   [
+    "1856",
+    1856.5,
+    "r",
+    "The Ottoman reform edict promises equality to non-Muslims."
+   ],
+   [
+    "1858",
+    1858.5,
+    "r",
+    "The Ottoman Land Code reshapes land ownership."
+   ],
+   [
+    "1860",
+    1860.5,
+    "s",
+    "The Alliance Israélite Universelle is founded to support Jewish education."
+   ],
+   [
+    "1864",
+    1864.5,
+    "r",
+    "David Yellin, the educator and scholar, is born in Jerusalem."
+   ],
+   [
+    "1865",
+    1865.5,
+    "r",
+    "The Palestine Exploration Fund begins its surveys."
+   ],
+   [
+    "1866",
+    1866.5,
+    "s",
+    "American settlers of the Adams colony arrive in Jaffa."
+   ],
+   [
+    "1867",
+    1867.5,
+    "r",
+    "Mark Twain visits and describes a desolate land."
+   ],
+   [
+    "1868",
+    1868.5,
+    "r",
+    "German Templers found a colony in Haifa."
+   ],
+   [
+    "1869",
+    1869.5,
+    "s",
+    "Nahalat Shiva, a neighborhood of seven families, is founded in Jerusalem."
+   ],
+   [
+    "1871",
+    1871.5,
+    "r",
+    "A pogrom in Odessa shakes the Jews of Russia."
+   ],
+   [
+    "1871",
+    1871.5,
+    "r",
+    "German Templers found the Sarona colony near Jaffa."
+   ],
+   [
+    "1874",
+    1874.5,
+    "s",
+    "Mea Shearim is founded in Jerusalem."
+   ],
+   [
+    "1878",
+    1878.5,
+    "r",
+    "Naftali Herz Imber writes the poem that becomes Hatikvah."
+   ],
+   [
+    "1878",
+    1878.5,
+    "s",
+    "Jews from Safed found Gei Oni, the first Rosh Pina."
+   ],
+   [
+    "1880",
+    1880.5,
+    "s",
+    "Laurence Oliphant publishes The Land of Gilead and backs Jewish settlement."
+   ],
+   [
+    "1880",
+    1880.5,
+    "r",
+    "About 25,000 Jews live in the land."
+   ]
+  ],
+  "id": "011"
+ },
+ {
+  "n": 12,
+  "slug": "zionism-takes-shape",
+  "title": "Zionism Takes Shape",
+  "menu": "Early Zionism",
+  "rng": "1881 to 1899",
+  "intro": "Pogroms in Russia set off the First Aliyah. Thinkers from Hess and Pinsker to Ahad Ha’am and Herzl turn the old longing for Zion into a political movement.",
+  "style": "period",
+  "y0": 1881,
+  "y1": 1900,
+  "tp": [
+   [
+    "1881",
+    1881.5,
+    "s",
+    "The First Aliyah.",
+    "Pogroms in Russia send thousands of Jews to the land."
+   ],
+   [
+    "1882",
+    1882.5,
+    "r",
+    "Rishon LeZion.",
+    "Baron Edmond de Rothschild supports the new farming village."
+   ],
+   [
+    "1882",
+    1882.5,
+    "r",
+    "Leo Pinsker, Auto-Emancipation.",
+    "After the pogroms the Odessa physician argues that Jews will never be accepted as equals and must win a land of their own."
+   ],
+   [
+    "1882",
+    1882.5,
+    "s",
+    "Zikhron Yaakov.",
+    "Romanian and Polish Jews settle on the Carmel slope. Baron Rothschild supports the village and names it for his father James."
+   ],
+   [
+    "1882",
+    1882.5,
+    "s",
+    "Rosh Pina.",
+    "Romanian Jews settle at the Arab village of Jauna and build the first Jewish farming village in the Galilee. Rothschild begins to support it in 1884."
+   ],
+   [
+    "1889",
+    1889.5,
+    "r",
+    "Ahad Ha’am.",
+    "In This Is Not the Way he calls for a spiritual and cultural center in Zion rather than a state."
+   ],
+   [
+    "1890",
+    1890.5,
+    "s",
+    "Eliezer Ben-Yehuda and the revival of Hebrew.",
+    "He arrives in 1881 and makes Hebrew the language of his home in Jerusalem. In 1890 he founds the Hebrew Language Committee."
+   ],
+   [
+    "1896",
+    1896.5,
+    "l",
+    "Herzl publishes The Jewish State.",
+    "He argues that antisemitism can end only with a Jewish state."
+   ],
+   [
+    "1897",
+    1897.5,
+    "r",
+    "The First Zionist Congress.",
+    "Herzl convenes it in Basel and calls for a Jewish homeland in the land of Israel."
+   ]
+  ],
+  "also": [
+   [
+    "1881 Mar 13",
+    1881.1989247311828,
+    "c",
+    "Tsar Alexander II is assassinated and pogroms spread across Russia."
+   ],
+   [
+    "1882",
+    1882.5,
+    "r",
+    "The student pioneers of BILU reach the land."
+   ],
+   [
+    "1882",
+    1882.5,
+    "r",
+    "Itamar Ben-Avi, the first modern Hebrew-speaking child, is born in Jerusalem."
+   ],
+   [
+    "1882 May",
+    1882.3709677419354,
+    "r",
+    "Russia’s May Laws restrict where Jews may live and work."
+   ],
+   [
+    "1883",
+    1883.5,
+    "s",
+    "Yesud HaMa’ala is founded in the Hula Valley."
+   ],
+   [
+    "1883",
+    1883.5,
+    "s",
+    "Ekron and Nes Ziona are founded."
+   ],
+   [
+    "1884",
+    1884.5,
+    "s",
+    "The Lovers of Zion movement is founded to promote resettlement."
+   ],
+   [
+    "1884",
+    1884.5,
+    "s",
+    "Gedera is founded by BILU settlers."
+   ],
+   [
+    "1885",
+    1885.5,
+    "r",
+    "Sir Moses Montefiore dies at 100."
+   ],
+   [
+    "1886",
+    1886.5,
+    "r",
+    "Rishon LeZion opens a Hebrew-language school."
+   ],
+   [
+    "1887",
+    1887.5,
+    "s",
+    "Neve Tzedek is founded outside Jaffa."
+   ],
+   [
+    "1887",
+    1887.5,
+    "r",
+    "Baron Rothschild visits the colonies."
+   ],
+   [
+    "1889",
+    1889.5,
+    "r",
+    "Avshalom Feinberg, later a Nili spy, is born in Gedera."
+   ],
+   [
+    "1890",
+    1890.5,
+    "s",
+    "Rehovot is founded."
+   ],
+   [
+    "1890",
+    1890.5,
+    "r",
+    "Nathan Birnbaum coins the word Zionism."
+   ],
+   [
+    "1890",
+    1890.5,
+    "r",
+    "Sarah Aaronsohn is born in Zikhron Yaakov."
+   ],
+   [
+    "1890",
+    1890.5,
+    "r",
+    "Wine cellars open in Rishon LeZion."
+   ],
+   [
+    "1890",
+    1890.5,
+    "s",
+    "Mishmar HaYarden is founded."
+   ],
+   [
+    "1891",
+    1891.5,
+    "r",
+    "Jews are expelled from Moscow."
+   ],
+   [
+    "1891",
+    1891.5,
+    "s",
+    "The Ottomans bar Russian Jews from settling and buying land."
+   ],
+   [
+    "1891",
+    1891.5,
+    "s",
+    "Hadera is founded."
+   ],
+   [
+    "1892",
+    1892.5,
+    "r",
+    "The railway from Jaffa to Jerusalem opens."
+   ],
+   [
+    "1894",
+    1894.5,
+    "r",
+    "The Dreyfus Affair in France sharpens Zionist aims."
+   ],
+   [
+    "1894",
+    1894.5,
+    "r",
+    "Esther Raab, the first Hebrew poet born in the land, is born in Petah Tikva."
+   ],
+   [
+    "1896",
+    1896.5,
+    "s",
+    "Metula is founded."
+   ],
+   [
+    "1897",
+    1897.5,
+    "r",
+    "Max Nordau speaks at the First Zionist Congress."
+   ],
+   [
+    "1898",
+    1898.5,
+    "r",
+    "Herzl visits Jerusalem and meets Kaiser Wilhelm II."
+   ],
+   [
+    "1899",
+    1899.5,
+    "s",
+    "The Jewish Colonial Trust is founded in London."
+   ],
+   [
+    "1899",
+    1899.5,
+    "s",
+    "Sejera is founded in the Lower Galilee."
+   ]
+  ],
+  "id": "012"
+ },
+ {
+  "n": 13,
+  "slug": "the-1900s",
+  "title": "The 1900s",
+  "menu": "1900s",
+  "rng": "1900 to 1909",
+  "intro": "The Second Aliyah begins, the first kibbutz is founded and Tel Aviv rises beside Jaffa. The Bezalel art school opens in Jerusalem.",
+  "style": "period",
+  "y0": 1900,
+  "y1": 1910,
+  "tp": [
+   [
+    "1903",
+    1903.5,
+    "r",
+    "The Uganda Plan.",
+    "Britain offers land in East Africa after the Kishinev pogrom. The Zionist Congress debates it and rejects it in 1905."
+   ],
+   [
+    "1904",
+    1904.5,
+    "r",
+    "Rabbi Kook arrives in Jaffa.",
+    "Abraham Isaac Kook becomes rabbi of Jaffa and the farming villages and starts to bridge religious and secular Zionists."
+   ],
+   [
+    "1905",
+    1905.5,
+    "s",
+    "The Russian pogroms.",
+    "Pogroms follow the failed revolution of 1905. They push Jews to the Second Aliyah and to America."
+   ],
+   [
+    "1909",
+    1909.5,
+    "s",
+    "Tel Aviv and Degania.",
+    "Jewish families found Tel Aviv beside Jaffa. The first kibbutz is founded at Degania."
+   ]
+  ],
+  "also": [
+   [
+    "1900",
+    1900.5,
+    "r",
+    "About 50,000 Jews live in the land."
+   ],
+   [
+    "1900",
+    1900.5,
+    "r",
+    "Rothschild transfers his colonies to the Jewish Colonization Association."
+   ],
+   [
+    "1901",
+    1901.5,
+    "s",
+    "The Jewish National Fund is founded to buy land."
+   ],
+   [
+    "1901",
+    1901.5,
+    "s",
+    "Kfar Tavor and Yavne’el are founded in the Galilee."
+   ],
+   [
+    "1903",
+    1903.5,
+    "r",
+    "The Kishinev pogrom in Russia pushes more Jews to leave."
+   ],
+   [
+    "1903",
+    1903.5,
+    "r",
+    "The Anglo-Palestine Bank opens in Jaffa."
+   ],
+   [
+    "1904",
+    1904.5,
+    "s",
+    "The Second Aliyah begins and brings thousands of Jews from Eastern Europe."
+   ],
+   [
+    "1904",
+    1904.5,
+    "r",
+    "Theodor Herzl dies in Austria at 44."
+   ],
+   [
+    "1904",
+    1904.5,
+    "s",
+    "A. D. Gordon arrives and preaches the dignity of labor."
+   ],
+   [
+    "1905",
+    1905.5,
+    "r",
+    "The family of the painter Nahum Gutman comes to the land."
+   ],
+   [
+    "1905",
+    1905.5,
+    "r",
+    "The Herzliya Hebrew Gymnasium opens in Jaffa."
+   ],
+   [
+    "1905",
+    1905.5,
+    "s",
+    "The Hapoel Hatzair labor party is founded."
+   ],
+   [
+    "1905",
+    1905.5,
+    "r",
+    "The Seventh Zionist Congress rejects the Uganda Plan."
+   ],
+   [
+    "1906",
+    1906.5,
+    "l",
+    "The Bezalel art school opens in Jerusalem."
+   ],
+   [
+    "1906",
+    1906.5,
+    "s",
+    "David Ben-Gurion arrives in Jaffa."
+   ],
+   [
+    "1906",
+    1906.5,
+    "r",
+    "Aaron Aaronsohn finds wild wheat near Rosh Pina."
+   ],
+   [
+    "1906 Jun 14",
+    1906.4516129032259,
+    "c",
+    "A pogrom in Bialystok kills dozens."
+   ],
+   [
+    "1907",
+    1907.5,
+    "s",
+    "Yitzhak Ben-Zvi arrives and joins Hashomer."
+   ],
+   [
+    "1908",
+    1908.5,
+    "r",
+    "The Young Turk revolution restores the Ottoman constitution."
+   ],
+   [
+    "1908",
+    1908.5,
+    "l",
+    "Arthur Ruppin opens the Palestine Office in Jaffa."
+   ],
+   [
+    "1908",
+    1908.5,
+    "s",
+    "S. Y. Agnon arrives in Jaffa."
+   ],
+   [
+    "1908",
+    1908.5,
+    "r",
+    "The first volume of Ben-Yehuda’s Hebrew dictionary appears."
+   ],
+   [
+    "1909",
+    1909.5,
+    "r",
+    "The Hashomer watchmen’s group forms to guard Jewish farms."
+   ],
+   [
+    "1909",
+    1909.5,
+    "r",
+    "Rachel Bluwstein arrives and later becomes a poet."
+   ],
+   [
+    "1909",
+    1909.5,
+    "s",
+    "Yosef Haim Brenner arrives in Jaffa."
+   ],
+   [
+    "1909 Apr 11",
+    1909.27688172043,
+    "r",
+    "Sixty families draw lots for plots in Tel Aviv."
+   ]
+  ],
+  "id": "013"
+ },
+ {
+  "n": 14,
+  "slug": "the-1910s",
+  "title": "The 1910s",
+  "menu": "1910s",
+  "rng": "1910 to 1919",
+  "intro": "The First World War ends Ottoman rule. Britain backs a Jewish national home in the Balfour Declaration and takes Jerusalem in December 1917.",
+  "style": "period",
+  "y0": 1910,
+  "y1": 1920,
+  "tp": [
+   [
+    "1913",
+    1913.5,
+    "c",
+    "Abel Pann arrives in Jerusalem.",
+    "The painter comes to work at the Bezalel school. His drawings later record Jewish suffering in the First World War."
+   ],
+   [
+    "1914",
+    1914.5,
+    "c",
+    "The First World War begins.",
+    "The Ottoman Empire enters the war on the German side."
+   ],
+   [
+    "1916",
+    1916.5,
+    "d",
+    "The Sykes-Picot agreement.",
+    "Britain and France plan to divide the Ottoman Middle East between them."
+   ],
+   [
+    "1917",
+    1917.5,
+    "r",
+    "The Balfour Declaration.",
+    "Britain backs a Jewish national home, a goal that Chaim Weizmann pursued. British forces enter Jerusalem in December."
+   ]
+  ],
+  "also": [
+   [
+    "1910",
+    1910.5,
+    "r",
+    "Ahuzat Bayit is renamed Tel Aviv."
+   ],
+   [
+    "1910",
+    1910.5,
+    "r",
+    "Degania becomes the first kibbutz."
+   ],
+   [
+    "1910",
+    1910.5,
+    "r",
+    "The Atlit agricultural research station opens."
+   ],
+   [
+    "1911",
+    1911.5,
+    "r",
+    "Meir Dizengoff becomes head of the Tel Aviv committee."
+   ],
+   [
+    "1912",
+    1912.5,
+    "f",
+    "The cornerstone of the Technion is laid in Haifa."
+   ],
+   [
+    "1912",
+    1912.5,
+    "s",
+    "Anna Ticho arrives in Jerusalem and later draws its hills."
+   ],
+   [
+    "1912 Feb 24",
+    1912.1451612903227,
+    "r",
+    "Henrietta Szold founds Hadassah in New York."
+   ],
+   [
+    "1913",
+    1913.5,
+    "c",
+    "The language war at the Technion settles on Hebrew."
+   ],
+   [
+    "1913 Oct 28",
+    1913.8225806451612,
+    "r",
+    "Mendel Beilis is acquitted of blood libel in Kiev."
+   ],
+   [
+    "1914",
+    1914.5,
+    "r",
+    "About 85,000 Jews live in the land."
+   ],
+   [
+    "1914 Nov",
+    1914.8709677419354,
+    "c",
+    "The Ottoman Empire enters the war and expels Russian Jews."
+   ],
+   [
+    "1915 Mar",
+    1915.2043010752689,
+    "r",
+    "Locusts devastate the crops."
+   ],
+   [
+    "1915 Mar",
+    1915.2043010752689,
+    "r",
+    "The Zion Mule Corps forms in Egypt and serves at Gallipoli."
+   ],
+   [
+    "1915 May 20",
+    1915.3844086021506,
+    "r",
+    "Moshe Dayan is born at Degania."
+   ],
+   [
+    "1915 Jul",
+    1915.5376344086021,
+    "r",
+    "Hussein and McMahon begin their letters on Arab independence."
+   ],
+   [
+    "1916 Jun 10",
+    1916.4408602150538,
+    "r",
+    "The Arab Revolt begins against the Ottomans."
+   ],
+   [
+    "1917",
+    1917.5,
+    "r",
+    "British forces take Jerusalem in December, ending Ottoman rule."
+   ],
+   [
+    "1917 Apr",
+    1917.2876344086021,
+    "r",
+    "The Ottomans expel the residents of Jaffa and Tel Aviv."
+   ],
+   [
+    "1917 Aug",
+    1917.6209677419354,
+    "r",
+    "The Jewish Legion forms in the British army."
+   ],
+   [
+    "1917 Oct 9",
+    1917.771505376344,
+    "r",
+    "Sarah Aaronsohn dies after capture by the Ottomans."
+   ],
+   [
+    "1917 Oct 31",
+    1917.8306451612902,
+    "r",
+    "British forces take Beersheba."
+   ],
+   [
+    "1918 Mar",
+    1918.2043010752689,
+    "s",
+    "The Zionist Commission arrives under Chaim Weizmann."
+   ],
+   [
+    "1918 Jul 24",
+    1918.5618279569892,
+    "f",
+    "The cornerstone of the Hebrew University is laid."
+   ],
+   [
+    "1918 Sep 19 to 25",
+    1918.715053763441,
+    "r",
+    "Allenby wins the Battle of Megiddo."
+   ],
+   [
+    "1919 Jan 3",
+    1919.005376344086,
+    "d",
+    "Faisal and Weizmann sign an agreement."
+   ],
+   [
+    "1919",
+    1919.5,
+    "c",
+    "Pogroms in Ukraine kill tens of thousands and push Jews to leave."
+   ],
+   [
+    "1919",
+    1919.5,
+    "s",
+    "The Third Aliyah begins."
+   ]
+  ],
+  "id": "014"
+ },
+ {
+  "n": 15,
+  "slug": "the-1920s",
+  "title": "The 1920s",
+  "menu": "1920s",
+  "rng": "1920 to 1929",
+  "intro": "Britain holds the Mandate. The Hebrew University opens on Mount Scopus, and the riots of 1929 end the Jewish community of Hebron.",
+  "style": "period",
+  "y0": 1920,
+  "y1": 1930,
+  "tp": [
+   [
+    "1920 Mar 1",
+    1920.1666666666667,
+    "r",
+    "Tel Hai.",
+    "Joseph Trumpeldor and seven others die defending the Galilee outpost. His last words, said to be that it is good to die for our country, become a legend."
+   ],
+   [
+    "1922",
+    1922.5,
+    "r",
+    "The Mandate is confirmed.",
+    "The League of Nations approves it. Transjordan is separated from the land west of the Jordan."
+   ],
+   [
+    "1923",
+    1923.5,
+    "s",
+    "Reuven Rubin settles in Tel Aviv.",
+    "His bright landscapes help create a local style of painting."
+   ],
+   [
+    "1924 to 1928",
+    1924.5,
+    "s",
+    "The Fourth Aliyah.",
+    "About 67,000 Jews, many of them middle-class Poles, arrive after the United States closes its doors in 1924. They fill the towns, above all Tel Aviv."
+   ],
+   [
+    "1929 Aug 23 to 29",
+    1929.6424731182797,
+    "c",
+    "Riots across the land.",
+    "In Hebron 67 Jews are killed on August 24 and the Jewish community leaves. Safed and Jerusalem are also attacked."
+   ]
+  ],
+  "also": [
+   [
+    "1920",
+    1920.5,
+    "r",
+    "The San Remo conference assigns the Mandate for Palestine to Britain."
+   ],
+   [
+    "1920",
+    1920.5,
+    "r",
+    "The Haganah is formed as a Jewish defense organization."
+   ],
+   [
+    "1920 Apr 4",
+    1920.258064516129,
+    "c",
+    "to 7 Riots in Jerusalem during the Nebi Musa festival kill five Jews."
+   ],
+   [
+    "1920 Jul 1",
+    1920.5,
+    "s",
+    "Herbert Samuel arrives as the first High Commissioner."
+   ],
+   [
+    "1920 Dec",
+    1920.9543010752689,
+    "s",
+    "The Histadrut labor federation is founded in Haifa."
+   ],
+   [
+    "1921",
+    1921.5,
+    "s",
+    "Avraham Shlonsky arrives and begins to write modern Hebrew poetry."
+   ],
+   [
+    "1921 May 1",
+    1921.3333333333333,
+    "c",
+    "Riots in Jaffa kill dozens of Jews and Arabs."
+   ],
+   [
+    "1921 May",
+    1921.3709677419354,
+    "r",
+    "Haj Amin al-Husseini is named Mufti of Jerusalem."
+   ],
+   [
+    "1921 Sep",
+    1921.7043010752689,
+    "s",
+    "Nahalal, the first moshav, is founded."
+   ],
+   [
+    "1922 Mar 1",
+    1922.1666666666667,
+    "r",
+    "Yitzhak Rabin is born in Jerusalem."
+   ],
+   [
+    "1922 Jul 24",
+    1922.5618279569892,
+    "r",
+    "The League of Nations confirms the Mandate."
+   ],
+   [
+    "1922 Sep 16",
+    1922.7069892473119,
+    "r",
+    "Territory: Britain excludes Transjordan from the Jewish national home."
+   ],
+   [
+    "1923",
+    1923.5,
+    "r",
+    "Jabotinsky founds the Betar youth movement."
+   ],
+   [
+    "1923 Sep 29",
+    1923.741935483871,
+    "r",
+    "The Mandate for Palestine takes effect."
+   ],
+   [
+    "1923 Oct 9",
+    1923.771505376344,
+    "r",
+    "The poet Haim Gouri is born in Tel Aviv."
+   ],
+   [
+    "1924",
+    1924.5,
+    "s",
+    "The poet Hayim Nahman Bialik settles in Tel Aviv."
+   ],
+   [
+    "1924",
+    1924.5,
+    "f",
+    "The Technion opens its first classes in Haifa."
+   ],
+   [
+    "1924",
+    1924.5,
+    "s",
+    "Uri Zvi Greenberg arrives and writes in Hebrew."
+   ],
+   [
+    "1924 May 26",
+    1924.4005376344087,
+    "s",
+    "The United States passes a law that sharply cuts Jewish immigration."
+   ],
+   [
+    "1925",
+    1925.5,
+    "f",
+    "The Hebrew University opens on Mount Scopus."
+   ],
+   [
+    "1925",
+    1925.5,
+    "s",
+    "Natan Alterman arrives from Warsaw."
+   ],
+   [
+    "1925",
+    1925.5,
+    "r",
+    "Jabotinsky founds the Revisionist movement."
+   ],
+   [
+    "1925",
+    1925.5,
+    "r",
+    "Patrick Geddes plans the growth of Tel Aviv."
+   ],
+   [
+    "1925 Aug",
+    1925.6209677419354,
+    "s",
+    "Brit Shalom, a group for Arab and Jewish understanding, is founded."
+   ],
+   [
+    "1926",
+    1926.5,
+    "s",
+    "An economic crisis ends the Fourth Aliyah boom."
+   ],
+   [
+    "1927",
+    1927.5,
+    "r",
+    "Unemployment and emigration peak in the economic crisis."
+   ],
+   [
+    "1927 Jul 11",
+    1927.52688172043,
+    "c",
+    "An earthquake kills hundreds in the land."
+   ],
+   [
+    "1928",
+    1928.5,
+    "d",
+    "The Mandate recognizes the organized Jewish community."
+   ],
+   [
+    "1928 Feb 26",
+    1928.1505376344087,
+    "r",
+    "Ariel Sharon is born in Kfar Malal."
+   ],
+   [
+    "1928 Sep 24",
+    1928.728494623656,
+    "r",
+    "A Yom Kippur dispute at the Western Wall inflames tensions."
+   ],
+   [
+    "1929 Aug 24",
+    1929.6451612903227,
+    "c",
+    "Rioters kill 67 Jews in Hebron."
+   ]
+  ],
+  "id": "015"
+ },
+ {
+  "n": 16,
+  "slug": "the-1930s",
+  "title": "The 1930s",
+  "menu": "1930s",
+  "rng": "1930 to 1939",
+  "intro": "Immigration rises as the Nazis take power. The Arab Revolt begins in 1936, and the White Paper of 1939 limits Jewish immigration.",
+  "style": "period",
+  "y0": 1930,
+  "y1": 1940,
+  "tp": [
+   [
+    "1933",
+    1933.5,
+    "r",
+    "Mordecai Ardon reaches Jerusalem.",
+    "A former Bauhaus student, he directs the Bezalel school from 1940."
+   ],
+   [
+    "1933 to 1936",
+    1933.5,
+    "s",
+    "The Fifth Aliyah.",
+    "More than 170,000 Jews flee Nazi Germany and Eastern Europe. Many are doctors, lawyers, musicians and architects."
+   ],
+   [
+    "1936 Apr 19 to 1939",
+    1936.2983870967741,
+    "s",
+    "The Arab Revolt.",
+    "It protests Jewish immigration and British policy and lasts until 1939."
+   ],
+   [
+    "1938 Oct 2",
+    1938.752688172043,
+    "c",
+    "The Tiberias massacre.",
+    "Arab gunmen kill 19 Jews, 11 of them children, in the heart of the Arab Revolt."
+   ],
+   [
+    "1939 May 17",
+    1939.3763440860216,
+    "s",
+    "The White Paper.",
+    "Britain sharply limits Jewish immigration and land purchases as the Holocaust begins."
+   ],
+   [
+    "1939 to 1945",
+    1939.5,
+    "c",
+    "The Holocaust.",
+    "Six million Jews are murdered in Europe. Survivors seek refuge in the land."
+   ]
+  ],
+  "also": [
+   [
+    "1930 Jul 13",
+    1930.532258064516,
+    "s",
+    "Naomi Shemer is born at Kibbutz Kinneret."
+   ],
+   [
+    "1930 Oct",
+    1930.7876344086021,
+    "s",
+    "The Passfield White Paper curbs Jewish immigration."
+   ],
+   [
+    "1931",
+    1931.5,
+    "s",
+    "The Irgun, an armed underground group, is founded."
+   ],
+   [
+    "1931",
+    1931.5,
+    "r",
+    "The Habima theater makes its home in Tel Aviv."
+   ],
+   [
+    "1931",
+    1931.5,
+    "r",
+    "The census counts about 175,000 Jews."
+   ],
+   [
+    "1931 Apr 16",
+    1931.2903225806451,
+    "r",
+    "The poet Rachel dies in Tel Aviv."
+   ],
+   [
+    "1932 Mar",
+    1932.2043010752689,
+    "r",
+    "The first Maccabiah games open in Tel Aviv."
+   ],
+   [
+    "1933",
+    1933.5,
+    "s",
+    "The Fifth Aliyah begins as the Nazis take power in Germany."
+   ],
+   [
+    "1933 Jun 16",
+    1933.4569892473119,
+    "c",
+    "Haim Arlosoroff is assassinated on a Tel Aviv beach."
+   ],
+   [
+    "1933 Aug 25",
+    1933.6478494623657,
+    "d",
+    "The Haavara agreement lets German Jews move some assets."
+   ],
+   [
+    "1934",
+    1934.5,
+    "s",
+    "Aliyah Bet, illegal immigration by sea, begins."
+   ],
+   [
+    "1934 Jul 4",
+    1934.508064516129,
+    "r",
+    "Hayim Nahman Bialik dies in Vienna."
+   ],
+   [
+    "1930s",
+    1930.5,
+    "s",
+    "Architects trained at the Bauhaus build the White City of Tel Aviv."
+   ],
+   [
+    "1935",
+    1935.5,
+    "s",
+    "The poet Leah Goldberg settles in Tel Aviv."
+   ],
+   [
+    "1935",
+    1935.5,
+    "r",
+    "David Ben-Gurion becomes chairman of the Jewish Agency."
+   ],
+   [
+    "1935",
+    1935.5,
+    "s",
+    "Yehuda Amichai arrives from Germany as a child."
+   ],
+   [
+    "1935 Sep 15",
+    1935.7043010752689,
+    "r",
+    "The Nuremberg Laws strip German Jews of citizenship."
+   ],
+   [
+    "1936",
+    1936.5,
+    "s",
+    "The Palestine Symphony Orchestra, founded by Bronislaw Huberman, gives its first concert, conducted by Arturo Toscanini."
+   ],
+   [
+    "1936 Mar 30",
+    1936.244623655914,
+    "r",
+    "The Palestine Broadcasting Service begins."
+   ],
+   [
+    "1936 Mar",
+    1936.2043010752689,
+    "c",
+    "The Tel Aviv port opens after riots close Jaffa."
+   ],
+   [
+    "1936 Dec 10",
+    1936.9408602150538,
+    "s",
+    "The tower and stockade settlements begin at Tel Amal."
+   ],
+   [
+    "1936 Dec 9",
+    1936.9381720430108,
+    "r",
+    "A. B. Yehoshua is born in Jerusalem."
+   ],
+   [
+    "1937 Jul 7",
+    1937.516129032258,
+    "l",
+    "The Peel Commission proposes partition. The Arab leaders reject it."
+   ],
+   [
+    "1937 Aug",
+    1937.6209677419354,
+    "l",
+    "The Zionist Congress accepts the principle of partition."
+   ],
+   [
+    "1938 Jun",
+    1938.4543010752689,
+    "r",
+    "Orde Wingate forms the Special Night Squads."
+   ],
+   [
+    "1938 Jul 6 to 15",
+    1938.513440860215,
+    "r",
+    "The Evian Conference fails to open doors to Jewish refugees."
+   ],
+   [
+    "1938 Nov 9 to 10",
+    1938.8548387096773,
+    "r",
+    "Kristallnacht burns synagogues across Germany."
+   ],
+   [
+    "1938 Nov",
+    1938.8709677419354,
+    "l",
+    "The Woodhead Commission shelves partition."
+   ],
+   [
+    "1939 Feb 7 to Mar 17",
+    1939.0994623655913,
+    "d",
+    "Summit: the London Conference fails to find agreement."
+   ],
+   [
+    "1939 May 4",
+    1939.3413978494623,
+    "r",
+    "Amos Oz is born in Jerusalem."
+   ],
+   [
+    "1939 Sep 1",
+    1939.6666666666667,
+    "c",
+    "The Second World War begins."
+   ]
+  ],
+  "id": "016"
+ },
+ {
+  "n": 17,
+  "slug": "the-1940s",
+  "title": "The 1940s",
+  "menu": "1940s",
+  "rng": "1940 to 1947",
+  "intro": "The Second World War and the Holocaust darken the decade. The Yishuv fights the White Paper, smuggles in refugees and wins the United Nations vote for a Jewish state.",
+  "style": "period",
+  "y0": 1940,
+  "y1": 1948,
+  "tp": [
+   [
+    "1942",
+    1942.5,
+    "r",
+    "The Biltmore Program.",
+    "Zionist leaders meeting in New York call for a Jewish commonwealth after the war."
+   ],
+   [
+    "1944",
+    1944.5,
+    "r",
+    "The Jewish Brigade.",
+    "Jews of the land fight Nazi Germany in their own unit of the British army."
+   ],
+   [
+    "1946",
+    1946.5,
+    "c",
+    "The King David Hotel bombing.",
+    "The Irgun blows up the wing of the hotel that houses the British administration, and 91 people are killed."
+   ],
+   [
+    "1947 Jul 18",
+    1947.5456989247311,
+    "c",
+    "The Exodus.",
+    "British forces seize the refugee ship off Haifa and send its 4,500 passengers back to Europe."
+   ],
+   [
+    "1947 Nov 29",
+    1947.9086021505377,
+    "d",
+    "The UN partition plan.",
+    "On November 29 the General Assembly votes for a Jewish state and an Arab state. The Jews accept and the Arabs reject."
+   ],
+   [
+    "1947 Dec 19",
+    1947.965053763441,
+    "l",
+    "Natan Alterman publishes The Silver Platter.",
+    "The poem honors those who will pay the price of statehood."
+   ]
+  ],
+  "also": [
+   [
+    "1940 Feb",
+    1940.1209677419354,
+    "r",
+    "Land Transfer Regulations restrict Jewish land purchases."
+   ],
+   [
+    "1940 Aug",
+    1940.6209677419354,
+    "r",
+    "Avraham Stern founds Lehi, an armed underground group."
+   ],
+   [
+    "1940 Sep 9",
+    1940.6881720430108,
+    "c",
+    "Italian bombers kill 137 people in Tel Aviv."
+   ],
+   [
+    "1940 Nov 25",
+    1940.8978494623657,
+    "c",
+    "The refugee ship Patria sinks at Haifa, killing about 267."
+   ],
+   [
+    "1941",
+    1941.5,
+    "s",
+    "Marcel Janco, a founder of Dada, arrives from Romania."
+   ],
+   [
+    "1941 May 15",
+    1941.3709677419354,
+    "r",
+    "The Palmach is formed as the Haganah’s strike force."
+   ],
+   [
+    "1941 Jun 1",
+    1941.4166666666667,
+    "c",
+    "to 2 A mob kills about 180 Jews in the Farhud in Baghdad."
+   ],
+   [
+    "1941 Jun 8",
+    1941.4354838709678,
+    "c",
+    "Moshe Dayan loses an eye fighting Vichy forces in Lebanon."
+   ],
+   [
+    "1942 Feb 24",
+    1942.1451612903227,
+    "r",
+    "The refugee ship Struma is sunk and 781 die."
+   ],
+   [
+    "1942 Nov",
+    1942.8709677419354,
+    "c",
+    "Palestine’s Jews learn of the mass murder in Europe."
+   ],
+   [
+    "1943 Apr 19",
+    1943.2983870967741,
+    "r",
+    "The Warsaw Ghetto uprising begins."
+   ],
+   [
+    "1944 Feb 1",
+    1944.0833333333333,
+    "r",
+    "The Irgun declares a revolt against British rule."
+   ],
+   [
+    "1944 Nov 6",
+    1944.8467741935483,
+    "c",
+    "Lehi assassinates Lord Moyne in Cairo."
+   ],
+   [
+    "1944 Nov 7",
+    1944.8494623655913,
+    "r",
+    "Hannah Szenes is executed in Budapest."
+   ],
+   [
+    "1945",
+    1945.5,
+    "r",
+    "The violinist Itzhak Perlman is born in Tel Aviv."
+   ],
+   [
+    "1945 May 8",
+    1945.3521505376343,
+    "c",
+    "Germany surrenders and the war in Europe ends."
+   ],
+   [
+    "1947",
+    1947.5,
+    "f",
+    "The Dead Sea Scrolls are found near Qumran."
+   ]
+  ],
+  "id": "017"
+ },
+ {
+  "n": 18,
+  "slug": "independence-and-ingathering",
+  "title": "Independence and Ingathering",
+  "menu": "1948–55",
+  "rng": "1948 to 1955",
+  "intro": "Israel declares independence, wins its first war and doubles its population in three years as Jews pour in from Europe and the Arab world.",
+  "style": "period",
+  "y0": 1948,
+  "y1": 1956,
+  "tp": [
+   [
+    "1948 May 14",
+    1948.3682795698924,
+    "r",
+    "Independence.",
+    "David Ben-Gurion declares independence and becomes prime minister of the provisional government. Five Arab armies attack on May 15."
+   ],
+   [
+    "1948 May 15",
+    1948.3709677419354,
+    "c",
+    "The War of Independence.",
+    "Five Arab armies invade the day after independence. By the armistices of 1949 Israel holds more land than the partition plan gave it."
+   ],
+   [
+    "1949 Feb 24 to Jul 20",
+    1949.1451612903227,
+    "d",
+    "The armistice lines.",
+    "Armistice agreements with Egypt (Feb 24), Lebanon (Mar 23), Jordan (Apr 3) and Syria (Jul 20) end the War of Independence. Israel holds more land than the partition plan gave it."
+   ],
+   [
+    "1949 to 1950",
+    1949.5,
+    "c",
+    "Operation Magic Carpet.",
+    "In flights that began in 1949, the Yemenite Jewish airlift brings nearly 49,000 Jews from Yemen and Aden to Israel by September 1950."
+   ],
+   [
+    "1950 to 1952",
+    1950.5,
+    "c",
+    "Operation Ezra and Nehemiah.",
+    "Airlifts bring about 120,000 Jews from Iraq to Israel."
+   ],
+   [
+    "1950 Jul 5",
+    1950.510752688172,
+    "s",
+    "The Law of Return.",
+    "Every Jew has the right to immigrate to Israel and take citizenship."
+   ],
+   [
+    "1952 Sep 10",
+    1952.6908602150538,
+    "d",
+    "The reparations agreement.",
+    "Israel and West Germany sign in Luxembourg. Menachem Begin leads a violent protest outside the Knesset in January over the talks."
+   ],
+   [
+    "1954 to 1955",
+    1954.5,
+    "r",
+    "The Lavon Affair.",
+    "Israeli agents recruit Egyptian Jews for failed bombings in Egypt. Two are executed, and Defense Minister Pinhas Lavon resigns, with Ben-Gurion returning to the post."
+   ]
+  ],
+  "also": [
+   [
+    "1948",
+    1948.5,
+    "r",
+    "The Israel Defense Forces are formed from the Haganah and other groups."
+   ],
+   [
+    "1949 Jan 25",
+    1949.0645161290322,
+    "r",
+    "Election: Mapai wins 46 seats."
+   ],
+   [
+    "1949 May",
+    1949.3709677419354,
+    "d",
+    "Israel joins the United Nations."
+   ],
+   [
+    "1949",
+    1949.5,
+    "r",
+    "Chaim Weizmann is elected the first president."
+   ],
+   [
+    "1950 Apr 24",
+    1950.3118279569892,
+    "r",
+    "Territory: Jordan annexes Judea and Samaria and East Jerusalem."
+   ],
+   [
+    "1950s to 1960s",
+    1950.5,
+    "s",
+    "Jews arrive from Arab countries and Iran and reshape Israeli society."
+   ],
+   [
+    "1951 Jul",
+    1951.5376344086021,
+    "c",
+    "King Abdullah of Jordan is assassinated in Jerusalem."
+   ],
+   [
+    "1951 Jul 30",
+    1951.5779569892472,
+    "r",
+    "Election: Mapai wins 45 seats."
+   ],
+   [
+    "1951 Sep",
+    1951.7043010752689,
+    "r",
+    "Egypt bars Israeli shipping from the Suez Canal."
+   ],
+   [
+    "1952 Jul",
+    1952.5376344086021,
+    "r",
+    "The Free Officers coup in Egypt brings Nasser to power."
+   ],
+   [
+    "1952 Nov",
+    1952.8709677419354,
+    "r",
+    "Chaim Weizmann dies."
+   ],
+   [
+    "1953",
+    1953.5,
+    "s",
+    "Yad Vashem is founded by law to remember the Holocaust."
+   ],
+   [
+    "1953",
+    1953.5,
+    "f",
+    "The Israel Prize is created."
+   ],
+   [
+    "1953 Oct",
+    1953.7876344086021,
+    "c",
+    "The Qibya raid draws sharp international criticism."
+   ],
+   [
+    "1953 Dec",
+    1953.9543010752689,
+    "r",
+    "Ben-Gurion resigns and moves to Sde Boker."
+   ],
+   [
+    "1954 Jan 26",
+    1954.0672043010752,
+    "r",
+    "Moshe Sharett becomes prime minister while Ben-Gurion rests at Sde Boker."
+   ],
+   [
+    "1954 Mar",
+    1954.2043010752689,
+    "c",
+    "Gunmen kill 11 Israelis on a bus at Scorpion Pass."
+   ],
+   [
+    "1955",
+    1955.5,
+    "l",
+    "Yehuda Amichai publishes his first poems, Now and in Other Days."
+   ],
+   [
+    "1955 Jul 26",
+    1955.5672043010752,
+    "r",
+    "Election: Mapai wins 40 seats."
+   ],
+   [
+    "1955 Sep",
+    1955.7043010752689,
+    "d",
+    "Egypt announces an arms deal with Czechoslovakia."
+   ],
+   [
+    "1955 Nov 3",
+    1955.8387096774193,
+    "r",
+    "Ben-Gurion returns as prime minister."
+   ]
+  ],
+  "id": "018"
+ },
+ {
+  "n": 19,
+  "slug": "sinai-and-the-years-between",
+  "title": "Sinai and the Years Between",
+  "menu": "1956–66",
+  "rng": "1956 to 1966",
+  "intro": "The Sinai Campaign opens a decade of quiet borders. Israel builds its water carrier and its institutions, tries Eichmann and makes peace with Germany.",
+  "style": "period",
+  "y0": 1956,
+  "y1": 1967,
+  "tp": [
+   [
+    "1956 Oct 29 to Nov 7",
+    1956.8252688172042,
+    "c",
+    "The Sinai War.",
+    "After Egypt nationalizes the Suez Canal, Israel, Britain and France plan the attack in secret at Sèvres. Israel takes Sinai in days. The United States and the Soviet Union force a withdrawal, completed in March 1957."
+   ],
+   [
+    "1960 to 1962",
+    1960.5,
+    "c",
+    "Eichmann captured and tried.",
+    "Israeli agents seize Adolf Eichmann in Argentina in 1960. He is tried in Jerusalem in 1961 and executed in 1962, the only death sentence Israel has carried out in a civil court."
+   ],
+   [
+    "1961 to 1964",
+    1961.5,
+    "c",
+    "Operation Yakhin.",
+    "A secret Mossad operation brings about 100,000 Jews from Morocco to Israel."
+   ],
+   [
+    "1963 Jun 26",
+    1963.483870967742,
+    "r",
+    "Eshkol succeeds Ben-Gurion.",
+    "Levi Eshkol becomes prime minister as the founding generation begins to hand over power."
+   ],
+   [
+    "1964",
+    1964.5,
+    "s",
+    "The National Water Carrier.",
+    "It brings water from the Sea of Galilee to the farms and towns of the south."
+   ],
+   [
+    "1965",
+    1965.5,
+    "d",
+    "Relations with West Germany.",
+    "Twenty years after the Holocaust, the two countries exchange ambassadors."
+   ],
+   [
+    "1966",
+    1966.5,
+    "l",
+    "Agnon wins the Nobel Prize.",
+    "S. Y. Agnon is the first Hebrew writer to receive the prize for literature."
+   ]
+  ],
+  "also": [
+   [
+    "1956 Jul",
+    1956.5376344086021,
+    "r",
+    "Nasser nationalizes the Suez Canal."
+   ],
+   [
+    "1956 Oct",
+    1956.7876344086021,
+    "c",
+    "Border police kill 48 Arab citizens at Kafr Qasim."
+   ],
+   [
+    "1956 Nov",
+    1956.8709677419354,
+    "d",
+    "A UN emergency force deploys in Sinai and Gaza."
+   ],
+   [
+    "1956 Nov",
+    1956.8709677419354,
+    "c",
+    "Thousands of Jews leave Egypt after the Sinai War."
+   ],
+   [
+    "1957 Mar",
+    1957.2043010752689,
+    "r",
+    "Territory: Israel completes its withdrawal from Sinai and Gaza."
+   ],
+   [
+    "1957",
+    1957.5,
+    "s",
+    "France agrees to help build the Dimona reactor."
+   ],
+   [
+    "1958 Feb",
+    1958.1209677419354,
+    "r",
+    "Egypt and Syria merge into the United Arab Republic."
+   ],
+   [
+    "1958",
+    1958.5,
+    "f",
+    "The Hebrew University opens its new campus at Givat Ram in Jerusalem."
+   ],
+   [
+    "1958",
+    1958.5,
+    "s",
+    "Israel begins building the Dimona reactor."
+   ],
+   [
+    "1958 Jul",
+    1958.5376344086021,
+    "r",
+    "A coup in Iraq and a crisis in Lebanon alarm Israel’s neighbors and its allies."
+   ],
+   [
+    "1959 Jul",
+    1959.5376344086021,
+    "c",
+    "Riots break out in Haifa’s Wadi Salib over discrimination against Jews from North Africa."
+   ],
+   [
+    "1959 Nov 3",
+    1959.8387096774193,
+    "r",
+    "Election: Mapai wins 47 seats."
+   ],
+   [
+    "1961 Aug 15",
+    1961.6209677419354,
+    "r",
+    "Election: Mapai wins 42 seats."
+   ],
+   [
+    "1962",
+    1962.5,
+    "r",
+    "Marc Chagall’s windows are dedicated at the Hadassah synagogue in Jerusalem."
+   ],
+   [
+    "1964 Jan",
+    1964.0376344086021,
+    "r",
+    "Pope Paul VI makes the first papal visit to the Holy Land in modern times."
+   ],
+   [
+    "1964",
+    1964.5,
+    "r",
+    "The Arab League founds the PLO."
+   ],
+   [
+    "1964",
+    1964.5,
+    "l",
+    "Ephraim Kishon’s film Sallah Shabati is the first Israeli film nominated for an Academy Award."
+   ],
+   [
+    "1965 May",
+    1965.3709677419354,
+    "r",
+    "Israeli spy Eli Cohen is hanged in Damascus."
+   ],
+   [
+    "1965",
+    1965.5,
+    "f",
+    "The Israel Museum opens in Jerusalem, with the Shrine of the Book."
+   ],
+   [
+    "1965 Nov 2",
+    1965.8360215053763,
+    "r",
+    "Election: Alignment wins 45 seats."
+   ],
+   [
+    "1966 Dec",
+    1966.9543010752689,
+    "r",
+    "Military rule over Arab citizens of Israel ends."
+   ]
+  ],
+  "id": "019"
+ },
+ {
+  "n": 20,
+  "slug": "the-six-day-war-and-yom-kippur",
+  "title": "The Six-Day War and Yom Kippur",
+  "menu": "1967–76",
+  "rng": "1967 to 1976",
+  "intro": "In six days Israel reunites Jerusalem and triples its territory. The War of Attrition, terror abroad and the shock of Yom Kippur follow.",
+  "style": "period",
+  "y0": 1967,
+  "y1": 1977,
+  "tp": [
+   [
+    "1967 Jun 5 to 10",
+    1967.4274193548388,
+    "c",
+    "The Six-Day War.",
+    "Israel takes Judea and Samaria, Gaza, Sinai, the Golan Heights and East Jerusalem. Jerusalem is united under Israeli control."
+   ],
+   [
+    "1967 Jun 7",
+    1967.4327956989248,
+    "s",
+    "Jerusalem reunited.",
+    "Israeli forces take the Old City, the Western Wall and the rest of Judea and Samaria, Sinai, Gaza and the Golan Heights."
+   ],
+   [
+    "1967 Jun 8 to 1970 Aug 7",
+    1967.4354838709678,
+    "d",
+    "The War of Attrition.",
+    "Egypt shells Israeli positions along the Suez Canal and Israel answers with air raids deep in Egypt. The fighting is heaviest from March 1969 and a ceasefire takes hold on August 7, 1970."
+   ],
+   [
+    "1967 Nov 22",
+    1967.8897849462367,
+    "d",
+    "Resolution 242.",
+    "The UN Security Council calls for Israeli withdrawal from territories and for peace and secure borders. Arab leaders had already declared three refusals at Khartoum."
+   ],
+   [
+    "1969 Mar 17",
+    1969.2096774193549,
+    "r",
+    "Golda Meir becomes prime minister.",
+    "She follows Levi Eshkol, who died in office on February 26. She resigns in April 1974 after the Yom Kippur War."
+   ],
+   [
+    "1972 Sep 5",
+    1972.6774193548388,
+    "c",
+    "The Munich massacre.",
+    "Palestinian terrorists kill 11 Israeli athletes and coaches at the Olympic Games."
+   ],
+   [
+    "1973 Oct 6 to 25",
+    1973.763440860215,
+    "d",
+    "The Yom Kippur War.",
+    "Egypt and Syria attack on the holiest day of the year and Israel repels them. Ceasefires take hold on October 22 and 25."
+   ],
+   [
+    "1976 Jul 4",
+    1976.508064516129,
+    "c",
+    "Operation Entebbe.",
+    "Commandos fly to Uganda and rescue the hostages of a hijacked Air France plane. Yoni Netanyahu is killed leading the raid."
+   ]
+  ],
+  "also": [
+   [
+    "1967 May",
+    1967.3709677419354,
+    "r",
+    "Egypt closes the Straits of Tiran to Israeli shipping."
+   ],
+   [
+    "1967 Jun",
+    1967.4543010752689,
+    "r",
+    "Moshe Dayan becomes defense minister days before the Six-Day War."
+   ],
+   [
+    "1967 Jun",
+    1967.4543010752689,
+    "c",
+    "Israeli aircraft and torpedo boats attack the American ship USS Liberty."
+   ],
+   [
+    "1967 Jun 28",
+    1967.489247311828,
+    "r",
+    "Territory: Israel extends its law and administration to East Jerusalem."
+   ],
+   [
+    "1967",
+    1967.5,
+    "r",
+    "Naomi Shemer writes “Jerusalem of Gold”."
+   ],
+   [
+    "1967 Aug 29 to Sep 1",
+    1967.6586021505377,
+    "d",
+    "Summit: Arab leaders meet at Khartoum and refuse peace, recognition and negotiation with Israel."
+   ],
+   [
+    "1967 Sep",
+    1967.7043010752689,
+    "c",
+    "Settlers return to Kfar Etzion, the first Israeli settlement after the war."
+   ],
+   [
+    "1967 Oct",
+    1967.7876344086021,
+    "c",
+    "Egyptian missiles sink the Israeli destroyer Eilat."
+   ],
+   [
+    "1968 Mar",
+    1968.2043010752689,
+    "r",
+    "Israeli forces fight the PLO at Karameh in Jordan."
+   ],
+   [
+    "1968 Apr",
+    1968.2876344086021,
+    "r",
+    "A Passover stay in Hebron leads to the founding of Kiryat Arba."
+   ],
+   [
+    "1968 May",
+    1968.3709677419354,
+    "r",
+    "Israel Television begins regular broadcasts."
+   ],
+   [
+    "1968 Jul",
+    1968.5376344086021,
+    "c",
+    "Palestinian gunmen hijack an El Al plane to Algiers."
+   ],
+   [
+    "1968 Dec",
+    1968.9543010752689,
+    "c",
+    "Israeli commandos raid Beirut airport after an attack on an El Al plane in Athens."
+   ],
+   [
+    "1969 Aug",
+    1969.6209677419354,
+    "r",
+    "A fire damages the Al-Aqsa Mosque in Jerusalem."
+   ],
+   [
+    "1969 Oct 28",
+    1969.8225806451612,
+    "r",
+    "Election: Alignment wins 56 seats."
+   ],
+   [
+    "1970 Feb 21",
+    1970.1370967741937,
+    "c",
+    "A bomb on a Swissair plane kills 47 after takeoff from Zurich."
+   ],
+   [
+    "1972 May 30",
+    1972.4112903225807,
+    "c",
+    "Massacre at Lod Airport. Three Japanese gunmen working for a Palestinian group kill 26 people, most of them Puerto Rican pilgrims."
+   ],
+   [
+    "1973 Dec 31",
+    1973.997311827957,
+    "r",
+    "Election: Alignment wins 51 seats."
+   ],
+   [
+    "1974 Jan 18",
+    1974.0456989247311,
+    "r",
+    "Territory: Israel and Egypt sign the first Sinai disengagement agreement."
+   ],
+   [
+    "1974 Apr 11",
+    1974.27688172043,
+    "c",
+    "Gunmen kill 18 people in Kiryat Shmona."
+   ],
+   [
+    "1974 May",
+    1974.3709677419354,
+    "c",
+    "Massacre at Ma’alot. Gunmen seize a school in the north. Twenty-two schoolchildren are among the dead."
+   ],
+   [
+    "1974 May 31",
+    1974.4139784946237,
+    "r",
+    "Territory: Israel and Syria sign a disengagement agreement on the Golan Heights."
+   ],
+   [
+    "1974 Jun 3",
+    1974.4220430107528,
+    "r",
+    "Yitzhak Rabin becomes prime minister for the first time."
+   ],
+   [
+    "1975 Jul 4",
+    1975.508064516129,
+    "c",
+    "A bomb in Jerusalem’s Zion Square kills 15."
+   ],
+   [
+    "1975 Sep 4",
+    1975.6747311827958,
+    "r",
+    "Territory: the second Sinai agreement returns the Abu Rudeis oil fields and the passes."
+   ]
+  ],
+  "id": "020"
+ },
+ {
+  "n": 21,
+  "slug": "upheaval-peace-and-lebanon",
+  "title": "Upheaval, Peace and Lebanon",
+  "menu": "1977–84",
+  "rng": "1977 to 1984",
+  "intro": "Begin’s victory ends Labor rule. Sadat comes to Jerusalem and Israel makes peace with Egypt, destroys Iraq’s reactor and goes to war in Lebanon.",
+  "style": "period",
+  "y0": 1977,
+  "y1": 1985,
+  "tp": [
+   [
+    "1977 May 17",
+    1977.3763440860216,
+    "r",
+    "The upheaval.",
+    "Likud wins the May 17 election and Menachem Begin becomes prime minister, ending three decades of Labor rule."
+   ],
+   [
+    "1977 Nov 19 to 21",
+    1977.8817204301076,
+    "d",
+    "Sadat comes to Jerusalem.",
+    "The Egyptian president addresses the Knesset and opens the way to peace."
+   ],
+   [
+    "1979 Mar 26",
+    1979.233870967742,
+    "d",
+    "Peace with Egypt.",
+    "The Camp David summit of September 1978 leads to the first peace treaty with an Arab state. Israel completes its return of Sinai on April 25, 1982."
+   ],
+   [
+    "1981 Jun 7",
+    1981.4327956989248,
+    "c",
+    "Israel destroys the Osirak reactor.",
+    "Jets strike Iraq’s nuclear reactor near Baghdad before it can go into operation."
+   ],
+   [
+    "1982 Jun 6",
+    1982.4301075268818,
+    "c",
+    "The Lebanon War.",
+    "Israel invades to drive out the PLO, which leaves Beirut in August. Israel stays in southern Lebanon until 2000."
+   ],
+   [
+    "1984 to 1985",
+    1984.9,
+    "s",
+    "Operation Moses.",
+    "Thousands of Ethiopian Jews are brought to Israel by way of Sudan."
+   ]
+  ],
+  "also": [
+   [
+    "1977",
+    1977.5,
+    "r",
+    "Zubin Mehta becomes music director of the Israel Philharmonic."
+   ],
+   [
+    "1978 Mar 11",
+    1978.1935483870968,
+    "c",
+    "The Coastal Road massacre. Gunmen land from the sea, hijack a bus and kill 38 civilians, 13 of them children."
+   ],
+   [
+    "1978 Mar 14",
+    1978.2016129032259,
+    "c",
+    "Operation Litani in southern Lebanon."
+   ],
+   [
+    "1978",
+    1978.5,
+    "l",
+    "Israel wins the Eurovision Song Contest."
+   ],
+   [
+    "1978 Sep 5 to 17",
+    1978.6774193548388,
+    "r",
+    "Summit: Begin and Sadat meet with President Carter at Camp David."
+   ],
+   [
+    "1978 Dec",
+    1978.9543010752689,
+    "d",
+    "Menachem Begin shares the Nobel Peace Prize with Anwar Sadat."
+   ],
+   [
+    "1979 Apr 22",
+    1979.3064516129032,
+    "c",
+    "Terrorists land by sea and attack Nahariya."
+   ],
+   [
+    "1980 Apr 7",
+    1980.266129032258,
+    "c",
+    "Terrorists seize the nursery at Kibbutz Misgav Am."
+   ],
+   [
+    "1980 May 2",
+    1980.3360215053763,
+    "c",
+    "Gunmen kill six yeshiva students in Hebron."
+   ],
+   [
+    "1980 Jul 30",
+    1980.5779569892472,
+    "r",
+    "Territory: The Knesset passes the Jerusalem Law, which declares the united city the capital of Israel."
+   ],
+   [
+    "1981 Jun 30",
+    1981.494623655914,
+    "r",
+    "Election: Likud wins 48 seats."
+   ],
+   [
+    "1981 Oct 6",
+    1981.763440860215,
+    "c",
+    "Anwar Sadat is assassinated in Cairo."
+   ],
+   [
+    "1981 Dec 14",
+    1981.9516129032259,
+    "r",
+    "Territory: the Knesset applies Israeli law to the Golan Heights."
+   ],
+   [
+    "1982 Apr 25",
+    1982.3145161290322,
+    "r",
+    "Israel leaves Sinai. The last of the peninsula returns to Egypt under the peace treaty, and the town of Yamit is evacuated."
+   ],
+   [
+    "1982 Jun 3",
+    1982.4220430107528,
+    "c",
+    "An attack on the Israeli ambassador in London sparks the Lebanon War."
+   ],
+   [
+    "1982 Sep 16 to 18",
+    1982.7069892473119,
+    "c",
+    "Lebanese militias massacre Palestinians at Sabra and Shatila."
+   ],
+   [
+    "1982 Nov 11",
+    1982.8602150537633,
+    "c",
+    "A car bomb destroys the Israeli headquarters in Tyre."
+   ],
+   [
+    "1983 Feb 8",
+    1983.1021505376343,
+    "d",
+    "The Kahan Commission. It finds Ariel Sharon indirectly responsible for Sabra and Shatila, and he leaves the Defense Ministry."
+   ],
+   [
+    "1983 May",
+    1983.3709677419354,
+    "l",
+    "Ofra Haza places second at the Eurovision Song Contest."
+   ],
+   [
+    "1983 May 17",
+    1983.3763440860216,
+    "d",
+    "Israel and Lebanon sign an agreement that is canceled in 1984."
+   ],
+   [
+    "1983 Oct 10",
+    1983.774193548387,
+    "r",
+    "Yitzhak Shamir becomes prime minister."
+   ],
+   [
+    "1984 Apr 12",
+    1984.279569892473,
+    "c",
+    "In the Bus 300 affair, two hijackers die in custody."
+   ],
+   [
+    "1984 Apr",
+    1984.2876344086021,
+    "c",
+    "Security forces arrest the Jewish Underground."
+   ],
+   [
+    "1984 Jul 23",
+    1984.5591397849462,
+    "r",
+    "Election: Alignment 44 seats, Likud 41."
+   ],
+   [
+    "1984 Sep 13",
+    1984.6989247311828,
+    "r",
+    "Shimon Peres becomes prime minister in a rotation with Shamir."
+   ]
+  ],
+  "id": "021"
+ },
+ {
+  "n": 22,
+  "slug": "intifada-and-the-great-aliyah",
+  "title": "Intifada and the Great Aliyah",
+  "menu": "1985–92",
+  "rng": "1985 to 1992",
+  "intro": "The unity government tames inflation and pulls back to a security zone in Lebanon. The First Intifada erupts, Scuds fall in the Gulf War, and a million Jews begin to arrive from the Soviet Union.",
+  "style": "period",
+  "y0": 1985,
+  "y1": 1993,
+  "tp": [
+   [
+    "1985 Jun 10",
+    1985.4408602150538,
+    "r",
+    "The security zone.",
+    "Israel pulls back to a strip of southern Lebanon, where it stays until 2000."
+   ],
+   [
+    "1985 Jul 1",
+    1985.5,
+    "r",
+    "The economic stabilization plan.",
+    "The unity government brings inflation of over 400 percent down within a year."
+   ],
+   [
+    "1987 Dec 8",
+    1987.9354838709678,
+    "c",
+    "The First Intifada.",
+    "A Palestinian uprising begins in Gaza and spreads to Judea and Samaria. It lasts until 1993."
+   ],
+   [
+    "1989",
+    1989.75,
+    "s",
+    "The Soviet Union opens its gates.",
+    "A mass aliyah begins that brings about a million Jews to Israel within a decade."
+   ],
+   [
+    "1991 Jan 18 to Feb 25",
+    1991.0456989247311,
+    "c",
+    "Scud missiles in the Gulf War.",
+    "Iraq fires about 40 missiles at Israeli cities. Israel does not respond."
+   ],
+   [
+    "1991 May 24 to 25",
+    1991.3951612903227,
+    "c",
+    "Operation Solomon.",
+    "About 14,000 Ethiopian Jews are flown to Israel in 36 hours."
+   ],
+   [
+    "1991 Oct 30",
+    1991.8279569892472,
+    "d",
+    "The Madrid Conference.",
+    "Israel and its Arab neighbors open their first direct peace talks."
+   ],
+   [
+    "1992 Jul 13",
+    1992.532258064516,
+    "r",
+    "Rabin returns.",
+    "Labor wins the June election and Yitzhak Rabin becomes prime minister for the second time."
+   ]
+  ],
+  "also": [
+   [
+    "1985 May 20",
+    1985.3844086021506,
+    "d",
+    "Israel frees 1,150 prisoners for three captured soldiers."
+   ],
+   [
+    "1985 Oct 1",
+    1985.75,
+    "c",
+    "Israeli jets bomb PLO headquarters in Tunis."
+   ],
+   [
+    "1985 Oct 5",
+    1985.760752688172,
+    "c",
+    "An Egyptian policeman kills seven Israeli tourists at Ras Burqa."
+   ],
+   [
+    "1985 Oct 7",
+    1985.766129032258,
+    "c",
+    "Hijackers seize the cruise ship Achille Lauro."
+   ],
+   [
+    "1985 Dec 27",
+    1985.986559139785,
+    "c",
+    "Gunmen attack El Al counters at Rome and Vienna airports."
+   ],
+   [
+    "1986",
+    1986.0376344086021,
+    "l",
+    "Yaacov Agam’s Fire and Water Fountain is installed in Dizengoff Square."
+   ],
+   [
+    "1986 Sep 6",
+    1986.6801075268818,
+    "c",
+    "Gunmen kill 22 worshippers at the Neve Shalom synagogue in Istanbul."
+   ],
+   [
+    "1986 Oct 16",
+    1986.7903225806451,
+    "c",
+    "Navigator Ron Arad is captured in Lebanon."
+   ],
+   [
+    "1986 Oct 20",
+    1986.8010752688172,
+    "r",
+    "Shamir returns as prime minister in the rotation."
+   ],
+   [
+    "1987 Apr 11",
+    1987.27688172043,
+    "d",
+    "Summit: Peres and King Hussein agree to the London Agreement."
+   ],
+   [
+    "1987 Nov 25",
+    1987.8978494623657,
+    "c",
+    "A hang glider attack from Lebanon kills six soldiers."
+   ],
+   [
+    "1988 Mar 7",
+    1988.1827956989248,
+    "c",
+    "Terrorists hijack a bus near Dimona and three civilians die."
+   ],
+   [
+    "1988 Apr 16",
+    1988.2903225806451,
+    "c",
+    "Abu Jihad is killed in Tunis."
+   ],
+   [
+    "1988 Jul 31",
+    1988.5806451612902,
+    "r",
+    "Territory: Jordan renounces its claim to Judea and Samaria."
+   ],
+   [
+    "1988 Nov 1",
+    1988.8333333333333,
+    "r",
+    "Election: Likud wins 40 seats."
+   ],
+   [
+    "1988 Nov 15",
+    1988.8709677419354,
+    "d",
+    "The PLO declares a state at its Algiers meeting."
+   ],
+   [
+    "1988 Dec 14",
+    1988.9516129032259,
+    "d",
+    "The United States opens a dialogue with the PLO."
+   ],
+   [
+    "1989 Mar 15",
+    1989.2043010752689,
+    "r",
+    "Territory: Israel returns Taba to Egypt after international arbitration."
+   ],
+   [
+    "1989 May 14",
+    1989.3682795698924,
+    "d",
+    "Shamir proposes elections in Judea and Samaria and Gaza."
+   ],
+   [
+    "1989 Jul 6",
+    1989.513440860215,
+    "c",
+    "A terrorist drives Bus 405 into a ravine and 16 die."
+   ],
+   [
+    "1990 Feb 4",
+    1990.0913978494623,
+    "c",
+    "Gunmen kill nine Israeli tourists on a bus in Egypt."
+   ],
+   [
+    "1990",
+    1990.5,
+    "l",
+    "A. B. Yehoshua publishes Mr. Mani."
+   ],
+   [
+    "1990 Oct 8",
+    1990.768817204301,
+    "c",
+    "Police kill 17 Palestinians in riots on the Temple Mount."
+   ],
+   [
+    "1991 Dec 16",
+    1991.9569892473119,
+    "d",
+    "The UN repeals its Zionism is racism resolution."
+   ],
+   [
+    "1992 Jan 24",
+    1992.0618279569892,
+    "d",
+    "Israel and China establish diplomatic relations."
+   ],
+   [
+    "1992 Jan 29",
+    1992.0752688172042,
+    "d",
+    "Israel and India establish full diplomatic relations."
+   ],
+   [
+    "1992 Mar 17",
+    1992.2096774193549,
+    "d",
+    "A bomb destroys the Israeli embassy in Buenos Aires and 29 die."
+   ],
+   [
+    "1992 Jun 23",
+    1992.475806451613,
+    "r",
+    "Election: Labor wins 44 seats."
+   ],
+   [
+    "1992",
+    1992.5,
+    "l",
+    "Etgar Keret publishes his first stories, Pipelines."
+   ],
+   [
+    "1992 Dec 17",
+    1992.9596774193549,
+    "r",
+    "Israel deports 415 Hamas activists to Lebanon."
+   ]
+  ],
+  "id": "022"
+ },
+ {
+  "n": 23,
+  "slug": "oslo-and-the-second-intifada",
+  "title": "Oslo and the Second Intifada",
+  "menu": "1993–04",
+  "rng": "1993 to 2004",
+  "intro": "The Oslo Accords and peace with Jordan raise hopes. Rabin is murdered, the Camp David talks fail and the Second Intifada brings suicide bombings to Israel’s cities.",
+  "style": "period",
+  "y0": 1993,
+  "y1": 2005,
+  "tp": [
+   [
+    "1993 Sep 13",
+    1993.6989247311828,
+    "d",
+    "The Oslo Accords.",
+    "Israel and the PLO sign the Declaration of Principles on the White House lawn. The Palestinian Authority is created."
+   ],
+   [
+    "1994 Oct 26",
+    1994.8172043010752,
+    "d",
+    "Peace with Jordan.",
+    "Rabin and King Hussein sign the treaty and normalize relations."
+   ],
+   [
+    "1995 Nov 4",
+    1995.8413978494623,
+    "c",
+    "Rabin is assassinated.",
+    "A Jewish extremist shoots the prime minister after a peace rally in Tel Aviv. Shimon Peres takes over the same day."
+   ],
+   [
+    "1996 Feb",
+    1996.1209677419354,
+    "c",
+    "The Bus 18 bombings.",
+    "Suicide bombers kill 45 people on Jerusalem buses in February and March."
+   ],
+   [
+    "2000 May 24",
+    2000.3951612903227,
+    "r",
+    "Withdrawal from Lebanon.",
+    "Israel leaves the security zone in southern Lebanon after 18 years."
+   ],
+   [
+    "2000 Sep 28",
+    2000.739247311828,
+    "c",
+    "The Second Intifada.",
+    "After the Camp David summit fails, a wave of suicide bombings and fighting lasts until 2005."
+   ],
+   [
+    "2001 Mar 7",
+    2001.1827956989248,
+    "r",
+    "Ariel Sharon becomes prime minister.",
+    "He beats Ehud Barak in the special election of February 6. He withdraws from Gaza in 2005, and a stroke ends his career in January 2006."
+   ],
+   [
+    "2002 Mar 27",
+    2002.236559139785,
+    "c",
+    "The Park Hotel massacre.",
+    "A suicide bomber kills 30 people at a Passover seder in Netanya."
+   ]
+  ],
+  "also": [
+   [
+    "1993 Jul 25 to 31",
+    1993.5645161290322,
+    "c",
+    "Operation Accountability against Hezbollah."
+   ],
+   [
+    "1993 Dec 30",
+    1993.994623655914,
+    "d",
+    "Israel and the Vatican sign the Fundamental Agreement."
+   ],
+   [
+    "1994 Feb 25",
+    1994.1478494623657,
+    "c",
+    "Baruch Goldstein kills 29 worshippers in Hebron."
+   ],
+   [
+    "1994 Apr 6",
+    1994.263440860215,
+    "c",
+    "A suicide bomber kills eight on a bus in Afula."
+   ],
+   [
+    "1994 May 4",
+    1994.3413978494623,
+    "r",
+    "Territory: Israel withdraws from the Gaza Strip and Jericho."
+   ],
+   [
+    "1994 Jul 18",
+    1994.5456989247311,
+    "c",
+    "A bomb at the AMIA center in Buenos Aires kills 85."
+   ],
+   [
+    "1994 Oct 9",
+    1994.771505376344,
+    "r",
+    "Hamas kidnaps soldier Nachshon Wachsman."
+   ],
+   [
+    "1994 Oct 19",
+    1994.7983870967741,
+    "c",
+    "A suicide bomber kills 22 on a bus on Dizengoff Street."
+   ],
+   [
+    "1994 Dec 10",
+    1994.9408602150538,
+    "d",
+    "Three share the Nobel Peace Prize. Yitzhak Rabin, Shimon Peres and Yasser Arafat are honored for the Oslo Accords."
+   ],
+   [
+    "1995 Jan 22",
+    1995.0564516129032,
+    "c",
+    "Two bombs at Beit Lid kill mostly soldiers."
+   ],
+   [
+    "1995 Sep 28",
+    1995.739247311828,
+    "r",
+    "Territory: the Oslo II agreement divides Judea and Samaria into Areas A, B and C."
+   ],
+   [
+    "1996 Mar 4",
+    1996.1747311827958,
+    "c",
+    "A suicide bomber kills 13 at the Dizengoff Center."
+   ],
+   [
+    "1996 Mar 13",
+    1996.1989247311828,
+    "d",
+    "Summit: leaders meet at Sharm el-Sheikh against terrorism."
+   ],
+   [
+    "1996 Apr 11 to 27",
+    1996.27688172043,
+    "c",
+    "Operation Grapes of Wrath against Hezbollah."
+   ],
+   [
+    "1996 May 29",
+    1996.4086021505377,
+    "r",
+    "Election: Netanyahu narrowly beats Peres."
+   ],
+   [
+    "1996 Jun 18",
+    1996.4623655913979,
+    "r",
+    "Benjamin Netanyahu becomes prime minister after beating Shimon Peres in the May 29 election."
+   ],
+   [
+    "1996 Sep 24 to 27",
+    1996.728494623656,
+    "c",
+    "Riots follow the opening of the Western Wall Tunnel exit."
+   ],
+   [
+    "1997 Jan 15",
+    1997.0376344086021,
+    "r",
+    "Territory: Israel withdraws from most of Hebron under the Hebron Protocol."
+   ],
+   [
+    "1997 Feb 4",
+    1997.0913978494623,
+    "r",
+    "Two helicopters collide and 73 soldiers die."
+   ],
+   [
+    "1997 Jul 30",
+    1997.5779569892472,
+    "c",
+    "Suicide bombers kill 16 at the Mahane Yehuda market."
+   ],
+   [
+    "1997 Sep 4",
+    1997.6747311827958,
+    "c",
+    "Three suicide bombers kill five on Ben Yehuda Street."
+   ],
+   [
+    "1997 Sep 5",
+    1997.6774193548388,
+    "r",
+    "Twelve naval commandos die in an ambush in Lebanon."
+   ],
+   [
+    "1997 Sep 25",
+    1997.731182795699,
+    "r",
+    "A failed Mossad plot against Khaled Mashal in Amman."
+   ],
+   [
+    "1998",
+    1998.5,
+    "l",
+    "Dana International wins the Eurovision Song Contest."
+   ],
+   [
+    "1998 Oct 23",
+    1998.8091397849462,
+    "d",
+    "Summit: Netanyahu and Arafat sign the Wye River Memorandum."
+   ],
+   [
+    "1999 May 17",
+    1999.3763440860216,
+    "r",
+    "Election: Barak beats Netanyahu."
+   ],
+   [
+    "1999",
+    1999.5,
+    "r",
+    "Daniel Barenboim and Edward Said found the West-Eastern Divan Orchestra."
+   ],
+   [
+    "1999 Jul 6",
+    1999.513440860215,
+    "r",
+    "Ehud Barak becomes prime minister after beating Netanyahu on May 17."
+   ],
+   [
+    "1999 Dec 15",
+    1999.9543010752689,
+    "d",
+    "Summit: Israel and Syria open talks at Shepherdstown."
+   ],
+   [
+    "2000 Jul 11 to 25",
+    2000.52688172043,
+    "d",
+    "Summit: Barak and Arafat meet at Camp David and fail to agree."
+   ],
+   [
+    "2001 Feb 6",
+    2001.0967741935483,
+    "r",
+    "Special election: Sharon beats Barak."
+   ],
+   [
+    "2001 Jun 1",
+    2001.4166666666667,
+    "c",
+    "The Dolphinarium bombing. A suicide bomber kills 21 people outside a Tel Aviv discotheque, most of them teenagers."
+   ],
+   [
+    "2001",
+    2001.5,
+    "f",
+    "Menashe Kadishman’s Fallen Leaves opens at the Jewish Museum Berlin."
+   ],
+   [
+    "2001 Aug 9",
+    2001.6048387096773,
+    "c",
+    "The Sbarro bombing. A suicide bomber kills 15 people, seven of them children, in a Jerusalem pizzeria."
+   ],
+   [
+    "2002 Mar 29 to May 3",
+    2002.241935483871,
+    "c",
+    "Operation Defensive Shield in Judea and Samaria."
+   ],
+   [
+    "2002 Apr 11",
+    2002.27688172043,
+    "c",
+    "A truck bomb at the Djerba synagogue kills 21."
+   ],
+   [
+    "2002",
+    2002.5,
+    "r",
+    "Israel begins building a security barrier."
+   ],
+   [
+    "2002",
+    2002.5,
+    "f",
+    "Daniel Kahneman wins the Nobel Prize in Economics."
+   ],
+   [
+    "2002",
+    2002.5,
+    "l",
+    "Amos Oz publishes A Tale of Love and Darkness."
+   ],
+   [
+    "2002 Nov 28",
+    2002.9059139784947,
+    "c",
+    "Attacks at a hotel in Mombasa, Kenya, kill 13."
+   ],
+   [
+    "2003 Jan 28",
+    2003.0725806451612,
+    "r",
+    "Election: Likud wins 38 seats."
+   ],
+   [
+    "2003 Jun 4",
+    2003.4247311827958,
+    "r",
+    "Summit: Sharon and Abbas meet President Bush at Aqaba."
+   ],
+   [
+    "2004 Oct 6",
+    2004.763440860215,
+    "f",
+    "Two Technion chemists win the Nobel Prize. Aaron Ciechanover and Avram Hershko are honored for work on how cells break down proteins."
+   ],
+   [
+    "2004 Oct 7",
+    2004.766129032258,
+    "c",
+    "Bombs at Taba and Ras Shitan in Sinai kill 34."
+   ],
+   [
+    "2004 Nov 11",
+    2004.8602150537633,
+    "r",
+    "Yasser Arafat dies."
+   ]
+  ],
+  "id": "023"
+ },
+ {
+  "n": 24,
+  "slug": "disengagement-and-the-gaza-wars",
+  "title": "Disengagement and the Gaza Wars",
+  "menu": "2005–14",
+  "rng": "2005 to 2014",
+  "intro": "Israel leaves Gaza, Hamas takes it over and three wars follow. Lebanon flares in 2006, and Gilad Shalit comes home after five years.",
+  "style": "period",
+  "y0": 2005,
+  "y1": 2015,
+  "tp": [
+   [
+    "2005 Aug 15 to Sep 12",
+    2005.6209677419354,
+    "r",
+    "Disengagement from Gaza.",
+    "Israel removes all its soldiers and communities from the Strip."
+   ],
+   [
+    "2006 Jul 12 to Aug 14",
+    2006.529569892473,
+    "d",
+    "The Second Lebanon War.",
+    "It follows a cross-border Hezbollah attack and ends with a UN ceasefire."
+   ],
+   [
+    "2007 Jun 14",
+    2007.4516129032259,
+    "r",
+    "Hamas takes control of Gaza.",
+    "Hamas drives out the Palestinian Authority after winning elections in January 2006."
+   ],
+   [
+    "2008 Dec 27 to 2009 Jan 18",
+    2008.986559139785,
+    "c",
+    "Operation Cast Lead.",
+    "A three-week war in Gaza follows years of rocket fire on southern Israel."
+   ],
+   [
+    "2011 Jul 14",
+    2011.534946236559,
+    "r",
+    "The social justice protests.",
+    "Hundreds of thousands march over housing and the cost of living."
+   ],
+   [
+    "2011 Oct 18",
+    2011.7956989247311,
+    "d",
+    "Gilad Shalit comes home.",
+    "Hamas frees the soldier after five years in captivity in exchange for 1,027 prisoners."
+   ],
+   [
+    "2014 Jul 8 to Aug 26",
+    2014.518817204301,
+    "c",
+    "Operation Protective Edge.",
+    "A 50-day war with Hamas follows rocket fire and the murder of three Israeli teenagers."
+   ]
+  ],
+  "also": [
+   [
+    "2005 Feb 8",
+    2005.1021505376343,
+    "d",
+    "Summit: Sharon and Mahmoud Abbas meet at Sharm el-Sheikh."
+   ],
+   [
+    "2005",
+    2005.5,
+    "f",
+    "Robert Aumann wins the Nobel Prize in Economics for his work on game theory."
+   ],
+   [
+    "2006 Jan",
+    2006.0376344086021,
+    "r",
+    "Hamas wins the Palestinian legislative elections."
+   ],
+   [
+    "2006 Mar 28",
+    2006.239247311828,
+    "r",
+    "Election: Kadima wins 29 seats."
+   ],
+   [
+    "2006 Apr 14",
+    2006.284946236559,
+    "r",
+    "Ehud Olmert becomes prime minister after Kadima wins on March 28."
+   ],
+   [
+    "2007 Nov 27",
+    2007.9032258064517,
+    "d",
+    "Summit: the Annapolis Conference relaunches talks."
+   ],
+   [
+    "2008",
+    2008.5,
+    "l",
+    "Waltz with Bashir wins the Golden Globe for best foreign film."
+   ],
+   [
+    "2008 Nov 26",
+    2008.9005376344087,
+    "c",
+    "Gunmen attack the Chabad House in Mumbai."
+   ],
+   [
+    "2009 Feb 10",
+    2009.1075268817203,
+    "r",
+    "Election: Kadima 28 seats, Likud 27."
+   ],
+   [
+    "2009 Mar 31",
+    2009.247311827957,
+    "r",
+    "Benjamin Netanyahu returns as prime minister."
+   ],
+   [
+    "2009",
+    2009.5,
+    "f",
+    "Ada Yonath wins the Nobel Prize in Chemistry."
+   ],
+   [
+    "2010 May 31",
+    2010.4139784946237,
+    "r",
+    "Israeli commandos board the Gaza flotilla and nine die."
+   ],
+   [
+    "2010 Sep 2",
+    2010.6693548387098,
+    "d",
+    "Summit: direct talks reopen in Washington."
+   ],
+   [
+    "2010 Dec 2",
+    2010.9193548387098,
+    "c",
+    "The Carmel forest fire kills 44."
+   ],
+   [
+    "2011 Mar 11",
+    2011.1935483870968,
+    "c",
+    "Terrorists murder five members of the Fogel family in Itamar."
+   ],
+   [
+    "2011 Apr 7",
+    2011.266129032258,
+    "s",
+    "Iron Dome intercepts its first rocket from Gaza."
+   ],
+   [
+    "2011",
+    2011.5,
+    "f",
+    "Dan Shechtman wins the Nobel Prize in Chemistry for the discovery of quasicrystals."
+   ],
+   [
+    "2011 Aug 18",
+    2011.6290322580646,
+    "c",
+    "Attacks near Eilat kill eight Israelis."
+   ],
+   [
+    "2012 Mar 19",
+    2012.215053763441,
+    "c",
+    "A gunman kills four at a Jewish school in Toulouse."
+   ],
+   [
+    "2012 Jul 18",
+    2012.5456989247311,
+    "c",
+    "A bomb in Burgas, Bulgaria, kills five Israeli tourists."
+   ],
+   [
+    "2012 Nov 14 to 21",
+    2012.8682795698924,
+    "c",
+    "Operation Pillar of Defense in Gaza."
+   ],
+   [
+    "2012 Nov 29",
+    2012.9086021505377,
+    "d",
+    "The UN General Assembly upgrades the Palestinian delegation."
+   ],
+   [
+    "2013 Jan 22",
+    2013.0564516129032,
+    "r",
+    "Election: Likud Beiteinu wins 31 seats."
+   ],
+   [
+    "2013 Mar 20",
+    2013.217741935484,
+    "r",
+    "President Obama visits Israel."
+   ],
+   [
+    "2013",
+    2013.5,
+    "l",
+    "The singer Arik Einstein dies and crowds gather in Tel Aviv to mourn him."
+   ],
+   [
+    "2013 Jul 29",
+    2013.5752688172042,
+    "d",
+    "Summit: direct talks resume in Washington."
+   ],
+   [
+    "2014 Apr 29",
+    2014.3252688172042,
+    "d",
+    "The United States-led peace talks end."
+   ],
+   [
+    "2014 May 24",
+    2014.3951612903227,
+    "c",
+    "A gunman kills four at the Jewish Museum in Brussels."
+   ],
+   [
+    "2014 Jun 12",
+    2014.4462365591398,
+    "c",
+    "Three Israeli teenagers are kidnapped and murdered."
+   ],
+   [
+    "2014 Nov 18",
+    2014.8790322580646,
+    "c",
+    "Two attackers kill five at a synagogue in Har Nof."
+   ]
+  ],
+  "id": "024"
+ },
+ {
+  "n": 25,
+  "slug": "abraham-accords-to-october-7",
+  "title": "Abraham Accords to October 7",
+  "menu": "2015–23",
+  "rng": "2015 to October 7, 2023",
+  "intro": "The embassy moves to Jerusalem and the Abraham Accords bring peace with Gulf states. Five elections and the judicial protests divide Israel, and Hamas attacks on October 7.",
+  "style": "period",
+  "y0": 2015,
+  "y1": 2023.768817204301,
+  "tp": [
+   [
+    "2015 Jul 14",
+    2015.534946236559,
+    "d",
+    "The Iran nuclear deal.",
+    "Iran and the world powers sign an agreement that Israel opposes. Netanyahu had argued against it before Congress in March."
+   ],
+   [
+    "2018 May 14",
+    2018.3682795698924,
+    "d",
+    "The United States moves its embassy to Jerusalem.",
+    "It follows the 2017 recognition of Jerusalem as Israel’s capital."
+   ],
+   [
+    "2020 Sep 15",
+    2020.7043010752689,
+    "d",
+    "The Abraham Accords.",
+    "The United Arab Emirates and Bahrain sign at the White House and normalize relations with Israel. Morocco and Sudan follow."
+   ],
+   [
+    "2021 May 10 to 21",
+    2021.3575268817203,
+    "c",
+    "Operation Guardian of the Walls.",
+    "An 11-day war with Hamas sets off riots in mixed Arab and Jewish cities."
+   ],
+   [
+    "2021 Jun 13",
+    2021.4489247311828,
+    "r",
+    "Bennett becomes prime minister.",
+    "A broad coalition ends Netanyahu’s 12 years in office."
+   ],
+   [
+    "2023 Jan",
+    2023.0376344086021,
+    "r",
+    "The judicial overhaul protests.",
+    "Mass demonstrations over the government’s proposed judicial changes divide the country."
+   ],
+   [
+    "2023 Oct 7",
+    2023.766129032258,
+    "c",
+    "Hamas attacks Israel.",
+    "About 1,200 people are killed and about 250 are taken hostage. Israel launches the war in Gaza, Operation Swords of Iron."
+   ]
+  ],
+  "also": [
+   [
+    "2015 Jan 9",
+    2015.021505376344,
+    "c",
+    "Terrorists kill four at a Paris kosher supermarket."
+   ],
+   [
+    "2015 Mar 3",
+    2015.1720430107528,
+    "r",
+    "Netanyahu addresses Congress on Iran."
+   ],
+   [
+    "2015 Mar 17",
+    2015.2096774193549,
+    "r",
+    "Election: Likud wins 30 seats."
+   ],
+   [
+    "2015 Oct 1",
+    2015.75,
+    "c",
+    "A wave of stabbings and car attacks begins."
+   ],
+   [
+    "2016 Jun 8",
+    2016.4354838709678,
+    "c",
+    "Two gunmen kill four at the Sarona Market."
+   ],
+   [
+    "2016",
+    2016.5,
+    "d",
+    "UN Security Council Resolution 2334 criticizes Israeli communities in Judea and Samaria."
+   ],
+   [
+    "2016 Sep 28",
+    2016.739247311828,
+    "r",
+    "Shimon Peres dies."
+   ],
+   [
+    "2017",
+    2017.5,
+    "d",
+    "The United States recognizes Jerusalem as Israel’s capital."
+   ],
+   [
+    "2017",
+    2017.5,
+    "f",
+    "David Grossman wins the Man Booker International Prize."
+   ],
+   [
+    "2017 Jul 14",
+    2017.534946236559,
+    "r",
+    "A shooting on the Temple Mount sparks a crisis."
+   ],
+   [
+    "2018 Mar 30",
+    2018.244623655914,
+    "r",
+    "The Great March of Return begins at the Gaza fence."
+   ],
+   [
+    "2018",
+    2018.5,
+    "r",
+    "The Nation-State Law defines Israel as the nation-state of the Jewish people."
+   ],
+   [
+    "2018",
+    2018.5,
+    "l",
+    "Netta wins the Eurovision Song Contest."
+   ],
+   [
+    "2018 Dec 24",
+    2018.978494623656,
+    "r",
+    "The Knesset votes to dissolve."
+   ],
+   [
+    "2019 Mar 25",
+    2019.231182795699,
+    "r",
+    "Territory: the United States recognizes Israeli sovereignty over the Golan Heights."
+   ],
+   [
+    "2019 Apr 9",
+    2019.271505376344,
+    "r",
+    "Election: Likud and Blue and White tie at 35."
+   ],
+   [
+    "2019",
+    2019.5,
+    "l",
+    "Tel Aviv hosts the Eurovision Song Contest."
+   ],
+   [
+    "2019 Sep 17",
+    2019.7096774193549,
+    "r",
+    "Election: Blue and White 33 seats, Likud 32."
+   ],
+   [
+    "2019 Nov 12",
+    2019.8629032258063,
+    "c",
+    "Operation Black Belt targets Islamic Jihad in Gaza."
+   ],
+   [
+    "2020 Mar 2",
+    2020.1693548387098,
+    "r",
+    "Election: Likud wins 36 seats."
+   ],
+   [
+    "2020 May 17",
+    2020.3763440860216,
+    "r",
+    "Netanyahu and Benny Gantz form a unity government."
+   ],
+   [
+    "2021 Mar 23",
+    2021.225806451613,
+    "r",
+    "Election: Likud wins 30 seats."
+   ],
+   [
+    "2022 Jul 1",
+    2022.5,
+    "r",
+    "Yair Lapid becomes prime minister."
+   ],
+   [
+    "2022 Nov 1",
+    2022.8333333333333,
+    "r",
+    "Election: Likud wins 32 seats."
+   ],
+   [
+    "2022 Dec 29",
+    2022.991935483871,
+    "r",
+    "Benjamin Netanyahu returns as prime minister after the November 1 election."
+   ]
+  ],
+  "id": "025"
+ },
+ {
+  "n": 26,
+  "slug": "the-seven-front-war",
+  "title": "The Seven-Front War",
+  "menu": "Oct 2023–",
+  "rng": "October 8, 2023 to today",
+  "intro": "The day after the massacre, Israel is at war on seven fronts: Gaza, Lebanon, Syria, Judea and Samaria, Yemen, Iraq and Iran. Hezbollah’s leaders fall, Assad’s regime collapses, and a ceasefire brings the living hostages home.",
+  "style": "period",
+  "y0": 2023.768817204301,
+  "y1": 2026.9,
+  "tp": [
+   [
+    "2023 Oct 8",
+    2023.768817204301,
+    "c",
+    "Hezbollah opens a second front.",
+    "Hezbollah fires on the north the day after the massacre, and some 60,000 Israelis leave their homes."
+   ],
+   [
+    "2024 Apr 13 to 14",
+    2024.282258064516,
+    "c",
+    "Iran fires missiles and drones at Israel.",
+    "About 320 missiles and drones are launched. Israel says 99 percent are intercepted."
+   ],
+   [
+    "2024 Nov 27",
+    2024.9032258064517,
+    "d",
+    "Ceasefire with Hezbollah.",
+    "Fighting that began on October 8, 2023 ends."
+   ],
+   [
+    "2024 Dec",
+    2024.9543010752689,
+    "r",
+    "The Assad regime falls in Syria.",
+    "Israel moves to secure its Golan border."
+   ],
+   [
+    "2025 Jun 13 to 24",
+    2025.4489247311828,
+    "c",
+    "The twelve-day war with Iran.",
+    "Israel strikes Iran’s nuclear and missile sites, and the United States joins in."
+   ],
+   [
+    "2025 Oct 10",
+    2025.774193548387,
+    "d",
+    "Gaza ceasefire and peace plan.",
+    "A ceasefire takes effect under a United States plan. The surviving hostages are released on October 13."
+   ]
+  ],
+  "also": [
+   [
+    "2023 Oct 19",
+    2023.7983870967741,
+    "c",
+    "The Houthis in Yemen launch their first missiles toward Israel."
+   ],
+   [
+    "2023 Oct 27",
+    2023.8198924731182,
+    "c",
+    "Ground forces enter Gaza."
+   ],
+   [
+    "2023 Nov 24 to Dec 1",
+    2023.8951612903227,
+    "d",
+    "A truce frees 105 hostages in exchange for Palestinian prisoners."
+   ],
+   [
+    "2024 Jan 2",
+    2024.002688172043,
+    "c",
+    "Hamas leader Saleh al-Arouri is killed in Beirut."
+   ],
+   [
+    "2024 Apr 1",
+    2024.25,
+    "c",
+    "A strike in Damascus kills senior Iranian commanders."
+   ],
+   [
+    "2024 May 6",
+    2024.3467741935483,
+    "c",
+    "Israeli forces move into Rafah."
+   ],
+   [
+    "2024 Jun 8",
+    2024.4354838709678,
+    "c",
+    "Operation Arnon rescues four hostages from Nuseirat."
+   ],
+   [
+    "2024 Jul 19",
+    2024.5483870967741,
+    "c",
+    "A Houthi drone kills a man in Tel Aviv."
+   ],
+   [
+    "2024 Jul 27",
+    2024.5698924731182,
+    "c",
+    "A Hezbollah rocket kills 12 children on a football field in Majdal Shams."
+   ],
+   [
+    "2024 Jul 31",
+    2024.5806451612902,
+    "c",
+    "Hamas leader Ismail Haniyeh is killed in Tehran."
+   ],
+   [
+    "2024 Sep 17 to 18",
+    2024.7096774193549,
+    "c",
+    "Exploding pagers and radios wound thousands of Hezbollah members."
+   ],
+   [
+    "2024 Sep 27",
+    2024.736559139785,
+    "c",
+    "Israel kills Hezbollah leader Hassan Nasrallah in Beirut."
+   ],
+   [
+    "2024 Oct 1",
+    2024.75,
+    "c",
+    "Iran fires about 180 ballistic missiles at Israel, and ground forces enter southern Lebanon."
+   ],
+   [
+    "2024 Oct 16",
+    2024.7903225806451,
+    "c",
+    "Israeli soldiers kill Hamas leader Yahya Sinwar in Rafah."
+   ],
+   [
+    "2024 Oct 26",
+    2024.8172043010752,
+    "c",
+    "Israel strikes Iran’s air defenses and missile factories."
+   ],
+   [
+    "2024 Nov 21",
+    2024.8870967741937,
+    "d",
+    "The International Criminal Court issues arrest warrants for Netanyahu and Gallant."
+   ],
+   [
+    "2025 Jan 19",
+    2025.0483870967741,
+    "d",
+    "A Gaza ceasefire begins. It ends March 18."
+   ],
+   [
+    "2026 Sep 30",
+    2026.744623655914,
+    "c",
+    "A Flydubai flight to Tel Aviv is attacked in the cockpit. Passengers and the Indian captain foil the hijacking."
+   ],
+   [
+    "2026 Oct 27",
+    2026.8198924731182,
+    "r",
+    "Election: scheduled."
+   ]
+  ],
+  "id": "026"
+ }
+]

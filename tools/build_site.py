@@ -813,7 +813,7 @@ nf = '''<h1>That address is not here</h1><p class="lead">It may be a typing slip
 <ul class="results" id="results"></ul><p><a href="/">Go to the home page</a></p>'''
 write('/404.html', layout('Not found', nf, 'Not found', '/404.html', nd=True, cls='nf'))
 
-home_cards = [('/maps/', 'Maps', '33 maps'), ('/timelines/', 'Timelines', '25 timelines'), ('/rankings/', 'Rankings', '17 rankings'),
+home_cards = [('/maps/', 'Maps', '33 maps'), ('/timelines/', 'Timelines', '26 timelines'), ('/rankings/', 'Rankings', '17 rankings'),
               ('/demographics/', 'Demographics', '13 graphics'), ('/top-ten/', 'Top Ten Lists', '6 lists'), ('/size/', 'Size Comparisons', 'Israel beside other places'),
               ('/tables/', 'Tables', '5 reference tables'), ('/tour/', 'A Taste of Israel', '10 regions, 71 stops'), ('/flora/', 'Flora and Fauna', '5 sections, 60 entries'),
               ('/glossary/', 'Glossary', f'{len([g_ for g_ in G if not g_.get("cf")])} entries'), ('/index/', 'Index', 'Find any name or place')]
