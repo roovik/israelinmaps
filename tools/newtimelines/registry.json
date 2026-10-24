@@ -2548,25 +2548,11 @@
   "id": "012",
   "left": [
    [
-    "1881 Mar 13",
-    1881.1989247311828,
-    "c",
-    "",
-    "Tsar Alexander II is assassinated and pogroms spread across Russia."
-   ],
-   [
     "1881",
     1881.5,
     "s",
     "The First Aliyah.",
     "Pogroms in Russia send thousands of Jews to the land."
-   ],
-   [
-    "1882 May",
-    1882.3709677419354,
-    "r",
-    "",
-    "Russia’s May Laws restrict where Jews may live and work."
    ],
    [
     "1882",
@@ -2725,30 +2711,9 @@
    [
     "1891",
     1891.5,
-    "r",
-    "",
-    "Jews are expelled from Moscow."
-   ],
-   [
-    "1891",
-    1891.5,
-    "s",
-    "",
-    "The Ottomans bar Russian Jews from settling and buying land."
-   ],
-   [
-    "1891",
-    1891.5,
     "s",
     "",
     "Hadera is founded."
-   ],
-   [
-    "1894",
-    1894.5,
-    "r",
-    "",
-    "The Dreyfus Affair in France sharpens Zionist aims."
    ],
    [
     "1894",
@@ -2809,6 +2774,20 @@
   ],
   "right": [
    [
+    "1881 Mar 13",
+    1881.1989247311828,
+    "c",
+    "",
+    "Tsar Alexander II is assassinated and pogroms spread across Russia."
+   ],
+   [
+    "1882 May",
+    1882.3709677419354,
+    "r",
+    "",
+    "Russia’s May Laws restrict where Jews may live and work."
+   ],
+   [
     "1882",
     1882.5,
     "r",
@@ -2816,11 +2795,32 @@
     "Britain occupies Egypt."
    ],
    [
+    "1891",
+    1891.5,
+    "r",
+    "",
+    "Jews are expelled from Moscow."
+   ],
+   [
+    "1891",
+    1891.5,
+    "s",
+    "",
+    "The Ottomans bar Russian Jews from settling and buying land."
+   ],
+   [
     "1892",
     1892.5,
     "r",
     "",
     "The railway from Jaffa to Jerusalem opens."
+   ],
+   [
+    "1894",
+    1894.5,
+    "r",
+    "",
+    "The Dreyfus Affair in France sharpens Zionist aims."
    ],
    [
     "1898",
@@ -3531,25 +3531,11 @@
     "The language war at the Technion settles on Hebrew."
    ],
    [
-    "1913 Oct 28",
-    1913.8225806451612,
-    "r",
-    "",
-    "Mendel Beilis is acquitted of blood libel in Kiev."
-   ],
-   [
     "1914",
     1914.5,
     "r",
     "",
     "About 85,000 Jews live in the land."
-   ],
-   [
-    "1914 Nov",
-    1914.8709677419354,
-    "c",
-    "",
-    "The Ottoman Empire enters the war and expels Russian Jews."
    ],
    [
     "1915 Mar",
@@ -3564,13 +3550,6 @@
     "r",
     "",
     "Moshe Dayan is born at Degania."
-   ],
-   [
-    "1917 Apr",
-    1917.2876344086021,
-    "r",
-    "",
-    "The Ottomans expel the residents of Jaffa and Tel Aviv."
    ],
    [
     "1917",
@@ -3617,13 +3596,6 @@
    [
     "1919",
     1919.5,
-    "c",
-    "",
-    "Pogroms in Ukraine kill tens of thousands and push Jews to leave."
-   ],
-   [
-    "1919",
-    1919.5,
     "s",
     "",
     "The Third Aliyah begins."
@@ -3631,11 +3603,25 @@
   ],
   "right": [
    [
+    "1913 Oct 28",
+    1913.8225806451612,
+    "r",
+    "",
+    "Mendel Beilis is acquitted of blood libel in Kiev."
+   ],
+   [
     "1914",
     1914.5,
     "c",
     "The First World War begins.",
     "The Ottoman Empire enters the war on the German side."
+   ],
+   [
+    "1914 Nov",
+    1914.8709677419354,
+    "c",
+    "",
+    "The Ottoman Empire enters the war and expels Russian Jews."
    ],
    [
     "1915 Mar",
@@ -3666,6 +3652,13 @@
     "Britain and France plan to divide the Ottoman Middle East between them."
    ],
    [
+    "1917 Apr",
+    1917.2876344086021,
+    "r",
+    "",
+    "The Ottomans expel the residents of Jaffa and Tel Aviv."
+   ],
+   [
     "1917",
     1917.5,
     "r",
@@ -3685,6 +3678,13 @@
     "r",
     "",
     "Allenby wins the Battle of Megiddo."
+   ],
+   [
+    "1919",
+    1919.5,
+    "c",
+    "",
+    "Pogroms in Ukraine kill tens of thousands and push Jews to leave."
    ]
   ],
   "step": 1
