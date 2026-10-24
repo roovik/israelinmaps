@@ -1,0 +1,1923 @@
+[
+ {
+  "id": "012a",
+  "slug": "independence-and-ingathering",
+  "title": "Independence and Ingathering",
+  "y0": 1948,
+  "y1": 1956,
+  "rng": "1948 to 1955",
+  "intro": "Israel declares independence, wins its first war and doubles its population in three years as Jews pour in from Europe and the Arab world.",
+  "tp": [
+   [
+    "1948 May 14",
+    1948.3682795698924,
+    "r",
+    "Independence.",
+    "David Ben-Gurion declares independence and becomes prime minister of the provisional government. Five Arab armies attack on May 15."
+   ],
+   [
+    "1948 May 15",
+    1948.3709677419354,
+    "c",
+    "The War of Independence.",
+    "Five Arab armies invade the day after independence. By the armistices of 1949 Israel holds more land than the partition plan gave it."
+   ],
+   [
+    "1949 Feb 24 to Jul 20",
+    1949.1451612903227,
+    "d",
+    "The armistice lines.",
+    "Armistice agreements with Egypt (Feb 24), Lebanon (Mar 23), Jordan (Apr 3) and Syria (Jul 20) end the War of Independence. Israel holds more land than the partition plan gave it."
+   ],
+   [
+    "1949 to 1950",
+    1949.5,
+    "c",
+    "Operation Magic Carpet.",
+    "In flights that began in 1949, the Yemenite Jewish airlift brings nearly 49,000 Jews from Yemen and Aden to Israel by September 1950."
+   ],
+   [
+    "1950 to 1952",
+    1950.5,
+    "c",
+    "Operation Ezra and Nehemiah.",
+    "Airlifts bring about 120,000 Jews from Iraq to Israel."
+   ],
+   [
+    "1950 Jul 5",
+    1950.510752688172,
+    "s",
+    "The Law of Return.",
+    "Every Jew has the right to immigrate to Israel and take citizenship."
+   ],
+   [
+    "1952 Sep 10",
+    1952.6908602150538,
+    "d",
+    "The reparations agreement.",
+    "Israel and West Germany sign in Luxembourg. Menachem Begin leads a violent protest outside the Knesset in January over the talks."
+   ],
+   [
+    "1954 to 1955",
+    1954.5,
+    "r",
+    "The Lavon Affair.",
+    "Israeli agents recruit Egyptian Jews for failed bombings in Egypt. Two are executed, and Defense Minister Pinhas Lavon resigns, with Ben-Gurion returning to the post."
+   ]
+  ],
+  "also": [
+   [
+    "1948",
+    1948.5,
+    "r",
+    "The Israel Defense Forces are formed from the Haganah and other groups."
+   ],
+   [
+    "1949 Jan 25",
+    1949.0645161290322,
+    "r",
+    "Election: Mapai wins 46 seats."
+   ],
+   [
+    "1949 May",
+    1949.3709677419354,
+    "d",
+    "Israel joins the United Nations."
+   ],
+   [
+    "1949",
+    1949.5,
+    "r",
+    "Chaim Weizmann is elected the first president."
+   ],
+   [
+    "1950 Apr 24",
+    1950.3118279569892,
+    "r",
+    "Territory: Jordan annexes Judea and Samaria and East Jerusalem."
+   ],
+   [
+    "1950s to 1960s",
+    1950.5,
+    "s",
+    "Jews arrive from Arab countries and Iran and reshape Israeli society."
+   ],
+   [
+    "1951 Jul",
+    1951.5376344086021,
+    "c",
+    "King Abdullah of Jordan is assassinated in Jerusalem."
+   ],
+   [
+    "1951 Jul 30",
+    1951.5779569892472,
+    "r",
+    "Election: Mapai wins 45 seats."
+   ],
+   [
+    "1951 Sep",
+    1951.7043010752689,
+    "r",
+    "Egypt bars Israeli shipping from the Suez Canal."
+   ],
+   [
+    "1952 Jul",
+    1952.5376344086021,
+    "r",
+    "The Free Officers coup in Egypt brings Nasser to power."
+   ],
+   [
+    "1952 Nov",
+    1952.8709677419354,
+    "r",
+    "Chaim Weizmann dies."
+   ],
+   [
+    "1953",
+    1953.5,
+    "s",
+    "Yad Vashem is founded by law to remember the Holocaust."
+   ],
+   [
+    "1953",
+    1953.5,
+    "f",
+    "The Israel Prize is created."
+   ],
+   [
+    "1953 Oct",
+    1953.7876344086021,
+    "c",
+    "The Qibya raid draws sharp international criticism."
+   ],
+   [
+    "1953 Dec",
+    1953.9543010752689,
+    "r",
+    "Ben-Gurion resigns and moves to Sde Boker."
+   ],
+   [
+    "1954 Jan 26",
+    1954.0672043010752,
+    "r",
+    "Moshe Sharett becomes prime minister while Ben-Gurion rests at Sde Boker."
+   ],
+   [
+    "1954 Mar",
+    1954.2043010752689,
+    "c",
+    "Gunmen kill 11 Israelis on a bus at Scorpion Pass."
+   ],
+   [
+    "1955",
+    1955.5,
+    "l",
+    "Yehuda Amichai publishes his first poems, Now and in Other Days."
+   ],
+   [
+    "1955 Jul 26",
+    1955.5672043010752,
+    "r",
+    "Election: Mapai wins 40 seats."
+   ],
+   [
+    "1955 Sep",
+    1955.7043010752689,
+    "d",
+    "Egypt announces an arms deal with Czechoslovakia."
+   ],
+   [
+    "1955 Nov 3",
+    1955.8387096774193,
+    "r",
+    "Ben-Gurion returns as prime minister."
+   ]
+  ]
+ },
+ {
+  "id": "012b",
+  "slug": "sinai-and-the-years-between",
+  "title": "Sinai and the Years Between",
+  "y0": 1956,
+  "y1": 1967,
+  "rng": "1956 to 1966",
+  "intro": "The Sinai Campaign opens a decade of quiet borders. Israel builds its water carrier and its institutions, tries Eichmann and makes peace with Germany.",
+  "tp": [
+   [
+    "1956 Oct 29 to Nov 7",
+    1956.8252688172042,
+    "c",
+    "The Sinai War.",
+    "After Egypt nationalizes the Suez Canal, Israel, Britain and France plan the attack in secret at Sèvres. Israel takes Sinai in days. The United States and the Soviet Union force a withdrawal, completed in March 1957."
+   ],
+   [
+    "1960 to 1962",
+    1960.5,
+    "c",
+    "Eichmann captured and tried.",
+    "Israeli agents seize Adolf Eichmann in Argentina in 1960. He is tried in Jerusalem in 1961 and executed in 1962, the only death sentence Israel has carried out in a civil court."
+   ],
+   [
+    "1961 to 1964",
+    1961.5,
+    "c",
+    "Operation Yakhin.",
+    "A secret Mossad operation brings about 100,000 Jews from Morocco to Israel."
+   ],
+   [
+    "1963 Jun 26",
+    1963.483870967742,
+    "r",
+    "Eshkol succeeds Ben-Gurion.",
+    "Levi Eshkol becomes prime minister as the founding generation begins to hand over power."
+   ],
+   [
+    "1964",
+    1964.5,
+    "s",
+    "The National Water Carrier.",
+    "It brings water from the Sea of Galilee to the farms and towns of the south."
+   ],
+   [
+    "1965",
+    1965.5,
+    "d",
+    "Relations with West Germany.",
+    "Twenty years after the Holocaust, the two countries exchange ambassadors."
+   ],
+   [
+    "1966",
+    1966.5,
+    "l",
+    "Agnon wins the Nobel Prize.",
+    "S. Y. Agnon is the first Hebrew writer to receive the prize for literature."
+   ]
+  ],
+  "also": [
+   [
+    "1956 Jul",
+    1956.5376344086021,
+    "r",
+    "Nasser nationalizes the Suez Canal."
+   ],
+   [
+    "1956 Oct",
+    1956.7876344086021,
+    "c",
+    "Border police kill 48 Arab citizens at Kafr Qasim."
+   ],
+   [
+    "1956 Nov",
+    1956.8709677419354,
+    "d",
+    "A UN emergency force deploys in Sinai and Gaza."
+   ],
+   [
+    "1956 Nov",
+    1956.8709677419354,
+    "c",
+    "Thousands of Jews leave Egypt after the Sinai War."
+   ],
+   [
+    "1957 Mar",
+    1957.2043010752689,
+    "r",
+    "Territory: Israel completes its withdrawal from Sinai and Gaza."
+   ],
+   [
+    "1957",
+    1957.5,
+    "s",
+    "France agrees to help build the Dimona reactor."
+   ],
+   [
+    "1958 Feb",
+    1958.1209677419354,
+    "r",
+    "Egypt and Syria merge into the United Arab Republic."
+   ],
+   [
+    "1958",
+    1958.5,
+    "f",
+    "The Hebrew University opens its new campus at Givat Ram in Jerusalem."
+   ],
+   [
+    "1958",
+    1958.5,
+    "s",
+    "Israel begins building the Dimona reactor."
+   ],
+   [
+    "1958 Jul",
+    1958.5376344086021,
+    "r",
+    "A coup in Iraq and a crisis in Lebanon alarm Israel’s neighbors and its allies."
+   ],
+   [
+    "1959 Jul",
+    1959.5376344086021,
+    "c",
+    "Riots break out in Haifa’s Wadi Salib over discrimination against Jews from North Africa."
+   ],
+   [
+    "1959 Nov 3",
+    1959.8387096774193,
+    "r",
+    "Election: Mapai wins 47 seats."
+   ],
+   [
+    "1961 Aug 15",
+    1961.6209677419354,
+    "r",
+    "Election: Mapai wins 42 seats."
+   ],
+   [
+    "1962",
+    1962.5,
+    "r",
+    "Marc Chagall’s windows are dedicated at the Hadassah synagogue in Jerusalem."
+   ],
+   [
+    "1964 Jan",
+    1964.0376344086021,
+    "r",
+    "Pope Paul VI makes the first papal visit to the Holy Land in modern times."
+   ],
+   [
+    "1964",
+    1964.5,
+    "r",
+    "The Arab League founds the PLO."
+   ],
+   [
+    "1964",
+    1964.5,
+    "l",
+    "Ephraim Kishon’s film Sallah Shabati is the first Israeli film nominated for an Academy Award."
+   ],
+   [
+    "1965 May",
+    1965.3709677419354,
+    "r",
+    "Israeli spy Eli Cohen is hanged in Damascus."
+   ],
+   [
+    "1965",
+    1965.5,
+    "f",
+    "The Israel Museum opens in Jerusalem, with the Shrine of the Book."
+   ],
+   [
+    "1965 Nov 2",
+    1965.8360215053763,
+    "r",
+    "Election: Alignment wins 45 seats."
+   ],
+   [
+    "1966 Dec",
+    1966.9543010752689,
+    "r",
+    "Military rule over Arab citizens of Israel ends."
+   ]
+  ]
+ },
+ {
+  "id": "013a",
+  "slug": "the-six-day-war-and-yom-kippur",
+  "title": "The Six-Day War and Yom Kippur",
+  "y0": 1967,
+  "y1": 1977,
+  "rng": "1967 to 1976",
+  "intro": "In six days Israel reunites Jerusalem and triples its territory. The War of Attrition, terror abroad and the shock of Yom Kippur follow.",
+  "tp": [
+   [
+    "1967 Jun 5 to 10",
+    1967.4274193548388,
+    "c",
+    "The Six-Day War.",
+    "Israel takes Judea and Samaria, Gaza, Sinai, the Golan Heights and East Jerusalem. Jerusalem is united under Israeli control."
+   ],
+   [
+    "1967 Jun 7",
+    1967.4327956989248,
+    "s",
+    "Jerusalem reunited.",
+    "Israeli forces take the Old City, the Western Wall and the rest of Judea and Samaria, Sinai, Gaza and the Golan Heights."
+   ],
+   [
+    "1967 Jun 8 to 1970 Aug 7",
+    1967.4354838709678,
+    "d",
+    "The War of Attrition.",
+    "Egypt shells Israeli positions along the Suez Canal and Israel answers with air raids deep in Egypt. The fighting is heaviest from March 1969 and a ceasefire takes hold on August 7, 1970."
+   ],
+   [
+    "1967 Nov 22",
+    1967.8897849462367,
+    "d",
+    "Resolution 242.",
+    "The UN Security Council calls for Israeli withdrawal from territories and for peace and secure borders. Arab leaders had already declared three refusals at Khartoum."
+   ],
+   [
+    "1969 Mar 17",
+    1969.2096774193549,
+    "r",
+    "Golda Meir becomes prime minister.",
+    "She follows Levi Eshkol, who died in office on February 26. She resigns in April 1974 after the Yom Kippur War."
+   ],
+   [
+    "1972 Sep 5",
+    1972.6774193548388,
+    "c",
+    "The Munich massacre.",
+    "Palestinian terrorists kill 11 Israeli athletes and coaches at the Olympic Games."
+   ],
+   [
+    "1973 Oct 6 to 25",
+    1973.763440860215,
+    "d",
+    "The Yom Kippur War.",
+    "Egypt and Syria attack on the holiest day of the year and Israel repels them. Ceasefires take hold on October 22 and 25."
+   ],
+   [
+    "1976 Jul 4",
+    1976.508064516129,
+    "c",
+    "Operation Entebbe.",
+    "Commandos fly to Uganda and rescue the hostages of a hijacked Air France plane. Yoni Netanyahu is killed leading the raid."
+   ]
+  ],
+  "also": [
+   [
+    "1967 May",
+    1967.3709677419354,
+    "r",
+    "Egypt closes the Straits of Tiran to Israeli shipping."
+   ],
+   [
+    "1967 Jun",
+    1967.4543010752689,
+    "r",
+    "Moshe Dayan becomes defense minister days before the Six-Day War."
+   ],
+   [
+    "1967 Jun",
+    1967.4543010752689,
+    "c",
+    "Israeli aircraft and torpedo boats attack the American ship USS Liberty."
+   ],
+   [
+    "1967 Jun 28",
+    1967.489247311828,
+    "r",
+    "Territory: Israel extends its law and administration to East Jerusalem."
+   ],
+   [
+    "1967",
+    1967.5,
+    "r",
+    "Naomi Shemer writes “Jerusalem of Gold”."
+   ],
+   [
+    "1967 Aug 29 to Sep 1",
+    1967.6586021505377,
+    "d",
+    "Summit: Arab leaders meet at Khartoum and refuse peace, recognition and negotiation with Israel."
+   ],
+   [
+    "1967 Sep",
+    1967.7043010752689,
+    "c",
+    "Settlers return to Kfar Etzion, the first Israeli settlement after the war."
+   ],
+   [
+    "1967 Oct",
+    1967.7876344086021,
+    "c",
+    "Egyptian missiles sink the Israeli destroyer Eilat."
+   ],
+   [
+    "1968 Mar",
+    1968.2043010752689,
+    "r",
+    "Israeli forces fight the PLO at Karameh in Jordan."
+   ],
+   [
+    "1968 Apr",
+    1968.2876344086021,
+    "r",
+    "A Passover stay in Hebron leads to the founding of Kiryat Arba."
+   ],
+   [
+    "1968 May",
+    1968.3709677419354,
+    "r",
+    "Israel Television begins regular broadcasts."
+   ],
+   [
+    "1968 Jul",
+    1968.5376344086021,
+    "c",
+    "Palestinian gunmen hijack an El Al plane to Algiers."
+   ],
+   [
+    "1968 Dec",
+    1968.9543010752689,
+    "c",
+    "Israeli commandos raid Beirut airport after an attack on an El Al plane in Athens."
+   ],
+   [
+    "1969 Aug",
+    1969.6209677419354,
+    "r",
+    "A fire damages the Al-Aqsa Mosque in Jerusalem."
+   ],
+   [
+    "1969 Oct 28",
+    1969.8225806451612,
+    "r",
+    "Election: Alignment wins 56 seats."
+   ],
+   [
+    "1970 Feb 21",
+    1970.1370967741937,
+    "c",
+    "A bomb on a Swissair plane kills 47 after takeoff from Zurich."
+   ],
+   [
+    "1972 May 30",
+    1972.4112903225807,
+    "c",
+    "Massacre at Lod Airport. Three Japanese gunmen working for a Palestinian group kill 26 people, most of them Puerto Rican pilgrims."
+   ],
+   [
+    "1973 Dec 31",
+    1973.997311827957,
+    "r",
+    "Election: Alignment wins 51 seats."
+   ],
+   [
+    "1974 Jan 18",
+    1974.0456989247311,
+    "r",
+    "Territory: Israel and Egypt sign the first Sinai disengagement agreement."
+   ],
+   [
+    "1974 Apr 11",
+    1974.27688172043,
+    "c",
+    "Gunmen kill 18 people in Kiryat Shmona."
+   ],
+   [
+    "1974 May",
+    1974.3709677419354,
+    "c",
+    "Massacre at Ma’alot. Gunmen seize a school in the north. Twenty-two schoolchildren are among the dead."
+   ],
+   [
+    "1974 May 31",
+    1974.4139784946237,
+    "r",
+    "Territory: Israel and Syria sign a disengagement agreement on the Golan Heights."
+   ],
+   [
+    "1974 Jun 3",
+    1974.4220430107528,
+    "r",
+    "Yitzhak Rabin becomes prime minister for the first time."
+   ],
+   [
+    "1975 Jul 4",
+    1975.508064516129,
+    "c",
+    "A bomb in Jerusalem’s Zion Square kills 15."
+   ],
+   [
+    "1975 Sep 4",
+    1975.6747311827958,
+    "r",
+    "Territory: the second Sinai agreement returns the Abu Rudeis oil fields and the passes."
+   ]
+  ]
+ },
+ {
+  "id": "014a",
+  "slug": "upheaval-peace-and-intifada",
+  "title": "Upheaval, Peace and Intifada",
+  "y0": 1977,
+  "y1": 1993,
+  "rng": "1977 to 1992",
+  "intro": "Begin’s victory ends Labor rule and leads to peace with Egypt. The Lebanon War, the First Intifada and the great Soviet aliyah follow.",
+  "tp": [
+   [
+    "1977 May 17",
+    1977.3763440860216,
+    "r",
+    "The upheaval.",
+    "Likud wins the May 17 election and Menachem Begin becomes prime minister, ending three decades of Labor rule."
+   ],
+   [
+    "1977 Nov 19 to 21",
+    1977.8817204301076,
+    "d",
+    "Sadat comes to Jerusalem.",
+    "The Egyptian president addresses the Knesset and opens the way to peace."
+   ],
+   [
+    "1979 Mar 26",
+    1979.233870967742,
+    "d",
+    "Peace with Egypt.",
+    "The Camp David summit of September 1978 leads to the first peace treaty with an Arab state. Israel completes its return of Sinai on April 25, 1982."
+   ],
+   [
+    "1981 Jun 7",
+    1981.4327956989248,
+    "c",
+    "Israel destroys the Osirak reactor.",
+    "Jets strike Iraq’s nuclear reactor near Baghdad before it can go into operation."
+   ],
+   [
+    "1982 Jun 6",
+    1982.4301075268818,
+    "c",
+    "The Lebanon War.",
+    "Israel invades to drive out the PLO, which leaves Beirut in August. Israel stays in southern Lebanon until 2000."
+   ],
+   [
+    "1984 to 1985",
+    1984.9,
+    "s",
+    "Operation Moses.",
+    "Thousands of Ethiopian Jews are brought to Israel by way of Sudan."
+   ],
+   [
+    "1987 Dec 8",
+    1987.9354838709678,
+    "c",
+    "The First Intifada.",
+    "A Palestinian uprising begins in Gaza and spreads to Judea and Samaria. It lasts until 1993."
+   ],
+   [
+    "1989",
+    1989.75,
+    "s",
+    "The Soviet Union opens its gates.",
+    "A mass aliyah begins that brings about a million Jews to Israel within a decade."
+   ],
+   [
+    "1991 Jan 18 to Feb 25",
+    1991.0456989247311,
+    "c",
+    "Scud missiles in the Gulf War.",
+    "Iraq fires about 40 missiles at Israeli cities. Israel does not respond."
+   ]
+  ],
+  "also": [
+   [
+    "1977",
+    1977.5,
+    "r",
+    "Zubin Mehta becomes music director of the Israel Philharmonic."
+   ],
+   [
+    "1978 Mar 11",
+    1978.1935483870968,
+    "c",
+    "The Coastal Road massacre. Gunmen land from the sea, hijack a bus and kill 38 civilians, 13 of them children."
+   ],
+   [
+    "1978 Mar 14",
+    1978.2016129032259,
+    "c",
+    "Operation Litani in southern Lebanon."
+   ],
+   [
+    "1978",
+    1978.5,
+    "l",
+    "Israel wins the Eurovision Song Contest."
+   ],
+   [
+    "1978 Sep 5 to 17",
+    1978.6774193548388,
+    "r",
+    "Summit: Begin and Sadat meet with President Carter at Camp David."
+   ],
+   [
+    "1978 Dec",
+    1978.9543010752689,
+    "d",
+    "Menachem Begin shares the Nobel Peace Prize with Anwar Sadat."
+   ],
+   [
+    "1979 Apr 22",
+    1979.3064516129032,
+    "c",
+    "Terrorists land by sea and attack Nahariya."
+   ],
+   [
+    "1980 Apr 7",
+    1980.266129032258,
+    "c",
+    "Terrorists seize the nursery at Kibbutz Misgav Am."
+   ],
+   [
+    "1980 May 2",
+    1980.3360215053763,
+    "c",
+    "Gunmen kill six yeshiva students in Hebron."
+   ],
+   [
+    "1980 Jul 30",
+    1980.5779569892472,
+    "r",
+    "Territory: The Knesset passes the Jerusalem Law, which declares the united city the capital of Israel."
+   ],
+   [
+    "1981 Jun 30",
+    1981.494623655914,
+    "r",
+    "Election: Likud wins 48 seats."
+   ],
+   [
+    "1981 Oct 6",
+    1981.763440860215,
+    "c",
+    "Anwar Sadat is assassinated in Cairo."
+   ],
+   [
+    "1981 Dec 14",
+    1981.9516129032259,
+    "r",
+    "Territory: the Knesset applies Israeli law to the Golan Heights."
+   ],
+   [
+    "1982 Apr 25",
+    1982.3145161290322,
+    "r",
+    "Israel leaves Sinai. The last of the peninsula returns to Egypt under the peace treaty, and the town of Yamit is evacuated."
+   ],
+   [
+    "1982 Jun 3",
+    1982.4220430107528,
+    "c",
+    "An attack on the Israeli ambassador in London sparks the Lebanon War."
+   ],
+   [
+    "1982 Sep 16 to 18",
+    1982.7069892473119,
+    "c",
+    "Lebanese militias massacre Palestinians at Sabra and Shatila."
+   ],
+   [
+    "1982 Nov 11",
+    1982.8602150537633,
+    "c",
+    "A car bomb destroys the Israeli headquarters in Tyre."
+   ],
+   [
+    "1983 Feb 8",
+    1983.1021505376343,
+    "d",
+    "The Kahan Commission. It finds Ariel Sharon indirectly responsible for Sabra and Shatila, and he leaves the Defense Ministry."
+   ],
+   [
+    "1983 May",
+    1983.3709677419354,
+    "l",
+    "Ofra Haza places second at the Eurovision Song Contest."
+   ],
+   [
+    "1983 May 17",
+    1983.3763440860216,
+    "d",
+    "Israel and Lebanon sign an agreement that is canceled in 1984."
+   ],
+   [
+    "1983 Oct 10",
+    1983.774193548387,
+    "r",
+    "Yitzhak Shamir becomes prime minister."
+   ],
+   [
+    "1984 Apr 12",
+    1984.279569892473,
+    "c",
+    "In the Bus 300 affair, two hijackers die in custody."
+   ],
+   [
+    "1984 Apr",
+    1984.2876344086021,
+    "c",
+    "Security forces arrest the Jewish Underground."
+   ],
+   [
+    "1984 Jul 23",
+    1984.5591397849462,
+    "r",
+    "Election: Alignment 44 seats, Likud 41."
+   ],
+   [
+    "1984 Sep 13",
+    1984.6989247311828,
+    "r",
+    "Shimon Peres becomes prime minister in a rotation with Shamir."
+   ],
+   [
+    "1985 May 20",
+    1985.3844086021506,
+    "d",
+    "Israel frees 1,150 prisoners for three captured soldiers."
+   ],
+   [
+    "1985 Jun 10",
+    1985.4408602150538,
+    "r",
+    "Territory: Israel pulls back to a security zone in southern Lebanon."
+   ],
+   [
+    "1985 Jul 1",
+    1985.5,
+    "r",
+    "The economic stabilization plan. The unity government brings inflation of over 400 percent down within a year."
+   ],
+   [
+    "1985 Oct 1",
+    1985.75,
+    "c",
+    "Israeli jets bomb PLO headquarters in Tunis."
+   ],
+   [
+    "1985 Oct 5",
+    1985.760752688172,
+    "c",
+    "An Egyptian policeman kills seven Israeli tourists at Ras Burqa."
+   ],
+   [
+    "1985 Oct 7",
+    1985.766129032258,
+    "c",
+    "Hijackers seize the cruise ship Achille Lauro."
+   ],
+   [
+    "1985 Dec 27",
+    1985.986559139785,
+    "c",
+    "Gunmen attack El Al counters at Rome and Vienna airports."
+   ],
+   [
+    "1986",
+    1986.0376344086021,
+    "l",
+    "Yaacov Agam’s Fire and Water Fountain is installed in Dizengoff Square."
+   ],
+   [
+    "1986 Sep 6",
+    1986.6801075268818,
+    "c",
+    "Gunmen kill 22 worshippers at the Neve Shalom synagogue in Istanbul."
+   ],
+   [
+    "1986 Oct 16",
+    1986.7903225806451,
+    "c",
+    "Navigator Ron Arad is captured in Lebanon."
+   ],
+   [
+    "1986 Oct 20",
+    1986.8010752688172,
+    "r",
+    "Shamir returns as prime minister in the rotation."
+   ],
+   [
+    "1987 Apr 11",
+    1987.27688172043,
+    "d",
+    "Summit: Peres and King Hussein agree to the London Agreement."
+   ],
+   [
+    "1987 Nov 25",
+    1987.8978494623657,
+    "c",
+    "A hang glider attack from Lebanon kills six soldiers."
+   ],
+   [
+    "1988 Mar 7",
+    1988.1827956989248,
+    "c",
+    "Terrorists hijack a bus near Dimona and three civilians die."
+   ],
+   [
+    "1988 Apr 16",
+    1988.2903225806451,
+    "c",
+    "Abu Jihad is killed in Tunis."
+   ],
+   [
+    "1988 Jul 31",
+    1988.5806451612902,
+    "r",
+    "Territory: Jordan renounces its claim to Judea and Samaria."
+   ],
+   [
+    "1988 Nov 1",
+    1988.8333333333333,
+    "r",
+    "Election: Likud wins 40 seats."
+   ],
+   [
+    "1988 Nov 15",
+    1988.8709677419354,
+    "d",
+    "The PLO declares a state at its Algiers meeting."
+   ],
+   [
+    "1988 Dec 14",
+    1988.9516129032259,
+    "d",
+    "The United States opens a dialogue with the PLO."
+   ],
+   [
+    "1989 Mar 15",
+    1989.2043010752689,
+    "r",
+    "Territory: Israel returns Taba to Egypt after international arbitration."
+   ],
+   [
+    "1989 May 14",
+    1989.3682795698924,
+    "d",
+    "Shamir proposes elections in Judea and Samaria and Gaza."
+   ],
+   [
+    "1989 Jul 6",
+    1989.513440860215,
+    "c",
+    "A terrorist drives Bus 405 into a ravine and 16 die."
+   ],
+   [
+    "1990 Feb 4",
+    1990.0913978494623,
+    "c",
+    "Gunmen kill nine Israeli tourists on a bus in Egypt."
+   ],
+   [
+    "1990",
+    1990.5,
+    "l",
+    "A. B. Yehoshua publishes Mr. Mani."
+   ],
+   [
+    "1990 Oct 8",
+    1990.768817204301,
+    "c",
+    "Police kill 17 Palestinians in riots on the Temple Mount."
+   ],
+   [
+    "1991 May 24 to 25",
+    1991.3951612903227,
+    "c",
+    "Operation Solomon. About 14,000 Ethiopian Jews are flown to Israel in 36 hours."
+   ],
+   [
+    "1991 Oct 30",
+    1991.8279569892472,
+    "d",
+    "Summit: the Madrid Peace Conference opens the first direct talks."
+   ],
+   [
+    "1991 Dec 16",
+    1991.9569892473119,
+    "d",
+    "The UN repeals its Zionism is racism resolution."
+   ],
+   [
+    "1992 Jan 24",
+    1992.0618279569892,
+    "d",
+    "Israel and China establish diplomatic relations."
+   ],
+   [
+    "1992 Jan 29",
+    1992.0752688172042,
+    "d",
+    "Israel and India establish full diplomatic relations."
+   ],
+   [
+    "1992 Mar 17",
+    1992.2096774193549,
+    "d",
+    "A bomb destroys the Israeli embassy in Buenos Aires and 29 die."
+   ],
+   [
+    "1992 Jun 23",
+    1992.475806451613,
+    "r",
+    "Election: Labor wins 44 seats."
+   ],
+   [
+    "1992",
+    1992.5,
+    "l",
+    "Etgar Keret publishes his first stories, Pipelines."
+   ],
+   [
+    "1992 Jul 13",
+    1992.532258064516,
+    "r",
+    "Yitzhak Rabin becomes prime minister for the second time."
+   ],
+   [
+    "1992 Dec 17",
+    1992.9596774193549,
+    "r",
+    "Israel deports 415 Hamas activists to Lebanon."
+   ]
+  ]
+ },
+ {
+  "id": "016a",
+  "slug": "oslo-and-the-second-intifada",
+  "title": "Oslo and the Second Intifada",
+  "y0": 1993,
+  "y1": 2005,
+  "rng": "1993 to 2004",
+  "intro": "The Oslo Accords and peace with Jordan raise hopes. Rabin is murdered, the Camp David talks fail and the Second Intifada brings suicide bombings to Israel’s cities.",
+  "tp": [
+   [
+    "1993 Sep 13",
+    1993.6989247311828,
+    "d",
+    "The Oslo Accords.",
+    "Israel and the PLO sign the Declaration of Principles on the White House lawn. The Palestinian Authority is created."
+   ],
+   [
+    "1994 Oct 26",
+    1994.8172043010752,
+    "d",
+    "Peace with Jordan.",
+    "Rabin and King Hussein sign the treaty and normalize relations."
+   ],
+   [
+    "1995 Nov 4",
+    1995.8413978494623,
+    "c",
+    "Rabin is assassinated.",
+    "A Jewish extremist shoots the prime minister after a peace rally in Tel Aviv. Shimon Peres takes over the same day."
+   ],
+   [
+    "1996 Feb",
+    1996.1209677419354,
+    "c",
+    "The Bus 18 bombings.",
+    "Suicide bombers kill 45 people on Jerusalem buses in February and March."
+   ],
+   [
+    "2000 May 24",
+    2000.3951612903227,
+    "r",
+    "Withdrawal from Lebanon.",
+    "Israel leaves the security zone in southern Lebanon after 18 years."
+   ],
+   [
+    "2000 Sep 28",
+    2000.739247311828,
+    "c",
+    "The Second Intifada.",
+    "After the Camp David summit fails, a wave of suicide bombings and fighting lasts until 2005."
+   ],
+   [
+    "2001 Mar 7",
+    2001.1827956989248,
+    "r",
+    "Ariel Sharon becomes prime minister.",
+    "He beats Ehud Barak in the special election of February 6. He withdraws from Gaza in 2005, and a stroke ends his career in January 2006."
+   ],
+   [
+    "2002 Mar 27",
+    2002.236559139785,
+    "c",
+    "The Park Hotel massacre.",
+    "A suicide bomber kills 30 people at a Passover seder in Netanya."
+   ]
+  ],
+  "also": [
+   [
+    "1993 Jul 25 to 31",
+    1993.5645161290322,
+    "c",
+    "Operation Accountability against Hezbollah."
+   ],
+   [
+    "1993 Dec 30",
+    1993.994623655914,
+    "d",
+    "Israel and the Vatican sign the Fundamental Agreement."
+   ],
+   [
+    "1994 Feb 25",
+    1994.1478494623657,
+    "c",
+    "Baruch Goldstein kills 29 worshippers in Hebron."
+   ],
+   [
+    "1994 Apr 6",
+    1994.263440860215,
+    "c",
+    "A suicide bomber kills eight on a bus in Afula."
+   ],
+   [
+    "1994 May 4",
+    1994.3413978494623,
+    "r",
+    "Territory: Israel withdraws from the Gaza Strip and Jericho."
+   ],
+   [
+    "1994 Jul 18",
+    1994.5456989247311,
+    "c",
+    "A bomb at the AMIA center in Buenos Aires kills 85."
+   ],
+   [
+    "1994 Oct 9",
+    1994.771505376344,
+    "r",
+    "Hamas kidnaps soldier Nachshon Wachsman."
+   ],
+   [
+    "1994 Oct 19",
+    1994.7983870967741,
+    "c",
+    "A suicide bomber kills 22 on a bus on Dizengoff Street."
+   ],
+   [
+    "1994 Dec 10",
+    1994.9408602150538,
+    "d",
+    "Three share the Nobel Peace Prize. Yitzhak Rabin, Shimon Peres and Yasser Arafat are honored for the Oslo Accords."
+   ],
+   [
+    "1995 Jan 22",
+    1995.0564516129032,
+    "c",
+    "Two bombs at Beit Lid kill mostly soldiers."
+   ],
+   [
+    "1995 Sep 28",
+    1995.739247311828,
+    "r",
+    "Territory: the Oslo II agreement divides Judea and Samaria into Areas A, B and C."
+   ],
+   [
+    "1996 Mar 4",
+    1996.1747311827958,
+    "c",
+    "A suicide bomber kills 13 at the Dizengoff Center."
+   ],
+   [
+    "1996 Mar 13",
+    1996.1989247311828,
+    "d",
+    "Summit: leaders meet at Sharm el-Sheikh against terrorism."
+   ],
+   [
+    "1996 Apr 11 to 27",
+    1996.27688172043,
+    "c",
+    "Operation Grapes of Wrath against Hezbollah."
+   ],
+   [
+    "1996 May 29",
+    1996.4086021505377,
+    "r",
+    "Election: Netanyahu narrowly beats Peres."
+   ],
+   [
+    "1996 Jun 18",
+    1996.4623655913979,
+    "r",
+    "Benjamin Netanyahu becomes prime minister after beating Shimon Peres in the May 29 election."
+   ],
+   [
+    "1996 Sep 24 to 27",
+    1996.728494623656,
+    "c",
+    "Riots follow the opening of the Western Wall Tunnel exit."
+   ],
+   [
+    "1997 Jan 15",
+    1997.0376344086021,
+    "r",
+    "Territory: Israel withdraws from most of Hebron under the Hebron Protocol."
+   ],
+   [
+    "1997 Feb 4",
+    1997.0913978494623,
+    "r",
+    "Two helicopters collide and 73 soldiers die."
+   ],
+   [
+    "1997 Jul 30",
+    1997.5779569892472,
+    "c",
+    "Suicide bombers kill 16 at the Mahane Yehuda market."
+   ],
+   [
+    "1997 Sep 4",
+    1997.6747311827958,
+    "c",
+    "Three suicide bombers kill five on Ben Yehuda Street."
+   ],
+   [
+    "1997 Sep 5",
+    1997.6774193548388,
+    "r",
+    "Twelve naval commandos die in an ambush in Lebanon."
+   ],
+   [
+    "1997 Sep 25",
+    1997.731182795699,
+    "r",
+    "A failed Mossad plot against Khaled Mashal in Amman."
+   ],
+   [
+    "1998",
+    1998.5,
+    "l",
+    "Dana International wins the Eurovision Song Contest."
+   ],
+   [
+    "1998 Oct 23",
+    1998.8091397849462,
+    "d",
+    "Summit: Netanyahu and Arafat sign the Wye River Memorandum."
+   ],
+   [
+    "1999 May 17",
+    1999.3763440860216,
+    "r",
+    "Election: Barak beats Netanyahu."
+   ],
+   [
+    "1999",
+    1999.5,
+    "r",
+    "Daniel Barenboim and Edward Said found the West-Eastern Divan Orchestra."
+   ],
+   [
+    "1999 Jul 6",
+    1999.513440860215,
+    "r",
+    "Ehud Barak becomes prime minister after beating Netanyahu on May 17."
+   ],
+   [
+    "1999 Dec 15",
+    1999.9543010752689,
+    "d",
+    "Summit: Israel and Syria open talks at Shepherdstown."
+   ],
+   [
+    "2000 Jul 11 to 25",
+    2000.52688172043,
+    "d",
+    "Summit: Barak and Arafat meet at Camp David and fail to agree."
+   ],
+   [
+    "2001 Feb 6",
+    2001.0967741935483,
+    "r",
+    "Special election: Sharon beats Barak."
+   ],
+   [
+    "2001 Jun 1",
+    2001.4166666666667,
+    "c",
+    "The Dolphinarium bombing. A suicide bomber kills 21 people outside a Tel Aviv discotheque, most of them teenagers."
+   ],
+   [
+    "2001",
+    2001.5,
+    "f",
+    "Menashe Kadishman’s Fallen Leaves opens at the Jewish Museum Berlin."
+   ],
+   [
+    "2001 Aug 9",
+    2001.6048387096773,
+    "c",
+    "The Sbarro bombing. A suicide bomber kills 15 people, seven of them children, in a Jerusalem pizzeria."
+   ],
+   [
+    "2002 Mar 29 to May 3",
+    2002.241935483871,
+    "c",
+    "Operation Defensive Shield in Judea and Samaria."
+   ],
+   [
+    "2002 Apr 11",
+    2002.27688172043,
+    "c",
+    "A truck bomb at the Djerba synagogue kills 21."
+   ],
+   [
+    "2002",
+    2002.5,
+    "r",
+    "Israel begins building a security barrier."
+   ],
+   [
+    "2002",
+    2002.5,
+    "f",
+    "Daniel Kahneman wins the Nobel Prize in Economics."
+   ],
+   [
+    "2002",
+    2002.5,
+    "l",
+    "Amos Oz publishes A Tale of Love and Darkness."
+   ],
+   [
+    "2002 Nov 28",
+    2002.9059139784947,
+    "c",
+    "Attacks at a hotel in Mombasa, Kenya, kill 13."
+   ],
+   [
+    "2003 Jan 28",
+    2003.0725806451612,
+    "r",
+    "Election: Likud wins 38 seats."
+   ],
+   [
+    "2003 Jun 4",
+    2003.4247311827958,
+    "r",
+    "Summit: Sharon and Abbas meet President Bush at Aqaba."
+   ],
+   [
+    "2004 Oct 6",
+    2004.763440860215,
+    "f",
+    "Two Technion chemists win the Nobel Prize. Aaron Ciechanover and Avram Hershko are honored for work on how cells break down proteins."
+   ],
+   [
+    "2004 Oct 7",
+    2004.766129032258,
+    "c",
+    "Bombs at Taba and Ras Shitan in Sinai kill 34."
+   ],
+   [
+    "2004 Nov 11",
+    2004.8602150537633,
+    "r",
+    "Yasser Arafat dies."
+   ]
+  ]
+ },
+ {
+  "id": "017a",
+  "slug": "disengagement-and-the-gaza-wars",
+  "title": "Disengagement and the Gaza Wars",
+  "y0": 2005,
+  "y1": 2015,
+  "rng": "2005 to 2014",
+  "intro": "Israel leaves Gaza, Hamas takes it over and three wars follow. Lebanon flares in 2006, and Gilad Shalit comes home after five years.",
+  "tp": [
+   [
+    "2005 Aug 15 to Sep 12",
+    2005.6209677419354,
+    "r",
+    "Disengagement from Gaza.",
+    "Israel removes all its soldiers and communities from the Strip."
+   ],
+   [
+    "2006 Jul 12 to Aug 14",
+    2006.529569892473,
+    "d",
+    "The Second Lebanon War.",
+    "It follows a cross-border Hezbollah attack and ends with a UN ceasefire."
+   ],
+   [
+    "2007 Jun 14",
+    2007.4516129032259,
+    "r",
+    "Hamas takes control of Gaza.",
+    "Hamas drives out the Palestinian Authority after winning elections in January 2006."
+   ],
+   [
+    "2008 Dec 27 to 2009 Jan 18",
+    2008.986559139785,
+    "c",
+    "Operation Cast Lead.",
+    "A three-week war in Gaza follows years of rocket fire on southern Israel."
+   ],
+   [
+    "2011 Jul 14",
+    2011.534946236559,
+    "r",
+    "The social justice protests.",
+    "Hundreds of thousands march over housing and the cost of living."
+   ],
+   [
+    "2011 Oct 18",
+    2011.7956989247311,
+    "d",
+    "Gilad Shalit comes home.",
+    "Hamas frees the soldier after five years in captivity in exchange for 1,027 prisoners."
+   ],
+   [
+    "2014 Jul 8 to Aug 26",
+    2014.518817204301,
+    "c",
+    "Operation Protective Edge.",
+    "A 50-day war with Hamas follows rocket fire and the murder of three Israeli teenagers."
+   ]
+  ],
+  "also": [
+   [
+    "2005 Feb 8",
+    2005.1021505376343,
+    "d",
+    "Summit: Sharon and Mahmoud Abbas meet at Sharm el-Sheikh."
+   ],
+   [
+    "2005",
+    2005.5,
+    "f",
+    "Robert Aumann wins the Nobel Prize in Economics for his work on game theory."
+   ],
+   [
+    "2006 Jan",
+    2006.0376344086021,
+    "r",
+    "Hamas wins the Palestinian legislative elections."
+   ],
+   [
+    "2006 Mar 28",
+    2006.239247311828,
+    "r",
+    "Election: Kadima wins 29 seats."
+   ],
+   [
+    "2006 Apr 14",
+    2006.284946236559,
+    "r",
+    "Ehud Olmert becomes prime minister after Kadima wins on March 28."
+   ],
+   [
+    "2007 Nov 27",
+    2007.9032258064517,
+    "d",
+    "Summit: the Annapolis Conference relaunches talks."
+   ],
+   [
+    "2008",
+    2008.5,
+    "l",
+    "Waltz with Bashir wins the Golden Globe for best foreign film."
+   ],
+   [
+    "2008 Nov 26",
+    2008.9005376344087,
+    "c",
+    "Gunmen attack the Chabad House in Mumbai."
+   ],
+   [
+    "2009 Feb 10",
+    2009.1075268817203,
+    "r",
+    "Election: Kadima 28 seats, Likud 27."
+   ],
+   [
+    "2009 Mar 31",
+    2009.247311827957,
+    "r",
+    "Benjamin Netanyahu returns as prime minister."
+   ],
+   [
+    "2009",
+    2009.5,
+    "f",
+    "Ada Yonath wins the Nobel Prize in Chemistry."
+   ],
+   [
+    "2010 May 31",
+    2010.4139784946237,
+    "r",
+    "Israeli commandos board the Gaza flotilla and nine die."
+   ],
+   [
+    "2010 Sep 2",
+    2010.6693548387098,
+    "d",
+    "Summit: direct talks reopen in Washington."
+   ],
+   [
+    "2010 Dec 2",
+    2010.9193548387098,
+    "c",
+    "The Carmel forest fire kills 44."
+   ],
+   [
+    "2011 Mar 11",
+    2011.1935483870968,
+    "c",
+    "Terrorists murder five members of the Fogel family in Itamar."
+   ],
+   [
+    "2011 Apr 7",
+    2011.266129032258,
+    "s",
+    "Iron Dome intercepts its first rocket from Gaza."
+   ],
+   [
+    "2011",
+    2011.5,
+    "f",
+    "Dan Shechtman wins the Nobel Prize in Chemistry for the discovery of quasicrystals."
+   ],
+   [
+    "2011 Aug 18",
+    2011.6290322580646,
+    "c",
+    "Attacks near Eilat kill eight Israelis."
+   ],
+   [
+    "2012 Mar 19",
+    2012.215053763441,
+    "c",
+    "A gunman kills four at a Jewish school in Toulouse."
+   ],
+   [
+    "2012 Jul 18",
+    2012.5456989247311,
+    "c",
+    "A bomb in Burgas, Bulgaria, kills five Israeli tourists."
+   ],
+   [
+    "2012 Nov 14 to 21",
+    2012.8682795698924,
+    "c",
+    "Operation Pillar of Defense in Gaza."
+   ],
+   [
+    "2012 Nov 29",
+    2012.9086021505377,
+    "d",
+    "The UN General Assembly upgrades the Palestinian delegation."
+   ],
+   [
+    "2013 Jan 22",
+    2013.0564516129032,
+    "r",
+    "Election: Likud Beiteinu wins 31 seats."
+   ],
+   [
+    "2013 Mar 20",
+    2013.217741935484,
+    "r",
+    "President Obama visits Israel."
+   ],
+   [
+    "2013",
+    2013.5,
+    "l",
+    "The singer Arik Einstein dies and crowds gather in Tel Aviv to mourn him."
+   ],
+   [
+    "2013 Jul 29",
+    2013.5752688172042,
+    "d",
+    "Summit: direct talks resume in Washington."
+   ],
+   [
+    "2014 Apr 29",
+    2014.3252688172042,
+    "d",
+    "The United States-led peace talks end."
+   ],
+   [
+    "2014 May 24",
+    2014.3951612903227,
+    "c",
+    "A gunman kills four at the Jewish Museum in Brussels."
+   ],
+   [
+    "2014 Jun 12",
+    2014.4462365591398,
+    "c",
+    "Three Israeli teenagers are kidnapped and murdered."
+   ],
+   [
+    "2014 Nov 18",
+    2014.8790322580646,
+    "c",
+    "Two attackers kill five at a synagogue in Har Nof."
+   ]
+  ]
+ },
+ {
+  "id": "018a",
+  "slug": "abraham-accords-to-october-7",
+  "title": "Abraham Accords to October 7",
+  "y0": 2015,
+  "y1": 2024,
+  "rng": "2015 to 2023",
+  "intro": "The embassy moves to Jerusalem and the Abraham Accords bring peace with Gulf states. Five elections and the judicial protests divide Israel, and Hamas attacks on October 7.",
+  "tp": [
+   [
+    "2015 Jul 14",
+    2015.534946236559,
+    "d",
+    "The Iran nuclear deal.",
+    "Iran and the world powers sign an agreement that Israel opposes. Netanyahu had argued against it before Congress in March."
+   ],
+   [
+    "2018 May 14",
+    2018.3682795698924,
+    "d",
+    "The United States moves its embassy to Jerusalem.",
+    "It follows the 2017 recognition of Jerusalem as Israel’s capital."
+   ],
+   [
+    "2020 Sep 15",
+    2020.7043010752689,
+    "d",
+    "The Abraham Accords.",
+    "The United Arab Emirates and Bahrain sign at the White House and normalize relations with Israel. Morocco and Sudan follow."
+   ],
+   [
+    "2021 May 10 to 21",
+    2021.3575268817203,
+    "c",
+    "Operation Guardian of the Walls.",
+    "An 11-day war with Hamas sets off riots in mixed Arab and Jewish cities."
+   ],
+   [
+    "2021 Jun 13",
+    2021.4489247311828,
+    "r",
+    "Bennett becomes prime minister.",
+    "A broad coalition ends Netanyahu’s 12 years in office."
+   ],
+   [
+    "2023 Jan",
+    2023.0376344086021,
+    "r",
+    "The judicial overhaul protests.",
+    "Mass demonstrations over the government’s proposed judicial changes divide the country."
+   ],
+   [
+    "2023 Oct 7",
+    2023.766129032258,
+    "c",
+    "Hamas attacks Israel.",
+    "About 1,200 people are killed and about 250 are taken hostage. Israel launches the war in Gaza, Operation Swords of Iron."
+   ]
+  ],
+  "also": [
+   [
+    "2015 Jan 9",
+    2015.021505376344,
+    "c",
+    "Terrorists kill four at a Paris kosher supermarket."
+   ],
+   [
+    "2015 Mar 3",
+    2015.1720430107528,
+    "r",
+    "Netanyahu addresses Congress on Iran."
+   ],
+   [
+    "2015 Mar 17",
+    2015.2096774193549,
+    "r",
+    "Election: Likud wins 30 seats."
+   ],
+   [
+    "2015 Oct 1",
+    2015.75,
+    "c",
+    "A wave of stabbings and car attacks begins."
+   ],
+   [
+    "2016 Jun 8",
+    2016.4354838709678,
+    "c",
+    "Two gunmen kill four at the Sarona Market."
+   ],
+   [
+    "2016",
+    2016.5,
+    "d",
+    "UN Security Council Resolution 2334 criticizes Israeli communities in Judea and Samaria."
+   ],
+   [
+    "2016 Sep 28",
+    2016.739247311828,
+    "r",
+    "Shimon Peres dies."
+   ],
+   [
+    "2017",
+    2017.5,
+    "d",
+    "The United States recognizes Jerusalem as Israel’s capital."
+   ],
+   [
+    "2017",
+    2017.5,
+    "f",
+    "David Grossman wins the Man Booker International Prize."
+   ],
+   [
+    "2017 Jul 14",
+    2017.534946236559,
+    "r",
+    "A shooting on the Temple Mount sparks a crisis."
+   ],
+   [
+    "2018 Mar 30",
+    2018.244623655914,
+    "r",
+    "The Great March of Return begins at the Gaza fence."
+   ],
+   [
+    "2018",
+    2018.5,
+    "r",
+    "The Nation-State Law defines Israel as the nation-state of the Jewish people."
+   ],
+   [
+    "2018",
+    2018.5,
+    "l",
+    "Netta wins the Eurovision Song Contest."
+   ],
+   [
+    "2018 Dec 24",
+    2018.978494623656,
+    "r",
+    "The Knesset votes to dissolve."
+   ],
+   [
+    "2019 Mar 25",
+    2019.231182795699,
+    "r",
+    "Territory: the United States recognizes Israeli sovereignty over the Golan Heights."
+   ],
+   [
+    "2019 Apr 9",
+    2019.271505376344,
+    "r",
+    "Election: Likud and Blue and White tie at 35."
+   ],
+   [
+    "2019",
+    2019.5,
+    "l",
+    "Tel Aviv hosts the Eurovision Song Contest."
+   ],
+   [
+    "2019 Sep 17",
+    2019.7096774193549,
+    "r",
+    "Election: Blue and White 33 seats, Likud 32."
+   ],
+   [
+    "2019 Nov 12",
+    2019.8629032258063,
+    "c",
+    "Operation Black Belt targets Islamic Jihad in Gaza."
+   ],
+   [
+    "2020 Mar 2",
+    2020.1693548387098,
+    "r",
+    "Election: Likud wins 36 seats."
+   ],
+   [
+    "2020 May 17",
+    2020.3763440860216,
+    "r",
+    "Netanyahu and Benny Gantz form a unity government."
+   ],
+   [
+    "2021 Mar 23",
+    2021.225806451613,
+    "r",
+    "Election: Likud wins 30 seats."
+   ],
+   [
+    "2022 Jul 1",
+    2022.5,
+    "r",
+    "Yair Lapid becomes prime minister."
+   ],
+   [
+    "2022 Nov 1",
+    2022.8333333333333,
+    "r",
+    "Election: Likud wins 32 seats."
+   ],
+   [
+    "2022 Dec 29",
+    2022.991935483871,
+    "r",
+    "Benjamin Netanyahu returns as prime minister after the November 1 election."
+   ]
+  ]
+ },
+ {
+  "id": "019a",
+  "slug": "war-on-many-fronts",
+  "title": "War on Many Fronts",
+  "y0": 2024,
+  "y1": 2026.9,
+  "rng": "2024 to 2026",
+  "intro": "Israel fights Hamas, Hezbollah and Iran. Hezbollah’s leaders fall, Assad’s regime collapses, and a ceasefire brings the last living hostages home.",
+  "tp": [
+   [
+    "2024 Apr 13 to 14",
+    2024.282258064516,
+    "c",
+    "Iran fires missiles and drones at Israel.",
+    "About 320 missiles and drones are launched. Israel says 99 percent are intercepted."
+   ],
+   [
+    "2024 Nov 27",
+    2024.9032258064517,
+    "d",
+    "Ceasefire with Hezbollah.",
+    "Fighting that began on October 8, 2023 ends."
+   ],
+   [
+    "2024 Dec",
+    2024.9543010752689,
+    "r",
+    "The Assad regime falls in Syria.",
+    "Israel moves to secure its Golan border."
+   ],
+   [
+    "2025 Jun 13 to 24",
+    2025.4489247311828,
+    "c",
+    "The twelve-day war with Iran.",
+    "Israel strikes Iran’s nuclear and missile sites, and the United States joins in."
+   ],
+   [
+    "2025 Oct 10",
+    2025.774193548387,
+    "d",
+    "Gaza ceasefire and peace plan.",
+    "A ceasefire takes effect under a United States plan. The surviving hostages are released on October 13."
+   ]
+  ],
+  "also": [
+   [
+    "2024 Jul 27",
+    2024.5698924731182,
+    "c",
+    "A Hezbollah rocket kills 12 children on a football field in Majdal Shams."
+   ],
+   [
+    "2024 Sep 17 to 18",
+    2024.7096774193549,
+    "c",
+    "Exploding pagers and radios wound thousands of Hezbollah members."
+   ],
+   [
+    "2024 Sep 27",
+    2024.736559139785,
+    "c",
+    "Israel kills Hezbollah leader Hassan Nasrallah in Beirut."
+   ],
+   [
+    "2024 Oct 16",
+    2024.7903225806451,
+    "c",
+    "Israeli soldiers kill Hamas leader Yahya Sinwar in Rafah."
+   ],
+   [
+    "2025 Jan 19",
+    2025.0483870967741,
+    "d",
+    "A Gaza ceasefire begins. It ends March 18."
+   ],
+   [
+    "2026 Sep 30",
+    2026.744623655914,
+    "c",
+    "A Flydubai flight to Tel Aviv is attacked in the cockpit. Passengers and the Indian captain foil the hijacking."
+   ],
+   [
+    "2026 Oct 27",
+    2026.8198924731182,
+    "r",
+    "Election: scheduled."
+   ]
+  ]
+ }
+]

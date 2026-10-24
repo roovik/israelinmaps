@@ -4,7 +4,7 @@ Images must already be at img/tl-<id>.webp and img/t/tlf-tl-<id>.webp."""
 import sys, re, html, os, importlib, json
 sys.path.insert(0, os.path.dirname(__file__))
 mod, tdir, pu, pt, nu, nt = sys.argv[1:7]
-PAGES = importlib.import_module(mod).PAGES
+PAGES = json.load(open(mod)) if mod.endswith('.json') else importlib.import_module(mod).PAGES
 T = open(f'timelines/{tdir}/index.html', encoding='utf-8').read()
 tid0 = tdir.split('/')[0]
 seq = [(pu, pt)] + [(f"/timelines/{P['id']}/{P['slug']}/", P['title']) for P in PAGES] + [(nu, nt)]
@@ -25,7 +25,8 @@ for i, P in enumerate(PAGES):
     s = re.sub(r'Israel NOWlej \(2027\), TL-' + tid0 + r', p\. \d+, israelnowlej\.com/tl-' + tid0, f'Israel NOWlej (2027), TL-{tid}, israelnowlej.com/tl-{tid}', s)
     s = s.replace(f'<a href="/tl-{tid0}">israelnowlej.com/tl-{tid0}</a>', f'<a href="/tl-{tid}">israelnowlej.com/tl-{tid}</a>')
     p, n = seq[i], seq[i + 2]
-    s = sub1(r'<nav class="pn".*?</nav>', f'<nav class="pn" aria-label="Previous and next"><a class="prev" href="{p[0]}"><span>Previous</span>{html.escape(p[1])}</a><a class="next" href="{n[0]}"><span>Next</span>{html.escape(n[1])}</a></nav>', s)
+    nx = '' if n[0] == '-' else f'<a class="next" href="{n[0]}"><span>Next</span>{html.escape(n[1])}</a>'
+    s = sub1(r'<nav class="pn".*?</nav>', f'<nav class="pn" aria-label="Previous and next"><a class="prev" href="{p[0]}"><span>Previous</span>{html.escape(p[1])}</a>{nx}</nav>', s)
     txt = [f'TIMELINE {tid.lstrip("0").upper()}', t, rng, P['intro'], 'TURNING POINTS'] + [f'{a} {h} {x}' for a, _, _, h, x in sorted(P['tp'], key=lambda z: z[1])] + ['ALSO IN THIS PERIOD'] + [f'{a} {x}' for a, _, _, x in sorted(P['also'], key=lambda z: z[1])]
     s = sub1(r'<details class="txt">.*?</details>', '<details class="txt"><summary>Text of this page</summary>' + ''.join(f'<p>{html.escape(x, quote=False)}</p>' for x in txt) + '</details>', s)
     s = sub1(r'<p class="small">Corrections:.*?</p>', '<p class="small">Corrections: none recorded. This is the current version.</p>', s)
@@ -37,7 +38,7 @@ def relink(path, cls, u, title):
     s = sub1(rf'<a class="{cls}" href="[^"]*"><span>(Previous|Next)</span>[^<]*</a>', f'<a class="{cls}" href="{u}"><span>{"Previous" if cls=="prev" else "Next"}</span>{html.escape(title)}</a>', s)
     open(f, 'w', encoding='utf-8').write(s)
 relink(pu[len('/timelines'):], 'next', seq[1][0], seq[1][1])
-relink(nu[len('/timelines'):], 'prev', seq[-2][0], seq[-2][1])
+if nu != '-': relink(nu[len('/timelines'):], 'prev', seq[-2][0], seq[-2][1])
 # short addresses, sitemap, search, timelines grid
 r = open('_redirects', encoding='utf-8').read()
 for P in PAGES:
