@@ -59,6 +59,10 @@ promote('2021 Jun 13', 'Naftali Bennett', 'Bennett becomes prime minister.', 'A 
 promote('2023', 'Protests over', 'The judicial overhaul protests.', 'Mass demonstrations over the government’s proposed judicial changes divide the country.', 'r', '2023 Jan')
 # 2024 to today
 promote('2025 Jun 13 to 24', 'The twelve-day war', 'The twelve-day war with Iran.', 'Israel strikes Iran’s nuclear and missile sites, and the United States joins in.', 'c')
+add('2023 Oct 8', 'c', 'Hezbollah fires on the north the day after the massacre, and some 60,000 Israelis leave their homes.', 'Hezbollah opens a second front.')
+add('2023 Oct 19', 'c', 'The Houthis in Yemen launch their first missiles toward Israel.')
+add('2023 Oct 27', 'c', 'Ground forces enter Gaza.')
+add('2023 Nov 24 to Dec 1', 'd', 'A truce frees 105 hostages in exchange for Palestinian prisoners.')
 add('2024 Jul 27', 'c', 'A Hezbollah rocket kills 12 children on a football field in Majdal Shams.')
 add('2024 Sep 17 to 18', 'c', 'Exploding pagers and radios wound thousands of Hezbollah members.')
 add('2024 Sep 27', 'c', 'Israel kills Hezbollah leader Hassan Nasrallah in Beirut.')
@@ -79,10 +83,10 @@ PER = [
   'The Oslo Accords and peace with Jordan raise hopes. Rabin is murdered, the Camp David talks fail and the Second Intifada brings suicide bombings to Israel’s cities.'),
  ('017a', 'disengagement-and-the-gaza-wars', 'Disengagement and the Gaza Wars', 2005, 2015, '2005 to 2014',
   'Israel leaves Gaza, Hamas takes it over and three wars follow. Lebanon flares in 2006, and Gilad Shalit comes home after five years.'),
- ('018a', 'abraham-accords-to-october-7', 'Abraham Accords to October 7', 2015, 2024, '2015 to 2023',
+ ('018a', 'abraham-accords-to-october-7', 'Abraham Accords to October 7', 2015, yd('2023 Oct 8'), '2015 to October 7, 2023',
   'The embassy moves to Jerusalem and the Abraham Accords bring peace with Gulf states. Five elections and the judicial protests divide Israel, and Hamas attacks on October 7.'),
- ('019a', 'war-on-many-fronts', 'War on Many Fronts', 2024, 2027, '2024 to 2026',
-  'Israel fights Hamas, Hezbollah and Iran. Hezbollah’s leaders fall, Assad’s regime collapses, and a ceasefire brings the last living hostages home.'),
+ ('019a', 'the-seven-front-war', 'The Seven-Front War', yd('2023 Oct 8'), 2027, 'October 8, 2023 to today',
+  'The day after the massacre, Israel is at war on seven fronts: Gaza, Lebanon, Syria, Judea and Samaria, Yemen, Iraq and Iran. Hezbollah\u2019s leaders fall, Assad\u2019s regime collapses, and a ceasefire brings the living hostages home.'),
 ]
 PAGES = []
 for id_, slug, title, y0, y1, rng, intro in PER:

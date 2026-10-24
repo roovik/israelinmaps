@@ -1623,8 +1623,8 @@
   "slug": "abraham-accords-to-october-7",
   "title": "Abraham Accords to October 7",
   "y0": 2015,
-  "y1": 2024,
-  "rng": "2015 to 2023",
+  "y1": 2023.768817204301,
+  "rng": "2015 to October 7, 2023",
   "intro": "The embassy moves to Jerusalem and the Abraham Accords bring peace with Gulf states. Five elections and the judicial protests divide Israel, and Hamas attacks on October 7.",
   "tp": [
    [
@@ -1832,13 +1832,20 @@
  },
  {
   "id": "019a",
-  "slug": "war-on-many-fronts",
-  "title": "War on Many Fronts",
-  "y0": 2024,
+  "slug": "the-seven-front-war",
+  "title": "The Seven-Front War",
+  "y0": 2023.768817204301,
   "y1": 2026.9,
-  "rng": "2024 to 2026",
-  "intro": "Israel fights Hamas, Hezbollah and Iran. Hezbollah’s leaders fall, Assad’s regime collapses, and a ceasefire brings the last living hostages home.",
+  "rng": "October 8, 2023 to today",
+  "intro": "The day after the massacre, Israel is at war on seven fronts: Gaza, Lebanon, Syria, Judea and Samaria, Yemen, Iraq and Iran. Hezbollah’s leaders fall, Assad’s regime collapses, and a ceasefire brings the living hostages home.",
   "tp": [
+   [
+    "2023 Oct 8",
+    2023.768817204301,
+    "c",
+    "Hezbollah opens a second front.",
+    "Hezbollah fires on the north the day after the massacre, and some 60,000 Israelis leave their homes."
+   ],
    [
     "2024 Apr 13 to 14",
     2024.282258064516,
@@ -1876,6 +1883,24 @@
    ]
   ],
   "also": [
+   [
+    "2023 Oct 19",
+    2023.7983870967741,
+    "c",
+    "The Houthis in Yemen launch their first missiles toward Israel."
+   ],
+   [
+    "2023 Oct 27",
+    2023.8198924731182,
+    "c",
+    "Ground forces enter Gaza."
+   ],
+   [
+    "2023 Nov 24 to Dec 1",
+    2023.8951612903227,
+    "d",
+    "A truce frees 105 hostages in exchange for Palestinian prisoners."
+   ],
    [
     "2024 Jul 27",
     2024.5698924731182,
