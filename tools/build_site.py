@@ -274,7 +274,7 @@ SUBNAV = {
  'maps': [('Historical Maps', '/maps/'), ('Size Comparisons', '/size/'), ('Israel Tour', '/tour/')],
  'charts': [('Rankings', '/rankings/'), ('Demography', '/demographics/'), ('Top 10', '/top-ten/'), ('Comparisons', '/size/'), ('Tables', '/tables/')],
  'media': [('Video', '/video/'), ('Playlists', '/playlists/'), ('Podcasts', '/audio/'), ('Music', '/music/'), ('Images', '/images/')],
- 'images': [('A Taste of Israel', '/tour/'), ('Flora and Fauna', '/flora/')],
+ 'images': [('A Tour of Israel', '/tour/'), ('Flora and Fauna', '/flora/')],
  'video': [(c['name'], f'/video/{vslug(c)}/') for c in VCFG['channels']],
  'who': [('All', '/who/'), ('Groups', '/who/#g=org'), ('Influencers', '/who/#g=voice'), ('IDF voices', '/who/#g=idf')],
  'glossary': [('People and Groups', '/glossary/#c=people-and-groups'), ('Places', '/glossary/#c=places'), ('Events', '/glossary/#c=events'), ('Buildings and Sites', '/glossary/#c=buildings-and-sites'), ('Works', '/glossary/#c=works')],
@@ -364,7 +364,7 @@ def hub_of(r):
     if p == 'MAP' and int(r['num']) >= 30: return ('/size/', 'Size Comparisons')
     if p == 'TBL' and r['num'] == '001': return ('/size/', 'Size Comparisons')
     if p in SECT: return (f'/{SECT[p][0]}/', SECT[p][2]) if p != 'POP' else ('/size/', 'Size Comparisons')
-    if p in TOUR: return ('/tour/', 'A Taste of Israel')
+    if p in TOUR: return ('/tour/', 'A Tour of Israel')
     return ('/flora/', 'Flora and Fauna')
 
 SRC = [('toi', 'The Times of Israel', 'https://www.timesofisrael.com/', 'An Israeli English-language news site covering Israel, the Middle East and the Jewish world, with a large opinion and blogs section.'),
@@ -398,7 +398,7 @@ def sec_groups(sk):
             gs.append((t, u, [(r['url'], r['title']) for r in lst]))
         return 'Charts', '/charts/', gs
     if sk == 'media':
-        return 'Images', '/images/', [('A Taste of Israel', '/tour/', [(byid[x + '-00']['url'], byid[x + '-00']['title']) for x in ['NEG', 'DSE', 'JUS', 'GAL', 'GOL', 'MED', 'TAJ', 'JHL', 'JRS', 'SHF']]),
+        return 'Images', '/images/', [('A Tour of Israel', '/tour/', [(byid[x + '-00']['url'], byid[x + '-00']['title']) for x in ['NEG', 'DSE', 'JUS', 'GAL', 'GOL', 'MED', 'TAJ', 'JHL', 'JRS', 'SHF']]),
                                     ('Flora and Fauna', '/flora/', [(byid[x + '-00']['url'], byid[x + '-00']['title']) for x in ['TRE', 'WFL', 'WLD', 'BRD', 'MIG']])]
     if sk == 'video':
         return 'Video', '/video/', [('Channels', None, [(f'/video/{vslug(c)}/', c['name']) for c in VCFG['channels']])] + ([('Playlists', None, [('/video/#playlists', 'All playlists')])] if VCFG.get('playlists') else [])
@@ -700,7 +700,7 @@ hub('/size/', 'Size Comparisons', 'Israel set beside other places, with one tabl
 tour_groups = []
 for p in ['NEG', 'DSE', 'JUS', 'GAL', 'GOL', 'MED', 'TAJ', 'JHL', 'JRS', 'SHF']:
     tour_groups.append((byid[p + '-00']['title'], [r for r in rows if r['prefix'] == p]))
-hub('/tour/', 'A Taste of Israel', 'A tour of the sites of Israel in ten regions, from the Negev to the Golan. Each region and each stop has its own address.', tour_groups)
+hub('/tour/', 'A Tour of Israel', 'A tour of the sites of Israel in ten regions, from the Negev to the Golan. Each region and each stop has its own address.', tour_groups)
 fl = [(byid[p + '-00']['title'], [r for r in rows if r['prefix'] == p]) for p in ['TRE', 'WFL', 'WLD', 'BRD', 'MIG']]
 hub('/flora/', 'Flora and Fauna', 'Trees, wildflowers, wildlife and birds of Israel, including the migrating birds.', fl)
 
@@ -815,7 +815,7 @@ write('/404.html', layout('Not found', nf, 'Not found', '/404.html', nd=True, cl
 
 home_cards = [('/maps/', 'Maps', '33 maps'), ('/timelines/', 'Timelines', '26 timelines'), ('/rankings/', 'Rankings', '17 rankings'),
               ('/demographics/', 'Demographics', '13 graphics'), ('/top-ten/', 'Top Ten Lists', '6 lists'), ('/size/', 'Size Comparisons', 'Israel beside other places'),
-              ('/tables/', 'Tables', '5 reference tables'), ('/tour/', 'A Taste of Israel', '10 regions, 71 stops'), ('/flora/', 'Flora and Fauna', '5 sections, 60 entries'),
+              ('/tables/', 'Tables', '5 reference tables'), ('/tour/', 'A Tour of Israel', '10 regions, 71 stops'), ('/flora/', 'Flora and Fauna', '5 sections, 60 entries'),
               ('/glossary/', 'Glossary', f'{len([g_ for g_ in G if not g_.get("cf")])} entries'), ('/index/', 'Index', 'Find any name or place')]
 cards = ''.join(f'<a class="card" href="{u}"><b>{t}</b><span>{d}</span></a>' for u, t, d in home_cards)
 _pick = lambda pre: [r for r in rows if r['prefix'] == pre][:1]
@@ -1005,16 +1005,16 @@ def card_hub(path, title, intro, cards_):
 hub('/charts/', 'Charts', 'Rankings, population graphics, top ten lists, size comparisons and reference tables.',
     [('Rankings', items('RNK')), ('Demographics', items('DEM')), ('Top Ten Lists', items('TOP')), ('Size Comparisons', [r for r in rows if hub_of(r)[0] == '/size/']), ('Tables', items('TBL'))])
 hub('/images/', 'Images', 'A photographic tour of the land and the plants and animals of Israel.',
-    [('A Taste of Israel', [byid[p + '-00'] for p in ['NEG', 'DSE', 'JUS', 'GAL', 'GOL', 'MED', 'TAJ', 'JHL', 'JRS', 'SHF']]), ('Flora and Fauna', [byid[p + '-00'] for p in ['TRE', 'WFL', 'WLD', 'BRD', 'MIG']])])
+    [('A Tour of Israel', [byid[p + '-00'] for p in ['NEG', 'DSE', 'JUS', 'GAL', 'GOL', 'MED', 'TAJ', 'JHL', 'JRS', 'SHF']]), ('Flora and Fauna', [byid[p + '-00'] for p in ['TRE', 'WFL', 'WLD', 'BRD', 'MIG']])])
 _ml = ('<nav class="newstopics secnav wholist" aria-label="Media"><h2><a href="/media/">Media</a></h2><h3><a href="/video/">Video</a></h3><ul>' + ''.join(f'<li><a href="/video/{vslug(c)}/">{E(c["name"])}</a></li>' for c in VCFG['channels']) + '</ul>'
        '<h3><a href="/audio/">Podcasts</a></h3><ul>' + ''.join(f'<li><a href="/audio/#s-{v_["id"]}">{E(v_["name"])}</a></li>' for v_ in AUD_) + '</ul>'
-       '<h3><a href="/images/">Images</a></h3><ul><li><a href="/tour/">A Taste of Israel</a></li><li><a href="/flora/">Flora and Fauna</a></li></ul></nav>')
+       '<h3><a href="/images/">Images</a></h3><ul><li><a href="/tour/">A Tour of Israel</a></li><li><a href="/flora/">Flora and Fauna</a></li></ul></nav>')
 _mb = ('<h1>Media</h1><p class="lead">Video, playlists, podcasts, music and images from the land and the people who talk about it.</p><div class="cards">'
        '<a class="card" href="/video/"><b>Video</b><span>Curated channels, playlists and clips.</span></a>'
        '<a class="card" href="/audio/"><b>Podcasts</b><span>Podcasts and audio shows.</span></a>'
        '<a class="card" href="/images/"><b>Images</b><span>A photographic tour of the land, plants and animals.</span></a></div>'
        '<h2>Featured</h2><div class="cards"><a class="card" href="/who/"><b>Voices</b><span>Videos, podcasts and articles from the voices that shape the conversation.</span></a>'
-       '<a class="card" href="/tour/"><b>A Taste of Israel</b><span>Ten regions in photographs.</span></a><a class="card" href="/flora/"><b>Flora and Fauna</b><span>Trees, flowers, wildlife and migrating birds.</span></a></div>')
+       '<a class="card" href="/tour/"><b>A Tour of Israel</b><span>Ten regions in photographs.</span></a><a class="card" href="/flora/"><b>Flora and Fauna</b><span>Trees, flowers, wildlife and migrating birds.</span></a></div>')
 write('/media/', layout('Media', chan('media', _mb, '/media/', left=_ml, aside='<div id="vid-list" class="vlist"></div>'), 'Video, playlists, podcasts, music and images from the land and the people who talk about it.', '/media/'))
 sb2 = '<h1>Sources</h1><p class="small">Each source has its own page here with its latest news and views.</p><ul class="idlist">' + ''.join(f'<li><a href="/sources/{i_}/">{E(n_)}</a><span>{E(d_)}</span></li>' for i_, n_, u_, d_ in SRC) + '</ul><h2>The Book</h2><ul class="idlist"><li><a href="/index/">Index</a><span>Find any name or place in the book Israel NOWlej</span></li><li><a href="/about/">How to use this site and cite it</a><span>Addresses, IDs and hubs</span></li></ul>'
 write('/sources/', layout('Sources', chan('sources', sb2, '/sources/'), 'The publishers whose public feeds supply the news and views on this site.', '/sources/'))

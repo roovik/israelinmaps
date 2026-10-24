@@ -56,8 +56,8 @@ A['video']={'t':'Video','g':[{'h':'Channels','u':'/video/','i':chs}]}
 A['playlists']={'t':'Playlists','g':[{'h':'Playlists','u':'/playlists/','i':pls}]}
 A['audio']={'t':'Podcasts','g':[{'h':'Podcasts','u':'/audio/','i':shows}]}
 A['music']={'t':'Music','g':[{'h':'Genres','u':'/music/','i':gen},{'h':'Musicians','u':'/music/','i':art}]}
-A['images']={'t':'Images','g':[{'h':'Tags','u':'/images/','i':tags},{'h':'Photo tours','u':'/images/','i':[['A Taste of Israel','/tour/'],['Flora and Fauna','/flora/']]}]}
-A['media']={'t':'Media','g':[{'h':'Video channels','u':'/video/','i':chs},{'h':'Podcasts','u':'/audio/','i':shows},{'h':'Music genres','u':'/music/','i':gen},{'h':'Image tags','u':'/images/','i':tags},{'h':'Photo tours','u':'/images/','i':[['A Taste of Israel','/tour/'],['Flora and Fauna','/flora/']]}]}
+A['images']={'t':'Images','g':[{'h':'Tags','u':'/images/','i':tags},{'h':'Photo tours','u':'/images/','i':[['A Tour of Israel','/tour/'],['Flora and Fauna','/flora/']]}]}
+A['media']={'t':'Media','g':[{'h':'Video channels','u':'/video/','i':chs},{'h':'Podcasts','u':'/audio/','i':shows},{'h':'Music genres','u':'/music/','i':gen},{'h':'Image tags','u':'/images/','i':tags},{'h':'Photo tours','u':'/images/','i':[['A Tour of Israel','/tour/'],['Flora and Fauna','/flora/']]}]}
 for k in A:A[k]['g']=[g for g in A[k]['g'] if g['i']]
 json.dump(A,open('asides.json','w'),ensure_ascii=False,separators=(',',':'))
 print({k:[len(g['i']) for g in A[k]['g']] for k in A})
