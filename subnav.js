@@ -167,3 +167,6 @@
   var sx=0,sy=0;f.addEventListener('touchstart',function(e){sx=e.touches[0].clientX;sy=e.touches[0].clientY},{passive:true});
   f.addEventListener('touchend',function(e){var dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.5){var a=document.querySelector('.tourarrow.'+(dx<0?'next':'prev'));if(a)location.href=a.href}},{passive:true});
 })();
+
+/* Second-level rows outside Timelines stay on one line on phones */
+(function(){var st=document.createElement('style');st.textContent='header.top .subnav.sub2:not(.tl2):not(.tournavrow){background:#fff!important;border-bottom:1px solid #d6cbe4;padding-top:4px!important;padding-bottom:4px!important}header.top .subnav.sub2:not(.tl2) a{color:#4b2a7a!important;font-weight:600!important}header.top .subnav.sub2:not(.tl2) a.on,header.top .subnav.sub2:not(.tl2) a[aria-current]{color:#111!important;box-shadow:inset 0 -3px 0 #4b2a7a!important}'+'@media (max-width:700px){header.top .subnav.sub2:not(.tl2){flex-wrap:nowrap!important;justify-content:space-between!important;overflow:hidden;gap:0 4px!important}header.top .subnav.sub2:not(.tl2) a{padding:6px 2px!important;font-size:.84rem!important;white-space:nowrap;flex:none}}@media (max-width:360px){header.top .subnav.sub2:not(.tl2) a{font-size:.78rem!important}}';document.head.appendChild(st)})();

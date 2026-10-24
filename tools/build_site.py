@@ -272,7 +272,7 @@ SUBNAV = {
  'views': [('All Views', '/views/'), ('Op-Ed', '/views/#mode=topics&kind=Op-Ed'), ('Editorial', '/views/#mode=topics&kind=Editorial'), ('Blogs', '/views/#mode=topics&kind=Blog'), ('Voices', '/who/')],
  'nowlej': [('Maps', '/maps/'), ('Tours', '/tour/'), ('Timelines', '/timelines/'), ('Charts', '/charts/'), ('Topics', '/hot/'), ('Book', '/about/'), ('A-Z', '/glossary/')],
  'maps': [('Historical Maps', '/maps/'), ('Size Comparisons', '/size/'), ('Israel Tour', '/tour/')],
- 'charts': [('Rankings', '/rankings/'), ('Demographics', '/demographics/'), ('Top Ten', '/top-ten/'), ('Size Comparisons', '/size/'), ('Tables', '/tables/')],
+ 'charts': [('Rankings', '/rankings/'), ('Demography', '/demographics/'), ('Top 10', '/top-ten/'), ('Comparisons', '/size/'), ('Tables', '/tables/')],
  'media': [('Video', '/video/'), ('Playlists', '/playlists/'), ('Podcasts', '/audio/'), ('Music', '/music/'), ('Images', '/images/')],
  'images': [('A Taste of Israel', '/tour/'), ('Flora and Fauna', '/flora/')],
  'video': [(c['name'], f'/video/{vslug(c)}/') for c in VCFG['channels']],
