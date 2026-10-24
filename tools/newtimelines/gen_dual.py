@@ -10,15 +10,15 @@ R = [
  ('.tick{position:absolute;left:685px;', '.tick{position:absolute;left:575px;'),
  ('.tl{position:absolute;left:687px;', '.tl{position:absolute;left:577px;'),
  ('.tp{position:absolute;right:629px;width:470px;text-align:right;font:400 14.6px/1.36 SSans;', '.tp{position:absolute;right:648px;width:443px;text-align:right;font:400 var(--fs)/1.32 SSans;'),
- ('.tp b.y{display:block;font:700 14.6px SSans;color:#222}', '.tp b.y,.al b.y{display:block;font-weight:700;color:#111}'),
+ ('.tp b.y{display:block;font:700 14.6px SSans;color:#222}', '.tp b.y,.al b.y{display:block;font-weight:700;color:#111}.tp b.yi,.al b.yi{font-weight:700;color:#111}'),
  ('.al{position:absolute;left:811px;width:298px;font:400 12.6px/1.33 SSans;color:#333}.al b{font-weight:700;font-size:13.6px;color:#111}',
   '.al{position:absolute;left:676px;width:433px;font:400 var(--fs)/1.32 SSans;color:#333}.al b.h{font-weight:700;color:#111}body{--fs:14px}'),
  ("h1.textContent='TURNING POINTS';h1.style.top=top0+'px';h1.style.right='629px'", "h1.textContent='JEWISH LIFE IN THE LAND';h1.style.top=top0+'px';h1.style.right='648px'"),
  ("h2.textContent='ALSO IN THIS PERIOD';h2.style.top=top0+'px';h2.style.left='811px'", "h2.textContent='RULERS OF THE LAND';h2.style.top=top0+'px';h2.style.left='676px'"),
  ("const tp=ord(D.tp),al=ord(D.also);", "const tp=ord(D.left),al=ord(D.right);"),
  ("const tpp=stack(tp,it=>{const e=document.createElement('div');e.className='tp';e.innerHTML='<b class=\"y\">'+it[0]+'</b><b class=\"h\">'+it[3]+'</b> '+it[4];return e},16,9);",
-  "const mk=c=>it=>{const e=document.createElement('div');e.className=c;e.innerHTML='<b class=\"y\">'+it[0]+'</b>'+(it[3]?'<b class=\"h\">'+it[3]+'</b> ':'')+it[4];return e};let tpp,alp;"
-  "for(const fs of [14,13.4,12.8,12.2,11.6]){document.querySelectorAll('.tp,.al').forEach(e=>e.remove());document.body.style.setProperty('--fs',fs+'px');tpp=stack(tp,mk('tp'),fs*.8,9);alp=stack(al,mk('al'),fs*.8,9);"
+  "const mk=c=>it=>{const e=document.createElement('div');e.className=c;e.innerHTML=it[3]?'<b class=\"y\">'+it[0]+'</b><b class=\"h\">'+it[3]+'</b> '+it[4]:'<b class=\"yi\">'+it[0]+'</b> '+it[4];return e};let tpp,alp;"
+  "for(const fs of [14,13.4,12.8,12.2,11.6,11,10.5,10,9.6]){document.querySelectorAll('.tp,.al').forEach(e=>e.remove());document.body.style.setProperty('--fs',fs+'px');tpp=stack(tp,mk('tp'),fs<12?2:fs*.8,9);alp=stack(al,mk('al'),fs<12?2:fs*.8,9);"
   "const bot=Math.max(...[...document.querySelectorAll('.tp,.al')].map(e=>e.offsetTop+e.offsetHeight));if(bot<=A1+6)break}"),
  ("'<path d=\"M578 '+y1+' H593 L685 '+y2+'\"", "'<path d=\"M556 '+y1+' H562 L575 '+y2+'\""),
  ("'<circle cx=\"685\" cy=\"'+y2+'\" r=\"5.5\"", "'<circle cx=\"575\" cy=\"'+y2+'\" r=\"4.6\""),

@@ -18,9 +18,9 @@ MAP = {f'/timelines/{k}/': new[v] for k, v in OLD.items()}
 T = open('timelines/001/patriarchs-to-the-first-kings/index.html', encoding='utf-8').read()
 # 1. images
 for r in R:
-    im = Image.open(f"{GEN}/out6/{r['id']}.png").convert('RGB')
+    im = Image.open(f"{GEN}/out7/{r['id']}.png").convert('RGB')
     im.save(f"img/tl-{r['id']}.webp", quality=88, method=6); im.resize((420, 525), Image.LANCZOS).save(f"img/t/tlf-tl-{r['id']}.webp", quality=85, method=6)
-Image.open(f'{GEN}/out6/title.png').convert('RGB').save('img/tl-title.webp', quality=88, method=6)
+Image.open(f'{GEN}/out7/title.png').convert('RGB').save('img/tl-title.webp', quality=88, method=6)
 for f in glob.glob('img/tl-0??[a-z].webp') + glob.glob('img/t/tlf-tl-0??[a-z].webp'): os.remove(f)
 # 2. pages
 for d in glob.glob('timelines/0*'): shutil.rmtree(d)
