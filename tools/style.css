@@ -1165,12 +1165,12 @@ body #gaz{margin:6px 0 10px}
 .nowbar[hidden]{display:none}.nowbar .nsep{opacity:.6;margin:0 4px}
 h1.nowbar{font-size:1.5rem;line-height:1.3;margin-top:0}
 h1.nowbar b{font-weight:800}h1.nowbar{font-weight:600}
-h1.nowbar,.nowbar{background:none!important;padding:0!important;border-radius:0!important;text-align:center;color:color-mix(in srgb,var(--sec,#1f62c4) 62%,#fff)!important}
+h1.nowbar,.nowbar{background:none!important;padding:0!important;border-radius:0!important;text-align:center;color:color-mix(in srgb,var(--sec,#1f62c4) 72%,#000)!important}
 h1.nowbar b,h1.nowbar .nsep{color:inherit}
 .stage-list .sitem .stx b,.stage-list .sitem.on .stx b,.pgrid .sitem .stx b{color:color-mix(in srgb,var(--sec,#1f62c4) 70%,#000)!important}
 .stage-list .sitem.on .stx b{color:var(--sec,#1f62c4)!important}
 .fnav{display:flex!important;flex-direction:column}.fnav>.fsrc{order:-1;margin-bottom:8px!important}.fnav>.ffilter{order:1}
-.newspage h1,.newsmain h1{color:color-mix(in srgb,var(--sec,#1f62c4) 62%,#fff)}
+.newspage h1,.newsmain h1{color:color-mix(in srgb,var(--sec,#1f62c4) 72%,#000)}
 .newspage article h1,.fitem h1{color:inherit}
 .nb .nmeta .by{margin-left:0;font-style:italic}.nb .nmeta .by .ago{font-style:normal;color:var(--mut)}
 @media (min-width:901px){.ticker .tkt,.bar .ticker .tkt{font-size:calc(.875rem + 2pt)!important;line-height:1.25}.ticker .tkm{font-size:calc(.84rem + 2pt)!important;line-height:1.25}.bar .ticker .tki{padding-left:4px!important}}
