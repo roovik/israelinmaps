@@ -134,3 +134,6 @@ window.IMNow=function(label,a,b){var h=document.querySelector('.newsmain h1');if
   var ml=Math.max(0,n.left+n.width/2-w/2-b.left-parseFloat(getComputedStyle(bar).paddingLeft||0));br.style.marginLeft=ml+'px';
   if(tk){var r=br.getBoundingClientRect();tk.style.marginLeft=Math.max(0,v.left-r.right)+'px'}}
   addEventListener('resize',al);addEventListener('load',al);document.addEventListener('DOMContentLoaded',al);setTimeout(al,300);setTimeout(al,1200)})();
+
+/* signed-in members: the header link goes to their account */
+(function(){if(!/(?:^|;\s*)in_m=1/.test(document.cookie))return;var a=document.querySelector('.acct a.signin[href="/signin/"]');if(a){a.textContent='My account';a.href='/account/'}})();

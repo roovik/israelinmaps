@@ -1,7 +1,9 @@
 // Israel Mosaic news worker. Serves /api/news from public RSS and Atom feeds.
-// Static pages are served by the assets binding. Only /api/* runs this code first.
+// Static pages are served by the assets binding. /api/* and the member pages and sections listed in wrangler.jsonc run this code first.
 import VCFG from './video.json';
 import VOICES from './voices.json';
+import { membersRoute, MembersDB } from './members_server.js';
+export { MembersDB };
 const JP = 'https://www.jpost.com/rss/';
 const SOURCES = [
   { id: 'toi', name: 'The Times of Israel', site: 'https://www.timesofisrael.com/', url: 'https://www.timesofisrael.com/feed/' },
@@ -939,6 +941,7 @@ const W = {
   async fetch(request, env, ctx) {
     YTK = env.YT_KEY || '';
     const url = new URL(request.url);
+    const mr = await membersRoute(request, env, url); if (mr) return mr;   // member pages, /api/m/*, and sections the owner has closed
     const im = url.pathname.match(/^\/news\/item\/([a-z0-9]+)\/?$/);
     if (im) return itemPage(request, env, im[1], url.searchParams.get('s'), url.searchParams.get('c'));
     if (url.pathname === '/api/videos') return videoApi(url, env);

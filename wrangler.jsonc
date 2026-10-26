@@ -6,11 +6,13 @@
   "workers_dev": true,
   "routes": [{ "pattern": "israelnowlej.com", "custom_domain": true }, { "pattern": "www.israelnowlej.com", "custom_domain": true }],
   "triggers": { "crons": ["11 * * * *"] },
+  "durable_objects": { "bindings": [{ "name": "MEMBERS", "class_name": "MembersDB" }] },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["MembersDB"] }],
   "kv_namespaces": [{ "binding": "ENTRIES", "id": "d63fa268f4094b4093101bbf0b2b14f2" }],
   "assets": {
     "directory": ".",
     "binding": "ASSETS",
     "not_found_handling": "404-page",
-    "run_worker_first": ["/api/*", "/news/item/*"]
+    "run_worker_first": ["/api/*", "/signin*", "/account*", "/join*", "/members*", "/member/*", "/admin/access/", "/views/*", "/media/*", "/video/*", "/audio/*", "/images/*", "/music/*", "/playlists/*", "/who/*", "/hot/*", "/sources/*", "/glossary/*", "/g/*", "/index/*", "/search/*", "/maps/*", "/timelines/*", "/charts/*", "/tables/*", "/population/*", "/demographics/*", "/rankings/*", "/top-ten/*", "/size/*", "/tour/*", "/flora/*", "/news/*"]
   }
 }
