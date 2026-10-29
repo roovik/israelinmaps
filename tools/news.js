@@ -16,7 +16,7 @@
   function tag(items){items.forEach(function(it){var txt=it.t+' '+it.x,seen={},m=[];
     terms.forEach(function(t,i){if(m.length<3&&!seen[t[1]]&&res[i].test(txt)){seen[t[1]]=1;m.push([t[1],t[2]])}});it.g=m})}
   function chips(it,lab){return it.g.length?'<p class="chips">'+(lab?'In the glossary: ':'')+it.g.map(function(g){return'<a href="/g/'+g[0]+'/">'+esc(g[1])+'</a>'}).join(' ')+'</p>':''}
-  var PUB=/^(toi|jpost|ynet|haaretz|jns|jta|inn|i24|globes|calcalist|tablet|mef|ji|kan|israelhayom)$/;
+  var PUB=/^(toi|jpost|ynet|haaretz|jns|jta|inn|i24|globes|calcalist|tablet|mef|ji|kan|israelhayom|israel21c|nocamels|jewishjournal|jewishpress|touristisrael|israellycool)$/;
   function srcLink(it){var vw=/^\/views\//.test(location.pathname)||/\/who\//.test(location.pathname);return PUB.test(it.s||'')?'<a href="/sources/'+esc(it.s)+'/'+(vw?'?show=views':'?show=news')+'">'+esc(it.src)+'</a>':esc(it.src)}
   function meta(it){return'<p class="nmeta"><b>'+srcLink(it)+(it.kind?' \u00b7 '+esc(it.kind):'')+'</b>'+(it.by?'<span class="by">By '+esc(it.by)+(it.d?'<em class="ago"> \u00b7 '+ago(it.d)+'</em>':'')+'</span>':(it.d?'<span>'+ago(it.d)+'</span>':''))+'</p>'}
   function card(it){
