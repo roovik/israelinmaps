@@ -42,6 +42,13 @@ const SOURCES = [
     ['Jewish World', [['Jewish World', 'jewish-world/feed/'], ['Antisemitism', 'jewish-world/antisemitism/feed/'], ['Archaeology', 'archaeology/feed/']]],
     ['Life and Ideas', [['Culture', 'culture/feed/'], ['Food', 'lifestyle/food/feed/'], ['Travel', 'lifestyle/travel/feed/'], ['Analysis', 'analysis/feed/'], ['Explainer', 'explainer/feed/']]],
   ] },
+  // carried over from the old israel.nowlej.com feed list (October 2026)
+  { id: 'israel21c', name: 'Israel21c', site: 'https://www.israel21c.org/', url: 'https://www.israel21c.org/feed/' },
+  { id: 'nocamels', name: 'NoCamels', site: 'https://nocamels.com/', url: 'https://nocamels.com/feed/' },
+  { id: 'jewishjournal', name: 'Jewish Journal', site: 'https://jewishjournal.com/', url: 'https://jewishjournal.com/feed/' },
+  { id: 'jewishpress', name: 'The Jewish Press', site: 'https://www.jewishpress.com/', url: 'https://www.jewishpress.com/feed/' },
+  { id: 'touristisrael', name: 'Tourist Israel', site: 'https://www.touristisrael.com/', url: 'https://www.touristisrael.com/feed/' },
+  { id: 'israellycool', name: 'Israellycool', site: 'https://www.israellycool.com/', url: 'https://www.israellycool.com/feed/', vonly: true },
 ];
 function chanId(g, n) { return (g + '-' + n).toLowerCase().replace(/[^a-z0-9]+/g, '-'); }
 for (const s of SOURCES) if (s.channels) s.groups = s.channels.map(([g, list]) => ({ group: g, list: list.map(([n, p]) => ({ id: chanId(g, n), name: n, url: /^https?:/.test(p) ? p : (s.base || JP) + p })) }));
@@ -52,6 +59,7 @@ const VDEF = {
   ynet: [['Op-Ed', 'https://www.ynetnews.com/Integration/StoryRss3084.xml']],
   haaretz: [['Op-Ed', 'https://www.haaretz.com/srv/opinion-rss'], ['Editorial', 'https://www.haaretz.com/srv/editorial-rss']],
   ji: [['Blog', 'https://jewishinsider.com/feed/']],
+  israellycool: [['Blog', 'https://www.israellycool.com/feed/']],
 };
 function vid(kind) { return 'v-' + kind.toLowerCase().replace(/[^a-z0-9]+/g, '-'); }
 const VSRC = SOURCES.filter(s => VDEF[s.id]).map(s => ({ id: s.id, name: s.name, site: s.site, groups: [{ group: 'Views', list: VDEF[s.id].map(([k, u]) => ({ id: vid(k), name: k, url: u })) }] }));
