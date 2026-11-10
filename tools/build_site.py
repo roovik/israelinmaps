@@ -387,7 +387,8 @@ SRC = [('toi', 'The Times of Israel', 'https://www.timesofisrael.com/', 'An Isra
        ('jewishjournal', 'Jewish Journal', 'https://jewishjournal.com/', 'Jewish news, culture and opinion from Los Angeles.'),
        ('jewishpress', 'The Jewish Press', 'https://www.jewishpress.com/', 'Brooklyn-based Jewish weekly with Israel news and blogs.'),
        ('touristisrael', 'Tourist Israel', 'https://www.touristisrael.com/', 'Travel news, tours and tips for visiting Israel.'),
-       ('israellycool', 'Israellycool', 'https://www.israellycool.com/', 'Pro-Israel blog on media bias and current events.')]
+       ('israellycool', 'Israellycool', 'https://www.israellycool.com/', 'Pro-Israel blog on media bias and current events.'),
+       ('insider', 'Israel Insider', 'https://israelinsider.org/', 'Our cousin site gathering pro-Israel voices: blogs, Substacks, op-eds, podcasts and vlogs.')]
 SRCNAME = {a: b for a, b, _, _ in SRC}
 SECKEY = {'/charts/': 'charts', '/images/': 'media', '/maps/': 'maps', '/timelines/': 'timelines', '/tables/': 'charts', '/demographics/': 'charts', '/rankings/': 'charts', '/top-ten/': 'charts', '/size/': 'charts', '/tour/': 'media', '/flora/': 'media'}
 def sec_groups(sk):

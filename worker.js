@@ -49,6 +49,8 @@ const SOURCES = [
   { id: 'jewishpress', name: 'The Jewish Press', site: 'https://www.jewishpress.com/', url: 'https://www.jewishpress.com/feed/' },
   { id: 'touristisrael', name: 'Tourist Israel', site: 'https://www.touristisrael.com/', url: 'https://www.touristisrael.com/feed/' },
   { id: 'israellycool', name: 'Israellycool', site: 'https://www.israellycool.com/', url: 'https://www.israellycool.com/feed/', vonly: true },
+  // Israel Insider, our cousin site of pro-Israel opinion voices. Switch the url to https://israelinsider.org/api/rss once that domain points at its own Worker.
+  { id: 'insider', name: 'Israel Insider', site: 'https://israelinsider.rkoret.workers.dev/', url: 'https://israelinsider.rkoret.workers.dev/api/rss', vonly: true },
 ];
 function chanId(g, n) { return (g + '-' + n).toLowerCase().replace(/[^a-z0-9]+/g, '-'); }
 for (const s of SOURCES) if (s.channels) s.groups = s.channels.map(([g, list]) => ({ group: g, list: list.map(([n, p]) => ({ id: chanId(g, n), name: n, url: /^https?:/.test(p) ? p : (s.base || JP) + p })) }));
@@ -60,6 +62,7 @@ const VDEF = {
   haaretz: [['Op-Ed', 'https://www.haaretz.com/srv/opinion-rss'], ['Editorial', 'https://www.haaretz.com/srv/editorial-rss']],
   ji: [['Blog', 'https://jewishinsider.com/feed/']],
   israellycool: [['Blog', 'https://www.israellycool.com/feed/']],
+  insider: [['Op-Ed', 'https://israelinsider.rkoret.workers.dev/api/rss']],
 };
 function vid(kind) { return 'v-' + kind.toLowerCase().replace(/[^a-z0-9]+/g, '-'); }
 const VSRC = SOURCES.filter(s => VDEF[s.id]).map(s => ({ id: s.id, name: s.name, site: s.site, groups: [{ group: 'Views', list: VDEF[s.id].map(([k, u]) => ({ id: vid(k), name: k, url: u })) }] }));
