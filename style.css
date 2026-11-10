@@ -1030,11 +1030,11 @@ header.top::after{display:none!important}
 .igrid.mas .ifig a.ith:hover::after,.igrid.mas .ifig a.ith:focus-visible::after{opacity:1}
 @media(max-width:520px){.igrid.mas{column-gap:5px}.igrid.mas .ifig{margin-bottom:5px}}
 
-/* top menu / submenu: 5px white separator, selected tab colour extends through it */
-header.top nav.wrap{border-bottom:5px solid #fff;box-sizing:border-box}
+/* top menu / submenu: 3px white separator, selected tab colour extends through it */
+header.top nav.wrap{border-bottom:3px solid #fff;box-sizing:border-box}
 header.top nav.wrap a{position:relative}
 header.top nav.wrap a.cur{box-shadow:none!important}
-header.top nav.wrap a.cur::after,header.top nav.wrap a.hov::after{content:"";position:absolute;left:0;right:0;bottom:-5px;height:5px;background:inherit;z-index:2}
+header.top nav.wrap a.cur::after,header.top nav.wrap a.hov::after{content:"";position:absolute;left:0;right:0;bottom:-3px;height:3px;background:inherit;z-index:2}
 header.top nav.wrap:has(a.hov) a.cur:not(.hov)::after{display:none}
 header.top nav.wrap{width:auto;max-width:none;margin-left:max(16px,calc((100% - 1408px)/2));margin-right:max(16px,calc((100% - 1408px)/2));padding-left:0!important;padding-right:0!important}
 
