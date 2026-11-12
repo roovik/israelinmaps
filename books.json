@@ -1,0 +1,22 @@
+{
+ "_note": "Single source for the book cards on the Book tab (/about/), the Books page (/books/) and the ad slots (ads.js). Edit here, then run: python3 tools/books_render.py. For each book set status to available once it is on sale, and paste the exact Amazon addresses into kindle and paperback. The amazon.com search addresses below are interim stand-ins until the exact product addresses are added.",
+ "books": [
+  {"id": "israel-nowlej", "title": "Israel NOWlej", "subtitle": "Know the Story of the Jewish Land in Maps, Timelines, Charts, and Graphics", "author": "Richard J. Koret",
+   "desc": "The visual atlas of the Jewish land. Maps, timelines, charts and graphics first, text second: 33 maps, 19 timelines, 13 infographics, 17 rankings, 6 Top Ten lists, A Taste of Israel, and a glossary and index of more than 400 entries. Every page opens online through a QR code, so the book and this site work together.",
+   "short": "33 maps, 19 timelines, 400+ glossary entries. The visual atlas of the Jewish land.",
+   "cover": "/img/ad/israel-nowlej-cover.webp", "status": "available",
+   "kindle": "https://www.amazon.com/s?k=Israel+NOWlej+Richard+Koret+Kindle", "paperback": "https://www.amazon.com/s?k=Israel+NOWlej+Richard+Koret"},
+  {"id": "israel-in-maps", "title": "Israel in Maps", "subtitle": "Where, When and Why is Zion?", "author": "Richard J. Koret",
+   "desc": "The atlas. Twenty-nine historical maps from the Patriarchs to the present, each facing a page that explains it, plus size comparisons, population charts and rankings.",
+   "short": "Twenty-nine historical maps, each facing a page that explains it.",
+   "cover": "/img/books/israel-in-maps.webp", "status": "soon", "kindle": "", "paperback": ""},
+  {"id": "israel-in-time", "title": "Israel in Time", "subtitle": "Four Thousand Years at a Glance", "author": "Richard J. Koret",
+   "desc": "The timelines. Nineteen timelines from the patriarchs to today, Top Ten lists, reference tables, demographic charts, calendars, a This Day in History, a glossary and an index.",
+   "short": "Nineteen timelines from the patriarchs to today.",
+   "cover": "/img/books/israel-in-time.webp", "status": "soon", "kindle": "", "paperback": ""},
+  {"id": "welcome-to-zion", "title": "Welcome to Zion", "subtitle": "The Land of Israel, 4,000 Years Old and 40 Miles Wide", "author": "Richard J. Koret",
+   "desc": "A tour of ten regions and eighty-one sites, from Eilat in the south to the Gaza border. Each site has its own page, picture and short story.",
+   "short": "A tour of ten regions and eighty-one sites.",
+   "cover": "/img/books/welcome-to-zion.webp", "status": "soon", "kindle": "", "paperback": ""}
+ ]
+}

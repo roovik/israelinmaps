@@ -5,7 +5,12 @@
   // Test creatives only. type: house (own book), affiliate (commissionable), cpm (display ad reserved space)
   var LABEL='Sample ad';
   var C=[
-    {type:'house',title:'Israel NOWlej',text:'Know the Story of the Jewish Land in Maps, Timelines, Charts, and Graphics. By Richard J. Koret.',cta:'Explore the book',href:'/',img:'/img/ad/israel-nowlej-cover.webp'},
+    //BOOKS-ADS
+    {type:"house",title:"Israel NOWlej",text:"33 maps, 19 timelines, 400+ glossary entries. The visual atlas of the Jewish land.",cta:"Get it on Amazon",href:"https://www.amazon.com/s?k=Israel+NOWlej+Richard+Koret+Kindle",img:"/img/ad/israel-nowlej-cover.webp"},
+    {type:"house",title:"Israel in Maps",text:"Twenty-nine historical maps, each facing a page that explains it.",cta:"Coming soon",href:"/books/",img:"/img/books/israel-in-maps.webp"},
+    {type:"house",title:"Israel in Time",text:"Nineteen timelines from the patriarchs to today.",cta:"Coming soon",href:"/books/",img:"/img/books/israel-in-time.webp"},
+    {type:"house",title:"Welcome to Zion",text:"A tour of ten regions and eighty-one sites.",cta:"Coming soon",href:"/books/",img:"/img/books/welcome-to-zion.webp"},
+    ///BOOKS-ADS
     {type:'affiliate',title:'Every Dog Has His Day',text:'By Richard J. Koret. Paperback and Kindle from Raining Cats & Dogs Press.',cta:'See the book',href:'https://rainingcad.com/',tile:'a'},
     {type:'cpm',title:'Your ad here',text:'Reserved for a display ad sold by thousand views.',cta:'',href:'',tile:'c'},
     {type:'affiliate',title:'The Cat’s Pajamas',text:'By Richard J. Koret. From Raining Cats & Dogs Press.',cta:'See the book',href:'https://rainingcad.com/',tile:'b'}
