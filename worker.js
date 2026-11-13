@@ -656,12 +656,41 @@ async function voiceApi(url, env) {
 
 // ---------------------------------------------------------------- mail: alerts to the owner, receipts and replies to senders
 // Needs the secret RESEND_KEY and the variable MAIL_FROM (an address on a domain verified with Resend). Without them, nothing is sent.
-async function sendMail(env, to, subject, text, replyTo) {
+async function sendMail(env, to, subject, text, replyTo, headers) {
   if (!env.RESEND_KEY || !env.MAIL_FROM) return { ok: false, note: 'Mail is not set up yet.' };
   try {
-    const r = await fetch('https://api.resend.com/emails', { method: 'POST', headers: { Authorization: 'Bearer ' + env.RESEND_KEY, 'Content-Type': 'application/json' }, body: JSON.stringify({ from: env.MAIL_FROM, to: [to], subject, text, ...(replyTo ? { reply_to: replyTo } : {}) }) });
+    const r = await fetch('https://api.resend.com/emails', { method: 'POST', headers: { Authorization: 'Bearer ' + env.RESEND_KEY, 'Content-Type': 'application/json' }, body: JSON.stringify({ from: env.MAIL_FROM, to: [to], subject, text, ...(replyTo ? { reply_to: replyTo } : {}), ...(headers ? { headers } : {}) }) });
     return { ok: r.ok, note: r.ok ? '' : 'Mail service said ' + r.status };
   } catch (e) { return { ok: false, note: String(e) }; }
+}
+// Up to 100 separate emails in one call. Each message is { to, subject, text, headers }.
+async function sendMailBatch(env, msgs) {
+  if (!env.RESEND_KEY || !env.MAIL_FROM) return { ok: false, sent: 0, note: 'Mail is not set up yet.' };
+  let sent = 0, note = '';
+  for (let i = 0; i < msgs.length; i += 100) {
+    const chunk = msgs.slice(i, i + 100).map(m => ({ from: env.MAIL_FROM, to: [m.to], subject: m.subject, text: m.text, ...(m.headers ? { headers: m.headers } : {}) }));
+    try {
+      const r = await fetch('https://api.resend.com/emails/batch', { method: 'POST', headers: { Authorization: 'Bearer ' + env.RESEND_KEY, 'Content-Type': 'application/json' }, body: JSON.stringify(chunk) });
+      if (r.ok) sent += chunk.length; else note = 'Mail service said ' + r.status;
+    } catch (e) { note = String(e); }
+  }
+  return { ok: sent === msgs.length, sent, note };
+}
+// Unsubscribe links are signed with UNSUB_KEY, or with ADMIN_KEY when that is not set.
+async function unsubToken(env, email) {
+  const secret = env.UNSUB_KEY || env.ADMIN_KEY || '';
+  if (!secret) return '';
+  const k = await crypto.subtle.importKey('raw', new TextEncoder().encode(secret), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
+  const sig = await crypto.subtle.sign('HMAC', k, new TextEncoder().encode('unsub:' + email));
+  return [...new Uint8Array(sig)].map(x => x.toString(16).padStart(2, '0')).join('').slice(0, 40);
+}
+async function unsubUrl(env, email) {
+  const t = await unsubToken(env, email);
+  return t ? 'https://israelnowlej.com/unsubscribe?e=' + encodeURIComponent(email) + '&t=' + t : '';
+}
+async function unsubHeaders(env, email) {
+  const u = await unsubUrl(env, email);
+  return u ? { 'List-Unsubscribe': '<' + u + '>', 'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click' } : undefined;
 }
 const RECEIPT = {
   article: 'Thank you for sending an article to Israel NOWlej. A person will read it. If we use it, it will appear credited to its original publisher.',
@@ -778,7 +807,7 @@ async function peopleSignup(request, env, ctx, kind) {
   const notify = env.NOTIFY_TO || 'rkoret@gmail.com';
   const job = (async () => {
     if (kind === 'contact') await sendMail(env, notify, 'New contact message on Israel NOWlej', ['From: ' + [base.first, base.last].filter(Boolean).join(' ') + ' <' + email + '>', 'Country: ' + (base.cc || 'unknown') + (base.ccSrc ? ' (' + base.ccSrc + ')' : ''), 'Topic: ' + (b.topic || 'general'), '', message].join('\n'), email);
-    if (kind === 'subscribe' && isNew) await sendMail(env, email, 'Welcome to Israel NOWlej', 'Hello' + (base.first ? ' ' + base.first : '') + ',\n\nThank you for subscribing to Israel NOWlej. You will receive our digest of the news and views on the Holy Land. To stop at any time, reply to this email and say so.\n\nIsrael NOWlej');
+    if (kind === 'subscribe' && isNew) { const uu = await unsubUrl(env, email); await sendMail(env, email, 'Welcome to Israel NOWlej', 'Hello' + (base.first ? ' ' + base.first : '') + ',\n\nThank you for subscribing to Israel NOWlej. You will receive our daily digest of the news and views on the Holy Land.\n\nRead the latest at https://israelnowlej.com/\n\n' + (uu ? 'To stop at any time, use this link: ' + uu : 'To stop at any time, reply to this email and say so.') + '\n\nIsrael NOWlej', undefined, await unsubHeaders(env, email)); }
     if (kind === 'contact') await sendMail(env, email, 'We received your message to Israel NOWlej', 'Hello' + (base.first ? ' ' + base.first : '') + ',\n\nThank you for writing. A person will read your message and reply if needed. You can reply to this email to add something.\n\nIsrael NOWlej');
   })();
   if (ctx && ctx.waitUntil) ctx.waitUntil(job); else await job;
@@ -947,8 +976,73 @@ async function imagesApi(url, ctx) {
   ctx.waitUntil(caches.default.put(ck, new Response(out, { headers: { 'Cache-Control': 'max-age=21600' } })));
   return new Response(out, { headers: hdr });
 }
+
+// ---------------------------------------------------------------- unsubscribe page and the daily digest
+const pageHtml = (title, body) => new Response('<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>' + title + ' | Israel NOWlej</title><style>body{font:18px/1.55 Georgia,serif;max-width:520px;margin:12vh auto;padding:0 20px;color:#1b2a3a}button{font:600 16px system-ui,sans-serif;background:#0b3d6b;color:#fff;border:0;border-radius:999px;padding:12px 22px;cursor:pointer}a{color:#0b3d6b}</style></head><body><h1>' + title + '</h1>' + body + '</body></html>', { headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' } });
+async function unsubscribeRoute(request, env) {
+  const url = new URL(request.url), email = pClip(url.searchParams.get('e'), 160).toLowerCase(), tok = url.searchParams.get('t') || '';
+  const good = email && tok && tok === await unsubToken(env, email);
+  if (!good) return pageHtml('That link is not valid', '<p>Reply to any email from us and we will remove you by hand, or write to us at <a href="https://israelnowlej.com/contact/">the contact page</a>.</p>');
+  if (request.method === 'POST') {
+    if (env.ENTRIES) {
+      const raw = await env.ENTRIES.get('sb:' + email);
+      if (raw) { try { const r = JSON.parse(raw); r.status = 'unsubscribed'; r.updatedAt = new Date().toISOString(); await env.ENTRIES.put('sb:' + email, JSON.stringify(r)); } catch { } }
+    }
+    return pageHtml('You are unsubscribed', '<p>We have removed <b>' + email.replace(/[<>&"]/g, '') + '</b> from the digest. You will not hear from us again unless you subscribe again.</p><p><a href="/">Back to Israel NOWlej</a></p>');
+  }
+  return pageHtml('Unsubscribe', '<p>Stop sending the Israel NOWlej digest to <b>' + email.replace(/[<>&"]/g, '') + '</b>?</p><form method="post"><button>Yes, unsubscribe me</button></form><p><a href="/">No, take me back</a></p>');
+}
+
+// Daily digest: the newest stories from the last day, one email per active subscriber, each with its own unsubscribe link.
+// Off until the variable DIGEST is set to "on". DIGEST_HOUR is the UTC hour it goes out (default 5, which is 7 or 8 in Israel).
+async function digestContent(env, ctx) {
+  let items = [];
+  try {
+    const r = await W.fetch(new Request('https://israelnowlej.com/api/news?v=2'), env, ctx);
+    items = ((await r.json()).items || []);
+  } catch { }
+  const cutoff = Date.now() - 26 * 3600000, seen = new Set(), pick = [];
+  for (const i of items.filter(x => x.d && new Date(x.d).getTime() >= cutoff).sort((a, b) => String(b.d).localeCompare(String(a.d)))) {
+    const key = (i.t || '').toLowerCase().slice(0, 60); if (seen.has(key)) continue; seen.add(key);
+    pick.push(i); if (pick.length >= 15) break;
+  }
+  if (pick.length < 3) return null;
+  const date = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Asia/Jerusalem' });
+  const lines = pick.map(i => '* ' + i.t + (i.src ? ' (' + i.src + ')' : '') + '\n  ' + i.u);
+  return { subject: 'Israel NOWlej digest, ' + date, body: 'The latest from the Holy Land, ' + date + '.\n\n' + lines.join('\n\n') + '\n\nMore at https://israelnowlej.com/\n' };
+}
+async function runDigest(env, ctx, opts = {}) {
+  if (!env.ENTRIES) return { ok: false, note: 'no storage' };
+  const day = new Date().toISOString().slice(0, 10);
+  if (!opts.force) {
+    if (env.DIGEST !== 'on') return { ok: false, note: 'digest is off' };
+    if (new Date().getUTCHours() !== (parseInt(env.DIGEST_HOUR || '5', 10) || 5)) return { ok: false, note: 'not the digest hour' };
+    if ((await env.ENTRIES.get('digest/last')) === day) return { ok: false, note: 'already sent today' };
+  }
+  const c = await digestContent(env, ctx);
+  if (!c) return { ok: false, note: 'not enough fresh stories' };
+  if (opts.previewOnly) return { ok: true, preview: c };
+  const people = opts.testTo ? [{ email: opts.testTo }] : (await peopleList(env, 'sb:')).filter(p => p.status === 'active' && p.email);
+  if (!opts.testTo) await env.ENTRIES.put('digest/last', day);
+  const msgs = [];
+  for (const p of people) {
+    const uu = await unsubUrl(env, p.email);
+    msgs.push({ to: p.email, subject: c.subject, text: c.body + '\n' + (uu ? 'To stop receiving this digest: ' + uu : 'To stop receiving this digest, reply and say so.') + '\n', headers: await unsubHeaders(env, p.email) });
+  }
+  const res = msgs.length ? await sendMailBatch(env, msgs) : { ok: true, sent: 0, note: '' };
+  if (!opts.testTo) await env.ENTRIES.put('digest/log', JSON.stringify({ day, recipients: msgs.length, sent: res.sent, note: res.note }));
+  return { ok: res.ok, recipients: msgs.length, sent: res.sent, note: res.note };
+}
+async function digestAdmin(request, env, ctx) {
+  const hdr = { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' };
+  if (!env.ADMIN_KEY || (request.headers.get('x-admin-key') || '') !== env.ADMIN_KEY) return new Response('{"error":"Wrong admin key."}', { status: 401, headers: hdr });
+  const q = new URL(request.url).searchParams;
+  if (q.get('log')) return new Response((await env.ENTRIES.get('digest/log')) || '{"note":"no digest has been sent yet"}', { headers: hdr });
+  if (q.get('test')) return new Response(JSON.stringify(await runDigest(env, ctx, { force: true, testTo: env.NOTIFY_TO || 'rkoret@gmail.com' })), { headers: hdr });
+  return new Response(JSON.stringify(await runDigest(env, ctx, { force: true, previewOnly: true })), { headers: hdr });
+}
 const W = {
-  async scheduled(event, env, ctx) { YTK = env.YT_KEY || ''; ctx.waitUntil(scan(env)); ctx.waitUntil((async () => { for (const u of ['/api/news?v=2', '/api/news?views=1&v=2']) { try { await W.fetch(new Request('https://israelnowlej.com' + u), env, ctx); } catch {} } })()); },
+  async scheduled(event, env, ctx) { YTK = env.YT_KEY || ''; ctx.waitUntil(scan(env)); ctx.waitUntil(runDigest(env, ctx).catch(() => { })); ctx.waitUntil((async () => { for (const u of ['/api/news?v=2', '/api/news?views=1&v=2']) { try { await W.fetch(new Request('https://israelnowlej.com' + u), env, ctx); } catch {} } })()); },
   async fetch(request, env, ctx) {
     YTK = env.YT_KEY || '';
     const url = new URL(request.url);
@@ -959,6 +1053,8 @@ const W = {
     if (url.pathname === '/api/submit') return submitApi(request, env, ctx);
     if (url.pathname === '/api/submissions') return submissionsApi(request, env);
     if (url.pathname === '/api/subscribe') return peopleSignup(request, env, ctx, 'subscribe');
+    if (url.pathname === '/unsubscribe') return unsubscribeRoute(request, env);
+    if (url.pathname === '/api/digest') return digestAdmin(request, env, ctx);
     if (url.pathname === '/api/contact') return peopleSignup(request, env, ctx, 'contact');
     if (url.pathname === '/api/people') return peopleAdmin(request, env);
     if (url.pathname === '/api/whoimg') return whoImages(env, !!url.searchParams.get('diag'));

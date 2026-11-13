@@ -13,6 +13,6 @@
     "directory": ".",
     "binding": "ASSETS",
     "not_found_handling": "404-page",
-    "run_worker_first": ["/api/*", "/signin*", "/account*", "/join*", "/members*", "/member/*", "/admin/access/", "/views/*", "/media/*", "/video/*", "/audio/*", "/images/*", "/music/*", "/playlists/*", "/who/*", "/hot/*", "/sources/*", "/glossary/*", "/g/*", "/index/*", "/search/*", "/maps/*", "/timelines/*", "/charts/*", "/tables/*", "/population/*", "/demographics/*", "/rankings/*", "/top-ten/*", "/size/*", "/tour/*", "/flora/*", "/news/*"]
+    "run_worker_first": ["/api/*", "/unsubscribe*", "/signin*", "/account*", "/join*", "/members*", "/member/*", "/admin/access/", "/views/*", "/media/*", "/video/*", "/audio/*", "/images/*", "/music/*", "/playlists/*", "/who/*", "/hot/*", "/sources/*", "/glossary/*", "/g/*", "/index/*", "/search/*", "/maps/*", "/timelines/*", "/charts/*", "/tables/*", "/population/*", "/demographics/*", "/rankings/*", "/top-ten/*", "/size/*", "/tour/*", "/flora/*", "/news/*"]
   }
 }
