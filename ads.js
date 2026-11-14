@@ -7,7 +7,7 @@
     var LB=[{href:HB[0].href,d:"/img/ad/israel-nowlej-728x90.webp?v=3",m:"/img/ad/israel-nowlej-320x50.webp?v=3",alt:HB[0].alt},{href:HB[1].href,d:"/img/ad/israel-maps-728x90.webp?v=3",m:"/img/ad/israel-maps-320x50.webp?v=3",alt:HB[1].alt}];
     var fillTop=function(root){
       var r=root||document;
-      [].forEach.call(r.querySelectorAll('.adslot[data-slot=aside-top]:not([data-hb])'),function(s){s.setAttribute('data-hb','1');s.innerHTML=HB.map(function(b){return '<a class="hbn" href="'+b.href+'" target="_blank" rel="noopener"><img src="'+b.img+'" width="320" height="100" alt="'+b.alt+'"></a>'}).join('')});
+      [].forEach.call(r.querySelectorAll('.adslot[data-slot=aside-top]:not([data-hb])'),function(s){s.setAttribute('data-hb','1');var one=function(b){return '<a class="hbn" href="'+b.href+'" target="_blank" rel="noopener"><img src="'+b.img+'" width="320" height="100" alt="'+b.alt+'"></a>'};s.innerHTML=one(HB[0]);var nl=s.parentNode&&s.parentNode.querySelector('#news-latest'),s2=document.createElement('div');s2.className='adslot adsecond';s2.setAttribute('data-hb','1');s2.innerHTML=one(HB[1]);if(nl)nl.parentNode.insertBefore(s2,nl.nextSibling);else s.parentNode.insertBefore(s2,s.nextSibling)});
       [].forEach.call(r.querySelectorAll('.adslot[data-slot=lb-bottom]:not([data-hb])'),function(s){s.setAttribute('data-hb','1');var b=LB[Math.floor(Math.random()*LB.length)];s.innerHTML='<a class="hbl" href="'+b.href+'" target="_blank" rel="noopener"><picture><source media="(max-width:640px)" srcset="'+b.m+'"><img src="'+b.d+'" width="728" height="90" alt="'+b.alt+'"></picture></a>'});
     };
     window.IMAds={fill:fillTop};

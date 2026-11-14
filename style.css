@@ -1335,3 +1335,4 @@ html,body{overscroll-behavior-y:none}
 @keyframes ldp{0%,80%,100%{opacity:.25}40%{opacity:1}}@keyframes ldb{0%{transform:translateX(-100%)}100%{transform:translateX(260%)}}
 @media (prefers-reduced-motion:reduce){.ldt i,.ldb::after{animation:none}.ldb::after{width:100%;opacity:.4}}
 .ldg{grid-column:1/-1;width:100%;box-sizing:border-box}
+.adslot.adsecond{display:flex!important;justify-content:center;margin:28px 0 20px}
