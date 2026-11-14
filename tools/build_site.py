@@ -321,7 +321,7 @@ def layout(title, body, desc='', path='/', og=None, cls='', nd=False):
     nav = ''.join(f'<a href="{u}" data-n="{i}"{" class=\"cur\" aria-current=\"true\"" if i == _cur else ""}>{t}</a>' for i, (u, t) in enumerate(NAV))
     full = f'{title} | Israel NOWlej' if title != 'Israel NOWlej' else 'Israel NOWlej'
     d = desc or 'Know the Story of the Jewish Land in Maps, Timelines, Charts, and Graphics. Living edition of the book Israel NOWlej.'
-    img = f'<meta property="og:image" content="{BASE}{og}">' if og else ''
+    img = (f'<meta property="og:image" content="{BASE}{og}">' if (og and path != '/') else '<meta property="og:image" content="https://israelnowlej.com/img/og-israel-nowlej.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">') + f'<meta property="og:site_name" content="Israel NOWlej"><meta property="og:type" content="website"><meta property="og:url" content="{BASE}{path}"><meta name="twitter:card" content="summary_large_image"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">'
     robots = '<meta name="robots" content="noindex">' if nd else ''
     return f'''<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
