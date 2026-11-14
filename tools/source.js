@@ -9,7 +9,7 @@
     return'<a class="tcard" data-d="'+esc(it.d||'')+'" data-by="'+esc(it.by||'')+'" href="'+esc(iu(it))+'"><span class="timg">'+img+'</span><span class="tb"><span class="tid">'+esc(it.kind||'')+(it.kind&&it.d?' · ':'')+ago(it.d)+'</span><b>'+esc(it.t)+'</b>'+(it.by?'<span class="tid">By '+esc(it.by)+'</span>':'')+'</span></a>'}).join('')}
   function load(url,boxId,label){
     var box=document.getElementById(boxId);
-    if(id==='haaretz'||id==='insider')box.className+=' g4';
+    if(id==='haaretz'||id==='insider')box.className+=' g6';
     return fetch(url).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){
       var l=(d.items||[]).filter(function(i){return i.s===id&&(!i.d||Date.now()-new Date(i.d)<=30*864e5)}).slice(0,12);
       box.innerHTML=l.length?cards(l):'<p>No '+label+' from this source in the last month.</p>';return l.length
