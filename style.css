@@ -1336,3 +1336,4 @@ html,body{overscroll-behavior-y:none}
 @media (prefers-reduced-motion:reduce){.ldt i,.ldb::after{animation:none}.ldb::after{width:100%;opacity:.4}}
 .ldg{grid-column:1/-1;width:100%;box-sizing:border-box}
 .adslot.adsecond.adsecond.adsecond{display:flex!important;justify-content:center;margin:28px 0 20px}
+.newsside .adslot[data-slot=aside-top]{margin-top:-8px!important}@media (max-width:1000px){.newsside .adslot[data-slot=aside-top]{margin-top:0!important}}
