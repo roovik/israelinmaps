@@ -919,7 +919,10 @@ body .bar .ticker,body.newspg .bar .ticker{border:0!important;background:transpa
 .pcard b{font-size:.95rem}.pcard span{font-size:.8rem;color:var(--mut)}.pcard i{font-style:normal;font-size:.8rem;color:var(--acc);margin-top:auto}
 .pcard.on{border-color:var(--acc);box-shadow:0 0 0 2px var(--acc)}
 /* ADS OFF (see ads.js ADS_ON): slots remain in the markup, hidden. Remove this line to show them again. */
-.adslot,.adslot[data-slot],.adslot[data-slot=aside-top]{display:none!important}
+.adslot:not([data-slot=aside-top]):not([data-slot=lb-bottom]){display:none!important}
+.adslot[data-slot=aside-top]{flex-direction:column;align-items:center;gap:6px}.hbn{display:block;width:320px;max-width:100%}.hbn img{display:block;width:100%;height:auto}
+.newsside.sect{display:flex;flex-direction:column}.newsside.sect>.adslot[data-slot=aside-top]{order:-1;margin:12px 0 4px}
+.adslot[data-slot=lb-bottom]{background:none!important;padding:0!important;margin:18px 0 0}.hbl{display:block;max-width:100%}.hbl img{display:block;max-width:100%;height:auto}
 
 #plist{font-size:11pt}#plist option{font-weight:700}
 
@@ -934,7 +937,7 @@ body .bar .ticker,body.newspg .bar .ticker{border:0!important;background:transpa
 
 .ffilter,.srt,.imgbar,.ftop{justify-content:center}.apick.fsrc{justify-content:safe center}.mfilters{max-width:560px;margin-left:auto;margin-right:auto}.ffilter{max-width:720px;margin-left:auto;margin-right:auto}.imgbar{max-width:720px;margin-left:auto;margin-right:auto}.vfbar{text-align:center}
 
-.newsside.sect>:not(.asect):not(#vid-list):not(#news-latest){display:none!important}
+.newsside.sect>:not(.asect):not(#vid-list):not(#news-latest):not([data-slot=aside-top]){display:none!important}
 .asect{font-family:system-ui,sans-serif;border:1px solid var(--line);border-radius:10px;background:var(--card);padding:8px 14px 12px;margin-bottom:14px}
 .asect h2{margin:4px 0 8px;font-size:1.05rem}.agrp{border-top:1px solid var(--line);padding:6px 0}.agrp:first-of-type{border-top:0}
 .agrp summary{cursor:pointer;font-weight:700;font-size:.92rem;display:flex;gap:8px;align-items:baseline}.agrp summary a{color:inherit;text-decoration:none}.agrp summary span{font-weight:400;font-size:.78rem;color:var(--mut)}

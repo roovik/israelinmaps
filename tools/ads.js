@@ -1,7 +1,18 @@
 (function(){
   // MASTER SWITCH. false = no ads anywhere (slots stay in the page markup, hidden). Set true and delete the .adslot{display:none} rule in style.css to bring them back. Slot map: claude/ad-slots-v1.txt in the project.
   var ADS_ON=false;
-  if(!ADS_ON){window.IMAds={fill:function(){}};return}
+  if(!ADS_ON){
+    // Own-book banners in the right column only (aside-top slot). All other slots stay off.
+    var HB=[{href:"https://www.amazon.com/ISRAEL-NOWLEJ-Graphs-Timelines-Knowledge/dp/B0HPCTLJX7/",img:"/img/ad/israel-nowlej-320x100.webp",alt:"Israel NOWlej by Richard J. Koret. Get it on Amazon"},{href:"https://www.amazon.com/dp/B0HRJX879T/",img:"/img/ad/israel-maps-320x100.webp",alt:"Israel in Maps by Richard J. Koret. Get the paperback on Amazon"}];
+    var LB=[{href:HB[0].href,d:"/img/ad/israel-nowlej-728x90.webp",m:"/img/ad/israel-nowlej-320x50.webp",alt:HB[0].alt},{href:HB[1].href,d:"/img/ad/israel-maps-728x90.webp",m:"/img/ad/israel-maps-320x50.webp",alt:HB[1].alt}];
+    var fillTop=function(root){
+      var r=root||document;
+      [].forEach.call(r.querySelectorAll('.adslot[data-slot=aside-top]:not([data-hb])'),function(s){s.setAttribute('data-hb','1');s.innerHTML=HB.map(function(b){return '<a class="hbn" href="'+b.href+'" target="_blank" rel="noopener"><img src="'+b.img+'" width="320" height="100" alt="'+b.alt+'"></a>'}).join('')});
+      [].forEach.call(r.querySelectorAll('.adslot[data-slot=lb-bottom]:not([data-hb])'),function(s){s.setAttribute('data-hb','1');var b=LB[Math.floor(Math.random()*LB.length)];s.innerHTML='<a class="hbl" href="'+b.href+'" target="_blank" rel="noopener"><picture><source media="(max-width:640px)" srcset="'+b.m+'"><img src="'+b.d+'" width="728" height="90" alt="'+b.alt+'"></picture></a>'});
+    };
+    window.IMAds={fill:fillTop};
+    if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){fillTop()});else fillTop();
+    return}
   // Test creatives only. type: house (own book), affiliate (commissionable), cpm (display ad reserved space)
   var LABEL='Sample ad';
   var C=[
