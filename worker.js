@@ -4,6 +4,7 @@ import VCFG from './video.json';
 import VOICES from './voices.json';
 import { membersRoute, MembersDB } from './members_server.js';
 export { MembersDB };
+import { traffic } from './cfstats.js';
 const JP = 'https://www.jpost.com/rss/';
 const SOURCES = [
   { id: 'toi', name: 'The Times of Israel', site: 'https://www.timesofisrael.com/', url: 'https://www.timesofisrael.com/feed/' },
@@ -1102,6 +1103,10 @@ const W = {
     if (url.pathname === '/api/scan-status') {
       if (request.headers.get('x-admin-key') !== env.ADMIN_KEY || !env.ADMIN_KEY) return new Response('{"error":"admin key required"}', { status: 401 });
       return new Response((await env.ENTRIES.get('snap/log')) || '{"note":"no scan has run yet"}', { headers: { 'Content-Type': 'application/json' } });
+    }
+    if (url.pathname === '/api/traffic') {
+      if (!env.ADMIN_KEY || request.headers.get('x-admin-key') !== env.ADMIN_KEY) return new Response('{"error":"Wrong key. It must match the ADMIN_KEY secret exactly, with no spaces."}', { status: 401, headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' } });
+      return new Response(JSON.stringify(await traffic(env, url.searchParams.get('site') === 'insider' ? 'insider' : 'nowlej', url.searchParams.get('days'))), { headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' } });
     }
     if (url.pathname === '/api/entry') return entryApi(request, url, env);
     if (url.pathname === '/api/yt-title') return ytTitle(url);

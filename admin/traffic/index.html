@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Traffic | Israel NOWlej admin</title><meta name="robots" content="noindex,nofollow">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<style>body{margin:0;background:#faf7ee;font:16px/1.5 system-ui,sans-serif;color:#14213d}.w{max-width:1100px;margin:0 auto;padding:18px 16px 60px}h1{margin:0 0 4px;font-size:24px}.top{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:baseline;margin:0 0 14px}.top a{color:#14213d;font-weight:600}input{font:16px system-ui;min-height:40px;padding:0 10px;border:1px solid #14213d;border-radius:4px;width:240px;max-width:100%}.go{font:700 15px system-ui;min-height:40px;padding:0 18px;border-radius:4px;border:0;background:#14213d;color:#fff;cursor:pointer}.err{background:#fde8e8;padding:8px 12px;border-radius:4px;margin:10px 0}</style></head>
+<body><div class="w"><div class="top"><h1>Traffic</h1><a href="/admin/people/">People</a><a href="/admin/submissions/">Submissions</a><a href="https://israelinsider.org/admin" rel="noopener">Israel Insider admin</a></div>
+<div id="gate"><p>Enter the admin key once. It stays in this browser tab only.</p><input id="k" type="password" placeholder="Admin key" autocomplete="off"> <button class="go" id="go" type="button">Open</button><div id="e"></div></div>
+<div id="app" hidden></div></div>
+<script src="/traffic.js?v=3"></script>
+<script>
+(function(){
+var K='';try{K=sessionStorage.getItem('nk')||''}catch(e){}
+function open(key){
+  K=key;
+  fetch('/api/traffic?site=nowlej&days=1',{headers:{'x-admin-key':K},cache:'no-store'}).then(function(r){
+    if(r.status===401){throw new Error('Wrong key. It must match the ADMIN_KEY secret exactly, with no spaces.')}
+    try{sessionStorage.setItem('nk',K)}catch(e){}
+    document.getElementById('gate').hidden=true;var a=document.getElementById('app');a.hidden=false;
+    TrafficUI.mount(a,{site:'nowlej',get:function(site,days){return fetch('/api/traffic?site='+site+'&days='+days,{headers:{'x-admin-key':K},cache:'no-store'}).then(function(r){return r.json()})}});
+  }).catch(function(e){document.getElementById('e').innerHTML='<div class="err">'+e.message+'</div>';try{sessionStorage.removeItem('nk')}catch(x){}});
+}
+document.getElementById('go').onclick=function(){open(document.getElementById('k').value.trim())};
+document.getElementById('k').onkeydown=function(e){if(e.key==='Enter')open(this.value.trim())};
+if(K)open(K);
+})();
+</script></body></html>
