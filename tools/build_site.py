@@ -315,6 +315,7 @@ def subnav_for(path):
 def layout(title, body, desc='', path='/', og=None, cls='', nd=False):
     if 'class="newspage' in body and 'newspg' not in cls: cls = (cls + ' newspg').strip()
     news_js = 'class="newspage' in body or path in ('/news/', '/views/') or path.startswith('/g/') or path.startswith('/news/item/')
+    pre_fetch = ('<link rel="preload" as="fetch" href="' + ('/api/news?views=1&v=2' if path == '/views/' else '/api/news?v=2') + '" crossorigin><link rel="preload" as="fetch" href="/glossary.json" crossorigin>') if news_js else ''
     _seg = path.strip('/').split('/')[0]
     _cur = TOPIDX.get(TOPSEC.get(_seg, ''), -1)
     nav = ''.join(f'<a href="{u}" data-n="{i}"{" class=\"cur\" aria-current=\"true\"" if i == _cur else ""}>{t}</a>' for i, (u, t) in enumerate(NAV))
@@ -326,7 +327,7 @@ def layout(title, body, desc='', path='/', og=None, cls='', nd=False):
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{E(full)}</title><meta name="description" content="{E(d)}">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="canonical" href="{BASE}{path}"><meta property="og:title" content="{E(full)}"><meta property="og:description" content="{E(d)}">{img}{robots}
-<link rel="stylesheet" href="/style.css"></head>
+<link rel="stylesheet" href="/style.css">{pre_fetch}</head>
 <body class="{cls}"><a class="skip" href="#main">Skip to content</a>
 <header class="top"><div class="wrap bar"><a class="brand" href="/" aria-label="Israel NOWlej, home"><img src="/logo.svg" alt="Israel NOWlej" width="160" height="52"></a><div class="ticker" id="news-ticker" aria-label="Latest headlines" hidden></div>
 <div class="rcol"><div class="acct"><a class="subbtn" href="/subscribe/">Subscribe</a><a class="signin" href="/signin/">Sign in</a><a class="signin sbtn" href="/search/">Search</a></div><form class="sf" action="/search/" role="search"><input name="q" type="search" placeholder="keyword(s)" aria-label="Search"><button>Search</button></form></div></div>
@@ -996,7 +997,7 @@ write('/about/', layout('About Israel NOWlej', home, 'About Israel NOWlej, and h
 news = '''<div class="newspage"><div class="adslot" data-slot="page-top" data-sizes="728x90|320x50"></div><div class="newsleftcol"><nav class="newstopics" id="news-topics" aria-label="Topics and sources"></nav><div class="adslot" data-slot="left" data-sizes="tower"></div></div><div class="newsleft"><h1>News</h1>
 <div class="newsmain">
 
-<div class="ngrid3" id="news-grid"><p>Loading the latest headlines.</p></div>
+<div class="ngrid3" id="news-grid"><div class="ldg" role="status"><span class="ldt">Loading headlines<i></i><i></i><i></i></span><span class="ldb"></span></div></div>
 <h2 id="news-more-title" class="nmt" hidden>More headlines</h2><div class="ngrid3 hgrid" id="news-more"></div>
 <div class="adslot" data-slot="lb-bottom" data-sizes="728x90|320x50"></div></div></div>
 <aside class="newsside" aria-label="Latest headlines"><div class="adslot" data-slot="aside-top" data-sizes="320x100"></div><div id="news-latest"></div><h2>By source</h2><div id="news-widget"></div></aside></div>

@@ -1041,8 +1041,39 @@ async function digestAdmin(request, env, ctx) {
   if (q.get('test')) return new Response(JSON.stringify(await runDigest(env, ctx, { force: true, testTo: env.NOTIFY_TO || 'rkoret@gmail.com' })), { headers: hdr });
   return new Response(JSON.stringify(await runDigest(env, ctx, { force: true, previewOnly: true })), { headers: hdr });
 }
+// Fast path for the two heavy list endpoints (/api/news and /api/news?views=1). They read about 30 live feeds, which takes seconds.
+// The hourly job and any visit after 10 minutes rebuild a snapshot in KV. Visitors always get the snapshot at once.
+const rebuilding = {};
+async function snapNews(request, env, ctx, url) {
+  const key = 'snap/api/' + (url.searchParams.get('views') ? 'views' : 'news');
+  const hdr = { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'public, max-age=300, stale-while-revalidate=900', 'Access-Control-Allow-Origin': '*' };
+  const warm = request.headers.get('x-warm') === '1';
+  const rebuild = async () => {
+    if (rebuilding[key]) return rebuilding[key];
+    rebuilding[key] = (async () => {
+      try {
+        const r = await W.fetch(new Request(url.toString(), { headers: { 'x-inner': '1' } }), env, ctx);
+        const body = await r.text();
+        if (r.ok && body.length > 50) await env.ENTRIES.put(key, body, { metadata: { t: Date.now() } });
+        return body;
+      } finally { delete rebuilding[key]; }
+    })();
+    return rebuilding[key];
+  };
+  if (!warm) {
+    try {
+      const o = await env.ENTRIES.getWithMetadata(key, { type: 'text', cacheTtl: 60 });
+      if (o && o.value) {
+        const age = Date.now() - ((o.metadata || {}).t || 0);
+        if (age > 10 * 60 * 1000) ctx.waitUntil(rebuild().catch(() => { }));
+        if (age < 24 * 3600 * 1000) return new Response(o.value, { headers: hdr });
+      }
+    } catch { }
+  }
+  return new Response(await rebuild(), { headers: hdr });
+}
 const W = {
-  async scheduled(event, env, ctx) { YTK = env.YT_KEY || ''; ctx.waitUntil(scan(env)); ctx.waitUntil(runDigest(env, ctx).catch(() => { })); ctx.waitUntil((async () => { for (const u of ['/api/news?v=2', '/api/news?views=1&v=2']) { try { await W.fetch(new Request('https://israelnowlej.com' + u), env, ctx); } catch {} } })()); },
+  async scheduled(event, env, ctx) { YTK = env.YT_KEY || ''; ctx.waitUntil(scan(env)); ctx.waitUntil(runDigest(env, ctx).catch(() => { })); ctx.waitUntil((async () => { for (const u of ['/api/news?v=2', '/api/news?views=1&v=2']) { try { await W.fetch(new Request('https://israelnowlej.com' + u, { headers: { 'x-warm': '1' } }), env, ctx); } catch {} } })()); },
   async fetch(request, env, ctx) {
     YTK = env.YT_KEY || '';
     const url = new URL(request.url);
@@ -1075,6 +1106,7 @@ const W = {
     if (url.pathname === '/api/entry') return entryApi(request, url, env);
     if (url.pathname === '/api/yt-title') return ytTitle(url);
     if (url.pathname !== '/api/news') return env.ASSETS.fetch(request);
+    if (env.ENTRIES && !request.headers.get('x-inner') && !url.searchParams.get('s') && !url.searchParams.get('debug') && !url.searchParams.get('probe')) return snapNews(request, env, ctx, url);
     if (url.searchParams.get('debug')) {
       const out = await Promise.all(FEEDS.map(async f => {
         try {

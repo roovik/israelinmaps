@@ -35,6 +35,8 @@
   var holeEls=[];window.addEventListener('resize',function(){holeEls.forEach(function(e){if(document.body.contains(e))holes(e)})});
   function row(it){return'<li><span class="nmeta"><b>'+esc(it.src)+'</b>'+(it.d?' · '+ago(it.d):'')+'</span> <a href="'+esc(iu(it))+'">'+esc(it.t)+'</a>'+chips(it,false)+'</li>'}
 
+  var LDG='<div class="ldg" role="status"><span class="ldt">Loading headlines<i></i><i></i><i></i></span><span class="ldb"></span></div>';
+  if(grid&&!grid.innerHTML.trim())grid.innerHTML=LDG;
   Promise.all([fetch((grid&&grid.getAttribute('data-api'))||'/api/news?v=2').then(function(r){if(!r.ok)throw 0;return r.json()}),fetch('/glossary.json').then(function(r){return r.json()})]).then(function(a){
     var data=a[0],gl=a[1];
     gl.forEach(function(g){g[2].forEach(function(t){if(t.length>3&&!STOP[t.toLowerCase()])terms.push([t,g[1],g[0]])})});
@@ -154,7 +156,7 @@
         if(item){go();return}
         if(state.ch){
           var sid=state.ch.split('/')[0],cid=state.ch.split('/')[1],key=state.ch;
-          grid.innerHTML='<p>Loading.</p>';more.innerHTML='';mt.hidden=true;
+          grid.innerHTML=LDG;more.innerHTML='';mt.hidden=true;
           var show=function(d){if(state.ch!==key)return;
             if(!d.ok){grid.innerHTML='<p>'+esc(d.channel.name)+' has no recent stories right now.</p>';return}
             d.items.forEach(function(i){i.ch=cid});tag(d.items);topics(d.items);paint(flt(d.items))};
