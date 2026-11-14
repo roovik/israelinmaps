@@ -4,7 +4,7 @@
   if(!ADS_ON){
     // Own-book banners in the right column only (aside-top slot). All other slots stay off.
     var HB=[{href:"https://www.amazon.com/ISRAEL-NOWLEJ-Graphs-Timelines-Knowledge/dp/B0HPCTLJX7/",img:"/img/ad/israel-nowlej-320x100.webp",alt:"Israel NOWlej by Richard J. Koret. Get it on Amazon"},{href:"https://www.amazon.com/dp/B0HRJX879T/",img:"/img/ad/israel-maps-320x100.webp",alt:"Israel in Maps by Richard J. Koret. Get the paperback on Amazon"}];
-    var LB=[{href:HB[0].href,d:"/img/ad/israel-nowlej-728x90.webp",m:"/img/ad/israel-nowlej-320x50.webp",alt:HB[0].alt},{href:HB[1].href,d:"/img/ad/israel-maps-728x90.webp",m:"/img/ad/israel-maps-320x50.webp",alt:HB[1].alt}];
+    var LB=[{href:HB[0].href,d:"/img/ad/israel-nowlej-728x90.webp?v=2",m:"/img/ad/israel-nowlej-320x50.webp",alt:HB[0].alt},{href:HB[1].href,d:"/img/ad/israel-maps-728x90.webp?v=2",m:"/img/ad/israel-maps-320x50.webp",alt:HB[1].alt}];
     var fillTop=function(root){
       var r=root||document;
       [].forEach.call(r.querySelectorAll('.adslot[data-slot=aside-top]:not([data-hb])'),function(s){s.setAttribute('data-hb','1');s.innerHTML=HB.map(function(b){return '<a class="hbn" href="'+b.href+'" target="_blank" rel="noopener"><img src="'+b.img+'" width="320" height="100" alt="'+b.alt+'"></a>'}).join('')});
