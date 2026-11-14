@@ -35,7 +35,7 @@
     if(window.IMAds)IMAds.fill(el);
   }
   var holeEls=[];window.addEventListener('resize',function(){holeEls.forEach(function(e){if(document.body.contains(e))holes(e)})});
-  function row(it){return'<li><span class="nmeta"><b>'+esc(it.src)+'</b>'+(it.d?' · '+ago(it.d):'')+'</span> <a href="'+esc(iu(it))+'">'+esc(it.t)+'</a>'+chips(it,false)+'</li>'}
+  function row(it){var same=it.s&&it.s===hereSrc();return'<li><span class="nmeta">'+(same?'':'<b>'+esc(it.src)+'</b>')+(it.d?(same?'':' · ')+ago(it.d):'')+'</span> <a href="'+esc(iu(it))+'">'+esc(it.t)+'</a>'+chips(it,false)+'</li>'}
 
   var LDG='<div class="ldg" role="status"><span class="ldt">Loading headlines<i></i><i></i><i></i></span><span class="ldb"></span></div>';
   if(grid&&!grid.innerHTML.trim())grid.innerHTML=LDG;
