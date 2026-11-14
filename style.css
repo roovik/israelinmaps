@@ -1348,3 +1348,4 @@ html,body{overscroll-behavior-y:none}
 @media (max-width:1000px){.ngrid6{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media (max-width:560px){.ngrid6{grid-template-columns:repeat(2,minmax(0,1fr))}}
 body.compact .newsmain .ngrid6{display:block}
+#src-news .timg,#src-views .timg{width:108px;height:81px}#src-news .timg img,#src-views .timg img{object-fit:cover}
