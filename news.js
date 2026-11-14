@@ -121,8 +121,8 @@
         var cards=list.filter(full).slice(0,60),rest=list.filter(function(i){return!full(i)}).slice(0,80);
         var c4=cards.filter(function(i){return FOUR[i.s]}),c3=cards.filter(function(i){return!FOUR[i.s]});
         if(!g4el){g4el=document.createElement('div');g4h=document.createElement('h2');g4h.className='nmt';grid.parentNode.insertBefore(g4h,grid.nextSibling);grid.parentNode.insertBefore(g4el,g4h.nextSibling)}
-        if(!c3.length&&c4.length){c3=c4;c4=[];grid.className='ngrid4'}else grid.className='ngrid3';
-        g4el.className='ngrid4';g4el.innerHTML=c4.map(card).join('');g4h.hidden=g4el.hidden=!c4.length;
+        if(!c3.length&&c4.length){c3=c4;c4=[];grid.className='ngrid6'}else grid.className='ngrid3';
+        g4el.className='ngrid6';g4el.innerHTML=c4.map(card).join('');g4h.hidden=g4el.hidden=!c4.length;
         g4h.textContent=c4.length?c4.reduce(function(a,i){if(a.indexOf(i.src)<0)a.push(i.src);return a},[]).join(' and '):'';
         cards=c3;
         grid.innerHTML=cards.length?cards.map(card).join(''):((rest.length||c4.length)?'':'<p>'+(note||'Nothing matches right now.')+'</p>');
