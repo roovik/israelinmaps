@@ -1337,3 +1337,4 @@ html,body{overscroll-behavior-y:none}
 .ldg{grid-column:1/-1;width:100%;box-sizing:border-box}
 .adslot.adsecond.adsecond.adsecond{display:flex!important;justify-content:center;margin:28px 0 20px}
 .newsside .adslot[data-slot=aside-top]{margin-top:-8px!important}@media (max-width:1000px){.newsside .adslot[data-slot=aside-top]{margin-top:0!important}}
+.adslot.hole.hole.hole{display:flex!important;align-items:center;justify-content:center;margin:0}.hbk{display:block;width:100%;max-width:320px}.hbk img{display:block;width:100%;height:auto;border-radius:4px}

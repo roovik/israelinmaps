@@ -8,6 +8,8 @@
     var fillTop=function(root){
       var r=root||document;
       [].forEach.call(r.querySelectorAll('.adslot[data-slot=aside-top]:not([data-hb])'),function(s){s.setAttribute('data-hb','1');var one=function(b){return '<a class="hbn" href="'+b.href+'" target="_blank" rel="noopener"><img src="'+b.img+'" width="320" height="100" alt="'+b.alt+'"></a>'};s.innerHTML=one(HB[0]);var nl=s.parentNode&&s.parentNode.querySelector('#news-latest'),s2=document.createElement('div');s2.className='adslot adsecond';s2.setAttribute('data-hb','1');s2.innerHTML=one(HB[1]);if(nl)nl.parentNode.insertBefore(s2,nl.nextSibling);else s.parentNode.insertBefore(s2,s.nextSibling)});
+      var BK=[{href:HB[0].href,img:"/img/ad/israel-nowlej-320x250.webp?v=3",alt:HB[0].alt},{href:HB[1].href,img:"/img/ad/israel-maps-320x250.webp?v=3",alt:HB[1].alt}];
+      [].forEach.call(r.querySelectorAll('.adslot.hole:not([data-hb])'),function(s,i){s.setAttribute('data-hb','1');var b=BK[(i+(window.__holeN=(window.__holeN||0)+1))%2];s.innerHTML='<a class="hbk" href="'+b.href+'" target="_blank" rel="noopener"><img src="'+b.img+'" width="320" height="250" alt="'+b.alt+'" loading="lazy"></a>'});
       [].forEach.call(r.querySelectorAll('.adslot[data-slot=lb-bottom]:not([data-hb])'),function(s){s.setAttribute('data-hb','1');var b=LB[Math.floor(Math.random()*LB.length)];s.innerHTML='<a class="hbl" href="'+b.href+'" target="_blank" rel="noopener"><picture><source media="(max-width:640px)" srcset="'+b.m+'"><img src="'+b.d+'" width="728" height="90" alt="'+b.alt+'"></picture></a>'});
     };
     window.IMAds={fill:fillTop};
