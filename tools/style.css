@@ -795,8 +795,8 @@ body .bar .ticker,body.newspg .bar .ticker{order:2;flex:1 1 100%;margin:0}
 .ticker .tkt,.bar .ticker .tkt{font-weight:400!important;font-size:.875rem!important}
 /* selected top tile: no bar, slightly deeper colour instead */
 header.top nav.wrap a.cur{box-shadow:inset 0 -7px 0 rgba(0,0,0,.38)!important;filter:none!important;color:#fff!important}
-/* second level: dark shade of the selected top tile, no bars, always fits the width */
-header.top .subnav,header.top .subnav.sub2{--dk:color-mix(in srgb,var(--sc,#1f62c4) 62%,#000)}
+/* second level: the selected top tile colour, no bars, always fits the width */
+header.top .subnav,header.top .subnav.sub2{--dk:var(--sc,#1f62c4)}
 header.top .subnav a,header.top .subnav.sub2 a{color:var(--dk)!important}
 header.top .subnav a:hover,header.top .subnav a:focus{color:var(--dk)!important;text-decoration:underline}
 header.top .subnav a.on,header.top .subnav.sub2 a.on{color:var(--dk)!important;font-weight:700;box-shadow:none!important}
