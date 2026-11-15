@@ -1412,3 +1412,9 @@ main h1+p.lead,main h1+p.small,main h1+p.meta,main h1+p.lede,main h1+p.hotmeta,.
 .stage-list .sitem.on .stx b,.stage-list .sitem:hover .stx b,.stage-list .sitem:focus-visible .stx b{color:#12306b!important}
 .stage-list .sitem.on .stx i,.stage-list .sitem:hover .stx i{color:#2f4470}
 }
+/* ticker: vertical back / forward */
+.ticker .tki{right:34px}
+.tki.in{transform:translateY(100%);opacity:0}
+.tknav{position:absolute;right:4px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:2px;z-index:2}
+.tkb{width:26px;height:20px;padding:0;border:1px solid var(--line);border-radius:5px;background:var(--card);color:var(--fg);font-size:.62rem;line-height:1;cursor:pointer}
+.tkb:hover{background:var(--t1);color:#fff;border-color:var(--t1)}
