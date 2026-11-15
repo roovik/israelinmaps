@@ -74,7 +74,7 @@
         // No source selected: every source shows its 5 latest. A source selected: it shows 5, the others their 2 latest until opened
         return'<section class="wsrc wacc" data-src="'+esc(s.id)+'"><h3><a href="/sources/'+esc(s.id)+'/?show='+W+'">'+esc(s.name)+'</a>'+(its.length>2?'<button type="button" class="wtog" aria-expanded="false" aria-label="Show more from '+esc(s.name)+'">+</button>':'')+'</h3><ul>'+its.map(function(i,n){return'<li'+(n>1?' class="wx"':'')+'><a href="'+esc(iu(i))+'">'+esc(i.t)+'</a>'+(i.d?'<time>'+when(i.d)+'</time>':'')+'</li>'}).join('')+'</ul></section>'}).filter(Boolean).join('<div class="adslot" data-slot="right"></div>');if(window.IMAds)IMAds.fill(wid);
       function wopen(id){[].forEach.call(wid.querySelectorAll('.wacc'),function(sec){var on=id==='*'||sec.getAttribute('data-src')===id;sec.classList.toggle('open',on);var b=sec.querySelector('.wtog');if(b){b.setAttribute('aria-expanded',on?'true':'false');b.textContent=on?'\u2212':'+'}})}
-      wid.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.wtog');if(!b)return;e.preventDefault();var sec=b.closest('.wacc');wopen(sec.classList.contains('open')?'':sec.getAttribute('data-src'))});
+      wid.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.wtog');if(!b)return;e.preventDefault();var sec=b.closest('.wacc');if(sec.classList.contains('open')){sec.classList.remove('open');b.setAttribute('aria-expanded','false');b.textContent='+'}else wopen(sec.getAttribute('data-src'))});
       function wsel(){var m=/(?:^|[#&])src=([^&]+)/.exec(location.hash);wopen(m?decodeURIComponent(m[1]):'*')}
       wsel();window.addEventListener('hashchange',wsel);
       var bad=data.sources.filter(function(s){return!s.ok});
