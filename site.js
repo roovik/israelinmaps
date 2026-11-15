@@ -138,5 +138,5 @@ window.IMNow=function(label,a,b){var h=document.querySelector('.newsmain h1');if
 /* signed-in members: the header link goes to their account */
 (function(){if(!/(?:^|;\s*)in_m=1/.test(document.cookie))return;var a=document.querySelector('.acct a.signin[href="/signin/"]');if(a){a.textContent='My account';a.href='/account/'}})();
 
-/* NOWlej glossary links in story text: load the hover card script only on pages that have such links */
-(function(){if(document.querySelector('a.glink')){var s=document.createElement('script');s.src='/glosstip.js?v=1';s.defer=true;document.head.appendChild(s)}})();
+/* NOWlej glossary links anywhere in page content: load the rollover card script only on pages that have such links */
+(function(){var s=document.createElement('script');s.src='/glosstip.js?v=2';s.defer=true;document.head.appendChild(s)})();
