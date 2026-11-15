@@ -8,7 +8,12 @@
   function esc(s){return String(s||'').replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
   function slugOf(a){var m=/^\/g\/([^\/?#]+)\/?/.exec(a.getAttribute('href')||'');return m?decodeURIComponent(m[1]):''}
   function target(el){var a=el&&el.closest&&el.closest(SEL);if(!a)return null;if(!a.classList.contains('glink')&&a.closest(SKIP))return null;
-    var s=slugOf(a);if(!s||location.pathname==='/g/'+s+'/')return null;return a}
+    var s=slugOf(a);if(!s||location.pathname==='/g/'+s+'/')return null;if(!a.classList.contains('glink')&&!a.classList.contains('gtrig'))return null;return a}
+  /* only plain text links become rollover triggers, and they get the dotted underline (class gtrig) */
+  function mark(root){[].forEach.call((root||document).querySelectorAll(SEL),function(a){if(a.classList.contains('glink')||a.classList.contains('gtrig'))return;if(a.closest(SKIP))return;
+    if(a.querySelector('img,svg,div,p,h1,h2,h3,h4,figure,ul'))return;var s=slugOf(a);if(!s||location.pathname==='/g/'+s+'/')return;a.classList.add('gtrig')})}
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){mark()});else mark();
+  if(window.MutationObserver){var mt=null;new MutationObserver(function(){clearTimeout(mt);mt=setTimeout(function(){mark()},150)}).observe(document.documentElement,{childList:true,subtree:true})}
   function load(){if(GIST)return Promise.resolve();if(!loading)loading=Promise.all([fetch('/glossary-gist.json?v=2').then(function(r){return r.json()}),fetch('/glossary.json').then(function(r){return r.json()})]).then(function(a){GIST=a[0];NAMES={};a[1].forEach(function(e){NAMES[e[1]]=e[0]})}).catch(function(){GIST={};NAMES={}});return loading}
   function paint(a){
     var s=slugOf(a),name=a.getAttribute('data-gn')||(NAMES&&NAMES[s])||a.textContent.trim(),d=a.getAttribute('data-gd')||(GIST&&GIST[s])||'';
