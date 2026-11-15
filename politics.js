@@ -1,5 +1,6 @@
 (function(){var ul=document.getElementById('pol-now');if(!ul)return;
-var RX=/\b(knesset|netanyahu|coalition|opposition|elections?|ministers?|likud|bennett|lapid|gantz|ben.gvir|smotrich|polls?|prime minister|supreme court|judicial|lawmakers?|eisenkot|yashar|haredi|draft|attorney.general|yair golan|joint list|ra.am|shas|otzma|herzog)\b/i;
+var DRX=/\b(knesset|netanyahu|coalition|opposition|elections?|ministers?|likud|bennett|lapid|gantz|ben.gvir|smotrich|polls?|prime minister|supreme court|judicial|lawmakers?|eisenkot|yashar|haredi|draft|attorney.general|yair golan|joint list|ra.am|shas|otzma|herzog)\b/i;
+var RX=DRX;if(ul.getAttribute('data-rx')){try{RX=new RegExp('\\b('+ul.getAttribute('data-rx')+')\\b','i')}catch(e){}}
 function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
 function iu(it){return it.k?'/news/item/'+it.k+'/?s='+encodeURIComponent(it.s)+(it.ch?'&c='+encodeURIComponent(it.ch):''):it.u}
 function when(iso){return iso?new Date(iso).toLocaleString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}):''}
