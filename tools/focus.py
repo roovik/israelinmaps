@@ -41,7 +41,7 @@ function card(i){var t=T[i[0]];
  return '<div class="kfc" data-rx="'+e(t[0])+'">'+img(i)+'<div class="kb"><b>'+e(i[0])+'</b><p class="kt">Now</p><p class="kn"><small>Loading&hellip;</small></p><p class="kt">Then</p><ul>'+t[1].map(function(l){return '<li><a href="'+e(l[1])+'">'+e(l[0])+'</a></li>'}).join('')+'</ul></div></div>'}
 var d=document.createElement('section');d.className='k26focus';d.setAttribute('aria-label','In focus');
 d.innerHTML='<h2>'+e(h)+'</h2><div class="kfg">'+I.map(card).join('')+'</div>';
-var mt=location.pathname==='/'&&document.getElementById('news-more-title');if(mt)mt.parentNode.insertBefore(d,mt);else m.parentNode.insertBefore(d,m.nextSibling);
+function put(n,o){var g=document.getElementById('news-grid');if(!g)return;n.classList.add('k26x');n.setAttribute('data-o',o);n.style.gridColumn='1/-1';function run(){if(n.parentNode===g)return;var a=g.querySelectorAll(':scope > article');if(a.length<9)return;var ref=a[8],nx=ref.nextSibling;while(nx&&nx.nodeType===1&&nx.classList.contains('k26x')&&+nx.getAttribute('data-o')<o){ref=nx;nx=nx.nextSibling}g.insertBefore(n,ref.nextSibling)}run();new MutationObserver(run).observe(g,{childList:true})}if(location.pathname==='/')put(d,1);else m.parentNode.insertBefore(d,m.nextSibling);
 if(NT){fetch('/api/news?v=2').then(function(r){return r.json()}).then(function(n){
  var items=n.items.filter(function(x){return x.d}).sort(function(a,b){return new Date(b.d)-new Date(a.d)});
  d.querySelectorAll('.kfc[data-rx]').forEach(function(el){var rx=new RegExp('\\b('+el.getAttribute('data-rx')+')\\b','i');
