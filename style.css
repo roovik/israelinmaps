@@ -1371,3 +1371,5 @@ a.glink:hover,a.gtrig:hover{color:var(--acc,#1d5bbf)}
 .gtip a{display:inline-block;margin-top:6px;font-weight:600;color:#1d5bbf;text-decoration:none}
 body:has(header.top nav.wrap a[data-n="4"].cur){background:color-mix(in srgb,var(--t5) 13%,var(--bg))}
 @media (prefers-color-scheme:dark){body:has(header.top nav.wrap a[data-n="4"].cur){background:color-mix(in srgb,var(--t5) 16%,var(--bg))}}
+body:has(header.top nav.wrap a[data-n="3"].cur){background:color-mix(in srgb,var(--t4) 16%,var(--bg))}
+@media (prefers-color-scheme:dark){body:has(header.top nav.wrap a[data-n="3"].cur){background:color-mix(in srgb,var(--t4) 20%,var(--bg))}}
