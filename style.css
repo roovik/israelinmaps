@@ -1360,3 +1360,11 @@ body.compact .newsmain .ngrid6{display:block}
 .newsside .wtog:hover{opacity:1}
 .newsside .wacc li.wx{display:none}
 .newsside .wacc.open li.wx{display:revert}
+
+/* NOWlej glossary terms linked in story text, with a one-line definition on hover or first tap */
+a.glink{color:inherit;text-decoration:underline dotted;text-decoration-color:var(--acc,#1d5bbf);text-underline-offset:3px;text-decoration-thickness:1.5px}
+a.glink:hover{color:var(--acc,#1d5bbf)}
+.gtip{position:absolute;z-index:1000;display:none;background:#fff;color:#1b2430;border:1px solid #c9d3e3;border-radius:10px;box-shadow:0 6px 24px rgba(16,40,80,.18);padding:10px 12px;font-size:.88rem;line-height:1.4}
+.gtip b{display:block;color:#123f80;margin-bottom:3px}
+.gtip span{display:block}
+.gtip a{display:inline-block;margin-top:6px;font-weight:600;color:#1d5bbf;text-decoration:none}

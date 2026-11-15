@@ -227,6 +227,48 @@ async function archMerge(env, ctx, key, live) {
 }
 
 const H = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+// ---------------------------------------------------------------- NOWlej glossary terms linked in story text
+// Terms never linked (too ambiguous in news copy). Biblical first names are linked only when they stand alone,
+// so "Isaac Herzog", "David Horovitz" or "Abraham Accords" do not point to the patriarchs.
+const GL_SKIP = /^(israel|eli|paul|cana|ariel|zion|saul|jacob|census|david|sarah|joshua|amos|gideon|ezra|titus|romans|jordan)$/i;
+const GL_NAME = /^(abraham|isaac|moses|elijah|elisha|isaiah|hosea|haggai|josiah|jehu|ahab|omri|jesus|pompey|ramban)$/i;
+// Very common words in Israel news: linked only after the rarer terms, if room is left.
+const GL_COMMON = /^(gaza|iran|iraq|syria|egypt|hamas|idf|plo|likud|jerusalem|tel aviv|west bank|judea and samaria|knesset)$/i;
+const GL_MAX = 6;
+function glossLink(paras, terms, gist, H) {
+  const used = new Set(), out = paras.map(() => []);
+  const hits = [];
+  const ord = terms.filter(t => !GL_COMMON.test(t[0])).concat(terms.filter(t => GL_COMMON.test(t[0])));
+  const taken = paras.map(() => []);
+  for (const [alias, slug, name] of ord) {
+    if (used.size >= GL_MAX || used.has(slug)) continue;
+    const re = new RegExp('(^|[^A-Za-z\u00C0-\u024F])(' + alias.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')(?![A-Za-z\u00C0-\u024F])', 'g');
+    let found = false;
+    for (let pi = 0; pi < paras.length && !found; pi++) {
+      const p = paras[pi]; let m; re.lastIndex = 0;
+      while ((m = re.exec(p))) {
+        const a = m.index + m[1].length, b = a + m[2].length;
+        if (taken[pi].some(([x, y]) => a < y && b > x)) continue;
+        if (GL_NAME.test(alias)) {
+          const after = p.slice(b).match(/^\s+([A-Z][\w'’-]*)/), before = p.slice(0, a).match(/([A-Z][\w'’-]*)\s+$/);
+          if (after || before) continue;
+        }
+        taken[pi].push([a, b]); hits.push([pi, a, b, slug, name]); used.add(slug); found = true; break;
+      }
+    }
+  }
+  const html = paras.map((p, pi) => {
+    const hs = hits.filter(h => h[0] === pi).sort((x, y) => x[1] - y[1]);
+    let o = '', at = 0;
+    for (const [, a, b, slug, name] of hs) {
+      const d = gist[slug] || '';
+      o += H(p.slice(at, a)) + '<a class="glink" href="/g/' + H(slug) + '/" data-gn="' + H(name) + '"' + (d ? ' data-gd="' + H(d) + '"' : '') + '>' + H(p.slice(a, b)) + '</a>';
+      at = b;
+    }
+    return o + H(p.slice(at));
+  });
+  return { html, used };
+}
 async function itemPage(request, env, k, sp, cp) {
   const origin = new URL(request.url).origin;
   const tpl = await (await env.ASSETS.fetch(new Request(origin + '/news/item-template/'))).text();
@@ -251,13 +293,14 @@ async function itemPage(request, env, k, sp, cp) {
     status = 404; title = 'This story is no longer available'; desc = 'This story is no longer on Israel NOWlej.';
     body = '<p class="crumb"><a href="/">Home</a> / <a href="/news/">News</a></p><h1>This story is no longer available</h1><p><a href="/news/">Back to the latest news</a>.</p>';
   } else {
-    let gl = [];
+    let gl = [], terms = [], gist = {};
     try {
       const g = await (await env.ASSETS.fetch(new Request(origin + '/glossary.json'))).json();
-      const txt = item.t + ' ' + (item.f || item.x), seen = {}, terms = [];
-      g.forEach(e => e[2].forEach(t => { if (t.length > 3 && !/^(israel|eli|paul|cana|ariel|zion|saul|jacob)$/i.test(t)) terms.push([t, e[1], e[0]]); }));
+      const txt = item.t + ' ' + (item.f || item.x), seen = {};
+      g.forEach(e => e[2].forEach(t => { if (t.length > 3 && !GL_SKIP.test(t)) terms.push([t, e[1], e[0]]); }));
       terms.sort((a, b) => b[0].length - a[0].length);
-      for (const t of terms) { if (gl.length >= 5) break; if (seen[t[2]]) continue; if (new RegExp('(^|[^A-Za-z])' + t[0].replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '(?![A-Za-z])').test(txt)) { seen[t[2]] = 1; gl.push([t[2], t[1]]); } }
+      try { gist = await (await env.ASSETS.fetch(new Request(origin + '/glossary-gist.json'))).json(); } catch { }
+      for (const t of terms) { if (gl.length >= 5) break; if (seen[t[1]]) continue; if (new RegExp('(^|[^A-Za-z])' + t[0].replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '(?![A-Za-z])').test(txt)) { seen[t[1]] = 1; gl.push([t[1], t[2]]); } }
     } catch { }
     const when = item.d ? new Date(item.d).toLocaleString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Jerusalem' }) : '';
     title = item.t; desc = (item.f || item.x || item.t).slice(0, 200);
@@ -267,12 +310,13 @@ async function itemPage(request, env, k, sp, cp) {
     const sCrumb = known ? '/sources/' + H(src.id) + '/?show=' + (vw ? 'views' : 'news') : sHref;
     const txt = item.F || item.f || '';
     const paras = []; if (txt) { const ss = txt.match(/[^.!?]+[.!?]+["')\]]*\s*|[^.!?]+$/g) || [txt]; for (let i = 0; i < ss.length; i += 3) paras.push(ss.slice(i, i + 3).join('').trim()); }
+    const linked = glossLink(paras, terms, gist, H), glRest = gl.filter(g => !linked.used.has(g[0]));
     body = '<span data-word="' + (vw ? 'views' : 'news') + '" hidden></span><p class="crumb"><a href="/">Home</a> / <a href="' + (vw ? '/views/">Views' : '/news/">News') + '</a> / ' + (sCrumb ? '<a href="' + sCrumb + '">' + H(src.name) + '</a>' : H(src.name)) + '</p>'
       + '<article class="fitem" data-orig="' + H(item.u) + '"><h1>' + H(item.t) + '</h1>'
       + '<p class="fmeta">' + (sHref ? '<a href="' + sHref + '">' + H(src.name) + '</a>' : H(src.name)) + (item.by ? ' · By ' + H(item.by) : '') + (when ? ' · ' + when : '') + '</p>'
       + (item.i ? '<img class="fimg" src="' + H(item.i) + '" alt="" referrerpolicy="no-referrer" onerror="this.remove()">' : '')
-      + (paras.length ? paras.map(p => '<p class="ftext">' + H(p) + '</p>').join('') : '<p class="ftext">' + H(src.name) + ' shares only the headline of this story.</p>')
-      + (gl.length ? '<p class="chips">In the glossary: ' + gl.map(g => '<a href="/g/' + H(g[0]) + '/">' + H(g[1]) + '</a>').join(' ') + '</p>' : '')
+      + (paras.length ? linked.html.map(p => '<p class="ftext">' + p + '</p>').join('') : '<p class="ftext">' + H(src.name) + ' shares only the headline of this story.</p>')
+      + (glRest.length ? '<p class="chips">In the glossary: ' + glRest.map(g => '<a href="/g/' + H(g[0]) + '/">' + H(g[1]) + '</a>').join(' ') + '</p>' : '')
       + '<p class="fgo"><a class="fbtn" href="' + H(item.u) + '" rel="noopener nofollow" target="_blank">Read the full story at ' + H(src.name) + '</a></p>'
       + (archived ? '<p class="small">Headline and a short excerpt, kept in the Israel NOWlej archive. Full text and copyright remain with the original publisher.</p></article>' : '</article>');
   }
