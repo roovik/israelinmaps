@@ -916,7 +916,7 @@ def hot_pages():
         return (f'<div class="hotfeed" id="hot-feed" data-kw="{kw}"><h2>{"On this topic now" if t else "Latest on contested issues"}</h2>'
                 '<section data-k="news"><h3>News</h3><ul></ul></section><section data-k="views"><h3>Views</h3><ul></ul></section>'
                 '<p class="small">Matches come from headlines in the live news and views feeds. Coverage is credited to its publisher.</p></div>')
-    note = ('<p class="hotmeta"><b>Contested issue</b> · Draft for editorial review · As of ' + E(H_['asof']) + '</p>')
+    note = ('<p class="hotmeta"><b>Contested issue</b> · NOWlej&#8217;s view · As of ' + E(H_['asof']) + '</p>')
     corr = '<p class="subcta"><a href="/submit/?type=claim&name=HOT">Send a correction or a source</a></p>'
     hubb = ('<h1>HOT: Contested Issues</h1>' + note + f'<p class="lead">{E(H_["intro"])}</p><div class="hotgrid">'
             + ''.join(f'<a class="hotcard" href="/hot/{t["slug"]}/"><span class="hotera">{E(t["era"])}</span><b>{E(t["title"])}</b><span>{E(t["brief"].split(". ")[0])}.</span></a>' for t in T_)
@@ -936,8 +936,8 @@ def hot_pages():
         rel = ''.join(f'<a href="/g/{sl_}/">{E(used[sl_]["title"])}</a> · ' for sl_ in t['related'] if sl_ in used).rstrip(' · ')
         body = (f'<article class="gl hot"><p class="hottag"><a href="/hot/">HOT</a> · {E(t["era"])}</p><h1>{E(t["title"])}</h1>{note}'
                 f'<div class="hotbrief"><b>In brief</b><p>{E(t["brief"])}</p></div>'
-                f'<h2>What is claimed</h2>{li(t["claim"])}<h2>What the record shows</h2>{li(t["record"])}'
-                f'<h2>The case and the answers</h2><div class="hot2"><section><h3>The strongest case against</h3>{li(t["critics"])}</section><section><h3>The best answers</h3>{li(t["defenders"])}</section></div>'
+                f'<h2>What critics claim</h2>{li(t["claim"])}<h2>What the record shows</h2>{li(t["record"])}'
+                f'<h2>The case and the answers</h2><div class="hot2"><section><h3>The critics&#8217; case</h3>{li(t["critics"])}</section><section><h3>NOWlej&#8217;s answer</h3>{li(t["defenders"])}</section></div>'
                 f'<h2>Key dates</h2><ul class="hotdates">' + ''.join(f'<li><b>{E(d_)}</b> {E(x_)}</li>' for d_, x_ in t['dates']) + '</ul>'
                 f'<h2>Who addresses this</h2><p class="small">Profiles with articles, videos and podcasts. Open a profile for the full list.</p><ul class="hotlist">{vc}</ul>'
                 f'<h2>Direct sources and further study</h2><ul class="hotlist">{srcs}</ul>'
