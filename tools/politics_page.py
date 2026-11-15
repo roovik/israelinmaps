@@ -57,6 +57,6 @@ page=re.sub(r'(<meta name="description" content=")[^"]*"',lambda m:m.group(1)+D+
 page=page.replace('https://israelnowlej.com/charts/"','https://israelnowlej.com/politics/"')
 page=page.replace('property="og:title" content="Charts | Israel NOWlej"',f'property="og:title" content="{T} | Israel NOWlej"')
 page=re.sub(r'(property="og:description" content=")[^"]*"',lambda m:m.group(1)+D+'"',page,count=1)
-page=page.replace('</body>','<script src="/politics.js?v=1" defer></script></body>')
+page=page.replace('</body>','<script src="/politics.js?v=2" defer></script></body>')
 os.makedirs(f'{R}/politics',exist_ok=True); open(f'{R}/politics/index.html','w').write(page)
 print('ok',len(chips(parties)),len(chips(people)))
