@@ -65,6 +65,10 @@ const VDEF = {
   israellycool: [['Blog', 'https://www.israellycool.com/feed/']],
   insider: [['Op-Ed', 'https://israelinsider.rkoret.workers.dev/api/rss']],
 };
+// The Jerusalem Post marks editorials with "- editorial" at the end of the headline, also in its main news feed.
+// Those stories belong under Views, Editorial, not under News.
+const JP_ED = /\s[-\u2013\u2014]\s*editorial\s*$/i;
+function isJpEditorial(i) { return !!i && i.s === 'jpost' && JP_ED.test(i.t || ''); }
 function vid(kind) { return 'v-' + kind.toLowerCase().replace(/[^a-z0-9]+/g, '-'); }
 const VSRC = SOURCES.filter(s => VDEF[s.id]).map(s => ({ id: s.id, name: s.name, site: s.site, groups: [{ group: 'Views', list: VDEF[s.id].map(([k, u]) => ({ id: vid(k), name: k, url: u })) }] }));
 function findChannel(src, cid) {
@@ -235,7 +239,7 @@ async function itemPage(request, env, k, sp, cp) {
     } catch { }
     const when = item.d ? new Date(item.d).toLocaleString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Jerusalem' }) : '';
     title = item.t; desc = (item.f || item.x || item.t).slice(0, 200);
-    const vw = !!(cp && cp.startsWith('v-')) || !!archived;
+    const vw = !!(cp && cp.startsWith('v-')) || !!archived || (src.id === 'jpost' && JP_ED.test(item.t || ''));
     const known = !archived && SOURCES.some(x => x.id === src.id);
     const sHref = archived ? '/who/' + H(archived.vid) + '/' : known ? '/sources/' + H(src.id) + '/' : '';
     const sCrumb = known ? '/sources/' + H(src.id) + '/?show=' + (vw ? 'views' : 'news') : sHref;
@@ -1130,7 +1134,10 @@ const W = {
         r.items.forEach(i => { i.ch = c.id; i.kind = c.name; });
         return { v, r };
       })));
-      const items = (await archMerge(env, ctx, 'views', rs.flatMap(x => x.r.items).map(({ f, ...rest }) => rest))).slice(0, 600);
+      // JPost editorials that appear in its main news feed, or are already in the news archive
+      const jsrc = SOURCES.find(x => x.id === 'jpost'), jr = jsrc ? await load(jsrc) : { items: [] }, na = await archRead(env, 'news');
+      const eds = [...jr.items, ...na.items].filter(isJpEditorial).map(({ f, ...i }) => ({ ...i, ch: 'v-editorial', kind: 'Editorial' }));
+      const items = (await archMerge(env, ctx, 'views', rs.flatMap(x => x.r.items).map(({ f, ...rest }) => rest).concat(eds))).slice(0, 600);
       const sources = VSRC.map(v => ({ id: v.id, name: v.name, site: v.site, groups: v.groups.map(g => ({ group: g.group, list: g.list.map(c => ({ id: c.id, name: c.name })) })), ok: rs.some(x => x.v.id === v.id && x.r.ok), count: rs.filter(x => x.v.id === v.id).reduce((n, x) => n + x.r.items.length, 0), error: '' }));
       return new Response(JSON.stringify({ updated: new Date().toISOString(), sources, items }), { headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'public, max-age=600', 'Access-Control-Allow-Origin': '*' } });
     }
@@ -1148,7 +1155,7 @@ const W = {
       return new Response(JSON.stringify({ updated: new Date().toISOString(), source: src.id, channel: { id: ch.id, name: ch.name }, ok: r.ok, error: r.error, items: r.items.map(({ f, ...rest }) => ({ ...rest, ...(cp.startsWith('v-') ? { kind: ch.name } : {}) })) }), { headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'public, max-age=600', 'Access-Control-Allow-Origin': '*' } });
     }
     const results = await Promise.all(FEEDS.map(load));
-    const items = (await archMerge(env, ctx, 'news', results.flatMap(r => r.items).map(({ f, ...rest }) => rest))).slice(0, TOTAL);
+    const items = (await archMerge(env, ctx, 'news', results.flatMap(r => r.items).map(({ f, ...rest }) => rest))).filter(i => !isJpEditorial(i)).slice(0, TOTAL);
     const body = JSON.stringify({ updated: new Date().toISOString(), sources: results.map(r => ({ id: r.feed.id, name: r.feed.name, site: r.feed.site, groups: (SOURCES.find(s => s.id === r.feed.id) || {}).groups ? SOURCES.find(s => s.id === r.feed.id).groups.map(g => ({ group: g.group, list: g.list.map(c => ({ id: c.id, name: c.name })) })) : null, ok: r.ok, count: r.items.length, error: r.error, img: !!r.img })), items });
     return new Response(body, { headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'public, max-age=600', 'Access-Control-Allow-Origin': '*' } });
   },
