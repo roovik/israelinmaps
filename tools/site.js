@@ -140,3 +140,4 @@ window.IMNow=function(label,a,b){var h=document.querySelector('.newsmain h1');if
 
 /* NOWlej glossary links anywhere in page content: load the rollover card script only on pages that have such links */
 (function(){var s=document.createElement('script');s.src='/glosstip.js?v=8';s.defer=true;document.head.appendChild(s)})();
+;(function(){if(location.pathname==='/'||document.querySelector('[data-knesset]')){var s=document.createElement('script');s.src='/knesset26.js?v=f36fcb';s.defer=true;document.head.appendChild(s)}})();

@@ -94,3 +94,24 @@ if 'knesset-26' not in hub:
     hub=hub.replace('<h2>Calendars</h2>',link+'<h2>Calendars</h2>',1)
     open(f'{R}/charts/index.html','w').write(hub)
 print('ok',counts,sum(counts))
+
+# ---- compact widget for the home page / any slot: <div data-knesset></div> ----
+svg_small=svg.replace('class="k26hemi"','class="k26hemi k26w"')
+svg_small=re.sub(r'<text.*?</text><text.*?</text>','',svg_small)
+legend=''.join(f'<span><i style="background:{p[3]}"></i>{html.escape(p[0])} {p[2]}</span>' for p in P)
+card=('<div class="k26card"><div class="k26h"><b>The 26th Knesset</b><a href="/charts/knesset-26/">Parties and blocs ▸</a></div>'
+      +svg_small+bar.replace('k26bar"','k26bar k26bars"')+'<div class="k26leg">'+legend+'</div></div>')
+css=CSS.replace('<style>','').replace('</style>','')+'''
+.k26card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:.8rem 1rem 1rem;margin:0 0 1.2rem}
+.k26h{display:flex;justify-content:space-between;align-items:baseline;gap:1rem}.k26h b{font-size:1.15rem}.k26h a{font-size:.9rem}
+.k26w{max-width:460px}.k26bars{height:34px;margin-top:1.8rem}.k26leg{display:flex;flex-wrap:wrap;gap:.3rem .9rem;font-size:.8rem;color:var(--mut);margin-top:.7rem}
+.k26leg i{display:inline-block;width:.7em;height:.7em;border-radius:50%;margin-right:.35em}
+'''
+js=("(function(){try{var h="+__import__('json').dumps(card)+",c="+__import__('json').dumps(css)+";"
+ "var st=document.createElement('style');st.textContent=c;document.head.appendChild(st);"
+ "function mk(){var d=document.createElement('div');d.innerHTML=h;return d.firstChild}"
+ "var s=document.querySelectorAll('[data-knesset]');s.forEach(function(e){e.appendChild(mk())});"
+ "if(!s.length&&location.pathname==='/'){var l=document.querySelector('.newsleft');var m=l&&l.querySelector('.newsmain');if(l&&m)l.insertBefore(mk(),m)}"
+ "}catch(e){}})();")
+open(f'{R}/knesset26.js','w').write(js)
+print('widget',len(js))
