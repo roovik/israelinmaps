@@ -142,4 +142,4 @@ window.IMNow=function(label,a,b){var h=document.querySelector('.newsmain h1');if
 (function(){var s=document.createElement('script');s.src='/glosstip.js?v=8';s.defer=true;document.head.appendChild(s)})();
 ;(function(){if(location.pathname==='/'||document.querySelector('[data-knesset]')){var s=document.createElement('script');s.src='/knesset26.js?v=60eb9e';s.defer=true;document.head.appendChild(s)}})();
 
-;(function(){if(['/','/views/','/media/','/glossary/','/sources/','/politics/'].indexOf(location.pathname)>-1){var s=document.createElement('script');s.src='/focus.js?v=893304';s.defer=true;document.head.appendChild(s)}})();
+;(function(){if(['/','/views/','/media/','/glossary/','/sources/','/politics/'].indexOf(location.pathname)>-1){var s=document.createElement('script');s.src='/focus.js?v=532dda';s.defer=true;document.head.appendChild(s)}})();
