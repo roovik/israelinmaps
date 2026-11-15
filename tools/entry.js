@@ -16,6 +16,7 @@
   var slugEl=document.querySelector('[data-slug]'),slug=slugEl?slugEl.getAttribute('data-slug'):'';
   var FIX=fetch('/wiki-fix.json?v=3').then(function(r){return r.ok?r.json():{}}).catch(function(){return{}});
   function fixText(t,fx){[].concat(fx[slug]||[],fx.all||[]).forEach(function(r){try{t=t.replace(new RegExp(r[0],r[1]),r[2])}catch(e){}});return t}
+  if(fixed)FIX.then(function(fx){var ov=fx.override&&fx.override[slug];if(!ov)return;var sm=wk.querySelector('p.small');wk.innerHTML=ov.map(function(x){return'<p>'+esc(x)+'</p>'}).join('')+(sm?sm.outerHTML:'');src.querySelectorAll('li').forEach(function(li){if(/revision/.test(li.textContent))li.innerHTML='NOWlej summary; background from <a href="https://en.wikipedia.org/wiki/'+encodeURIComponent(title.replace(/ /g,'_'))+'" rel="noopener">Wikipedia</a> and the Jewish Virtual Library.'});var l=wk.querySelectorAll('a.glink');});
   FIX.then(function(fx){if(fx.titles&&fx.titles[slug])title=fx.titles[slug];return fixed?fetch(WK+'media-list/'+encodeURIComponent(title.replace(/ /g,'_'))):fetch(WK+'summary/'+encodeURIComponent(title.replace(/ /g,'_'))+'?redirect=true').then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){
     if(d.type==='disambiguation'||!d.extract||d.extract.length<60)throw 0;
     return FIX.then(function(fx){d.extract=fixText(d.extract,fx);var ov=fx.override&&fx.override[slug];if(ov){d.extract=ov.join('\n');d.nowlej=1}return d})}).then(function(d){
