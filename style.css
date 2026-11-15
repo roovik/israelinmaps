@@ -1394,3 +1394,6 @@ main h1+p.lead,main h1+p.small,main h1+p.meta,main h1+p.lede,main h1+p.hotmeta,.
 .vshorts .vcard .tb{padding:6px 7px 8px}.vshorts .vcard .tb b{font-size:.76rem;line-height:1.25;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .vshorts .vcard .tid{display:none}
 .vshorts .vcard .vplay{width:34px;height:34px;font-size:.8rem}
+/* dark sidebar panel: the highlighted (now playing / current playlist) item must be a light orange, not the dark accent */
+.newsside .vlist a.vnowp,.newsside .vlist a.vnowp:hover,.newsside .vpls a.vnowp,.newsside a.vnowp{color:#ffc58f!important;text-decoration:underline;text-underline-offset:3px}
+.newsside .vlist a:hover{color:#ffc58f}
