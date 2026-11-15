@@ -111,7 +111,7 @@ js=("(function(){try{var h="+__import__('json').dumps(card)+",c="+__import__('js
  "var st=document.createElement('style');st.textContent=c;document.head.appendChild(st);"
  "function mk(){var d=document.createElement('div');d.innerHTML=h;return d.firstChild}"
  "var s=document.querySelectorAll('[data-knesset]');s.forEach(function(e){e.appendChild(mk())});"
- "if(!s.length&&location.pathname==='/'){function put(n,o){var g=document.getElementById('news-grid');if(!g)return;n.classList.add('k26x');n.setAttribute('data-o',o);n.style.gridColumn='1/-1';function run(){if(n.parentNode===g)return;var a=g.querySelectorAll(':scope > article');if(a.length<9)return;var ref=a[8],nx=ref.nextSibling;while(nx&&nx.nodeType===1&&nx.classList.contains('k26x')&&+nx.getAttribute('data-o')<o){ref=nx;nx=nx.nextSibling}g.insertBefore(n,ref.nextSibling)}run();new MutationObserver(run).observe(g,{childList:true})}put(mk(),2)}"
+ "if(!s.length&&location.pathname==='/'){function put(n,o){var g=document.getElementById('news-more-title');if(!g||!g.parentNode)return;n.classList.add('k26x');n.setAttribute('data-o',o);var ref=g;while(ref.previousElementSibling&&ref.previousElementSibling.classList.contains('k26x')&&+ref.previousElementSibling.getAttribute('data-o')>o)ref=ref.previousElementSibling;g.parentNode.insertBefore(n,ref)}put(mk(),2)}"
  "}catch(e){}})();")
 open(f'{R}/knesset26.js','w').write(js)
 print('widget',len(js))
