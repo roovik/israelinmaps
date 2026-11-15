@@ -1,0 +1,21 @@
+{
+ "note": "Wording rules applied to Wikipedia summaries shown under More NOWlej. Each rule: [regex, flags, replacement]. 'all' applies to every entry; a slug key applies to that entry only, after 'all'.",
+ "all": [
+  ["\\b(?:in|of) the southern West Bank,? Palestine\\b", "g", "in southern Judea"],
+  ["\\b(?:in|of) the northern West Bank,? Palestine\\b", "g", "in northern Samaria"],
+  ["\\b(?:in|of) the central West Bank,? Palestine\\b", "g", "in Judea and Samaria"],
+  ["\\b(?:the )?southern West Bank\\b", "g", "southern Judea"],
+  ["\\b(?:the )?northern West Bank\\b", "g", "northern Samaria"],
+  ["\\b(?:the )?central West Bank\\b", "g", "Judea and Samaria"],
+  ["\\b(?:the )?(?:Israeli-)?occupied West Bank\\b", "g", "Judea and Samaria"],
+  ["\\bWest Bank,? Palestine\\b", "g", "Judea and Samaria"],
+  ["\\bthe West Bank\\b", "g", "Judea and Samaria"],
+  ["\\bWest Bank\\b", "g", "Judea and Samaria"],
+  ["\\b(?:Israeli-)?occupied East Jerusalem\\b", "g", "East Jerusalem"],
+  ["\\bIsraeli-occupied (Golan Heights|Judea and Samaria|East Jerusalem|territories)\\b", "g", "$1"],
+  ["\\bJudea and Samaria and Judea and Samaria\\b", "g", "Judea and Samaria"]
+ ],
+ "hebron": [
+  ["\\s*It is the third largest city in the country after Gaza and East Jerusalem\\.", "g", ""]
+ ]
+}
