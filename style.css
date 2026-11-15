@@ -1397,3 +1397,9 @@ main h1+p.lead,main h1+p.small,main h1+p.meta,main h1+p.lede,main h1+p.hotmeta,.
 /* dark sidebar panel: the highlighted (now playing / current playlist) item must be a light orange, not the dark accent */
 .newsside .vlist a.vnowp,.newsside .vlist a.vnowp:hover,.newsside .vpls a.vnowp,.newsside a.vnowp{color:#ffc58f!important;text-decoration:underline;text-underline-offset:3px}
 .newsside .vlist a:hover{color:#ffc58f}
+/* dark mode: playlist list titles in light orange so they pop on the navy panel */
+@media (prefers-color-scheme:dark){
+.stage-list .sitem .stx b,.pgrid .sitem .stx b{color:#ffc58f!important}
+.stage-list .sitem.on .stx b,.stage-list .sitem:hover .stx b{color:#ffe0c0!important}
+.stage-list .sitem .stx i{color:#c9b8a6}
+}
