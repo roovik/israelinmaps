@@ -308,7 +308,7 @@ async function itemPage(request, env, k, sp, cp) {
     const known = !archived && SOURCES.some(x => x.id === src.id);
     const sHref = archived ? '/who/' + H(archived.vid) + '/' : known ? '/sources/' + H(src.id) + '/' : '';
     const sCrumb = known ? '/sources/' + H(src.id) + '/?show=' + (vw ? 'views' : 'news') : sHref;
-    const txt = item.F || item.f || '';
+    const txt = item.F || item.f || item.x || '';
     const paras = []; if (txt) { const ss = txt.match(/[^.!?]+[.!?]+["')\]]*\s*|[^.!?]+$/g) || [txt]; for (let i = 0; i < ss.length; i += 3) paras.push(ss.slice(i, i + 3).join('').trim()); }
     const linked = glossLink(paras, terms, gist, H), glRest = gl.filter(g => !linked.used.has(g[0]));
     body = '<span data-word="' + (vw ? 'views' : 'news') + '" hidden></span><p class="crumb"><a href="/">Home</a> / <a href="' + (vw ? '/views/">Views' : '/news/">News') + '</a> / ' + (sCrumb ? '<a href="' + sCrumb + '">' + H(src.name) + '</a>' : H(src.name)) + '</p>'
