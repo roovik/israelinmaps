@@ -1352,3 +1352,11 @@ body.compact .newsmain .ngrid6{display:block}
 
 /* mobile: the separator between the top menu and the submenu is white (desktop keeps the dark blue line) */
 @media (max-width:640px){header.top nav.wrap{border-bottom-color:#fff}}
+
+/* News and Views right column: one source open (5 latest), the others show their 2 latest */
+.newsside .wacc h3{display:flex;align-items:center;gap:8px}
+.newsside .wacc h3>a{flex:1}
+.newsside .wtog{flex:none;width:24px;height:24px;border:1px solid currentColor;border-radius:50%;background:transparent;color:inherit;font:700 16px/1 system-ui,sans-serif;cursor:pointer;padding:0;opacity:.85}
+.newsside .wtog:hover{opacity:1}
+.newsside .wacc li.wx{display:none}
+.newsside .wacc.open li.wx{display:revert}

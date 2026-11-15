@@ -69,9 +69,14 @@
       var dated=data.items.filter(function(i){return i.d}).slice(0,12);
       latest.innerHTML='<section class="wsrc wlatest"><h3>Latest '+W+'</h3><ul>'+dated.slice(0,5).map(function(i){return'<li><a href="'+esc(iu(i))+'">'+esc(i.t)+'</a><span class="wm"><a href="/sources/'+esc(i.s)+'/?show='+W+'">'+esc(i.src)+'</a> · <time>'+when(i.d)+'</time></span></li>'}).join('')+'</ul></section>';
       wid.innerHTML=data.sources.map(function(s){
-        var its=data.items.filter(function(i){return i.s===s.id}).slice(0,6);
+        var its=data.items.filter(function(i){return i.s===s.id}).slice(0,5);
         if(!s.ok||!its.length)return'';
-        return'<section class="wsrc"><h3><a href="/sources/'+esc(s.id)+'/?show='+W+'">'+esc(s.name)+'</a></h3><ul>'+its.map(function(i){return'<li><a href="'+esc(iu(i))+'">'+esc(i.t)+'</a>'+(i.d?'<time>'+when(i.d)+'</time>':'')+'</li>'}).join('')+'</ul></section>'}).filter(Boolean).join('<div class="adslot" data-slot="right"></div>');if(window.IMAds)IMAds.fill(wid);
+        // One source open at a time with its 5 latest; the others show their 2 latest until opened
+        return'<section class="wsrc wacc" data-src="'+esc(s.id)+'"><h3><a href="/sources/'+esc(s.id)+'/?show='+W+'">'+esc(s.name)+'</a>'+(its.length>2?'<button type="button" class="wtog" aria-expanded="false" aria-label="Show more from '+esc(s.name)+'">+</button>':'')+'</h3><ul>'+its.map(function(i,n){return'<li'+(n>1?' class="wx"':'')+'><a href="'+esc(iu(i))+'">'+esc(i.t)+'</a>'+(i.d?'<time>'+when(i.d)+'</time>':'')+'</li>'}).join('')+'</ul></section>'}).filter(Boolean).join('<div class="adslot" data-slot="right"></div>');if(window.IMAds)IMAds.fill(wid);
+      function wopen(id){[].forEach.call(wid.querySelectorAll('.wacc'),function(sec){var on=sec.getAttribute('data-src')===id;sec.classList.toggle('open',on);var b=sec.querySelector('.wtog');if(b){b.setAttribute('aria-expanded',on?'true':'false');b.textContent=on?'\u2212':'+'}})}
+      wid.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.wtog');if(!b)return;e.preventDefault();var sec=b.closest('.wacc');wopen(sec.classList.contains('open')?'':sec.getAttribute('data-src'))});
+      function wsel(){var m=/(?:^|[#&])src=([^&]+)/.exec(location.hash),f=wid.querySelector('.wacc');wopen(m?decodeURIComponent(m[1]):(f?f.getAttribute('data-src'):''))}
+      wsel();window.addEventListener('hashchange',wsel);
       var bad=data.sources.filter(function(s){return!s.ok});
       st.textContent='Updated '+new Date(data.updated).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})+'.'+(bad.length?' Unavailable now: '+bad.map(function(s){return s.name}).join(', ')+'.':'');
 
