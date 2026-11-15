@@ -77,6 +77,8 @@
       wid.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.wtog');if(!b)return;e.preventDefault();var sec=b.closest('.wacc');if(sec.classList.contains('open')){sec.classList.remove('open');b.setAttribute('aria-expanded','false');b.textContent='+'}else wopen(sec.getAttribute('data-src'))});
       function wsel(){var m=/(?:^|[#&])src=([^&]+)/.exec(location.hash);wopen(m?decodeURIComponent(m[1]):'*')}
       wsel();window.addEventListener('hashchange',wsel);
+      // Views: the section column hides everything but its own menu; show the source lists there too
+      if(W==='views'&&wid.innerHTML){wid.style.setProperty('display','block','important');var wh=wid.previousElementSibling;if(wh&&wh.tagName==='H2')wh.style.setProperty('display','block','important')}
       var bad=data.sources.filter(function(s){return!s.ok&&!data.items.some(function(i){return i.s===s.id})});
       st.textContent='Updated '+new Date(data.updated).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})+'.'+(bad.length?' Unavailable now: '+bad.map(function(s){return s.name}).join(', ')+'.':'');
 
