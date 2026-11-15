@@ -68,7 +68,12 @@ const VDEF = {
 // The Jerusalem Post marks editorials with "- editorial" at the end of the headline, also in its main news feed.
 // Those stories belong under Views, Editorial, not under News.
 const JP_ED = /\s[-\u2013\u2014]\s*editorial\s*$/i;
-function isJpEditorial(i) { return !!i && i.s === 'jpost' && JP_ED.test(i.t || ''); }
+function isJpEditorial(i) { return !!i && ((i.s === 'jpost' && JP_ED.test(i.t || '')) || (i.s === 'haaretz' && /^haaretz editorial$/i.test(i.by || ''))); }
+// Tag editorials as Editorial (JPost also lists them in its opinion feed, as Op-Ed) and keep one copy of each story.
+function tagEditorials(items) {
+  const seen = new Set();
+  return items.map(i => isJpEditorial(i) ? { ...i, ch: 'v-editorial', kind: 'Editorial' } : i).filter(i => { const key = i.s + '|' + i.k + '|' + i.ch; if (seen.has(key)) return false; seen.add(key); return true; });
+}
 function vid(kind) { return 'v-' + kind.toLowerCase().replace(/[^a-z0-9]+/g, '-'); }
 const VSRC = SOURCES.filter(s => VDEF[s.id]).map(s => ({ id: s.id, name: s.name, site: s.site, groups: [{ group: 'Views', list: VDEF[s.id].map(([k, u]) => ({ id: vid(k), name: k, url: u })) }] }));
 function findChannel(src, cid) {
@@ -1137,9 +1142,9 @@ const W = {
       // JPost editorials that appear in its main news feed, or are already in the news archive
       const jsrc = SOURCES.find(x => x.id === 'jpost'), jr = jsrc ? await load(jsrc) : { items: [] }, na = await archRead(env, 'news');
       const eds = [...jr.items, ...na.items].filter(isJpEditorial).map(({ f, ...i }) => ({ ...i, ch: 'v-editorial', kind: 'Editorial' }));
-      const items = (await archMerge(env, ctx, 'views', rs.flatMap(x => x.r.items).map(({ f, ...rest }) => rest).concat(eds))).slice(0, 600);
+      const items = (await archMerge(env, ctx, 'views', rs.flatMap(x => x.r.items).map(({ f, ...rest }) => rest).concat(eds))).slice(0, 700); const vItems = tagEditorials(items).slice(0, 600);
       const sources = VSRC.map(v => ({ id: v.id, name: v.name, site: v.site, groups: v.groups.map(g => ({ group: g.group, list: g.list.map(c => ({ id: c.id, name: c.name })) })), ok: rs.some(x => x.v.id === v.id && x.r.ok), count: rs.filter(x => x.v.id === v.id).reduce((n, x) => n + x.r.items.length, 0), error: '' }));
-      return new Response(JSON.stringify({ updated: new Date().toISOString(), sources, items }), { headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'public, max-age=600', 'Access-Control-Allow-Origin': '*' } });
+      return new Response(JSON.stringify({ updated: new Date().toISOString(), sources, items: vItems }), { headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'public, max-age=600', 'Access-Control-Allow-Origin': '*' } });
     }
     if (sp && url.searchParams.get('probe')) {
       // which channels of a source have recent stories. One group per call keeps subrequests low.
