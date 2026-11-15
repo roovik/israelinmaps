@@ -1387,3 +1387,10 @@ main h1+p.lead,main h1+p.small,main h1+p.meta,main h1+p.lede,main h1+p.hotmeta,.
 .fcard .fcap,.feat.io .fcap{position:static;background:none;opacity:1!important;pointer-events:auto;padding:6px 2px 0;color:var(--fg)}
 .fcard .fcap b{color:var(--fg)}
 .fcard:after{content:"\25B6";position:absolute;left:0;right:0;top:0;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1rem;pointer-events:none;background:radial-gradient(circle,rgba(0,0,0,.6) 0 22px,transparent 23px)}
+/* Shorts: tall tiles in their own denser grid, with the pillarbox bars cropped away */
+.tgrid.vshorts{grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:10px;margin-top:12px}
+.vshorts .vcard .timg{aspect-ratio:9/16}
+.vshorts .vcard .timg img{width:100%;height:100%;object-fit:cover!important;object-position:center}
+.vshorts .vcard .tb{padding:6px 7px 8px}.vshorts .vcard .tb b{font-size:.76rem;line-height:1.25;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.vshorts .vcard .tid{display:none}
+.vshorts .vcard .vplay{width:34px;height:34px;font-size:.8rem}

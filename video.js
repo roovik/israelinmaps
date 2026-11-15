@@ -3,7 +3,8 @@
   function ago(iso){if(!iso)return'';var s=(Date.now()-new Date(iso))/1000;if(s<86400)return'today';if(s<2*86400)return'yesterday';if(s<30*86400)return Math.round(s/86400)+' days ago';if(s<365*86400)return Math.round(s/(30*86400))+' months ago';return Math.round(s/(365*86400))+' years ago'}
   function embed(v,auto){return'<iframe src="https://www.youtube-nocookie.com/embed/'+encodeURIComponent(v)+'?rel=0'+(auto?'&autoplay=1&mute=1&playsinline=1&enablejsapi=1':'')+'" onload="var w=this.contentWindow;[0,500,1500].forEach(function(t){setTimeout(function(){try{w.postMessage(JSON.stringify({event:\'command\',func:\'playVideo\',args:[]}),\'*\');w.postMessage(JSON.stringify({event:\'command\',func:\'unMute\',args:[]}),\'*\')}catch(x){}},t)})" title="Video player" allow="accelerometer; autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>'}
   function wurl(v,c,t){return'/video/watch/?v='+encodeURIComponent(v.v)+(c?'&c='+encodeURIComponent(c):'')+(t?'&t='+encodeURIComponent(t):'')}
-  function card(v){return'<a class="tcard vcard" data-v="'+esc(v.v)+'" href="'+esc(wurl(v,v.c,v.t))+'"><span class="timg"><img src="https://i.ytimg.com/vi/'+esc(v.v)+'/mqdefault.jpg" alt="" loading="lazy"><span class="vplay">▶</span></span><span class="tb"><span class="tid">'+esc(v.n||'')+(v.n&&v.d?' · ':'')+ago(v.d)+'</span><b>'+esc(v.t)+'</b></span></a>'}
+  function grid(a){var n=a.filter(function(x){return!x.s}),s=a.filter(function(x){return x.s});return(n.length?'<div class="tgrid">'+n.map(card).join('')+'</div>':'')+(s.length?'<div class="tgrid vshorts">'+s.map(card).join('')+'</div>':'')}
+  function card(v){return'<a class="tcard vcard'+(v.s?' vshort':'')+'" data-v="'+esc(v.v)+'" href="'+esc(wurl(v,v.c,v.t))+'"><span class="timg"><img src="https://i.ytimg.com/vi/'+esc(v.v)+'/mqdefault.jpg" alt="" loading="lazy"><span class="vplay">▶</span></span><span class="tb"><span class="tid">'+esc(v.n||'')+(v.n&&v.d?' · ':'')+ago(v.d)+'</span><b>'+esc(v.t)+'</b></span></a>'}
   var host=document.getElementById('vid-top'),onWatch=!!document.getElementById('vid-watch'),onChan=!!document.getElementById('vid-chan'),CTX=null,EVP=null,SEL=null;
   document.addEventListener('click',function(e){var pp=e.target.closest&&e.target.closest('a.vpop');if(pp&&!e.metaKey&&!e.ctrlKey&&!e.shiftKey){e.preventDefault();var w=window.open(pp.getAttribute('href'),'nowlej_player','popup=yes,width=1000,height=720,resizable=yes,scrollbars=yes');if(!w)location.href=pp.getAttribute('href');return}
     var fc=e.target.closest&&e.target.closest('a.fcard[data-v]');if(fc&&SEL&&!e.metaKey&&!e.ctrlKey&&!e.shiftKey&&!e.button){e.preventDefault();SEL(fc.getAttribute('data-v'));return}
@@ -59,7 +60,7 @@
       all.sort(function(a,b){return(b.d||'').localeCompare(a.d||'')});
       host.hidden=true;listText('Videos',all.slice(0,20));
       var h='';
-      chs.forEach(function(c){h+='<section class="vch"><h2><a href="/video/'+esc(sl(c))+'/">'+esc(lab(c))+'</a></h2><div class="tgrid">'+c.videos.slice(0,8).map(card).join('')+'</div><p class="small"><a href="/video/'+esc(sl(c))+'/">All videos from '+esc(c.name)+'</a></p></section>'});
+      chs.forEach(function(c){h+='<section class="vch"><h2><a href="/video/'+esc(sl(c))+'/">'+esc(lab(c))+'</a></h2>'+grid(c.videos.slice(0,8))+'<p class="small"><a href="/video/'+esc(sl(c))+'/">All videos from '+esc(c.name)+'</a></p></section>'});
       if((d.playlists||[]).length){h+='<h2 id="playlists">Playlists</h2>';chs.forEach(function(c){var pls=d.playlists.filter(function(x){return x.channel===String(c.key).toLowerCase()});if(pls.length)h+='<h3>'+esc(c.name)+'</h3><ul class="vpl">'+pls.map(function(x){return'<li><a href="/video/pl-'+esc(x.id.toLowerCase())+'/">'+esc(x.name)+'</a></li>'}).join('')+'</ul>'})}
       root.innerHTML=h;vfilter(all,chs,h);
     }
@@ -83,7 +84,7 @@
         host.innerHTML=embed(x.v,true);host.hidden=false;
         var more=c?c.videos.filter(function(k){return k.v!==x.v}):[];
         rel.hidden=false;rel.innerHTML='<h2 class="vnowt">'+esc(x.t)+'</h2><p class="small">'+esc(x.n||'')+(x.d?' \u00b7 '+ago(x.d):'')+' \u00b7 <button type="button" class="vback">Back to all videos</button></p>'+(x.x?'<p>'+esc(x.x)+'</p>':'')+
-          '<h2>'+(c&&c.kind==='playlist'?'Playlist: '+esc(c.name)+'':'More from '+esc(x.n||'this channel')+' (channel videos, not a playlist)')+'</h2><div class="tgrid">'+more.slice(0,12).map(card).join('')+'</div>';
+          '<h2>'+(c&&c.kind==='playlist'?'Playlist: '+esc(c.name)+'':'More from '+esc(x.n||'this channel')+' (channel videos, not a playlist)')+'</h2>'+grid(more.slice(0,12))+'';
         root.hidden=true;cr.hidden=true;rel.querySelector('.vback').addEventListener('click',back);
         try{document.title=x.t+' | Israel NOWlej'}catch(e){}
         bar.scrollIntoView({behavior:'smooth',block:'start'})};
@@ -98,7 +99,7 @@
           return true});
         if(sk)list=IMSort.apply(list,sk,{date:function(x){return x.d},title:function(x){return x.t},src:function(x){return x.n}});
         nn.textContent='';car(list);
-        root.innerHTML=list.length?'<div class="tgrid">'+list.slice(0,60).map(card).join('')+'</div>':'<p>No videos match. Try another genre, channel or keyword.</p>'}
+        root.innerHTML=list.length?grid(list.slice(0,60)):'<p>No videos match. Try another genre, channel or keyword.</p>'}
       run();gs.addEventListener('change',run);cs.addEventListener('change',run);document.getElementById('vf-s').addEventListener('change',run);document.getElementById('vf-f').addEventListener('submit',function(e){e.preventDefault();run()});qi.addEventListener('input',run)
     }
     function listText(title,vs,chkey,cur){var L=document.getElementById('vid-list');if(!L)return;
@@ -123,7 +124,7 @@
       var ck=c.kind==='playlist'?(c.channel||''):String(c.key).toLowerCase();
       var mpl=ck?(d.playlists||[]).filter(function(x){return x.channel===ck}):[];
       var cn=(d.chnames||{})[ck]||c.name;
-      box.innerHTML=(c.kind==='playlist'?'<h2 id="ch-videos">Videos in this playlist</h2>':(titleEl?'<h2 id="ch-videos">More from '+esc(c.name)+'</h2>':''))+'<div class="tgrid">'+c.videos.map(card).join('')+'</div>'+(mpl.length?'<h2 id="playlists">Playlists from '+esc(cn)+'</h2><ul class="vpl">'+mpl.map(function(x){var on=c.kind==='playlist'&&x.id===c.key;return'<li><a'+(on?' class="vnowp"':'')+' href="/video/pl-'+esc(x.id.toLowerCase())+'/">'+esc(x.name)+'</a></li>'}).join('')+'</ul>':'');
+      box.innerHTML=(c.kind==='playlist'?'<h2 id="ch-videos">Videos in this playlist</h2>':(titleEl?'<h2 id="ch-videos">More from '+esc(c.name)+'</h2>':''))+grid(c.videos)+(mpl.length?'<h2 id="playlists">Playlists from '+esc(cn)+'</h2><ul class="vpl">'+mpl.map(function(x){var on=c.kind==='playlist'&&x.id===c.key;return'<li><a'+(on?' class="vnowp"':'')+' href="/video/pl-'+esc(x.id.toLowerCase())+'/">'+esc(x.name)+'</a></li>'}).join('')+'</ul>':'');
       CTX=function(id){setP(id,true);host.scrollIntoView({behavior:'smooth',block:'nearest'})};
       listText(c.kind==='playlist'?'Playlist videos':'Recent channel videos',c.videos,c.kind==='playlist'?(c.channel||''):String(c.key).toLowerCase(),c.kind==='playlist'?c.key:'');
       var hh=location.hash;setP(vid&&byv[vid]?vid:c.videos[0].v,!!(vid&&byv[vid]));

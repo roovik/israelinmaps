@@ -379,6 +379,12 @@ async function loadVideoSource(c, kind, diag) {
     if (!r.ok) return stale('feed HTTP ' + r.status);
     const videos = vparse(await r.text()).filter(x => !vblocked(x)).slice(0, 15);
     if (!videos.length) return stale('feed had no videos');
+    if (kind !== 'playlist' && /^UC[\w-]{22}$/.test(id)) {   // YouTube keeps a hidden Shorts-only playlist per channel: UC... becomes UUSH...
+      try {
+        const sr = await fetch('https://www.youtube.com/feeds/videos.xml?playlist_id=UUSH' + id.slice(2), { headers: YT_UA });
+        if (sr.ok) { const sh = new Set(vparse(await sr.text()).map(x => x.v)); videos.forEach(x => { if (sh.has(x.v)) x.s = 1; }); }
+      } catch (e) { }
+    }
     const out = { key, name: c.name, id, kind, channel: (c.channel || '').toLowerCase(), url: kind === 'playlist' ? 'https://www.youtube.com/playlist?list=' + id : 'https://www.youtube.com/channel/' + id, ok: true, error: '', videos };
     await memPut(mk, out, 7 * 86400);
     return out;
