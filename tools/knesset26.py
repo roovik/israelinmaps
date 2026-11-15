@@ -37,7 +37,7 @@ for (a,r),p in zip(seats,owner):
     x=cx+r*math.cos(a); y=cy-r*math.sin(a)
     circles.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="9" fill="{p[3]}"><title>{html.escape(p[0])}</title></circle>')
 svg=(f'<svg class="k26hemi" viewBox="0 0 {W} {H}" role="img" aria-label="Hemicycle of the 120 seats in the 26th Knesset by party: Joint List 11, Ra\'am 8, Democrats 8, Yashar 21, Together 12, Yisrael Beytenu 7, Likud 27, Shas 6, United Torah Judaism 7, Religious Zionism 6, Otzma Yehudit 7.">'
-     +''.join(circles)+f'<text x="{cx}" y="{cy-30}" text-anchor="middle" class="k26big">120</text><text x="{cx}" y="{cy-6}" text-anchor="middle" class="k26sm">seats · 61 for a majority</text></svg>')
+     +''.join(circles)+f'<text x="{cx}" y="{cy-26}" text-anchor="middle" class="k26big">120</text><text x="{cx}" y="{cy-8}" text-anchor="middle" class="k26sm">seats · 61 for a majority</text></svg>')
 # bloc bar
 def seg(k):
     return f'<span style="width:{bs[k]/120*100:.2f}%;background:{BL[k][1]}" title="{BL[k][0]}: {bs[k]}"><b>{bs[k]}</b></span>'
@@ -54,7 +54,7 @@ for k in ("coal","opp","arab"):
 CSS='''<style>
 .k26 .lead{max-width:62ch}
 .k26hemi{width:100%;max-width:640px;display:block;margin:.5rem auto}
-.k26big{font:700 48px/1 system-ui,sans-serif;fill:var(--fg)}.k26sm{font:14px system-ui,sans-serif;fill:var(--mut)}
+.k26big{font:700 26px/1 system-ui,sans-serif;fill:var(--fg)}.k26sm{font:12px system-ui,sans-serif;fill:var(--mut)}
 .k26bar{position:relative;display:flex;height:44px;border-radius:8px;overflow:visible;margin:1.6rem 0 .3rem}
 .k26bar span{display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.05rem}
 .k26bar span:first-child{border-radius:8px 0 0 8px}.k26bar span:nth-child(3){border-radius:0 8px 8px 0}
@@ -66,7 +66,7 @@ CSS='''<style>
 .k26tbl .n{text-align:right;font-weight:700;width:3rem}.k26tbl .m{color:var(--mut)}
 .k26tbl i,.k26grp i{display:inline-block;width:.8em;height:.8em;border-radius:50%;margin-right:.5em}
 .k26grp th{background:var(--hl);font-size:1rem}.k26grp b{float:right}
-@media(max-width:560px){.k26tbl .m{display:none}.k26big{font-size:46px}}
+@media(max-width:560px){.k26tbl .m{display:none}.k26big{font-size:22px}}
 </style>'''
 BODY=(CSS+'<div class="hubslide k26"><h1>The 26th Knesset: parties and blocs</h1>'
  '<p class="lead">The 120 seats chosen on October 27, 2026, from left to right in the chamber. The Netanyahu bloc won 53 seats, the Zionist opposition led by Gadi Eisenkot 48, and the two Arab-led parties 19. No bloc reached the 61 needed to govern alone, so coalition talks run through the Arab-led and ultra-Orthodox parties as well as the two main camps.</p>'
