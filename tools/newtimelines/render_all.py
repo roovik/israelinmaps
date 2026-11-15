@@ -5,11 +5,41 @@ import gen, gen_dual, gen_period, shade
 from playwright.sync_api import sync_playwright
 R = json.load(open(os.path.join(os.path.dirname(__file__), 'registry.json')))
 TOTAL = len(R)
+
+def _w(lst, nf, fs):
+    return sum((len(e[3]) + (len(e[4]) if nf == 5 else 0) + 24) for e in lst) * fs * fs
+def balance(h, style, r):
+    """Move the central axis so neither side is too crowded: width of each column follows the amount of text it carries."""
+    tp, al = r['tp'], r['also']
+    if style == 'std':
+        kL, kR = _w(tp, 5, 14.6), _w(al, 4, 12.6) + 0.0001
+        wL = max(300, min(520, 768 * kL / (kL + kR))); A = int(round(wL + 215))
+        reps = [('.axis{position:absolute;left:685px;', f'.axis{{position:absolute;left:{A}px;'), ('.tick{position:absolute;left:685px;', f'.tick{{position:absolute;left:{A}px;'),
+                ('.tl{position:absolute;left:687px;', f'.tl{{position:absolute;left:{A+2}px;'), ('.tp{position:absolute;right:629px;width:470px;', f'.tp{{position:absolute;right:{1314-A}px;width:{A-215}px;'),
+                ('.al{position:absolute;left:811px;width:298px;', f'.al{{position:absolute;left:{A+126}px;width:{983-A}px;'), ("h1.style.right='629px'", f"h1.style.right='{1314-A}px'"),
+                ("h2.style.left='811px'", f"h2.style.left='{A+126}px'"), ("'<path d=\"M578 '+y1+' H593 L685 '+y2+'\"", f"'<path d=\"M{A-107} '+y1+' H{A-92} L{A} '+y2+'\""),
+                ("'<circle cx=\"685\" cy=\"'", f"'<circle cx=\"{A}\" cy=\"'"), ("'<path d=\"M736 '+y2+' L790 '+y1+' H804\"", f"'<path d=\"M{A+51} '+y2+' L{A+105} '+y1+' H{A+119}\""),
+                ("'<circle cx=\"736\" cy=\"'", f"'<circle cx=\"{A+51}\" cy=\"'")]
+    else:  # period
+        kL, kR = _w(tp, 5, 14.2), _w(al, 4, 12.6) + 0.0001
+        wL = max(250, min(480, 831 * kL / (kL + kR))); A = int(round(wL + 153))
+        reps = [('.axis{position:absolute;left:367px;', f'.axis{{position:absolute;left:{A}px;'), ('.tick{position:absolute;left:367px;', f'.tick{{position:absolute;left:{A}px;'),
+                ('.tl{position:absolute;left:370px;', f'.tl{{position:absolute;left:{A+3}px;'), ('.tp{position:absolute;right:885px;width:214px;', f'.tp{{position:absolute;right:{1252-A}px;width:{A-153}px;'),
+                ('.al{position:absolute;left:492px;width:617px;', f'.al{{position:absolute;left:{A+125}px;width:{984-A}px;'), ("h1.style.right='885px'", f"h1.style.right='{1252-A}px'"),
+                ("h2.style.left='492px'", f"h2.style.left='{A+125}px'"), ("'<path d=\"M320 '+y1+' H328 L367 '+y2+'\"", f"'<path d=\"M{A-47} '+y1+' H{A-39} L{A} '+y2+'\""),
+                ("'<circle cx=\"367\" cy=\"'", f"'<circle cx=\"{A}\" cy=\"'"), ("'<path d=\"M418 '+y2+' L470 '+y1+' H486\"", f"'<path d=\"M{A+51} '+y2+' L{A+103} '+y1+' H{A+119}\""),
+                ("'<circle cx=\"418\" cy=\"'", f"'<circle cx=\"{A+51}\" cy=\"'")]
+    for a, b in reps:
+        assert a in h, (style, a); h = h.replace(a, b)
+    r['_axis'] = A
+    return h
+
 def html_for(r):
     n = r['n']; qr = gen.qr(f"https://israelinmaps.com/tl-{r['id']}")
     if r['style'] == 'std':
         D = dict(y0=r['y0'], y1=r['y1'], step=r['step'], tp=r['tp'], also=r['also'])
         h = gen.TPL.replace('%NUMUP%', str(n)).replace('Timeline %NUM%', f'Timeline {n} of {TOTAL}')
+        if not os.environ.get('NOBAL'): h = balance(h, 'std', r)
     elif r['style'] == 'dual':
         D = dict(y0=r['y0'], y1=r['y1'], step=r['step'], left=r['left'], right=r['right'], tp=[], also=[])
         def w(lst): return sum(len(e[4]) + 1.4 * len(e[3]) + len(e[0]) + 40 for e in lst)
@@ -26,6 +56,7 @@ def html_for(r):
     else:
         span = r['y1'] - r['y0']; D = dict(y0=r['y0'], y1=r['y1'], step=1 if span <= 13 else 2 if span <= 26 else 5 if span <= 60 else 10, tp=r['tp'], also=r['also'])
         h = gen_period.T.replace('%RUNR%', f'TIMELINE {n}').replace('The State of Israel', f'Timeline {n} of {TOTAL}')
+        if not os.environ.get('NOBAL'): h = balance(h, 'period', r)
     return shade.inject(h.replace('%FONTS%', gen.FONTS).replace('%TITLE%', r['title']).replace('%RNG%', r['rng']).replace('%INTRO%', r['intro'])
              .replace('%ID%', r['id']).replace('%QR%', qr).replace('%CAT%', json.dumps(gen.CAT)).replace('%DATA%', json.dumps(D)), r['y0'], r['y1'])
 if __name__ == '__main__':
@@ -37,7 +68,7 @@ if __name__ == '__main__':
             if only and r['id'] not in only: continue
             pg = b.new_page(viewport={'width': 1200, 'height': 1500}); pg.on('pageerror', lambda e: print('ERR', e))
             pg.set_content(html_for(r)); pg.wait_for_function('window.OVER!==undefined && window.SHADE')
-            print(r['id'], r['title'], 'over', pg.evaluate('window.OVER'))
+            print(r['id'], r['title'], 'over', pg.evaluate('window.OVER'), 'axis', r.get('_axis'))
             if fmt == 'pdf':
                 pg.pdf(path=f"{out}/{r['id']}.pdf", width='1200px', height='1500px', print_background=True, page_ranges='1')
             else:
