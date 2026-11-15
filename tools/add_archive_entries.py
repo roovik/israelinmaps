@@ -25,13 +25,13 @@ NEW = {a['slug'] for a in A}
 
 # 1. extra_glossary.json
 X = J('tools/extra_glossary.json')
-X['entries'] = [x for x in X['entries'] if slugify(x['name']) not in NEW] + [{k: a[k] for k in ('name', 'he', 'cat', 'text')} for a in A]
+X['entries'] = [x for x in X['entries'] if slugify(x['name']) not in NEW] + [{k: a[k] for k in ('name', 'he', 'cat', 'text', 'aliases', 'wiki', 'noimg', 'src') if k in a} for a in A]
 save('tools/extra_glossary.json', json.dumps(X, ensure_ascii=False, indent=1))
 
 # link targets: every glossary term plus the new entries
 G = [g for g in J('glossary.json') if g[1] not in NEW]
 TERM = {t: sl for n, sl, al in G for t in [n] + al}
-TERM.update({a['name']: a['slug'] for a in A}); TERM.update({a['title']: a['slug'] for a in A})
+TERM.update({a['name']: a['slug'] for a in A}); TERM.update({a['title']: a['slug'] for a in A}); TERM.update({x: a['slug'] for a in A for x in a.get('aliases', [])})
 def linked(t): return re.sub(r'\[\[(.*?)\]\]', lambda m: f'<a href="/g/{TERM[m.group(1)]}/">{m.group(1)}</a>', html.escape(t, quote=False))
 def plain(t): return re.sub(r'\[\[(.*?)\]\]', r'\1', t)
 
@@ -48,7 +48,9 @@ for a in A:
     s = s.replace('Philistia | Israel NOWlej', f'{E(a["title"])} | Israel NOWlej')
     s = s.replace('<h1>Philistia <span class="he" lang="he" dir="rtl">פלשת</span></h1><p class="meta">Places</p>', f'<h1>{E(a["title"])} <span class="he" lang="he" dir="rtl">{E(a["he"])}</span></h1><p class="meta">{E(a["cat"])}</p>')
     s = s.replace('/g/philistia/', f'/g/{a["slug"]}/').replace('data-slug="philistia"', f'data-slug="{a["slug"]}"').replace('data-name="Philistia"', f'data-name="{E(a["title"])}"').replace('data-wiki="Philistia"', f'data-wiki="{E(a["title"])}"')
-    s = s.replace(src0, '<li>Written for this site, revised and checked from the topic pages of the earlier Israel NOWlej site (2025).</li>')
+    s = s.replace(src0, '<li>' + E(a.get('src', 'Written for this site, revised and checked from the topic pages of the earlier Israel NOWlej site (2025).')) + '</li>')
+    if a.get('wiki'): s = s.replace(f'data-wiki="{E(a["title"])}"', f'data-wiki="{E(a["wiki"])}"')
+    if a.get('noimg'): s = s.replace('<div id="e-wiki" ', '<div id="e-wiki" data-noimg ')
     assert 'Philistia' not in s.replace('philistines', ''), a['name']
     os.makedirs(os.path.join(ROOT, 'g', a['slug']), exist_ok=True)
     save(f'g/{a["slug"]}/index.html', s)
@@ -72,7 +74,7 @@ for a in sorted(A, key=lambda x: x['name'].lower()):
 save('glossary/index.html', GI)
 
 # 3b. glossary.json, search.json, sitemap.xml
-save('glossary.json', json.dumps(G + [[a['title'], a['slug'], sorted({a['title'], a['name']})] for a in A], ensure_ascii=False, separators=(',', ':')))
+save('glossary.json', json.dumps(G + [[a['title'], a['slug'], sorted({a['title'], a['name'], *a.get('aliases', [])})] for a in A], ensure_ascii=False, separators=(',', ':')))
 S = [x for x in J('search.json') if not any(x.get('u') == f'/g/{sl}/' for sl in NEW)]
 S += [{'t': f'{a["title"]} {a["he"]}', 'u': f'/g/{a["slug"]}/', 'k': 'GLOSSARY', 's': a['cat'], 'x': E(plain(a['text']))[:300]} for a in A]
 save('search.json', json.dumps(S, ensure_ascii=False, separators=(',', ':')))

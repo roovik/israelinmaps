@@ -11,14 +11,15 @@
   if(fxl&&fxl.length)showFiles(fxl);
   if(!title)return;
   var WK='https://en.wikipedia.org/api/rest_v1/page/';
-  var fixed=wk.getAttribute('data-fixed');
+  var fixed=wk.getAttribute('data-fixed'),noimg=wk.hasAttribute('data-noimg');
 
   (fixed?fetch(WK+'media-list/'+encodeURIComponent(title.replace(/ /g,'_'))):fetch(WK+'summary/'+encodeURIComponent(title.replace(/ /g,'_'))+'?redirect=true').then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){
     if(d.type==='disambiguation'||!d.extract||d.extract.length<60)throw 0;
     var u=(d.content_urls&&d.content_urls.desktop&&d.content_urls.desktop.page)||'https://en.wikipedia.org/wiki/'+encodeURIComponent(d.title);
-    var img=d.thumbnail&&d.thumbnail.source?'<img class="wimg" src="'+esc(d.thumbnail.source)+'" alt="" loading="lazy">':'';
+    var img=!noimg&&d.thumbnail&&d.thumbnail.source?'<img class="wimg" src="'+esc(d.thumbnail.source)+'" alt="" loading="lazy">':'';
     wk.innerHTML=img+d.extract.split(/\n+/).filter(Boolean).map(function(x){return'<p>'+esc(x)+'</p>'}).join('')+'<p class="small">This entry has been adapted from diverse sources, potentially including Wikipedia and other encyclopedias and information resources. Source attributions appear under Sources below.</p>';wk.hidden=false;var es=document.getElementById('e-summary');if(es)es.hidden=false;var ec=document.querySelector('.econt');if(ec)ec.hidden=false;
     addSrc('<a href="'+esc(u)+'" rel="noopener">Wikipedia: '+esc(d.title)+'</a> (CC BY-SA 4.0).');
+    if(noimg)return null;
     return fetch(WK+'media-list/'+encodeURIComponent(d.title.replace(/ /g,'_')))
   })).then(function(r){if(!r||!r.ok)throw 0;return r.json()}).then(function(m){
     if(fxl&&fxl.length)return;

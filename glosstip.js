@@ -14,7 +14,7 @@
     if(a.querySelector('img,svg,div,p,h1,h2,h3,h4,figure,ul'))return;var s=slugOf(a);if(!s||location.pathname==='/g/'+s+'/')return;a.classList.add('gtrig')})}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){mark()});else mark();
   if(window.MutationObserver){var mt=null;new MutationObserver(function(){clearTimeout(mt);mt=setTimeout(function(){mark()},150)}).observe(document.documentElement,{childList:true,subtree:true})}
-  function load(){if(GIST)return Promise.resolve();if(!loading)loading=Promise.all([fetch('/glossary-gist.json?v=2').then(function(r){return r.json()}),fetch('/glossary.json').then(function(r){return r.json()})]).then(function(a){GIST=a[0];NAMES={};a[1].forEach(function(e){NAMES[e[1]]=e[0]})}).catch(function(){GIST={};NAMES={}});return loading}
+  function load(){if(GIST)return Promise.resolve();if(!loading)loading=Promise.all([fetch('/glossary-gist.json?v=3').then(function(r){return r.json()}),fetch('/glossary.json?v=3').then(function(r){return r.json()})]).then(function(a){GIST=a[0];NAMES={};a[1].forEach(function(e){NAMES[e[1]]=e[0]})}).catch(function(){GIST={};NAMES={}});return loading}
   function paint(a){
     var s=slugOf(a),name=a.getAttribute('data-gn')||(NAMES&&NAMES[s])||a.textContent.trim(),d=a.getAttribute('data-gd')||(GIST&&GIST[s])||'';
     if(!tip){tip=document.createElement('div');tip.className='gtip';tip.setAttribute('role','tooltip');document.body.appendChild(tip);
