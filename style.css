@@ -1386,3 +1386,4 @@ main h1+p.lead,main h1+p.small,main h1+p.meta,main h1+p.lede,main h1+p.hotmeta,.
 .fcard .fplay{left:0;right:0;top:0;width:auto;height:auto;aspect-ratio:16/9;border-radius:0;background:none;font-size:1.6rem;color:#fff;text-shadow:0 0 8px #000,0 0 3px #000;pointer-events:none}
 .fcard .fcap,.feat.io .fcap{position:static;background:none;opacity:1!important;pointer-events:auto;padding:6px 2px 0;color:var(--fg)}
 .fcard .fcap b{color:var(--fg)}
+.fcard:after{content:"\25B6";position:absolute;left:0;right:0;top:0;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1rem;pointer-events:none;background:radial-gradient(circle,rgba(0,0,0,.6) 0 22px,transparent 23px)}
