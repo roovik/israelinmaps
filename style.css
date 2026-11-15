@@ -1373,3 +1373,6 @@ body:has(header.top nav.wrap a[data-n="4"].cur){background:color-mix(in srgb,var
 @media (prefers-color-scheme:dark){body:has(header.top nav.wrap a[data-n="4"].cur){background:color-mix(in srgb,var(--t5) 16%,var(--bg))}}
 body:has(header.top nav.wrap a[data-n="3"].cur){background:color-mix(in srgb,var(--t4) 16%,var(--bg))}
 @media (prefers-color-scheme:dark){body:has(header.top nav.wrap a[data-n="3"].cur){background:color-mix(in srgb,var(--t4) 20%,var(--bg))}}
+body:has(header.top nav.wrap a[data-n="3"].cur) p.az#gaz{background:var(--t4);padding:6px 8px;gap:2px 4px;justify-content:center}
+body:has(header.top nav.wrap a[data-n="3"].cur) p.az#gaz a{color:#fff;font-weight:700;padding:2px 7px;text-decoration:none}
+body:has(header.top nav.wrap a[data-n="3"].cur) p.az#gaz a:hover{background:#fff;color:var(--t4)}
