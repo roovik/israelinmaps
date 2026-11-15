@@ -1349,3 +1349,6 @@ html,body{overscroll-behavior-y:none}
 @media (max-width:560px){.ngrid6{grid-template-columns:repeat(2,minmax(0,1fr))}}
 body.compact .newsmain .ngrid6{display:block}
 #src-news .timg,#src-views .timg{width:108px;height:81px}#src-news .timg img,#src-views .timg img{object-fit:cover}
+
+/* mobile: the separator between the top menu and the submenu is white (desktop keeps the dark blue line) */
+@media (max-width:640px){header.top nav.wrap{border-bottom-color:#fff}}
