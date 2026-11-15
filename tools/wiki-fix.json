@@ -248,5 +248,66 @@
   "white-paper-of-1939": "White Paper of 1939",
   "divided-jerusalem": "Jordanian annexation of the West Bank",
   "israel-katz": "Israel Katz"
- }
+ },
+ "override": {
+  "zionism": [
+   "Zionism is the national movement of the Jewish people to return to their ancestral homeland, the Land of Israel, and renew Jewish sovereignty there. It draws on three thousand years of Jewish memory of Zion and on daily prayer facing Jerusalem, and it took modern political form in the late nineteenth century, as pogroms, the Dreyfus affair and rising antisemitism convinced many Jews that Europe offered no lasting safety.",
+   "Theodor Herzl organized the first Zionist Congress in 1897, and waves of immigration (aliyah) followed, building farms, towns, schools and a revived Hebrew language, first under Ottoman and then British rule. Jews had never left the land entirely, and Jerusalem, Hebron, Safed and Tiberias kept Jewish communities through the centuries. The movement reached its central goal with the founding of the State of Israel in 1948.",
+   "Critics, including many outside voices, describe Zionism as colonialism. NOWlej rejects that characterization. The Jews are an indigenous people returning to their homeland after expulsion by foreign conquerors, not settlers from a distant metropole."
+  ],
+  "settlements": [
+   "Israeli settlements are Jewish communities, towns and neighborhoods built since 1967 in Judea and Samaria, the Golan Heights and the Jerusalem area. Many stand on or near places of ancient Jewish life, and some, such as Hebron and the Etzion Bloc, were Jewish communities before they were destroyed or emptied of Jews in 1929 and 1948. Roughly half a million Israelis live in Judea and Samaria today.",
+   "Israel holds that the legal status of these territories is disputed, not that of sovereign foreign land. The 1949 lines were armistice lines, not borders, and Jordan's 1948–1967 rule there was recognized by almost no one. Israel also points to the League of Nations Mandate, which called for close Jewish settlement of the land.",
+   "Many governments, the United Nations and, in a 2024 advisory opinion, the International Court of Justice take the opposing view, that the settlements violate international law. Israel rejects that view. Israel removed all of its Gaza settlements in 2005 and has since dismantled others. Their future is a central issue in any negotiation."
+  ],
+  "golan-heights": [
+   "The Golan Heights is a basalt plateau in northern Israel, rising above the Sea of Galilee and the Hula Valley. It holds the ruins of ancient Jewish towns, including Gamla and the Talmudic-era synagogues of Katzrin, and until 1967 Syria used its heights to shell Israeli farms and fishermen below.",
+   "Israel took the Golan in the Six-Day War, defended it in the 1973 Yom Kippur War, and applied Israeli law there in 1981. The United States recognized Israeli sovereignty in 2019. Most other governments still regard the plateau as Syrian territory and do not accept the annexation, a position Israel rejects. Today the Golan is home to Jewish communities and Druze villages, and to vineyards, orchards and some of Israel's best-known wineries."
+  ],
+  "banias": [
+   "Banias is a nature reserve at the foot of Mount Hermon, in the northern Golan Heights, where a large spring feeds one of the main sources of the Jordan River. The ancient city of Paneas grew up here around a shrine to the Greek god Pan. Herod the Great built a temple to Augustus, and his son Philip made the city his capital, Caesarea Philippi, mentioned in the Gospels.",
+   "The site has been under Israeli control since the 1967 Six-Day War. Visitors can see the spring, the grotto, the remains of the Hellenistic and Roman city, a Crusader fortress, and waterfalls and trails along the stream."
+  ],
+  "ein-zivan": [
+   "Ein Zivan is a kibbutz in the northern Golan Heights, in the Golan Regional Council, a community of a few hundred residents. Like other Golan communities, it began after the 1967 Six-Day War as part of Israel's effort to secure the plateau that Syria had used to attack the Galilee below.",
+   "Israel applied its law to the Golan in 1981. Many other governments do not accept that and call the Golan communities unlawful, a view Israel rejects."
+  ],
+  "yom-kippur-war": [
+   "The Yom Kippur War began on October 6, 1973, when Egypt and Syria attacked Israel without warning on the holiest day of the Jewish year. Fighting centered on the Sinai Peninsula and the Golan Heights, and the early days brought heavy Israeli losses.",
+   "Israel mobilized its reservists, halted the Syrian advance, and then crossed the Suez Canal and pushed toward Damascus before a cease-fire in late October. The war shocked Israeli society, led to the resignation of Golda Meir, and opened the road to the 1978 Camp David Accords and the 1979 peace treaty with Egypt."
+  ],
+  "disengagement-from-gaza": [
+   "In August 2005 Israel withdrew every soldier and dismantled all 21 Jewish communities in the Gaza Strip, moving about 8,000 residents out of their homes, an act that tore at Israeli society. Israel also removed four small communities in northern Samaria.",
+   "The hope was that Gaza would build a peaceful future. Instead Hamas won elections in 2006, seized full control in 2007, and fired thousands of rockets at Israeli towns, which led Israel and Egypt to restrict movement at their borders with Gaza. Israel holds that its 2005 withdrawal ended any occupation. The United Nations and many other bodies argue that continuing Israeli controls kept Gaza under occupation, a view Israel rejects."
+  ],
+  "first-intifada": [
+   "The First Intifada was a Palestinian uprising that began in Gaza in December 1987 and spread to Judea and Samaria. It included strikes, boycotts and demonstrations, but also stone and firebomb attacks, stabbings, shootings and killings of Palestinians accused of collaboration.",
+   "Israel responded with military force and curfews. The uprising wound down after the 1991 Madrid Conference, and the secret talks that produced the 1993 Oslo Accords followed. Israel's gradual shift from fighting the uprising to negotiating with the PLO began in this period."
+  ],
+  "second-intifada": [
+   "The Second Intifada began in September 2000, after the failure of the Camp David talks and Ariel Sharon's visit to the Temple Mount, and it was soon marked by organized terror. Palestinian groups sent suicide bombers into Israeli buses, cafes, hotels and markets, including the Passover seder bombing at the Park Hotel in Netanya in 2002.",
+   "More than a thousand Israelis were killed. Israel responded with Operation Defensive Shield in 2002, the security barrier, and targeted operations. Violence fell sharply by 2005. The Palestinian side presents the uprising as a response to the Israeli presence in the territories. The intifada reshaped Israeli politics and led to the Gaza disengagement."
+  ],
+  "gaza": [
+   "Gaza City is the largest city in the Gaza Strip, on the Mediterranean coast about 77 kilometers southwest of Jerusalem. It is one of the oldest continuously inhabited cities in the world. It was a Philistine city of the Bible, where Samson fell, and it held a Jewish community for most of its history, including in late antiquity, before the community was driven out in 1929 and later.",
+   "Egypt held Gaza after 1948, and Israel took it in 1967. Israel left the Strip in 2005, and Hamas took power in 2007. After the October 7, 2023 attack launched from Gaza, Israel began a war to dismantle Hamas, in which much of the city was damaged and large parts of its population were displaced. Casualty figures from Gaza's Hamas-run health authorities cannot be independently verified, and the charge of genocide leveled against Israel is strongly rejected by Israel and by many others."
+  ],
+  "sataf": [
+   "Sataf is a site in the Judean Hills west of Jerusalem, known today for its springs and its ancient agricultural terraces, which are still farmed. Visitors come to walk the trails, see the tunnel to the spring, and visit the small organic farms.",
+   "An Arab village of the same name stood nearby until the 1948 war, when its residents left."
+  ],
+  "negev-bedouin": [
+   "The Negev Bedouin are Arab Muslim tribes who traditionally lived by herding in the Negev desert and Sinai. Today about a quarter-million of them live in the Negev, mostly as Israeli citizens, in a mix of permanent towns such as Rahat and recognized and unrecognized villages. A minority fled or left during the 1948 war, and some now live outside Israel.",
+   "Many Bedouin serve in the Israel Defense Forces, especially as trackers and in reconnaissance units. The state and the community have long argued over land ownership, the unrecognized villages, and the pace of urbanization."
+  ],
+  "six-day-war": [
+   "The Six-Day War, fought from June 5 to 10, 1967, began when Egypt expelled UN peacekeepers from Sinai, closed the Straits of Tiran to Israeli shipping, and massed troops on Israel's border, while Syria and Jordan joined the Arab coalition. Israel struck first, destroyed the Egyptian air force on the ground, and within six days took control of Sinai, Gaza, Judea and Samaria, East Jerusalem, and the Golan Heights.",
+   "The reunification of Jerusalem brought Jews back to the Western Wall for the first time in nearly twenty years, after Jordan had barred them since 1948. The war remade the region. The Khartoum summit answered with the 'three no's' (no peace, no recognition, no negotiations), and the status of the territories remains the central unresolved question of the conflict."
+  ],
+  "east-jerusalem": [
+   "East Jerusalem is the part of Jerusalem that lay east of the 1949 armistice line. It holds the Old City, the Temple Mount, the Western Wall, the Mount of Olives and the City of David, the heart of Jewish history for three thousand years. Jordan held it from 1948 to 1967, drove out its Jewish residents, destroyed the Jewish Quarter's synagogues, and barred Jews from the Western Wall.",
+   "Israel reunified Jerusalem in 1967 and applied Israeli law in 1980. Palestinians claim East Jerusalem as the capital of a future state, and most governments do not recognize Israeli sovereignty over it. Israel rejects that position, and holds Jerusalem to be its undivided capital."
+  ]
+ },
+ "override_src": "NOWlej summary, with background from Wikipedia and the Jewish Virtual Library"
 }
