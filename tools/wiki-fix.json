@@ -1,21 +1,252 @@
 {
- "note": "Wording rules applied to Wikipedia summaries shown under More NOWlej. Each rule: [regex, flags, replacement]. 'all' applies to every entry; a slug key applies to that entry only, after 'all'.",
+ "note": "Wording rules for Wikipedia summaries shown under More NOWlej. Policy: 'Palestine' may refer to history (Roman, Ottoman, Mandatory Palestine) or to Palestinian claims and activism, but not describe present-day territory as a country. Each rule: [regex, flags, replacement]. Slug rules run first, on Wikipedia's original wording, then 'all'. 'titles' points an entry at a better Wikipedia article.",
  "all": [
-  ["\\b(?:in|of) the southern West Bank,? Palestine\\b", "g", "in southern Judea"],
-  ["\\b(?:in|of) the northern West Bank,? Palestine\\b", "g", "in northern Samaria"],
-  ["\\b(?:in|of) the central West Bank,? Palestine\\b", "g", "in Judea and Samaria"],
-  ["\\b(?:the )?southern West Bank\\b", "g", "southern Judea"],
-  ["\\b(?:the )?northern West Bank\\b", "g", "northern Samaria"],
-  ["\\b(?:the )?central West Bank\\b", "g", "Judea and Samaria"],
-  ["\\b(?:the )?(?:Israeli-)?occupied West Bank\\b", "g", "Judea and Samaria"],
-  ["\\bWest Bank,? Palestine\\b", "g", "Judea and Samaria"],
-  ["\\bthe West Bank\\b", "g", "Judea and Samaria"],
-  ["\\bWest Bank\\b", "g", "Judea and Samaria"],
-  ["\\b(?:Israeli-)?occupied East Jerusalem\\b", "g", "East Jerusalem"],
-  ["\\bIsraeli-occupied (Golan Heights|Judea and Samaria|East Jerusalem|territories)\\b", "g", "$1"],
-  ["\\bJudea and Samaria and Judea and Samaria\\b", "g", "Judea and Samaria"]
+  [
+   "\\b(?:the )?(?:Israeli-)?occupied Palestinian territor(?:y|ies)\\b",
+   "g",
+   "Judea and Samaria and the Gaza Strip"
+  ],
+  [
+   "\\bthe Palestinian territories\\b",
+   "g",
+   "Judea and Samaria and the Gaza Strip"
+  ],
+  [
+   "\\bIsraeli-occupied Gaza Strip\\b",
+   "g",
+   "Gaza Strip"
+  ],
+  [
+   "\\b(?:in|of) the southern West Bank,? Palestine\\b",
+   "g",
+   "in southern Judea"
+  ],
+  [
+   "\\b(?:in|of) the northern West Bank,? Palestine\\b",
+   "g",
+   "in northern Samaria"
+  ],
+  [
+   "\\b(?:in|of) the central West Bank,? Palestine\\b",
+   "g",
+   "in Judea and Samaria"
+  ],
+  [
+   "\\b(?:the )?southern West Bank\\b",
+   "g",
+   "southern Judea"
+  ],
+  [
+   "\\b(?:the )?northern West Bank\\b",
+   "g",
+   "northern Samaria"
+  ],
+  [
+   "\\b(?:the )?central West Bank\\b",
+   "g",
+   "Judea and Samaria"
+  ],
+  [
+   "\\bPalestine's West Bank\\b",
+   "g",
+   "Judea and Samaria"
+  ],
+  [
+   "\\b(?:[Tt]he )?(?:Israeli-)?occupied West Bank\\b",
+   "g",
+   "Judea and Samaria"
+  ],
+  [
+   "\\b(?:[Tt]he )?West Bank(?: of the Jordan River| of Palestine|,? Palestine)?\\b",
+   "g",
+   "Judea and Samaria"
+  ],
+  [
+   "\\b(?:Israeli-)?occupied East Jerusalem\\b",
+   "g",
+   "East Jerusalem"
+  ],
+  [
+   "\\bIsraeli-occupied (Golan Heights|Judea and Samaria|East Jerusalem|territories)\\b",
+   "g",
+   "$1"
+  ],
+  [
+   "\\bJudea and Samaria and Judea and Samaria\\b",
+   "g",
+   "Judea and Samaria"
+  ]
  ],
  "hebron": [
-  ["\\s*It is the third largest city in the country after Gaza and East Jerusalem\\.", "g", ""]
- ]
+  [
+   "\\s*It is the third largest city in the country after Gaza and East Jerusalem\\.",
+   "g",
+   ""
+  ]
+ ],
+ "edom": [
+  [
+   "present-day Israel, Jordan, and Palestine",
+   "g",
+   "present-day Israel and Jordan"
+  ]
+ ],
+ "egypt": [
+  [
+   "Palestine and Israel to the northeast",
+   "g",
+   "Israel and the Gaza Strip to the northeast"
+  ]
+ ],
+ "jordan-river": [
+  [
+   "Jordan, Syria, Israel, and Palestine",
+   "g",
+   "Jordan, Syria, Israel, and Judea and Samaria"
+  ]
+ ],
+ "jordan": [
+  [
+   "both Israel and Palestine to the west",
+   "g",
+   "Israel and Judea and Samaria to the west"
+  ]
+ ],
+ "judean-hills": [
+  [
+   "in the West Bank of Palestine, and Israel where",
+   "g",
+   "in Judea and in Israel, where"
+  ]
+ ],
+ "mount-gerizim": [
+  [
+   "located in the north of Palestine's West Bank",
+   "g",
+   "in Samaria"
+  ],
+  [
+   "highest peaks in the West Bank",
+   "g",
+   "highest peaks in Samaria"
+  ]
+ ],
+ "negev-bedouin": [
+  [
+   "live in Palestine",
+   "g",
+   "live outside Israel"
+  ]
+ ],
+ "jerusalem": [
+  [
+   "Both Israel and Palestine claim Jerusalem as their capital city; Israel maintains its primary governmental institutions there, while Palestine ultimately foresees it as its seat of power\\.",
+   "g",
+   "Jerusalem is Israel's capital and the seat of its government; the Palestinian leadership also claims the city as the capital of a future Palestinian state."
+  ]
+ ],
+ "east-jerusalem": [
+  [
+   "It is considered to be the capital and part of the Palestinian territories according to international law by the United Nations and other intergovernmental organizations, and under illegal occupation by Israel\\. Many states recognize East Jerusalem as the capital of the State of Palestine, whereas other states see East Jerusalem as the future capital of Palestine while referring to it as \"an occupied territory\"\\.",
+   "g",
+   "Israel captured it from Jordan in 1967 and governs it as part of its capital. The United Nations and many states regard it as occupied territory, and Palestinian leaders and many states claim it as the capital of a future Palestinian state."
+  ]
+ ],
+ "west-bank": [
+  [
+   "The West Bank is the larger of the two Palestinian territories that make up Palestine\\.",
+   "g",
+   "Judea and Samaria is the larger of the two territories, with the Gaza Strip, that Palestinian leaders claim for a state."
+  ],
+  [
+   "Since 1967, the territory has been under Israeli occupation, which is illegal under international law\\.",
+   "g",
+   "Israel has held the territory since the 1967 Six-Day War. Most of the international community regards it as occupied, a view Israel disputes."
+  ]
+ ],
+ "operation-protective-edge": [
+  [
+   ", a Palestinian territory governed by Hamas since 2007 and which was occupied by Israel since 1967 until its disengagement in 2005",
+   "g",
+   ", governed by Hamas since 2007 and held by Israel from 1967 until its disengagement in 2005"
+  ]
+ ],
+ "palestinian-central-bureau-of-statistics": [
+  [
+   "official statistical institution of Palestine",
+   "g",
+   "official statistical institution of the Palestinian Authority"
+  ]
+ ],
+ "yasser-arafat": [
+  [
+   "President of Palestine from 1989 to 2004",
+   "g",
+   "president of the PLO-declared State of Palestine from 1989 to 2004"
+  ]
+ ],
+ "way-of-the-patriarchs": [
+  [
+   "the land of Israel and the region of Palestine",
+   "g",
+   "the Land of Israel"
+  ],
+  [
+   " \\(Israel-Palestine\\)",
+   "g",
+   ""
+  ]
+ ],
+ "titles": {
+  "aliyah-from-france": "French Jews in Israel",
+  "aliyah-from-north-africa": "Jewish exodus from the Muslim world",
+  "aliyah-from-the-soviet-union": "1970s Soviet Union aliyah",
+  "amos": "Amos (prophet)",
+  "apollonia-arsuf": "Apollonia–Arsuf",
+  "arad": "Arad, Israel",
+  "bezalel-school": "Bezalel Academy of Arts and Design",
+  "british-mandate": "Mandatory Palestine",
+  "bus-18-bombings": "Jaffa Road bus bombings",
+  "caesarea": "Caesarea Maritima",
+  "canaan-land": "Canaan",
+  "central-bureau-of-statistics": "Israel Central Bureau of Statistics",
+  "city-of-david": "City of David (archaeological site)",
+  "constantine": "Constantine the Great",
+  "david-roberts": "David Roberts (painter)",
+  "degania": "Degania Alef",
+  "edmond-de-rothschild": "Edmond James de Rothschild",
+  "first-destruction-of-temple": "Siege of Jerusalem (587 BC)",
+  "first-revolt": "First Jewish–Roman War",
+  "gaza": "Gaza City",
+  "green-line": "Green Line (Israel)",
+  "hazor": "Tel Hazor",
+  "kadesh": "Kadesh (Syria)",
+  "lebanon-war-1982": "1982 Lebanon War",
+  "masorti": "Conservative Judaism",
+  "megiddo": "Tel Megiddo",
+  "october-7-2023-attack": "October 7 attacks",
+  "ottomans": "Ottoman Empire",
+  "paul": "Paul the Apostle",
+  "pharaoh-merneptah": "Merneptah",
+  "romans": "Roman Empire",
+  "rosh-hanikra": "Rosh HaNikra grottoes",
+  "settlements": "Israeli settlement",
+  "shiloh": "Shiloh (biblical city)",
+  "siege-of-jerusalem-701-bce": "Assyrian siege of Jerusalem",
+  "sinai": "Sinai Peninsula",
+  "taba": "Taba, Egypt",
+  "zechariah": "Zechariah (Hebrew prophet)",
+  "gaza-border-kibbutzim": "Gaza Envelope",
+  "aliyah-from-latin-america": "Argentine Jews in Israel",
+  "ariel": "Ariel (Israeli settlement)",
+  "armistice-agreements-1949": "1949 Armistice Agreements",
+  "atlit": "Atlit detainee camp",
+  "battle-of-gaza": "First Battle of Gaza",
+  "pharaoh-shishak": "Shishak",
+  "quneitra-viewpoint": "Quneitra",
+  "return-from-babylon": "Return to Zion",
+  "white-paper-of-1939": "White Paper of 1939",
+  "divided-jerusalem": "Jordanian annexation of the West Bank",
+  "israel-katz": "Israel Katz"
+ }
 }

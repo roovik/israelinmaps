@@ -14,9 +14,9 @@
   var fixed=wk.getAttribute('data-fixed'),noimg=wk.hasAttribute('data-noimg');
 
   var slugEl=document.querySelector('[data-slug]'),slug=slugEl?slugEl.getAttribute('data-slug'):'';
-  var FIX=fetch('/wiki-fix.json?v=1').then(function(r){return r.ok?r.json():{}}).catch(function(){return{}});
-  function fixText(t,fx){[].concat(fx.all||[],fx[slug]||[]).forEach(function(r){try{t=t.replace(new RegExp(r[0],r[1]),r[2])}catch(e){}});return t}
-  (fixed?fetch(WK+'media-list/'+encodeURIComponent(title.replace(/ /g,'_'))):fetch(WK+'summary/'+encodeURIComponent(title.replace(/ /g,'_'))+'?redirect=true').then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){
+  var FIX=fetch('/wiki-fix.json?v=2').then(function(r){return r.ok?r.json():{}}).catch(function(){return{}});
+  function fixText(t,fx){[].concat(fx[slug]||[],fx.all||[]).forEach(function(r){try{t=t.replace(new RegExp(r[0],r[1]),r[2])}catch(e){}});return t}
+  FIX.then(function(fx){if(fx.titles&&fx.titles[slug])title=fx.titles[slug];return fixed?fetch(WK+'media-list/'+encodeURIComponent(title.replace(/ /g,'_'))):fetch(WK+'summary/'+encodeURIComponent(title.replace(/ /g,'_'))+'?redirect=true').then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){
     if(d.type==='disambiguation'||!d.extract||d.extract.length<60)throw 0;
     return FIX.then(function(fx){d.extract=fixText(d.extract,fx);return d})}).then(function(d){
     var u=(d.content_urls&&d.content_urls.desktop&&d.content_urls.desktop.page)||'https://en.wikipedia.org/wiki/'+encodeURIComponent(d.title);
@@ -25,7 +25,7 @@
     addSrc('<a href="'+esc(u)+'" rel="noopener">Wikipedia: '+esc(d.title)+'</a> (CC BY-SA 4.0; wording adapted).');
     if(noimg)return null;
     return fetch(WK+'media-list/'+encodeURIComponent(d.title.replace(/ /g,'_')))
-  })).then(function(r){if(!r||!r.ok)throw 0;return r.json()}).then(function(m){
+  })}).then(function(r){if(!r||!r.ok)throw 0;return r.json()}).then(function(m){
     if(fxl&&fxl.length)return;
     var files=(m.items||[]).filter(function(i){return i.type==='image'&&i.showInGallery&&/\.(jpe?g|png)$/i.test(i.title||'')}).slice(0,8).map(function(i){return i.title});
     showFiles(files)
