@@ -5,7 +5,7 @@ function when(iso){return iso?new Date(iso).toLocaleString('en-GB',{day:'numeric
 function rx(a){try{return new RegExp('\\b('+a+')\\b','i')}catch(e){return /$^/}}
 function list(id,url,re,n,empty){var ul=document.getElementById(id);if(!ul)return;
 fetch(url).then(function(x){if(!x.ok)throw 0;return x.json()}).then(function(d){
-var a=d.items.filter(function(i){return i.d&&re.test(i.t)}).sort(function(x,y){return new Date(y.d)-new Date(x.d)}).slice(0,n);
+var a=d.items.filter(function(i){return i.d&&re.test(i.t)}).sort(function(x,y){return new Date(y.d)-new Date(x.d)}).filter(function(i,k,arr){return arr.findIndex(function(j){return j.t===i.t})===k}).slice(0,n);
 if(!a.length){ul.innerHTML='<li><small>'+empty+'</small></li>';return}
 ul.innerHTML=a.map(function(i){return'<li><a href="'+esc(iu(i))+'">'+esc(i.t)+'</a><small>'+esc((i.by?i.by+' · ':'')+(i.src||'')+' · '+when(i.d))+'</small></li>'}).join('')}).catch(function(){ul.innerHTML='<li><small>Not available right now.</small></li>'})}
 list('i-now','/api/news?v=2',rx(r.getAttribute('data-rx')),8,'No headlines on this issue right now.');

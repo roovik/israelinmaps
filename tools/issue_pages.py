@@ -148,7 +148,7 @@ def build(slug, title, desc, body):
     p = p.replace('https://israelnowlej.com/charts/"', f'https://israelnowlej.com/{slug}/"')
     p = p.replace('property="og:title" content="Charts | Israel NOWlej"', f'property="og:title" content="{E(title)} | Israel NOWlej"')
     p = re.sub(r'(property="og:description" content=")[^"]*"', lambda m: m.group(1) + E(desc) + '"', p, count=1)
-    p = p.replace('</body>', '<script src="/issues.js?v=1" defer></script></body>')
+    p = p.replace('</body>', '<script src="/issues.js?v=2" defer></script></body>')
     os.makedirs(f'{R}/{slug}', exist_ok=True); open(f'{R}/{slug}/index.html', 'w').write(p)
 NAV = '<p class="small"><a href="/issues/">All issues</a> · <a href="/politics/">Politics</a> · <a href="/security/">Security</a> · <a href="/diplomacy/">Diplomacy</a> · <a href="/glossary/">NOWlej A-Z</a></p>'
 for I in ISSUES:
