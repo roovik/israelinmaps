@@ -1403,3 +1403,8 @@ main h1+p.lead,main h1+p.small,main h1+p.meta,main h1+p.lede,main h1+p.hotmeta,.
 .stage-list .sitem.on .stx b,.stage-list .sitem:hover .stx b{color:#ffe0c0!important}
 .stage-list .sitem .stx i{color:#c9b8a6}
 }
+/* dark mode: hover / now-playing rows have a light background, so their text goes dark */
+@media (prefers-color-scheme:dark){
+.stage-list .sitem.on .stx b,.stage-list .sitem:hover .stx b,.stage-list .sitem:focus-visible .stx b{color:#7a2e0a!important}
+.stage-list .sitem.on .stx i,.stage-list .sitem:hover .stx i{color:#4a3a2e}
+}
