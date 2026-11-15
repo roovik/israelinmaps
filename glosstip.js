@@ -24,15 +24,18 @@
     function linked(){[].forEach.call(document.querySelectorAll('main a[href^="/g/"]'),function(a){if(a.closest(SKIP))return;var s=slugOf(a);if(s)used[s]=1})}
     function wrap(root){
       if(!terms||!root||count>=MAX)return;
-      var tw=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode:function(n){return n.parentNode.closest('a,script,style,.he,h1,h2,h3')?NodeFilter.FILTER_REJECT:NodeFilter.FILTER_ACCEPT}}),nodes=[],n;
+      var tw=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode:function(n){return n.parentNode.closest('a,.glx,script,style,.he,h1,h2,h3')?NodeFilter.FILTER_REJECT:NodeFilter.FILTER_ACCEPT}}),nodes=[],n;
       while((n=tw.nextNode()))nodes.push(n);
       terms.forEach(function(t){
-        if(count>=MAX||used[t[1]])return;
+        var done=used[t[1]]||count>=MAX;
+        if(done&&!t.long)return;
         var re=new RegExp('(^|[^A-Za-z\u00C0-\u024F])('+t[0].replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')(?![A-Za-z\u00C0-\u024F])');
         for(var i=0;i<nodes.length;i++){var tn=nodes[i],v=tn.nodeValue,mm=re.exec(v);if(!mm)continue;
           var a0=mm.index+mm[1].length,b0=a0+mm[2].length;
           if(NAME.test(t[0])&&(/^\s+[A-Z]/.test(v.slice(b0))||/[A-Z][\w'’-]*\s+$/.test(v.slice(0,a0))))continue;
-          var mid=tn.splitText(a0),rest=mid.splitText(b0-a0),a=document.createElement('a');
+          var mid=tn.splitText(a0),rest=mid.splitText(b0-a0);
+          if(done){var sp=document.createElement('span');sp.className='glx';sp.textContent=mid.nodeValue;mid.parentNode.replaceChild(sp,mid);nodes.splice(i,1,tn,rest);continue}
+          var a=document.createElement('a');
           a.className='glink';a.href='/g/'+t[1]+'/';a.setAttribute('data-gn',t[2]);a.textContent=mid.nodeValue;mid.parentNode.replaceChild(a,mid);
           nodes.splice(i,1,tn,rest);used[t[1]]=1;count++;break}
       })
@@ -40,7 +43,7 @@
     function run(){linked();used[self]=1;
       [].forEach.call(document.querySelectorAll('#e-def, .edef, #e-wiki p:not(.small), .tl-text, .entry-text'),wrap)}
     fetch('/glossary.json?v=3').then(function(r){return r.json()}).then(function(g){
-      terms=[];g.forEach(function(e){e[2].forEach(function(t){if(t.length>3&&!SKIPT.test(t))terms.push([t,e[1],e[0]])})});
+      terms=[];g.forEach(function(e){e[2].forEach(function(t){if(t.length>3&&!SKIPT.test(t)){var x=[t,e[1],e[0]];x.long=/\s/.test(t);terms.push(x)}})});
       terms.sort(function(x,y){return y[0].length-x[0].length});
       run();
       var wk=document.getElementById('e-wiki');
