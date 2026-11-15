@@ -21,7 +21,7 @@
     var SKIPT=/^(israel|eli|paul|cana|ariel|zion|saul|jacob|census|david|sarah|joshua|amos|gideon|ezra|titus|romans|jordan)$/i,
         NAME=/^(abraham|isaac|moses|elijah|elisha|isaiah|hosea|haggai|josiah|jehu|ahab|omri|jesus|pompey|ramban)$/i,MAX=12;
     var terms=null,used={},count=0;
-    function linked(){[].forEach.call(document.querySelectorAll('main a[href^="/g/"]'),function(a){var s=slugOf(a);if(s)used[s]=1})}
+    function linked(){[].forEach.call(document.querySelectorAll('main a[href^="/g/"]'),function(a){if(a.closest(SKIP))return;var s=slugOf(a);if(s)used[s]=1})}
     function wrap(root){
       if(!terms||!root||count>=MAX)return;
       var tw=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode:function(n){return n.parentNode.closest('a,script,style,.he,h1,h2,h3')?NodeFilter.FILTER_REJECT:NodeFilter.FILTER_ACCEPT}}),nodes=[],n;
