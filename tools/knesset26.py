@@ -22,7 +22,7 @@ tot = sum(p[2] for p in P); assert tot == 120
 bs = {k: sum(p[2] for p in P if p[4]==k) for k in BL}
 assert bs == {"arab":19,"opp":48,"coal":53}, bs
 # hemicycle seats
-rows=8; r0,r1=95,215; W,H=520,270; cx,cy=260,250
+rows=6; r0,r1=135,230; W,H=520,270; cx,cy=260,252
 radii=[r0+(r1-r0)*i/(rows-1) for i in range(rows)]
 tl=sum(radii); counts=[round(120*r/tl) for r in radii]
 counts[-1]+=120-sum(counts)
@@ -35,9 +35,9 @@ owner=[p for p in P for _ in range(p[2])]
 circles=[]
 for (a,r),p in zip(seats,owner):
     x=cx+r*math.cos(a); y=cy-r*math.sin(a)
-    circles.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="7.3" fill="{p[3]}"><title>{html.escape(p[0])}</title></circle>')
+    circles.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="9" fill="{p[3]}"><title>{html.escape(p[0])}</title></circle>')
 svg=(f'<svg class="k26hemi" viewBox="0 0 {W} {H}" role="img" aria-label="Hemicycle of the 120 seats in the 26th Knesset by party: Joint List 11, Ra\'am 8, Democrats 8, Yashar 21, Together 12, Yisrael Beytenu 7, Likud 27, Shas 6, United Torah Judaism 7, Religious Zionism 6, Otzma Yehudit 7.">'
-     +''.join(circles)+f'<text x="{cx}" y="{cy-42}" text-anchor="middle" class="k26big">120</text><text x="{cx}" y="{cy-18}" text-anchor="middle" class="k26sm">seats · 61 for a majority</text></svg>')
+     +''.join(circles)+f'<text x="{cx}" y="{cy-30}" text-anchor="middle" class="k26big">120</text><text x="{cx}" y="{cy-6}" text-anchor="middle" class="k26sm">seats · 61 for a majority</text></svg>')
 # bloc bar
 def seg(k):
     return f'<span style="width:{bs[k]/120*100:.2f}%;background:{BL[k][1]}" title="{BL[k][0]}: {bs[k]}"><b>{bs[k]}</b></span>'
@@ -54,7 +54,7 @@ for k in ("coal","opp","arab"):
 CSS='''<style>
 .k26 .lead{max-width:62ch}
 .k26hemi{width:100%;max-width:640px;display:block;margin:.5rem auto}
-.k26big{font:700 56px/1 system-ui,sans-serif;fill:var(--fg)}.k26sm{font:14px system-ui,sans-serif;fill:var(--mut)}
+.k26big{font:700 48px/1 system-ui,sans-serif;fill:var(--fg)}.k26sm{font:14px system-ui,sans-serif;fill:var(--mut)}
 .k26bar{position:relative;display:flex;height:44px;border-radius:8px;overflow:visible;margin:1.6rem 0 .3rem}
 .k26bar span{display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.05rem}
 .k26bar span:first-child{border-radius:8px 0 0 8px}.k26bar span:nth-child(3){border-radius:0 8px 8px 0}
@@ -81,10 +81,10 @@ page=shell[:i]+BODY+'</div>'+shell[j:]
 page=shell[:i]+BODY+shell[j:]
 T="The 26th Knesset: parties and blocs"; D="Hemicycle and bloc chart of the 120 seats in the 26th Knesset, elected October 27, 2026: Netanyahu bloc 53, Zionist opposition 48, Arab-led parties 19."
 page=page.replace('<title>Charts | Israel NOWlej</title>',f'<title>{T} | Israel NOWlej</title>')
-page=re.sub(r'(<meta name="description" content=")[^"]*"',r'\1'+D+'"',page,1)
+page=re.sub(r'(<meta name="description" content=")[^"]*"',r'\1'+D+'"',page,count=1)
 page=page.replace('href="https://israelnowlej.com/charts/"','href="https://israelnowlej.com/charts/knesset-26/"').replace('content="https://israelnowlej.com/charts/"','content="https://israelnowlej.com/charts/knesset-26/"')
 page=page.replace('property="og:title" content="Charts | Israel NOWlej"',f'property="og:title" content="{T} | Israel NOWlej"')
-page=re.sub(r'(property="og:description" content=")[^"]*"',r'\1'+D+'"',page,1)
+page=re.sub(r'(property="og:description" content=")[^"]*"',r'\1'+D+'"',page,count=1)
 os.makedirs(f'{R}/charts/knesset-26',exist_ok=True)
 open(f'{R}/charts/knesset-26/index.html','w').write(page)
 # hub link
