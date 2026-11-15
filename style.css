@@ -1376,3 +1376,5 @@ body:has(header.top nav.wrap a[data-n="3"].cur){background:color-mix(in srgb,var
 body:has(header.top nav.wrap a[data-n="3"].cur) p.az#gaz{background:var(--t4);padding:6px 8px;gap:2px 4px;justify-content:center}
 body:has(header.top nav.wrap a[data-n="3"].cur) p.az#gaz a{color:#fff;font-weight:700;padding:2px 7px;text-decoration:none}
 body:has(header.top nav.wrap a[data-n="3"].cur) p.az#gaz a:hover{background:#fff;color:var(--t4)}
+main h1+p.lead,main h1+p.small,main h1+p.meta,main h1+p.lede,main h1+p.hotmeta,.newspage .lead,.newspage .titlerow+p,.hubslide>h1+p{text-align:center}
+.fgo{text-align:center}
