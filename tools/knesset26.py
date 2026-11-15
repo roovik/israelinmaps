@@ -111,7 +111,7 @@ js=("(function(){try{var h="+__import__('json').dumps(card)+",c="+__import__('js
  "var st=document.createElement('style');st.textContent=c;document.head.appendChild(st);"
  "function mk(){var d=document.createElement('div');d.innerHTML=h;return d.firstChild}"
  "var s=document.querySelectorAll('[data-knesset]');s.forEach(function(e){e.appendChild(mk())});"
- "if(!s.length&&location.pathname==='/'){var l=document.querySelector('.newsleft');var m=l&&l.querySelector('.newsmain');if(l&&m)l.insertBefore(mk(),m)}"
+ "if(!s.length&&location.pathname==='/'){var m=document.getElementById('news-more-title');if(m&&m.parentNode)m.parentNode.insertBefore(mk(),m)}"
  "}catch(e){}})();")
 open(f'{R}/knesset26.js','w').write(js)
 print('widget',len(js))

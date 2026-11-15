@@ -41,7 +41,7 @@ function card(i){var t=T[i[0]];
  return '<div class="kfc" data-rx="'+e(t[0])+'">'+img(i)+'<div class="kb"><b>'+e(i[0])+'</b><p class="kt">Now</p><p class="kn"><small>Loading&hellip;</small></p><p class="kt">Then</p><ul>'+t[1].map(function(l){return '<li><a href="'+e(l[1])+'">'+e(l[0])+'</a></li>'}).join('')+'</ul></div></div>'}
 var d=document.createElement('section');d.className='k26focus';d.setAttribute('aria-label','In focus');
 d.innerHTML='<h2>'+e(h)+'</h2><div class="kfg">'+I.map(card).join('')+'</div>';
-m.parentNode.insertBefore(d,m.nextSibling);
+var mt=location.pathname==='/'&&document.getElementById('news-more-title');if(mt)mt.parentNode.insertBefore(d,mt);else m.parentNode.insertBefore(d,m.nextSibling);
 if(NT){fetch('/api/news?v=2').then(function(r){return r.json()}).then(function(n){
  var items=n.items.filter(function(x){return x.d}).sort(function(a,b){return new Date(b.d)-new Date(a.d)});
  d.querySelectorAll('.kfc[data-rx]').forEach(function(el){var rx=new RegExp('\\b('+el.getAttribute('data-rx')+')\\b','i');
