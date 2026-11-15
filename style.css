@@ -1378,3 +1378,11 @@ body:has(header.top nav.wrap a[data-n="3"].cur) p.az#gaz a{color:#fff;font-weigh
 body:has(header.top nav.wrap a[data-n="3"].cur) p.az#gaz a:hover{background:#fff;color:var(--t4)}
 main h1+p.lead,main h1+p.small,main h1+p.meta,main h1+p.lede,main h1+p.hotmeta,.newspage .lead,.newspage .titlerow+p,.hubslide>h1+p{text-align:center}
 .fgo{text-align:center}
+/* video cards: play button always centered; featured strip titles sit under the picture */
+.vcard .vplay{right:auto;bottom:auto;left:50%;top:50%;transform:translate(-50%,-50%);width:44px;height:44px;font-size:1rem;padding-left:3px;background:rgba(0,0,0,.6)}
+.fcard{aspect-ratio:auto;display:flex;flex-direction:column;background:transparent!important;color:var(--fg);overflow:visible}
+.fcard img{width:100%;height:auto;aspect-ratio:16/9;border-radius:10px;background:#111}
+.fcard.noimg{aspect-ratio:auto}
+.fcard .fplay{left:0;right:0;top:0;width:auto;height:auto;aspect-ratio:16/9;border-radius:0;background:none;font-size:1.6rem;color:#fff;text-shadow:0 0 8px #000,0 0 3px #000;pointer-events:none}
+.fcard .fcap,.feat.io .fcap{position:static;background:none;opacity:1!important;pointer-events:auto;padding:6px 2px 0;color:var(--fg)}
+.fcard .fcap b{color:var(--fg)}
