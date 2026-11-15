@@ -4,13 +4,13 @@ Edit ISSUES to change what is in focus, re-run, and bump the ?v= in site.js load
 import os, json, html
 R = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ISSUES = [  # title, blurb, image, background link, background label, search query
- ("Coalition talks","No bloc reached 61 seats. Likud and Yashar are negotiating, and both camps are courting the Haredi parties.","/img/t/tbl-002.webp","/charts/knesset-26/","The 26th Knesset","coalition"),
- ("Iran","US intelligence reportedly believes Iran may still hold up to 2,500 missiles, and Israel's defense establishment is weighing a possible strike.","/img/t/map-029.webp","/g/iran/","Iran","Iran"),
- ("Gaza","Israel keeps striking Hamas commanders while the peace plan and the question of who controls the Strip stay open.","/img/t/map-025.webp","/maps/025/gaza-peace-plan-and-control/","Map: peace plan and control","Gaza"),
- ("Haredi draft","Military service for the ultra-Orthodox, and the Haredi parties' role in any coalition, are a central fight.","/img/t/dem-006.webp","/demographics/006/haredi-share-of-jewish-israelis/","Chart: Haredi share","haredi"),
- ("Regional diplomacy","Turkey's push in Lebanon and Syria, Gulf ties and flights to Dubai show a region still being reordered.","/img/t/tlf-tl-025.webp","/g/abraham-accords/","Abraham Accords","Turkey"),
+ ("Coalition talks","No bloc reached 61 seats. Likud and Yashar are negotiating, and both camps are courting the Haredi parties.","/img/t/tbl-002.webp","/charts/knesset-26/","The 26th Knesset","coalition","/issues/coalition-talks/"),
+ ("Iran","US intelligence reportedly believes Iran may still hold up to 2,500 missiles, and Israel's defense establishment is weighing a possible strike.","/img/t/map-029.webp","/g/iran/","Iran","Iran","/issues/iran/"),
+ ("Gaza","Israel keeps striking Hamas commanders while the peace plan and the question of who controls the Strip stay open.","/img/t/map-025.webp","/maps/025/gaza-peace-plan-and-control/","Map: peace plan and control","Gaza","/issues/gaza/"),
+ ("Haredi draft","Military service for the ultra-Orthodox, and the Haredi parties' role in any coalition, are a central fight.","/img/t/dem-006.webp","/demographics/006/haredi-share-of-jewish-israelis/","Chart: Haredi share","haredi","/issues/haredi-draft/"),
+ ("Regional diplomacy","Turkey's push in Lebanon and Syria, Gulf ties and flights to Dubai show a region still being reordered.","/img/t/tlf-tl-025.webp","/g/abraham-accords/","Abraham Accords","Turkey","/issues/regional-diplomacy/"),
 ]
-for _,_,img,link,_,_ in ISSUES:
+for _,_,img,link,_,_,_ in ISSUES:
     assert os.path.exists(R+img), img
     assert os.path.exists(R+link.rstrip('/')+'/index.html') or link=='/charts/knesset-26/' and os.path.exists(R+'/charts/knesset-26/index.html'), link
 THEN = {  # per issue: (news regex, [(label, link)...]) for the NOWlej channel, where news meets historical context
@@ -37,8 +37,8 @@ var st=document.createElement('style');st.textContent=c;document.head.appendChil
 var NT=location.pathname==='/glossary/';
 function img(i){return '<a href="'+e(i[3])+'"><img src="'+e(i[2])+'" alt="" loading="lazy"></a>'}
 function card(i){var t=T[i[0]];
- if(!NT||!t)return '<div class="kfc">'+img(i)+'<div class="kb"><b>'+e(i[0])+'</b><p>'+e(i[1])+'</p><span class="kl"><a href="'+e(i[3])+'">'+e(i[4])+' &#9656;</a><a href="/search/?q='+encodeURIComponent(i[5])+'">Latest &#9656;</a></span></div></div>';
- return '<div class="kfc" data-rx="'+e(t[0])+'">'+img(i)+'<div class="kb"><b>'+e(i[0])+'</b><p class="kt">Now</p><p class="kn"><small>Loading&hellip;</small></p><p class="kt">Then</p><ul>'+t[1].map(function(l){return '<li><a href="'+e(l[1])+'">'+e(l[0])+'</a></li>'}).join('')+'</ul></div></div>'}
+ if(!NT||!t)return '<div class="kfc">'+img(i)+'<div class="kb"><b>'+e(i[0])+'</b><p>'+e(i[1])+'</p><span class="kl"><a href="'+e(i[6])+'"><b>Full page</b> &#9656;</a><a href="'+e(i[3])+'">'+e(i[4])+' &#9656;</a><a href="/search/?q='+encodeURIComponent(i[5])+'">Latest &#9656;</a></span></div></div>';
+ return '<div class="kfc" data-rx="'+e(t[0])+'">'+img(i)+'<div class="kb"><b><a href="'+e(i[6])+'">'+e(i[0])+'</a></b><p class="kt">Now</p><p class="kn"><small>Loading&hellip;</small></p><p class="kt">Then</p><ul>'+t[1].map(function(l){return '<li><a href="'+e(l[1])+'">'+e(l[0])+'</a></li>'}).join('')+'</ul><span class="kl"><a href="'+e(i[6])+'"><b>Full page</b> &#9656;</a></span></div></div>'}
 var d=document.createElement('section');d.className='k26focus';d.setAttribute('aria-label','In focus');
 d.innerHTML='<h2>'+e(h)+'</h2><div class="kfg">'+I.map(card).join('')+'</div>';
 function put(n,o){var g=document.getElementById('news-more-title');if(!g||!g.parentNode)return;n.classList.add('k26x');n.setAttribute('data-o',o);var ref=g;while(ref.previousElementSibling&&ref.previousElementSibling.classList.contains('k26x')&&+ref.previousElementSibling.getAttribute('data-o')>o)ref=ref.previousElementSibling;g.parentNode.insertBefore(n,ref)}if(location.pathname==='/')put(d,1);else m.parentNode.insertBefore(d,m.nextSibling);
