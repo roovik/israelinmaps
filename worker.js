@@ -133,7 +133,8 @@ function clean(x, title, minWords = 8) {
   if (!/[a-z]{3}/.test(x) || (x.match(/[A-Z]/g) || []).length > x.length * 0.4) return '';
   return x;
 }
-function blurb(x, title) { const c = clean(x, title); return c ? snippet(c) : ''; }
+// Blurbs keep everything the publisher's feed provides (Nov 15, 2026: no length cap on summaries).
+function blurb(x, title) { return clean(x, title); }
 // up to 100 words, ending on a sentence when one falls in the last 40 words
 function words100(x) {
   const w = x.split(' ');
@@ -185,7 +186,7 @@ function parse(xml, feed) {
     const am = b.match(/<enclosure\b[^>]*>/i); let au = ''; if (am && (/type="audio/i.test(am[0]) || /\.(mp3|m4a|aac)(\?|")/i.test(am[0]))) { const x = am[0].match(/url="([^"]+)"/i); if (x) au = decode(x[1]); }
     const du = au ? text(tag(b, 'itunes:duration')) : '';
     const by = byline(b, link);
-    items.push({ ...(by ? { by } : {}), ...(au ? { a: au, du } : {}), s: feed.id, src: feed.name, t: title, u: link, k: hashId(link), d: t && !isNaN(t) && t.getFullYear() >= 2005 ? t.toISOString() : null, x: blurb(short, title), i: image(b), f: best ? words100(best) : '', ...(feed.full && best ? { F: best } : {}) });
+    items.push({ ...(by ? { by } : {}), ...(au ? { a: au, du } : {}), s: feed.id, src: feed.name, t: title, u: link, k: hashId(link), d: t && !isNaN(t) && t.getFullYear() >= 2005 ? t.toISOString() : null, x: blurb(short, title), i: image(b), f: best || '', ...(feed.full && best ? { F: best } : {}) });
   }
   return items;
 }
@@ -239,10 +240,12 @@ async function itemPage(request, env, k, sp, cp) {
     if (!cp || ch) {
       const r = await load({ id: src.id, name: src.name, site: src.site, url: ch ? ch.url : src.url, full: true });
       item = r.items.find(i => i.k === k) || null;
+      if (item && item.F && env.ENTRIES) { try { if (!(await env.ENTRIES.get('ft:' + k))) await env.ENTRIES.put('ft:' + k, item.F, { expirationTtl: 400 * 86400 }); } catch { } }
       if (!item) { for (const kk of ['news', 'views']) { const a = await archRead(env, kk); item = a.items.find(i => i.k === k && i.s === src.id) || null; if (item) break; } }
       if (new URL(request.url).searchParams.get('debug')) return new Response(JSON.stringify({ asked: k, source: src.id, channel: cp || null, feedUrl: ch ? ch.url : src.url, ok: r.ok, error: r.error, count: r.items.length, keys: r.items.slice(0, 5).map(i => [i.k, i.t.slice(0, 50)]) }, null, 1), { headers: { 'Content-Type': 'application/json' } });
     }
   }
+  if (item && !item.F && env.ENTRIES) { try { const ft = await env.ENTRIES.get('ft:' + k); if (ft) item = { ...item, F: ft }; } catch { } }
   let title, desc, body;
   if (!item) {
     status = 404; title = 'This story is no longer available'; desc = 'This story is no longer on Israel NOWlej.';
