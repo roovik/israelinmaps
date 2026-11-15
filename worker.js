@@ -64,11 +64,25 @@ const VDEF = {
   ji: [['Blog', 'https://jewishinsider.com/feed/']],
   israellycool: [['Blog', 'https://www.israellycool.com/feed/']],
   insider: [['Op-Ed', 'https://israelinsider.rkoret.workers.dev/api/rss']],
+  jewishpress: [['Editorial', 'https://www.jewishpress.com/indepth/editorial/feed/']],
 };
-// The Jerusalem Post marks editorials with "- editorial" at the end of the headline, also in its main news feed.
-// Those stories belong under Views, Editorial, not under News.
+// House editorials, the paper speaking as an institution, belong under Views, Editorial, never under News.
+// How each source marks them (checked Nov 2026):
+//   The Jerusalem Post: "- editorial" at the end of the headline, also in its main news feed; own editorial RSS.
+//   Haaretz: byline "Haaretz Editorial", URL /opinion/editorial/; own editorial RSS.
+//   The Jewish Press: byline "Editorial Board", URL /indepth/editorial/ (weekly print editorials), mixed into its main feed.
+//   No house editorials: Times of Israel ("Editor's note" pieces are signed analysis), Ynet, JNS, JTA ("Editor's Column" is a
+//   signed column), INN, Jewish Insider ("JI Staff" is news), Globes, Jewish Journal, Israellycool. Signed pieces stay Op-Ed.
+// Any source: an institutional byline ("Editorial Board", "The Editors", "Editorial") or an /editorial/ URL section counts too.
 const JP_ED = /\s[-\u2013\u2014]\s*editorial\s*$/i;
-function isJpEditorial(i) { return !!i && ((i.s === 'jpost' && JP_ED.test(i.t || '')) || (i.s === 'haaretz' && /^haaretz editorial$/i.test(i.by || ''))); }
+const ED_BY = /^(the\s+)?(editorial(\s+board)?|editors|editorial\s+staff)$|^[\w.' ]{2,40}\s+editorial(\s+board)?$|^editorial\s+board\s+of\s+/i;
+const ED_URL = /\/(opinions?\/)?editorials?(-articles)?\//i;
+function isJpEditorial(i) {
+  if (!i) return false;
+  if (i.s === 'jpost' && JP_ED.test(i.t || '')) return true;
+  if (ED_BY.test((i.by || '').trim())) return true;
+  try { return ED_URL.test(new URL(i.u || '').pathname); } catch { return false; }
+}
 // Tag editorials as Editorial (JPost also lists them in its opinion feed, as Op-Ed) and keep one copy of each story.
 function tagEditorials(items) {
   const seen = new Set();
