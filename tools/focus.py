@@ -25,8 +25,8 @@ for k,(_,L) in THEN.items():
 HEAD={"/":"In focus: the issues behind the news","/views/":"In focus: the debates","/media/":"In focus: watch and listen","/glossary/":"Now meets then: today's issues and their history","/sources/":"In focus: the issues the sources are covering","/politics/":"In focus"}
 CSS='''.k26focus{margin:0 0 1.2rem}.k26focus h2{font-size:1.15rem;margin:.2rem 0 .6rem}
 .kfg{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:.7rem}
-.kfc{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden;display:flex;flex-direction:column}
-.kfc img{width:100%;aspect-ratio:4/3;object-fit:cover;object-position:top;background:var(--hl);display:block}
+.kfc a{color:var(--kc,#1f62c4)}.k26focus h2{border-left:5px solid var(--kc,#1f62c4);padding-left:.5rem}.kfc{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden;display:flex;flex-direction:column}
+.kfc img{width:100%;aspect-ratio:4/3;object-fit:cover;object-position:top;background:color-mix(in srgb,var(--kc,#1f62c4) 14%,#fff);display:block}
 .kfc .kb{padding:.55rem .7rem .7rem;display:flex;flex-direction:column;gap:.3rem;flex:1}.kfc b{font-size:1rem}
 .kfc p{margin:0;font-size:.84rem;color:var(--mut);line-height:1.35;flex:1}.kfc .kn{font-size:.84rem;margin:0}.kfc .kn small{display:block;color:var(--mut)}.kfc ul{margin:0;padding-left:1.1rem;font-size:.82rem}.kfc .kt{font-size:.74rem;text-transform:uppercase;letter-spacing:.06em;color:var(--mut);margin:.2rem 0 0}.kfc .kl{font-size:.82rem;display:flex;gap:.8rem;flex-wrap:wrap}'''
 JS = r"""(function(){try{
@@ -39,7 +39,7 @@ function img(i){return '<a href="'+e(i[3])+'"><img src="'+e(i[2])+'" alt="" load
 function card(i){var t=T[i[0]];
  if(!NT||!t)return '<div class="kfc">'+img(i)+'<div class="kb"><b>'+e(i[0])+'</b><p>'+e(i[1])+'</p><span class="kl"><a href="'+e(i[6])+'"><b>Full page</b> &#9656;</a><a href="'+e(i[3])+'">'+e(i[4])+' &#9656;</a><a href="/search/?q='+encodeURIComponent(i[5])+'">Latest &#9656;</a></span></div></div>';
  return '<div class="kfc" data-rx="'+e(t[0])+'">'+img(i)+'<div class="kb"><b><a href="'+e(i[6])+'">'+e(i[0])+'</a></b><p class="kt">Now</p><p class="kn"><small>Loading&hellip;</small></p><p class="kt">Then</p><ul>'+t[1].map(function(l){return '<li><a href="'+e(l[1])+'">'+e(l[0])+'</a></li>'}).join('')+'</ul><span class="kl"><a href="'+e(i[6])+'"><b>Full page</b> &#9656;</a></span></div></div>'}
-var d=document.createElement('section');d.className='k26focus';d.setAttribute('aria-label','In focus');
+var d=document.createElement('section');d.className='k26focus';var KC={'/':'#1f62c4','/views/':'#0e7490','/media/':'#c8541f','/glossary/':'#6a3d9a','/sources/':'#2e8b57','/politics/':'#1f62c4'};if(KC[location.pathname])d.style.setProperty('--kc',KC[location.pathname]);d.setAttribute('aria-label','In focus');
 d.innerHTML='<h2>'+e(h)+'</h2><div class="kfg">'+I.map(card).join('')+'</div>';
 function put(n,o){var g=document.getElementById('news-more-title');if(!g||!g.parentNode)return;n.classList.add('k26x');n.setAttribute('data-o',o);var ref=g;while(ref.previousElementSibling&&ref.previousElementSibling.classList.contains('k26x')&&+ref.previousElementSibling.getAttribute('data-o')>o)ref=ref.previousElementSibling;g.parentNode.insertBefore(n,ref)}if(location.pathname==='/')put(d,1);else m.parentNode.insertBefore(d,m.nextSibling);
 if(NT){fetch('/api/news?v=2').then(function(r){return r.json()}).then(function(n){
