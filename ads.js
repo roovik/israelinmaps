@@ -19,7 +19,7 @@
   var LABEL='Sample ad';
   var C=[
     //BOOKS-ADS
-    {type:"house",title:"Israel NOWlej",text:"33 maps, 19 timelines, 400+ glossary entries. The visual atlas of the Jewish land.",cta:"Get it on Amazon",href:"https://www.amazon.com/s?k=Israel+NOWlej+Richard+Koret+Kindle",img:"/img/ad/israel-nowlej-cover.webp"},
+    {type:"house",title:"Israel NOWlej",text:"33 maps, 19 timelines, 400+ glossary entries. The visual atlas of the Jewish land.",cta:"Get it on Amazon",href:"https://www.amazon.com/ISRAEL-NOWLEJ-Graphs-Timelines-Knowledge-ebook/dp/B0HPCSV4WC/",img:"/img/ad/israel-nowlej-cover.webp"},
     {type:"house",title:"Israel in Maps",text:"Twenty-nine historical maps, each facing a page that explains it.",cta:"Get it on Amazon",href:"https://www.amazon.com/dp/B0HRS75LW2/",img:"/img/books/israel-in-maps.webp"},
     {type:"house",title:"Israel in Time",text:"Nineteen timelines from the patriarchs to today.",cta:"Coming soon",href:"/books/",img:"/img/books/israel-in-time.webp"},
     {type:"house",title:"Welcome to Zion",text:"A tour of ten regions and eighty-one sites.",cta:"Get it on Amazon",href:"https://www.amazon.com/dp/B0HRSPPVQD/",img:"/img/books/welcome-to-zion.webp"},
