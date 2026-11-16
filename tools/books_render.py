@@ -117,7 +117,7 @@ def org_block():
         '<ul><li><b>Visual.</b> Maps, timelines, charts, rankings and tours that show four thousand years of history and the modern state at a glance.</li>'
         '<li><b>Connected.</b> Every page of the books carries a QR code that opens the matching page on the site, so a class can go from the printed page to the screen.</li>'
         '<li><b>Ready for a room.</b> The interactive PDF editions and the site work on a projector, a smartboard or a phone.</li>'
-        '<li><b>Easy to look things up.</b> A glossary and index of more than 400 entries in print, and more online.</li></ul>'
+        '<li><b>Easy to look things up.</b> A glossary and index of more than 500 entries, in print and online.</li></ul>'
         + desk(False))
 def org_page():
     s = open('books/index.html', encoding='utf-8').read()

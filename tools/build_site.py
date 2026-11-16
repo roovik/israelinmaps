@@ -697,7 +697,7 @@ def tl_hub():
     o = tile('/img/p109.webp', th(109, 'tl-glance'), 'Four Thousand Years at a Glance')
     for k in items('TL'): o += tile(k['url'], th(k['pages'][0], 'tlf-' + k['id'].lower()), k['title'])
     b = '<p class="crumb"><a href="/">Home</a> / Timelines</p><h1>Timelines</h1><p class="small">Four thousand years at a glance, then one page for each period. Select a page to open it.</p><div class="tlmosaic">' + o + '</div>'
-    write('/timelines/', layout('Timelines', chan('timelines', b, '/timelines/'), 'Nineteen timelines from the patriarchs to the present.', '/timelines/', '/img/p109.webp'))
+    write('/timelines/', layout('Timelines', chan('timelines', b, '/timelines/'), 'Twenty-six timelines from the patriarchs to the present.', '/timelines/', '/img/p109.webp'))
 tl_hub()
 hub('/tables/', 'Tables', 'Reference tables: Israel compared in numbers, Knesset elections, prime ministers, wars and operations, and summits and territorial changes.', [('', items('TBL'))])
 hub('/demographics/', 'Demographics', 'Population, religion, language, fertility and other graphics.', [('', items('DEM'))])
