@@ -36,7 +36,7 @@ def stamp(src, dst, org, users, lic, day):
 
 def stamp_general(src, dst, kind):
     """One-time editions that need no buyer name: kind 'licensed' or 'review'.
-    A review sample is watermarked heavily on purpose, so it can be judged but not comfortably used in a class."""
+    A review sample carries a soft gray watermark across every page, so it can be judged but not used in a class."""
     d = pymupdf.open(src)
     line = {'licensed': 'Licensed edition. Not for redistribution. israelnowlej.com/groups',
             'review': 'Sample for review. Strictly not for distribution, classroom use or sale. israelnowlej.com/groups'}[kind]
@@ -47,13 +47,12 @@ def stamp_general(src, dst, kind):
             t = 'SAMPLE FOR REVIEW'; w = pymupdf.get_text_length(t, 'hebo', 7.5); x = (r.width - w) / 2
             p.draw_rect(pymupdf.Rect(x - 7, 9, x + w + 7, 23), color=None, fill=(0.72, 0.12, 0.12), overlay=True)
             p.insert_text((x, 19), t, fontname='hebo', fontsize=7.5, color=(1, 1, 1), overlay=True)
-            # three diagonal bands across the page
-            big, small = 'SAMPLE FOR REVIEW', 'STRICTLY NOT FOR DISTRIBUTION'
-            for fy in (0.24, 0.52, 0.80):
-                c = pymupdf.Point(r.width / 2, r.height * fy); m = pymupdf.Matrix(-32)
-                wb = pymupdf.get_text_length(big, 'hebo', 46); ws = pymupdf.get_text_length(small, 'hebo', 17)
-                p.insert_text((c.x - wb / 2, c.y), big, fontname='hebo', fontsize=46, color=(0.72, 0.12, 0.12), fill_opacity=0.20, morph=(c, m), overlay=True)
-                p.insert_text((c.x - ws / 2, c.y + 24), small, fontname='hebo', fontsize=17, color=(0.72, 0.12, 0.12), fill_opacity=0.26, morph=(c, m), overlay=True)
+            # one soft gray diagonal band: plain to see, but the page still reads cleanly through it
+            big, small = 'SAMPLE FOR REVIEW', 'NOT FOR DISTRIBUTION'
+            c = pymupdf.Point(r.width / 2, r.height * 0.52); m = pymupdf.Matrix(-32); col = (0.35, 0.38, 0.45)
+            wb = pymupdf.get_text_length(big, 'hebo', 50); ws = pymupdf.get_text_length(small, 'hebo', 18)
+            p.insert_text((c.x - wb / 2, c.y), big, fontname='hebo', fontsize=50, color=col, fill_opacity=0.13, morph=(c, m), overlay=True)
+            p.insert_text((c.x - ws / 2, c.y + 26), small, fontname='hebo', fontsize=18, color=col, fill_opacity=0.18, morph=(c, m), overlay=True)
     m = d.metadata or {}; m['subject'] = line; d.set_metadata(m)
     d.save(dst, deflate=True, garbage=0); d.close()
 
