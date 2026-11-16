@@ -1,5 +1,5 @@
 {
- "_note": "Single source for the book cards on the Book tab (/about/), the Books page (/books/) and the ad slots (ads.js). Edit here, then run: python3 tools/books_render.py. For each book set status to available once it is on sale, and paste the exact Amazon addresses into kindle and paperback. The amazon.com search addresses below are interim stand-ins until the exact product addresses are added. blurb is the equal-length description used on /organizations/ (keep each at about 40 words); inside and samples feed its Look inside strip.",
+ "_note": "Single source for the book cards on the Book tab (/about/), the Books page (/books/) and the ad slots (ads.js). Edit here, then run: python3 tools/books_render.py. For each book set status to available once it is on sale, and paste the exact Amazon addresses into kindle and paperback. The amazon.com search addresses below are interim stand-ins until the exact product addresses are added. blurb is the equal-length description used on /groups/ (keep each at about 40 words); inside and samples feed its Look inside strip.",
  "books": [
   {
    "id": "israel-nowlej",

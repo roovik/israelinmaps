@@ -1599,3 +1599,5 @@
 /calendars /calendar/ 301
 /books /books/ 301
 /collection /books/ 301
+/organizations /groups/ 301
+/organizations/ /groups/ 301
