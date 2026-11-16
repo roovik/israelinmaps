@@ -2,6 +2,7 @@
 // Static pages are served by the assets binding. /api/* and the member pages and sections listed in wrangler.jsonc run this code first.
 import VCFG from './video.json';
 import VOICES from './voices.json';
+import BOOKS from './books.json';
 import { membersRoute, MembersDB } from './members_server.js';
 export { MembersDB };
 import { traffic } from './cfstats.js';
@@ -848,7 +849,24 @@ async function submissionsApi(request, env) {
 
 // ---------------------------------------------------------------- people: subscribers and contacts (KV: sb:<email>, ct:<time>-<id>)
 const pClip = (s, n) => String(s == null ? '' : s).replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f]/g, '').trim().slice(0, n);
-const P_TOPICS = ['general', 'press', 'permissions', 'error', 'other'];
+const P_TOPICS = ['general', 'press', 'permissions', 'error', 'other', 'books'];
+// Books desk: an inquiry from the Books page about copies, the PDF edition, a site license, licensing content, a review copy or a talk.
+// It rides the contact route: stored with the contacts, alerted to the editor inbox as "[Books inquiry] ...", and the sender's receipt
+// carries the Amazon links for the titles they named, so a plain "where do I buy it" is answered at once.
+const B_WANTS = { copies: 'Copies for a group', pdf: 'Interactive PDF edition', site: 'Site license', license: 'Licensing content', review: 'Review or press copy', speaking: 'Talk or event', other: 'Other' };
+const B_LIST = (BOOKS && BOOKS.books) || [];
+function booksInquiry(b) {
+  const want = B_WANTS[b.want] ? b.want : 'other';
+  const all = Array.isArray(b.titles) && b.titles.includes('all');
+  const titles = all ? ['all'] : B_LIST.filter(x => Array.isArray(b.titles) && b.titles.includes(x.id)).map(x => x.id);
+  const qty = Math.max(0, Math.min(100000, parseInt(b.qty, 10) || 0));
+  return { want, titles, qty, org: pClip(b.org, 120).replace(/[\r\n<>]/g, ' '), page: pClip(b.page, 200).replace(/[\r\n<>]/g, ' ') };
+}
+const bTitleNames = ids => !ids.length ? 'not said' : ids[0] === 'all' ? 'All four books' : ids.map(id => (B_LIST.find(x => x.id === id) || {}).title || id).join(', ');
+function bBuyLines(ids) {
+  const list = !ids.length || ids[0] === 'all' ? B_LIST : B_LIST.filter(x => ids.includes(x.id));
+  return list.map(x => x.status === 'available' && (x.kindle || x.paperback) ? x.title + '\n' + [x.paperback && '  Paperback: ' + x.paperback, x.kindle && '  Kindle: ' + x.kindle].filter(Boolean).join('\n') : x.title + '\n  Coming soon. See https://israelnowlej.com/books/').join('\n');
+}
 async function peopleSignup(request, env, ctx, kind) {
   const hdr = { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' };
   if (request.method !== 'POST') return new Response('{"error":"method"}', { status: 405, headers: hdr });
@@ -878,17 +896,21 @@ async function peopleSignup(request, env, ctx, kind) {
     await env.ENTRIES.put(key, JSON.stringify(rec));
     return !old;
   };
-  let isNew = false;
+  let isNew = false, topic = 'general', inq = null;
   if (kind === 'subscribe' || b.alsoSubscribe) isNew = await subscribe();
   if (kind === 'contact') {
-    const topic = P_TOPICS.includes(b.topic) ? b.topic : 'general';
-    await env.ENTRIES.put('ct:' + base.at + '-' + Math.random().toString(36).slice(2, 7), JSON.stringify({ ...base, topic, message, status: 'new', subscribed: !!b.alsoSubscribe }));
+    topic = P_TOPICS.includes(b.topic) ? b.topic : 'general';
+    if (topic === 'books') inq = booksInquiry(b);
+    await env.ENTRIES.put('ct:' + base.at + '-' + Math.random().toString(36).slice(2, 7), JSON.stringify({ ...base, topic, message, status: 'new', subscribed: !!b.alsoSubscribe, ...(inq ? { inquiry: inq } : {}) }));
   }
   const notify = env.NOTIFY_TO || editorEmail(env);
   const job = (async () => {
-    if (kind === 'contact') await sendMail(env, notify, 'New contact message on Israel NOWlej', ['From: ' + [base.first, base.last].filter(Boolean).join(' ') + ' <' + email + '>', 'Country: ' + (base.cc || 'unknown') + (base.ccSrc ? ' (' + base.ccSrc + ')' : ''), 'Topic: ' + (b.topic || 'general'), '', message].join('\n'), email);
+    const who = [base.first, base.last].filter(Boolean).join(' ');
+    if (kind === 'contact' && inq) await sendMail(env, notify, '[Books inquiry] ' + B_WANTS[inq.want] + ': ' + (inq.org || who || email), ['From: ' + who + ' <' + email + '>', 'Organization: ' + (inq.org || 'not said'), 'Country: ' + (base.cc || 'unknown') + (base.ccSrc ? ' (' + base.ccSrc + ')' : ''), 'Wants: ' + B_WANTS[inq.want], 'Titles: ' + bTitleNames(inq.titles), 'Quantity: ' + (inq.qty || 'not said'), inq.page ? 'Asked from: ' + inq.page : null, '', 'Their note:', message, '', 'Reply to this email to answer them. They have already received a receipt with the Amazon links.'].filter(x => x != null).join('\n'), email);
+    else if (kind === 'contact') await sendMail(env, notify, 'New contact message on Israel NOWlej', ['From: ' + [base.first, base.last].filter(Boolean).join(' ') + ' <' + email + '>', 'Country: ' + (base.cc || 'unknown') + (base.ccSrc ? ' (' + base.ccSrc + ')' : ''), 'Topic: ' + (b.topic || 'general'), '', message].join('\n'), email);
     if (kind === 'subscribe' && isNew) { const uu = await unsubUrl(env, email); await sendMail(env, email, 'Welcome to Israel NOWlej', 'Hello' + (base.first ? ' ' + base.first : '') + ',\n\nThank you for subscribing to Israel NOWlej. You will receive our daily digest of the news and views on the Holy Land.\n\nRead the latest at https://israelnowlej.com/\n\n' + (uu ? 'To stop at any time, use this link: ' + uu : 'To stop at any time, reply to this email and say so.') + '\n\nIsrael NOWlej', undefined, await unsubHeaders(env, email)); }
-    if (kind === 'contact') await sendMail(env, email, 'We received your message to Israel NOWlej', 'Hello' + (base.first ? ' ' + base.first : '') + ',\n\nThank you for writing. A person will read your message and reply if needed. You can reply to this email to add something.\n\nIsrael NOWlej');
+    if (kind === 'contact' && inq) await sendMail(env, email, 'Your inquiry about the Israel NOWlej books', 'Hello' + (base.first ? ' ' + base.first : '') + ',\n\nThank you for your interest in the Israel NOWlej collection. Richard J. Koret, the author, will read your note and answer you himself.\n\nYou asked about: ' + (inq.want === 'other' ? '' : B_WANTS[inq.want].toLowerCase() + ', ') + 'titles: ' + bTitleNames(inq.titles) + '.\n\nIf you would like a copy right away, the books are on Amazon:\n\n' + bBuyLines(inq.titles) + '\n\nYou can reply to this email to add something.\n\nIsrael NOWlej\nhttps://israelnowlej.com/books/');
+    else if (kind === 'contact') await sendMail(env, email, 'We received your message to Israel NOWlej', 'Hello' + (base.first ? ' ' + base.first : '') + ',\n\nThank you for writing. A person will read your message and reply if needed. You can reply to this email to add something.\n\nIsrael NOWlej');
   })();
   if (ctx && ctx.waitUntil) ctx.waitUntil(job); else await job;
   return new Response('{"ok":true}', { headers: hdr });

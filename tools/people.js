@@ -9,13 +9,15 @@
   function post(path,body){return fetch(path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}).then(function(r){return r.json().then(function(j){return[r.ok,j]})})}
 
   /* ---- public forms ---- */
-  [['subscribe-form','/api/subscribe','Thank you. You are subscribed. A welcome note is on its way to your inbox.'],['contact-form','/api/contact','Thank you. Your message has been sent. A person will read it and reply if needed.']].forEach(function(cfg){
+  [['subscribe-form','/api/subscribe','Thank you. You are subscribed. A welcome note is on its way to your inbox.'],['contact-form','/api/contact','Thank you. Your message has been sent. A person will read it and reply if needed.'],['books-form','/api/contact','Thank you. Your inquiry has been sent. The author will answer you himself, and a note with the Amazon links is on its way to your inbox.']].forEach(function(cfg){
     var f=document.getElementById(cfg[0]);if(!f)return;
     var t0=Date.now(),msg=f.querySelector('.pf-msg'),cs=f.querySelector('[name=country]');
     if(cs)cs.innerHTML=countryOpts('Country (optional)');
+    if(f.want){try{var qs=new URLSearchParams(location.search),qt=qs.get('t'),qw=qs.get('w');if(qw&&f.want.querySelector('option[value="'+qw.replace(/[^a-z]/g,'')+'"]'))f.want.value=qw;if(qt){var cb=f.querySelector('[name=title][value="'+qt.replace(/[^a-z-]/g,'')+'"]');if(cb)cb.checked=true}f.setAttribute('data-from',(qs.get('from')||'').slice(0,200))}catch(e){}}
     f.addEventListener('submit',function(e){e.preventDefault();msg.textContent='Sending.';
       var b={t:t0,first:f.first.value,last:f.last.value,email:f.email.value,country:cs?cs.value:'',consent:f.consent.checked,website:f.website.value};
-      if(f.message){b.message=f.message.value;b.topic=f.topic.value;b.alsoSubscribe=!!(f.also&&f.also.checked)}
+      if(f.message){b.message=f.message.value;b.topic=f.topic?f.topic.value:'books';b.alsoSubscribe=!!(f.also&&f.also.checked)}
+      if(f.want){b.topic='books';b.want=f.want.value;b.org=f.org.value;b.qty=f.qty.value;b.page=f.getAttribute('data-from')||'';b.titles=[].slice.call(f.querySelectorAll('[name=title]:checked')).map(function(x){return x.value})}
       post(cfg[1],b).then(function(x){if(x[0]&&x[1].ok){f.innerHTML='<p class="lead">'+cfg[2]+'</p>'}else{msg.textContent=x[1].error||'That did not go through. Please try again.'}}).catch(function(){msg.textContent='That did not go through. Please try again.'})});
   });
 
