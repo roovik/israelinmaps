@@ -17,6 +17,6 @@
   {"id": "welcome-to-zion", "title": "Welcome to Zion", "subtitle": "The Land of Israel, 4,000 Years Old and 40 Miles Wide", "author": "Richard J. Koret",
    "desc": "A tour of ten regions and eighty-one sites, from Eilat in the south to the Gaza border. Each site has its own page, picture and short story.",
    "short": "A tour of ten regions and eighty-one sites.",
-   "cover": "/img/books/welcome-to-zion.webp", "status": "soon", "kindle": "", "paperback": ""}
+   "cover": "/img/books/welcome-to-zion.webp", "status": "available", "kindle": "https://www.amazon.com/dp/B0HRSPPVQD/", "paperback": "https://www.amazon.com/dp/B0HRSP41KS/"}
  ]
 }
