@@ -28,18 +28,19 @@ def buttons(b):
     return '<a class="bkbtn alt" href="/subscribe/">Get notified when it is out</a>'
 def ask(b):
     return '<p class="small" style="margin:6px 0 0"><a href="/books/?t=%s#ask">For schools, groups and licensing</a></p>' % e(b['id'])
-def desk():
+def desk(intro=True):
     """The books desk: the formats on offer and one inquiry form. The form posts to /api/contact as topic books (see worker.js)."""
     boxes = ''.join('<label><input type="checkbox" name="title" value="%s"> %s</label>' % (e(b['id']), e(b['title'])) for b in B)
-    return ('<section id="ask"><h2>For schools, congregations, tour groups and publishers</h2>'
-        '<p>The collection comes in four forms. The first two are on Amazon. Write to us for the others, for copies in quantity, or to license maps, timelines, charts or text.</p>'
+    head = ('<section id="ask"><h2>For schools, congregations, tour groups and publishers</h2>'
+        '<p>The collection comes in four forms. The first two are on Amazon. Write to us for the others, for copies in quantity, or to license maps, timelines, charts or text. <a href="/organizations/">See what we offer organizations</a>.</p>') if intro else '<section id="ask"><h2>Formats</h2>'
+    return (head +
         '<div class="bkways"><div><b>Paperback</b><span>Full color, 8 x 10 inches. On Amazon. Ask us about ten copies or more.</span></div>'
         '<div><b>Kindle</b><span>Every title as an ebook. On Amazon.</span></div>'
         '<div><b>Interactive PDF</b><span>Each title as a PDF with live links, made for screens, classrooms and projection.</span></div>'
         '<div><b>Site license</b><span>This website for your school, congregation or organization: the maps, timelines, charts and tours, live and up to date.</span></div></div>'
         '<h3>Ask about copies, licenses or a talk</h3>'
         '<form class="subform" id="books-form">'
-        '<div class="sf-row"><label>I am interested in<select name="want"><option value="copies">Copies for a group (ten or more)</option><option value="pdf">The interactive PDF edition</option><option value="site">A site license for a school or organization</option><option value="license">Licensing maps, timelines, charts or text</option><option value="review">A review or press copy</option><option value="speaking">A talk or event with the author</option><option value="other">Something else</option></select></label></div>'
+        '<div class="sf-row"><label>I am interested in<select name="want"><option value="subscribe">A subscription for our school or organization</option><option value="copies">Copies for a group (ten or more)</option><option value="pdf">The interactive PDF edition</option><option value="site">A site license for a school or organization</option><option value="license">Licensing maps, timelines, charts or text</option><option value="review">A review or press copy</option><option value="speaking">A talk or event with the author</option><option value="other">Something else</option></select></label></div>'
         '<fieldset><legend>Which books?</legend>' + boxes + '<label><input type="checkbox" name="title" value="all"> All four</label></fieldset>'
         '<div class="sf-row"><label>First name<input name="first" type="text" autocomplete="given-name" maxlength="80"></label></div>'
         '<div class="sf-row"><label>Last name<input name="last" type="text" autocomplete="family-name" maxlength="80"></label></div>'
@@ -70,8 +71,42 @@ def inject(path, kind, anchor_re):
     if M0 in s: s = re.sub(re.escape(M0) + '.*?' + re.escape(M1), lambda m: blk, s, flags=re.S)
     else: s = re.sub(anchor_re, lambda m: m.group(0) + blk, s, count=1)
     open(path, 'w', encoding='utf-8').write(s)
+# The offer page for schools, congregations and organizations (/organizations/). Built from the Books page shell so the two stay in step.
+def org_block():
+    cards = '<div class="bkrow bk4">' + ''.join(small(b) for b in B) + '</div>'
+    return (CSS + '<style>.bk4{grid-template-columns:repeat(4,minmax(0,1fr))}@media(max-width:900px){.bk4{grid-template-columns:1fr 1fr}}@media(max-width:520px){.bk4{grid-template-columns:1fr}}.orgnote{background:var(--card);border:1px solid var(--gold);border-radius:12px;padding:14px 16px;margin:16px 0 22px}.orgnote p{margin:0 0 8px}.orgnote p:last-child{margin:0}</style>'
+        '<h2>The four books</h2>'
+        '<p><i>Israel NOWlej</i> holds the whole collection in one volume. The three companion books each take one part of it: the maps, the timelines and the tour. They are sold on Amazon in paperback and Kindle.</p>'
+        + cards +
+        '<div class="orgnote"><p><b>Special pricing for organizations.</b> Schools, congregations, youth groups, tour programs and other organizations can order ten copies or more at a group price, and can license the interactive PDF edition of any title for classes and members. <a href="#ask">Ask us below</a>.</p></div>'
+        '<h2>Made to teach</h2>'
+        '<p>These books are educational media, built to be looked at first and read second. A map, timeline or chart leads every spread, and a short text explains it.</p>'
+        '<ul><li><b>Visual.</b> Maps, timelines, charts, rankings and tours that show four thousand years of history and the modern state at a glance.</li>'
+        '<li><b>Connected.</b> Every page carries a QR code that opens the matching page on this site, so a class can go from the printed page to the screen.</li>'
+        '<li><b>Ready for a room.</b> The interactive PDF editions and the site work on a projector, a smartboard or a phone.</li>'
+        '<li><b>Easy to look things up.</b> A glossary and index of more than 400 entries, also online.</li></ul>'
+        '<h2>The website: news, views and video in one place</h2>'
+        '<p>israelnowlej.com gathers each day\'s <a href="/news/">news</a>, <a href="/views/">views</a> and <a href="/media/">video</a> on Israel from many sources, beside the maps, timelines and glossary that explain them.</p>'
+        '<p>Every source is Jewish or pro-Israel. Within that, the tent is wide: more than twenty publications and many independent voices, from <i>Haaretz</i> to <i>Israel National News</i>, across the religious and political range. Educators and organizations can share it with students and members with confidence. <a href="/sources/">See the sources</a>.</p>'
+        '<div class="orgnote"><p><b>Subscriptions begin January 1, 2027.</b> From the new year, some parts of the site will be open to subscribers only.</p><p><b>Write to us by December 15, 2026</b> for special subscription pricing for your school, congregation or organization.</p></div>'
+        + desk(False))
+def org_page():
+    s = open('books/index.html', encoding='utf-8').read()
+    T, D = 'For Schools, Congregations and Organizations', 'The Israel NOWlej books and website for schools, congregations and organizations: educational media on Israel, group pricing, and special subscription pricing before December 15, 2026.'
+    s = re.sub(r'<title>.*?</title>', lambda m: '<title>%s | Israel NOWlej</title>' % T, s, count=1)
+    s = re.sub(r'(<meta name="description" content=")[^"]*', lambda m: m.group(1) + e(D), s, count=1)
+    s = re.sub(r'(<meta property="og:description" content=")[^"]*', lambda m: m.group(1) + e(D), s, count=1)
+    s = re.sub(r'(<meta property="og:title" content=")[^"]*', lambda m: m.group(1) + T + ' | Israel NOWlej', s, count=1)
+    s = re.sub(r'(<meta property="og:image" content=")[^"]*', lambda m: m.group(1) + 'https://israelnowlej.com/img/og-israel-nowlej.jpg', s, count=1)
+    s = s.replace('https://israelnowlej.com/books/', 'https://israelnowlej.com/organizations/')
+    a, b = s.index('<article>'), s.rindex('</article>')
+    body = ('<article><header class="ih"><h1>%s</h1><p class="meta">Books · Website · Organization pricing</p></header>'
+            '<p class="lead">Israel NOWlej teaches the story of the Jewish land through maps, timelines, charts and tours, in four books and on this website. Here is what we offer schools, congregations, youth groups and other organizations.</p>' % T) + M0 + org_block() + M1
+    import os; os.makedirs('organizations', exist_ok=True)
+    open('organizations/index.html', 'w', encoding='utf-8').write(s[:a] + body + s[b:])
 inject('about/index.html', 'about', r'<p class="lead">Israel NOWlej is a growing.*?</p>')
 inject('books/index.html', 'books', r'<p class="lead">Three new books.*?</p>')
+org_page()
 print('ok')
 
 # ads.js creatives

@@ -853,7 +853,7 @@ const P_TOPICS = ['general', 'press', 'permissions', 'error', 'other', 'books'];
 // Books desk: an inquiry from the Books page about copies, the PDF edition, a site license, licensing content, a review copy or a talk.
 // It rides the contact route: stored with the contacts, alerted to the editor inbox as "[Books inquiry] ...", and the sender's receipt
 // carries the Amazon links for the titles they named, so a plain "where do I buy it" is answered at once.
-const B_WANTS = { copies: 'Copies for a group', pdf: 'Interactive PDF edition', site: 'Site license', license: 'Licensing content', review: 'Review or press copy', speaking: 'Talk or event', other: 'Other' };
+const B_WANTS = { subscribe: 'Organization subscription', copies: 'Copies for a group', pdf: 'Interactive PDF edition', site: 'Site license', license: 'Licensing content', review: 'Review or press copy', speaking: 'Talk or event', other: 'Other' };
 const B_LIST = (BOOKS && BOOKS.books) || [];
 function booksInquiry(b) {
   const want = B_WANTS[b.want] ? b.want : 'other';
