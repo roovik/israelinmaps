@@ -733,10 +733,13 @@ async function voiceApi(url, env) {
 
 // ---------------------------------------------------------------- mail: alerts to the owner, receipts and replies to senders
 // Needs the secret RESEND_KEY and the variable MAIL_FROM (an address on a domain verified with Resend). Without them, nothing is sent.
+// Alerts go to NOTIFY_TO, else the editor address; replies to anything the site sends go to the editor address unless a sender's own
+// address is given. editor@israelnowlej.com forwards to Richard's Gmail. EDITOR_EMAIL overrides it.
+const editorEmail = env => (env && env.EDITOR_EMAIL) || 'editor@israelnowlej.com';
 async function sendMail(env, to, subject, text, replyTo, headers) {
   if (!env.RESEND_KEY || !env.MAIL_FROM) return { ok: false, note: 'Mail is not set up yet.' };
   try {
-    const r = await fetch('https://api.resend.com/emails', { method: 'POST', headers: { Authorization: 'Bearer ' + env.RESEND_KEY, 'Content-Type': 'application/json' }, body: JSON.stringify({ from: env.MAIL_FROM, to: [to], subject, text, ...(replyTo ? { reply_to: replyTo } : {}), ...(headers ? { headers } : {}) }) });
+    const r = await fetch('https://api.resend.com/emails', { method: 'POST', headers: { Authorization: 'Bearer ' + env.RESEND_KEY, 'Content-Type': 'application/json' }, body: JSON.stringify({ from: env.MAIL_FROM, to: [to], subject, text, reply_to: replyTo || editorEmail(env), ...(headers ? { headers } : {}) }) });
     return { ok: r.ok, note: r.ok ? '' : 'Mail service said ' + r.status };
   } catch (e) { return { ok: false, note: String(e) }; }
 }
@@ -745,7 +748,7 @@ async function sendMailBatch(env, msgs) {
   if (!env.RESEND_KEY || !env.MAIL_FROM) return { ok: false, sent: 0, note: 'Mail is not set up yet.' };
   let sent = 0, note = '';
   for (let i = 0; i < msgs.length; i += 100) {
-    const chunk = msgs.slice(i, i + 100).map(m => ({ from: env.MAIL_FROM, to: [m.to], subject: m.subject, text: m.text, ...(m.headers ? { headers: m.headers } : {}) }));
+    const chunk = msgs.slice(i, i + 100).map(m => ({ from: env.MAIL_FROM, to: [m.to], subject: m.subject, text: m.text, reply_to: m.replyTo || editorEmail(env), ...(m.headers ? { headers: m.headers } : {}) }));
     try {
       const r = await fetch('https://api.resend.com/emails/batch', { method: 'POST', headers: { Authorization: 'Bearer ' + env.RESEND_KEY, 'Content-Type': 'application/json' }, body: JSON.stringify(chunk) });
       if (r.ok) sent += chunk.length; else note = 'Mail service said ' + r.status;
@@ -806,7 +809,7 @@ async function submitApi(request, env, ctx) {
   await env.ENTRIES.put(rk, String(n + 1), { expirationTtl: 3700 });
   const id = 'sub:' + rec.at + '-' + Math.random().toString(36).slice(2, 7);
   await env.ENTRIES.put(id, JSON.stringify(rec));
-  const notify = env.NOTIFY_TO || 'rkoret@gmail.com', host = new URL(request.url).origin;
+  const notify = env.NOTIFY_TO || editorEmail(env), host = new URL(request.url).origin;
   const job = (async () => {
     await sendMail(env, notify, 'New ' + rec.type + ' submission on Israel NOWlej', ['Type: ' + rec.type, rec.name && 'Name: ' + rec.name, rec.url && 'Link: ' + rec.url, rec.about && 'About: ' + rec.about, rec.change && 'Wants to: ' + rec.change, rec.notes && 'Notes: ' + rec.notes, rec.links && 'Links: ' + rec.links, 'From: ' + (rec.from || 'unknown') + (rec.email ? ' <' + rec.email + '>' : ''), rec.whatsapp && 'WhatsApp: ' + rec.whatsapp, rec.telegram && 'Telegram: @' + rec.telegram, rec.instagram && 'Instagram: @' + rec.instagram, '', 'Review it: ' + host + '/admin/submissions/'].filter(x => x !== '' && x !== false && x != null).join('\n'), rec.email);
     if (rec.email) await sendMail(env, rec.email, 'We received your submission to Israel NOWlej', (RECEIPT[type] || RECEIPT.article) + '\n\nThis is an automatic receipt. You can reply to this email if you want to add something.\n\nIsrael NOWlej');
@@ -881,7 +884,7 @@ async function peopleSignup(request, env, ctx, kind) {
     const topic = P_TOPICS.includes(b.topic) ? b.topic : 'general';
     await env.ENTRIES.put('ct:' + base.at + '-' + Math.random().toString(36).slice(2, 7), JSON.stringify({ ...base, topic, message, status: 'new', subscribed: !!b.alsoSubscribe }));
   }
-  const notify = env.NOTIFY_TO || 'rkoret@gmail.com';
+  const notify = env.NOTIFY_TO || editorEmail(env);
   const job = (async () => {
     if (kind === 'contact') await sendMail(env, notify, 'New contact message on Israel NOWlej', ['From: ' + [base.first, base.last].filter(Boolean).join(' ') + ' <' + email + '>', 'Country: ' + (base.cc || 'unknown') + (base.ccSrc ? ' (' + base.ccSrc + ')' : ''), 'Topic: ' + (b.topic || 'general'), '', message].join('\n'), email);
     if (kind === 'subscribe' && isNew) { const uu = await unsubUrl(env, email); await sendMail(env, email, 'Welcome to Israel NOWlej', 'Hello' + (base.first ? ' ' + base.first : '') + ',\n\nThank you for subscribing to Israel NOWlej. You will receive our daily digest of the news and views on the Holy Land.\n\nRead the latest at https://israelnowlej.com/\n\n' + (uu ? 'To stop at any time, use this link: ' + uu : 'To stop at any time, reply to this email and say so.') + '\n\nIsrael NOWlej', undefined, await unsubHeaders(env, email)); }
@@ -1115,7 +1118,7 @@ async function digestAdmin(request, env, ctx) {
   if (!env.ADMIN_KEY || (request.headers.get('x-admin-key') || '') !== env.ADMIN_KEY) return new Response('{"error":"Wrong admin key."}', { status: 401, headers: hdr });
   const q = new URL(request.url).searchParams;
   if (q.get('log')) return new Response((await env.ENTRIES.get('digest/log')) || '{"note":"no digest has been sent yet"}', { headers: hdr });
-  if (q.get('test')) return new Response(JSON.stringify(await runDigest(env, ctx, { force: true, testTo: env.NOTIFY_TO || 'rkoret@gmail.com' })), { headers: hdr });
+  if (q.get('test')) return new Response(JSON.stringify(await runDigest(env, ctx, { force: true, testTo: env.NOTIFY_TO || editorEmail(env) })), { headers: hdr });
   return new Response(JSON.stringify(await runDigest(env, ctx, { force: true, previewOnly: true })), { headers: hdr });
 }
 // Fast path for the two heavy list endpoints (/api/news and /api/news?views=1). They read about 30 live feeds, which takes seconds.
