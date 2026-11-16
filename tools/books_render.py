@@ -128,6 +128,26 @@ def org_page():
     s = re.sub(r'(<meta property="og:title" content=")[^"]*', lambda m: m.group(1) + T + ' | Israel NOWlej', s, count=1)
     s = re.sub(r'(<meta property="og:image" content=")[^"]*', lambda m: m.group(1) + 'https://israelnowlej.com/img/og-israel-nowlej.jpg', s, count=1)
     s = s.replace('https://israelnowlej.com/books/', 'https://israelnowlej.com/groups/')
+    # Right column: the four books, pinned while the page scrolls. No news, ads or other promotions on this page.
+    def side(b):
+        if b['status'] == 'available':
+            buy = ''.join('<a href="%s" target="_blank" rel="noopener sponsored">%s</a>' % (e(u), t) for u, t in ((b['kindle'], 'Kindle'), (b['paperback'], 'Paperback')) if u)
+        else:
+            buy = '<span>Coming soon</span>'
+        return ('<div class="bksi"><img src="%s" alt="Cover of %s" width="120" height="150" loading="lazy"><div><b>%s</b><span class="bksl">%s<a href="/groups/?t=%s&amp;w=pdf#ask">PDF</a></span></div></div>'
+                % (e(b['cover']), e(b['title']), e(b['title']), buy, e(b['id'])))
+    aside = ('<aside class="bkside" aria-label="The four books"><h2>The four books</h2>' + ''.join(side(b) for b in B)
+             + '<a class="bkbtn" href="#ask">Ask about group pricing</a></aside>')
+    sidecss = ('<style>.bkside{position:sticky;top:12px;border:1px solid var(--line);border-radius:10px;background:var(--card);padding:10px 14px 14px}'
+               '.bkside h2{font:700 .8rem system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);margin:2px 0 8px}'
+               '.bksi{display:grid;grid-template-columns:58px minmax(0,1fr);gap:10px;align-items:center;padding:8px 0;border-top:1px solid var(--line)}'
+               '.bksi img{width:58px;height:auto;border-radius:3px;box-shadow:0 1px 5px rgba(0,0,0,.2);display:block}.bksi b{display:block;font:700 .98rem system-ui,sans-serif;margin-bottom:3px}'
+               '.bksl{font:.85rem system-ui,sans-serif;display:flex;flex-wrap:wrap;gap:4px 10px}.bksl span{color:var(--mut)}'
+               '.bkside .bkbtn{display:block;text-align:center;margin:10px 0 0}@media(min-width:1001px){.newspage>.bkside{grid-column:-2/-1;grid-row:1}.newspage>.newsleft{grid-column:1/-2;grid-row:1}}@media(max-width:1000px){.bkside{position:static;margin-top:18px}}</style>')
+    s = re.sub(r'<aside class="newsside".*?</aside>', lambda m: sidecss + aside, s, count=1, flags=re.S)
+    s = re.sub(r'<div class="adslot"[^>]*></div>', '', s)
+    s = re.sub(r'<script src="/(?:ads|news|aside)\.js[^"]*" defer></script>', '', s)
+    s = re.sub(r'<link rel="preload" as="fetch" href="/api/news[^>]*>', '', s)
     a, b = s.index('<article>'), s.rindex('</article>')
     body = ('<article><header class="ih"><h1>%s</h1><p class="meta">Books · Website · Organization pricing</p></header>'
             '<p class="lead">Israel NOWlej teaches the story of the Jewish land through maps, timelines, charts and tours, in four books and on this website. Here is what we offer schools, congregations, youth groups and other organizations.</p>' % T) + M0 + org_block() + M1
