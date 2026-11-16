@@ -72,23 +72,52 @@ def inject(path, kind, anchor_re):
     else: s = re.sub(anchor_re, lambda m: m.group(0) + blk, s, count=1)
     open(path, 'w', encoding='utf-8').write(s)
 # The offer page for schools, congregations and organizations (/organizations/). Built from the Books page shell so the two stay in step.
+def org_small(b):
+    """A book card for the offer page: equal-length blurb, buy buttons pinned to one line, then a Look inside strip of two live pages."""
+    tag = '' if b['status'] == 'available' else '<span class="bksoon">Coming soon</span>'
+    taste = ''.join('<a href="%s" title="%s"><img src="%s" alt="%s" width="300" height="375" loading="lazy"></a>' % (e(h), e(t), e(i), e(t)) for i, h, t in b.get('samples', []))
+    return ('<article class="bk2"><img src="%s" alt="Cover of %s" width="800" height="1000" loading="lazy">%s<h3>%s</h3><p class="bs">%s</p><p class="bkd">%s</p><div class="bkbuy">%s</div>'
+            '<div class="bktaste"><b>Look inside</b><div>%s</div><a class="bkmore" href="%s">See more pages online</a></div></article>'
+            % (e(b['cover']), e(b['title']), tag, e(b['title']), e(b['subtitle']), e(b.get('blurb') or b['desc']), buttons(b), taste, e(b.get('inside', '/books/'))))
+SITE = [
+    ('/news/', 'News from more than twenty publications', 'Headlines from The Times of Israel, The Jerusalem Post, Haaretz, JNS, Israel Hayom and many more, gathered through the day and sorted by topic.'),
+    ('/views/', 'Views, side by side', 'Op-eds, editorials and blogs from across the Jewish and pro-Israel range, so readers can compare arguments in one place.'),
+    ('/media/', 'Video, podcasts and music', 'Video channels, playlists, podcasts, music and images on Israel, chosen from the same family of sources.'),
+    ('/glossary/', 'Explained as you read', 'Point at a name, place or term in a story and a short explanation appears. More than 500 glossary entries stand behind the news.'),
+    ('/maps/', 'Maps and timelines online', 'Thirty-three maps and twenty-six timelines, each on its own page, ready for a screen or a projector.'),
+    ('/hot/', 'Topics and who\'s who', 'Topic pages gather the latest headlines on one issue. Profiles introduce the people and organizations in the news.'),
+    ('/tour/', 'A tour of the land', 'Ten regions and eighty-one sites, each with its picture and story, for trip planning or an armchair visit.'),
+    ('/this-day/', 'This Day in History', 'What happened on today\'s date, with a calendar of holidays and days of remembrance.'),
+]
 def org_block():
-    cards = '<div class="bkrow bk4">' + ''.join(small(b) for b in B) + '</div>'
-    return (CSS + '<style>.bk4{grid-template-columns:repeat(4,minmax(0,1fr))}@media(max-width:900px){.bk4{grid-template-columns:1fr 1fr}}@media(max-width:520px){.bk4{grid-template-columns:1fr}}.orgnote{background:var(--card);border:1px solid var(--gold);border-radius:12px;padding:14px 16px;margin:16px 0 22px}.orgnote p{margin:0 0 8px}.orgnote p:last-child{margin:0}</style>'
+    cards = '<div class="bkrow bk4">' + ''.join(org_small(b) for b in B) + '</div>'
+    tiles = ''.join('<a class="sitef" href="%s"><b>%s</b><span>%s</span></a>' % (h, e(t), e(x)) for h, t, x in SITE)
+    return (CSS + '<style>.bk4{grid-template-columns:repeat(4,minmax(0,1fr))}@media(max-width:900px){.bk4{grid-template-columns:1fr 1fr}}@media(max-width:520px){.bk4{grid-template-columns:1fr}}'
+        '.bk4 .bk2 .bkd{flex:1}.bk4 .bkbuy{min-height:96px}.bktaste{border-top:1px solid var(--line);padding-top:10px;margin-top:4px}.bktaste b{display:block;font:700 .78rem system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}'
+        '.bktaste div{display:grid;grid-template-columns:1fr 1fr;gap:8px}.bktaste img{width:100%;aspect-ratio:4/5;object-fit:cover;object-position:top;border:1px solid var(--line);border-radius:4px;box-shadow:none;background:#fff}.bktaste a:hover img{border-color:var(--gold)}.bkmore{display:inline-block;margin-top:8px;font:.88rem system-ui,sans-serif}'
+        '.orgnote{background:var(--card);border:1px solid var(--gold);border-radius:12px;padding:14px 16px;margin:16px 0 22px}.orgnote p{margin:0 0 8px}.orgnote p:last-child{margin:0}'
+        '.sitegrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:14px 0 18px}.sitef{display:block;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;text-decoration:none;color:inherit}.sitef:hover{border-color:var(--gold)}.sitef b{display:block;margin-bottom:4px;font:700 1rem system-ui,sans-serif}.sitef span{font-size:.92rem}'
+        '.sitehero{background:#1d2330;color:#fff;border-radius:12px;padding:20px 22px;margin:8px 0 14px}.sitehero h2{color:#fff;margin:0 0 8px}.sitehero p{margin:0 0 8px;color:#e9e6dc}.sitehero a{color:var(--gold)}.sitehero .bkbtn{color:#2a1d00!important;margin-top:6px}'
+        '@media(max-width:900px){.sitegrid{grid-template-columns:1fr 1fr}}@media(max-width:520px){.sitegrid{grid-template-columns:1fr}}</style>'
         '<h2>The four books</h2>'
         '<p><i>Israel NOWlej</i> holds the whole collection in one volume. The three companion books each take one part of it: the maps, the timelines and the tour. They are sold on Amazon in paperback and Kindle.</p>'
         + cards +
         '<div class="orgnote"><p><b>Special pricing for organizations.</b> Schools, congregations, youth groups, tour programs and other organizations can order ten copies or more at a group price, and can license the interactive PDF edition of any title for classes and members. <a href="#ask">Ask us below</a>.</p></div>'
-        '<h2>Made to teach</h2>'
-        '<p>These books are educational media, built to be looked at first and read second. A map, timeline or chart leads every spread, and a short text explains it.</p>'
-        '<ul><li><b>Visual.</b> Maps, timelines, charts, rankings and tours that show four thousand years of history and the modern state at a glance.</li>'
-        '<li><b>Connected.</b> Every page carries a QR code that opens the matching page on this site, so a class can go from the printed page to the screen.</li>'
-        '<li><b>Ready for a room.</b> The interactive PDF editions and the site work on a projector, a smartboard or a phone.</li>'
-        '<li><b>Easy to look things up.</b> A glossary and index of more than 400 entries, also online.</li></ul>'
-        '<h2>The website: news, views and video in one place</h2>'
-        '<p>israelnowlej.com gathers each day\'s <a href="/news/">news</a>, <a href="/views/">views</a> and <a href="/media/">video</a> on Israel from many sources, beside the maps, timelines and glossary that explain them.</p>'
-        '<p>Every source is Jewish or pro-Israel. Within that, the tent is wide: more than twenty publications and many independent voices, from <i>Haaretz</i> to <i>Israel National News</i>, across the religious and political range. Educators and organizations can share it with students and members with confidence. <a href="/sources/">See the sources</a>.</p>'
+        '<section class="sitehero"><h2>The website: israelnowlej.com</h2>'
+        '<p><b>The day\'s news on Israel, beside the knowledge to understand it.</b> Israel NOWlej is the only place we know that puts news, views and video from the Jewish and pro-Israel press next to the maps, timelines and glossary that explain them.</p>'
+        '<p>A student who reads a headline about the Golan can open the map, the timeline and the glossary entry without leaving the page.</p>'
+        '<a class="bkbtn" href="/">Open the site</a></section>'
+        '<div class="sitegrid">' + tiles + '</div>'
+        '<h3>A big tent, and a safe one</h3>'
+        '<p>Every source on the site is Jewish or pro-Israel. Within that, the tent is wide: more than twenty publications and many independent voices, from <i>Haaretz</i> to <i>Israel National News</i>, across the religious and political range. Educators and organizations can share it with students and members with confidence. <a href="/sources/">See the sources</a>.</p>'
+        '<p>Our sister site, <a href="https://israelinsider.org/">Israel Insider</a>, follows independent writers, podcasters and video creators on Israel.</p>'
         '<div class="orgnote"><p><b>Subscriptions begin January 1, 2027.</b> From the new year, some parts of the site will be open to subscribers only.</p><p><b>Write to us by December 15, 2026</b> for special subscription pricing for your school, congregation or organization.</p></div>'
+        '<h2>Made to teach</h2>'
+        '<p>The books and the site are educational media, built to be looked at first and read second. A map, timeline or chart leads every spread, and a short text explains it.</p>'
+        '<ul><li><b>Visual.</b> Maps, timelines, charts, rankings and tours that show four thousand years of history and the modern state at a glance.</li>'
+        '<li><b>Connected.</b> Every page of the books carries a QR code that opens the matching page on the site, so a class can go from the printed page to the screen.</li>'
+        '<li><b>Ready for a room.</b> The interactive PDF editions and the site work on a projector, a smartboard or a phone.</li>'
+        '<li><b>Easy to look things up.</b> A glossary and index of more than 400 entries in print, and more online.</li></ul>'
         + desk(False))
 def org_page():
     s = open('books/index.html', encoding='utf-8').read()
