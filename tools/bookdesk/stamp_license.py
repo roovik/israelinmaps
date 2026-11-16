@@ -35,18 +35,25 @@ def stamp(src, dst, org, users, lic, day):
     d.close()
 
 def stamp_general(src, dst, kind):
-    """One-time editions that need no buyer name: kind 'licensed' or 'review'."""
+    """One-time editions that need no buyer name: kind 'licensed' or 'review'.
+    A review sample is watermarked heavily on purpose, so it can be judged but not comfortably used in a class."""
     d = pymupdf.open(src)
     line = {'licensed': 'Licensed edition. Not for redistribution. israelnowlej.com/groups',
-            'review': 'Review copy, for evaluation only. Not for classroom use, sale or redistribution. israelnowlej.com/groups'}[kind]
+            'review': 'Sample for review. Strictly not for distribution, classroom use or sale. israelnowlej.com/groups'}[kind]
     for p in d:
         r = p.rect
         p.insert_text((52, r.height - 11), line, fontname='helv', fontsize=6.2, color=(0.5, 0.5, 0.5), overlay=True)
         if kind == 'review':
-            t = 'REVIEW COPY'; w = pymupdf.get_text_length(t, 'hebo', 7.5)
-            x = (r.width - w) / 2
+            t = 'SAMPLE FOR REVIEW'; w = pymupdf.get_text_length(t, 'hebo', 7.5); x = (r.width - w) / 2
             p.draw_rect(pymupdf.Rect(x - 7, 9, x + w + 7, 23), color=None, fill=(0.72, 0.12, 0.12), overlay=True)
             p.insert_text((x, 19), t, fontname='hebo', fontsize=7.5, color=(1, 1, 1), overlay=True)
+            # three diagonal bands across the page
+            big, small = 'SAMPLE FOR REVIEW', 'STRICTLY NOT FOR DISTRIBUTION'
+            for fy in (0.24, 0.52, 0.80):
+                c = pymupdf.Point(r.width / 2, r.height * fy); m = pymupdf.Matrix(-32)
+                wb = pymupdf.get_text_length(big, 'hebo', 46); ws = pymupdf.get_text_length(small, 'hebo', 17)
+                p.insert_text((c.x - wb / 2, c.y), big, fontname='hebo', fontsize=46, color=(0.72, 0.12, 0.12), fill_opacity=0.20, morph=(c, m), overlay=True)
+                p.insert_text((c.x - ws / 2, c.y + 24), small, fontname='hebo', fontsize=17, color=(0.72, 0.12, 0.12), fill_opacity=0.26, morph=(c, m), overlay=True)
     m = d.metadata or {}; m['subject'] = line; d.set_metadata(m)
     d.save(dst, deflate=True, garbage=0); d.close()
 
@@ -65,7 +72,7 @@ if __name__ == '__main__':
     a = ap.parse_args()
     if a.general:
         outdir = os.path.join(a.out, a.general); os.makedirs(outdir, exist_ok=True)
-        tag = {'licensed': 'Licensed_Edition', 'review': 'Review_Copy'}[a.general]
+        tag = {'licensed': 'Licensed_Edition', 'review': 'Sample_For_Review'}[a.general]
         for k, fn in TITLES.items():
             src = os.path.join(a.masters, fn); dst = os.path.join(outdir, fn.replace('Digital_Edition', tag))
             stamp_general(src, dst, a.general); ok, ca, cb = check(src, dst)
