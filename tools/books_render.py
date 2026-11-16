@@ -83,7 +83,7 @@ SITE = [
     ('/news/', 'News from more than twenty publications', 'Headlines from The Times of Israel, The Jerusalem Post, Haaretz, JNS, Israel Hayom and many more, gathered through the day and sorted by topic.'),
     ('/views/', 'Views, side by side', 'Op-eds, editorials and blogs from across the Jewish and pro-Israel range, so readers can compare arguments in one place.'),
     ('/media/', 'Video, podcasts and music', 'Video channels, playlists, podcasts, music and images on Israel, chosen from the same family of sources.'),
-    ('/glossary/', 'Explained as you read', 'Point at a name, place or term in a story and a short explanation appears. More than 500 glossary entries stand behind the news.'),
+    ('/glossary/', 'Explained as you read', 'Point at a name, place or term in a story and a short explanation appears. Behind it stands an encyclopedic illustrated glossary of more than 500 entries, an Israel-friendly alternative to Wikipedia.'),
     ('/maps/', 'Maps and timelines online', 'Thirty-three maps and twenty-six timelines, each on its own page, ready for a screen or a projector.'),
     ('/hot/', 'Topics and who\'s who', 'Topic pages gather the latest headlines on one issue. Profiles introduce the people and organizations in the news.'),
     ('/tour/', 'A tour of the land', 'Ten regions and eighty-one sites, each with its picture and story, for trip planning or an armchair visit.'),
@@ -117,7 +117,7 @@ def org_block():
         '<ul><li><b>Visual.</b> Maps, timelines, charts, rankings and tours that show four thousand years of history and the modern state at a glance.</li>'
         '<li><b>Connected.</b> Every page of the books carries a QR code that opens the matching page on the site, so a class can go from the printed page to the screen.</li>'
         '<li><b>Ready for a room.</b> The interactive PDF editions and the site work on a projector, a smartboard or a phone.</li>'
-        '<li><b>Easy to look things up.</b> A glossary and index of more than 500 entries, in print and online.</li></ul>'
+        '<li><b>Easy to look things up.</b> An encyclopedic illustrated glossary of more than 500 entries, in print and online.</li></ul>'
         + desk(False))
 def org_page():
     s = open('books/index.html', encoding='utf-8').read()
