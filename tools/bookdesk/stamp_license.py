@@ -34,6 +34,22 @@ def stamp(src, dst, org, users, lic, day):
     d.save(dst, deflate=True, garbage=0)
     d.close()
 
+def stamp_general(src, dst, kind):
+    """One-time editions that need no buyer name: kind 'licensed' or 'review'."""
+    d = pymupdf.open(src)
+    line = {'licensed': 'Licensed edition. Not for redistribution. israelnowlej.com/groups',
+            'review': 'Review copy, for evaluation only. Not for classroom use, sale or redistribution. israelnowlej.com/groups'}[kind]
+    for p in d:
+        r = p.rect
+        p.insert_text((52, r.height - 11), line, fontname='helv', fontsize=6.2, color=(0.5, 0.5, 0.5), overlay=True)
+        if kind == 'review':
+            t = 'REVIEW COPY'; w = pymupdf.get_text_length(t, 'hebo', 7.5)
+            x = (r.width - w) / 2
+            p.draw_rect(pymupdf.Rect(x - 7, 9, x + w + 7, 23), color=None, fill=(0.72, 0.12, 0.12), overlay=True)
+            p.insert_text((x, 19), t, fontname='hebo', fontsize=7.5, color=(1, 1, 1), overlay=True)
+    m = d.metadata or {}; m['subject'] = line; d.set_metadata(m)
+    d.save(dst, deflate=True, garbage=0); d.close()
+
 def check(src, dst):
     a, b = pymupdf.open(src), pymupdf.open(dst)
     cnt = lambda d: (len(d), sum(len(p.get_links()) for p in d), sum(1 for p in d for _ in (p.widgets() or [])))
@@ -42,10 +58,20 @@ def check(src, dst):
 
 if __name__ == '__main__':
     ap = argparse.ArgumentParser()
-    ap.add_argument('--org', required=True); ap.add_argument('--users', required=True)
+    ap.add_argument('--org', default=''); ap.add_argument('--users', default='')
+    ap.add_argument('--general', default='', help="'licensed' or 'review': one-time editions with no buyer name")
     ap.add_argument('--titles', default='all'); ap.add_argument('--license', default=''); ap.add_argument('--out', default='out')
     ap.add_argument('--masters', default='masters')
     a = ap.parse_args()
+    if a.general:
+        outdir = os.path.join(a.out, a.general); os.makedirs(outdir, exist_ok=True)
+        tag = {'licensed': 'Licensed_Edition', 'review': 'Review_Copy'}[a.general]
+        for k, fn in TITLES.items():
+            src = os.path.join(a.masters, fn); dst = os.path.join(outdir, fn.replace('Digital_Edition', tag))
+            stamp_general(src, dst, a.general); ok, ca, cb = check(src, dst)
+            print(('OK  ' if ok else 'CHECK ') + dst, cb, round(os.path.getsize(dst) / 1e6, 1), 'MB')
+        sys.exit(0)
+    if not a.org or not a.users: sys.exit('--org and --users are needed')
     org = re.sub(r'\s+', ' ', a.org).strip()[:90]
     day = datetime.date.today().isoformat()
     lic = a.license or license_id(org, a.users, day)
