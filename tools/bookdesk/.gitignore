@@ -1,0 +1,4 @@
+# Never commit the Digital Edition PDFs: this repository is served as the public site.
+*.pdf
+masters/
+out/
