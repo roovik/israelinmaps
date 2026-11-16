@@ -22,8 +22,8 @@ CSS = '''<style>
 def buttons(b):
     if b['status'] == 'available':
         o = ''
-        if b['kindle']: o += '<a class="bkbtn" href="%s" target="_blank" rel="noopener sponsored">Kindle and ebook on Amazon</a>' % e(b['kindle'])
-        if b['paperback']: o += '<a class="bkbtn alt" href="%s" target="_blank" rel="noopener sponsored">Paperback on Amazon</a>' % e(b['paperback'])
+        if b['kindle']: o += '<a class="bkbtn" href="%s" target="_blank" rel="noopener sponsored">Amazon Kindle Ebook</a>' % e(b['kindle'])
+        if b['paperback']: o += '<a class="bkbtn alt" href="%s" target="_blank" rel="noopener sponsored">Amazon Paperback</a>' % e(b['paperback'])
         return o
     return '<a class="bkbtn alt" href="/subscribe/">Get notified when it is out</a>'
 def ask(b):
@@ -36,11 +36,11 @@ def desk(intro=True):
     return (head +
         '<div class="bkways"><div><b>Paperback</b><span>Full color, 8 x 10 inches. On Amazon. Ask us about ten copies or more.</span></div>'
         '<div><b>Kindle</b><span>Every title as an ebook. On Amazon.</span></div>'
-        '<div><b>Interactive PDF</b><span>Each title as a PDF with live links, made for screens, classrooms and projection.</span></div>'
+        '<div><b>PDF Interactive Edition</b><span>Each title as a PDF: printable, with live links and QR codes that connect every page to the site. Made for screens, classrooms and projection.</span></div>'
         '<div><b>Site license</b><span>This website for your school, congregation or organization: the maps, timelines, charts and tours, live and up to date.</span></div></div>'
         '<h3>Ask about copies, licenses or a talk</h3>'
         '<form class="subform" id="books-form">'
-        '<div class="sf-row"><label>I am interested in<select name="want"><option value="subscribe">A subscription for our school or organization</option><option value="copies">Copies for a group (ten or more)</option><option value="pdf">The interactive PDF edition</option><option value="site">A site license for a school or organization</option><option value="license">Licensing maps, timelines, charts or text</option><option value="review">A review or press copy</option><option value="speaking">A talk or event with the author</option><option value="other">Something else</option></select></label></div>'
+        '<div class="sf-row"><label>I am interested in<select name="want"><option value="subscribe">A subscription for our school or organization</option><option value="copies">Copies for a group (ten or more)</option><option value="pdf">The PDF Interactive Edition</option><option value="site">A site license for a school or organization</option><option value="license">Licensing maps, timelines, charts or text</option><option value="review">A review or press copy</option><option value="speaking">A talk or event with the author</option><option value="other">Something else</option></select></label></div>'
         '<fieldset><legend>Which books?</legend>' + boxes + '<label><input type="checkbox" name="title" value="all"> All four</label></fieldset>'
         '<div class="sf-row"><label>First name<input name="first" type="text" autocomplete="given-name" maxlength="80"></label></div>'
         '<div class="sf-row"><label>Last name<input name="last" type="text" autocomplete="family-name" maxlength="80"></label></div>'
@@ -78,7 +78,7 @@ def org_small(b):
     taste = ''.join('<a href="%s" title="%s"><img src="%s" alt="%s" width="300" height="375" loading="lazy"></a>' % (e(h), e(t), e(i), e(t)) for i, h, t in b.get('samples', []))
     return ('<article class="bk2"><img src="%s" alt="Cover of %s" width="800" height="1000" loading="lazy">%s<h3>%s</h3><p class="bs">%s</p><p class="bkd">%s</p><div class="bkbuy">%s</div>'
             '<div class="bktaste"><b>Look inside</b><div>%s</div><a class="bkmore" href="%s">See more pages online</a></div></article>'
-            % (e(b['cover']), e(b['title']), tag, e(b['title']), e(b['subtitle']), e(b.get('blurb') or b['desc']), buttons(b), taste, e(b.get('inside', '/books/'))))
+            % (e(b['cover']), e(b['title']), tag, e(b['title']), e(b['subtitle']), e(b.get('blurb') or b['desc']), buttons(b) + '<a class="bkbtn pdf" href="/organizations/?t=%s&amp;w=pdf#ask">PDF Interactive Edition</a>' % e(b['id']), taste, e(b.get('inside', '/books/'))))
 SITE = [
     ('/news/', 'News from more than twenty publications', 'Headlines from The Times of Israel, The Jerusalem Post, Haaretz, JNS, Israel Hayom and many more, gathered through the day and sorted by topic.'),
     ('/views/', 'Views, side by side', 'Op-eds, editorials and blogs from across the Jewish and pro-Israel range, so readers can compare arguments in one place.'),
@@ -93,7 +93,7 @@ def org_block():
     cards = '<div class="bkrow bk4">' + ''.join(org_small(b) for b in B) + '</div>'
     tiles = ''.join('<a class="sitef" href="%s"><b>%s</b><span>%s</span></a>' % (h, e(t), e(x)) for h, t, x in SITE)
     return (CSS + '<style>.bk4{grid-template-columns:repeat(4,minmax(0,1fr))}@media(max-width:900px){.bk4{grid-template-columns:1fr 1fr}}@media(max-width:520px){.bk4{grid-template-columns:1fr}}'
-        '.bk4 .bk2 .bkd{flex:1}.bk4 .bkbuy{min-height:96px}.bktaste{border-top:1px solid var(--line);padding-top:10px;margin-top:4px}.bktaste b{display:block;font:700 .78rem system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}'
+        '.bk4 .bk2 .bkd{flex:1}.bk4 .bkbuy{min-height:132px}.bk4 .bkbtn{display:block;margin:6px 0;padding:8px 6px;text-align:center;white-space:nowrap;font-size:.9rem}.bkbtn.pdf{background:#1d2330;color:#fff!important}.bktaste{border-top:1px solid var(--line);padding-top:10px;margin-top:4px}.bktaste b{display:block;font:700 .78rem system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}'
         '.bktaste div{display:grid;grid-template-columns:1fr 1fr;gap:8px}.bktaste img{width:100%;aspect-ratio:4/5;object-fit:cover;object-position:top;border:1px solid var(--line);border-radius:4px;box-shadow:none;background:#fff}.bktaste a:hover img{border-color:var(--gold)}.bkmore{display:inline-block;margin-top:8px;font:.88rem system-ui,sans-serif}'
         '.orgnote{background:var(--card);border:1px solid var(--gold);border-radius:12px;padding:14px 16px;margin:16px 0 22px}.orgnote p{margin:0 0 8px}.orgnote p:last-child{margin:0}'
         '.sitegrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:14px 0 18px}.sitef{display:block;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;text-decoration:none;color:inherit}.sitef:hover{border-color:var(--gold)}.sitef b{display:block;margin-bottom:4px;font:700 1rem system-ui,sans-serif}.sitef span{font-size:.92rem}'
@@ -102,7 +102,7 @@ def org_block():
         '<h2>The four books</h2>'
         '<p><i>Israel NOWlej</i> holds the whole collection in one volume. The three companion books each take one part of it: the maps, the timelines and the tour. They are sold on Amazon in paperback and Kindle.</p>'
         + cards +
-        '<div class="orgnote"><p><b>Special pricing for organizations.</b> Schools, congregations, youth groups, tour programs and other organizations can order ten copies or more at a group price, and can license the interactive PDF edition of any title for classes and members. <a href="#ask">Ask us below</a>.</p></div>'
+        '<div class="orgnote"><p><b>Special pricing for organizations.</b> Schools, congregations, youth groups, tour programs and other organizations can order ten copies or more at a group price, and can license the PDF Interactive Edition of any title for classes and members. <a href="#ask">Ask us below</a>.</p></div><div class="orgnote"><p><b>PDF Interactive Edition.</b> Every title also comes as a PDF you can print, project or read on any screen. Its links and QR codes connect each page to the matching page online, so the PDF stays tied to the live maps, timelines and news. It is offered on its own, apart from the paperback and Kindle. <a href="/organizations/?w=pdf#ask">Ask for the PDF edition</a>.</p></div>'
         '<section class="sitehero"><h2>The website: israelnowlej.com</h2>'
         '<p><b>The day\'s news on Israel, beside the knowledge to understand it.</b> Israel NOWlej is the only place we know that puts news, views and video from the Jewish and pro-Israel press next to the maps, timelines and glossary that explain them.</p>'
         '<p>A student who reads a headline about the Golan can open the map, the timeline and the glossary entry without leaving the page.</p>'
