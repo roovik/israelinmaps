@@ -1,109 +1,109 @@
 {
- "_note": "Single source for the book cards on the Book tab (/about/), the Books page (/books/) and the ad slots (ads.js). Edit here, then run: python3 tools/books_render.py. For each book set status to available once it is on sale, and paste the exact Amazon addresses into kindle and paperback. The amazon.com search addresses below are interim stand-ins until the exact product addresses are added. blurb is the equal-length description used on /groups/ (keep each at about 40 words); inside and samples feed its Look inside strip.",
- "books": [
-  {
-   "id": "israel-nowlej",
-   "title": "Israel NOWlej",
-   "subtitle": "Know the Story of the Jewish Land in Maps, Timelines, Charts, and Graphics",
-   "author": "Richard J. Koret",
-   "desc": "The visual atlas of the Jewish land. Maps, timelines, charts and graphics first, text second: 33 maps, 26 timelines, 13 infographics, 17 rankings, 6 Top Ten lists, A Taste of Israel, and a glossary and index of more than 500 entries. Every page opens online through a QR code, so the book and this site work together.",
-   "short": "33 maps, 26 timelines, 500+ glossary entries. The visual atlas of the Jewish land.",
-   "cover": "/img/ad/israel-nowlej-cover.webp",
-   "status": "available",
-   "kindle": "https://www.amazon.com/ISRAEL-NOWLEJ-Graphs-Timelines-Knowledge-ebook/dp/B0HPCSV4WC/",
-   "paperback": "https://www.amazon.com/ISRAEL-NOWLEJ-Graphs-Timelines-Knowledge/dp/B0HPCTLJX7/",
-   "blurb": "The whole collection in one volume. Thirty-three maps, twenty-six timelines, thirteen infographics, seventeen rankings and six Top Ten lists, plus A Taste of Israel and a glossary of more than 500 entries. Every page opens online through its QR code.",
-   "inside": "/about/",
-   "samples": [
-    [
-     "/img/p004.webp",
-     "/maps/001/israel-today/",
-     "Map: Israel Today"
-    ],
-    [
-     "/img/p084.webp",
-     "/rankings/001/population-arab-league-iran-israel/",
-     "Ranking: Population"
-    ]
-   ]
-  },
-  {
-   "id": "israel-in-maps",
-   "title": "Israel in Maps",
-   "subtitle": "Where, When and Why is Zion?",
-   "author": "Richard J. Koret",
-   "desc": "The atlas. Thirty-three historical maps from the Patriarchs to the present, each facing a page that explains it, plus size comparisons, population charts and rankings.",
-   "short": "Thirty-three historical maps, each facing a page that explains it.",
-   "cover": "/img/books/israel-in-maps.webp",
-   "status": "available",
-   "kindle": "https://www.amazon.com/dp/B0HRS75LW2/",
-   "paperback": "https://www.amazon.com/ISRAEL-MAPS-Expanded-Charts-ZIONISM/dp/B0HRJX879T/",
-   "blurb": "The atlas. Thirty-three historical maps follow the land from the Patriarchs to the present, and each one faces a page that explains it. Size comparisons, population charts and rankings show how small the country is and how much happened there.",
-   "inside": "/maps/",
-   "samples": [
-    [
-     "/img/p022.webp",
-     "/maps/010/formation-of-the-british-mandate/",
-     "Map: Formation of the British Mandate"
-    ],
-    [
-     "/img/p036.webp",
-     "/maps/017/tensions-before-the-six-day-war/",
-     "Map: Tensions Before the Six-Day War"
-    ]
-   ]
-  },
-  {
-   "id": "israel-in-time",
-   "title": "Israel in Time",
-   "subtitle": "Four Thousand Years at a Glance",
-   "author": "Richard J. Koret",
-   "desc": "The timelines. Twenty-six timelines from the patriarchs to today, Top Ten lists, reference tables, demographic charts, calendars, a This Day in History, a glossary and an index.",
-   "short": "Twenty-six timelines from the patriarchs to today.",
-   "cover": "/img/books/israel-in-time.webp",
-   "status": "soon",
-   "kindle": "",
-   "paperback": "",
-   "blurb": "The timelines. Twenty-six timelines run from the patriarchs to today, marking conflict, diplomacy, settlement, faith and the arts. Top Ten lists, reference tables, demographic charts, calendars and a This Day in History complete it, with a glossary and an index.",
-   "inside": "/timelines/",
-   "samples": [
-    [
-     "/img/tl-001.webp",
-     "/timelines/001/patriarchs-to-the-first-kings/",
-     "Timeline: Patriarchs to the First Kings"
-    ],
-    [
-     "/img/tl-017.webp",
-     "/timelines/017/the-1940s/",
-     "Timeline: The 1940s"
-    ]
-   ]
-  },
-  {
-   "id": "welcome-to-zion",
-   "title": "Welcome to Zion",
-   "subtitle": "The Land of Israel, 4,000 Years Old and 40 Miles Wide",
-   "author": "Richard J. Koret",
-   "desc": "A tour of ten regions and eighty-one sites, from Eilat in the south to the Gaza border. Each site has its own page, picture and short story.",
-   "short": "A tour of ten regions and eighty-one sites.",
-   "cover": "/img/books/welcome-to-zion.webp",
-   "status": "available",
-   "kindle": "https://www.amazon.com/dp/B0HRSPPVQD/",
-   "paperback": "https://www.amazon.com/dp/B0HRSP41KS/",
-   "blurb": "The tour. Ten regions and eighty-one sites, from Eilat in the south to the Golan Heights in the north and the Gaza border in the west. Every site has its own page, a color picture and a short story that explains why it matters.",
-   "inside": "/tour/",
-   "samples": [
-    [
-     "/img/c/jrs.webp",
-     "/tour/jerusalem/",
-     "Tour: Jerusalem"
-    ],
-    [
-     "/img/c/dse.webp",
-     "/tour/dead-sea/",
-     "Tour: The Dead Sea"
-    ]
-   ]
-  }
- ]
+  "_note": "Single source for the book cards on the Book tab (/about/), the Books page (/books/) and the ad slots (ads.js). Edit here, then run: python3 tools/books_render.py. For each book set status to available once it is on sale, and paste the exact Amazon addresses into kindle and paperback. The amazon.com search addresses below are interim stand-ins until the exact product addresses are added. blurb is the equal-length description used on /groups/ (keep each at about 40 words); inside and samples feed its Look inside strip.",
+  "books": [
+    {
+      "id": "israel-nowlej",
+      "title": "Israel NOWlej",
+      "subtitle": "Know the Story of the Jewish Land in Maps, Timelines, Charts, and Graphics",
+      "author": "Richard J. Koret",
+      "desc": "The visual atlas of the Jewish land. Maps, timelines, charts and graphics first, text second: 33 maps, 26 timelines, 13 infographics, 17 rankings, 6 Top Ten lists, A Taste of Israel, and a glossary and index of more than 500 entries. Every page opens online through a QR code, so the book and this site work together.",
+      "short": "33 maps, 26 timelines, 500+ glossary entries. The visual atlas of the Jewish land.",
+      "cover": "/img/ad/israel-nowlej-cover.webp",
+      "status": "available",
+      "kindle": "https://www.amazon.com/ISRAEL-NOWLEJ-Graphs-Timelines-Knowledge-ebook/dp/B0HPCSV4WC/",
+      "paperback": "https://www.amazon.com/ISRAEL-NOWLEJ-Graphs-Timelines-Knowledge/dp/B0HPCTLJX7/",
+      "blurb": "The whole collection in one volume. Thirty-three maps, twenty-six timelines, thirteen infographics, seventeen rankings and six Top Ten lists, plus A Taste of Israel and a glossary of more than 500 entries. Every page opens online through its QR code.",
+      "inside": "/about/",
+      "samples": [
+        [
+          "/img/p004.webp",
+          "/maps/001/israel-today/",
+          "Map: Israel Today"
+        ],
+        [
+          "/img/p084.webp",
+          "/rankings/001/population-arab-league-iran-israel/",
+          "Ranking: Population"
+        ]
+      ]
+    },
+    {
+      "id": "israel-in-maps",
+      "title": "Israel in Maps",
+      "subtitle": "Where, When and Why is Zion?",
+      "author": "Richard J. Koret",
+      "desc": "The atlas. Thirty-three historical maps from the Patriarchs to the present, each facing a page that explains it, plus size comparisons, population charts and rankings.",
+      "short": "Thirty-three historical maps, each facing a page that explains it.",
+      "cover": "/img/books/israel-in-maps.webp",
+      "status": "available",
+      "kindle": "https://www.amazon.com/dp/B0HRS75LW2/",
+      "paperback": "https://www.amazon.com/ISRAEL-MAPS-Expanded-Charts-ZIONISM/dp/B0HRJX879T/",
+      "blurb": "The atlas. Thirty-three historical maps follow the land from the Patriarchs to the present, and each one faces a page that explains it. Size comparisons, population charts and rankings show how small the country is and how much happened there.",
+      "inside": "/maps/",
+      "samples": [
+        [
+          "/img/p022.webp",
+          "/maps/010/formation-of-the-british-mandate/",
+          "Map: Formation of the British Mandate"
+        ],
+        [
+          "/img/p036.webp",
+          "/maps/017/tensions-before-the-six-day-war/",
+          "Map: Tensions Before the Six-Day War"
+        ]
+      ]
+    },
+    {
+      "id": "israel-in-time",
+      "title": "Israel in Time",
+      "subtitle": "Four Thousand Years at a Glance",
+      "author": "Richard J. Koret",
+      "desc": "The timelines. Twenty-six timelines from the patriarchs to today, Top Ten lists, reference tables, demographic charts, calendars, a This Day in History, a glossary and an index.",
+      "short": "Twenty-six timelines from the patriarchs to today.",
+      "cover": "/img/books/israel-in-time.webp",
+      "status": "available",
+      "kindle": "",
+      "paperback": "https://www.amazon.com/dp/B0HRZ494QT/",
+      "blurb": "The timelines. Twenty-six timelines run from the patriarchs to today, marking conflict, diplomacy, settlement, faith and the arts. Top Ten lists, reference tables, demographic charts, calendars and a This Day in History complete it, with a glossary and an index.",
+      "inside": "/timelines/",
+      "samples": [
+        [
+          "/img/tl-001.webp",
+          "/timelines/001/patriarchs-to-the-first-kings/",
+          "Timeline: Patriarchs to the First Kings"
+        ],
+        [
+          "/img/tl-017.webp",
+          "/timelines/017/the-1940s/",
+          "Timeline: The 1940s"
+        ]
+      ]
+    },
+    {
+      "id": "welcome-to-zion",
+      "title": "Welcome to Zion",
+      "subtitle": "The Land of Israel, 4,000 Years Old and 40 Miles Wide",
+      "author": "Richard J. Koret",
+      "desc": "A tour of ten regions and eighty-one sites, from Eilat in the south to the Gaza border. Each site has its own page, picture and short story.",
+      "short": "A tour of ten regions and eighty-one sites.",
+      "cover": "/img/books/welcome-to-zion.webp",
+      "status": "available",
+      "kindle": "https://www.amazon.com/dp/B0HRSPPVQD/",
+      "paperback": "https://www.amazon.com/dp/B0HRSP41KS/",
+      "blurb": "The tour. Ten regions and eighty-one sites, from Eilat in the south to the Golan Heights in the north and the Gaza border in the west. Every site has its own page, a color picture and a short story that explains why it matters.",
+      "inside": "/tour/",
+      "samples": [
+        [
+          "/img/c/jrs.webp",
+          "/tour/jerusalem/",
+          "Tour: Jerusalem"
+        ],
+        [
+          "/img/c/dse.webp",
+          "/tour/dead-sea/",
+          "Tour: The Dead Sea"
+        ]
+      ]
+    }
+  ]
 }
