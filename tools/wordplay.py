@@ -103,9 +103,65 @@ def card(e, with_data=True):
             f'<span class="gb"><span class="gcat c-{CAT}">{SEC}</span><b>{E(e["title"])}</b>{he}<span class="gd">{E(e["card"])}</span></span></a>')
 
 
-hub = (f'<div class="hubslide"><h1>{SEC}</h1><p class="lead">{E(D["intro"])}</p><div class="ggrid">'
+hub = (f'<div class="hubslide"><h1>{SEC}</h1><p class="lead">{E(D["intro"])}</p><p><a class="subbtn" href="/wordplay/cards/" style="display:inline-block;padding:8px 16px;border-radius:8px;font-weight:700;text-decoration:none">Flash cards and quiz</a></p><div class="ggrid">'
        + ''.join(card(e) for e in ENT) + '</div></div>')
 wr('wordplay/index.html', pre + hub + post)
+
+# ---------- flash cards and quiz page
+FLASH_CSS = """<style>
+.fc h1{color:var(--fg)!important;opacity:1!important}.fc{--n:#0a2566;--g:#f8ba2f;max-width:760px;margin:0 auto}
+.fc .bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:12px 0}
+.fc button{font:inherit;font-weight:700;border:2px solid var(--g);background:var(--n);color:#fff;border-radius:8px;padding:8px 14px;cursor:pointer}
+.fc button[aria-pressed=true],.fc button.on{background:var(--g);color:#1a1400}
+.fc .stage{perspective:1200px;margin:10px 0}
+.fc .card{position:relative;width:100%;aspect-ratio:4/3;cursor:pointer;transform-style:preserve-3d;transition:transform .55s}
+.fc .card.flip{transform:rotateY(180deg)}
+.fc .face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:16px;border:3px solid var(--g);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:22px;color:#fff;
+ background-color:var(--n);background-image:linear-gradient(rgba(255,255,255,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.07) 1px,transparent 1px);background-size:32px 32px}
+.fc .back{transform:rotateY(180deg)}
+.fc .he{font-size:clamp(72px,22vw,170px);font-weight:700;color:#ffc700;line-height:1.1}
+.fc .hint{position:absolute;bottom:14px;font-size:14px;opacity:.75}
+.fc .mean{font-size:clamp(28px,7vw,54px);font-weight:800;line-height:1.15}
+.fc .tip{margin-top:14px;font-size:clamp(14px,2.6vw,18px);opacity:.9;max-width:34em}
+.fc .tip a{color:var(--g)}
+.fc .nav{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.fc .opts{display:grid;gap:10px;margin:12px 0}
+.fc .opt{text-align:left;font-size:18px}
+.fc .opt.ok{background:#2e8b57;border-color:#2e8b57}
+.fc .opt.no{background:#a21c3c;border-color:#a21c3c}
+.fc .qhe{font-size:clamp(64px,18vw,130px);color:#ffc700;font-weight:700;text-align:center;border:3px solid var(--g);border-radius:16px;padding:14px;background-color:var(--n);background-image:linear-gradient(rgba(255,255,255,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.07) 1px,transparent 1px);background-size:32px 32px}
+.fc .score{font-weight:700}
+@media (prefers-reduced-motion:reduce){.fc .card{transition:none}}
+</style>"""
+FLASH = """<div class="hubslide fc"><h1>Hebrew Wordplay: Flash Cards</h1>
+<p class="lead">Look at the Hebrew. Guess the meanings. Flip the card to check.</p>
+<div class="bar" role="group" aria-label="Mode"><button id="mf" aria-pressed="true">Flash cards</button><button id="mq" aria-pressed="false">Quiz</button><button id="sh">Shuffle</button></div>
+<div id="fview"><div class="stage"><div class="card" id="card" tabindex="0" role="button" aria-label="Flip card"><div class="face front"><div class="he" id="fhe" lang="he" dir="rtl"></div><div class="hint">Tap to flip. Space also flips.</div></div><div class="face back"><div class="mean" id="fm"></div><div class="tip" id="ft"></div></div></div></div>
+<div class="nav"><button id="pv">&#9664; Back</button><span id="pos" class="score"></span><button id="nx">Next &#9654;</button></div></div>
+<div id="qview" hidden><div class="qhe" id="qhe" lang="he" dir="rtl"></div><p class="score" id="qs"></p><div class="opts" id="opts"></div><div class="nav"><span id="fb"></span><button id="qn" hidden>Next &#9654;</button></div></div>
+<script>(function(){var W=__DATA__,i=0,q=[],qi=0,sc=0,$=function(x){return document.getElementById(x)};
+function show(){var w=W[i];$('card').classList.remove('flip');$('fhe').textContent=w.h;$('fm').textContent=w.m;$('ft').innerHTML=w.t+' <a href="/g/'+w.s+'/">Read the entry</a>';$('pos').textContent=(i+1)+' of '+W.length}
+function flip(){$('card').classList.toggle('flip')}
+function shuf(a){for(var k=a.length-1;k>0;k--){var j=Math.floor(Math.random()*(k+1)),t=a[k];a[k]=a[j];a[j]=t}return a}
+$('card').onclick=flip;$('card').onkeydown=function(e){if(e.key==' '||e.key=='Enter'){e.preventDefault();flip()}};
+$('nx').onclick=function(){i=(i+1)%W.length;show()};$('pv').onclick=function(){i=(i+W.length-1)%W.length;show()};
+document.onkeydown=function(e){if($('fview').hidden)return;if(e.key=='ArrowRight')$('nx').onclick();if(e.key=='ArrowLeft')$('pv').onclick()};
+$('sh').onclick=function(){shuf(W);i=0;show();if(!$('qview').hidden)start()};
+function mode(m){$('fview').hidden=m!='f';$('qview').hidden=m!='q';$('mf').setAttribute('aria-pressed',m=='f');$('mq').setAttribute('aria-pressed',m=='q');if(m=='q')start()}
+$('mf').onclick=function(){mode('f')};$('mq').onclick=function(){mode('q')};
+function start(){q=shuf(W.slice()).slice(0,10);qi=0;sc=0;ask()}
+function ask(){if(qi>=q.length){$('qhe').textContent='✓';$('qs').textContent='Final score: '+sc+' of '+q.length;$('opts').innerHTML='';$('fb').textContent='';$('qn').hidden=false;$('qn').textContent='Play again';$('qn').onclick=start;return}
+var w=q[qi],o=shuf(W.filter(function(x){return x.s!=w.s}).slice()).slice(0,3);o.push(w);shuf(o);
+$('qhe').textContent=w.h;$('qs').textContent='Question '+(qi+1)+' of '+q.length+'. Score '+sc+'.';$('fb').textContent='';$('qn').hidden=true;$('opts').innerHTML='';
+o.forEach(function(x){var b=document.createElement('button');b.className='opt';b.textContent=x.m;b.onclick=function(){var all=$('opts').children;for(var k=0;k<all.length;k++){all[k].disabled=true;if(all[k].textContent==w.m)all[k].classList.add('ok')}
+if(x.s==w.s){sc++;$('fb').textContent='Correct.'}else{b.classList.add('no');$('fb').textContent='Not quite.'}
+$('qs').textContent='Question '+(qi+1)+' of '+q.length+'. Score '+sc+'.';$('qn').hidden=false;$('qn').textContent=qi+1<q.length?'Next ▶':'See score';$('qn').onclick=function(){qi++;ask()}};$('opts').appendChild(b)})}
+show()})();</script>
+<p class="small"><a href="/wordplay/">All Hebrew Wordplay entries</a></p></div>"""
+data = [{'s': e['slug'], 'h': e['he'], 'm': e['mean'], 't': E(e['card'])} for e in ENT]
+fp = head(pre, SEC + ': Flash Cards and Quiz', 'Guess the meanings of Hebrew words with several senses. Flip the card to check, or take the quiz.', 'https://israelnowlej.com/wordplay/cards/')
+fp = fp.replace('</head>', FLASH_CSS + '</head>', 1)
+wr('wordplay/cards/index.html', fp + FLASH.replace('__DATA__', json.dumps(data, ensure_ascii=False)) + post)
 
 # ---------- nav link on every page, and subnav.json
 OLD = '<a href="/about/">Book</a><a href="/glossary/">A-Z</a>'
@@ -168,10 +224,12 @@ for e in ENT:
     u = f'/g/{e["slug"]}/'
     if u not in have:
         S.append({'t': f'{e["title"]} {e["he"]}', 'u': u, 'k': 'GLOSSARY', 's': SEC, 'x': plain(e['def'])[:300]})
+if '/wordplay/cards/' not in have:
+    S.append({'t': SEC + ': Flash Cards and Quiz', 'u': '/wordplay/cards/', 'k': 'GLOSSARY', 's': SEC, 'x': 'Flash cards and a quiz on Hebrew words with several meanings.'})
 if '/wordplay/' not in have:
     S.append({'t': SEC, 'u': '/wordplay/', 'k': 'GLOSSARY', 's': SEC, 'x': D['intro']})
 json.dump(S, open(os.path.join(ROOT, 'search.json'), 'w', encoding='utf-8'), ensure_ascii=False, separators=(',', ':'))
 M = rd('sitemap.xml')
-add = ''.join(f'<url><loc>https://israelnowlej.com{u}</loc></url>\n' for u in ['/wordplay/'] + [f'/g/{e["slug"]}/' for e in ENT] if f'<loc>https://israelnowlej.com{u}</loc>' not in M)
+add = ''.join(f'<url><loc>https://israelnowlej.com{u}</loc></url>\n' for u in ['/wordplay/', '/wordplay/cards/'] + [f'/g/{e["slug"]}/' for e in ENT] if f'<loc>https://israelnowlej.com{u}</loc>' not in M)
 if add: wr('sitemap.xml', M.replace('</urlset>', add + '</urlset>'))
 print('done', len(ENT), 'entries')
