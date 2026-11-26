@@ -1,7 +1,7 @@
 {
  "course": {
   "id": "conversational-travel",
-  "title": "Travel Conversation in Hebrew",
+  "title": "Easy Hebrew for Travelers",
   "base_lang": "en",
   "target_lang": "he",
   "target_dir": "rtl",
@@ -27,44 +27,52 @@
      "en": "Hello, goodbye, peace",
      "t": "שלום",
      "r": "shalom",
-     "note": "One word does three jobs. Efficient."
+     "note": "One word does three jobs. Efficient.",
+     "img": "👋"
     },
     {
      "en": "Good morning",
      "t": "בוקר טוב",
-     "r": "boker tov"
+     "r": "boker tov",
+     "img": "☀️"
     },
     {
      "en": "Thank you",
      "t": "תודה",
-     "r": "toda"
+     "r": "toda",
+     "img": "🙏"
     },
     {
      "en": "Thank you very much",
      "t": "תודה רבה",
-     "r": "toda raba"
+     "r": "toda raba",
+     "img": "🎁"
     },
     {
      "en": "Please, and you're welcome",
      "t": "בבקשה",
      "r": "bevakasha",
-     "note": "Same word for both."
+     "note": "Same word for both.",
+     "img": "🤝"
     },
     {
      "en": "Yes",
      "t": "כן",
-     "r": "ken"
+     "r": "ken",
+     "img": "✅"
     },
     {
      "en": "No",
      "t": "לא",
-     "r": "lo"
+     "r": "lo",
+     "img": "❌"
     },
     {
      "en": "Excuse me, sorry",
      "t": "סליחה",
      "r": "slicha",
-     "note": "Your most useful word in a crowd."
+     "note": "Your most useful word in a crowd.",
+     "img": "🙇"
     },
     {
      "en": "Do you speak English?",
@@ -72,7 +80,8 @@
      "r": "ata medaber anglit?",
      "t_f": "את מדברת אנגלית?",
      "r_f": "at medaberet anglit?",
-     "gender": "listener"
+     "gender": "listener",
+     "img": "💬"
     },
     {
      "en": "I don't speak much Hebrew",
@@ -80,12 +89,14 @@
      "r": "ani lo medaber harbe ivrit",
      "t_f": "אני לא מדברת הרבה עברית",
      "r_f": "ani lo medaberet harbe ivrit",
-     "gender": "speaker"
+     "gender": "speaker",
+     "img": "🤏"
     },
     {
      "en": "Nice to meet you",
      "t": "נעים מאוד",
-     "r": "naim meod"
+     "r": "naim meod",
+     "img": "😊"
     }
    ],
    "dialogue": [
