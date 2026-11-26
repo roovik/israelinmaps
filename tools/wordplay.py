@@ -165,7 +165,7 @@ wr('wordplay/cards/index.html', fp + FLASH.replace('__DATA__', json.dumps(data, 
 
 # ---------- nav link on every page, and subnav.json
 OLD = '<a href="/about/">Book</a><a href="/glossary/">A-Z</a>'
-NEW = f'<a href="/about/">Book</a><a href="/wordplay/">{SEC}</a><a href="/glossary/">A-Z</a>'
+NEW = f'<a href="/about/">Book</a><a href="/hebrew/">Hebrew</a><a href="/glossary/">A-Z</a>'
 n = 0
 for dp, dn, fn in os.walk(ROOT):
     if '.git' in dp.split(os.sep): continue
@@ -178,9 +178,9 @@ for dp, dn, fn in os.walk(ROOT):
 print('nav updated on', n, 'pages')
 for p in ('subnav.json', 'tools/subnav.json'):
     s = rd(p)
-    if '/wordplay/' not in s:
+    if '/hebrew/' not in s:
         s = s.replace('["Book", "/about/"], ["Books", "/books/"], ["A-Z", "/glossary/"]',
-                      f'["Book", "/about/"], ["Books", "/books/"], ["{SEC}", "/wordplay/"], ["A-Z", "/glossary/"]')
+                      f'["Book", "/about/"], ["Books", "/books/"], ["Hebrew", "/hebrew/"], ["A-Z", "/glossary/"]')
         wr(p, s)
 
 # ---------- glossary A-Z page: category button, count, cards
