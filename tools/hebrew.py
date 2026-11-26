@@ -89,6 +89,7 @@ function ptext(p){var f=(p.gender=='listener')?(TO=='f'&&p.t_f):(p.gender=='spea
 function build(){S=[{k:'title'},{k:'who'},{k:'intro'}];L.phrases.forEach(function(p,x){S.push({k:'ph',p:p})});S.push({k:'dlgi'});S.push({k:'dlg'});S.push({k:'fci'});sh(L.phrases).slice(0,6).forEach(function(p){S.push({k:'fc',p:p})});S.push({k:'qi'});L.quiz.forEach(function(q){S.push({k:'q',q:q})});S.push({k:'done'})}
 function secOf(k){return k=='ph'?'Learn':(k=='dlgi'||k=='dlg')?'Listen':(k=='fci'||k=='fc')?'Cards':(k=='qi'||k=='q'||k=='done')?'Quiz':''}
 function chips(){var cur=secOf(S[i].k),h='';['Learn','Listen','Cards','Quiz'].forEach(function(n){var idx=S.findIndex(function(x){return secOf(x.k)==n});h+='<button class="chip" data-i="'+idx+'" aria-pressed="'+(cur==n)+'">'+n+'</button>'});$('chips').innerHTML=h;$('chips').querySelectorAll('.chip').forEach(function(c){c.onclick=function(){if(S[i].k=='who'&&!G)return;i=+c.getAttribute('data-i');render()}})}
+function ft(){var r=app.getBoundingClientRect();if(r.top<-2||r.top>40)window.scrollTo({top:r.top+(window.pageYOffset||0)-6,behavior:'auto'})}
 function bar(h){$('bar').innerHTML=h}
 function render(){var s=S[i];$('pg').style.width=(i/(S.length-1)*100)+'%';var h='',b='';
 var back=i>0?'<button id="bk" aria-label="Back">&#9664;</button>':'';var nx='<button class="go" id="nx">Next &#9654;</button>';
@@ -103,7 +104,7 @@ else if(s.k=='fc'){var q=s.p,tt=ptext(q);h='<div class="fl" id="fl"><div class="
 else if(s.k=='qi'){h='<h2>Quiz time</h2><p class="en">Five questions. No pressure, just pride.</p>';score=0;b=back+nx}
 else if(s.k=='q'){var q=s.q,o=sh([q.answer].concat(q.wrong));answered=false;h='<p class="en" style="font-size:22px;font-weight:800">'+esc(q.q)+'</p><div style="width:100%" id="op">'+o.map(function(x){return '<button class="btn opt" data-v="'+esc(x)+'">'+esc(x)+'</button>'}).join('<div style="height:8px"></div>')+'</div><p class="nt" id="wy"></p>';b=''}
 else if(s.k=='done'){h='<h2>Lesson complete</h2><p class="en">Quiz score: '+score+' of '+L.quiz.length+'</p><p class="nt">'+esc(L.tip)+'</p><div class="row"><button class="btn go" id="pc">Save phone card</button></div><canvas id="cv" width="1080" height="1620" style="display:none"></canvas><div id="dlk"></div>'+(NEXT?'<a class="btn" href="'+NEXT+'">Next lesson</a>':'<a class="btn" href="/hebrew/travel/">All lessons</a>');b=back+'<button class="go" id="rs">Start again</button>'}
-$('panel').innerHTML=h;bar(b);chips();wire(s)}
+$('panel').innerHTML=h;bar(b);chips();wire(s);if(i>0)ft()}
 function wire(s){var g=function(x){return $(x)};
 if(g('bk'))g('bk').onclick=function(){i--;render()};if(g('nx'))g('nx').onclick=function(){i++;render()};
 if(s.k=='who'){g('gm').onclick=function(){G='m';try{localStorage.setItem('hg','m')}catch(e){}render()};g('gf').onclick=function(){G='f';try{localStorage.setItem('hg','f')}catch(e){}render()}}
@@ -119,7 +120,7 @@ x.strokeStyle='#f8ba2f';x.lineWidth=8;x.strokeRect(14,14,1052,1592);x.fillStyle=
 var ps=L.phrases.slice(0,7),y=270;ps.forEach(function(p){var t=ptext(p);x.fillStyle='#ffc700';x.font='bold 72px sans-serif';x.direction='rtl';x.fillText(t[0],540,y);x.direction='ltr';x.fillStyle='#fff';x.font='bold 36px sans-serif';x.fillText(t[1],540,y+48);x.font='30px sans-serif';x.fillStyle='#cfd8f0';x.fillText(p.en,540,y+90);y+=190});
 x.fillStyle='#f8ba2f';x.font='bold 44px sans-serif';x.fillText('Israel NOWlej',540,1560);x.fillStyle='#fff';x.font='30px sans-serif';x.fillText('israelnowlej.com/hebrew/travel/',540,1596);
 var a=document.createElement('a');a.href=c.toDataURL('image/png');a.download='hebrew-lesson-'+L.n+'.png';a.className='btn go';a.textContent='Download the card';$('dlk').innerHTML='';$('dlk').appendChild(a)}
-build();app.innerHTML='<div class="row" style="justify-content:space-between;margin-bottom:6px"><button class="chip" id="allb">All 10 lessons &#9662;</button><span class="small">Lesson '+L.n+' of '+ALL.length+'</span></div><div class="pick" id="pick" hidden>'+ALL.map(function(x){return '<a class="pk'+(x.n==L.n?' on':'')+'" href="/hebrew/travel/'+x.n+'/"><b>'+x.n+'</b> '+esc(x.t)+'</a>'}).join('')+'</div><div class="chips" id="chips"></div><div class="prog"><i id="pg"></i></div><div class="panel" id="panel"></div><div class="bar" id="bar"></div>';$('allb').onclick=function(){$('pick').hidden=!$('pick').hidden};render()})();</script>"""
+build();app.innerHTML='<div class="row" style="justify-content:space-between;margin-bottom:6px"><button class="chip" id="allb">All 10 lessons &#9662;</button><span class="small">Lesson '+L.n+' of '+ALL.length+'</span></div><div class="pick" id="pick" hidden>'+ALL.map(function(x){return '<a class="pk'+(x.n==L.n?' on':'')+'" href="/hebrew/travel/'+x.n+'/"><b>'+x.n+'</b> '+esc(x.t)+'</a>'}).join('')+'</div><div class="chips" id="chips"></div><div class="prog"><i id="pg"></i></div><div class="panel" id="panel"></div><div class="bar" id="bar"></div>';$('allb').onclick=function(){$('pick').hidden=!$('pick').hidden};render();ft();window.addEventListener('load',function(){setTimeout(ft,50)})})();</script>"""
 
 def lesson(l):
     n = l['n']; nxt = f'/hebrew/travel/{n+1}/' if (n + 1) in LIVE else ''
