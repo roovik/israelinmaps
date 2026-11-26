@@ -1369,3 +1369,6 @@ a.glink:hover,a.gtrig:hover{color:var(--acc,#1d5bbf)}
 .gtip b{display:block;color:#123f80;margin-bottom:3px}
 .gtip span{display:block}
 .gtip a{display:inline-block;margin-top:6px;font-weight:600;color:#1d5bbf;text-decoration:none}
+
+.c-hebrew-wordplay{background:#2f6f7a}
+tile.c-hebrew-wordplay{background:#2f6f7a}
