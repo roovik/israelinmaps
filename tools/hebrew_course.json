@@ -326,7 +326,7 @@
      "r": "atzor po, bevakasha."
     }
    ],
-   "tip": "Use a taxi app such as Gett or Yango to avoid the price debate. Buses and trains mostly stop from Friday afternoon until Saturday night, so plan ahead.",
+   "tip": "Use a taxi app such as Gett or Yango to avoid the price debate. Few buses and no trains run on Shabbat, from Friday afternoon until Saturday night, so plan ahead.",
    "wordplay": "regel",
    "quiz": [
     {
@@ -357,11 +357,11 @@
      "why": "Kama is how much. It will save your wallet."
     },
     {
-     "q": "What is Saturday like for public transport in most Israeli cities?",
-     "answer": "Buses and trains mostly do not run",
+     "q": "What is Shabbat like for public transport?",
+     "answer": "Few buses and no trains run",
      "wrong": [
-      "Buses run all night",
-      "Everything doubles in frequency"
+      "Buses and trains run as usual",
+      "Trains run all night"
      ],
      "why": "Shabbat rest. Taxis and apps still work."
     },
@@ -805,7 +805,7 @@
      "r": "ha-sherut kalul?"
     }
    ],
-   "tip": "In sit-down restaurants a tip of 10 to 15 percent is customary and is often not included, so ask. The salads that arrive first are usually free.",
+   "tip": "In sit-down restaurants a tip of 15 to 20 percent is customary and is often not included, so ask. The salads that arrive first are usually free.",
    "wordplay": "lechem",
    "quiz": [
     {
@@ -1137,7 +1137,7 @@
      "r": "efshar lishmor li al ha-tik?"
     }
    ],
-   "tip": "Look at the flag. A black flag means no swimming and a red flag means dangerous. When in doubt, ask the lifeguard. Matkot is a paddle ball game played by everyone. Never stand in the middle of a game.",
+   "tip": "Look at the flag. A red flag means caution and a black flag means danger, so do not swim. When in doubt, ask the lifeguard. Matkot is a paddle ball game played by everyone. Never stand in the middle of a game.",
    "wordplay": "chalal",
    "quiz": [
     {
@@ -1160,12 +1160,12 @@
     },
     {
      "q": "A black flag on the beach means:",
-     "answer": "Swimming is prohibited",
+     "answer": "Danger, do not swim",
      "wrong": [
       "Perfect for swimming",
       "Ice cream is on sale"
      ],
-     "why": "Safety first. Black means stay out of the water."
+     "why": "Safety first. Black means stay out of the water. Red means take care."
     },
     {
      "q": "\"Mutar lischot po?\" asks:",
