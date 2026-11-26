@@ -44,7 +44,7 @@ function pk(o,k){return(G=='f'&&o['t_f'])?o[k=='t'?'t_f':'r_f']:o[k]}
 function sh(a){a=a.slice();for(var k=a.length-1;k>0;k--){var j=Math.floor(Math.random()*(k+1)),t=a[k];a[k]=a[j];a[j]=t}return a}
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;')}
 function mk(t,r,p,v){var u=new SpeechSynthesisUtterance(t);u.lang='he-IL';u.rate=r;u.pitch=p;if(v)u.voice=v;return u}
-function qparts(t){var m=t.replace(/\s*\?\s*$/,'');var k=m.lastIndexOf(' ');return(/\?\s*$/.test(t)&&k>0)?[m.slice(0,k),m.slice(k+1)+'?']:null}
+function qparts(t){var m=t.replace(/\s*\?\s*$/,'');var k=m.lastIndexOf(' ');return null}
 function sayq(t,r,p,v,onst){var q=qparts(t),out=[];if(q){var a=mk(q[0],r,p,v),b=mk(q[1],r*.9,p+.25,v);if(onst)a.onstart=onst;out=[a,b]}else{var c=mk(t,r,p,v);if(onst)c.onstart=onst;out=[c]}out.forEach(function(u){speechSynthesis.speak(u)})}
 function say(t,slow){try{speechSynthesis.cancel();sayq(t,slow?.55:.85,1)}catch(e){}}
 function ptext(p){var f=(p.gender=='listener')?(TO=='f'&&p.t_f):(p.gender=='speaker'&&G=='f'&&p.t_f);return f?[p.t_f,p.r_f]:[p.t,p.r]}
