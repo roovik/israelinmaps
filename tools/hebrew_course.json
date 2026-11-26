@@ -1,0 +1,1657 @@
+{
+ "course": {
+  "id": "conversational-travel",
+  "title": "Travel Conversation in Hebrew",
+  "base_lang": "en",
+  "target_lang": "he",
+  "target_dir": "rtl",
+  "version": "0.1",
+  "lessons": 10,
+  "template_notes": [
+   "Everything in fields named en, goal, intro, tip and q is language neutral and must be localized or reviewed per target language.",
+   "Fields t and r hold the target script and romanization. t_f and r_f hold the form a female speaker or listener needs. gender says whether the variant depends on the speaker or the listener.",
+   "Each lesson has one scene prompt for art, a dialogue between the traveler and a local, and a five question quiz.",
+   "For a language without grammatical gender, leave t_f and r_f out."
+  ]
+ },
+ "lessons": [
+  {
+   "n": 1,
+   "slug": "landing",
+   "title": "Landing and Basics",
+   "goal": "Say hello, be polite, and admit your Hebrew is small.",
+   "scene": "Arrivals hall at Ben Gurion airport, warm light, a traveler with a suitcase meeting a friendly information desk clerk.",
+   "intro": "You have just landed. Your Hebrew is zero. By the end of this lesson it will be small, which is a big improvement.",
+   "phrases": [
+    {
+     "en": "Hello, goodbye, peace",
+     "t": "שלום",
+     "r": "shalom",
+     "note": "One word does three jobs. Efficient."
+    },
+    {
+     "en": "Good morning",
+     "t": "בוקר טוב",
+     "r": "boker tov"
+    },
+    {
+     "en": "Thank you",
+     "t": "תודה",
+     "r": "toda"
+    },
+    {
+     "en": "Thank you very much",
+     "t": "תודה רבה",
+     "r": "toda raba"
+    },
+    {
+     "en": "Please, and you're welcome",
+     "t": "בבקשה",
+     "r": "bevakasha",
+     "note": "Same word for both."
+    },
+    {
+     "en": "Yes",
+     "t": "כן",
+     "r": "ken"
+    },
+    {
+     "en": "No",
+     "t": "לא",
+     "r": "lo"
+    },
+    {
+     "en": "Excuse me, sorry",
+     "t": "סליחה",
+     "r": "slicha",
+     "note": "Your most useful word in a crowd."
+    },
+    {
+     "en": "Do you speak English?",
+     "t": "אתה מדבר אנגלית?",
+     "r": "ata medaber anglit?",
+     "t_f": "את מדברת אנגלית?",
+     "r_f": "at medaberet anglit?",
+     "gender": "listener"
+    },
+    {
+     "en": "I don't speak much Hebrew",
+     "t": "אני לא מדבר הרבה עברית",
+     "r": "ani lo medaber harbe ivrit",
+     "t_f": "אני לא מדברת הרבה עברית",
+     "r_f": "ani lo medaberet harbe ivrit",
+     "gender": "speaker"
+    },
+    {
+     "en": "Nice to meet you",
+     "t": "נעים מאוד",
+     "r": "naim meod"
+    }
+   ],
+   "dialogue": [
+    {
+     "who": "traveler",
+     "en": "Excuse me. Good morning.",
+     "t": "סליחה, בוקר טוב.",
+     "r": "slicha, boker tov."
+    },
+    {
+     "who": "local",
+     "en": "Good morning! Welcome.",
+     "t": "בוקר טוב! ברוך הבא.",
+     "r": "boker tov! baruch haba.",
+     "t_f": "בוקר טוב! ברוכה הבאה.",
+     "r_f": "boker tov! brucha haba'a."
+    },
+    {
+     "who": "traveler",
+     "en": "Do you speak English?",
+     "t": "אתה מדבר אנגלית?",
+     "r": "ata medaber anglit?"
+    },
+    {
+     "who": "local",
+     "en": "A little. Nice to meet you.",
+     "t": "קצת. נעים מאוד.",
+     "r": "ktzat. naim meod."
+    },
+    {
+     "who": "traveler",
+     "en": "I don't speak much Hebrew.",
+     "t": "אני לא מדבר הרבה עברית.",
+     "r": "ani lo medaber harbe ivrit.",
+     "t_f": "אני לא מדברת הרבה עברית.",
+     "r_f": "ani lo medaberet harbe ivrit."
+    },
+    {
+     "who": "local",
+     "en": "No problem. Welcome to Israel!",
+     "t": "אין בעיה. ברוך הבא לישראל!",
+     "r": "ein baaya. baruch haba leYisrael!",
+     "t_f": "אין בעיה. ברוכה הבאה לישראל!",
+     "r_f": "ein baaya. brucha haba'a leYisrael!"
+    },
+    {
+     "who": "traveler",
+     "en": "Thank you very much.",
+     "t": "תודה רבה.",
+     "r": "toda raba."
+    },
+    {
+     "who": "local",
+     "en": "You're welcome.",
+     "t": "בבקשה.",
+     "r": "bevakasha."
+    }
+   ],
+   "tip": "Israelis are direct and warm at once. If someone sounds like they are arguing, they are probably agreeing with you loudly.",
+   "wordplay": "shalom",
+   "quiz": [
+    {
+     "q": "What does \"toda raba\" mean?",
+     "answer": "Thank you very much",
+     "wrong": [
+      "You're welcome",
+      "Good morning"
+     ],
+     "why": "Raba means big or much, so toda raba is a big thank you."
+    },
+    {
+     "q": "Which word means hello, goodbye and peace?",
+     "answer": "shalom",
+     "wrong": [
+      "bevakasha",
+      "slicha"
+     ],
+     "why": "One word, three jobs. Israel runs lean."
+    },
+    {
+     "q": "You bump into someone in the crowded arrivals hall. What do you say?",
+     "answer": "slicha",
+     "wrong": [
+      "ken",
+      "lo"
+     ],
+     "why": "Slicha means excuse me and sorry. You will use it daily."
+    },
+    {
+     "q": "How do you ask a woman if she speaks English?",
+     "answer": "at medaberet anglit?",
+     "wrong": [
+      "ata medaber anglit?",
+      "ani medaberet anglit?"
+     ],
+     "why": "At is you to a woman. Ata is you to a man."
+    },
+    {
+     "q": "\"Bevakasha\" can mean:",
+     "answer": "Please and you're welcome",
+     "wrong": [
+      "Thank you",
+      "Sorry"
+     ],
+     "why": "Bevakasha covers both ends of a polite exchange."
+    }
+   ]
+  },
+  {
+   "n": 2,
+   "slug": "getting-around",
+   "title": "Getting Around",
+   "goal": "Find the bus, hail a taxi and give simple directions.",
+   "scene": "A sunny Tel Aviv street with a yellow taxi pulling up, a bus stop in the background, and a traveler holding a phone.",
+   "intro": "Israeli drivers have opinions about your route, the weather, football and politics. Today you learn to give them one clear instruction.",
+   "phrases": [
+    {
+     "en": "Possible? Can I? Is it possible?",
+     "t": "אפשר?",
+     "r": "efshar?",
+     "note": "The magic word. Add it before anything you want."
+    },
+    {
+     "en": "Where is the bus?",
+     "t": "איפה האוטובוס?",
+     "r": "eifo ha-otobus?"
+    },
+    {
+     "en": "Taxi",
+     "t": "מונית",
+     "r": "monit"
+    },
+    {
+     "en": "To Tel Aviv, please",
+     "t": "לתל אביב, בבקשה",
+     "r": "le-Tel Aviv, bevakasha"
+    },
+    {
+     "en": "How much does it cost?",
+     "t": "כמה זה עולה?",
+     "r": "kama ze ole?"
+    },
+    {
+     "en": "Straight",
+     "t": "ישר",
+     "r": "yashar"
+    },
+    {
+     "en": "Right",
+     "t": "ימינה",
+     "r": "yamina"
+    },
+    {
+     "en": "Left",
+     "t": "שמאלה",
+     "r": "smola"
+    },
+    {
+     "en": "Stop here, please",
+     "t": "עצור פה, בבקשה",
+     "r": "atzor po, bevakasha",
+     "t_f": "עצרי פה, בבקשה",
+     "r_f": "itzri po, bevakasha",
+     "gender": "listener"
+    },
+    {
+     "en": "Is it far?",
+     "t": "זה רחוק?",
+     "r": "ze rachok?"
+    }
+   ],
+   "dialogue": [
+    {
+     "who": "traveler",
+     "en": "Excuse me, is it possible to go to the beach?",
+     "t": "סליחה, אפשר לחוף?",
+     "r": "slicha, efshar la-chof?"
+    },
+    {
+     "who": "local",
+     "en": "Of course. Get in!",
+     "t": "בטח. תעלה!",
+     "r": "betach. taaleh!",
+     "t_f": "בטח. תעלי!",
+     "r_f": "betach. taali!"
+    },
+    {
+     "who": "traveler",
+     "en": "How much does it cost?",
+     "t": "כמה זה עולה?",
+     "r": "kama ze ole?"
+    },
+    {
+     "who": "local",
+     "en": "Fifty shekels. For you, a good price.",
+     "t": "חמישים שקל. בשבילך, מחיר טוב.",
+     "r": "chamishim shekel. bishvilcha, mechir tov.",
+     "t_f": "חמישים שקל. בשבילך, מחיר טוב.",
+     "r_f": "chamishim shekel. bishvilech, mechir tov."
+    },
+    {
+     "who": "traveler",
+     "en": "Is it far?",
+     "t": "זה רחוק?",
+     "r": "ze rachok?"
+    },
+    {
+     "who": "local",
+     "en": "No. Straight, then left.",
+     "t": "לא. ישר, ואז שמאלה.",
+     "r": "lo. yashar, ve-az smola."
+    },
+    {
+     "who": "traveler",
+     "en": "Stop here, please.",
+     "t": "עצור פה, בבקשה.",
+     "r": "atzor po, bevakasha."
+    }
+   ],
+   "tip": "Use a taxi app such as Gett or Yango to avoid the price debate. Buses and trains mostly stop from Friday afternoon until Saturday night, so plan ahead.",
+   "wordplay": "regel",
+   "quiz": [
+    {
+     "q": "\"Eifo ha-otobus?\" means:",
+     "answer": "Where is the bus?",
+     "wrong": [
+      "How much is the bus?",
+      "When is the bus?"
+     ],
+     "why": "Eifo is where. Master it and you can find anything."
+    },
+    {
+     "q": "You want the driver to keep going straight. Which word?",
+     "answer": "yashar",
+     "wrong": [
+      "yamina",
+      "smola"
+     ],
+     "why": "Yashar is straight. Yamina is right and smola is left."
+    },
+    {
+     "q": "\"Kama ze ole?\" asks about:",
+     "answer": "The price",
+     "wrong": [
+      "The time",
+      "The direction"
+     ],
+     "why": "Kama is how much. It will save your wallet."
+    },
+    {
+     "q": "What is Saturday like for public transport in most Israeli cities?",
+     "answer": "Buses and trains mostly do not run",
+     "wrong": [
+      "Buses run all night",
+      "Everything doubles in frequency"
+     ],
+     "why": "Shabbat rest. Taxis and apps still work."
+    },
+    {
+     "q": "How do you tell a woman driver to stop here?",
+     "answer": "itzri po, bevakasha",
+     "wrong": [
+      "atzor po, bevakasha",
+      "yamina, bevakasha"
+     ],
+     "why": "Hebrew commands change for a woman, so itzri."
+    }
+   ]
+  },
+  {
+   "n": 3,
+   "slug": "hotel",
+   "title": "The Hotel",
+   "goal": "Check in, ask for what you need and survive the Shabbat elevator.",
+   "scene": "A bright hotel lobby with a reception desk, a smiling receptionist handing over a key card, and a suitcase.",
+   "intro": "Hotels in Israel come with a breakfast that is not a breakfast. It is a feast. Learn to ask when it starts.",
+   "phrases": [
+    {
+     "en": "I have a reservation",
+     "t": "יש לי הזמנה",
+     "r": "yesh li hazmana"
+    },
+    {
+     "en": "Can I have a key?",
+     "t": "אפשר מפתח?",
+     "r": "efshar mafteach?"
+    },
+    {
+     "en": "Can I have another towel?",
+     "t": "אפשר עוד מגבת?",
+     "r": "efshar od magevet?"
+    },
+    {
+     "en": "When is breakfast?",
+     "t": "מתי ארוחת הבוקר?",
+     "r": "matai aruchat ha-boker?"
+    },
+    {
+     "en": "What is the wifi password?",
+     "t": "מה הסיסמה של הוויי פיי?",
+     "r": "ma ha-sisma shel ha-vay fay?"
+    },
+    {
+     "en": "The air conditioner doesn't work",
+     "t": "המזגן לא עובד",
+     "r": "ha-mazgan lo oved"
+    },
+    {
+     "en": "Room",
+     "t": "חדר",
+     "r": "cheder"
+    },
+    {
+     "en": "Thank you, it's great",
+     "t": "תודה, זה מעולה",
+     "r": "toda, ze meule"
+    }
+   ],
+   "dialogue": [
+    {
+     "who": "traveler",
+     "en": "Good evening. I have a reservation.",
+     "t": "ערב טוב. יש לי הזמנה.",
+     "r": "erev tov. yesh li hazmana."
+    },
+    {
+     "who": "local",
+     "en": "Welcome. Your room is on the third floor.",
+     "t": "ברוך הבא. החדר שלך בקומה שלישית.",
+     "r": "baruch haba. ha-cheder shelcha bi-koma shlishit.",
+     "t_f": "ברוכה הבאה. החדר שלך בקומה שלישית.",
+     "r_f": "brucha haba'a. ha-cheder shelach bi-koma shlishit."
+    },
+    {
+     "who": "traveler",
+     "en": "When is breakfast?",
+     "t": "מתי ארוחת הבוקר?",
+     "r": "matai aruchat ha-boker?"
+    },
+    {
+     "who": "local",
+     "en": "From seven until ten.",
+     "t": "משבע עד עשר.",
+     "r": "mi-sheva ad eser."
+    },
+    {
+     "who": "traveler",
+     "en": "What is the wifi password?",
+     "t": "מה הסיסמה של הוויי פיי?",
+     "r": "ma ha-sisma shel ha-vay fay?"
+    },
+    {
+     "who": "local",
+     "en": "It is on your key card.",
+     "t": "היא על כרטיס המפתח.",
+     "r": "hi al kartis ha-mafteach."
+    },
+    {
+     "who": "traveler",
+     "en": "Thank you, it's great.",
+     "t": "תודה, זה מעולה.",
+     "r": "toda, ze meule."
+    }
+   ],
+   "tip": "On Shabbat many hotels run a Shabbat elevator that stops at every floor by itself. It is not broken. It is giving you time to think.",
+   "wordplay": "shemesh",
+   "quiz": [
+    {
+     "q": "\"Yesh li hazmana\" means:",
+     "answer": "I have a reservation",
+     "wrong": [
+      "I need a room",
+      "I lost my key"
+     ],
+     "why": "Yesh li is I have. Hazmana is a reservation."
+    },
+    {
+     "q": "You want a room key. What do you ask?",
+     "answer": "efshar mafteach?",
+     "wrong": [
+      "efshar magevet?",
+      "efshar mazgan?"
+     ],
+     "why": "Efshar plus the thing. A key is mafteach."
+    },
+    {
+     "q": "\"Ha-mazgan lo oved\" means:",
+     "answer": "The air conditioner doesn't work",
+     "wrong": [
+      "The towel is wet",
+      "The key is lost"
+     ],
+     "why": "Lo oved is does not work. Useful in August."
+    },
+    {
+     "q": "\"Ma ha-sisma shel ha-vay fay?\" asks for:",
+     "answer": "The wifi password",
+     "wrong": [
+      "The room number",
+      "The breakfast time"
+     ],
+     "why": "Sisma means password."
+    },
+    {
+     "q": "What is a Shabbat elevator?",
+     "answer": "One that stops at every floor automatically",
+     "wrong": [
+      "One that needs a special key",
+      "One that is free"
+     ],
+     "why": "It lets observant guests avoid pressing buttons on Shabbat."
+    }
+   ]
+  },
+  {
+   "n": 4,
+   "slug": "cafe",
+   "title": "The Cafe",
+   "goal": "Order coffee like a local and pay without drama.",
+   "scene": "A sunny Tel Aviv cafe terrace with a hafuch on a small table, a croissant, and a waiter with a notepad.",
+   "intro": "In Israel a coffee order is a short speech. Today you learn the cheerful version.",
+   "phrases": [
+    {
+     "en": "Coffee",
+     "t": "קפה",
+     "r": "kafe"
+    },
+    {
+     "en": "Hafuch, the Israeli latte",
+     "t": "הפוך",
+     "r": "hafuch",
+     "note": "It means upside down, because the milk goes in first."
+    },
+    {
+     "en": "I want",
+     "t": "אני רוצה",
+     "r": "ani rotze",
+     "t_f": "אני רוצה",
+     "r_f": "ani rotza",
+     "gender": "speaker",
+     "note": "Same Hebrew spelling for both. Only the sound changes."
+    },
+    {
+     "en": "With milk",
+     "t": "עם חלב",
+     "r": "im chalav"
+    },
+    {
+     "en": "Without sugar",
+     "t": "בלי סוכר",
+     "r": "bli sukar"
+    },
+    {
+     "en": "Here or to go?",
+     "t": "פה או לקחת?",
+     "r": "po o lakachat?"
+    },
+    {
+     "en": "Water",
+     "t": "מים",
+     "r": "mayim"
+    },
+    {
+     "en": "It's delicious",
+     "t": "זה טעים",
+     "r": "ze taim"
+    },
+    {
+     "en": "The bill, please",
+     "t": "החשבון, בבקשה",
+     "r": "ha-cheshbon, bevakasha"
+    }
+   ],
+   "dialogue": [
+    {
+     "who": "traveler",
+     "en": "Good morning. I want a hafuch, please.",
+     "t": "בוקר טוב. אני רוצה הפוך, בבקשה.",
+     "r": "boker tov. ani rotze hafuch, bevakasha.",
+     "t_f": "בוקר טוב. אני רוצה הפוך, בבקשה.",
+     "r_f": "boker tov. ani rotza hafuch, bevakasha."
+    },
+    {
+     "who": "local",
+     "en": "Here or to go?",
+     "t": "פה או לקחת?",
+     "r": "po o lakachat?"
+    },
+    {
+     "who": "traveler",
+     "en": "Here. And water, please.",
+     "t": "פה. ומים, בבקשה.",
+     "r": "po. u-mayim, bevakasha."
+    },
+    {
+     "who": "local",
+     "en": "Sure. Anything else?",
+     "t": "בטח. עוד משהו?",
+     "r": "betach. od mashehu?"
+    },
+    {
+     "who": "traveler",
+     "en": "No, thank you. It's delicious!",
+     "t": "לא, תודה. זה טעים!",
+     "r": "lo, toda. ze taim!"
+    },
+    {
+     "who": "traveler",
+     "en": "The bill, please.",
+     "t": "החשבון, בבקשה.",
+     "r": "ha-cheshbon, bevakasha."
+    }
+   ],
+   "tip": "Cafes rarely rush you. Staying two hours over one coffee is considered normal behavior, not bad manners.",
+   "wordplay": "kesef",
+   "quiz": [
+    {
+     "q": "What is a hafuch?",
+     "answer": "An Israeli latte, coffee with lots of milk",
+     "wrong": [
+      "Black tea",
+      "Cold water"
+     ],
+     "why": "Hafuch means upside down, because the milk goes in first."
+    },
+    {
+     "q": "\"Bli sukar\" means:",
+     "answer": "Without sugar",
+     "wrong": [
+      "With milk",
+      "Very hot"
+     ],
+     "why": "Bli is without. Im is with."
+    },
+    {
+     "q": "How does a woman say I want?",
+     "answer": "ani rotza",
+     "wrong": [
+      "ani rotze",
+      "ani ratza"
+     ],
+     "why": "Written the same, said differently. Rotze for a man, rotza for a woman."
+    },
+    {
+     "q": "\"Po o lakachat?\" asks:",
+     "answer": "Here or to go?",
+     "wrong": [
+      "Hot or cold?",
+      "Big or small?"
+     ],
+     "why": "Lakachat is to take away."
+    },
+    {
+     "q": "How do you ask for the bill?",
+     "answer": "ha-cheshbon, bevakasha",
+     "wrong": [
+      "ha-tafrit, bevakasha",
+      "ha-mayim, bevakasha"
+     ],
+     "why": "Cheshbon is the bill, and also the word for calculation."
+    }
+   ]
+  },
+  {
+   "n": 5,
+   "slug": "restaurant",
+   "title": "The Restaurant",
+   "goal": "Get a table, handle allergies and understand the tip.",
+   "scene": "A lively Israeli restaurant table covered in small salad dishes, hummus, warm pita and a smiling waitress.",
+   "intro": "Ask for a menu and you may receive fourteen small salads you never ordered. That is not a mistake. That is hospitality.",
+   "phrases": [
+    {
+     "en": "A table for two",
+     "t": "שולחן לשניים",
+     "r": "shulchan lishnayim"
+    },
+    {
+     "en": "The menu, please",
+     "t": "תפריט, בבקשה",
+     "r": "tafrit, bevakasha"
+    },
+    {
+     "en": "I'm vegetarian",
+     "t": "אני צמחוני",
+     "r": "ani tzimchoni",
+     "t_f": "אני צמחונית",
+     "r_f": "ani tzimchonit",
+     "gender": "speaker"
+    },
+    {
+     "en": "I'm allergic to nuts",
+     "t": "אני אלרגי לאגוזים",
+     "r": "ani alergi la-egozim",
+     "t_f": "אני אלרגית לאגוזים",
+     "r_f": "ani alergit la-egozim",
+     "gender": "speaker"
+    },
+    {
+     "en": "What do you recommend?",
+     "t": "מה אתה ממליץ?",
+     "r": "ma ata mamlitz?",
+     "t_f": "מה את ממליצה?",
+     "r_f": "ma at mamlitza?",
+     "gender": "listener"
+    },
+    {
+     "en": "Not spicy",
+     "t": "לא חריף",
+     "r": "lo charif"
+    },
+    {
+     "en": "More pita, please",
+     "t": "עוד פיתה, בבקשה",
+     "r": "od pita, bevakasha"
+    },
+    {
+     "en": "Is service included?",
+     "t": "השירות כלול?",
+     "r": "ha-sherut kalul?"
+    },
+    {
+     "en": "Enjoy your meal",
+     "t": "בתיאבון",
+     "r": "be-teavon"
+    }
+   ],
+   "dialogue": [
+    {
+     "who": "traveler",
+     "en": "A table for two, please.",
+     "t": "שולחן לשניים, בבקשה.",
+     "r": "shulchan lishnayim, bevakasha."
+    },
+    {
+     "who": "local",
+     "en": "Of course. Here is the menu.",
+     "t": "בטח. הנה התפריט.",
+     "r": "betach. hine ha-tafrit."
+    },
+    {
+     "who": "traveler",
+     "en": "I'm vegetarian. What do you recommend?",
+     "t": "אני צמחוני. מה את ממליצה?",
+     "r": "ani tzimchoni. ma at mamlitza?",
+     "t_f": "אני צמחונית. מה את ממליצה?",
+     "r_f": "ani tzimchonit. ma at mamlitza?"
+    },
+    {
+     "who": "local",
+     "en": "The shakshuka and the hummus.",
+     "t": "השקשוקה והחומוס.",
+     "r": "ha-shakshuka ve-ha-chumus."
+    },
+    {
+     "who": "traveler",
+     "en": "Not spicy, please. And more pita.",
+     "t": "לא חריף, בבקשה. ועוד פיתה.",
+     "r": "lo charif, bevakasha. ve-od pita."
+    },
+    {
+     "who": "local",
+     "en": "Enjoy your meal!",
+     "t": "בתיאבון!",
+     "r": "be-teavon!"
+    },
+    {
+     "who": "traveler",
+     "en": "Is service included?",
+     "t": "השירות כלול?",
+     "r": "ha-sherut kalul?"
+    }
+   ],
+   "tip": "In sit-down restaurants a tip of 10 to 15 percent is customary and is often not included, so ask. The salads that arrive first are usually free.",
+   "wordplay": "lechem",
+   "quiz": [
+    {
+     "q": "\"Shulchan lishnayim\" means:",
+     "answer": "A table for two",
+     "wrong": [
+      "The bill for two",
+      "Two beers"
+     ],
+     "why": "Shnayim is two."
+    },
+    {
+     "q": "How does a woman say she is allergic to nuts?",
+     "answer": "ani alergit la-egozim",
+     "wrong": [
+      "ani alergi la-egozim",
+      "ani tzimchonit"
+     ],
+     "why": "Add the feminine ending: alergit."
+    },
+    {
+     "q": "\"Lo charif\" means:",
+     "answer": "Not spicy",
+     "wrong": [
+      "Very spicy",
+      "Extra salty"
+     ],
+     "why": "Charif is spicy or sharp."
+    },
+    {
+     "q": "\"Ha-sherut kalul?\" asks:",
+     "answer": "Whether service is included",
+     "wrong": [
+      "Whether the food is free",
+      "Whether the table is reserved"
+     ],
+     "why": "Sherut is service and kalul is included."
+    },
+    {
+     "q": "\"Be-teavon\" means:",
+     "answer": "Enjoy your meal",
+     "wrong": [
+      "Excuse me",
+      "Goodnight"
+     ],
+     "why": "Said before every meal, so you will hear it a lot."
+    }
+   ]
+  },
+  {
+   "n": 6,
+   "slug": "shuk",
+   "title": "The Shuk",
+   "goal": "Count to ten, ask prices and bargain with a smile.",
+   "scene": "A colorful Israeli market stall piled with fruit, spices and halva, a vendor holding up a bag of apples.",
+   "intro": "The shuk is theater. The vendor performs, you perform, and both of you leave pleased. Fixed prices are for supermarkets.",
+   "phrases": [
+    {
+     "en": "One",
+     "t": "אחד",
+     "r": "echad"
+    },
+    {
+     "en": "Two",
+     "t": "שתיים",
+     "r": "shtayim"
+    },
+    {
+     "en": "Three",
+     "t": "שלוש",
+     "r": "shalosh"
+    },
+    {
+     "en": "Four",
+     "t": "ארבע",
+     "r": "arba"
+    },
+    {
+     "en": "Five",
+     "t": "חמש",
+     "r": "chamesh"
+    },
+    {
+     "en": "Six",
+     "t": "שש",
+     "r": "shesh"
+    },
+    {
+     "en": "Seven",
+     "t": "שבע",
+     "r": "sheva"
+    },
+    {
+     "en": "Eight",
+     "t": "שמונה",
+     "r": "shmone"
+    },
+    {
+     "en": "Nine",
+     "t": "תשע",
+     "r": "tesha"
+    },
+    {
+     "en": "Ten",
+     "t": "עשר",
+     "r": "eser"
+    },
+    {
+     "en": "How much is it?",
+     "t": "כמה זה?",
+     "r": "kama ze?"
+    },
+    {
+     "en": "Too expensive",
+     "t": "זה יקר מדי",
+     "r": "ze yakar midai"
+    },
+    {
+     "en": "A kilo of apples",
+     "t": "קילו תפוחים",
+     "r": "kilo tapuchim"
+    },
+    {
+     "en": "Just looking",
+     "t": "אני רק מסתכל",
+     "r": "ani rak mistakel",
+     "t_f": "אני רק מסתכלת",
+     "r_f": "ani rak mistakelet",
+     "gender": "speaker"
+    },
+    {
+     "en": "Give me a better price",
+     "t": "תן לי מחיר טוב יותר",
+     "r": "ten li mechir tov yoter",
+     "t_f": "תני לי מחיר טוב יותר",
+     "r_f": "tni li mechir tov yoter",
+     "gender": "listener"
+    },
+    {
+     "en": "Can I taste?",
+     "t": "אפשר לטעום?",
+     "r": "efshar litom?"
+    }
+   ],
+   "dialogue": [
+    {
+     "who": "traveler",
+     "en": "How much is a kilo of apples?",
+     "t": "כמה עולה קילו תפוחים?",
+     "r": "kama ole kilo tapuchim?"
+    },
+    {
+     "who": "local",
+     "en": "Twelve shekels, my friend.",
+     "t": "שתים עשרה שקל, אחי.",
+     "r": "shteim esre shekel, achi.",
+     "t_f": "שתים עשרה שקל, אחותי.",
+     "r_f": "shteim esre shekel, achoti."
+    },
+    {
+     "who": "traveler",
+     "en": "Too expensive. Give me a better price.",
+     "t": "יקר מדי. תן לי מחיר טוב יותר.",
+     "r": "yakar midai. ten li mechir tov yoter."
+    },
+    {
+     "who": "local",
+     "en": "Ten. Only for you.",
+     "t": "עשר. רק בשבילך.",
+     "r": "eser. rak bishvilcha.",
+     "t_f": "עשר. רק בשבילך.",
+     "r_f": "eser. rak bishvilech."
+    },
+    {
+     "who": "traveler",
+     "en": "Can I taste?",
+     "t": "אפשר לטעום?",
+     "r": "efshar litom?"
+    },
+    {
+     "who": "local",
+     "en": "Of course! Take.",
+     "t": "בטח! קח.",
+     "r": "betach! kach.",
+     "t_f": "בטח! קחי.",
+     "r_f": "betach! kchi."
+    },
+    {
+     "who": "traveler",
+     "en": "Delicious. I'll take two kilos.",
+     "t": "טעים. אני לוקח שני קילו.",
+     "r": "taim. ani lokeach shnei kilo.",
+     "t_f": "טעים. אני לוקחת שני קילו.",
+     "r_f": "taim. ani lokachat shnei kilo."
+    }
+   ],
+   "tip": "Friday morning is the busiest, then stalls close early for Shabbat. Bargain with a smile and walk away politely if you disagree. A good price often follows you.",
+   "wordplay": "kesef",
+   "quiz": [
+    {
+     "q": "What number is \"shesh\"?",
+     "answer": "Six",
+     "wrong": [
+      "Ten",
+      "Three"
+     ],
+     "why": "Shesh is six. It sounds like a calm sneeze."
+    },
+    {
+     "q": "\"Ze yakar midai\" means:",
+     "answer": "It is too expensive",
+     "wrong": [
+      "It is delicious",
+      "It is cheap"
+     ],
+     "why": "Yakar is expensive and midai is too much."
+    },
+    {
+     "q": "\"Ani rak mistakel\" means:",
+     "answer": "I'm just looking",
+     "wrong": [
+      "I'm very hungry",
+      "I'm lost"
+     ],
+     "why": "Rak is only. A polite way to avoid a hard sell."
+    },
+    {
+     "q": "\"Kilo tapuchim\" is:",
+     "answer": "A kilo of apples",
+     "wrong": [
+      "A kilo of oranges",
+      "Half a kilo"
+     ],
+     "why": "Tapuchim are apples."
+    },
+    {
+     "q": "When is the shuk busiest and when does it close early?",
+     "answer": "Busiest Friday morning, closes early before Shabbat",
+     "wrong": [
+      "Busiest Monday, closes at noon",
+      "Always open late"
+     ],
+     "why": "Everyone shops before the weekend starts."
+    }
+   ]
+  },
+  {
+   "n": 7,
+   "slug": "beach",
+   "title": "The Beach",
+   "goal": "Rent a chair, check the flags and make friends over a paddle game.",
+   "scene": "A golden Mediterranean beach in Tel Aviv, umbrellas, two people playing matkot, a lifeguard tower with a flag.",
+   "intro": "The Israeli beach has a soundtrack. If you hear a steady tok tok tok, it is not a woodpecker. It is matkot.",
+   "phrases": [
+    {
+     "en": "Where is the beach?",
+     "t": "איפה החוף?",
+     "r": "eifo ha-chof?"
+    },
+    {
+     "en": "The sea",
+     "t": "הים",
+     "r": "ha-yam"
+    },
+    {
+     "en": "The water is warm",
+     "t": "המים חמים",
+     "r": "ha-mayim chamim"
+    },
+    {
+     "en": "The water is cold",
+     "t": "המים קרים",
+     "r": "ha-mayim karim"
+    },
+    {
+     "en": "Sunscreen",
+     "t": "קרם הגנה",
+     "r": "krem hagana"
+    },
+    {
+     "en": "Can I rent an umbrella?",
+     "t": "אפשר לשכור שמשייה?",
+     "r": "efshar liskor shimshiya?"
+    },
+    {
+     "en": "Is it allowed to swim here?",
+     "t": "מותר לשחות פה?",
+     "r": "mutar lischot po?"
+    },
+    {
+     "en": "Lifeguard",
+     "t": "מציל",
+     "r": "matzil"
+    },
+    {
+     "en": "I'm hot",
+     "t": "חם לי",
+     "r": "cham li"
+    },
+    {
+     "en": "Can you watch my bag?",
+     "t": "אפשר לשמור לי על התיק?",
+     "r": "efshar lishmor li al ha-tik?"
+    }
+   ],
+   "dialogue": [
+    {
+     "who": "traveler",
+     "en": "Excuse me, where is the beach?",
+     "t": "סליחה, איפה החוף?",
+     "r": "slicha, eifo ha-chof?"
+    },
+    {
+     "who": "local",
+     "en": "Straight, two minutes. You'll hear the matkot.",
+     "t": "ישר, שתי דקות. תשמע את המטקות.",
+     "r": "yashar, shtei dakot. tishma et ha-matkot.",
+     "t_f": "ישר, שתי דקות. תשמעי את המטקות.",
+     "r_f": "yashar, shtei dakot. tishme'i et ha-matkot."
+    },
+    {
+     "who": "traveler",
+     "en": "Can I rent an umbrella?",
+     "t": "אפשר לשכור שמשייה?",
+     "r": "efshar liskor shimshiya?"
+    },
+    {
+     "who": "local",
+     "en": "Of course. Thirty shekels.",
+     "t": "בטח. שלושים שקל.",
+     "r": "betach. shloshim shekel."
+    },
+    {
+     "who": "traveler",
+     "en": "Is it allowed to swim here?",
+     "t": "מותר לשחות פה?",
+     "r": "mutar lischot po?"
+    },
+    {
+     "who": "local",
+     "en": "Yes. Check the flag first.",
+     "t": "כן. תבדוק קודם את הדגל.",
+     "r": "ken. tivdok kodem et ha-degel.",
+     "t_f": "כן. תבדקי קודם את הדגל.",
+     "r_f": "ken. tivdeki kodem et ha-degel."
+    },
+    {
+     "who": "traveler",
+     "en": "Can you watch my bag?",
+     "t": "אפשר לשמור לי על התיק?",
+     "r": "efshar lishmor li al ha-tik?"
+    }
+   ],
+   "tip": "Look at the flag. A black flag means no swimming and a red flag means dangerous. When in doubt, ask the lifeguard. Matkot is a paddle ball game played by everyone. Never stand in the middle of a game.",
+   "wordplay": "chalal",
+   "quiz": [
+    {
+     "q": "\"Eifo ha-chof?\" means:",
+     "answer": "Where is the beach?",
+     "wrong": [
+      "Where is the hotel?",
+      "Where is the sun?"
+     ],
+     "why": "Chof is the shore or beach."
+    },
+    {
+     "q": "\"Krem hagana\" is:",
+     "answer": "Sunscreen",
+     "wrong": [
+      "Beach towel",
+      "Ice cream"
+     ],
+     "why": "Hagana means protection."
+    },
+    {
+     "q": "A black flag on the beach means:",
+     "answer": "Swimming is prohibited",
+     "wrong": [
+      "Perfect for swimming",
+      "Ice cream is on sale"
+     ],
+     "why": "Safety first. Black means stay out of the water."
+    },
+    {
+     "q": "\"Mutar lischot po?\" asks:",
+     "answer": "Is it allowed to swim here?",
+     "wrong": [
+      "Is the water warm?",
+      "Is there shade?"
+     ],
+     "why": "Mutar is allowed. Lischot is to swim."
+    },
+    {
+     "q": "What is matkot?",
+     "answer": "A paddle ball game played on the beach",
+     "wrong": [
+      "A type of fish",
+      "A beach snack"
+     ],
+     "why": "Rubber ball, wooden paddles, and a lot of tok tok tok."
+    }
+   ]
+  },
+  {
+   "n": 8,
+   "slug": "friends",
+   "title": "Making Friends",
+   "goal": "Introduce yourself, ask where someone is from and keep the chat going.",
+   "scene": "Two travelers and a local laughing together at a table on a Tel Aviv terrace at golden hour.",
+   "intro": "Israelis ask direct questions fast. Within five minutes they may know your job, your family and your favorite football team. Take it as warmth.",
+   "phrases": [
+    {
+     "en": "What's your name?",
+     "t": "איך קוראים לך?",
+     "r": "ech korim lecha?",
+     "t_f": "איך קוראים לך?",
+     "r_f": "ech korim lach?",
+     "gender": "listener",
+     "note": "Written the same for both. Only the ending sound changes."
+    },
+    {
+     "en": "My name is",
+     "t": "קוראים לי",
+     "r": "korim li"
+    },
+    {
+     "en": "Where are you from?",
+     "t": "מאיפה אתה?",
+     "r": "me-eifo ata?",
+     "t_f": "מאיפה את?",
+     "r_f": "me-eifo at?",
+     "gender": "listener"
+    },
+    {
+     "en": "I'm from America",
+     "t": "אני מאמריקה",
+     "r": "ani me-Amerika"
+    },
+    {
+     "en": "First time in Israel?",
+     "t": "פעם ראשונה בישראל?",
+     "r": "paam rishona be-Israel?"
+    },
+    {
+     "en": "How are you? What's up?",
+     "t": "מה נשמע?",
+     "r": "ma nishma?"
+    },
+    {
+     "en": "Great, cool",
+     "t": "סבבה",
+     "r": "sababa"
+    },
+    {
+     "en": "I love Israel",
+     "t": "אני אוהב את ישראל",
+     "r": "ani ohev et Israel",
+     "t_f": "אני אוהבת את ישראל",
+     "r_f": "ani ohevet et Israel",
+     "gender": "speaker"
+    },
+    {
+     "en": "Your Hebrew is excellent",
+     "t": "העברית שלך מצוינת",
+     "r": "ha-ivrit shelcha metzuyenet",
+     "t_f": "העברית שלך מצוינת",
+     "r_f": "ha-ivrit shelach metzuyenet",
+     "gender": "listener"
+    }
+   ],
+   "dialogue": [
+    {
+     "who": "traveler",
+     "en": "Hi! What's your name?",
+     "t": "היי! איך קוראים לך?",
+     "r": "hai! ech korim lecha?"
+    },
+    {
+     "who": "local",
+     "en": "I'm Noa. And you?",
+     "t": "אני נועה. ואתה?",
+     "r": "ani Noa. ve-ata?",
+     "t_f": "אני נועה. ואת?",
+     "r_f": "ani Noa. ve-at?"
+    },
+    {
+     "who": "traveler",
+     "en": "My name is Sam. Nice to meet you.",
+     "t": "קוראים לי סם. נעים מאוד.",
+     "r": "korim li Sam. naim meod."
+    },
+    {
+     "who": "local",
+     "en": "Where are you from?",
+     "t": "מאיפה אתה?",
+     "r": "me-eifo ata?",
+     "t_f": "מאיפה את?",
+     "r_f": "me-eifo at?"
+    },
+    {
+     "who": "traveler",
+     "en": "I'm from America. First time in Israel.",
+     "t": "אני מאמריקה. פעם ראשונה בישראל.",
+     "r": "ani me-Amerika. paam rishona be-Israel."
+    },
+    {
+     "who": "local",
+     "en": "Your Hebrew is excellent!",
+     "t": "העברית שלך מצוינת!",
+     "r": "ha-ivrit shelcha metzuyenet!"
+    },
+    {
+     "who": "traveler",
+     "en": "Thank you. I love Israel.",
+     "t": "תודה. אני אוהב את ישראל.",
+     "r": "toda. ani ohev et Israel.",
+     "t_f": "תודה. אני אוהבת את ישראל.",
+     "r_f": "toda. ani ohevet et Israel."
+    }
+   ],
+   "tip": "Israelis will compliment your Hebrew even if you only said shalom. Accept it graciously. Many will also switch to English to be helpful. Politely keep going in Hebrew if you want the practice.",
+   "wordplay": "shalom",
+   "quiz": [
+    {
+     "q": "\"Ma nishma?\" means:",
+     "answer": "What's up? How are you?",
+     "wrong": [
+      "What's your name?",
+      "Where are you from?"
+     ],
+     "why": "A casual greeting. The usual reply is sababa or beseder."
+    },
+    {
+     "q": "How do you ask a woman where she is from?",
+     "answer": "me-eifo at?",
+     "wrong": [
+      "me-eifo ata?",
+      "ani me-Amerika"
+     ],
+     "why": "At is you to a woman."
+    },
+    {
+     "q": "\"Sababa\" means:",
+     "answer": "Great, cool",
+     "wrong": [
+      "Sorry",
+      "Goodbye"
+     ],
+     "why": "Sababa comes from Arabic and is used constantly."
+    },
+    {
+     "q": "\"Paam rishona be-Israel?\" asks:",
+     "answer": "First time in Israel?",
+     "wrong": [
+      "Where are you staying?",
+      "How long are you staying?"
+     ],
+     "why": "Paam is time. Rishona is first."
+    },
+    {
+     "q": "How does a woman say she loves Israel?",
+     "answer": "ani ohevet et Israel",
+     "wrong": [
+      "ani ohev et Israel",
+      "ani rotza Israel"
+     ],
+     "why": "Ohev for a man, ohevet for a woman."
+    }
+   ]
+  },
+  {
+   "n": 9,
+   "slug": "night-out",
+   "title": "A Night Out",
+   "goal": "Order a drink, find the party and learn the slang everyone says.",
+   "scene": "A lively Tel Aviv bar at night, neon signs, friends clinking glasses, a bartender pouring beer.",
+   "intro": "Dinner starts at nine. The bar starts at eleven. The club starts at one. Israeli nights begin when yours is ending.",
+   "phrases": [
+    {
+     "en": "Cheers",
+     "t": "לחיים",
+     "r": "lechaim"
+    },
+    {
+     "en": "A beer, please",
+     "t": "בירה, בבקשה",
+     "r": "bira, bevakasha"
+    },
+    {
+     "en": "Two beers",
+     "t": "שתי בירות",
+     "r": "shtei birot"
+    },
+    {
+     "en": "Where is there a party tonight?",
+     "t": "איפה יש מסיבה הערב?",
+     "r": "eifo yesh mesiba ha-erev?"
+    },
+    {
+     "en": "Come on, let's go",
+     "t": "יאללה",
+     "r": "yalla"
+    },
+    {
+     "en": "Awesome",
+     "t": "אחלה",
+     "r": "achla"
+    },
+    {
+     "en": "Let's go",
+     "t": "בוא נלך",
+     "r": "bo nelech",
+     "t_f": "בואי נלך",
+     "r_f": "bo'i nelech",
+     "gender": "listener"
+    },
+    {
+     "en": "Where is the restroom?",
+     "t": "איפה השירותים?",
+     "r": "eifo ha-sherutim?"
+    },
+    {
+     "en": "I'm tired",
+     "t": "אני עייף",
+     "r": "ani ayef",
+     "t_f": "אני עייפה",
+     "r_f": "ani ayefa",
+     "gender": "speaker"
+    },
+    {
+     "en": "Can I buy you a drink?",
+     "t": "אפשר להזמין אותך משהו לשתות?",
+     "r": "efshar lehazmin otcha mashehu lishtot?",
+     "t_f": "אפשר להזמין אותך משהו לשתות?",
+     "r_f": "efshar lehazmin otach mashehu lishtot?",
+     "gender": "listener"
+    }
+   ],
+   "dialogue": [
+    {
+     "who": "traveler",
+     "en": "Two beers, please.",
+     "t": "שתי בירות, בבקשה.",
+     "r": "shtei birot, bevakasha."
+    },
+    {
+     "who": "local",
+     "en": "Sure. Where are you from?",
+     "t": "בטח. מאיפה אתם?",
+     "r": "betach. me-eifo atem?"
+    },
+    {
+     "who": "traveler",
+     "en": "America. Where is there a party tonight?",
+     "t": "אמריקה. איפה יש מסיבה הערב?",
+     "r": "Amerika. eifo yesh mesiba ha-erev?"
+    },
+    {
+     "who": "local",
+     "en": "There is one on the beach. Yalla!",
+     "t": "יש אחת על החוף. יאללה!",
+     "r": "yesh achat al ha-chof. yalla!"
+    },
+    {
+     "who": "traveler",
+     "en": "Awesome. Cheers!",
+     "t": "אחלה. לחיים!",
+     "r": "achla. lechaim!"
+    },
+    {
+     "who": "local",
+     "en": "Cheers! Come, let's go.",
+     "t": "לחיים! בוא, נלך.",
+     "r": "lechaim! bo, nelech.",
+     "t_f": "לחיים! בואי, נלך.",
+     "r_f": "lechaim! bo'i, nelech."
+    }
+   ],
+   "tip": "Thursday night is often the big night out in Tel Aviv. Yalla works for almost anything, from hurry up to let's go to are you coming. Use it freely.",
+   "wordplay": "balagan",
+   "quiz": [
+    {
+     "q": "\"Lechaim\" means:",
+     "answer": "Cheers",
+     "wrong": [
+      "Good luck",
+      "Goodnight"
+     ],
+     "why": "Literally, to life."
+    },
+    {
+     "q": "\"Yalla\" means:",
+     "answer": "Come on, let's go",
+     "wrong": [
+      "Sorry",
+      "Please wait"
+     ],
+     "why": "One word that moves any plan forward."
+    },
+    {
+     "q": "How do you say let's go to a woman?",
+     "answer": "bo'i nelech",
+     "wrong": [
+      "bo nelech",
+      "yalla bevakasha"
+     ],
+     "why": "The command changes for a woman: bo'i."
+    },
+    {
+     "q": "\"Eifo ha-sherutim?\" asks for:",
+     "answer": "The restroom",
+     "wrong": [
+      "The exit",
+      "The bar"
+     ],
+     "why": "Sherutim means services."
+    },
+    {
+     "q": "\"Achla\" means:",
+     "answer": "Awesome",
+     "wrong": [
+      "Boring",
+      "Closed"
+     ],
+     "why": "Short, bright and always positive."
+    }
+   ]
+  },
+  {
+   "n": 10,
+   "slug": "shabbat-help",
+   "title": "Shabbat, Holidays and Help",
+   "goal": "Greet the weekend, handle a minor emergency and say goodbye properly.",
+   "scene": "A quiet Jerusalem street at sunset on Friday, shops closing, a pharmacist in the doorway and a table set for Shabbat dinner.",
+   "intro": "You have made it. Now you can wish people a good Shabbat, find a pharmacy and leave with a proper goodbye.",
+   "phrases": [
+    {
+     "en": "Good Shabbat",
+     "t": "שבת שלום",
+     "r": "Shabbat shalom"
+    },
+    {
+     "en": "Happy holiday",
+     "t": "חג שמח",
+     "r": "chag sameach"
+    },
+    {
+     "en": "Help!",
+     "t": "עזרה!",
+     "r": "ezra!"
+    },
+    {
+     "en": "I need a doctor",
+     "t": "אני צריך רופא",
+     "r": "ani tzarich rofe",
+     "t_f": "אני צריכה רופא",
+     "r_f": "ani tzricha rofe",
+     "gender": "speaker"
+    },
+    {
+     "en": "Where is the pharmacy?",
+     "t": "איפה בית המרקחת?",
+     "r": "eifo beit ha-mirkachat?"
+    },
+    {
+     "en": "I don't feel well",
+     "t": "אני לא מרגיש טוב",
+     "r": "ani lo margish tov",
+     "t_f": "אני לא מרגישה טוב",
+     "r_f": "ani lo margisha tov",
+     "gender": "speaker"
+    },
+    {
+     "en": "I lost my passport",
+     "t": "איבדתי את הדרכון",
+     "r": "ibadeti et ha-darkon"
+    },
+    {
+     "en": "Everything is closed",
+     "t": "הכול סגור",
+     "r": "ha-kol sagur"
+    },
+    {
+     "en": "See you again, goodbye",
+     "t": "להתראות",
+     "r": "lehitraot"
+    },
+    {
+     "en": "Thank you for everything",
+     "t": "תודה על הכול",
+     "r": "toda al ha-kol"
+    },
+    {
+     "en": "I'll come back",
+     "t": "אני אבוא שוב",
+     "r": "ani avo shuv"
+    }
+   ],
+   "dialogue": [
+    {
+     "who": "traveler",
+     "en": "Good Shabbat!",
+     "t": "שבת שלום!",
+     "r": "Shabbat shalom!"
+    },
+    {
+     "who": "local",
+     "en": "Shabbat shalom! Everything is closed now.",
+     "t": "שבת שלום! הכול סגור עכשיו.",
+     "r": "Shabbat shalom! ha-kol sagur achshav."
+    },
+    {
+     "who": "traveler",
+     "en": "I don't feel well. Where is the pharmacy?",
+     "t": "אני לא מרגיש טוב. איפה בית המרקחת?",
+     "r": "ani lo margish tov. eifo beit ha-mirkachat?",
+     "t_f": "אני לא מרגישה טוב. איפה בית המרקחת?",
+     "r_f": "ani lo margisha tov. eifo beit ha-mirkachat?"
+    },
+    {
+     "who": "local",
+     "en": "There is one open on the corner.",
+     "t": "יש אחד פתוח בפינה.",
+     "r": "yesh echad patuach ba-pina."
+    },
+    {
+     "who": "traveler",
+     "en": "Thank you for everything.",
+     "t": "תודה על הכול.",
+     "r": "toda al ha-kol."
+    },
+    {
+     "who": "local",
+     "en": "Get well soon. Goodbye!",
+     "t": "רפואה שלמה. להתראות!",
+     "r": "refua shlema. lehitraot!"
+    },
+    {
+     "who": "traveler",
+     "en": "I'll come back!",
+     "t": "אני אבוא שוב!",
+     "r": "ani avo shuv!"
+    }
+   ],
+   "tip": "Emergency numbers in Israel are 100 for police, 101 for an ambulance and 102 for the fire service. On Shabbat many shops close, but some pharmacies stay open on rotation. Ask your hotel.",
+   "wordplay": "shalom",
+   "quiz": [
+    {
+     "q": "\"Shabbat shalom\" means:",
+     "answer": "Have a peaceful Sabbath",
+     "wrong": [
+      "See you tomorrow",
+      "Good luck"
+     ],
+     "why": "Said from Friday afternoon to Saturday night."
+    },
+    {
+     "q": "What is the number for an ambulance?",
+     "answer": "101",
+     "wrong": [
+      "100",
+      "102"
+     ],
+     "why": "100 is police, 101 is ambulance and 102 is fire."
+    },
+    {
+     "q": "How does a woman say she needs a doctor?",
+     "answer": "ani tzricha rofe",
+     "wrong": [
+      "ani tzarich rofe",
+      "ani rotza rofe"
+     ],
+     "why": "Tzarich for a man, tzricha for a woman."
+    },
+    {
+     "q": "\"Ezra!\" means:",
+     "answer": "Help!",
+     "wrong": [
+      "Stop!",
+      "Wait!"
+     ],
+     "why": "Short and loud. It works in any language."
+    },
+    {
+     "q": "\"Lehitraot\" means:",
+     "answer": "See you, goodbye",
+     "wrong": [
+      "Welcome",
+      "Thank you"
+     ],
+     "why": "Literally, until we see each other again."
+    }
+   ]
+  }
+ ]
+}
