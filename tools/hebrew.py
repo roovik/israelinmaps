@@ -53,6 +53,7 @@ CSS = """<style>
 .ls .line.tr{background:rgba(248,186,47,.18)}.ls .line .hh{font-size:26px;color:#ffc700;direction:rtl;text-align:right;display:block}
 .ls .flip{perspective:900px;width:100%}.ls .fl{min-height:34vh;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px}
 .ls small.ph{opacity:.7;font-size:13px}
+.ls .scn{width:100%;border-radius:12px;border:2px solid var(--g);display:block}
 .ls .chips{display:flex;gap:6px;margin:4px 0}.ls .chip{font:inherit;font-weight:700;font-size:14px;border-radius:999px;border:2px solid var(--g);background:var(--n);color:#fff;padding:5px 12px;cursor:pointer}.ls .chip[aria-pressed=true]{background:var(--g);color:#1a1400}.ls .pick{display:grid;gap:6px;margin:6px 0 10px}.ls .pk{display:block;padding:10px 12px;border-radius:10px;background:var(--n);color:#fff!important;text-decoration:none;border:2px solid transparent}.ls .pk.on{border-color:var(--g)}.ls .pk b{color:var(--g);margin-right:6px}
 .ls .brand{font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--g);font-weight:800}.ls .big{font-size:clamp(30px,9vw,44px);font-weight:800;line-height:1.1;color:#fff}.ls .em{font-size:60px;line-height:1}.ls .lnk{background:none;border:0;color:var(--g);text-decoration:underline;font:inherit;font-size:15px;cursor:pointer}.ls .line.on{outline:3px solid var(--g)}.ls{--sp:16px}.ls .panel{gap:var(--sp);padding:26px 20px}
 </style>"""
@@ -93,7 +94,7 @@ function render(){var s=S[i];$('pg').style.width=(i/(S.length-1)*100)+'%';var h=
 var back=i>0?'<button id="bk" aria-label="Back">&#9664;</button>':'';var nx='<button class="go" id="nx">Next &#9654;</button>';
 if(s.k=='title'){h='<div class="brand">Israel NOWlej</div><div class="big">Easy Hebrew<br>for Travelers</div><p class="en">Lesson '+L.n+': '+esc(L.title)+'</p><p class="nt">About six minutes. Listen, say it, check it.</p>';b='<button class="go" id="nx">Start &#9654;</button>'}
 else if(s.k=='who'){h='<h2>Who is learning?</h2><p class="en">Hebrew changes for men and women. Pick yours.</p><div class="row"><button class="btn" id="gm" aria-pressed="'+(G=='m')+'">I am a man</button><button class="btn" id="gf" aria-pressed="'+(G=='f')+'">I am a woman</button></div>';b=G?nx:''}
-else if(s.k=='intro'){h='<small class="ph">Lesson '+L.n+'</small><h2>'+esc(L.title)+'</h2><p class="en">'+esc(L.goal)+'</p><p class="nt">'+esc(L.intro)+'</p>';b=back+nx}
+else if(s.k=='intro'){h=(L.img?'<img class="scn" src="'+L.img+'" alt="">':'')+'<small class="ph">Lesson '+L.n+'</small><h2>'+esc(L.title)+'</h2><p class="en">'+esc(L.goal)+'</p><p class="nt">'+esc(L.intro)+'</p>';b=back+nx}
 else if(s.k=='ph'){var p=s.p,t=ptext(p);h=(p.img?'<div class="em">'+p.img+'</div>':'')+'<div class="he" lang="he" dir="rtl">'+t[0]+'</div><div class="rom">'+esc(t[1])+'</div><div class="en">'+esc(p.en)+'</div>'+(p.gender=='listener'?'<div class="row"><button class="btn" id="tm" aria-pressed="'+(TO=='m')+'">To a man</button><button class="btn" id="tf" aria-pressed="'+(TO=='f')+'">To a woman</button></div>':'')+'<div class="row"><button class="btn" id="pl">&#9654; Play</button><button class="btn" id="ps">Slow</button></div>'+(p.note?'<button class="lnk" id="nb">Good to know</button><p class="nt" id="nn" hidden>'+esc(p.note)+'</p>':'');b=back+nx}
 else if(s.k=='dlgi'){h='<div class="em">&#127911;</div><h2>Listen to a real conversation</h2><p class="en">Press play and listen first.</p>';b=back+nx}
 else if(s.k=='dlg'){h='<button class="btn go" id="pa">&#9654; Play conversation</button><div style="width:100%" id="dl"></div><button class="lnk" id="tg">'+(SHOWH?'Hide Hebrew':'Show Hebrew')+'</button>';b=back+nx}
@@ -122,6 +123,7 @@ build();app.innerHTML='<div class="row" style="justify-content:space-between;mar
 
 def lesson(l):
     n = l['n']; nxt = f'/hebrew/travel/{n+1}/' if (n + 1) in LIVE else ''
+    l = dict(l, img=(f'/hebrew/img/travel-{n}.jpg' if os.path.exists(os.path.join(ROOT, 'hebrew', 'img', f'travel-{n}.jpg')) else ''))
     js = JS.replace('__ALL__', json.dumps([{'n': x['n'], 't': x['title']} for x in C['lessons']], ensure_ascii=False)).replace('__DATA__', json.dumps(l, ensure_ascii=False)).replace('__NEXT__', json.dumps(nxt))
     body = f'<div class="hubslide ls"><h1 style="font-size:20px;margin:6px 0">Easy Hebrew for Travelers. Lesson {n}: {E(l["title"])}</h1><div id="app" class="app"></div><noscript><p>This lesson needs JavaScript.</p></noscript>{js}<p class="small"><a href="/hebrew/travel/">All lessons</a> &middot; <a href="/g/{l["wordplay"]}/">Related word</a></p></div>'
     wr(f'hebrew/travel/{n}/index.html', page(f'Easy Hebrew for Travelers, Lesson {n}: {l["title"]}', l['goal'], f'https://israelnowlej.com/hebrew/travel/{n}/', body, CSS))
