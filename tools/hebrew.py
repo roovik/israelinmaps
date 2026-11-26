@@ -53,12 +53,18 @@ CSS = """<style>
 .ls .line.tr{background:rgba(248,186,47,.18)}.ls .line .hh{font-size:26px;color:#ffc700;direction:rtl;text-align:right;display:block}
 .ls .flip{perspective:900px;width:100%}.ls .fl{min-height:34vh;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px}
 .ls small.ph{opacity:.7;font-size:13px}
-@media(max-width:700px){.ls.full{position:fixed;top:0;left:0;right:0;bottom:0;z-index:50;background:#e8ecf5;overflow-y:auto;padding:10px 12px 92px;max-width:none;margin:0}.ls.full .panel{min-height:calc(100vh - 210px)}.ls.full .bar{z-index:60}.ls.full h1{font-size:15px}.ls .chip{text-decoration:none}}
+@media (display-mode:standalone){header.top,footer,.adslot,aside,.sidebar,.newsaside{display:none!important}.hx,.ls{padding-top:env(safe-area-inset-top)}}
+.ls .inst{font-size:14px;opacity:.9;max-width:26em}
+@media(max-width:700px),(display-mode:standalone){.ls.full{position:fixed;top:0;left:0;right:0;bottom:0;z-index:50;background:#e8ecf5;overflow-y:auto;padding:10px 12px 92px;max-width:none;margin:0}.ls.full .panel{min-height:calc(100vh - 210px)}.ls.full .bar{z-index:60}.ls.full h1{font-size:15px}.ls .chip{text-decoration:none}}
 .ls .scn{width:100%;border-radius:12px;border:2px solid var(--g);display:block}
 .ls .chips{display:flex;gap:6px;margin:4px 0}.ls .chip{font:inherit;font-weight:700;font-size:14px;border-radius:999px;border:2px solid var(--g);background:var(--n);color:#fff;padding:5px 12px;cursor:pointer}.ls .chip[aria-pressed=true]{background:var(--g);color:#1a1400}.ls [hidden]{display:none!important}.ls .pick{display:grid;gap:6px;margin:6px 0 10px}.ls .pk{display:block;padding:10px 12px;border-radius:10px;background:var(--n);color:#fff!important;text-decoration:none;border:2px solid transparent}.ls .pk.on{border-color:var(--g)}.ls .pk b{color:var(--g);margin-right:6px}
 .ls .brand{font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--g);font-weight:800}.ls .big{font-size:clamp(30px,9vw,44px);font-weight:800;line-height:1.1;color:#fff}.ls .em{font-size:60px;line-height:1}.ls .lnk{background:none;border:0;color:var(--g);text-decoration:underline;font:inherit;font-size:15px;cursor:pointer}.ls .line.on{outline:3px solid var(--g)}.ls{--sp:16px}.ls .panel{gap:var(--sp);padding:26px 20px}
 </style>"""
 
+PWA_HEAD = ('<link rel="manifest" href="/hebrew/travel/manifest.webmanifest"><meta name="theme-color" content="#0a2566">'
+ '<meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Easy Hebrew">'
+ '<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><link rel="apple-touch-icon" href="/hebrew/travel/icons/apple-touch-icon.png">')
+SW_REG = "<script>if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/hebrew/travel/sw.js',{scope:'/hebrew/travel/'}).catch(function(){})})}</script>"
 def hub():
     body = f"""<div class="hubslide hx"><h1>Hebrew</h1><p class="lead">Learn the Hebrew behind the headlines, the Bible and the street. Start with play or start with travel.</p>
 <div class="tiles">
@@ -75,7 +81,7 @@ def travel():
         inner = f'<span class="no">{n}</span><span><b>{E(l["title"])}</b><small>{E(l["goal"])}</small></span>'
         items += f'<li><a href="/hebrew/travel/{n}/">{inner}</a></li>' if n in LIVE else f'<li><div>{inner}<small style="margin-left:auto">Soon</small></div></li>'
     body = f"""<div class="hubslide hx"><h1>Easy Hebrew for Travelers</h1><p class="lead">Ten short lessons to enjoy your trip. Each takes about six minutes on your phone. You learn what to say, hear it, practise it and take a quiz.</p><ol class="ll">{items}</ol><p class="small"><a href="/hebrew/">All Hebrew</a></p></div>"""
-    wr('hebrew/travel/index.html', page('Easy Hebrew for Travelers', 'Ten short mobile lessons of conversational Hebrew for beaches, restaurants, hotels and nights out.', 'https://israelnowlej.com/hebrew/travel/', body, CSS))
+    wr('hebrew/travel/index.html', page('Easy Hebrew for Travelers', 'Ten short mobile lessons of conversational Hebrew for beaches, restaurants, hotels and nights out.', 'https://israelnowlej.com/hebrew/travel/', body + SW_REG, CSS + PWA_HEAD))
 
 JS = r"""<script>(function(){var ALL=__ALL__,L=__DATA__,NEXT=__NEXT__,$=function(x){return document.getElementById(x)},app=$('app');
 var G=null;try{G=localStorage.getItem('hg')}catch(e){}var SHOWH=false,TO='m',S=[],i=0,score=0,answered=false;
@@ -90,8 +96,10 @@ function ptext(p){var f=(p.gender=='listener')?(TO=='f'&&p.t_f):(p.gender=='spea
 function build(){S=[{k:'title'},{k:'who'},{k:'intro'}];L.phrases.forEach(function(p,x){S.push({k:'ph',p:p})});S.push({k:'dlgi'});S.push({k:'dlg'});S.push({k:'fci'});sh(L.phrases).slice(0,6).forEach(function(p){S.push({k:'fc',p:p})});S.push({k:'qi'});L.quiz.forEach(function(q){S.push({k:'q',q:q})});S.push({k:'done'})}
 function secOf(k){return k=='ph'?'Learn':(k=='dlgi'||k=='dlg')?'Listen':(k=='fci'||k=='fc')?'Cards':(k=='qi'||k=='q'||k=='done')?'Quiz':''}
 function chips(){var cur=secOf(S[i].k),h='';['Learn','Listen','Cards','Quiz'].forEach(function(n){var idx=S.findIndex(function(x){return secOf(x.k)==n});h+='<button class="chip" data-i="'+idx+'" aria-pressed="'+(cur==n)+'">'+n+'</button>'});$('chips').innerHTML=h;$('chips').querySelectorAll('.chip').forEach(function(c){c.onclick=function(){if(S[i].k=='who'&&!G)return;i=+c.getAttribute('data-i');render()}})}
-function full(){var ls=document.querySelector('.ls'),f=i>0&&window.matchMedia('(max-width:700px)').matches;ls.classList.toggle('full',f);document.documentElement.style.overflow=f?'hidden':'';if(f){ls.scrollTop=0;return true}return false}
+function full(){var ls=document.querySelector('.ls'),f=i>0&&window.matchMedia('(max-width:700px),(display-mode:standalone)').matches;ls.classList.toggle('full',f);document.documentElement.style.overflow=f?'hidden':'';if(f){ls.scrollTop=0;return true}return false}
 function ft(){if(full())return;var r=app.getBoundingClientRect();if(r.top<-2||r.top>40)window.scrollTo({top:r.top+(window.pageYOffset||0)-6,behavior:'auto'})}
+var DP=null,SA=window.matchMedia('(display-mode:standalone)').matches||navigator.standalone;window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();DP=e;if(S[i]&&S[i].k=='title')render()});
+function inst(){if(SA)return '';if(DP)return '<button class="btn" id="ib">Install the app</button>';if(/iphone|ipad/i.test(navigator.userAgent))return '<p class="inst">To install: tap Share, then Add to Home Screen. It then works offline.</p>';return ''}
 function bar(h){$('bar').innerHTML=h}
 function render(){var s=S[i];$('pg').style.width=(i/(S.length-1)*100)+'%';var h='',b='';
 var back=i>0?'<button id="bk" aria-label="Back">&#9664;</button>':'';var nx='<button class="go" id="nx">Next &#9654;</button>';
@@ -109,6 +117,7 @@ else if(s.k=='done'){h='<h2>Lesson complete</h2><p class="en">Quiz score: '+scor
 $('panel').innerHTML=h;bar(b);chips();wire(s);if(i>0)ft();else full()}
 function wire(s){var g=function(x){return $(x)};
 if(g('bk'))g('bk').onclick=function(){i--;render()};if(g('nx'))g('nx').onclick=function(){i++;render()};
+if(s.k=='title'&&g('ib'))g('ib').onclick=function(){DP.prompt();DP=null;render()};
 if(s.k=='who'){g('gm').onclick=function(){G='m';try{localStorage.setItem('hg','m')}catch(e){}render()};g('gf').onclick=function(){G='f';try{localStorage.setItem('hg','f')}catch(e){}render()}}
 if(s.k=='ph'){var t=ptext(s.p);if(g('nb'))g('nb').onclick=function(){g('nn').hidden=false;g('nb').hidden=true};g('pl').onclick=function(){say(t[0],0)};g('ps').onclick=function(){say(t[0],1)};if(g('tm')){g('tm').onclick=function(){TO='m';render()};g('tf').onclick=function(){TO='f';render()}}}
 if(s.k=='dlg'){var d=g('dl');function draw(){d.innerHTML='';L.dialogue.forEach(function(x,k){var a=document.createElement('div');a.className='line'+(x.who=='traveler'?' tr':'');a.id='ln'+k;a.innerHTML='<div class="en">'+esc(x.en)+'</div>'+(SHOWH?'<span class="hh" lang="he">'+pk(x,'t')+'</span><b>'+esc(pk(x,'r'))+'</b>':'');a.onclick=function(){say(pk(x,'t'),0)};d.appendChild(a)})}
@@ -129,11 +138,38 @@ def lesson(l):
     l = dict(l, img=(f'/hebrew/img/travel-{n}.jpg' if os.path.exists(os.path.join(ROOT, 'hebrew', 'img', f'travel-{n}.jpg')) else ''))
     js = JS.replace('__ALL__', json.dumps([{'n': x['n'], 't': x['title']} for x in C['lessons']], ensure_ascii=False)).replace('__DATA__', json.dumps(l, ensure_ascii=False)).replace('__NEXT__', json.dumps(nxt))
     body = f'<div class="hubslide ls"><h1 style="font-size:20px;margin:6px 0">Easy Hebrew for Travelers. Lesson {n}: {E(l["title"])}</h1><div id="app" class="app"></div><noscript><p>This lesson needs JavaScript.</p></noscript>{js}<p class="small"><a href="/hebrew/travel/">All lessons</a> &middot; <a href="/g/{l["wordplay"]}/">Related word</a></p></div>'
-    wr(f'hebrew/travel/{n}/index.html', page(f'Easy Hebrew for Travelers, Lesson {n}: {l["title"]}', l['goal'], f'https://israelnowlej.com/hebrew/travel/{n}/', body, CSS))
+    wr(f'hebrew/travel/{n}/index.html', page(f'Easy Hebrew for Travelers, Lesson {n}: {l["title"]}', l['goal'], f'https://israelnowlej.com/hebrew/travel/{n}/', body + SW_REG, CSS + PWA_HEAD))
 
 hub(); travel()
 for l in C['lessons']:
     if l['n'] in LIVE: lesson(l)
+
+# manifest and service worker
+import hashlib
+man = {"name": "Easy Hebrew for Travelers", "short_name": "Easy Hebrew", "description": "Ten short lessons of conversational Hebrew for your trip to Israel.",
+       "start_url": "/hebrew/travel/?source=app", "scope": "/hebrew/travel/", "display": "standalone", "orientation": "portrait", "background_color": "#0a2566", "theme_color": "#0a2566",
+       "icons": [{"src": "/hebrew/travel/icons/icon-192.png", "sizes": "192x192", "type": "image/png"}, {"src": "/hebrew/travel/icons/icon-512.png", "sizes": "512x512", "type": "image/png"},
+                 {"src": "/hebrew/travel/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}]}
+wr('hebrew/travel/manifest.webmanifest', json.dumps(man, indent=1))
+pages = ['/hebrew/travel/'] + [f'/hebrew/travel/{x["n"]}/' for x in C['lessons'] if x['n'] in LIVE]
+assets = set(['/hebrew/travel/manifest.webmanifest', '/hebrew/travel/icons/icon-192.png', '/hebrew/travel/icons/icon-512.png'])
+h = hashlib.md5()
+for u in pages:
+    t = rd(u.strip('/') + '/index.html'); h.update(t.encode('utf-8'))
+    for m in re.finditer(r'<link[^>]+href="(/[^"#]+)"[^>]*>|<script[^>]+src="(/[^"]+)"|<img[^>]+src="(/[^"]+)"', t):
+        a = next(g for g in m.groups() if g)
+        if re.search(r'\.(css|js|png|jpg|jpeg|svg|webp|ico|json|woff2?)(\?|$)', a): assets.add(a)
+for x in C['lessons']:
+    if os.path.exists(os.path.join(ROOT, 'hebrew', 'img', f'travel-{x["n"]}.jpg')): assets.add(f'/hebrew/img/travel-{x["n"]}.jpg')
+ver = h.hexdigest()[:10]
+SW = '''const V="eh-__V__",PRE=__PRE__;
+self.addEventListener("install",e=>{e.waitUntil(caches.open(V).then(c=>Promise.all(PRE.map(u=>c.add(u).catch(()=>0)))).then(()=>self.skipWaiting()))});
+self.addEventListener("activate",e=>{e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x.startsWith("eh-")&&x!==V).map(x=>caches.delete(x)))).then(()=>self.clients.claim()))});
+self.addEventListener("fetch",e=>{const r=e.request;if(r.method!=="GET")return;const u=new URL(r.url);if(u.origin!==location.origin)return;
+if(r.mode==="navigate"){e.respondWith(fetch(r).then(x=>{const y=x.clone();caches.open(V).then(c=>c.put(r,y));return x}).catch(()=>caches.match(r,{ignoreSearch:true}).then(x=>x||caches.match("/hebrew/travel/"))));return}
+e.respondWith(caches.match(r).then(x=>x||fetch(r).then(y=>{if(y.ok){const z=y.clone();caches.open(V).then(c=>c.put(r,z))}return y})))});
+'''.replace('__V__', ver).replace('__PRE__', json.dumps(sorted(set(pages) | assets)))
+wr('hebrew/travel/sw.js', SW)
 
 # search.json and sitemap.xml
 S = json.load(open(os.path.join(ROOT, 'search.json'), encoding='utf-8')); have = {r['u'] for r in S}
