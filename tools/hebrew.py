@@ -53,6 +53,7 @@ CSS = """<style>
 .ls .line.tr{background:rgba(248,186,47,.18)}.ls .line .hh{font-size:26px;color:#ffc700;direction:rtl;text-align:right;display:block}
 .ls .flip{perspective:900px;width:100%}.ls .fl{min-height:34vh;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px}
 .ls small.ph{opacity:.7;font-size:13px}
+.ls .chips{display:flex;gap:6px;margin:4px 0}.ls .chip{font:inherit;font-weight:700;font-size:14px;border-radius:999px;border:2px solid var(--g);background:var(--n);color:#fff;padding:5px 12px;cursor:pointer}.ls .chip[aria-pressed=true]{background:var(--g);color:#1a1400}.ls .pick{display:grid;gap:6px;margin:6px 0 10px}.ls .pk{display:block;padding:10px 12px;border-radius:10px;background:var(--n);color:#fff!important;text-decoration:none;border:2px solid transparent}.ls .pk.on{border-color:var(--g)}.ls .pk b{color:var(--g);margin-right:6px}
 .ls .brand{font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--g);font-weight:800}.ls .big{font-size:clamp(30px,9vw,44px);font-weight:800;line-height:1.1;color:#fff}.ls .em{font-size:60px;line-height:1}.ls .lnk{background:none;border:0;color:var(--g);text-decoration:underline;font:inherit;font-size:15px;cursor:pointer}.ls .line.on{outline:3px solid var(--g)}.ls{--sp:16px}.ls .panel{gap:var(--sp);padding:26px 20px}
 </style>"""
 
@@ -74,7 +75,7 @@ def travel():
     body = f"""<div class="hubslide hx"><h1>Easy Hebrew for Travelers</h1><p class="lead">Ten short lessons to enjoy your trip. Each takes about six minutes on your phone. You learn what to say, hear it, practise it and take a quiz.</p><ol class="ll">{items}</ol><p class="small"><a href="/hebrew/">All Hebrew</a></p></div>"""
     wr('hebrew/travel/index.html', page('Easy Hebrew for Travelers', 'Ten short mobile lessons of conversational Hebrew for beaches, restaurants, hotels and nights out.', 'https://israelnowlej.com/hebrew/travel/', body, CSS))
 
-JS = r"""<script>(function(){var L=__DATA__,NEXT=__NEXT__,$=function(x){return document.getElementById(x)},app=$('app');
+JS = r"""<script>(function(){var ALL=__ALL__,L=__DATA__,NEXT=__NEXT__,$=function(x){return document.getElementById(x)},app=$('app');
 var G=null;try{G=localStorage.getItem('hg')}catch(e){}var SHOWH=false,TO='m',S=[],i=0,score=0,answered=false;
 function pk(o,k){return(G=='f'&&o['t_f'])?o[k=='t'?'t_f':'r_f']:o[k]}
 function sh(a){a=a.slice();for(var k=a.length-1;k>0;k--){var j=Math.floor(Math.random()*(k+1)),t=a[k];a[k]=a[j];a[j]=t}return a}
@@ -84,7 +85,9 @@ function qparts(t){var m=t.replace(/\s*\?\s*$/,'');var k=m.lastIndexOf(' ');retu
 function sayq(t,r,p,v,onst){var q=qparts(t),out=[];if(q){var a=mk(q[0],r,p,v),b=mk(q[1],r*.9,p+.25,v);if(onst)a.onstart=onst;out=[a,b]}else{var c=mk(t,r,p,v);if(onst)c.onstart=onst;out=[c]}out.forEach(function(u){speechSynthesis.speak(u)})}
 function say(t,slow){try{speechSynthesis.cancel();sayq(t,slow?.55:.85,1)}catch(e){}}
 function ptext(p){var f=(p.gender=='listener')?(TO=='f'&&p.t_f):(p.gender=='speaker'&&G=='f'&&p.t_f);return f?[p.t_f,p.r_f]:[p.t,p.r]}
-function build(){S=[{k:'title'},{k:'who'},{k:'intro'}];L.phrases.forEach(function(p,x){S.push({k:'ph',p:p})});S.push({k:'dlgi'});S.push({k:'dlg'});S.push({k:'fci'});sh(L.phrases).slice(0,8).forEach(function(p){S.push({k:'fc',p:p})});S.push({k:'qi'});L.quiz.forEach(function(q){S.push({k:'q',q:q})});S.push({k:'done'})}
+function build(){S=[{k:'title'},{k:'who'},{k:'intro'}];L.phrases.forEach(function(p,x){S.push({k:'ph',p:p})});S.push({k:'dlgi'});S.push({k:'dlg'});S.push({k:'fci'});sh(L.phrases).slice(0,6).forEach(function(p){S.push({k:'fc',p:p})});S.push({k:'qi'});L.quiz.forEach(function(q){S.push({k:'q',q:q})});S.push({k:'done'})}
+function secOf(k){return k=='ph'?'Learn':(k=='dlgi'||k=='dlg')?'Listen':(k=='fci'||k=='fc')?'Cards':(k=='qi'||k=='q'||k=='done')?'Quiz':''}
+function chips(){var cur=secOf(S[i].k),h='';['Learn','Listen','Cards','Quiz'].forEach(function(n){var idx=S.findIndex(function(x){return secOf(x.k)==n});h+='<button class="chip" data-i="'+idx+'" aria-pressed="'+(cur==n)+'">'+n+'</button>'});$('chips').innerHTML=h;$('chips').querySelectorAll('.chip').forEach(function(c){c.onclick=function(){if(S[i].k=='who'&&!G)return;i=+c.getAttribute('data-i');render()}})}
 function bar(h){$('bar').innerHTML=h}
 function render(){var s=S[i];$('pg').style.width=(i/(S.length-1)*100)+'%';var h='',b='';
 var back=i>0?'<button id="bk" aria-label="Back">&#9664;</button>':'';var nx='<button class="go" id="nx">Next &#9654;</button>';
@@ -99,7 +102,7 @@ else if(s.k=='fc'){var q=s.p,tt=ptext(q);h='<div class="fl" id="fl"><div class="
 else if(s.k=='qi'){h='<h2>Quiz time</h2><p class="en">Five questions. No pressure, just pride.</p>';score=0;b=back+nx}
 else if(s.k=='q'){var q=s.q,o=sh([q.answer].concat(q.wrong));answered=false;h='<p class="en" style="font-size:22px;font-weight:800">'+esc(q.q)+'</p><div style="width:100%" id="op">'+o.map(function(x){return '<button class="btn opt" data-v="'+esc(x)+'">'+esc(x)+'</button>'}).join('<div style="height:8px"></div>')+'</div><p class="nt" id="wy"></p>';b=''}
 else if(s.k=='done'){h='<h2>Lesson complete</h2><p class="en">Quiz score: '+score+' of '+L.quiz.length+'</p><p class="nt">'+esc(L.tip)+'</p><div class="row"><button class="btn go" id="pc">Save phone card</button></div><canvas id="cv" width="1080" height="1620" style="display:none"></canvas><div id="dlk"></div>'+(NEXT?'<a class="btn" href="'+NEXT+'">Next lesson</a>':'<a class="btn" href="/hebrew/travel/">All lessons</a>');b=back+'<button class="go" id="rs">Start again</button>'}
-$('panel').innerHTML=h;bar(b);wire(s)}
+$('panel').innerHTML=h;bar(b);chips();wire(s)}
 function wire(s){var g=function(x){return $(x)};
 if(g('bk'))g('bk').onclick=function(){i--;render()};if(g('nx'))g('nx').onclick=function(){i++;render()};
 if(s.k=='who'){g('gm').onclick=function(){G='m';try{localStorage.setItem('hg','m')}catch(e){}render()};g('gf').onclick=function(){G='f';try{localStorage.setItem('hg','f')}catch(e){}render()}}
@@ -115,11 +118,11 @@ x.strokeStyle='#f8ba2f';x.lineWidth=8;x.strokeRect(14,14,1052,1592);x.fillStyle=
 var ps=L.phrases.slice(0,7),y=270;ps.forEach(function(p){var t=ptext(p);x.fillStyle='#ffc700';x.font='bold 72px sans-serif';x.direction='rtl';x.fillText(t[0],540,y);x.direction='ltr';x.fillStyle='#fff';x.font='bold 36px sans-serif';x.fillText(t[1],540,y+48);x.font='30px sans-serif';x.fillStyle='#cfd8f0';x.fillText(p.en,540,y+90);y+=190});
 x.fillStyle='#f8ba2f';x.font='bold 44px sans-serif';x.fillText('Israel NOWlej',540,1560);x.fillStyle='#fff';x.font='30px sans-serif';x.fillText('israelnowlej.com/hebrew/travel/',540,1596);
 var a=document.createElement('a');a.href=c.toDataURL('image/png');a.download='hebrew-lesson-'+L.n+'.png';a.className='btn go';a.textContent='Download the card';$('dlk').innerHTML='';$('dlk').appendChild(a)}
-build();app.innerHTML='<div class="prog"><i id="pg"></i></div><div class="panel" id="panel"></div><div class="bar" id="bar"></div>';render()})();</script>"""
+build();app.innerHTML='<div class="row" style="justify-content:space-between;margin-bottom:6px"><button class="chip" id="allb">All 10 lessons &#9662;</button><span class="small">Lesson '+L.n+' of '+ALL.length+'</span></div><div class="pick" id="pick" hidden>'+ALL.map(function(x){return '<a class="pk'+(x.n==L.n?' on':'')+'" href="/hebrew/travel/'+x.n+'/"><b>'+x.n+'</b> '+esc(x.t)+'</a>'}).join('')+'</div><div class="chips" id="chips"></div><div class="prog"><i id="pg"></i></div><div class="panel" id="panel"></div><div class="bar" id="bar"></div>';$('allb').onclick=function(){$('pick').hidden=!$('pick').hidden};render()})();</script>"""
 
 def lesson(l):
     n = l['n']; nxt = f'/hebrew/travel/{n+1}/' if (n + 1) in LIVE else ''
-    js = JS.replace('__DATA__', json.dumps(l, ensure_ascii=False)).replace('__NEXT__', json.dumps(nxt))
+    js = JS.replace('__ALL__', json.dumps([{'n': x['n'], 't': x['title']} for x in C['lessons']], ensure_ascii=False)).replace('__DATA__', json.dumps(l, ensure_ascii=False)).replace('__NEXT__', json.dumps(nxt))
     body = f'<div class="hubslide ls"><h1 style="font-size:20px;margin:6px 0">Easy Hebrew for Travelers. Lesson {n}: {E(l["title"])}</h1><div id="app" class="app"></div><noscript><p>This lesson needs JavaScript.</p></noscript>{js}<p class="small"><a href="/hebrew/travel/">All lessons</a> &middot; <a href="/g/{l["wordplay"]}/">Related word</a></p></div>'
     wr(f'hebrew/travel/{n}/index.html', page(f'Easy Hebrew for Travelers, Lesson {n}: {l["title"]}', l['goal'], f'https://israelnowlej.com/hebrew/travel/{n}/', body, CSS))
 

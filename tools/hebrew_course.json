@@ -864,63 +864,15 @@
    "intro": "The shuk is theater. The vendor performs, you perform, and both of you leave pleased. Fixed prices are for supermarkets.",
    "phrases": [
     {
-     "en": "One",
-     "t": "אחד",
-     "r": "echad",
-     "img": "1️⃣"
+     "en": "One to five",
+     "t": "אחד, שתיים, שלוש, ארבע, חמש",
+     "r": "echad, shtayim, shalosh, arba, chamesh",
+     "img": "🖐️"
     },
     {
-     "en": "Two",
-     "t": "שתיים",
-     "r": "shtayim",
-     "img": "2️⃣"
-    },
-    {
-     "en": "Three",
-     "t": "שלוש",
-     "r": "shalosh",
-     "img": "3️⃣"
-    },
-    {
-     "en": "Four",
-     "t": "ארבע",
-     "r": "arba",
-     "img": "4️⃣"
-    },
-    {
-     "en": "Five",
-     "t": "חמש",
-     "r": "chamesh",
-     "img": "5️⃣"
-    },
-    {
-     "en": "Six",
-     "t": "שש",
-     "r": "shesh",
-     "img": "6️⃣"
-    },
-    {
-     "en": "Seven",
-     "t": "שבע",
-     "r": "sheva",
-     "img": "7️⃣"
-    },
-    {
-     "en": "Eight",
-     "t": "שמונה",
-     "r": "shmone",
-     "img": "8️⃣"
-    },
-    {
-     "en": "Nine",
-     "t": "תשע",
-     "r": "tesha",
-     "img": "9️⃣"
-    },
-    {
-     "en": "Ten",
-     "t": "עשר",
-     "r": "eser",
+     "en": "Six to ten",
+     "t": "שש, שבע, שמונה, תשע, עשר",
+     "r": "shesh, sheva, shmone, tesha, eser",
      "img": "🔟"
     },
     {
