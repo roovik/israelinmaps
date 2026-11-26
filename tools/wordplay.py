@@ -152,6 +152,13 @@ for e in ENT:
     ins = card(e)
     grid = grid[:pos] + ins + grid[pos:] if pos is not None else grid + ins
     G = G[:a] + grid + G[b:]
+bm = re.search(r'(data-c="' + CAT + r'" aria-pressed="false">' + re.escape(SEC) + r' <i>)(\d+)', G)
+am = re.search(r'(data-c="" aria-pressed="true">All <i>)(\d+)', G)
+if bm and am and int(bm.group(2)) != len(ENT):
+    diff = len(ENT) - int(bm.group(2))
+    G = G[:am.start(2)] + str(int(am.group(2)) + diff) + G[am.end(2):]
+    bm = re.search(r'(data-c="' + CAT + r'" aria-pressed="false">' + re.escape(SEC) + r' <i>)(\d+)', G)
+    G = G[:bm.start(2)] + str(len(ENT)) + G[bm.end(2):]
 wr('glossary/index.html', G)
 
 # ---------- search.json and sitemap.xml
