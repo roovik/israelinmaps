@@ -41,6 +41,10 @@ def head(t, title, desc, url):
     return t
 
 
+def img(e):
+    return f'/wordplay/img/{e["slug"]}.jpg' if os.path.exists(os.path.join(ROOT, 'wordplay', 'img', e['slug'] + '.jpg')) else ''
+
+
 def entry_page(e):
     sl = e['slug']
     see = ' · '.join(f'<a href="/g/{s}/">{E(glos[s])}</a>' for s in e['see'] if s in glos)
@@ -56,7 +60,19 @@ def entry_page(e):
 <p><b>See also</b> {see}</p>
 <div id="gl-news" data-slug="{sl}" hidden><h3>In the news</h3><div class="ngrid"></div><ul class="hlist"></ul><p class="small">Headlines and links from public news feeds. <a href="/news/">All news</a>.</p></div></section>
 <section id="e-sources"><h2>Sources</h2><ul class="esrc" id="e-src"><li>Written for this site from standard reference works on Hebrew and the Bible.</li></ul></section></article>'''
-    page = head(T[:art0], e['title'], e['card'], f'https://israelnowlej.com/g/{sl}/') + art + T[art1:]
+    im = img(e)
+    if im:
+        fig = (f'<figure class="wcard"><img src="{im}" width="1200" height="927" alt="{E(e["title"])} {e["he"]}: Hebrew Wordplay card" loading="eager" '
+               f'style="width:100%;height:auto;border-radius:10px;margin:14px 0"></figure>')
+        art = art.replace('<nav class="esec"', fig + '<nav class="esec"', 1)
+    pre_ = head(T[:art0], e['title'], e['card'], f'https://israelnowlej.com/g/{sl}/')
+    if im:
+        pre_ = re.sub(r'(<meta property="og:image" content=")[^"]*', r'\g<1>https://israelnowlej.com' + im, pre_, 1)
+        pre_ = re.sub(r'(<meta property="og:image:width" content=")[^"]*', r'\g<1>1200', pre_, 1)
+        pre_ = re.sub(r'(<meta property="og:image:height" content=")[^"]*', r'\g<1>927', pre_, 1)
+        if 'twitter:image' not in pre_:
+            pre_ = pre_.replace('<meta name="twitter:card"', f'<meta name="twitter:image" content="https://israelnowlej.com{im}"><meta name="twitter:card"', 1)
+    page = pre_ + art + T[art1:]
     wr(f'g/{sl}/index.html', page)
 
 
@@ -73,11 +89,17 @@ pre = head(pre, SEC, D['intro'], 'https://israelnowlej.com/wordplay/')
 pre = re.sub(r'<meta property="og:image"[^>]*>', '', pre)
 
 
+def thumb(e, L):
+    im = img(e)
+    if im: return f'<img src="{im}" alt="" loading="lazy" style="width:100%;height:100%;object-fit:cover">'
+    return f'<span class="tile c-{CAT}"><b>{L}</b></span>'
+
+
 def card(e, with_data=True):
     L = e['title'][0].upper()
     he = f'<span class="he" lang="he" dir="rtl">{e["he"]}</span>'
     n = f'{e["title"]} {e["he"]} {e["card"]}'.lower()
-    return (f'<a class="gcard" href="/g/{e["slug"]}/" data-c="{CAT}" data-n="{E(n)}"><span class="gimg"><span class="tile c-{CAT}"><b>{L}</b></span></span>'
+    return (f'<a class="gcard" href="/g/{e["slug"]}/" data-c="{CAT}" data-n="{E(n)}"><span class="gimg">{thumb(e, L)}</span>'
             f'<span class="gb"><span class="gcat c-{CAT}">{SEC}</span><b>{E(e["title"])}</b>{he}<span class="gd">{E(e["card"])}</span></span></a>')
 
 
@@ -113,8 +135,12 @@ if f'data-c="{CAT}" aria-pressed' not in G:
     k = G.index('</div><p class="az" id="gaz">')
     G = G[:k] + f'<button type="button" data-c="{CAT}" aria-pressed="false">{SEC} <i>{len(ENT)}</i></button>' + G[k:]
 for e in ENT:
-    if f'href="/g/{e["slug"]}/"' in G: continue
     L = e['title'][0].upper()
+    if f'href="/g/{e["slug"]}/"' in G:
+        if img(e):
+            G = re.sub(r'(<a class="gcard" href="/g/' + re.escape(e['slug']) + r'/"[^>]*><span class="gimg">).*?(</span><span class="gb">)',
+                       lambda m: m.group(1) + thumb(e, L) + m.group(2), G, 1, flags=re.S)
+        continue
     a = G.index(f'<section class="gsec" data-l="{L}">')
     b = G.index('</div></section>', a)
     grid = G[a:b]

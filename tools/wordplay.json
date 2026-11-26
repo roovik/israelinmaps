@@ -3,70 +3,122 @@
  "intro": "One Hebrew word, several meanings. Each entry follows a word through the places it turns up, from the Bible to the street. Where scholars disagree about a link, the entry says so.",
  "entries": [
   {
-   "slug": "hodu", "title": "Hodu", "he": "הודו",
+   "slug": "hodu",
+   "title": "Hodu",
+   "he": "הודו",
    "card": "Hebrew for \"give thanks,\" and also the word for India and for the turkey.",
    "def": "<i>Hodu</i> is one Hebrew word with three meanings. As a verb it is the command \"give thanks,\" and it opens <a href=\"/g/psalms/\">Psalms</a> 105, 107, 118 and 136. As a place name it is India, as in Esther 1:1, where King Ahasuerus rules \"from Hodu to Cush.\" As a bird it is the turkey, <i>tarnegol hodu</i>, \"rooster of India,\" because Europeans once mixed up the Americas with India and Hebrew copied the mistake. The thanks verb comes from the root y-d-h, which also gave Leah the name Judah, <i>Yehuda</i>, when she said \"this time I will give thanks\" (Genesis 29:35). So a Hebrew Thanksgiving is a holiday of the turkey and of \"give thanks\" in the same word.",
-   "see": ["psalms", "hebrew-bible"]
+   "see": [
+    "psalms",
+    "hebrew-bible"
+   ]
   },
   {
-   "slug": "shalom", "title": "Shalom", "he": "שלום",
+   "slug": "shalom",
+   "title": "Shalom",
+   "he": "שלום",
    "card": "Hello, goodbye and peace, from a root that means whole.",
    "def": "<i>Shalom</i> serves as hello, goodbye and peace. The root sh-l-m means whole or complete, so the word is wholeness before it is peace. The same root gives <i>shilem</i>, \"he paid,\" as a paid debt is made whole, and the name Shlomo, Solomon, the king of peace. Arabic <i>salaam</i> comes from the same Semitic root. Many connect <a href=\"/g/jerusalem/\">Jerusalem</a>, <i>Yerushalayim</i>, to the word as well, though the origin of that name is debated. To greet someone with <i>shalom</i> is to wish them completeness.",
-   "see": ["jerusalem", "hebrew-bible"]
+   "see": [
+    "jerusalem",
+    "hebrew-bible"
+   ]
   },
   {
-   "slug": "chai", "title": "Chai", "he": "חי",
+   "slug": "chai",
+   "title": "Chai",
+   "he": "חי",
    "card": "Alive, life and the number 18.",
    "def": "<i>Chai</i> means alive and life, and it also adds up to 18. Every Hebrew letter has a number value. <i>Chet</i> is 8 and <i>yod</i> is 10, so the two letters of <i>chai</i> make 18. That is why gifts and donations are often given in multiples of 18, and why <i>l'chaim</i>, \"to life,\" is both a toast and a small act of arithmetic. The practice of adding up the letters of a word is called <i>gematria</i>.",
-   "see": ["kabbalah"]
+   "see": [
+    "kabbalah"
+   ]
   },
   {
-   "slug": "lechem", "title": "Lechem", "he": "לחם",
+   "slug": "lechem",
+   "title": "Lechem",
+   "he": "לחם",
    "card": "Bread, and perhaps the same letters as fight and war.",
    "def": "<i>Lechem</i> is bread. The same three letters, l-ch-m, give <i>lacham</i>, \"to fight,\" and <i>milchama</i>, war. Whether bread and battle share one root is debated, and one idea is that the verb first meant to eat and later to feed on an enemy. Either way the pairing is a favorite of preachers and punsters. <a href=\"/g/bethlehem/\">Bethlehem</a>, <i>Beit Lechem</i>, means \"house of bread.\"",
-   "see": ["bethlehem"]
+   "see": [
+    "bethlehem"
+   ]
   },
   {
-   "slug": "sefer", "title": "Sefer", "he": "ספר",
+   "slug": "sefer",
+   "title": "Sefer",
+   "he": "ספר",
    "card": "Book, number, story, scribe and barber, all from one root.",
    "def": "The root s-f-r gives Hebrew <i>sefer</i>, book, and <i>sofer</i>, scribe. It also gives <i>mispar</i>, number, <i>sipur</i>, story, and <i>lesaper</i>, to tell. The barber is <i>sapar</i>, from the same letters, as the one who trims. In Hebrew to count and to tell are the same act. English has a faint echo of it, since a bank teller counts money and a storyteller tells a tale.",
-   "see": ["hebrew-bible"]
+   "see": [
+    "hebrew-bible"
+   ]
   },
   {
-   "slug": "kesef", "title": "Kesef", "he": "כסף",
+   "slug": "kesef",
+   "title": "Kesef",
+   "he": "כסף",
    "card": "Silver, money and longing share one root.",
    "def": "<i>Kesef</i> is silver and, in modern Hebrew, money. The root k-s-f also means to long or yearn. It gives <i>nichsaf</i>, \"he longed,\" and <i>kisufim</i>, yearnings. Psalm 84:3 uses it for the soul that longs for the courts of the Lord. Hebrew keeps silver, money and desire in one family of words.",
-   "see": ["psalms"]
+   "see": [
+    "psalms"
+   ]
   },
   {
-   "slug": "shemesh", "title": "Shemesh", "he": "שמש",
+   "slug": "shemesh",
+   "title": "Shemesh",
+   "he": "שמש",
    "card": "The sun, and also the helper candle on a Hanukkah menorah.",
    "def": "<i>Shemesh</i> is the sun. In the form <i>shamash</i> it is also an attendant, such as the synagogue caretaker, and the helper candle that lights the other eight on the <a href=\"/g/hanukkah/\">Hanukkah</a> menorah. The Akkadian word for sun, <i>shamash</i>, is a close relative, and Shamash was also the Mesopotamian sun god. The town of Beit Shemesh is \"house of the sun,\" and Samson, <i>Shimshon</i>, is often read as \"little sun.\"",
-   "see": ["hanukkah"]
+   "see": [
+    "hanukkah"
+   ]
   },
   {
-   "slug": "mazal", "title": "Mazal", "he": "מזל",
+   "slug": "mazal",
+   "title": "Mazal",
+   "he": "מזל",
    "card": "Luck, and the word for a star sign.",
    "def": "<i>Mazal</i> means luck, as in <i>mazal tov</i>, \"good luck\" and \"congratulations.\" It is also tied to the stars, since <i>mazalot</i> are the constellations, and 2 Kings 23:5 names them. A popular reading links the word to the root n-z-l, to flow, as if fortune flows down from above. Many scholars instead connect it to an Akkadian word for the place of a star in the sky. Either way, Hebrew puts luck in the heavens.",
-   "see": ["hebrew-bible"]
+   "see": [
+    "hebrew-bible"
+   ]
   },
   {
-   "slug": "balagan", "title": "Balagan", "he": "בלגן",
+   "slug": "balagan",
+   "title": "Balagan",
+   "he": "בלגן",
    "card": "A mess, from a Russian word for a market booth.",
    "def": "<i>Balagan</i> is a mess. Israelis use it for anything from an untidy room to a political crisis. The word reached Hebrew through Russian, where <i>balagan</i> meant a market booth and then a noisy show or farce. A Persian origin is plausible but not certain. In Hebrew it can be a complaint, a joke and a shrug in one word.",
    "see": []
   },
   {
-   "slug": "davka", "title": "Davka", "he": "דווקא",
+   "slug": "davka",
+   "title": "Davka",
+   "he": "דווקא",
    "card": "Specifically, of all things, on purpose, out of spite.",
    "def": "<i>Davka</i> means specifically, precisely, of all things, and sometimes out of spite. It comes from Aramaic and has no one-word translation. <i>Davka</i> it rains on the day of the picnic. <i>Davka</i> you ask me. The word marks the one person, time or way that you did not expect, and it often carries a sigh.",
    "see": []
   },
   {
-   "slug": "to-play", "title": "To play", "he": "לשחק",
+   "slug": "to-play",
+   "title": "To play",
+   "he": "לשחק",
    "card": "In Hebrew the verb to play is a near neighbor of the verb to laugh.",
    "def": "The Hebrew verb to play is <i>lesachek</i>, from the root s-ch-k, which also means to laugh. Its close cousin, tz-ch-k, also means to laugh, and gives the name Yitzchak, Isaac, \"he will laugh.\" In Genesis 26:8 Isaac is seen <i>metzachek</i> with Rebecca, and in Exodus 32:6 the people rise up <i>letzachek</i>, to play or revel. From the same root come <i>sechok</i>, laughter, <i>mischak</i>, a game, and <i>sachkan</i>, an actor or player. Music has its own verb, <i>lenagen</i>. In Hebrew playing and laughing sit side by side, and Isaac's name is a pun on both.",
-   "see": ["hebrew-bible"]
+   "see": [
+    "hebrew-bible"
+   ]
+  },
+  {
+   "slug": "gzr",
+   "title": "Gzr",
+   "he": "גזר",
+   "card": "Cut out and decree share one root. The carrot spells the same but is a borrowed word.",
+   "def": "<i>Gazar</i> is the verb \"to cut,\" and the same root gives <i>gezerah</i>, a decree, and <i>gzar din</i>, a verdict. In 1 Kings 3:25 Solomon orders the baby <i>gizru</i>, cut in two. A decree is a cutting off, a matter settled by the knife. The same root also gives <i>migzar</i>, a sector, and <i>gizra</i>, a shape cut out of cloth or stone. The word for axe, <i>garzen</i>, is a metathesis of it. The carrot, <i>gezer</i>, is spelled the same in Hebrew but is probably a different word. Scholars take it as a medieval loan, likely from Persian <i>gazar</i> through Arabic <i>jazar</i>, so the carrot is a cousin by spelling only. <i>Gezer</i> is also an ancient city in the Bible, known for the Gezer Calendar.",
+   "see": [
+    "hebrew-bible"
+   ]
   }
  ]
 }
