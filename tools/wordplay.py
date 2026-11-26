@@ -136,11 +136,11 @@ FLASH_CSS = """<style>
 FLASH = """<div class="hubslide fc"><h1>Hebrew Wordplay: Flash Cards</h1>
 <p class="lead">Look at the Hebrew. Guess the meanings. Flip the card to check.</p>
 <div class="bar" role="group" aria-label="Mode"><button id="mf" aria-pressed="true">Flash cards</button><button id="mq" aria-pressed="false">Quiz</button><button id="sh">Shuffle</button></div>
-<div id="fview"><div class="stage"><div class="card" id="card" tabindex="0" role="button" aria-label="Flip card"><div class="face front"><div class="he" id="fhe" lang="he" dir="rtl"></div><div class="hint">Tap to flip. Space also flips.</div></div><div class="face back"><div class="mean" id="fm"></div><div class="tip" id="ft"></div></div></div></div>
+<div id="fview"><div class="stage"><div class="card" id="card" tabindex="0" role="button" aria-label="Flip card"><div class="face front"><div class="he" id="fhe" lang="he" dir="rtl"></div><div class="hint">Tap to flip. Space also flips.</div></div><div class="face back"><div class="he" id="fhe2" lang="he" dir="rtl" style="font-size:clamp(44px,12vw,80px)"></div><div class="mean" id="fm"></div><div class="tip" id="ft"></div></div></div></div>
 <div class="nav"><button id="pv">&#9664; Back</button><span id="pos" class="score"></span><button id="nx">Next &#9654;</button></div></div>
 <div id="qview" hidden><div class="qhe" id="qhe" lang="he" dir="rtl"></div><p class="score" id="qs"></p><div class="opts" id="opts"></div><div class="nav"><span id="fb"></span><button id="qn" hidden>Next &#9654;</button></div></div>
 <script>(function(){var W=__DATA__,i=0,q=[],qi=0,sc=0,$=function(x){return document.getElementById(x)};
-function show(){var w=W[i];$('card').classList.remove('flip');$('fhe').textContent=w.h;$('fm').textContent=w.m;$('ft').innerHTML=w.t+' <a href="/g/'+w.s+'/">Read the entry</a>';$('pos').textContent=(i+1)+' of '+W.length}
+function show(){var w=W[i];$('card').classList.remove('flip');$('fhe').textContent=w.h;$('fhe2').textContent=w.h;$('fm').textContent=w.m;$('ft').innerHTML=w.t+' <a href="/g/'+w.s+'/">Read the entry</a>';$('pos').textContent=(i+1)+' of '+W.length}
 function flip(){$('card').classList.toggle('flip')}
 function shuf(a){for(var k=a.length-1;k>0;k--){var j=Math.floor(Math.random()*(k+1)),t=a[k];a[k]=a[j];a[j]=t}return a}
 $('card').onclick=flip;$('card').onkeydown=function(e){if(e.key==' '||e.key=='Enter'){e.preventDefault();flip()}};
