@@ -217,42 +217,50 @@
      "en": "Possible? Can I? Is it possible?",
      "t": "אפשר?",
      "r": "efshar?",
-     "note": "The magic word. Add it before anything you want."
+     "note": "The magic word. Add it before anything you want.",
+     "img": "🙏"
     },
     {
      "en": "Where is the bus?",
      "t": "איפה האוטובוס?",
-     "r": "eifo ha-otobus?"
+     "r": "eifo ha-otobus?",
+     "img": "🚌"
     },
     {
      "en": "Taxi",
      "t": "מונית",
-     "r": "monit"
+     "r": "monit",
+     "img": "🚕"
     },
     {
      "en": "To Tel Aviv, please",
      "t": "לתל אביב, בבקשה",
-     "r": "le-Tel Aviv, bevakasha"
+     "r": "le-Tel Aviv, bevakasha",
+     "img": "📍"
     },
     {
      "en": "How much does it cost?",
      "t": "כמה זה עולה?",
-     "r": "kama ze ole?"
+     "r": "kama ze ole?",
+     "img": "💰"
     },
     {
      "en": "Straight",
      "t": "ישר",
-     "r": "yashar"
+     "r": "yashar",
+     "img": "⬆️"
     },
     {
      "en": "Right",
      "t": "ימינה",
-     "r": "yamina"
+     "r": "yamina",
+     "img": "➡️"
     },
     {
      "en": "Left",
      "t": "שמאלה",
-     "r": "smola"
+     "r": "smola",
+     "img": "⬅️"
     },
     {
      "en": "Stop here, please",
@@ -260,12 +268,14 @@
      "r": "atzor po, bevakasha",
      "t_f": "עצרי פה, בבקשה",
      "r_f": "itzri po, bevakasha",
-     "gender": "listener"
+     "gender": "listener",
+     "img": "🛑"
     },
     {
      "en": "Is it far?",
      "t": "זה רחוק?",
-     "r": "ze rachok?"
+     "r": "ze rachok?",
+     "img": "🛣️"
     }
    ],
    "dialogue": [
@@ -377,42 +387,50 @@
     {
      "en": "I have a reservation",
      "t": "יש לי הזמנה",
-     "r": "yesh li hazmana"
+     "r": "yesh li hazmana",
+     "img": "📅"
     },
     {
      "en": "Can I have a key?",
      "t": "אפשר מפתח?",
-     "r": "efshar mafteach?"
+     "r": "efshar mafteach?",
+     "img": "🔑"
     },
     {
      "en": "Can I have another towel?",
      "t": "אפשר עוד מגבת?",
-     "r": "efshar od magevet?"
+     "r": "efshar od magevet?",
+     "img": "🛁"
     },
     {
      "en": "When is breakfast?",
      "t": "מתי ארוחת הבוקר?",
-     "r": "matai aruchat ha-boker?"
+     "r": "matai aruchat ha-boker?",
+     "img": "🍳"
     },
     {
      "en": "What is the wifi password?",
      "t": "מה הסיסמה של הוויי פיי?",
-     "r": "ma ha-sisma shel ha-vay fay?"
+     "r": "ma ha-sisma shel ha-vay fay?",
+     "img": "📶"
     },
     {
      "en": "The air conditioner doesn't work",
      "t": "המזגן לא עובד",
-     "r": "ha-mazgan lo oved"
+     "r": "ha-mazgan lo oved",
+     "img": "❄️"
     },
     {
      "en": "Room",
      "t": "חדר",
-     "r": "cheder"
+     "r": "cheder",
+     "img": "🛏️"
     },
     {
      "en": "Thank you, it's great",
      "t": "תודה, זה מעולה",
-     "r": "toda, ze meule"
+     "r": "toda, ze meule",
+     "img": "👍"
     }
    ],
    "dialogue": [
@@ -522,13 +540,15 @@
     {
      "en": "Coffee",
      "t": "קפה",
-     "r": "kafe"
+     "r": "kafe",
+     "img": "☕"
     },
     {
      "en": "Hafuch, the Israeli latte",
      "t": "הפוך",
      "r": "hafuch",
-     "note": "It means upside down, because the milk goes in first."
+     "note": "It means upside down, because the milk goes in first.",
+     "img": "🥛"
     },
     {
      "en": "I want",
@@ -537,37 +557,44 @@
      "t_f": "אני רוצה",
      "r_f": "ani rotza",
      "gender": "speaker",
-     "note": "Same Hebrew spelling for both. Only the sound changes."
+     "note": "Same Hebrew spelling for both. Only the sound changes.",
+     "img": "🙋"
     },
     {
      "en": "With milk",
      "t": "עם חלב",
-     "r": "im chalav"
+     "r": "im chalav",
+     "img": "🐄"
     },
     {
      "en": "Without sugar",
      "t": "בלי סוכר",
-     "r": "bli sukar"
+     "r": "bli sukar",
+     "img": "🍬"
     },
     {
      "en": "Here or to go?",
      "t": "פה או לקחת?",
-     "r": "po o lakachat?"
+     "r": "po o lakachat?",
+     "img": "🥡"
     },
     {
      "en": "Water",
      "t": "מים",
-     "r": "mayim"
+     "r": "mayim",
+     "img": "💧"
     },
     {
      "en": "It's delicious",
      "t": "זה טעים",
-     "r": "ze taim"
+     "r": "ze taim",
+     "img": "😋"
     },
     {
      "en": "The bill, please",
      "t": "החשבון, בבקשה",
-     "r": "ha-cheshbon, bevakasha"
+     "r": "ha-cheshbon, bevakasha",
+     "img": "🧾"
     }
    ],
    "dialogue": [
@@ -671,12 +698,14 @@
     {
      "en": "A table for two",
      "t": "שולחן לשניים",
-     "r": "shulchan lishnayim"
+     "r": "shulchan lishnayim",
+     "img": "🍽️"
     },
     {
      "en": "The menu, please",
      "t": "תפריט, בבקשה",
-     "r": "tafrit, bevakasha"
+     "r": "tafrit, bevakasha",
+     "img": "📖"
     },
     {
      "en": "I'm vegetarian",
@@ -684,7 +713,8 @@
      "r": "ani tzimchoni",
      "t_f": "אני צמחונית",
      "r_f": "ani tzimchonit",
-     "gender": "speaker"
+     "gender": "speaker",
+     "img": "🥗"
     },
     {
      "en": "I'm allergic to nuts",
@@ -692,7 +722,8 @@
      "r": "ani alergi la-egozim",
      "t_f": "אני אלרגית לאגוזים",
      "r_f": "ani alergit la-egozim",
-     "gender": "speaker"
+     "gender": "speaker",
+     "img": "🥜"
     },
     {
      "en": "What do you recommend?",
@@ -700,27 +731,32 @@
      "r": "ma ata mamlitz?",
      "t_f": "מה את ממליצה?",
      "r_f": "ma at mamlitza?",
-     "gender": "listener"
+     "gender": "listener",
+     "img": "👨‍🍳"
     },
     {
      "en": "Not spicy",
      "t": "לא חריף",
-     "r": "lo charif"
+     "r": "lo charif",
+     "img": "🌶️"
     },
     {
      "en": "More pita, please",
      "t": "עוד פיתה, בבקשה",
-     "r": "od pita, bevakasha"
+     "r": "od pita, bevakasha",
+     "img": "🫓"
     },
     {
      "en": "Is service included?",
      "t": "השירות כלול?",
-     "r": "ha-sherut kalul?"
+     "r": "ha-sherut kalul?",
+     "img": "💵"
     },
     {
      "en": "Enjoy your meal",
      "t": "בתיאבון",
-     "r": "be-teavon"
+     "r": "be-teavon",
+     "img": "😋"
     }
    ],
    "dialogue": [
@@ -830,67 +866,80 @@
     {
      "en": "One",
      "t": "אחד",
-     "r": "echad"
+     "r": "echad",
+     "img": "1️⃣"
     },
     {
      "en": "Two",
      "t": "שתיים",
-     "r": "shtayim"
+     "r": "shtayim",
+     "img": "2️⃣"
     },
     {
      "en": "Three",
      "t": "שלוש",
-     "r": "shalosh"
+     "r": "shalosh",
+     "img": "3️⃣"
     },
     {
      "en": "Four",
      "t": "ארבע",
-     "r": "arba"
+     "r": "arba",
+     "img": "4️⃣"
     },
     {
      "en": "Five",
      "t": "חמש",
-     "r": "chamesh"
+     "r": "chamesh",
+     "img": "5️⃣"
     },
     {
      "en": "Six",
      "t": "שש",
-     "r": "shesh"
+     "r": "shesh",
+     "img": "6️⃣"
     },
     {
      "en": "Seven",
      "t": "שבע",
-     "r": "sheva"
+     "r": "sheva",
+     "img": "7️⃣"
     },
     {
      "en": "Eight",
      "t": "שמונה",
-     "r": "shmone"
+     "r": "shmone",
+     "img": "8️⃣"
     },
     {
      "en": "Nine",
      "t": "תשע",
-     "r": "tesha"
+     "r": "tesha",
+     "img": "9️⃣"
     },
     {
      "en": "Ten",
      "t": "עשר",
-     "r": "eser"
+     "r": "eser",
+     "img": "🔟"
     },
     {
      "en": "How much is it?",
      "t": "כמה זה?",
-     "r": "kama ze?"
+     "r": "kama ze?",
+     "img": "💰"
     },
     {
      "en": "Too expensive",
      "t": "זה יקר מדי",
-     "r": "ze yakar midai"
+     "r": "ze yakar midai",
+     "img": "📈"
     },
     {
      "en": "A kilo of apples",
      "t": "קילו תפוחים",
-     "r": "kilo tapuchim"
+     "r": "kilo tapuchim",
+     "img": "🍎"
     },
     {
      "en": "Just looking",
@@ -898,7 +947,8 @@
      "r": "ani rak mistakel",
      "t_f": "אני רק מסתכלת",
      "r_f": "ani rak mistakelet",
-     "gender": "speaker"
+     "gender": "speaker",
+     "img": "👀"
     },
     {
      "en": "Give me a better price",
@@ -906,12 +956,14 @@
      "r": "ten li mechir tov yoter",
      "t_f": "תני לי מחיר טוב יותר",
      "r_f": "tni li mechir tov yoter",
-     "gender": "listener"
+     "gender": "listener",
+     "img": "🤝"
     },
     {
      "en": "Can I taste?",
      "t": "אפשר לטעום?",
-     "r": "efshar litom?"
+     "r": "efshar litom?",
+     "img": "😋"
     }
    ],
    "dialogue": [
@@ -1027,52 +1079,62 @@
     {
      "en": "Where is the beach?",
      "t": "איפה החוף?",
-     "r": "eifo ha-chof?"
+     "r": "eifo ha-chof?",
+     "img": "🏖️"
     },
     {
      "en": "The sea",
      "t": "הים",
-     "r": "ha-yam"
+     "r": "ha-yam",
+     "img": "🌊"
     },
     {
      "en": "The water is warm",
      "t": "המים חמים",
-     "r": "ha-mayim chamim"
+     "r": "ha-mayim chamim",
+     "img": "♨️"
     },
     {
      "en": "The water is cold",
      "t": "המים קרים",
-     "r": "ha-mayim karim"
+     "r": "ha-mayim karim",
+     "img": "🥶"
     },
     {
      "en": "Sunscreen",
      "t": "קרם הגנה",
-     "r": "krem hagana"
+     "r": "krem hagana",
+     "img": "🧴"
     },
     {
      "en": "Can I rent an umbrella?",
      "t": "אפשר לשכור שמשייה?",
-     "r": "efshar liskor shimshiya?"
+     "r": "efshar liskor shimshiya?",
+     "img": "⛱️"
     },
     {
      "en": "Is it allowed to swim here?",
      "t": "מותר לשחות פה?",
-     "r": "mutar lischot po?"
+     "r": "mutar lischot po?",
+     "img": "🏊"
     },
     {
      "en": "Lifeguard",
      "t": "מציל",
-     "r": "matzil"
+     "r": "matzil",
+     "img": "🛟"
     },
     {
      "en": "I'm hot",
      "t": "חם לי",
-     "r": "cham li"
+     "r": "cham li",
+     "img": "🥵"
     },
     {
      "en": "Can you watch my bag?",
      "t": "אפשר לשמור לי על התיק?",
-     "r": "efshar lishmor li al ha-tik?"
+     "r": "efshar lishmor li al ha-tik?",
+     "img": "🎒"
     }
    ],
    "dialogue": [
@@ -1188,12 +1250,14 @@
      "t_f": "איך קוראים לך?",
      "r_f": "ech korim lach?",
      "gender": "listener",
-     "note": "Written the same for both. Only the ending sound changes."
+     "note": "Written the same for both. Only the ending sound changes.",
+     "img": "🙋"
     },
     {
      "en": "My name is",
      "t": "קוראים לי",
-     "r": "korim li"
+     "r": "korim li",
+     "img": "🏷️"
     },
     {
      "en": "Where are you from?",
@@ -1201,27 +1265,32 @@
      "r": "me-eifo ata?",
      "t_f": "מאיפה את?",
      "r_f": "me-eifo at?",
-     "gender": "listener"
+     "gender": "listener",
+     "img": "🌍"
     },
     {
      "en": "I'm from America",
      "t": "אני מאמריקה",
-     "r": "ani me-Amerika"
+     "r": "ani me-Amerika",
+     "img": "🗽"
     },
     {
      "en": "First time in Israel?",
      "t": "פעם ראשונה בישראל?",
-     "r": "paam rishona be-Israel?"
+     "r": "paam rishona be-Israel?",
+     "img": "✨"
     },
     {
      "en": "How are you? What's up?",
      "t": "מה נשמע?",
-     "r": "ma nishma?"
+     "r": "ma nishma?",
+     "img": "💬"
     },
     {
      "en": "Great, cool",
      "t": "סבבה",
-     "r": "sababa"
+     "r": "sababa",
+     "img": "😎"
     },
     {
      "en": "I love Israel",
@@ -1229,7 +1298,8 @@
      "r": "ani ohev et Israel",
      "t_f": "אני אוהבת את ישראל",
      "r_f": "ani ohevet et Israel",
-     "gender": "speaker"
+     "gender": "speaker",
+     "img": "❤️"
     },
     {
      "en": "Your Hebrew is excellent",
@@ -1237,7 +1307,8 @@
      "r": "ha-ivrit shelcha metzuyenet",
      "t_f": "העברית שלך מצוינת",
      "r_f": "ha-ivrit shelach metzuyenet",
-     "gender": "listener"
+     "gender": "listener",
+     "img": "🌟"
     }
    ],
    "dialogue": [
@@ -1351,32 +1422,38 @@
     {
      "en": "Cheers",
      "t": "לחיים",
-     "r": "lechaim"
+     "r": "lechaim",
+     "img": "🥂"
     },
     {
      "en": "A beer, please",
      "t": "בירה, בבקשה",
-     "r": "bira, bevakasha"
+     "r": "bira, bevakasha",
+     "img": "🍺"
     },
     {
      "en": "Two beers",
      "t": "שתי בירות",
-     "r": "shtei birot"
+     "r": "shtei birot",
+     "img": "🍻"
     },
     {
      "en": "Where is there a party tonight?",
      "t": "איפה יש מסיבה הערב?",
-     "r": "eifo yesh mesiba ha-erev?"
+     "r": "eifo yesh mesiba ha-erev?",
+     "img": "🎉"
     },
     {
      "en": "Come on, let's go",
      "t": "יאללה",
-     "r": "yalla"
+     "r": "yalla",
+     "img": "🏃"
     },
     {
      "en": "Awesome",
      "t": "אחלה",
-     "r": "achla"
+     "r": "achla",
+     "img": "🤩"
     },
     {
      "en": "Let's go",
@@ -1384,12 +1461,14 @@
      "r": "bo nelech",
      "t_f": "בואי נלך",
      "r_f": "bo'i nelech",
-     "gender": "listener"
+     "gender": "listener",
+     "img": "🚶"
     },
     {
      "en": "Where is the restroom?",
      "t": "איפה השירותים?",
-     "r": "eifo ha-sherutim?"
+     "r": "eifo ha-sherutim?",
+     "img": "🚻"
     },
     {
      "en": "I'm tired",
@@ -1397,7 +1476,8 @@
      "r": "ani ayef",
      "t_f": "אני עייפה",
      "r_f": "ani ayefa",
-     "gender": "speaker"
+     "gender": "speaker",
+     "img": "😴"
     },
     {
      "en": "Can I buy you a drink?",
@@ -1405,7 +1485,8 @@
      "r": "efshar lehazmin otcha mashehu lishtot?",
      "t_f": "אפשר להזמין אותך משהו לשתות?",
      "r_f": "efshar lehazmin otach mashehu lishtot?",
-     "gender": "listener"
+     "gender": "listener",
+     "img": "🍹"
     }
    ],
    "dialogue": [
@@ -1509,17 +1590,20 @@
     {
      "en": "Good Shabbat",
      "t": "שבת שלום",
-     "r": "Shabbat shalom"
+     "r": "Shabbat shalom",
+     "img": "🕯️"
     },
     {
      "en": "Happy holiday",
      "t": "חג שמח",
-     "r": "chag sameach"
+     "r": "chag sameach",
+     "img": "🎊"
     },
     {
      "en": "Help!",
      "t": "עזרה!",
-     "r": "ezra!"
+     "r": "ezra!",
+     "img": "🆘"
     },
     {
      "en": "I need a doctor",
@@ -1527,12 +1611,14 @@
      "r": "ani tzarich rofe",
      "t_f": "אני צריכה רופא",
      "r_f": "ani tzricha rofe",
-     "gender": "speaker"
+     "gender": "speaker",
+     "img": "🩺"
     },
     {
      "en": "Where is the pharmacy?",
      "t": "איפה בית המרקחת?",
-     "r": "eifo beit ha-mirkachat?"
+     "r": "eifo beit ha-mirkachat?",
+     "img": "💊"
     },
     {
      "en": "I don't feel well",
@@ -1540,32 +1626,38 @@
      "r": "ani lo margish tov",
      "t_f": "אני לא מרגישה טוב",
      "r_f": "ani lo margisha tov",
-     "gender": "speaker"
+     "gender": "speaker",
+     "img": "🤒"
     },
     {
      "en": "I lost my passport",
      "t": "איבדתי את הדרכון",
-     "r": "ibadeti et ha-darkon"
+     "r": "ibadeti et ha-darkon",
+     "img": "🛂"
     },
     {
      "en": "Everything is closed",
      "t": "הכול סגור",
-     "r": "ha-kol sagur"
+     "r": "ha-kol sagur",
+     "img": "🔒"
     },
     {
      "en": "See you again, goodbye",
      "t": "להתראות",
-     "r": "lehitraot"
+     "r": "lehitraot",
+     "img": "👋"
     },
     {
      "en": "Thank you for everything",
      "t": "תודה על הכול",
-     "r": "toda al ha-kol"
+     "r": "toda al ha-kol",
+     "img": "🙏"
     },
     {
      "en": "I'll come back",
      "t": "אני אבוא שוב",
-     "r": "ani avo shuv"
+     "r": "ani avo shuv",
+     "img": "🔙"
     }
    ],
    "dialogue": [

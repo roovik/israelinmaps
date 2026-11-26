@@ -5,7 +5,7 @@ import json, os, re, html
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 E = lambda s: html.escape(s, quote=True)
 C = json.load(open(os.path.join(ROOT, 'tools', 'hebrew_course.json'), encoding='utf-8'))
-LIVE = {1}
+LIVE = set(range(1, 11))
 def rd(p): return open(os.path.join(ROOT, p), encoding='utf-8').read()
 def wr(p, s):
     f = os.path.join(ROOT, p); os.makedirs(os.path.dirname(f), exist_ok=True); open(f, 'w', encoding='utf-8').write(s)
