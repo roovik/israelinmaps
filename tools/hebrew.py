@@ -98,7 +98,8 @@ function pk(o,k){return(G=='f'&&o['t_f'])?o[k=='t'?'t_f':'r_f']:o[k]}
 function sh(a){a=a.slice();for(var k=a.length-1;k>0;k--){var j=Math.floor(Math.random()*(k+1)),t=a[k];a[k]=a[j];a[j]=t}return a}
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;')}
 function hvs(){try{return speechSynthesis.getVoices().filter(function(v){return /^(he|iw)/i.test(v.lang)})}catch(e){return[]}}
-function mk(t,r,p,v){var u=new SpeechSynthesisUtterance(t);u.lang='he-IL';u.rate=r;u.pitch=p;if(!v){var h=hvs();if(h.length)v=h[0]}if(v)u.voice=v;return u}
+function fx(t){return t.replace(/(^|\u05de\u05d4 |\u05de\u05d0\u05d9\u05e4\u05d4 )\u05d0\u05ea(?=[ ?.!,]|$)/g,'$1\u05d0\u05b7\u05ea\u05bc')}
+function mk(t,r,p,v){var u=new SpeechSynthesisUtterance(fx(t));u.lang='he-IL';u.rate=r;u.pitch=p;if(!v){var h=hvs();if(h.length)v=h[0]}if(v)u.voice=v;return u}
 function canSay(){try{var a=speechSynthesis.getVoices().length;if(a>0&&hvs().length==0){vnote();return false}return true}catch(e){return false}}
 function go(f){var b=false;try{b=speechSynthesis.speaking||speechSynthesis.pending;speechSynthesis.cancel()}catch(e){}if(b)setTimeout(f,80);else f()}
 function vnote(){var n=document.getElementById('vn');try{var all=speechSynthesis.getVoices().length,no=all>0&&hvs().length==0}catch(e){var no=true}if(!no){if(n)n.remove();return}if(!n){n=document.createElement('div');n.id='vn';n.className='vn';n.innerHTML='<b>No Hebrew voice found on this device.</b> iPhone: Settings, Accessibility, Spoken Content, Voices, Hebrew, then download Carmit. Android: Settings, Text-to-speech, install Hebrew. Then reload.';var b=document.getElementById('bar');if(b)b.parentNode.insertBefore(n,b)}}
