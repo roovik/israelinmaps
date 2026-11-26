@@ -55,7 +55,7 @@ CSS = """<style>
 .ls .opt{display:block;width:100%;text-align:left}
 .ls .opt.ok{background:#2e8b57;border-color:#2e8b57}.ls .opt.no{background:#a21c3c;border-color:#a21c3c}
 .ls .line{width:100%;text-align:left;padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.1)}
-.ls .line.tr{background:rgba(248,186,47,.18)}.ls .line .hh{font-size:26px;color:#ffc700;direction:rtl;text-align:right;display:block}
+.ls .line.tr{background:rgba(248,186,47,.18)}.ls .line .tl{display:block;color:#fff;font-size:17px;margin:2px 0 4px}.ls .line .en{opacity:.8;font-size:15px}.ls .line .hh{font-size:26px;color:#ffc700;direction:rtl;text-align:right;display:block}
 .ls .flip{perspective:900px;width:100%}.ls .fl{min-height:34vh;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px}
 .ls small.ph{opacity:.7;font-size:13px}
 @media (display-mode:standalone){header.top,footer,.adslot,aside,.sidebar,.newsaside{display:none!important}.hx,.ls{padding-top:env(safe-area-inset-top)}}
@@ -90,7 +90,7 @@ def travel():
     wr('hebrew/travel/index.html', page('Easy Hebrew for Travelers', 'Ten short mobile lessons of conversational Hebrew for beaches, restaurants, hotels and nights out.', 'https://israelnowlej.com/hebrew/travel/', body + SW_REG, CSS + PWA_HEAD))
 
 JS = r"""<script>(function(){var ALL=__ALL__,L=__DATA__,NEXT=__NEXT__,$=function(x){return document.getElementById(x)},app=$('app');
-var G=null;try{G=localStorage.getItem('hg')}catch(e){}var SHOWH=false,TO='m',S=[],i=0,score=0,answered=false;
+var G=null;try{G=localStorage.getItem('hg')}catch(e){}var SHOWH=true,TO='m',S=[],i=0,score=0,answered=false;
 function pk(o,k){return(G=='f'&&o['t_f'])?o[k=='t'?'t_f':'r_f']:o[k]}
 function sh(a){a=a.slice();for(var k=a.length-1;k>0;k--){var j=Math.floor(Math.random()*(k+1)),t=a[k];a[k]=a[j];a[j]=t}return a}
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;')}
@@ -127,7 +127,7 @@ if(g('bk'))g('bk').onclick=function(){i--;render()};if(g('nx'))g('nx').onclick=f
 if(s.k=='title'&&g('ib'))g('ib').onclick=function(){DP.prompt();DP=null;render()};
 if(s.k=='who'){g('gm').onclick=function(){G='m';try{localStorage.setItem('hg','m')}catch(e){}render()};g('gf').onclick=function(){G='f';try{localStorage.setItem('hg','f')}catch(e){}render()}}
 if(s.k=='ph'){var t=ptext(s.p);if(g('nb'))g('nb').onclick=function(){g('nn').hidden=false;g('nb').hidden=true};g('pl').onclick=function(){say(t[0],0)};g('ps').onclick=function(){say(t[0],1)};if(g('tm')){g('tm').onclick=function(){TO='m';render()};g('tf').onclick=function(){TO='f';render()}}}
-if(s.k=='dlg'){var d=g('dl');function draw(){d.innerHTML='';L.dialogue.forEach(function(x,k){var a=document.createElement('div');a.className='line'+(x.who=='traveler'?' tr':'');a.id='ln'+k;a.innerHTML='<div class="en">'+esc(x.en)+'</div>'+(SHOWH?'<span class="hh" lang="he">'+pk(x,'t')+'</span><b>'+esc(pk(x,'r'))+'</b>':'');a.onclick=function(){say(pk(x,'t'),0)};d.appendChild(a)})}
+if(s.k=='dlg'){var d=g('dl');function draw(){d.innerHTML='';L.dialogue.forEach(function(x,k){var a=document.createElement('div');a.className='line'+(x.who=='traveler'?' tr':'');a.id='ln'+k;a.innerHTML=(SHOWH?'<span class="hh" lang="he">'+pk(x,'t')+'</span><b class="tl">'+esc(pk(x,'r'))+'</b>':'')+'<div class="en">'+esc(x.en)+'</div>';a.onclick=function(){say(pk(x,'t'),0)};d.appendChild(a)})}
 draw();g('tg').onclick=function(){SHOWH=!SHOWH;g('tg').textContent=SHOWH?'Hide Hebrew':'Show Hebrew';draw()};
 function playConv(){try{speechSynthesis.cancel();var hv=speechSynthesis.getVoices().filter(function(v){return /^he/i.test(v.lang)});L.dialogue.forEach(function(x,k){sayq(pk(x,'t'),.8,x.who=='local'?1.3:.85,hv.length?hv[x.who=='local'?hv.length-1:0]:null,function(){document.querySelectorAll('.line.on').forEach(function(e){e.classList.remove('on')});var e=document.getElementById('ln'+k);if(e){e.classList.add('on');e.scrollIntoView({block:'center',behavior:'smooth'})}})})}catch(e){}}g('pa').onclick=playConv;playConv()}
 if(s.k=='fc'){var tt=ptext(s.p);g('fl').onclick=function(){s.f=!s.f;g('fl').innerHTML=s.f?'<div class="he hs" lang="he" dir="rtl">'+tt[0]+'</div><div class="en" style="font-size:28px;font-weight:800">'+esc(s.p.en)+'</div><div class="rom">'+esc(tt[1])+'</div><button class="btn go big" id="fp"><svg class="ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M7 4.5v15l12-7.5z"/></svg> Play</button>':'<div class="he hs" lang="he" dir="rtl">'+tt[0]+'</div><small class="ph">Tap to flip</small>';if(g('fp'))g('fp').onclick=function(e){e.stopPropagation();say(tt[0],0)}}}
