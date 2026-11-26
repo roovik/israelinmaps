@@ -1267,8 +1267,8 @@
     {
      "who": "traveler",
      "en": "Hi! What's your name?",
-     "t": "היי! איך קוראים לך?",
-     "r": "hai! ech korim lecha?"
+     "t": "היי! איך קוראים לך?⁠",
+     "r": "hai! ech korim lach?"
     },
     {
      "who": "local",
