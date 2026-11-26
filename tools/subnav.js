@@ -2,7 +2,7 @@
   var bar=document.getElementById('subnav');if(!bar)return;
   var sec=bar.getAttribute('data-trend');
   function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
-  function mark(){var cur=location.pathname+location.hash;[].forEach.call(document.querySelectorAll('.subnav a'),function(a){var h=a.getAttribute('href');a.className=(h===cur||(!location.hash&&h===location.pathname)||h===document.body.getAttribute('data-subon'))?'on':''})}
+  function mark(){var cur=location.pathname+location.hash;[].forEach.call(document.querySelectorAll('.subnav a'),function(a){var h=a.getAttribute('href');a.className=(h===cur||(!location.hash&&h===location.pathname)||h===document.body.getAttribute('data-subon')||(a.getAttribute('data-pre')&&location.pathname.indexOf(a.getAttribute('data-pre'))===0))?'on':''})}
   mark();window.addEventListener('hashchange',mark);
 
 
