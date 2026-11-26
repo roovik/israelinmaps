@@ -22,7 +22,10 @@ i1 = H.rindex('<div class="adslot" data-slot="lb-bottom"')
 PRE = re.sub(r'<div class="wrap subnav sub2".*?</div>', '', H[:i0], 1, flags=re.S); POST = H[i1:]
 def page(title, desc, url, body, extra=''):
     base = re.sub(r'<link rel="apple-touch-icon" href="/apple-touch-icon.png">', '', PRE) if 'apple-touch-icon' in extra else PRE
-    return head(base, title, desc, url).replace('</head>', extra + '</head>', 1) + body + POST
+    h = head(base, title, desc, url)
+    if 'apple-touch-icon' in extra:
+        h = re.sub(r'<meta name="viewport"[^>]*>', '<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">', h, 1)
+    return h.replace('</head>', extra + '</head>', 1) + body + POST
 
 CSS = """<style>
 .hx h1,.ls h1{color:var(--fg)!important;opacity:1!important}
@@ -35,6 +38,7 @@ CSS = """<style>
 .hx ol.ll li a,.hx ol.ll li div{display:flex;gap:12px;align-items:center;padding:14px;border:2px solid var(--g);border-radius:12px;background:var(--n);color:#fff!important;text-decoration:none}
 .hx ol.ll li div{opacity:.55}.hx ol.ll .no{font-weight:800;color:var(--g);font-size:22px;min-width:28px}
 .hx ol.ll small{display:block;opacity:.8}
+.ls,.ls *{touch-action:manipulation;-webkit-text-size-adjust:100%}
 .ls{--n:#0a2566;--g:#f8ba2f;max-width:520px;margin:0 auto;padding-bottom:84px}
 .ls .prog{height:6px;background:rgba(0,0,0,.15);border-radius:3px;margin:8px 0 12px;overflow:hidden}.ls .prog i{display:block;height:100%;background:var(--g);width:0;transition:width .3s}
 .ls .panel{min-height:58vh;border-radius:16px;border:3px solid var(--g);color:#fff;padding:20px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;
@@ -56,7 +60,7 @@ CSS = """<style>
 .ls small.ph{opacity:.7;font-size:13px}
 @media (display-mode:standalone){header.top,footer,.adslot,aside,.sidebar,.newsaside{display:none!important}.hx,.ls{padding-top:env(safe-area-inset-top)}}
 .ls .inst{font-size:14px;opacity:.9;max-width:26em}
-@media(max-width:700px),(display-mode:standalone){.ls.full{position:fixed;top:0;left:0;right:0;bottom:0;z-index:50;background:#e8ecf5;overflow-y:auto;padding:10px 12px 92px;max-width:none;margin:0}.ls.full .panel{min-height:calc(100vh - 210px)}.ls.full .bar{z-index:60}.ls.full h1{font-size:15px}.ls .chip{text-decoration:none}}
+@media(max-width:700px),(display-mode:standalone){.ls.full{position:fixed;top:0;left:0;right:0;bottom:0;z-index:50;background:#e8ecf5;overflow-y:auto;padding:calc(10px + env(safe-area-inset-top)) 12px calc(92px + env(safe-area-inset-bottom));max-width:none;margin:0}.ls.full .panel{min-height:calc(100vh - 210px)}.ls.full .bar{z-index:60}.ls.full h1{font-size:15px}.ls .chip{text-decoration:none}}
 .ls .btn.big{min-height:58px;font-size:20px;min-width:150px;padding:10px 22px}.ls .bar button{min-height:56px}.ls .bar #bk{min-width:70px;font-size:22px}.ls .bar .go{font-size:20px}
 .ls .scn{width:100%;border-radius:12px;border:2px solid var(--g);display:block}
 .ls .chips{display:flex;gap:6px;margin:4px 0}.ls .chip{font:inherit;font-weight:700;font-size:14px;border-radius:999px;border:2px solid var(--g);background:var(--n);color:#fff;padding:5px 12px;cursor:pointer}.ls .chip[aria-pressed=true]{background:var(--g);color:#1a1400}.ls [hidden]{display:none!important}.ls .pick{display:grid;gap:6px;margin:6px 0 10px}.ls .pk{display:block;padding:10px 12px;border-radius:10px;background:var(--n);color:#fff!important;text-decoration:none;border:2px solid transparent}.ls .pk.on{border-color:var(--g)}.ls .pk b{color:var(--g);margin-right:6px}
@@ -66,7 +70,7 @@ CSS = """<style>
 PWA_HEAD = ('<link rel="manifest" href="/hebrew/travel/manifest.webmanifest"><meta name="theme-color" content="#0a2566">'
  '<meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Easy Hebrew">'
  '<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><link rel="apple-touch-icon" href="/hebrew/travel/icons/apple-touch-icon.png">')
-SW_REG = "<script>if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/hebrew/travel/sw.js',{scope:'/hebrew/travel/'}).catch(function(){})})}</script>"
+SW_REG = "<script>['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,function(e){e.preventDefault()})});document.addEventListener('touchmove',function(e){if(e.touches.length>1)e.preventDefault()},{passive:false});if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/hebrew/travel/sw.js',{scope:'/hebrew/travel/'}).catch(function(){})})}</script>"
 def hub():
     body = f"""<div class="hubslide hx"><h1>Hebrew</h1><p class="lead">Learn the Hebrew behind the headlines, the Bible and the street. Start with play or start with travel.</p>
 <div class="tiles">
