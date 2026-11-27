@@ -1,0 +1,31 @@
+{
+ "name": "Hebrew by Israel NOWlej",
+ "short_name": "Hebrew",
+ "description": "Travel Hebrew, the alphabet, numbers and wordplay in one app.",
+ "lang": "en",
+ "dir": "ltr",
+ "start_url": "/hebrew/app/?source=app",
+ "scope": "/hebrew/app/",
+ "display": "standalone",
+ "orientation": "portrait",
+ "background_color": "#0a2566",
+ "theme_color": "#0a2566",
+ "icons": [
+  {
+   "src": "/hebrew/app/icons/icon-192.png",
+   "sizes": "192x192",
+   "type": "image/png"
+  },
+  {
+   "src": "/hebrew/app/icons/icon-512.png",
+   "sizes": "512x512",
+   "type": "image/png"
+  },
+  {
+   "src": "/hebrew/app/icons/icon-maskable-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "maskable"
+  }
+ ]
+}
