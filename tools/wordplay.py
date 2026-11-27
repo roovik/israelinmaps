@@ -17,6 +17,9 @@ ENT = D['entries']
 glos = {g[1]: g[0] for g in json.load(open(os.path.join(ROOT, 'glossary.json'), encoding='utf-8'))}
 
 
+PL = '<svg class="ic" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M7 4.5v15l12-7.5z"/></svg>'
+
+
 def rd(p): return open(os.path.join(ROOT, p), encoding='utf-8').read()
 def wr(p, s):
     full = os.path.join(ROOT, p)
@@ -63,7 +66,8 @@ def entry_page(e):
     im = img(e)
     if im:
         fig = (f'<figure class="wcard"><img src="{im}" width="1200" height="927" alt="{E(e["title"])} {e["he"]}: Hebrew Wordplay card" loading="eager" '
-               f'style="width:100%;height:auto;border-radius:10px;margin:14px 0"></figure>')
+               f'style="width:100%;height:auto;border-radius:10px;margin:14px 0"><figcaption style="text-align:center"><button class="wsay" data-say="{e["he"]}" aria-label="Hear {E(e["title"])} in Hebrew">'+PL+' Hear it</button></figcaption></figure>')
+        art = re.sub(r'<button class="wsay"[^>]*>.*?</button>(?=<script)', '', art, 1, flags=re.S)
         art = art.replace('<nav class="esec"', fig + '<nav class="esec"', 1)
     pre_ = head(T[:art0], e['title'], e['card'], f'https://israelnowlej.com/g/{sl}/')
     if im:
@@ -100,11 +104,11 @@ def card(e, with_data=True):
     he = f'<span class="he" lang="he" dir="rtl">{e["he"]}</span>'
     n = f'{e["title"]} {e["he"]} {e["card"]}'.lower()
     return (f'<a class="gcard" href="/g/{e["slug"]}/" data-c="{CAT}" data-n="{E(n)}"><span class="gimg">{thumb(e, L)}</span>'
-            f'<span class="gb"><span class="gcat c-{CAT}">{SEC}</span><b>{E(e["title"])}</b>{he}<span class="gd">{E(e["card"])}</span></span></a>')
+            f'<span class="gb"><span class="gcat c-{CAT}">{SEC}</span><b>{E(e["title"])}</b>{he}<span class="wsay mini" role="button" tabindex="0" data-say="{e["he"]}" aria-label="Hear {E(e["title"])}">'+PL+f'</span><span class="gd">{E(e["card"])}</span></span></a>')
 
 
 hub = (f'<div class="hubslide"><h1>{SEC}</h1><p class="lead">{E(D["intro"])}</p><p><a class="subbtn" href="/wordplay/cards/" style="display:inline-block;padding:8px 16px;border-radius:8px;font-weight:700;text-decoration:none">Flash cards and quiz</a></p><div class="ggrid">'
-       + ''.join(card(e) for e in ENT) + '</div></div>')
+       + ''.join(card(e) for e in ENT) + '</div></div><script src="/hebrew/say.js" defer></script>')
 wr('wordplay/index.html', pre + hub + post)
 
 # ---------- flash cards and quiz page

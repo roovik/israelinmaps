@@ -1,6 +1,6 @@
 (function(){
 var st=document.createElement('style');
-st.textContent='.wsay{display:inline-flex;align-items:center;gap:6px;margin:6px 0 2px;padding:6px 16px;border:0;border-radius:999px;background:#ffc700;color:#0a2566;font:800 15px/1 inherit;cursor:pointer;box-shadow:0 2px 0 #b8900a}.wsay svg{flex:none}.wtoast{position:fixed;left:12px;right:12px;bottom:16px;z-index:99;padding:10px 12px;border-radius:10px;background:#fff3cd;color:#5a4300;border:1px solid #f8ba2f;font:14px/1.35 sans-serif}';
+st.textContent='.wsay{display:inline-flex;align-items:center;gap:6px;margin:6px 0 2px;padding:6px 16px;border:0;border-radius:999px;background:#ffc700;color:#0a2566;font:800 15px/1 inherit;cursor:pointer;box-shadow:0 2px 0 #b8900a}.wsay svg{flex:none}.wsay.mini{display:inline-flex;vertical-align:middle;width:34px;height:34px;padding:0;justify-content:center;margin:0 8px}.wsay.mini svg{width:18px;height:18px}.wtoast{position:fixed;left:12px;right:12px;bottom:16px;z-index:99;padding:10px 12px;border-radius:10px;background:#fff3cd;color:#5a4300;border:1px solid #f8ba2f;font:14px/1.35 sans-serif}';
 document.head.appendChild(st);
 function hv(){try{return speechSynthesis.getVoices().filter(function(v){return /^(he|iw)/i.test(v.lang)})}catch(e){return[]}}
 window.heSay=function(t){
