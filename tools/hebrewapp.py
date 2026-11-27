@@ -11,7 +11,7 @@ APPHTML = r"""<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>
 html,body{margin:0;height:100%;background:#0a2566;overscroll-behavior:none;-webkit-text-size-adjust:100%}
 body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
 #app{position:fixed;top:0;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:#e8ecf5;display:flex;flex-direction:column;box-shadow:0 0 0 1px rgba(0,0,0,.2)}
-#stage{position:relative;flex:1;min-height:0;padding-top:env(safe-area-inset-top);background:#e8ecf5}
+#app{position:fixed}#mast{background:#fff;border-bottom:3px solid #f8ba2f;padding:calc(6px + env(safe-area-inset-top)) 10px 8px}#mast[hidden]{display:none}.mrow{display:flex;align-items:center;gap:8px}.mrow img{display:block;height:30px;width:auto}.msp{flex:1}.ms{color:#0a2566;font-weight:700;font-size:14px;text-decoration:none}.mnav{display:flex;gap:6px;margin-top:6px}.mnav a{flex:1;text-align:center;color:#fff;text-decoration:none;font-weight:700;font-size:13px;padding:7px 2px;border-radius:6px}#mtab{position:absolute;left:50%;top:env(safe-area-inset-top);transform:translateX(-50%);z-index:5;width:40px;height:16px;border:0;border-radius:0 0 10px 10px;background:#0a2566;color:#ffc700;display:flex;align-items:center;justify-content:center;padding:0;cursor:pointer;opacity:.92}#stage{position:relative;flex:1;min-height:0;padding-top:env(safe-area-inset-top);background:#e8ecf5}
 iframe{position:absolute;left:0;right:0;top:env(safe-area-inset-top);bottom:0;width:100%;height:calc(100% - env(safe-area-inset-top));border:0;background:#e8ecf5;opacity:0;visibility:hidden}
 iframe.on{opacity:1;visibility:visible}
 #tabs{display:flex;background:#0a2566;border-top:3px solid #f8ba2f;padding-bottom:env(safe-area-inset-bottom)}
@@ -20,12 +20,15 @@ iframe.on{opacity:1;visibility:visible}
 #tabs .l{font-size:11px;font-weight:700;letter-spacing:.02em}
 #tabs button.on{color:#ffc700}#tabs a{flex:1;color:#cfd8f3;text-decoration:none;padding:6px 2px 7px;display:flex;flex-direction:column;align-items:center;gap:1px}
 </style></head><body>
-<div id="app"><div id="stage">__FRAMES__</div><div id="tabs" role="tablist">__TABS__</div></div>
+<div id="app"><div id="mast" hidden><div class="mrow"><a href="https://israelnowlej.com/" target="_blank" rel="noopener" aria-label="Israel NOWlej"><img src="/logo.svg" alt="Israel NOWlej" height="30"></a><span class="msp"></span><a class="ms" href="https://israelnowlej.com/search/" target="_blank" rel="noopener">Search</a></div><div class="mnav"><a style="background:#2a6bd1" href="https://israelnowlej.com/" target="_blank" rel="noopener">News</a><a style="background:#17808c" href="https://israelnowlej.com/views/" target="_blank" rel="noopener">Views</a><a style="background:#c9561c" href="https://israelnowlej.com/media/" target="_blank" rel="noopener">Media</a><a style="background:#6b3fa0" href="https://israelnowlej.com/glossary/" target="_blank" rel="noopener">NOWlej</a><a style="background:#2e8b4a" href="https://israelnowlej.com/sources/" target="_blank" rel="noopener">Sources</a></div></div><button id="mtab" aria-label="Show or hide the site header"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path id="mch" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6"/></svg></button><div id="stage">__FRAMES__</div><div id="tabs" role="tablist">__TABS__</div></div>
 <script>
 (function(){
 var T=__DATA__,cur=null;
 ['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,function(e){e.preventDefault()})});
 document.addEventListener('touchmove',function(e){if(e.touches.length>1)e.preventDefault()},{passive:false});
+var mast=document.getElementById('mast'),mtab=document.getElementById('mtab');
+function setMast(on){mast.hidden=!on;mtab.style.top=on?'auto':'env(safe-area-inset-top)';document.getElementById('mch').setAttribute('d',on?'M6 15l6-6 6 6':'M6 9l6 6 6-6');if(on){mtab.style.position='relative';mtab.style.left='auto';mtab.style.transform='none';mtab.style.alignSelf='center';mtab.style.margin='0 auto'}else{mtab.style.position='absolute';mtab.style.left='4px';mtab.style.transform='none';mtab.style.margin='0'}try{localStorage.setItem('hmast',on?'1':'0')}catch(e){}}
+mtab.onclick=function(){setMast(mast.hidden)};var mo=false;try{mo=localStorage.getItem('hmast')=='1'}catch(e){}setMast(mo);
 var CSS='header.top,#subnav,nav[aria-label=Sections],footer,.adslot,aside.newsside,.ticker,.acct,.fcols{display:none!important}body{background:#e8ecf5!important}main#main{padding-top:6px!important}.wrap{max-width:none!important}a[href="/hebrew/"],#news-status,[class*=share],[id*=share],a[href="/wordplay/"]{display:none!important}.newspage{display:block!important}.newsmain{max-width:none!important;width:auto!important;float:none!important}';
 function fr(id){return document.getElementById('f-'+id)}
 function prep(f){try{var d=f.contentDocument;if(!d||d.getElementById('appcss'))return;var s=d.createElement('style');s.id='appcss';s.textContent=CSS;d.head.appendChild(s)}catch(e){}}
