@@ -65,8 +65,8 @@ def entry_page(e):
 <section id="e-sources"><h2>Sources</h2><ul class="esrc" id="e-src"><li>Written for this site from standard reference works on Hebrew and the Bible.</li></ul></section></article>'''
     im = img(e)
     if im:
-        fig = (f'<figure class="wcard"><img src="{im}" width="1200" height="927" alt="{E(e["title"])} {e["he"]}: Hebrew Wordplay card" loading="eager" '
-               f'style="width:100%;height:auto;border-radius:10px;margin:14px 0"><figcaption style="text-align:center"><button class="wsay" data-say="{e["he"]}" aria-label="Hear {E(e["title"])} in Hebrew">'+PL+' Hear it</button></figcaption></figure>')
+        fig = (f'<figure class="wpfig"><a href="{im}" target="_blank" rel="noopener" aria-label="Open the {E(e["title"])} card full size"><img src="{im}" width="1200" height="927" alt="{E(e["title"])} {e["he"]}: Hebrew Wordplay card" loading="eager"></a>'
+               f'<figcaption><button class="wsay" data-say="{e["he"]}" aria-label="Hear {E(e["title"])} in Hebrew">'+PL+' Hear it</button><a class="wdl" href="{im}" download="israel-nowlej-hebrew-wordplay-{sl}.jpg">Download image</a></figcaption></figure>')
         art = re.sub(r'<button class="wsay"[^>]*>.*?</button>(?=<script)', '', art, 1, flags=re.S)
         art = art.replace('<nav class="esec"', fig + '<nav class="esec"', 1)
     pre_ = head(T[:art0], e['title'], e['card'], f'https://israelnowlej.com/g/{sl}/')

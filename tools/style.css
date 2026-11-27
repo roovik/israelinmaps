@@ -1377,3 +1377,5 @@ tile.c-hebrew-wordplay{background:#2f6f7a}
 .srcpick{scrollbar-width:none;-ms-overflow-style:none}.srcpick::-webkit-scrollbar{display:none}
 .pickctl{display:flex;justify-content:center;gap:10px;margin:0 0 10px}.pickctl[hidden]{display:none}.srcpick[hidden]+.pickctl{display:none}
 .pickctl .pc{width:34px;height:28px;border-radius:14px;border:1.5px solid currentColor;background:transparent;color:inherit;opacity:.75;font:700 18px/1 system-ui,sans-serif;padding:0;cursor:pointer;display:flex;align-items:center;justify-content:center}.pickctl .pc:hover{opacity:1}.pickctl .pp{font-size:11px;letter-spacing:-1px}
+
+.wpfig{margin:14px auto;max-width:640px}.wpfig img{display:block;width:100%;height:auto;border-radius:10px}.wpfig figcaption{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-items:center;margin-top:10px}.wdl{display:inline-flex;align-items:center;min-height:40px;padding:0 16px;border-radius:999px;border:2px solid #0a2566;color:#0a2566!important;font:700 15px system-ui,sans-serif;text-decoration:none}
