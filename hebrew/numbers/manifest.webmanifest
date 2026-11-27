@@ -1,0 +1,31 @@
+{
+ "name": "Hebrew Numbers",
+ "short_name": "Numbers",
+ "description": "Count, pay and tell the time in Hebrew.",
+ "lang": "en",
+ "dir": "ltr",
+ "start_url": "/hebrew/numbers/?source=app",
+ "scope": "/hebrew/numbers/",
+ "display": "standalone",
+ "orientation": "portrait",
+ "background_color": "#0a2566",
+ "theme_color": "#0a2566",
+ "icons": [
+  {
+   "src": "/hebrew/numbers/icons/icon-192.png",
+   "sizes": "192x192",
+   "type": "image/png"
+  },
+  {
+   "src": "/hebrew/numbers/icons/icon-512.png",
+   "sizes": "512x512",
+   "type": "image/png"
+  },
+  {
+   "src": "/hebrew/numbers/icons/icon-maskable-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "maskable"
+  }
+ ]
+}
