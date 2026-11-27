@@ -29,12 +29,13 @@ function setMast(on){mast.hidden=!on;mtab.hidden=on;app.classList.toggle('mo',on
 mtab.onclick=function(){setMast(true)};document.getElementById('mclose').onclick=function(){setMast(false)};var mo=true;try{mo=localStorage.getItem('hmast')!='0'}catch(e){}setMast(mo);
 var CSS='header.top,#subnav,nav[aria-label=Sections],footer,.adslot,aside.newsside,.ticker,.acct,.fcols{display:none!important}body{background:#e8ecf5!important}main#main{padding-top:6px!important}.wrap{max-width:none!important}a[href="/hebrew/"],#news-status,[class*=share],[id*=share],a[href="/wordplay/"]{display:none!important}.newspage{display:block!important}.newsmain{max-width:none!important;width:auto!important;float:none!important}';
 function fr(id){return document.getElementById('f-'+id)}
-var SCSS='header.top,#subnav,nav[aria-label=Sections]{display:none!important}';
+var SCSS='header.top .bar,header.top nav[aria-label=Sections],.ticker,.adslot{display:none!important}header.top{position:static!important;box-shadow:none!important}';
 function prep(f){try{var d=f.contentDocument;if(!d||d.getElementById('appcss'))return;var s=d.createElement('style');s.id='appcss';s.textContent=(f.id=='f-site')?SCSS:CSS;d.head.appendChild(s)}catch(e){}}
 setInterval(function(){T.forEach(function(t){var f=fr(t[0]);if(!f.getAttribute('src'))return;var d;try{d=f.contentDocument}catch(e){return}
  if(!d||!d.head||d.location.href=='about:blank'){if(cur==t[0])f.classList.remove('on');return}
  if(!d.getElementById('appcss')){prep(f);}
- if(cur==t[0]&&d.getElementById('appcss'))f.classList.add('on')})},40);
+ if(cur==t[0]&&d.getElementById('appcss'))f.classList.add('on');
+ if(t[0]=='site'){var c=d.querySelector('nav[aria-label=Sections] a.cur'),n=c?c.getAttribute('data-n'):'-1';if(n!=mn){mn=n;document.querySelectorAll('.mnav a').forEach(function(a,i){a.style.boxShadow=(i==n)?'inset 0 -4px 0 #ffc700':'none'})}}})},40);var mn=null;
 function load(id){var f=fr(id);if(!f.getAttribute('src'))f.setAttribute('src',f.getAttribute('data-src'))}
 function stop(){T.forEach(function(t){try{fr(t[0]).contentWindow.speechSynthesis.cancel()}catch(e){}});try{speechSynthesis.cancel()}catch(e){}}
 function show(id,quiet){if(!quiet)stop();cur=id;T.forEach(function(t){var f=fr(t[0]);if(t[0]!=id)f.classList.remove('on');document.getElementById('t-'+t[0]).classList.toggle('on',t[0]==id)});load(id);
