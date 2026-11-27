@@ -34,6 +34,11 @@ CSS = """<style>
 .hx .tile2{display:block;padding:18px;border-radius:14px;border:3px solid var(--g);color:#fff!important;text-decoration:none;background-color:var(--n);background-image:linear-gradient(rgba(255,255,255,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.07) 1px,transparent 1px);background-size:28px 28px}
 .hx .tile2 b{display:block;font-size:22px}.hx .tile2 span{opacity:.85}
 .hx .tile2 .he{color:#ffc700;font-size:34px;float:right}
+.hxh .tiles{grid-template-columns:1fr 1fr;gap:10px;margin:10px 0}.hxh .tile2{padding:10px 12px;border-width:2px;border-radius:12px;display:flex;flex-direction:column;align-items:flex-start;min-height:0}.hxh .tile2 .he{float:none;font-size:34px;line-height:1.1;align-self:flex-end;order:-1}.hxh .tile2 b{font-size:18px;line-height:1.15}.hxh .tile2 .sub{font-size:13px;opacity:1;color:#d6def5!important}.hxh .tile2 .he{opacity:1}body.hubpg aside.newsside,body.hubpg .adslot,body.hubpg #news-status{display:none!important}body.hubpg .newspage{display:block!important}body.hubpg .newsmain{max-width:none!important;width:auto!important;float:none!important}.hxh .lead{font-size:15px;margin:6px 0}
+.fbtn{display:block;margin:6px auto 0;border:0;background:none;color:#0a2566;font:600 14px system-ui,sans-serif;cursor:pointer;padding:6px 10px}body.hxf footer{display:none}body.hxf.fo footer{display:block}
+@media(max-height:830px){.hxh h1{font-size:24px;margin:4px 0}.hxh .lead{display:none}.hxh .tile2 .he{font-size:26px}.hxh .tile2{padding:6px 10px}.hxh .tile2 b{font-size:16px}.hxh .tile2 .sub{font-size:12px}.hxh .tiles{gap:7px;margin:6px 0}}
+@media(max-height:620px){.hxh h1{font-size:24px;margin:4px 0}.hxh .lead{display:none}.hxh .tile2 .he{font-size:26px}.hxh .tile2{padding:6px 10px}.hxh .tile2 b{font-size:16px}.hxh .tiles{gap:7px;margin:6px 0}}
+@media(min-width:701px){.hxh .tiles{grid-template-columns:repeat(3,1fr)}.hxh .tile2 b{font-size:20px}}
 .hx ol.ll{list-style:none;padding:0;margin:12px 0;display:grid;gap:10px}
 .hx ol.ll li a,.hx ol.ll li div{display:flex;gap:12px;align-items:center;padding:14px;border:2px solid var(--g);border-radius:12px;background:var(--n);color:#fff!important;text-decoration:none}
 .hx ol.ll li div{opacity:.55}.hx ol.ll .no{font-weight:800;color:var(--g);font-size:22px;min-width:28px}
@@ -77,16 +82,13 @@ PWA_HEAD = ('<link rel="manifest" href="/hebrew/travel/manifest.webmanifest"><me
  '<meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Easy Hebrew">'
  '<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><link rel="apple-touch-icon" href="/hebrew/travel/icons/apple-touch-icon.png">')
 SW_REG = "<script>['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,function(e){e.preventDefault()})});document.addEventListener('touchmove',function(e){if(e.touches.length>1)e.preventDefault()},{passive:false});if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/hebrew/travel/sw.js',{scope:'/hebrew/travel/'}).catch(function(){})})}</script>"
+FOOT_JS = "<script>document.body.classList.add('hxf','hubpg');var fb=document.getElementById('fb');if(fb)fb.onclick=function(){var o=document.body.classList.toggle('fo');fb.innerHTML=o?'Hide site info &#9652;':'About this site &#9662;';if(o)setTimeout(function(){fb.scrollIntoView({block:'start',behavior:'smooth'})},30)}</script>"
 def hub():
-    body = f"""<div class="hubslide hx"><h1>Hebrew</h1><p class="lead">Learn the Hebrew behind the headlines, the Bible and the street. Start with play or start with travel.</p>
-<div class="tiles">
-<a class="tile2" href="/hebrew/travel/"><span class="he" lang="he" dir="rtl">שלום</span><b>Easy Hebrew for Travelers</b><span>Ten short lessons for the beach, the restaurant, the hotel and the night out. Built for your phone.</span></a>
-<a class="tile2" href="/hebrew/alphabet/"><span class="he" lang="he" dir="rtl">א</span><b>Hebrew Alphabet</b><span>Hear every letter, then read real signs. Built for your phone.</span></a>
-<a class="tile2" href="/hebrew/app/"><span class="he" lang="he" dir="rtl">עברית</span><b>Get the Hebrew app</b><span>Travel Hebrew, Alphabet, Numbers and Wordplay in one app for your phone.</span></a>
-<a class="tile2" href="/hebrew/numbers/"><span class="he" lang="he" dir="rtl">אחת</span><b>Hebrew Numbers</b><span>Count, pay and tell the time. Prices, clocks and phone numbers.</span></a>
-<a class="tile2" href="/wordplay/"><span class="he" lang="he" dir="rtl">הודו</span><b>Hebrew Wordplay</b><span>One word, several meanings, and the stories behind them.</span></a>
-<a class="tile2" href="/wordplay/cards/"><span class="he" lang="he" dir="rtl">חי</span><b>Flash cards and quiz</b><span>Guess the meanings, then flip the card.</span></a>
-</div></div>"""
+    T = [('/hebrew/travel/', 'שלום', 'Travel Hebrew', 'Ten short lessons'), ('/hebrew/alphabet/', 'א', 'Alphabet', 'Hear every letter'), ('/hebrew/numbers/', 'אחת', 'Numbers', 'Count, pay, tell time'),
+         ('/wordplay/', 'הודו', 'Wordplay', 'One word, many meanings'), ('/wordplay/cards/', 'חי', 'Flash cards', 'Guess, then flip'), ('/hebrew/app/', 'עברית', 'Get the app', 'All of it on your phone')]
+    tiles = ''.join(f'<a class="tile2" href="{u}"><span class="he" lang="he" dir="rtl">{h}</span><b>{t}</b><span class="sub">{d}</span></a>' for u, h, t, d in T)
+    body = f"""<div class="hubslide hx hxh"><h1>Hebrew</h1><p class="lead">Learn the Hebrew behind the headlines, the Bible and the street.</p>
+<div class="tiles">{tiles}</div><button class="fbtn" id="fb" type="button">About this site &#9662;</button></div>{FOOT_JS}"""
     wr('hebrew/index.html', page('Hebrew', 'Hebrew for travelers and the curious: a travel course, wordplay entries, flash cards and a quiz.', 'https://israelnowlej.com/hebrew/', body, CSS))
 
 def travel():
