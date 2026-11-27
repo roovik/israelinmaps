@@ -38,6 +38,8 @@ CSS = """<style>
 .hx ol.ll li a,.hx ol.ll li div{display:flex;gap:12px;align-items:center;padding:14px;border:2px solid var(--g);border-radius:12px;background:var(--n);color:#fff!important;text-decoration:none}
 .hx ol.ll li div{opacity:.55}.hx ol.ll .no{font-weight:800;color:var(--g);font-size:22px;min-width:28px}
 .hx ol.ll small{display:block;opacity:.8}
+.hx ol.ll{grid-template-columns:1fr 1fr;gap:8px;margin:8px 0}.hx ol.ll li a,.hx ol.ll li div{gap:8px;padding:8px 9px;height:100%;box-sizing:border-box;border-radius:10px}.hx ol.ll li b{font-size:15px;line-height:1.15;display:block}.hx ol.ll small{font-size:11.5px;line-height:1.25;margin-top:2px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.hx ol.ll .no{font-size:20px;min-width:16px}.hx.hubslide .lead{font-size:15px;line-height:1.35;margin:6px 0}
+@media(min-width:701px){.hx ol.ll{gap:10px}.hx ol.ll li a,.hx ol.ll li div{padding:10px 12px}.hx ol.ll li b{font-size:17px}.hx ol.ll small{font-size:13px}}
 .ls,.ls *{touch-action:manipulation;-webkit-text-size-adjust:100%}
 .ls{--n:#0a2566;--g:#f8ba2f;max-width:520px;margin:0 auto;padding-bottom:84px}
 .ls .prog{height:6px;background:rgba(0,0,0,.15);border-radius:3px;margin:8px 0 12px;overflow:hidden}.ls .prog i{display:block;height:100%;background:var(--g);width:0;transition:width .3s}
