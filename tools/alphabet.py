@@ -1,7 +1,7 @@
 # Executed by tools/hebrew.py (shares its globals: page, CSS, wr, E, json). Builds /hebrew/alphabet/.
 LET = [
  ("א","alef","silent, or a light 'a' at the start of a word","אבא","aba","dad","אָ"),
- ("ב","bet","b as in boy. Without the dot it sounds like v","בית","bayit","house","בָּ"),
+ ("ב","bet","b as in boy","בית","bayit","house","בָּ",["vet","v as in van","בָ","שבת","Shabbat","Sabbath","ב"]),
  ("ג","gimel","g as in go","גמל","gamal","camel","גָּ"),
  ("ד","dalet","d as in dog","דג","dag","fish","דָּ"),
  ("ה","heh","h as in hat. Often silent at the end of a word","הר","har","mountain","הָ"),
@@ -10,13 +10,13 @@ LET = [
  ("ח","chet","a rough throat sound, like ch in Bach","חלב","chalav","milk","חָ"),
  ("ט","tet","t as in top","טוב","tov","good","טָ"),
  ("י","yod","y as in yes","יום","yom","day","יָ"),
- ("כ","kaf","k as in key. Without the dot it sounds like ch in Bach","כסף","kesef","money","כָּ"),
+ ("כ","kaf","k as in key","כסף","kesef","money","כָּ",["chaf","a rough throat sound, like ch in Bach","כָ","אוכל","ochel","food, eats","כ"]),
  ("ל","lamed","l as in love","לחם","lechem","bread","לָ"),
  ("מ","mem","m as in mom","מים","mayim","water","מָ"),
  ("נ","nun","n as in no","נעים","naim","nice","נָ"),
  ("ס","samech","s as in sun","סלט","salat","salad","סָ"),
  ("ע","ayin","a soft throat sound. Most Israelis say it like alef","עיר","ir","city","עָ"),
- ("פ","pe","p as in pen. Without the dot it sounds like f","פלפל","pilpel","pepper","פָּ"),
+ ("פ","pe","p as in pen","פלפל","pilpel","pepper","פָּ",["fe","f as in fun","פָ","ספר","sefer","book","פ"]),
  ("צ","tsadi","ts as in cats","צהוב","tzahov","yellow","צָ"),
  ("ק","kuf","k as in key, the same sound as kaf","קפה","kafeh","coffee","קָ"),
  ("ר","resh","a gargled r, from the back of the throat","רחוב","rechov","street","רָ"),
@@ -30,22 +30,22 @@ SIGNS = [("שירותים","sherutim","toilets"),("מלון","malon","hotel"),("
 PAIRS = [("ד","ר","dalet has a sharp corner, resh is round"),("ב","כ","bet has a flat base, kaf is curved"),
          ("ה","ח","heh has a gap on the left, chet is joined"),("ו","ז","vav is a plain stick, zayin has a hat"),
          ("נ","ג","nun has a flat foot, gimel is a runner"),("ם","ס","final mem has corners, samech is round")]
-SAME = [("כ ח","Both can sound like ch in Bach"),("כ ק","Both sound like k"),("ט ת","Both sound like t"),("א ע","Both are nearly silent"),("ב ו","Without the dot, bet sounds like vav: v")]
+SAME = [("כ ח","Both can sound like ch in Bach"),("כ ק","Both sound like k"),("ט ת","Both sound like t"),("א ע","Both are nearly silent"),("ב ו","Without its dot, bet (vet) sounds like vav: v")]
 AB = {"L": LET, "F": FIN, "S": SIGNS, "P": PAIRS, "M": SAME}
 ABJS = r"""<script>
 (function(){var D=__DATA__;var $=function(i){return document.getElementById(i)};
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;')}
-var tab='l',sel=0,say=function(t){if(window.heSay)heSay(t)};
+var tab='l',sel=0,vr=0,say=function(t){if(window.heSay)heSay(t)};
 var names={};D.L.forEach(function(l){names[l[0]]=l[1]});D.F.forEach(function(f){names[f[1]]='final '+names[f[0]]});
 function tabs(){var T=[['l','Letters'],['s','Similar'],['r','Signs'],['q','Quiz']];$('ctabs').innerHTML=T.map(function(t){return '<button class="ct'+(t[0]==tab?' on':'')+'" data-t="'+t[0]+'">'+t[1]+'</button>'}).join('');
  document.querySelectorAll('.ct').forEach(function(b){b.onclick=function(){tab=b.getAttribute('data-t');draw()}})}
 function ic(){return '<svg class="ic" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M7 4.5v15l12-7.5z"/></svg>'}
-function letters(){var l=D.L[sel],h='<div class="agrid" dir="rtl">'+D.L.map(function(x,i){return '<button class="al'+(i==sel?' on':'')+'" data-i="'+i+'" lang="he">'+x[0]+'</button>'}).join('')+'</div>';
- h+='<div class="adet"><div class="abig" lang="he" dir="rtl">'+l[0]+'</div><div class="aname">'+esc(l[1])+'</div><p class="asd">'+esc(l[2])+'</p><div class="arow"><button class="btn go" id="s1">'+ic()+' Hear the sound</button></div><div class="aex"><span lang="he" dir="rtl">'+l[3]+'</span><b>'+esc(l[4])+'</b><small>'+esc(l[5])+'</small><button class="mp" id="s2" aria-label="Hear the word">'+ic()+'</button></div></div>';
- h+='<p class="asm">Five letters change shape at the end of a word: '+D.F.map(function(f){return '<span lang="he">'+f[0]+' '+f[1]+'</span>'}).join(', ')+'.</p>';
+function letters(){var l0=D.L[sel],l=l0,dot=l0[7];if(dot&&vr==1)l=[l0[0],dot[0],dot[1],dot[3],dot[4],dot[5],dot[2]];if(!dot)vr=0;var big=(dot&&vr==0)?l0[0]+'\u05bc':l0[0];var h='<div class="agrid" dir="rtl">'+D.L.map(function(x,i){return '<button class="al'+(i==sel?' on':'')+'" data-i="'+i+'" lang="he">'+x[0]+'</button>'}).join('')+'</div>';
+ h+='<div class="adet">'+(dot?'<div class="vtog"><button class="vt'+(vr==0?' on':'')+'" data-v="0">With dot: '+esc(l0[1])+'</button><button class="vt'+(vr==1?' on':'')+'" data-v="1">No dot: '+esc(dot[0])+'</button></div>':'')+'<div class="abig" lang="he" dir="rtl">'+big+'</div><div class="aname">'+esc(l[1])+'</div><p class="asd">'+esc(l[2])+'</p><div class="arow"><button class="btn go" id="s1">'+ic()+' Hear the sound</button></div><div class="aex"><span lang="he" dir="rtl">'+l[3]+'</span><b>'+esc(l[4])+'</b><small>'+esc(l[5])+'</small><button class="mp" id="s2" aria-label="Hear the word">'+ic()+'</button></div></div>';
+ h+=(dot?'<p class="asm">Bet, kaf and pe have two sounds. A dot inside the letter makes it hard. No dot makes it soft. Most Hebrew text leaves the dot out, so you learn each word.</p>':'')+'<p class="asm">Five letters change shape at the end of a word: '+D.F.map(function(f){return '<span lang="he">'+f[0]+' '+f[1]+'</span>'}).join(', ')+'.</p>';
  $('cbody').innerHTML=h;
- document.querySelectorAll('.al').forEach(function(b){b.onclick=function(){sel=+b.getAttribute('data-i');letters();say(D.L[sel][6])}});
- $('s1').onclick=function(){say(l[6])};$('s2').onclick=function(){say(l[3])}}
+ document.querySelectorAll('.al').forEach(function(b){b.onclick=function(){sel=+b.getAttribute('data-i');vr=0;letters();say(D.L[sel][6])}});
+ $('s1').onclick=function(){say(l[6])};$('s2').onclick=function(){say(l[3])};document.querySelectorAll('.vt').forEach(function(b){b.onclick=function(){vr=+b.getAttribute('data-v');letters();say(vr==1?l0[7][2]:l0[6])}})}
 function looks(){var h='<h2>Letters that look alike</h2><div class="apairs">'+D.P.map(function(p){return '<div class="apr"><div class="pb" lang="he" dir="rtl"><button data-say="'+'" class="pl1" data-h="'+p[0]+'">'+p[0]+'</button><button class="pl1" data-h="'+p[1]+'">'+p[1]+'</button></div><small>'+esc(p[2])+'</small></div>'}).join('')+'</div>';
  h+='<h2>Letters that sound alike</h2><ul class="asa">'+D.M.map(function(m){return '<li><span lang="he" dir="rtl">'+m[0]+'</span> '+esc(m[1])+'</li>'}).join('')+'</ul><p class="asm">Israelis mix these up when they spell, so you are in good company.</p>';
  $('cbody').innerHTML=h;
@@ -78,7 +78,7 @@ ABCSS = """<style>
 .ab .adet{text-align:center;margin-top:10px}.ab .abig,.ab .sbig{color:#ffc700;font-weight:800;line-height:1.05}.ab .abig{font-size:84px}.ab .sbig{font-size:56px}
 .ab .aname{font-size:20px;font-weight:800}.ab .asd{margin:4px 0 8px;opacity:.9;font-size:15px}.ab .asm{font-size:13px;opacity:.85;margin:8px 0 0}.ab .asm span{color:#ffc700}
 .ab .arow{margin:8px 0;display:flex;gap:8px;justify-content:center}.ab .btn{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border:0;border-radius:999px;background:#ffc700;color:var(--n);font-weight:800;font-size:16px;font-family:inherit;cursor:pointer;box-shadow:0 3px 0 #b8900a}.ab .btn.big{padding:12px 24px;font-size:18px}
-.ab .aex{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:4px}.ab .aex span{color:#ffc700;font-size:26px;font-weight:700}.ab .aex small{opacity:.85}
+.ab .vtog{display:flex;gap:6px;justify-content:center;margin-bottom:4px}.ab .vt{padding:6px 12px;border:2px solid #ffc700;border-radius:999px;background:transparent;color:#fff;font-weight:700;font-size:14px;font-family:inherit;cursor:pointer}.ab .vt.on{background:#ffc700;color:var(--n)}.ab .aex{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:4px}.ab .aex span{color:#ffc700;font-size:26px;font-weight:700}.ab .aex small{opacity:.85}
 .ab .mp{width:36px;height:36px;border-radius:50%;border:0;background:#ffc700;color:var(--n);display:inline-flex;align-items:center;justify-content:center;cursor:pointer}
 .ab .apairs{display:grid;grid-template-columns:1fr 1fr;gap:8px}.ab .apr{background:rgba(255,255,255,.08);border-radius:10px;padding:8px;text-align:center}.ab .pb{display:flex;justify-content:center;gap:10px}.ab .pl1{background:transparent;border:0;color:#ffc700;font-weight:800;font-size:44px;line-height:1;font-family:inherit;cursor:pointer}.ab .apr small{display:block;font-size:12px;opacity:.9}
 .ab .asa{list-style:none;padding:0;margin:4px 0}.ab .asa li{padding:4px 0;font-size:15px}.ab .asa span{color:#ffc700;font-size:22px;font-weight:800;margin-right:8px}
