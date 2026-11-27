@@ -18,7 +18,7 @@ iframe.on{opacity:1;visibility:visible}
 #tabs button{flex:1;border:0;background:transparent;color:#cfd8f3;padding:6px 2px 7px;font-family:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:1px}
 #tabs .g{font-size:21px;font-weight:800;line-height:1.15;height:26px;display:flex;align-items:center}
 #tabs .l{font-size:11px;font-weight:700;letter-spacing:.02em}
-#tabs button.on{color:#ffc700}
+#tabs button.on{color:#ffc700}#tabs a{flex:1;color:#cfd8f3;text-decoration:none;padding:6px 2px 7px;display:flex;flex-direction:column;align-items:center;gap:1px}
 </style></head><body>
 <div id="app"><div id="stage">__FRAMES__</div><div id="tabs" role="tablist">__TABS__</div></div>
 <script>
@@ -29,12 +29,15 @@ document.addEventListener('touchmove',function(e){if(e.touches.length>1)e.preven
 var CSS='header.top,#subnav,nav[aria-label=Sections],footer,.adslot,aside.newsside,.ticker,.acct,.fcols{display:none!important}body{background:#e8ecf5!important}main#main{padding-top:6px!important}.wrap{max-width:none!important}a[href="/hebrew/"],#news-status,[class*=share],[id*=share],a[href="/wordplay/"]{display:none!important}.newspage{display:block!important}.newsmain{max-width:none!important;width:auto!important;float:none!important}';
 function fr(id){return document.getElementById('f-'+id)}
 function prep(f){try{var d=f.contentDocument;if(!d||d.getElementById('appcss'))return;var s=d.createElement('style');s.id='appcss';s.textContent=CSS;d.head.appendChild(s)}catch(e){}}
-T.forEach(function(t){var f=fr(t[0]);f.addEventListener('load',function(){prep(f);if(cur==t[0])f.classList.add('on')})});
+setInterval(function(){T.forEach(function(t){var f=fr(t[0]);if(!f.getAttribute('src'))return;var d;try{d=f.contentDocument}catch(e){return}
+ if(!d||!d.head||d.location.href=='about:blank'){if(cur==t[0])f.classList.remove('on');return}
+ if(!d.getElementById('appcss')){prep(f);}
+ if(cur==t[0]&&d.getElementById('appcss'))f.classList.add('on')})},40);
 function load(id){var f=fr(id);if(!f.getAttribute('src'))f.setAttribute('src',f.getAttribute('data-src'))}
 function stop(){T.forEach(function(t){try{fr(t[0]).contentWindow.speechSynthesis.cancel()}catch(e){}});try{speechSynthesis.cancel()}catch(e){}}
-function show(id,quiet){if(!quiet)stop();cur=id;T.forEach(function(t){var f=fr(t[0]);f.classList.toggle('on',t[0]==id&&f.getAttribute('src')&&f.contentDocument&&f.contentDocument.readyState=='complete');document.getElementById('t-'+t[0]).classList.toggle('on',t[0]==id)});load(id);
+function show(id,quiet){if(!quiet)stop();cur=id;T.forEach(function(t){var f=fr(t[0]);if(t[0]!=id)f.classList.remove('on');document.getElementById('t-'+t[0]).classList.toggle('on',t[0]==id)});load(id);
  try{localStorage.setItem('happ',id)}catch(e){}try{history.replaceState(null,'','#'+id)}catch(e){}
- var f=fr(id);if(f.getAttribute('src')&&f.contentDocument&&f.contentDocument.readyState=='complete'){prep(f);f.classList.add('on')}}
+}
 T.forEach(function(t){document.getElementById('t-'+t[0]).onclick=function(){if(cur==t[0]){try{fr(t[0]).contentWindow.location.href=t[3]}catch(e){}}show(t[0])}});
 var h=(location.hash||'').slice(1),st='';try{st=localStorage.getItem('happ')||''}catch(e){}
 var ok=function(x){return T.some(function(t){return t[0]==x})};
@@ -45,7 +48,7 @@ if('serviceWorker' in navigator){window.addEventListener('load',function(){navig
 </script></body></html>"""
 def hebrew_app():
     frames = ''.join('<iframe id="f-%s" data-src="%s" title="%s"></iframe>' % (k, u, n) for k, n, g, u in TABS)
-    tabs = ''.join('<button id="t-%s" role="tab"><span class="g" lang="he">%s</span><span class="l">%s</span></button>' % (k, g, n) for k, n, g, u in TABS)
+    tabs = ''.join('<button id="t-%s" role="tab"><span class="g" lang="he">%s</span><span class="l">%s</span></button>' % (k, g, n) for k, n, g, u in TABS) + '<a id="t-site" href="https://israelnowlej.com/" target="_blank" rel="noopener"><span class="g">&#9776;</span><span class="l">Site</span></a>'
     html = APPHTML.replace('__FRAMES__', frames).replace('__TABS__', tabs).replace('__DATA__', json.dumps([[k, n, g, u] for k, n, g, u in TABS], ensure_ascii=False))
     wr('hebrew/app/index.html', html)
     man = {"name": "Hebrew by Israel NOWlej", "short_name": "Hebrew", "description": "Travel Hebrew, the alphabet, numbers and wordplay in one app.", "lang": "en", "dir": "ltr",
