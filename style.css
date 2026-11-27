@@ -1421,3 +1421,8 @@ main h1+p.lead,main h1+p.small,main h1+p.meta,main h1+p.lede,main h1+p.hotmeta,.
 
 .c-hebrew-wordplay{background:#2f6f7a}
 tile.c-hebrew-wordplay{background:#2f6f7a}
+
+/* source icon strip: auto-scroll, no scroll bar */
+.srcpick{scrollbar-width:none;-ms-overflow-style:none}.srcpick::-webkit-scrollbar{display:none}
+.pickctl{display:flex;justify-content:center;gap:10px;margin:0 0 10px}.pickctl[hidden]{display:none}.srcpick[hidden]+.pickctl{display:none}
+.pickctl .pc{width:34px;height:28px;border-radius:14px;border:1.5px solid currentColor;background:transparent;color:inherit;opacity:.75;font:700 18px/1 system-ui,sans-serif;padding:0;cursor:pointer;display:flex;align-items:center;justify-content:center}.pickctl .pc:hover{opacity:1}.pickctl .pp{font-size:11px;letter-spacing:-1px}

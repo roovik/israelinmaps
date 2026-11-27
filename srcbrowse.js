@@ -22,6 +22,22 @@
     else if(s==='rand'){arr=arr.slice();for(var i=arr.length-1;i>0;i--){var k=Math.floor(Math.random()*(i+1)),t=arr[i];arr[i]=arr[k];arr[k]=t}}return arr}
   // website icons for publications
   [].forEach.call(pick.querySelectorAll('.apic[data-d]'),function(pic){var im=new Image();im.alt='';im.referrerPolicy='no-referrer';im.onload=function(){if(im.naturalWidth>16){pic.textContent='';pic.appendChild(im)}};im.src=(pic.getAttribute('data-d')==='ynetnews.com'?'/img/ynet-y.png':'https://www.google.com/s2/favicons?sz=128&domain='+pic.getAttribute('data-d'))});
+
+  /* Auto-scrolling source icons with arrows and a pause button, in place of the scroll bar. */
+  (function(){
+    var ctl=document.createElement('div');ctl.className='pickctl';
+    ctl.innerHTML='<button type="button" class="pc" data-d="-1" aria-label="Scroll left">&#8249;</button><button type="button" class="pc pp" aria-label="Pause">&#10074;&#10074;</button><button type="button" class="pc" data-d="1" aria-label="Scroll right">&#8250;</button>';
+    pick.parentNode.insertBefore(ctl,pick.nextSibling);
+    var pos=0,paused=false,hold=0,pp=ctl.querySelector('.pp');pick.style.scrollSnapType='none';
+    function setP(v){paused=v;pp.innerHTML=v?'&#9654;':'&#10074;&#10074;';pp.setAttribute('aria-label',v?'Play':'Pause')}
+    ctl.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;if(b===pp){setP(!paused);pos=pick.scrollLeft;return}setP(true);var d=+b.getAttribute('data-d');pick.scrollBy({left:d*pick.clientWidth*.7,behavior:'smooth'})});
+    ['touchstart','wheel','pointerdown'].forEach(function(t){pick.addEventListener(t,function(){if(!paused)setP(true)},{passive:true})});
+    pick.addEventListener('scroll',function(){if(paused)pos=pick.scrollLeft});
+    var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches;if(reduce)setP(true);
+    function tick(){requestAnimationFrame(tick);var over=!pick.hidden&&pick.scrollWidth>pick.clientWidth+2;ctl.hidden=!over;if(!over||paused||document.hidden)return;
+      if(hold>0){hold--;return}pos+=.5;if(pos>=pick.scrollWidth-pick.clientWidth){hold=90;pos=0;pick.scrollLeft=0;return}pick.scrollLeft=pos}
+    requestAnimationFrame(tick);
+  })();
   var newsP=null,viewsP=null,vidP=null,cache={};
   function voiceData(it){return jget('/api/voice?id='+encodeURIComponent(it.id)).then(function(d){
     var a=(d.articles||[]).map(function(x){return{t:x.t,u:x.k?'/news/item/'+x.k+'/':x.u,ext:!x.k,d:x.d,s:d.name,i:x.i,o:x.u}});
