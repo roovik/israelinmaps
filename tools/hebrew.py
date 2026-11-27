@@ -39,6 +39,7 @@ CSS = """<style>
 .hx ol.ll li div{opacity:.55}.hx ol.ll .no{font-weight:800;color:var(--g);font-size:22px;min-width:28px}
 .hx ol.ll small{display:block;opacity:.8}
 .hx ol.ll{grid-template-columns:1fr 1fr;gap:8px;margin:8px 0}.hx ol.ll li a,.hx ol.ll li div{gap:8px;padding:8px 9px;height:100%;box-sizing:border-box;border-radius:10px}.hx ol.ll li b{font-size:15px;line-height:1.15;display:block}.hx ol.ll small{font-size:11.5px;line-height:1.25;margin-top:2px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.hx ol.ll .no{font-size:20px;min-width:16px}.hx.hubslide .lead{font-size:15px;line-height:1.35;margin:6px 0}
+@media(max-height:600px){.hx.hubslide h1{font-size:22px;margin:4px 0}.hx.hubslide .lead{display:none}.hx ol.ll{gap:6px;margin:6px 0}.hx ol.ll li a,.hx ol.ll li div{padding:6px 8px}.hx ol.ll small{display:none}.hx ol.ll li b{font-size:14px}.hx.hubslide .small{display:none}}
 @media(min-width:701px){.hx ol.ll{gap:10px}.hx ol.ll li a,.hx ol.ll li div{padding:10px 12px}.hx ol.ll li b{font-size:17px}.hx ol.ll small{font-size:13px}}
 .ls,.ls *{touch-action:manipulation;-webkit-text-size-adjust:100%}
 .ls{--n:#0a2566;--g:#f8ba2f;max-width:520px;margin:0 auto;padding-bottom:84px}
@@ -93,7 +94,7 @@ def travel():
     for l in C['lessons']:
         n = l['n']
         inner = f'<span class="no">{n}</span><span><b>{E(l["title"])}</b><small>{E(l["goal"])}</small></span>'
-        items += f'<li><a href="/hebrew/travel/{n}/">{inner}</a></li>' if n in LIVE else f'<li><div>{inner}<small style="margin-left:auto">Soon</small></div></li>'
+        items += f'<li><a href="/hebrew/travel/{n}/" title="{E(l["goal"])}">{inner}</a></li>' if n in LIVE else f'<li><div>{inner}<small style="margin-left:auto">Soon</small></div></li>'
     body = f"""<div class="hubslide hx"><h1>Easy Hebrew for Travelers</h1><p class="lead">Ten short lessons to enjoy your trip. Each takes about six minutes on your phone. You learn what to say, hear it, practise it and take a quiz.</p><ol class="ll">{items}</ol><p class="small"><a href="/hebrew/">All Hebrew</a></p></div>"""
     wr('hebrew/travel/index.html', page('Easy Hebrew for Travelers', 'Ten short mobile lessons of conversational Hebrew for beaches, restaurants, hotels and nights out.', 'https://israelnowlej.com/hebrew/travel/', body + SW_REG, CSS + PWA_HEAD))
 
