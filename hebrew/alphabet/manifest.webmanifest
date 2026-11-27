@@ -1,0 +1,31 @@
+{
+ "name": "Hebrew Alphabet, Aleph to Taf",
+ "short_name": "Aleph-Taf",
+ "description": "Hear the Hebrew letters and read real signs.",
+ "lang": "en",
+ "dir": "ltr",
+ "start_url": "/hebrew/alphabet/?source=app",
+ "scope": "/hebrew/alphabet/",
+ "display": "standalone",
+ "orientation": "portrait",
+ "background_color": "#0a2566",
+ "theme_color": "#0a2566",
+ "icons": [
+  {
+   "src": "/hebrew/alphabet/icons/icon-192.png",
+   "sizes": "192x192",
+   "type": "image/png"
+  },
+  {
+   "src": "/hebrew/alphabet/icons/icon-512.png",
+   "sizes": "512x512",
+   "type": "image/png"
+  },
+  {
+   "src": "/hebrew/alphabet/icons/icon-maskable-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "maskable"
+  }
+ ]
+}

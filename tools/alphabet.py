@@ -43,12 +43,12 @@ function tabs(){var T=[['l','Letters'],['s','Similar'],['r','Signs'],['q','Quiz'
  document.querySelectorAll('.ct').forEach(function(b){b.onclick=function(){tab=b.getAttribute('data-t');draw()}})}
 function ic(){return '<svg class="ic" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M7 4.5v15l12-7.5z"/></svg>'}
 function letters(){var l0=D.L[sel],l=l0,dot=l0[7];if(dot&&vr==1)l=[l0[0],dot[0],dot[1],dot[3],dot[4],dot[5],dot[2]];if(!dot)vr=0;var big=(dot&&vr==0)?l0[0]+'\u05bc':l0[0];var fn0=D.F.filter(function(f){return f[0]==l0[0]})[0];if(!fn0)fv=0;if(fv)big=fn0[1];var tiles='';D.L.forEach(function(x,i){tiles+='<button class="al'+(i==sel&&!fv?' on':'')+'" data-i="'+i+'" lang="he">'+x[0]+'</button>';var f=D.F.filter(function(q){return q[0]==x[0]})[0];if(f)tiles+='<button class="al fin'+(i==sel&&fv?' on':'')+'" data-i="'+i+'" data-f="1" lang="he" aria-label="final form">'+f[1]+'</button>'});var h='<div class="agrid" dir="rtl">'+tiles+'</div><p class="asm" style="margin:6px 0 0"><span class="key">&#9632;</span> Teal tiles are end-of-word forms.</p>';
- h+='<div class="adet">'+(dot?'<div class="vtog"><button class="vt'+(vr==0?' on':'')+'" data-v="0">With dot: '+esc(l0[1])+'</button><button class="vt'+(vr==1?' on':'')+'" data-v="1">No dot: '+esc(dot[0])+'</button></div>':'')+'<div class="abig" lang="he" dir="rtl">'+big+'</div><div class="aname">'+(fv?'final '+esc(l0[1]):esc(l[1]))+'</div><p class="asd">'+(fv?'Only at the end of a word. The sound is the same as '+esc(l0[1])+'.':esc(l[2]))+'</p><div class="arow"><button class="btn go" id="s1">'+ic()+' Hear the sound</button></div><div class="aex"><span lang="he" dir="rtl">'+l[3]+'</span><b>'+esc(l[4])+'</b><small>'+esc(l[5])+'</small><button class="mp" id="s2" aria-label="Hear the word">'+ic()+'</button></div></div>';
- var fn=D.F.filter(function(f){return f[0]==l0[0]})[0];if(fn){var fe=D.X[fn[0]];h+='<div class="afin"><span lang="he" dir="rtl">'+fn[1]+'</span><small>At the end of a word it is written '+fn[1]+', same sound: <b lang="he">'+fe[0]+'</b> '+esc(fe[1])+'</small><button class="mp" id="s3" aria-label="Hear the word">'+ic()+'</button></div>'}
+ h+='<div class="adet">'+(dot?'<div class="vtog"><button class="vt'+(vr==0?' on':'')+'" data-v="0">With dot: '+esc(l0[1])+'</button><button class="vt'+(vr==1?' on':'')+'" data-v="1">No dot: '+esc(dot[0])+'</button></div>':'')+'<div class="abig" lang="he" dir="rtl">'+big+'</div><div class="aname">'+(fv?'final '+esc(l0[1]):esc(l[1]))+'</div><p class="asd">'+(fv?'Only at the end of a word. The sound is the same as '+esc(l0[1])+'.':esc(l[2]))+'</p><div class="arow"><button class="btn go" id="s1">'+ic()+' Hear the sound</button></div><div class="aex"'+(fv?' hidden':'')+'><span lang="he" dir="rtl">'+l[3]+'</span><b>'+esc(l[4])+'</b><small>'+esc(l[5])+'</small><button class="mp" id="s2" aria-label="Hear the word">'+ic()+'</button></div></div>';
+ var fn=D.F.filter(function(f){return f[0]==l0[0]})[0];if(fn&&!fv)h+='<p class="asm">At the end of a word it is written <b lang="he" style="color:#7ff0e6">'+fn[1]+'</b>. Same sound.</p>';
  h+=(dot?'<p class="asm">Bet, kaf and pe have two sounds. A dot inside the letter makes it hard. No dot makes it soft. Most Hebrew text leaves the dot out, so you learn each word.</p>':'')+'';
  $('cbody').innerHTML=h;
- document.querySelectorAll('.al').forEach(function(b){b.onclick=function(){sel=+b.getAttribute('data-i');vr=0;fv=b.getAttribute('data-f')?1:0;letters();say(fv?D.X[D.L[sel][0]][0]:D.L[sel][6])}});
- if($('s3'))$('s3').onclick=function(){say(D.X[l0[0]][0])};$('s1').onclick=function(){say(l[6])};$('s2').onclick=function(){say(l[3])};document.querySelectorAll('.vt').forEach(function(b){b.onclick=function(){vr=+b.getAttribute('data-v');letters();say(vr==1?l0[7][2]:l0[6])}})}
+ document.querySelectorAll('.al').forEach(function(b){b.onclick=function(){sel=+b.getAttribute('data-i');vr=0;fv=b.getAttribute('data-f')?1:0;letters();say(D.L[sel][6])}});
+ $('s1').onclick=function(){say(l[6])};$('s2').onclick=function(){say(l[3])};document.querySelectorAll('.vt').forEach(function(b){b.onclick=function(){vr=+b.getAttribute('data-v');letters();say(vr==1?l0[7][2]:l0[6])}})}
 function looks(){var h='<h2>One letter, two sounds</h2><p class="asm" style="margin:0 0 6px">A dot inside makes it hard. No dot makes it soft. Tap each one.</p><div class="apairs">'+D.D.map(function(d){return '<div class="apr"><div class="pb" lang="he" dir="rtl"><button class="dl1" data-s="'+d[2]+'">'+d[0]+'</button><button class="dl1" data-s="'+d[3]+'">'+d[1]+'</button></div><small>dot: '+d[4]+' ('+d[6]+')<br>no dot: '+d[5]+' ('+d[7]+')</small></div>'}).join('')+'</div><h2>At the end of a word</h2><p class="asm" style="margin:0 0 6px">Five letters change shape at the end of a word. The sound stays the same. Tap to hear a word.</p><div class="apairs">'+D.F.map(function(f){var e=D.X[f[0]];return '<div class="apr"><div class="pb" lang="he" dir="rtl"><button class="xl1" data-s="'+e[0]+'">'+f[0]+'</button><button class="xl1" data-s="'+e[0]+'">'+f[1]+'</button></div><small><b lang="he">'+e[0]+'</b> '+esc(e[1])+', '+esc(e[2])+'</small></div>'}).join('')+'</div><h2>Letters that look alike</h2><div class="apairs">'+D.P.map(function(p){return '<div class="apr"><div class="pb" lang="he" dir="rtl"><button data-say="'+'" class="pl1" data-h="'+p[0]+'">'+p[0]+'</button><button class="pl1" data-h="'+p[1]+'">'+p[1]+'</button></div><small>'+esc(p[2])+'</small></div>'}).join('')+'</div>';
  h+='<h2>Letters that sound alike</h2><ul class="asa">'+D.M.map(function(m){return '<li><span lang="he" dir="rtl">'+m[0]+'</span> '+esc(m[1])+'</li>'}).join('')+'</ul><p class="asm">Israelis mix these up when they spell, so you are in good company.</p>';
  $('cbody').innerHTML=h;
@@ -76,7 +76,7 @@ ABCSS = """<style>
 .ab{max-width:560px;margin:0 auto;--n:#0a2566;--g:#f8ba2f}.ab h1{color:var(--fg)!important;opacity:1!important}
 .ab .ctabs{display:flex;gap:6px;margin:10px 0}.ab .ct{flex:1;padding:9px 4px;border:2px solid var(--g);border-radius:10px;background:#fff;color:var(--n);font-weight:700;font-size:15px;font-family:inherit;cursor:pointer}.ab .ct.on{background:var(--g)}
 .ab #cbody{background:var(--n);border:3px solid var(--g);border-radius:14px;padding:12px;color:#fff;background-image:linear-gradient(rgba(255,255,255,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.07) 1px,transparent 1px);background-size:28px 28px}
-.ab h2{color:#fff;font-size:18px;margin:6px 0}
+.ab [hidden]{display:none!important}.ab h2{color:#fff;font-size:18px;margin:6px 0}
 .ab .agrid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}.ab .al{padding:8px 0;border:2px solid transparent;border-radius:10px;background:rgba(255,255,255,.1);color:#ffc700;font-weight:700;font-size:28px;line-height:1.1;font-family:inherit;cursor:pointer}.ab .al.fin{background:rgba(0,170,170,.35);color:#7ff0e6}.ab .al.fin.on{background:rgba(0,190,190,.55);border-color:#7ff0e6}.ab .asm span.key{color:#00b7b7}.ab .al.on{border-color:#ffc700;background:rgba(255,199,0,.2)}
 .ab .adet{text-align:center;margin-top:10px}.ab .abig,.ab .sbig{color:#ffc700;font-weight:800;line-height:1.05}.ab .abig{font-size:84px}.ab .sbig{font-size:56px}
 .ab .aname{font-size:20px;font-weight:800}.ab .asd{margin:4px 0 8px;opacity:.9;font-size:15px}.ab .asm{font-size:13px;opacity:.85;margin:8px 0 0}.ab .asm span{color:#ffc700}
@@ -95,4 +95,36 @@ def alphabet():
             '<div class="ctabs" id="ctabs"></div><div id="cbody"></div><noscript><p>The alphabet needs JavaScript.</p></noscript>'
             + ABJS.replace('__DATA__', data) + '<script src="/hebrew/say.js" defer></script><p class="small"><a href="/hebrew/">All Hebrew</a></p></div>')
     wr('hebrew/alphabet/index.html', page('Hebrew Alphabet: hear every letter and read the signs', 'Learn the 22 Hebrew letters with sounds, example words, look-alike pairs, real signs and a quiz. Built for your phone.', 'https://israelnowlej.com/hebrew/alphabet/', body, CSS + ABCSS))
-alphabet()
+
+import hashlib
+AB_PWA = ('<link rel="manifest" href="/hebrew/alphabet/manifest.webmanifest"><meta name="theme-color" content="#0a2566">'
+ '<meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Aleph-Taf">'
+ '<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><link rel="apple-touch-icon" href="/hebrew/alphabet/icons/apple-touch-icon.png">')
+AB_REG = ("<script>['gesturestart','gesturechange','gestureend'].forEach(function(t){document.addEventListener(t,function(e){e.preventDefault()})});document.addEventListener('touchmove',function(e){if(e.touches.length>1)e.preventDefault()},{passive:false});"
+ "if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/hebrew/alphabet/sw.js',{scope:'/hebrew/alphabet/'}).catch(function(){})})}</script>")
+ABFULL = """<style>@media(max-width:700px),(display-mode:standalone){.ab{position:fixed;top:0;left:0;right:0;bottom:0;z-index:50;background:#e8ecf5;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:calc(10px + env(safe-area-inset-top)) 12px calc(24px + env(safe-area-inset-bottom));max-width:none;margin:0;box-sizing:border-box}.ab h1{font-size:20px!important;margin:4px 0}.ab>.lead{display:none}}</style>"""
+def alphabet_app():
+    data = json.dumps({"X": FEX, "D": DOT, "L": LET, "F": FIN, "S": SIGNS, "P": PAIRS, "M": SAME}, ensure_ascii=False)
+    body = ('<div class="hubslide ab"><h1>Hebrew Alphabet</h1><p class="lead">Twenty-two letters, read right to left. Tap a letter to hear its sound, then try the signs you will meet in Israel.</p>'
+            '<div class="ctabs" id="ctabs"></div><div id="cbody"></div><noscript><p>The alphabet needs JavaScript.</p></noscript>'
+            + ABJS.replace('__DATA__', data) + '<script src="/hebrew/say.js" defer></script><p class="small"><a href="/hebrew/">All Hebrew</a></p></div>' + AB_REG)
+    wr('hebrew/alphabet/index.html', page('Hebrew Alphabet: hear every letter and read the signs', 'Learn the 22 Hebrew letters with sounds, similar letters, real signs and a quiz. Installs as an app on your phone.', 'https://israelnowlej.com/hebrew/alphabet/', body, CSS + ABCSS + ABFULL + AB_PWA))
+    man = {"name": "Hebrew Alphabet, Aleph to Taf", "short_name": "Aleph-Taf", "description": "Hear the Hebrew letters and read real signs.", "lang": "en", "dir": "ltr",
+           "start_url": "/hebrew/alphabet/?source=app", "scope": "/hebrew/alphabet/", "display": "standalone", "orientation": "portrait", "background_color": "#0a2566", "theme_color": "#0a2566",
+           "icons": [{"src": "/hebrew/alphabet/icons/icon-192.png", "sizes": "192x192", "type": "image/png"}, {"src": "/hebrew/alphabet/icons/icon-512.png", "sizes": "512x512", "type": "image/png"},
+                     {"src": "/hebrew/alphabet/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}]}
+    wr('hebrew/alphabet/manifest.webmanifest', json.dumps(man, indent=1))
+    pg = rd('hebrew/alphabet/index.html'); ver = hashlib.md5(pg.encode('utf-8')).hexdigest()[:10]
+    assets = {'/hebrew/say.js', '/hebrew/alphabet/manifest.webmanifest', '/hebrew/alphabet/icons/icon-192.png', '/hebrew/alphabet/icons/icon-512.png', '/hebrew/alphabet/icons/apple-touch-icon.png'}
+    for m in re.finditer(r'<link[^>]+href="(/[^"#]+)"[^>]*>|<script[^>]+src="(/[^"]+)"|<img[^>]+src="(/[^"]+)"', pg):
+        a = next(g for g in m.groups() if g)
+        if re.search(r'\.(css|js|png|jpg|jpeg|svg|webp|ico|json|woff2?)(\?|$)', a): assets.add(a)
+    SWA = '''const V="ea-__V__",PRE=__PRE__;
+self.addEventListener("install",e=>{e.waitUntil(caches.open(V).then(c=>Promise.all(PRE.map(u=>c.add(u).catch(()=>0)))).then(()=>self.skipWaiting()))});
+self.addEventListener("activate",e=>{e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x.startsWith("ea-")&&x!==V).map(x=>caches.delete(x)))).then(()=>self.clients.claim()))});
+self.addEventListener("fetch",e=>{const r=e.request;if(r.method!=="GET")return;const u=new URL(r.url);if(u.origin!==location.origin)return;
+if(r.mode==="navigate"){e.respondWith(fetch(r).then(x=>{const y=x.clone();caches.open(V).then(c=>c.put(r,y));return x}).catch(()=>caches.match(r,{ignoreSearch:true}).then(x=>x||caches.match("/hebrew/alphabet/"))));return}
+e.respondWith(caches.match(r).then(x=>x||fetch(r).then(y=>{if(y.ok){const z=y.clone();caches.open(V).then(c=>c.put(r,z))}return y})))});
+'''.replace('__V__', ver).replace('__PRE__', json.dumps(sorted({'/hebrew/alphabet/'} | assets)))
+    wr('hebrew/alphabet/sw.js', SWA)
+alphabet_app()
