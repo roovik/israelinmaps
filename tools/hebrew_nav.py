@@ -5,7 +5,7 @@ import os, json, re
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 slugs = [e['slug'] for e in json.load(open(os.path.join(ROOT, 'tools', 'wordplay.json'), encoding='utf-8'))['entries']]
 LINKS = ('<a href="/hebrew/">Hebrew</a><a href="/hebrew/travel/" data-pre="/hebrew/travel/">Travel Hebrew</a>'
-         '<a href="/wordplay/" data-pre="/g/">Wordplay</a><a href="/wordplay/cards/">Flash cards</a>')
+         '<a href="/hebrew/alphabet/">Alphabet</a><a href="/wordplay/" data-pre="/g/">Wordplay</a><a href="/wordplay/cards/">Flash cards</a>')
 OLDROW = ('<div class="wrap subnav sub2" id="subnav2" data-c=3><a href="/hebrew/travel/" data-pre="/hebrew/travel/">Travel Hebrew</a>'
           '<a href="/wordplay/" data-pre="/g/">Wordplay</a><a href="/wordplay/cards/">Flash cards</a></div>')
 files = []

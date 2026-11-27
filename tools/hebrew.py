@@ -78,6 +78,7 @@ def hub():
     body = f"""<div class="hubslide hx"><h1>Hebrew</h1><p class="lead">Learn the Hebrew behind the headlines, the Bible and the street. Start with play or start with travel.</p>
 <div class="tiles">
 <a class="tile2" href="/hebrew/travel/"><span class="he" lang="he" dir="rtl">שלום</span><b>Easy Hebrew for Travelers</b><span>Ten short lessons for the beach, the restaurant, the hotel and the night out. Built for your phone.</span></a>
+<a class="tile2" href="/hebrew/alphabet/"><span class="he" lang="he" dir="rtl">א</span><b>Hebrew Alphabet</b><span>Hear every letter, then read real signs. Built for your phone.</span></a>
 <a class="tile2" href="/wordplay/"><span class="he" lang="he" dir="rtl">הודו</span><b>Hebrew Wordplay</b><span>One word, several meanings, and the stories behind them.</span></a>
 <a class="tile2" href="/wordplay/cards/"><span class="he" lang="he" dir="rtl">חי</span><b>Flash cards and quiz</b><span>Guess the meanings, then flip the card.</span></a>
 </div></div>"""
@@ -162,6 +163,7 @@ def lesson(l):
     wr(f'hebrew/travel/{n}/index.html', page(f'Easy Hebrew for Travelers, Lesson {n}: {l["title"]}', l['goal'], f'https://israelnowlej.com/hebrew/travel/{n}/', body + SW_REG, CSS + PWA_HEAD))
 
 hub(); travel()
+exec(compile(open(os.path.join(ROOT,'tools','alphabet.py'),encoding='utf-8').read(),'alphabet.py','exec'))
 for l in C['lessons']:
     if l['n'] in LIVE: lesson(l)
 
@@ -194,7 +196,7 @@ wr('hebrew/travel/sw.js', SW)
 
 # search.json and sitemap.xml
 S = json.load(open(os.path.join(ROOT, 'search.json'), encoding='utf-8')); have = {r['u'] for r in S}
-rows = [('Hebrew', '/hebrew/', 'Hebrew for travelers and the curious.'), ('Easy Hebrew for Travelers', '/hebrew/travel/', 'Ten short mobile lessons of conversational Hebrew.')] + [(f'Easy Hebrew for Travelers, Lesson {l["n"]}: {l["title"]}', f'/hebrew/travel/{l["n"]}/', l['goal']) for l in C['lessons'] if l['n'] in LIVE]
+rows = [('Hebrew', '/hebrew/', 'Hebrew for travelers and the curious.'), ('Easy Hebrew for Travelers', '/hebrew/travel/', 'Ten short mobile lessons of conversational Hebrew.'), ('Hebrew Alphabet', '/hebrew/alphabet/', 'Hear the 22 Hebrew letters and read real signs.')] + [(f'Easy Hebrew for Travelers, Lesson {l["n"]}: {l["title"]}', f'/hebrew/travel/{l["n"]}/', l['goal']) for l in C['lessons'] if l['n'] in LIVE]
 for t, u, x in rows:
     if u not in have: S.append({'t': t, 'u': u, 'k': 'GLOSSARY', 's': 'Hebrew', 'x': x})
 json.dump(S, open(os.path.join(ROOT, 'search.json'), 'w', encoding='utf-8'), ensure_ascii=False, separators=(',', ':'))
