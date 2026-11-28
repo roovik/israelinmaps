@@ -91,7 +91,7 @@ ABCSS = """<style>
 </style>"""
 def alphabet():
     data = json.dumps({"X": FEX, "D": DOT, "L": LET, "F": FIN, "S": SIGNS, "P": PAIRS, "M": SAME}, ensure_ascii=False)
-    body = ('<div class="hubslide ab"><h1>Hebrew Alphabet</h1><p class="lead">Twenty-two letters, read right to left. Tap a letter to hear its sound, then try the signs you will meet in Israel.</p>'
+    body = ('<div class="hubslide ab"><h1>Alef Bet</h1><p class="lead">Twenty-two letters, read right to left. Tap a letter to hear its sound, then try the signs you will meet in Israel.</p>'
             '<div class="ctabs" id="ctabs"></div><div id="cbody"></div><noscript><p>The alphabet needs JavaScript.</p></noscript>'
             + ABJS.replace('__DATA__', data) + '<script src="/hebrew/say.js" defer></script><p class="small"><a href="/hebrew/">All Hebrew</a></p></div>')
     wr('hebrew/alphabet/index.html', page('Hebrew Alphabet: hear every letter and read the signs', 'Learn the 22 Hebrew letters with sounds, example words, look-alike pairs, real signs and a quiz. Built for your phone.', 'https://israelnowlej.com/hebrew/alphabet/', body, CSS + ABCSS))
@@ -105,7 +105,7 @@ AB_REG = ("<script>['gesturestart','gesturechange','gestureend'].forEach(functio
 ABFULL = """<style>@media(max-width:700px),(display-mode:standalone){.ab{position:fixed;top:0;left:0;right:0;bottom:0;z-index:50;background:#e8ecf5;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:calc(10px + env(safe-area-inset-top)) 12px calc(24px + env(safe-area-inset-bottom));max-width:none;margin:0;box-sizing:border-box}.ab h1{font-size:20px!important;margin:4px 0}.ab>.lead{display:none}}</style>"""
 def alphabet_app():
     data = json.dumps({"X": FEX, "D": DOT, "L": LET, "F": FIN, "S": SIGNS, "P": PAIRS, "M": SAME}, ensure_ascii=False)
-    body = ('<div class="hubslide ab"><h1>Hebrew Alphabet</h1><p class="lead">Twenty-two letters, read right to left. Tap a letter to hear its sound, then try the signs you will meet in Israel.</p>'
+    body = ('<div class="hubslide ab"><h1>Alef Bet</h1><p class="lead">Twenty-two letters, read right to left. Tap a letter to hear its sound, then try the signs you will meet in Israel.</p>'
             '<div class="ctabs" id="ctabs"></div><div id="cbody"></div><noscript><p>The alphabet needs JavaScript.</p></noscript>'
             + ABJS.replace('__DATA__', data) + '<script src="/hebrew/say.js" defer></script><p class="small"><a href="/hebrew/">All Hebrew</a></p></div>' + AB_REG)
     wr('hebrew/alphabet/index.html', page('Hebrew Alphabet: hear every letter and read the signs', 'Learn the 22 Hebrew letters with sounds, similar letters, real signs and a quiz. Installs as an app on your phone.', 'https://israelnowlej.com/hebrew/alphabet/', body, CSS + ABCSS + ABFULL + AB_PWA))
