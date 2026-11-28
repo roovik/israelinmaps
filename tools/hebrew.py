@@ -44,6 +44,10 @@ CSS = """<style>
 @media(max-height:830px){.hxh .tile2 .he.nums{font-size:15px;line-height:1.3}.hxh .tile2 .he.nums i{font-size:19px}.hxh h1{font-size:24px;margin:4px 0}.hxh .lead{display:none}.hxh .tile2 .he{font-size:26px}.hxh .tile2{padding:6px 10px}.hxh .tile2 b{font-size:16px}.hxh .tile2 .sub{font-size:12px}.hxh .tiles{gap:7px;margin:6px 0}}
 @media(max-height:620px){.hxh h1{font-size:24px;margin:4px 0}.hxh .lead{display:none}.hxh .tile2 .he{font-size:26px}.hxh .tile2{padding:6px 10px}.hxh .tile2 b{font-size:16px}.hxh .tiles{gap:7px;margin:6px 0}}
 @media(min-width:701px){.hxh .tiles{grid-template-columns:repeat(4,1fr)}.hxh .tile2 b{font-size:20px}}
+.svp{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:9px 12px;border-radius:12px;background:#ffc700;color:#1a1400!important;text-decoration:none;font-size:13px;margin:0 0 6px}.svp b{font-size:16px}.svp span{opacity:.85;text-align:right}
+.sv h1{font-size:22px;margin:2px 0}.svt{display:flex;gap:8px;justify-content:center;margin:4px 0 6px}.svt button{border:2px solid #0a2566;background:#fff;color:#0a2566;border-radius:999px;padding:6px 14px;font:700 14px system-ui,sans-serif;cursor:pointer}.svt button[aria-pressed=true]{background:#0a2566;color:#ffc700}
+.sg{display:grid;grid-template-columns:1fr 1fr;gap:5px}.sg[hidden]{display:none}.sc{display:flex;flex-direction:column;align-items:stretch;gap:2px;border:2px solid #ffc700;border-radius:10px;background:#0a2566;color:#fff;padding:4px 8px;text-align:left;cursor:pointer;font:inherit}.sc .sh{color:#ffc700;font-size:17px;font-weight:700;text-align:right;line-height:1.2}.sc .st{font-size:10.5px;line-height:1.25;opacity:.92}.sc .st b{font-size:10.5px;display:inline;color:#ffe08a}.sc .st{display:block}
+@media(min-width:701px){.sg{grid-template-columns:repeat(3,1fr);gap:8px}.sc .sh{font-size:22px}.sc .st{font-size:13px}}
 .hx ol.ll{list-style:none;padding:0;margin:12px 0;display:grid;gap:10px}
 .hx ol.ll li a,.hx ol.ll li div{display:flex;gap:12px;align-items:center;padding:14px;border:2px solid var(--g);border-radius:12px;background:var(--n);color:#fff!important;text-decoration:none}
 .hx ol.ll li div{opacity:.55}.hx ol.ll .no{font-weight:800;color:var(--g);font-size:22px;min-width:28px}
@@ -103,8 +107,18 @@ def travel():
         n = l['n']
         inner = f'<span class="no">{n}</span><span><b>{E(l["title"])}</b><small>{E(l["goal"])}</small></span>'
         items += f'<li><a href="/hebrew/travel/{n}/" title="{E(l["goal"])}">{inner}</a></li>' if n in LIVE else f'<li><div>{inner}<small style="margin-left:auto">Soon</small></div></li>'
-    body = f"""<div class="hubslide hx"><h1>Easy Hebrew for Travelers</h1><p class="lead">Ten short lessons to enjoy your trip. Each takes about six minutes on your phone. You learn what to say, hear it, practise it and take a quiz.</p><ol class="ll">{items}</ol><p class="small"><a href="/hebrew/">All Hebrew</a></p></div>"""
+    body = f"""<div class="hubslide hx"><h1>Easy Hebrew for Travelers</h1><p class="lead">Ten short lessons to enjoy your trip. Each takes about six minutes on your phone. You learn what to say, hear it, practise it and take a quiz.</p><ol class="ll">{items}</ol><a class="svp" href="/hebrew/travel/survival/"><b>Survival kit</b><span>30 phrases for your first hour</span></a><p class="small"><a href="/hebrew/">All Hebrew</a></p></div>"""
     wr('hebrew/travel/index.html', page('Easy Hebrew for Travelers', 'Ten short mobile lessons of conversational Hebrew for beaches, restaurants, hotels and nights out.', 'https://israelnowlej.com/hebrew/travel/', body + SW_REG, CSS + PWA_HEAD))
+
+
+SURV = ([('סליחה', 'slicha', 'Excuse me. Sorry.'), ('תודה', 'toda', 'Thank you'), ('בבקשה', 'bevakasha', 'Please. You are welcome.'), ('כן. לא.', 'ken. lo.', 'Yes. No.'), ('לא הבנתי', 'lo hevanti', 'I did not understand'), ('עוד פעם, בבקשה', 'od paam, bevakasha', 'Again, please'), ('לאט יותר, בבקשה', "le'at yoter, bevakasha", 'Slower, please'), ('מישהו מדבר אנגלית?', 'yesh po mishehu she-medaber anglit?', 'Does anyone here speak English?'), ('עזרה!', 'ezra!', 'Help!'), ('דרושה לי עזרה', 'drusha li ezra', 'I need help'), ('תקראו לרופא', "tikre'u lerofe", 'Call a doctor'), ('תקראו למשטרה', "tikre'u lamishtara", 'Call the police'), ('איפה השירותים?', 'eifo ha-sherutim?', 'Where is the toilet?'), ('איפה זה?', 'eifo ze?', 'Where is this?'), ('כמה זה עולה?', 'kama ze ole?', 'How much is it?')], [('אפשר לשלם בכרטיס?', 'efshar leshalem bekartis?', 'Can I pay by card?'), ('יש וואי פאי?', 'yesh wai fai?', 'Is there WiFi?'), ('אפשר מים?', 'efshar mayim?', 'Can I have water?'), ('אפשר חשבון?', 'efshar cheshbon?', 'The bill, please'), ('יש לי אלרגיה', 'yesh li alergia', 'I have an allergy'), ('איפה התחנה?', 'eifo ha-tachana?', 'Where is the stop?'), ('מונית, בבקשה', 'monit, bevakasha', 'A taxi, please'), ('תעצרו כאן, בבקשה', "ta'atzru kan, bevakasha", 'Stop here, please'), ('ימינה. שמאלה. ישר.', 'yamina. smola. yashar.', 'Right. Left. Straight.'), ('הלכתי לאיבוד', "halachti le'ibud", 'I am lost'), ('יש לי בעיה', "yesh li be'aya", 'I have a problem'), ('מה השעה?', "ma ha-sha'a?", 'What time is it?'), ('שבת שלום', 'Shabbat shalom', 'Peaceful Sabbath'), ('להתראות', 'lehitraot', 'See you'), ('סבבה', 'sababa', 'Cool. All good.')])
+def survival():
+    def cards(L):
+        return ''.join(f'<button class="sc" type="button" data-say="{E(h)}"><span class="sh" lang="he" dir="rtl">{E(h)}</span><span class="st"><b>{E(t)}</b> &middot; {E(e)}</span></button>' for h, t, e in L)
+    body = f"""<div class="hubslide hx sv"><h1>Survival kit</h1><div class="svt" role="tablist"><button type="button" id="sv1" aria-pressed="true">Help and basics</button><button type="button" id="sv2" aria-pressed="false">Getting by</button></div>
+<div class="sg" id="sp1">{cards(SURV[0])}</div><div class="sg" id="sp2" hidden>{cards(SURV[1])}</div><p class="small">Tap a card to hear it. These phrases work for men and women. <a href="/hebrew/travel/">All lessons</a></p></div>
+<script src="/hebrew/say.js" defer></script><script>(function(){{var a=document.getElementById('sv1'),b=document.getElementById('sv2'),p1=document.getElementById('sp1'),p2=document.getElementById('sp2');function t(x){{a.setAttribute('aria-pressed',x==1);b.setAttribute('aria-pressed',x==2);p1.hidden=x!=1;p2.hidden=x!=2}}a.onclick=function(){{t(1)}};b.onclick=function(){{t(2)}}}})()</script>"""
+    wr('hebrew/travel/survival/index.html', page('Survival kit: 30 Hebrew phrases for travelers', 'Thirty short Hebrew phrases for the first hour of a trip: help, directions, money, food and manners. Tap to hear each one.', 'https://israelnowlej.com/hebrew/travel/survival/', body + SW_REG, CSS + PWA_HEAD))
 
 JS = r"""<script>(function(){var ALL=__ALL__,L=__DATA__,NEXT=__NEXT__,$=function(x){return document.getElementById(x)},app=$('app');
 var G=null;try{G=localStorage.getItem('hg')}catch(e){}var SHOWH=true,TO='m',S=[],i=0,score=0,answered=false;
@@ -177,7 +191,7 @@ def lesson(l):
     body = f'<div class="hubslide ls"><h1 style="font-size:20px;margin:6px 0">Easy Hebrew for Travelers. Lesson {n}: {E(l["title"])}</h1><div id="app" class="app"></div><noscript><p>This lesson needs JavaScript.</p></noscript>{js}<p class="small"><a href="/hebrew/travel/">All lessons</a> &middot; <a href="/g/{l["wordplay"]}/">Related word</a></p></div>'
     wr(f'hebrew/travel/{n}/index.html', page(f'Easy Hebrew for Travelers, Lesson {n}: {l["title"]}', l['goal'], f'https://israelnowlej.com/hebrew/travel/{n}/', body + SW_REG, CSS + PWA_HEAD))
 
-hub(); travel()
+hub(); travel(); survival()
 exec(compile(open(os.path.join(ROOT,'tools','alphabet.py'),encoding='utf-8').read(),'alphabet.py','exec'))
 exec(compile(open(os.path.join(ROOT,'tools','numbers.py'),encoding='utf-8').read(),'numbers.py','exec'))
 exec(compile(open(os.path.join(ROOT,'tools','hebrewapp.py'),encoding='utf-8').read(),'hebrewapp.py','exec'))
@@ -191,7 +205,7 @@ man = {"name": "Easy Hebrew for Travelers", "short_name": "Easy Hebrew", "descri
        "icons": [{"src": "/hebrew/travel/icons/icon-192.png", "sizes": "192x192", "type": "image/png"}, {"src": "/hebrew/travel/icons/icon-512.png", "sizes": "512x512", "type": "image/png"},
                  {"src": "/hebrew/travel/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}]}
 wr('hebrew/travel/manifest.webmanifest', json.dumps(man, indent=1))
-pages = ['/hebrew/travel/'] + [f'/hebrew/travel/{x["n"]}/' for x in C['lessons'] if x['n'] in LIVE]
+pages = ['/hebrew/travel/', '/hebrew/travel/survival/'] + [f'/hebrew/travel/{x["n"]}/' for x in C['lessons'] if x['n'] in LIVE]
 assets = set(['/hebrew/travel/manifest.webmanifest', '/hebrew/travel/icons/icon-192.png', '/hebrew/travel/icons/icon-512.png'])
 h = hashlib.md5()
 for u in pages:
