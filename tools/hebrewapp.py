@@ -1,6 +1,6 @@
 # Executed by tools/hebrew.py after numbers.py. Builds /hebrew/app/ : one installable multi-tab app that hosts the modules.
 TABS = [("travel", "Travel", "שלום", "/hebrew/travel/"), ("alphabet", "Alef Bet", "א–ת", "/hebrew/alphabet/"),
-        ("numbers", "Numbers", "123", "/hebrew/numbers/"), ("wordplay", "Wordplay", "הודו", "/wordplay/cards/"), ("site", "Site", "\u2630", "/")]
+        ("numbers", "Numbers", "123", "/hebrew/numbers/"), ("time", "Time", "זמן", "/hebrew/time/"), ("wordplay", "Wordplay", "הודו", "/wordplay/cards/"), ("site", "Site", "\u2630", "/")]
 APPHTML = r"""<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>Hebrew by Israel NOWlej</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <link rel="manifest" href="/hebrew/app/manifest.webmanifest"><meta name="theme-color" content="#0a2566">

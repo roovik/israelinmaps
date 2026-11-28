@@ -1,0 +1,61 @@
+# Executed by tools/hebrew.py after numbers.py. Builds /hebrew/time/ as an installable web app: days, today words, parts of the day, months, holidays, quiz.
+TJS = r"""<script>
+(function(){
+var $=function(i){return document.getElementById(i)};function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;')}
+var say=function(t){if(window.heSay)heSay(t)};
+// [spoken with vowels, plain, transliteration, english]
+var DAYS=[['יוֹם רִאשׁוֹן','יום ראשון','yom rishon','Sunday, day one'],['יוֹם שֵׁנִי','יום שני','yom sheni','Monday, day two'],['יוֹם שְׁלִישִׁי','יום שלישי','yom shlishi','Tuesday, day three'],['יוֹם רְבִיעִי','יום רביעי','yom revi’i','Wednesday, day four'],['יוֹם חֲמִישִׁי','יום חמישי','yom chamishi','Thursday, day five'],['יוֹם שִׁשִּׁי','יום שישי','yom shishi','Friday, day six'],['שַׁבָּת','שבת','Shabbat','Saturday, the day of rest'],['עֶרֶב שַׁבָּת','ערב שבת','erev Shabbat','Friday, the Shabbat eve'],['סוֹף שָׁבוּעַ','סוף שבוע','sof shavua','Weekend'],['אֵיזֶה יוֹם הַיּוֹם','איזה יום היום?','eize yom hayom?','What day is it today?']];
+var TODAY=[['אֶתְמוֹל','אתמול','etmol','Yesterday'],['שִׁלְשׁוֹם','שלשום','shilshom','The day before yesterday'],['הַיּוֹם','היום','hayom','Today'],['מָחָר','מחר','machar','Tomorrow'],['מָחֳרָתַיִם','מחרתיים','macharatayim','The day after tomorrow'],['עַכְשָׁיו','עכשיו','achshav','Now'],['אַחַר כָּךְ','אחר כך','achar kach','Later, afterwards'],['בְּקָרוֹב','בקרוב','bekarov','Soon'],['הַלַּיְלָה','הלילה','halaila','Tonight'],['הַשָּׁבוּעַ','השבוע','hashavua','This week'],['שָׁבוּעַ הַבָּא','שבוע הבא','shavua haba','Next week'],['שָׁבוּעַ שֶׁעָבַר','שבוע שעבר','shavua she’avar','Last week'],['נִתְרָאֶה מָחָר','נתראה מחר','nitra’e machar','See you tomorrow'],['מָתַי','מתי?','matai?','When?']];
+var PARTS=[['בֹּקֶר','בוקר','boker','Morning'],['צָהֳרַיִם','צהריים','tzohorayim','Midday, noon'],['אַחַר הַצָּהֳרַיִם','אחר הצהריים','achar hatzohorayim','Afternoon'],['עֶרֶב','ערב','erev','Evening'],['לַיְלָה','לילה','laila','Night'],['בֹּקֶר טוֹב','בוקר טוב','boker tov','Good morning'],['צָהֳרַיִם טוֹבִים','צהריים טובים','tzohorayim tovim','Good afternoon'],['עֶרֶב טוֹב','ערב טוב','erev tov','Good evening'],['לַיְלָה טוֹב','לילה טוב','laila tov','Good night'],['בַּבֹּקֶר','בבוקר','baboker','In the morning'],['בָּעֶרֶב','בערב','ba’erev','In the evening'],['בַּלַּיְלָה','בלילה','balaila','At night']];
+var GREG=[['יָנוּאָר','ינואר','yanuar','January'],['פֶבְּרוּאָר','פברואר','febrooar','February'],['מֵרְץ','מרץ','merets','March'],['אַפְּרִיל','אפריל','april','April'],['מַאי','מאי','mai','May'],['יוּנִי','יוני','yuni','June'],['יוּלִי','יולי','yuli','July'],['אוֹגוּסְט','אוגוסט','ogust','August'],['סֶפְּטֶמְבֶּר','ספטמבר','septembar','September'],['אוֹקְטוֹבֶּר','אוקטובר','október','October'],['נוֹבֶמְבֶּר','נובמבר','novembar','November'],['דֶּצֶמְבֶּר','דצמבר','detsembar','December']];
+var HEB=[['תִּשְׁרֵי','תשרי','Tishrei','September or October'],['חֶשְׁוָן','חשוון','Cheshvan','October or November'],['כִּסְלֵו','כסלו','Kislev','November or December'],['טֵבֵת','טבת','Tevet','December or January'],['שְׁבָט','שבט','Shvat','January or February'],['אֲדָר','אדר','Adar','February or March'],['נִיסָן','ניסן','Nisan','March or April'],['אִיָּר','אייר','Iyar','April or May'],['סִיוָן','סיוון','Sivan','May or June'],['תַּמּוּז','תמוז','Tamuz','June or July'],['אָב','אב','Av','July or August'],['אֱלוּל','אלול','Elul','August or September']];
+var HOL=[['רֹאשׁ הַשָּׁנָה','ראש השנה','Rosh Hashana','The Jewish New Year'],['יוֹם כִּפּוּר','יום כיפור','Yom Kippur','Day of Atonement'],['סֻכּוֹת','סוכות','Sukkot','Feast of Booths'],['שִׂמְחַת תּוֹרָה','שמחת תורה','Simchat Torah','Joy of the Torah'],['חֲנֻכָּה','חנוכה','Chanuka','Hanukkah, festival of lights'],['טוּ בִּשְׁבָט','ט״ו בשבט','Tu BiShvat','New Year of the Trees'],['פּוּרִים','פורים','Purim','Costumes and gifts'],['פֶּסַח','פסח','Pesach','Passover'],['יוֹם הַזִּכָּרוֹן','יום הזיכרון','Yom Hazikaron','Memorial Day'],['יוֹם הָעַצְמָאוּת','יום העצמאות','Yom Ha’atzmaut','Independence Day'],['לַ״ג בָּעֹמֶר','ל״ג בעומר','Lag BaOmer','Bonfire night'],['שָׁבוּעוֹת','שבועות','Shavuot','Festival of Weeks'],['תִּשְׁעָה בְּאָב','תשעה באב','Tisha BeAv','Ninth of Av, a fast day'],['חַג שָׂמֵחַ','חג שמח','chag sameach','Happy holiday'],['שָׁנָה טוֹבָה','שנה טובה','shana tova','Happy new year'],['שַׁבָּת שָׁלוֹם','שבת שלום','Shabbat shalom','Peaceful Sabbath'],['שָׁבוּעַ טוֹב','שבוע טוב','shavua tov','Good week, said after Shabbat'],['יוֹם הַשּׁוֹאָה','יום השואה','Yom Hashoah','Holocaust Remembrance Day']];
+function cards(L){return '<div class="sg tg">'+L.map(function(x){return '<button class="sc" type="button" data-t="'+esc(x[0])+'"><span class="sh" lang="he" dir="rtl">'+x[1]+'</span><span class="st"><b>'+esc(x[2])+'</b> &middot; '+esc(x[3])+'</span></button>'}).join('')+'</div>'}
+var tab='d',sub='g';
+function tabs(){var T=[['d','Days'],['t','Today'],['p','Day'],['m','Months'],['h','Holidays'],['q','Quiz']];$('ttabs').innerHTML=T.map(function(x){return '<button class="ct'+(x[0]==tab?' on':'')+'" data-t="'+x[0]+'">'+x[1]+'</button>'}).join('');
+ document.querySelectorAll('.ct').forEach(function(b){b.onclick=function(){tab=b.getAttribute('data-t');draw()}})}
+function bind(){document.querySelectorAll('.sc[data-t]').forEach(function(b){b.onclick=function(){say(b.getAttribute('data-t'))}})}
+var LK='<p class="asm">Calendars and dates, in English: <a href="/calendar/001/calendars-and-eras/">Calendars and eras</a> &middot; <a href="/calendar/002/days-of-memory/">Holidays and days of memory</a> &middot; <a href="/calendar/004/holiday-dates-2027-to-2036/">Holiday dates</a></p>';
+function draw(){tabs();var h='';
+ if(tab=='d')h='<p class="asm">The Israeli week starts on Sunday. Days have numbers, not names. Only Shabbat has a name. Friday is short and Saturday is quiet.</p>'+cards(DAYS);
+ else if(tab=='t')h='<p class="asm">Words for time you will use every day.</p>'+cards(TODAY);
+ else if(tab=='p')h='<p class="asm">Greetings change with the hour. To say the time, see <a href="/hebrew/numbers/">Numbers</a>.</p>'+cards(PARTS);
+ else if(tab=='m'){h='<div class="svt"><button type="button" id="mg" aria-pressed="'+(sub=='g')+'">Calendar months</button><button type="button" id="mh" aria-pressed="'+(sub=='h')+'">Hebrew months</button></div>'+(sub=='g'?'<p class="asm">Israelis use the same months as the rest of the world, with Hebrew spellings.</p>'+cards(GREG):'<p class="asm">The Jewish calendar follows the moon. Months here run from Tishrei, the new year. A leap year adds a second Adar.</p>'+cards(HEB))+LK}
+ else if(tab=='h')h='<p class="asm">Holiday dates move each year. Tap to hear the name.</p>'+cards(HOL)+LK;
+ else{quiz();return}
+ $('tbody').innerHTML=h;bind();var g=$('mg');if(g){g.onclick=function(){sub='g';draw()};$('mh').onclick=function(){sub='h';draw()}}}
+var Q=[],qi=0,sc=0,ans=false;function shuf(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t}return a}
+function newQ(){var all=DAYS.slice(0,7).concat(TODAY.slice(0,12),PARTS.slice(0,5),HOL.slice(0,13));var pick=shuf(all).slice(0,8);Q=pick.map(function(x){var o=[x[3]];shuf(all).forEach(function(y){if(o.length<3&&o.indexOf(y[3])<0)o.push(y[3])});return {s:x[0],a:x[3],o:shuf(o)}});qi=0;sc=0}
+function quiz(){if(!Q.length)newQ();if(qi>=Q.length){$('tbody').innerHTML='<div class="asgn"><h2>Done</h2><p class="asd">You scored '+sc+' of '+Q.length+'.</p><button class="btn go big" id="qr">Try again</button></div>';$('qr').onclick=function(){newQ();quiz()};return}
+ var q=Q[qi];$('tbody').innerHTML='<p class="asm">Question '+(qi+1)+' of '+Q.length+'</p><div class="asgn"><p class="asd">What does this mean?</p><button class="btn go big" id="qp"><svg class="ic" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M7 4.5v15l12-7.5z"/></svg> Hear it</button></div><div class="aopts">'+q.o.map(function(o){return '<button class="ao" data-v="'+esc(o)+'">'+esc(o)+'</button>'}).join('')+'</div><div id="qf" class="asm"></div><div class="arow"><button class="btn go" id="qn" hidden>Next</button></div>';
+ ans=false;$('qp').onclick=function(){say(q.s)};say(q.s);
+ document.querySelectorAll('.ao').forEach(function(b){b.onclick=function(){if(ans)return;ans=true;var ok=b.getAttribute('data-v')==q.a;if(ok)sc++;document.querySelectorAll('.ao').forEach(function(x){if(x.getAttribute('data-v')==q.a)x.classList.add('ok')});if(!ok)b.classList.add('no');$('qf').textContent=ok?'Correct.':'Not quite.';$('qn').hidden=false;$('qn').onclick=function(){qi++;quiz()}}})}
+draw()})();
+</script>"""
+TCSS = """<style>
+.ab .sg.tg{grid-template-columns:1fr 1fr;gap:5px}.ab .asm a{color:#ffc700}.ab .svt{display:flex;gap:8px;justify-content:center;margin:2px 0 8px}.ab .svt button{border:2px solid #ffc700;background:transparent;color:#fff;border-radius:999px;padding:6px 14px;font:700 14px system-ui,sans-serif;cursor:pointer}.ab .svt button[aria-pressed=true]{background:#ffc700;color:#0a2566}
+.ab .sc{background:rgba(255,255,255,.1);border-color:transparent;gap:1px}.ab .sc .st{font-size:11px;line-height:1.25;font-weight:400;color:#fff;opacity:1}.ab .sc .st b{font-size:11px;font-weight:700;color:#ffe08a;display:inline}.ab .sc .sh{font-size:19px}.ab .sc .st,.ab .sc .sh{background:none!important;border:0!important;padding:0!important;box-shadow:none!important;margin:0!important}.ab .aopts{display:flex;flex-direction:column;gap:8px;margin:8px 0}.ab .ao{width:100%;font-size:17px!important;line-height:1.25;padding:10px 12px}.ab .sc:active{border-color:#ffc700}
+@media(min-width:701px){.ab .sg.tg{grid-template-columns:repeat(3,1fr)}}
+</style>"""
+def time_app():
+    body = ('<div class="hubslide ab"><h1>Hebrew Time</h1><p class="lead">Days, today and tomorrow, the hours and the holidays. Tap a card to hear it.</p>'
+            '<div class="ctabs" id="ttabs"></div><div id="tbody"></div><noscript><p>The time module needs JavaScript.</p></noscript>'
+            + TJS + '<script src="/hebrew/say.js" defer></script><p class="small"><a href="/hebrew/">All Hebrew</a></p></div>' + AB_REG.replace('/hebrew/alphabet/', '/hebrew/time/'))
+    css = CSS + ABCSS.replace('#nbody', '#tbody') + ABFULL.replace('#nbody', '#tbody') + NCSS + TCSS
+    pwa = AB_PWA.replace('/hebrew/alphabet/', '/hebrew/time/').replace('Aleph-Taf', 'Hebrew Time')
+    wr('hebrew/time/index.html', page('Hebrew Time: days, today and tomorrow, hours and holidays', 'Learn the Hebrew words for the days of the week, yesterday and tomorrow, parts of the day, months and holidays. Tap to hear each one. Installs as an app on your phone.', 'https://israelnowlej.com/hebrew/time/', body, css + pwa))
+    man = {"name": "Hebrew Time", "short_name": "Time", "description": "Days, today and tomorrow, hours and holidays in Hebrew.", "lang": "en", "dir": "ltr",
+           "start_url": "/hebrew/time/?source=app", "scope": "/hebrew/time/", "display": "standalone", "orientation": "portrait", "background_color": "#0a2566", "theme_color": "#0a2566",
+           "icons": [{"src": "/hebrew/time/icons/icon-192.png", "sizes": "192x192", "type": "image/png"}, {"src": "/hebrew/time/icons/icon-512.png", "sizes": "512x512", "type": "image/png"},
+                     {"src": "/hebrew/time/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}]}
+    wr('hebrew/time/manifest.webmanifest', json.dumps(man, indent=1))
+    pg = rd('hebrew/time/index.html'); ver = hashlib.md5(pg.encode('utf-8')).hexdigest()[:10]
+    assets = {'/hebrew/say.js', '/hebrew/time/manifest.webmanifest', '/hebrew/time/icons/icon-192.png', '/hebrew/time/icons/icon-512.png', '/hebrew/time/icons/apple-touch-icon.png'}
+    for m in re.finditer(r'<link[^>]+href="(/[^"#]+)"[^>]*>|<script[^>]+src="(/[^"]+)"|<img[^>]+src="(/[^"]+)"', pg):
+        a = next(g for g in m.groups() if g)
+        if re.search(r'\.(css|js|png|jpg|jpeg|svg|webp|ico|json|woff2?)(\?|$)', a): assets.add(a)
+    sw = rd('hebrew/alphabet/sw.js')
+    sw = re.sub(r'const V="ea-[0-9a-f]+",PRE=\[.*?\];', 'const V="et-' + ver + '",PRE=' + json.dumps(sorted({'/hebrew/time/'} | assets)) + ';', sw, 1, flags=re.S)
+    sw = sw.replace('startsWith("ea-")', 'startsWith("et-")').replace('/hebrew/alphabet/', '/hebrew/time/')
+    wr('hebrew/time/sw.js', sw)
+time_app()

@@ -39,7 +39,7 @@ CSS = """<style>
 @media(min-height:850px){.hxf.hubpg .adslot[data-slot=lb-bottom]{display:block!important}}
 @media(max-height:760px){.hxh .tile2 .sub{display:none}.hxh .tile2.first .sub{display:block}.hxh .apromo span{display:none}.hxh .apromo{padding:6px 12px}}
 .fbtn{display:block;margin:6px auto 0;border:0;background:none;color:#0a2566;font:600 14px system-ui,sans-serif;cursor:pointer;padding:6px 10px}body.hxf footer{display:none}body.hxf.fo footer{display:block}
-.hxh .tile2.first{grid-column:1/-1;display:grid;grid-template-columns:1fr auto;align-items:center;column-gap:10px}.hxh .tile2.first .he{grid-row:1/3;grid-column:2;order:0;align-self:center;font-size:40px}.hxh .tile2.first b,.hxh .tile2.first .sub{grid-column:1}
+.hxh .tiles .tile2:last-child:nth-child(even){grid-column:1/-1}.hxh .tile2.first{grid-column:1/-1;display:grid;grid-template-columns:1fr auto;align-items:center;column-gap:10px}.hxh .tile2.first .he{grid-row:1/3;grid-column:2;order:0;align-self:center;font-size:40px}.hxh .tile2.first b,.hxh .tile2.first .sub{grid-column:1}
 .apromo{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:2px 0 0;padding:9px 12px;border-radius:12px;background:#ffc700;color:#1a1400!important;text-decoration:none;font-size:13px}.apromo b{font-size:15px}.apromo span{opacity:.85;text-align:right}
 @media(max-height:830px){.hxh .tile2 .he.nums{font-size:15px;line-height:1.3}.hxh .tile2 .he.nums i{font-size:19px}.hxh h1{font-size:24px;margin:4px 0}.hxh .lead{display:none}.hxh .tile2 .he{font-size:26px}.hxh .tile2{padding:6px 10px}.hxh .tile2 b{font-size:16px}.hxh .tile2 .sub{font-size:12px}.hxh .tiles{gap:7px;margin:6px 0}}
 @media(max-height:620px){.hxh h1{font-size:24px;margin:4px 0}.hxh .lead{display:none}.hxh .tile2 .he{font-size:26px}.hxh .tile2{padding:6px 10px}.hxh .tile2 b{font-size:16px}.hxh .tiles{gap:7px;margin:6px 0}}
@@ -95,7 +95,7 @@ SW_REG = "<script>['gesturestart','gesturechange','gestureend'].forEach(function
 FOOT_JS = "<script>document.body.classList.add('hxf','hubpg');(function(){var B=[{h:'https://www.amazon.com/ISRAEL-NOWLEJ-Graphs-Timelines-Knowledge/dp/B0HPCTLJX7/',n:'israel-nowlej',a:'Israel NOWlej by Richard J. Koret. Get it on Amazon'},{h:'https://www.amazon.com/dp/B0HRJX879T/',n:'israel-maps',a:'Israel in Maps by Richard J. Koret. Get the paperback on Amazon'}],slots=document.querySelectorAll('.adslot[data-slot=page-top],.adslot[data-slot=lb-bottom]'),k=0;function html(b){return '<a class=\"hbl\" href=\"'+b.h+'\" target=\"_blank\" rel=\"noopener\"><picture><source media=\"(max-width:640px)\" srcset=\"/img/ad/'+b.n+'-320x50.webp?v=3\"><img src=\"/img/ad/'+b.n+'-728x90.webp?v=3\" width=\"728\" height=\"90\" alt=\"'+b.a+'\"></picture></a>'}[].forEach.call(slots,function(e,i){e.setAttribute('data-hb','1');e.innerHTML=html(B[(k+i)%2])});setInterval(function(){k++;[].forEach.call(slots,function(e,i){e.style.opacity=0;setTimeout(function(){e.innerHTML=html(B[(k+i)%2]);e.style.opacity=1},350)})},7000)})();var fb=document.getElementById('fb');if(fb)fb.onclick=function(){var o=document.body.classList.toggle('fo');fb.innerHTML=o?'Hide site info &#9652;':'About this site &#9662;';if(o)setTimeout(function(){fb.scrollIntoView({block:'start',behavior:'smooth'})},30)}</script>"
 def hub():
     T = [('/hebrew/travel/', 'שלום', 'Travel Hebrew', 'Ten short lessons for your trip'), ('/hebrew/alphabet/', 'א', 'Alef Bet', 'Hear every letter'), ('/hebrew/numbers/', 'אחת שתיים שלוש', 'Numbers', 'Count, pay, tell time'),
-         ('/wordplay/', 'הודו', 'Wordplay', 'One word, many meanings'), ('/wordplay/cards/', 'חי', 'Flash cards', 'Guess, then flip')]
+         ('/hebrew/time/', 'זמן', 'Time', 'Days, today, holidays'), ('/wordplay/', 'הודו', 'Wordplay', 'One word, many meanings'), ('/wordplay/cards/', 'חי', 'Flash cards', 'Guess, then flip')]
     tiles = ''.join(f'<a class="tile2{" first" if k == 0 else ""}" href="{u}"><span class="he{" nums" if " " in h else ""}" lang="he" dir="rtl">{("<i>1 2 3</i>" + h) if " " in h else h}</span><b>{t}</b><span class="sub">{d}</span></a>' for k, (u, h, t, d) in enumerate(T))
     body = f"""<div class="hubslide hx hxh"><h1>Hebrew</h1><p class="lead">Learn the Hebrew behind the headlines, the Bible and the street.</p>
 <div class="tiles">{tiles}</div><a class="apromo" href="/hebrew/app/"><b>Get the Hebrew app</b><span>All of this in one app on your phone &#8250;</span></a><button class="fbtn" id="fb" type="button">About this site &#9662;</button></div>{FOOT_JS}"""
@@ -194,6 +194,7 @@ def lesson(l):
 hub(); travel(); survival()
 exec(compile(open(os.path.join(ROOT,'tools','alphabet.py'),encoding='utf-8').read(),'alphabet.py','exec'))
 exec(compile(open(os.path.join(ROOT,'tools','numbers.py'),encoding='utf-8').read(),'numbers.py','exec'))
+exec(compile(open(os.path.join(ROOT,'tools','timemod.py'),encoding='utf-8').read(),'timemod.py','exec'))
 exec(compile(open(os.path.join(ROOT,'tools','hebrewapp.py'),encoding='utf-8').read(),'hebrewapp.py','exec'))
 for l in C['lessons']:
     if l['n'] in LIVE: lesson(l)
@@ -227,7 +228,7 @@ wr('hebrew/travel/sw.js', SW)
 
 # search.json and sitemap.xml
 S = json.load(open(os.path.join(ROOT, 'search.json'), encoding='utf-8')); have = {r['u'] for r in S}
-rows = [('Hebrew', '/hebrew/', 'Hebrew for travelers and the curious.'), ('Easy Hebrew for Travelers', '/hebrew/travel/', 'Ten short mobile lessons of conversational Hebrew.'), ('Hebrew Alphabet', '/hebrew/alphabet/', 'Hear the 22 Hebrew letters and read real signs.'), ('Hebrew Numbers', '/hebrew/numbers/', 'Count, pay and tell the time in Hebrew.')] + [(f'Easy Hebrew for Travelers, Lesson {l["n"]}: {l["title"]}', f'/hebrew/travel/{l["n"]}/', l['goal']) for l in C['lessons'] if l['n'] in LIVE]
+rows = [('Hebrew', '/hebrew/', 'Hebrew for travelers and the curious.'), ('Easy Hebrew for Travelers', '/hebrew/travel/', 'Ten short mobile lessons of conversational Hebrew.'), ('Hebrew Alphabet', '/hebrew/alphabet/', 'Hear the 22 Hebrew letters and read real signs.'), ('Hebrew Numbers', '/hebrew/numbers/', 'Count, pay and tell the time in Hebrew.'), ('Hebrew Time', '/hebrew/time/', 'Days, today and tomorrow, parts of the day, months and holidays in Hebrew.'), ('Survival kit', '/hebrew/travel/survival/', 'Thirty Hebrew phrases for the first hour of a trip.')] + [(f'Easy Hebrew for Travelers, Lesson {l["n"]}: {l["title"]}', f'/hebrew/travel/{l["n"]}/', l['goal']) for l in C['lessons'] if l['n'] in LIVE]
 for t, u, x in rows:
     if u not in have: S.append({'t': t, 'u': u, 'k': 'GLOSSARY', 's': 'Hebrew', 'x': x})
 json.dump(S, open(os.path.join(ROOT, 'search.json'), 'w', encoding='utf-8'), ensure_ascii=False, separators=(',', ':'))
