@@ -48,11 +48,13 @@ CSS = """<style>
 .sv h1{font-size:22px;margin:2px 0}.svt{display:flex;gap:8px;justify-content:center;margin:4px 0 6px}.svt button{border:2px solid #0a2566;background:#fff;color:#0a2566;border-radius:999px;padding:6px 14px;font:700 14px system-ui,sans-serif;cursor:pointer}.svt button[aria-pressed=true]{background:#0a2566;color:#ffc700}
 .sg{display:grid;grid-template-columns:1fr 1fr;gap:5px}.sg[hidden]{display:none}.sc{display:flex;flex-direction:column;align-items:stretch;gap:2px;border:2px solid #ffc700;border-radius:10px;background:#0a2566;color:#fff;padding:4px 8px;text-align:left;cursor:pointer;font:inherit}.sc .sh{color:#ffc700;font-size:17px;font-weight:700;text-align:right;line-height:1.2}.sc .st{font-size:10.5px;line-height:1.25;opacity:.92}.sc .st b{font-size:10.5px;display:inline;color:#ffe08a}.sc .st{display:block}
 @media(min-width:701px){.sg{grid-template-columns:repeat(3,1fr);gap:8px}.sc .sh{font-size:22px}.sc .st{font-size:13px}}
+.dl{list-style:none;padding:0;margin:8px 0;display:grid;gap:5px}.dl a{display:flex;align-items:center;gap:8px;padding:7px 10px;border:2px solid #ffc700;border-radius:10px;background:#0a2566;color:#fff!important;text-decoration:none;font-size:14px}.dl a b{color:#ffc700}.dl em{margin-left:auto;font-style:normal;font-weight:700;font-size:12px;background:#fff;color:#0a2566;border-radius:8px;padding:1px 8px}.dl em.ok{background:#ffc700}
+.dn{display:flex;gap:8px;margin:8px 0}.dn input{flex:1;min-width:0;padding:10px;border-radius:10px;border:2px solid #0a2566;font-size:16px}.dimg{width:100%;height:auto;border-radius:10px;margin:8px 0;border:3px solid #ffc700}
 .hx ol.ll{list-style:none;padding:0;margin:12px 0;display:grid;gap:10px}
 .hx ol.ll li a,.hx ol.ll li div{display:flex;gap:12px;align-items:center;padding:14px;border:2px solid var(--g);border-radius:12px;background:var(--n);color:#fff!important;text-decoration:none}
 .hx ol.ll li div{opacity:.55}.hx ol.ll .no{font-weight:800;color:var(--g);font-size:22px;min-width:28px}
 .hx ol.ll small{display:block;opacity:.8}
-.hx ol.ll{grid-template-columns:1fr 1fr;gap:8px;margin:8px 0}.hx ol.ll li a,.hx ol.ll li div{gap:8px;padding:8px 9px;height:100%;box-sizing:border-box;border-radius:10px}.hx ol.ll li b{font-size:15px;line-height:1.15;display:block}.hx ol.ll small{font-size:11.5px;line-height:1.25;margin-top:2px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.hx ol.ll .no{font-size:20px;min-width:16px}.hx.hubslide .lead{font-size:15px;line-height:1.35;margin:6px 0}
+.hx ol.ll{grid-template-columns:1fr 1fr;gap:8px;margin:8px 0}.hx ol.ll li a,.hx ol.ll li div{gap:8px;padding:8px 9px;height:100%;box-sizing:border-box;border-radius:10px}.hx ol.ll li a{position:relative}.hx ol.ll .bd{position:absolute;top:5px;right:7px;font:700 11px system-ui,sans-serif;font-style:normal;color:#0a2566;background:#fff;border-radius:8px;padding:1px 6px}.hx ol.ll .bd.ok{background:#ffc700}.hx ol.ll li b{font-size:15px;line-height:1.15;display:block}.hx ol.ll small{font-size:11.5px;line-height:1.25;margin-top:2px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.hx ol.ll .no{font-size:20px;min-width:16px}.hx.hubslide .lead{font-size:15px;line-height:1.35;margin:6px 0}
 @media(max-height:600px){.hx.hubslide h1{font-size:22px;margin:4px 0}.hx.hubslide .lead{display:none}.hx ol.ll{gap:6px;margin:6px 0}.hx ol.ll li a,.hx ol.ll li div{padding:6px 8px}.hx ol.ll small{display:none}.hx ol.ll li b{font-size:14px}.hx.hubslide .small{display:none}}
 @media(min-width:701px){.hx ol.ll{gap:10px}.hx ol.ll li a,.hx ol.ll li div{padding:10px 12px}.hx ol.ll li b{font-size:17px}.hx ol.ll small{font-size:13px}}
 .ls,.ls *{touch-action:manipulation;-webkit-text-size-adjust:100%}
@@ -101,13 +103,15 @@ def hub():
 <div class="tiles">{tiles}</div><a class="apromo" href="/hebrew/app/"><b>Get the Hebrew app</b><span>All of this in one app on your phone &#8250;</span></a><button class="fbtn" id="fb" type="button">About this site &#9662;</button></div>{FOOT_JS}"""
     wr('hebrew/index.html', page('Hebrew', 'Hebrew for travelers and the curious: a travel course, wordplay entries, flash cards and a quiz.', 'https://israelnowlej.com/hebrew/', body, CSS))
 
+PROGJS = r'''<script>(function(){var n=0,a;for(var k=1;k<=10;k++){var o=null;try{o=JSON.parse(localStorage.getItem("hq"+k)||"null")}catch(e){}a=document.querySelector('.ll a[href$="/'+k+'/"]');if(o&&a){var e=document.createElement("em");e.className="bd"+(o.b>=8?" ok":"");e.textContent=(o.b>=8?"\u2713 ":"")+o.b+"/10";a.appendChild(e);if(o.b>=8)n++}}var l=document.querySelector(".lead");if(n>0&&l)l.textContent=n>=10?"All ten lessons passed. Your diploma is ready.":"Passed "+n+" of 10. Score 8 of 10 on a lesson quiz to pass. Pass all ten for your diploma.";var w=document.querySelector(".svw");if(n>=10&&w){var d=document.createElement("a");d.className="svp";d.href="/hebrew/travel/diploma/";d.style.gridColumn="1/-1";d.innerHTML="<b>Your diploma</b><span>All ten lessons passed</span>";w.appendChild(d)}})()</script>'''
+
 def travel():
     items = ''
     for l in C['lessons']:
         n = l['n']
         inner = f'<span class="no">{n}</span><span><b>{E(l["title"])}</b><small>{E(l["goal"])}</small></span>'
         items += f'<li><a href="/hebrew/travel/{n}/" title="{E(l["goal"])}">{inner}</a></li>' if n in LIVE else f'<li><div>{inner}<small style="margin-left:auto">Soon</small></div></li>'
-    body = f"""<div class="hubslide hx"><h1>Easy Hebrew for Travelers</h1><p class="lead">Ten short lessons to enjoy your trip. Each takes about six minutes on your phone. You learn what to say, hear it, practise it and take a quiz.</p><ol class="ll">{items}</ol><div class="svw"><a class="svp" href="/hebrew/travel/survival/"><b>Survival kit</b><span>30 phrases</span></a><a class="svp" href="/hebrew/travel/food/"><b>Food and menu</b><span>Dishes and ordering</span></a></div><p class="small"><a href="/hebrew/">All Hebrew</a></p></div>"""
+    body = f"""<div class="hubslide hx"><h1>Easy Hebrew for Travelers</h1><p class="lead">Ten short lessons to enjoy your trip. Each takes about six minutes on your phone. You learn what to say, hear it, practise it and take a quiz.</p><ol class="ll">{items}</ol><div class="svw"><a class="svp" href="/hebrew/travel/survival/"><b>Survival kit</b><span>30 phrases</span></a><a class="svp" href="/hebrew/travel/food/"><b>Food and menu</b><span>Dishes and ordering</span></a></div><p class="small"><a href="/hebrew/">All Hebrew</a> &middot; <a href="/hebrew/travel/diploma/">Diploma</a></p></div>{PROGJS}"""
     wr('hebrew/travel/index.html', page('Easy Hebrew for Travelers', 'Ten short mobile lessons of conversational Hebrew for beaches, restaurants, hotels and nights out.', 'https://israelnowlej.com/hebrew/travel/', body + SW_REG, CSS + PWA_HEAD))
 
 
@@ -130,6 +134,37 @@ def food():
 <script src="/hebrew/say.js" defer></script><script>(function(){{var b=document.querySelectorAll('.fv');b.forEach(function(x){{x.onclick=function(){{var i=+x.getAttribute('data-i');b.forEach(function(y,k){{y.setAttribute('aria-pressed',k==i)}});document.querySelectorAll('.fp').forEach(function(p,k){{p.hidden=k!=i}})}}}})}})()</script>"""
     wr('hebrew/travel/food/index.html', page('Food and menu cheat sheet: Israeli dishes and how to order', 'Israeli dishes, drinks and sweets in Hebrew, plus the phrases to order, ask about spice and read kosher labels. Tap to hear each one.', 'https://israelnowlej.com/hebrew/travel/food/', body + SW_REG, CSS + PWA_HEAD))
 
+DIPJS = r"""<script>(function(){var $=function(i){return document.getElementById(i)},N=10,R=[],n=0,last=0;
+for(var k=1;k<=N;k++){var o=null;try{o=JSON.parse(localStorage.getItem('hq'+k)||'null')}catch(e){}R.push(o);if(o&&o.b>=8){n++;last=Math.max(last,o.p||o.d||0)}}
+var TL=__TITLES__;
+function status(){return '<ul class="dl">'+TL.map(function(t,k){var o=R[k],ok=o&&o.b>=8;return '<li><a href="/hebrew/travel/'+(k+1)+'/"><b>'+(k+1)+'</b> '+t+'<em class="'+(ok?'ok':'')+'">'+(o?(ok?'✓ ':'')+o.b+'/10':'not yet')+'</em></a></li>'}).join('')+'</ul>'}
+if(n<N){$('dip').innerHTML='<p class="lead">Pass every lesson quiz with 8 of 10 or better to earn your diploma. You have passed '+n+' of '+N+'.</p>'+status();return}
+var nm='';try{nm=localStorage.getItem('hname')||''}catch(e){}
+$('dip').innerHTML='<p class="lead">All ten lessons passed. Congratulations. Type your name and make your diploma. It is printed in Hebrew and English.</p><div class="dn"><input id="nm" type="text" maxlength="40" placeholder="Your name" value="'+nm.replace(/"/g,'&quot;')+'"><button class="btn go" id="mk">Make my diploma</button></div><div id="out"></div>'+status();
+var CB=null;
+function draw(name){var c=document.createElement('canvas');c.width=1600;c.height=1130;var x=c.getContext('2d');x.fillStyle='#0a2566';x.fillRect(0,0,1600,1130);x.strokeStyle='rgba(255,255,255,.07)';x.lineWidth=2;for(var k=0;k<1600;k+=40){x.beginPath();x.moveTo(k,0);x.lineTo(k,1130);x.stroke()}for(var k=0;k<1130;k+=40){x.beginPath();x.moveTo(0,k);x.lineTo(1600,k);x.stroke()}
+x.strokeStyle='#ffc700';x.lineWidth=10;x.strokeRect(30,30,1540,1070);x.lineWidth=3;x.strokeRect(54,54,1492,1022);
+x.textAlign='center';
+function H(t,y,px,col,w){x.fillStyle=col;x.font=(w||'')+' '+px+'px Arial,"Noto Sans Hebrew",sans-serif';x.direction='rtl';x.fillText(t,800,y);x.direction='ltr'}
+function En(t,y,px,col,w){x.fillStyle=col;x.font=(w||'')+' '+px+'px Georgia,serif';x.fillText(t,800,y)}
+H('תעודת סיום',190,112,'#ffc700','bold');En('Certificate of Completion',275,58,'#fff','bold');
+H('עברית קלה למטיילים',345,44,'#ffc700');En('Easy Hebrew for Travelers',395,34,'#ffc700');
+H('תעודה זו מעידה כי',470,40,'#cfd8f0');En('This certifies that',512,32,'#cfd8f0','italic');
+var fs=120;x.font='bold '+fs+'px Georgia,serif';while(x.measureText(name).width>1300&&fs>50){fs-=6;x.font='bold '+fs+'px Georgia,serif'}x.fillStyle='#fff';x.fillText(name,800,640);
+x.strokeStyle='#ffc700';x.lineWidth=3;x.beginPath();x.moveTo(380,675);x.lineTo(1220,675);x.stroke();
+H('השלים/ה את כל עשרת השיעורים ועבר/ה את כל המבחנים',745,38,'#cfd8f0');En('has completed all ten lessons and passed every quiz',790,32,'#cfd8f0');
+var dt=new Date(last||Date.now());H(dt.toLocaleDateString('he-IL',{day:'numeric',month:'long',year:'numeric'}),860,34,'#cfd8f0');En(dt.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'}),900,30,'#cfd8f0');
+En('Israel NOWlej',985,50,'#ffc700','bold');En('israelnowlej.com/hebrew/',1035,30,'#fff');
+return c}
+function show(){var name=$('nm').value.trim();if(!name){$('nm').focus();return}try{localStorage.setItem('hname',name)}catch(e){}var c=draw(name);CB=null;c.toBlob(function(b){CB=b});var url=c.toDataURL('image/png');
+$('out').innerHTML='<img class="dimg" alt="Your diploma" src="'+url+'"><div class="row"><button class="btn go" id="sv">Save to your photos</button></div>';
+$('sv').onclick=function(){var fn='hebrew-diploma.png';function dl(){var a=document.createElement('a');a.href=url;a.download=fn;document.body.appendChild(a);a.click();a.remove()}try{if(CB&&navigator.canShare){var f=new File([CB],fn,{type:'image/png'});if(navigator.canShare({files:[f]})){navigator.share({files:[f],title:'My Hebrew diploma'}).catch(function(){});return}}}catch(e){}dl()}}
+$('mk').onclick=show;if(nm)show()})()</script>"""
+def diploma():
+    titles = json.dumps([E(l['title']) for l in C['lessons']], ensure_ascii=False)
+    body = '<div class="hubslide hx sv"><h1>Your diploma</h1><div id="dip"></div><p class="small"><a href="/hebrew/travel/">All lessons</a></p></div>' + DIPJS.replace('__TITLES__', titles)
+    wr('hebrew/travel/diploma/index.html', page('Hebrew diploma: Easy Hebrew for Travelers', 'Pass all ten lesson quizzes to earn your Easy Hebrew for Travelers diploma.', 'https://israelnowlej.com/hebrew/travel/diploma/', body + SW_REG, CSS + PWA_HEAD))
+
 JS = r"""<script>(function(){var ALL=__ALL__,L=__DATA__,NEXT=__NEXT__,$=function(x){return document.getElementById(x)},app=$('app');
 var G=null;try{G=localStorage.getItem('hg')}catch(e){}var SHOWH=true,TO='m',S=[],i=0,score=0,answered=false;
 function pk(o,k){return(G=='f'&&o['t_f'])?(k=='t'?o['t_f']+'\u2060':o['r_f']):o[k]}
@@ -148,7 +183,16 @@ function say(t){try{if(!canSay())return;go(function(){sayq(t,.85,1)})}catch(e){}
 function ptext(p){var f=(p.gender=='listener')?(TO=='f'&&p.t_f):(p.gender=='speaker'&&G=='f'&&p.t_f);return f?[p.t_f+'\u2060',p.r_f]:[p.t,p.r]}
 var PI='<svg class="ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M7 4.5v15l12-7.5z"/></svg>';
 function vocab(){var as=document.querySelector('aside.newsside');if(!as)return;var v=document.getElementById('vocab');if(!v){Array.prototype.forEach.call(as.children,function(c){c.style.display='none'});v=document.createElement('div');v.id='vocab';as.appendChild(v)}var h='<h2>Vocabulary</h2><p class="vs">Lesson '+L.n+'. Tap a word to hear it.</p>';L.phrases.forEach(function(p,k){var tx=ptext(p);h+='<button class="vw" data-k="'+k+'"><span class="vh" lang="he" dir="rtl">'+tx[0]+'</span><span class="vt"><b>'+esc(tx[1])+'</b><br>'+esc(p.en)+'</span></button>'});v.innerHTML=h;v.querySelectorAll('.vw').forEach(function(b){b.onclick=function(){say(ptext(L.phrases[+b.getAttribute('data-k')])[0],0)}})}
-function build(){S=[{k:'title'},{k:'who'},{k:'intro'}];L.phrases.forEach(function(p,x){S.push({k:'ph',p:p})});S.push({k:'wl'});S.push({k:'dlg'});S.push({k:'fci'});sh(L.phrases).slice(0,6).forEach(function(p){S.push({k:'fc',p:p})});S.push({k:'qi'});L.quiz.forEach(function(q){S.push({k:'q',q:q})});S.push({k:'done'})}
+var QZ=[];
+function mkq(){var out=L.quiz.slice(),ps=sh(L.phrases),pool=L.phrases.map(function(p){return{en:p.en,r:ptext(p)[1]}});
+ function pickw(key,ans){var w=sh(pool.map(function(x){return x[key]}).filter(function(v){return v&&v!==ans})),u=[];w.forEach(function(v){if(u.length<2&&u.indexOf(v)<0)u.push(v)});return u}
+ function seen(p){var r=ptext(p)[1].toLowerCase();return out.some(function(q){return (q.q||'').toLowerCase().indexOf(r)>=0||(q.q||'').toLowerCase().indexOf(p.en.toLowerCase())>=0||q.answer==p.en})}
+ var t=0;[true,false].forEach(function(strict){ps.forEach(function(p){if(out.length>=10)return;if(p._u)return;if(strict&&seen(p))return;var r=ptext(p)[1],w;p._u=1;if(t++%2==0){w=pickw('en',p.en);if(w.length<2)return;out.push({q:'What does "'+r+'" mean?',answer:p.en,wrong:w,why:r+' means '+p.en+'.'})}else{w=pickw('r',r);if(w.length<2)return;out.push({q:'How do you say "'+p.en+'"?',answer:r,wrong:w,why:p.en+' is '+r+'.'})}})});
+ L.phrases.forEach(function(p){delete p._u});return out.slice(0,10)}
+function passedN(){var n=0;ALL.forEach(function(x){var o=null;try{o=JSON.parse(localStorage.getItem('hq'+x.n)||'null')}catch(e){}if(o&&o.b>=8)n++});return n}
+function rec(sc){var o=null;try{o=JSON.parse(localStorage.getItem('hq'+L.n)||'null')}catch(e){}var b=Math.max(o?o.b:0,sc),pd=sc>=8&&!(o&&o.b>=8)?Date.now():(o&&o.p)||0;try{localStorage.setItem('hq'+L.n,JSON.stringify({b:b,l:sc,d:Date.now(),p:pd}))}catch(e){}return b}
+function retake(){QZ=mkq();build();i=S.findIndex(function(x){return x.k=='qi'})+1;render()}
+function build(){if(!QZ.length)QZ=mkq();S=[{k:'title'},{k:'who'},{k:'intro'}];L.phrases.forEach(function(p,x){S.push({k:'ph',p:p})});S.push({k:'wl'});S.push({k:'dlg'});S.push({k:'fci'});sh(L.phrases).slice(0,6).forEach(function(p){S.push({k:'fc',p:p})});S.push({k:'qi'});QZ.forEach(function(q){S.push({k:'q',q:q})});S.push({k:'done'})}
 function secOf(k){return (k=='title'||k=='who'||k=='intro'||k=='ph')?'Learn':(k=='dlg'||k=='wl')?'Listen':(k=='fci'||k=='fc')?'Cards':(k=='qi'||k=='q'||k=='done')?'Quiz':''}
 function chips(){var cur=secOf(S[i].k),h='';['Learn','Listen','Cards','Quiz'].forEach(function(n){var idx=S.findIndex(function(x){return secOf(x.k)==n});h+='<button class="chip" data-i="'+idx+'" aria-pressed="'+(cur==n)+'">'+n+'</button>'});$('chips').innerHTML=h;$('chips').querySelectorAll('.chip').forEach(function(c){c.onclick=function(){if(S[i].k=='who'&&!G)return;i=+c.getAttribute('data-i');render()}})}
 function full(){var ls=document.querySelector('.ls'),f=i>0&&window.matchMedia('(max-width:700px),(display-mode:standalone)').matches;ls.classList.toggle('full',f);document.documentElement.style.overflow=f?'hidden':'';if(f){ls.scrollTop=0;return true}return false}
@@ -168,9 +212,9 @@ else if(s.k=='wl'){h='<div class="wh"><h2>Listen to the words</h2><button class=
 else if(s.k=='dlg'){h='<button class="btn go big" id="pa"><svg class="ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M7 4.5v15l12-7.5z"/></svg> Play conversation</button><div style="width:100%" id="dl"></div><button class="lnk" id="tg">'+(SHOWH?'Hide Hebrew':'Show Hebrew')+'</button>';b=back+nx}
 else if(s.k=='fci'){h='<h2>Flash cards</h2><p class="en">Read the Hebrew. Guess. Tap the card to check.</p>';b=back+nx}
 else if(s.k=='fc'){var q=s.p,tt=ptext(q);h='<div class="fl" id="fl"><div class="he hs" lang="he" dir="rtl">'+tt[0]+'</div><small class="ph">Tap to flip</small></div>';s.f=0;b=back+nx}
-else if(s.k=='qi'){h='<h2>Quiz time</h2><p class="en">Five questions. No pressure, just pride.</p>';score=0;b=back+nx}
+else if(s.k=='qi'){h='<h2>Quiz time</h2><p class="en">Ten questions. Score 8 to pass. You can retake it.</p>';score=0;b=back+nx}
 else if(s.k=='q'){var q=s.q,o=sh([q.answer].concat(q.wrong));answered=false;h='<p class="en" style="font-size:22px;font-weight:800">'+esc(q.q)+'</p><div style="width:100%" id="op">'+o.map(function(x){return '<button class="btn opt" data-v="'+esc(x)+'">'+esc(x)+'</button>'}).join('<div style="height:8px"></div>')+'</div><p class="nt" id="wy"></p>';b=''}
-else if(s.k=='done'){h='<h2>Lesson complete</h2><p class="en">Quiz score: '+score+' of '+L.quiz.length+'</p><p class="nt">'+esc(L.tip)+'</p><div class="row"><button class="btn go" id="pc">Save phrases to your photos</button></div><canvas id="cv" width="1080" height="1620" style="display:none"></canvas><div id="dlk"></div>'+(NEXT?'<a class="btn" href="'+NEXT+'">Next lesson</a>':'<a class="btn" href="/hebrew/travel/">All lessons</a>');b=back+'<button class="go" id="rs">Start again</button>'}
+else if(s.k=='done'){var N=QZ.length,ps=score>=8,bb=rec(score),pn=passedN(),all=pn>=ALL.length;h='<h2>'+(ps?'Lesson passed':'Almost there')+'</h2><p class="en">Quiz score: '+score+' of '+N+'</p><p class="nt">'+(ps?'Saved. '+pn+' of '+ALL.length+' lessons passed.':'You need 8 to pass. Your best score is saved: '+bb+' of '+N+'.')+'</p><p class="nt">'+esc(L.tip)+'</p>'+(all?'<div class="row"><a class="btn go" href="/hebrew/travel/diploma/">Get your diploma</a></div>':'')+'<div class="row">'+(ps?'<button class="btn" id="rt">Retake for a better score</button>':'<button class="btn go" id="rt">Retake the quiz</button>')+'<button class="btn" id="pc">Save phrases</button></div><canvas id="cv" width="1080" height="1620" style="display:none"></canvas><div id="dlk"></div>'+(NEXT?'<a class="btn'+(ps?' go':'')+'" href="'+NEXT+'">'+(ps?'Next lesson':'Keep this score, next lesson')+'</a>':'<a class="btn" href="/hebrew/travel/">All lessons</a>');b=back+'<button class="go" id="rs">Start again</button>'}
 $('panel').innerHTML=h;bar(b);chips();wire(s);vocab();vnote();if(i>0)ft();else full()}
 function wire(s){var g=function(x){return $(x)};
 if(s.k=='wl'){var wd=g('wd');var ORD=L.phrases.map(function(p,k){return {p:p,k:k,w:ptext(p)[1].length>11?1:0}}).sort(function(a,b){return a.w-b.w||a.k-b.k});ORD.forEach(function(o){var p=o.p,k=o.k,tx=ptext(p),a=document.createElement('div');a.className='line wrd'+(tx[1].length>11?' wide':'');a.id='wl'+k;a.innerHTML='<span class="hh" lang="he">'+tx[0]+'</span><b class="tl">'+esc(tx[1])+'</b>';a.onclick=function(){document.querySelectorAll('.line.on').forEach(function(e){e.classList.remove('on')});a.classList.add('on');say(tx[0],0)};wd.appendChild(a)});function pw(){try{if(!canSay())return;go(function(){ORD.forEach(function(o){var p=o.p,k=o.k,tx=ptext(p);sayq(tx[0],.8,1,null,function(){document.querySelectorAll('.line.on').forEach(function(e){e.classList.remove('on')});var e=document.getElementById('wl'+k);if(e){e.classList.add('on');e.scrollIntoView({block:'nearest',behavior:'smooth'})}})})})}catch(e){}}g('pw').onclick=pw;pw()}
@@ -184,7 +228,7 @@ draw();g('tg').onclick=function(){SHOWH=!SHOWH;g('tg').textContent=SHOWH?'Hide H
 function playConv(){try{if(!canSay())return;go(function(){var hv=speechSynthesis.getVoices().filter(function(v){return /^he/i.test(v.lang)});L.dialogue.forEach(function(x,k){sayq(pk(x,'t'),.8,x.who=='local'?1.3:.85,hv.length?hv[x.who=='local'?hv.length-1:0]:null,function(){document.querySelectorAll('.line.on').forEach(function(e){e.classList.remove('on')});var e=document.getElementById('ln'+k);if(e){e.classList.add('on');e.scrollIntoView({block:'center',behavior:'smooth'})}})})})}catch(e){}}g('pa').onclick=playConv;playConv()}
 if(s.k=='fc'){var tt=ptext(s.p);g('fl').onclick=function(){s.f=!s.f;g('fl').innerHTML=s.f?'<div class="he hs" lang="he" dir="rtl">'+tt[0]+'</div><div class="en" style="font-size:28px;font-weight:800">'+esc(s.p.en)+'</div><div class="rom">'+esc(tt[1])+'</div><button class="btn go big" id="fp"><svg class="ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M7 4.5v15l12-7.5z"/></svg> Play</button>':'<div class="he hs" lang="he" dir="rtl">'+tt[0]+'</div><small class="ph">Tap to flip</small>';if(g('fp'))g('fp').onclick=function(e){e.stopPropagation();say(tt[0],0)};if(s.f)say(tt[0])}}
 if(s.k=='q'){var bs=document.querySelectorAll('#op .opt');bs.forEach(function(bt){bt.onclick=function(){if(answered)return;answered=true;var ok=bt.getAttribute('data-v')==s.q.answer;if(ok)score++;bs.forEach(function(x){if(x.getAttribute('data-v')==s.q.answer)x.classList.add('ok')});if(!ok)bt.classList.add('no');g('wy').textContent=(ok?'Correct. ':'Not quite. ')+s.q.why;bar('<button class="go" id="nx2">Next <svg class="ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg></button>');g('nx2').onclick=function(){i++;render()}}})}
-if(s.k=='done'){g('rs').onclick=function(){i=1;render()};card();g('pc').onclick=saveCard}}
+if(s.k=='done'){g('rs').onclick=function(){i=1;render()};g('rt').onclick=retake;card();g('pc').onclick=saveCard}}
 function card(){var c=$('cv'),x=c.getContext('2d');x.fillStyle='#0a2566';x.fillRect(0,0,1080,1620);x.strokeStyle='rgba(255,255,255,.08)';for(var k=0;k<1080;k+=36){x.beginPath();x.moveTo(k,0);x.lineTo(k,1620);x.stroke()}for(var k=0;k<1620;k+=36){x.beginPath();x.moveTo(0,k);x.lineTo(1080,k);x.stroke()}
 x.strokeStyle='#f8ba2f';x.lineWidth=8;x.strokeRect(14,14,1052,1592);x.fillStyle='#fff';x.textAlign='center';x.font='bold 64px sans-serif';x.fillText(L.title,540,120);x.fillStyle='#f8ba2f';x.font='34px sans-serif';x.fillText('Easy Hebrew, lesson '+L.n,540,172);
 var ps=L.phrases.slice(0,7),y=270;ps.forEach(function(p){var t=ptext(p);x.fillStyle='#ffc700';x.font='bold 72px sans-serif';x.direction='rtl';x.fillText(t[0],540,y);x.direction='ltr';x.fillStyle='#fff';x.font='bold 36px sans-serif';x.fillText(t[1],540,y+48);x.font='30px sans-serif';x.fillStyle='#cfd8f0';x.fillText(p.en,540,y+90);y+=190});
@@ -201,7 +245,7 @@ def lesson(l):
     body = f'<div class="hubslide ls"><h1 style="font-size:20px;margin:6px 0">Easy Hebrew for Travelers. Lesson {n}: {E(l["title"])}</h1><div id="app" class="app"></div><noscript><p>This lesson needs JavaScript.</p></noscript>{js}<p class="small"><a href="/hebrew/travel/">All lessons</a> &middot; <a href="/g/{l["wordplay"]}/">Related word</a></p></div>'
     wr(f'hebrew/travel/{n}/index.html', page(f'Easy Hebrew for Travelers, Lesson {n}: {l["title"]}', l['goal'], f'https://israelnowlej.com/hebrew/travel/{n}/', body + SW_REG, CSS + PWA_HEAD))
 
-hub(); travel(); survival(); food()
+hub(); travel(); survival(); food(); diploma()
 exec(compile(open(os.path.join(ROOT,'tools','alphabet.py'),encoding='utf-8').read(),'alphabet.py','exec'))
 exec(compile(open(os.path.join(ROOT,'tools','numbers.py'),encoding='utf-8').read(),'numbers.py','exec'))
 exec(compile(open(os.path.join(ROOT,'tools','timemod.py'),encoding='utf-8').read(),'timemod.py','exec'))
@@ -216,7 +260,7 @@ man = {"name": "Easy Hebrew for Travelers", "short_name": "Easy Hebrew", "descri
        "icons": [{"src": "/hebrew/travel/icons/icon-192.png", "sizes": "192x192", "type": "image/png"}, {"src": "/hebrew/travel/icons/icon-512.png", "sizes": "512x512", "type": "image/png"},
                  {"src": "/hebrew/travel/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}]}
 wr('hebrew/travel/manifest.webmanifest', json.dumps(man, indent=1))
-pages = ['/hebrew/travel/', '/hebrew/travel/survival/', '/hebrew/travel/food/'] + [f'/hebrew/travel/{x["n"]}/' for x in C['lessons'] if x['n'] in LIVE]
+pages = ['/hebrew/travel/', '/hebrew/travel/survival/', '/hebrew/travel/food/', '/hebrew/travel/diploma/'] + [f'/hebrew/travel/{x["n"]}/' for x in C['lessons'] if x['n'] in LIVE]
 assets = set(['/hebrew/travel/manifest.webmanifest', '/hebrew/travel/icons/icon-192.png', '/hebrew/travel/icons/icon-512.png'])
 h = hashlib.md5()
 for u in pages:
